@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { onRequest } from "../functions/_middleware.js";
+import worker from "../workers/index.mjs";
 import {
   buildPageView,
   dailyVisitorId,
@@ -129,4 +130,31 @@ test("pages without a binding still render", async () => {
     htmlResponse()
   );
   assert.deepEqual(points, []);
+});
+
+test("the Worker serves assets and records HTML page views", async () => {
+  const points = [];
+  const env = {
+    ANALYTICS_SALT: "secret-salt",
+    ANALYTICS: {
+      writeDataPoint(point) {
+        points.push(point);
+      }
+    },
+    ASSETS: {
+      fetch() {
+        return htmlResponse();
+      }
+    }
+  };
+  const ctx = {
+    waitUntil(promise) {
+      this.pending = promise;
+    }
+  };
+  const result = await worker.fetch(pageRequest("/picks/network/"), env, ctx);
+  assert.equal(result.status, 200);
+  await ctx.pending;
+  assert.equal(points.length, 1);
+  assert.equal(points[0].blobs[0], "/picks/network/");
 });

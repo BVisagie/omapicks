@@ -1,6 +1,12 @@
 name = "omapicks"
-pages_build_output_dir = "dist"
+main = "workers/index.mjs"
 compatibility_date = "2026-09-01"
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+html_handling = "auto-trailing-slash"
+run_worker_first = true
 
 [[analytics_engine_datasets]]
 binding = "ANALYTICS"
