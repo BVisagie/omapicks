@@ -6,7 +6,7 @@ The project is fully static. Visitors never call the source APIs, and there are 
 
 ## Requirements
 
-- Node.js 20 or newer
+- Node.js 24.20.0 or newer (current LTS)
 - Network access only when refreshing weekly data
 
 There are no npm dependencies to install.
@@ -39,7 +39,7 @@ The exact weights and tie-breaks live in `build/rank.mjs` and are published on t
 
 1. Create a public GitHub repository.
 2. Connect it to Cloudflare Pages.
-3. Set the build command to `node build/index.mjs` and output directory to `dist`.
+3. Set the build command to `node build/index.mjs` and output directory to `dist`. Cloudflare Pages will use Node.js 24.20.0 from `.nvmrc`.
 4. Attach `omapicks.com`.
 5. Allow the scheduled workflow minimal `contents: write` access so it can commit validated weekly snapshots.
 
