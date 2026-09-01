@@ -35,29 +35,59 @@ themeButton?.addEventListener("click", () => {
 });
 
 const filter = document.querySelector("[data-pick-filter]");
-const filterables = [...document.querySelectorAll("[data-pick-section]")];
 const catalogRows = [...document.querySelectorAll("[data-catalog-row]")];
+const finderItems = [...document.querySelectorAll("[data-finder-item]")];
+const finderResults = document.querySelector("[data-finder-results]");
 const filterStatus = document.querySelector("[data-filter-status]");
 const filterEmpty = document.querySelector("[data-filter-empty]");
+const finderEmpty = document.querySelector("[data-finder-empty]");
 const catalogHead = document.querySelector("[data-catalog-head]");
 
-function applyFilter() {
-  const query = filter.value.trim().toLocaleLowerCase();
-  let visible = 0;
-  for (const node of filterables) {
-    const match = !query || node.dataset.search.includes(query);
-    node.hidden = !match;
-    if (match && node.hasAttribute("data-catalog-row")) visible += 1;
-  }
-  if (!catalogRows.length) {
-    visible = filterables.filter((node) => !node.hidden).length;
-  }
-  if (filterStatus) filterStatus.textContent = query ? `${visible} ${visible === 1 ? "category" : "categories"}` : "";
-  if (filterEmpty) filterEmpty.hidden = !query || visible > 0;
-  if (catalogHead) catalogHead.hidden = Boolean(query) && visible === 0;
+function matchesQuery(node, query) {
+  return !query || (node.dataset.search ?? "").includes(query);
 }
 
-filter?.addEventListener("input", applyFilter);
+function applyFilter() {
+  if (!filter) return;
+  const query = filter.value.trim().toLocaleLowerCase();
+  let visibleRows = 0;
+  let visibleFinder = 0;
+
+  for (const row of catalogRows) {
+    const match = matchesQuery(row, query);
+    row.hidden = !match;
+    if (match) visibleRows += 1;
+  }
+
+  for (const item of finderItems) {
+    const match = query ? matchesQuery(item, query) : item.hasAttribute("data-suggested");
+    item.hidden = !match;
+    if (match) visibleFinder += 1;
+  }
+
+  if (filterStatus) {
+    filterStatus.textContent = query ? `${visibleRows} ${visibleRows === 1 ? "category" : "categories"}` : "";
+  }
+  if (filterEmpty) filterEmpty.hidden = !query || visibleRows > 0;
+  if (finderEmpty) finderEmpty.hidden = !query || visibleFinder > 0;
+  if (catalogHead) catalogHead.hidden = Boolean(query) && visibleRows === 0;
+  if (finderResults) {
+    finderResults.setAttribute("aria-label", query ? "Matching categories" : "Suggested categories");
+  }
+}
+
+if (filter) {
+  applyFilter();
+  filter.addEventListener("input", applyFilter);
+  filter.addEventListener("search", applyFilter);
+  filter.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter") return;
+    const first = finderItems.find((item) => !item.hidden)?.querySelector("a");
+    if (!first?.href) return;
+    event.preventDefault();
+    window.location.assign(first.href);
+  });
+}
 
 async function copyText(text) {
   if (navigator.clipboard?.writeText) {

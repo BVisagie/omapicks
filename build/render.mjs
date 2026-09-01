@@ -95,6 +95,18 @@ function searchBlob(type) {
   ].filter(Boolean).join(" ").toLowerCase();
 }
 
+function byCategoryName(a, b) {
+  return String(a.name).localeCompare(String(b.name), "en");
+}
+
+function categoryNoun(count) {
+  return Number(count) === 1 ? "category" : "categories";
+}
+
+function browseLabel(count, { all = false } = {}) {
+  return `${all ? "Browse all" : "Browse"} ${count} ${categoryNoun(count)}`;
+}
+
 export function featuredTypes(rankings, count = 6) {
   const selected = [];
   const seenWinners = new Set();
@@ -197,11 +209,12 @@ function statusPill(candidate) {
   return `<span class="status ${verified ? "verified" : ""}">${verified ? "Verified" : "Community"}</span>`;
 }
 
-function mediaImage(candidate) {
+function mediaImage(candidate, { decorative = false } = {}) {
   const src = safeLocalImage(candidate?.localImage);
   const width = candidate?.previewWidth || 720;
   const height = candidate?.previewHeight || 405;
-  return `<img src="${src}" alt="" width="${escapeHtml(width)}" height="${escapeHtml(height)}" loading="lazy">`;
+  const alt = decorative || !candidate?.name ? "" : `${candidate.name} preview`;
+  return `<img src="${src}" alt="${escapeHtml(alt)}" width="${escapeHtml(width)}" height="${escapeHtml(height)}" loading="lazy">`;
 }
 
 function metricValue(candidate, metric) {
@@ -282,11 +295,13 @@ function candidateCard(candidate, place, type, week, lead = null) {
       <div class="card-links">
         <a href="${safeUrl(candidate.detailUrl)}">Original listing</a>
         <a href="${safeUrl(candidate.repository)}">Repository</a>
-        ${place === "winner" ? `<a href="#winner-badge">Winner badge</a>` : `<span class="card-link-spacer" aria-hidden="true"></span>`}
       </div>
-      ${place === "winner" ? `<div class="badge-embed" id="winner-badge">
-        <a href="${badgePath}" aria-label="Open the ${escapeHtml(type.name)} winner badge"><img src="${badgePath}" alt="OmaPicks ${escapeHtml(type.name)} champion: ${escapeHtml(candidate.name)}" loading="lazy"></a>
-        <p>Show the win in a README:</p>
+      ${place === "winner" ? `<div class="badge-embed">
+        <p class="kicker">For plugin authors</p>
+        <p>Copy this markdown into your README to show that you won this category this week.</p>
+        <div class="badge-preview">
+          <img src="${badgePath}" alt="OmaPicks ${escapeHtml(type.name)} champion: ${escapeHtml(candidate.name)}" loading="lazy">
+        </div>
         <div class="command-row">
           <code>${escapeHtml(badgeMarkdown)}</code>
           <button type="button" data-copy-command data-copy-label="badge markdown">Copy</button>
@@ -302,8 +317,8 @@ function showdownEntry(candidate, place, href) {
   }
   const champion = place === "winner";
   return `<div class="showdown-entry${champion ? " champion" : ""}">
-    <p class="rank">${champion ? "01 Champion" : "02 Runner-up"}</p>
-    <a class="feature-media" href="${href}" tabindex="-1" aria-hidden="true">${mediaImage(candidate)}</a>
+    <p class="rank">${champion ? "01 Champion" : "02 Runner-up"} ${statusPill(candidate)}</p>
+    <a class="feature-media" href="${href}" tabindex="-1">${mediaImage(candidate)}</a>
     <h3><a href="${href}">${escapeHtml(candidate.name)}</a></h3>
     <p class="byline">By ${escapeHtml(candidate.author || "Unknown author")}</p>
     <p class="lede">${escapeHtml(candidate.description)}</p>
@@ -313,10 +328,10 @@ function showdownEntry(candidate, place, href) {
 function showdownSection(type) {
   const href = `/picks/${encodeURIComponent(type.id)}/`;
   const lead = scoreLead(type.winner, type.runnerUp);
-  return `<article class="showdown" data-pick-section data-search="${escapeHtml(searchBlob(type))}">
+  return `<article class="showdown">
     <header class="showdown-head">
-      <p class="kicker">${escapeHtml(type.name)}</p>
-      <h2>${escapeHtml(type.winner.name)} wins <a href="${href}">${escapeHtml(type.name)}</a></h2>
+      <p class="kicker">Featured this week</p>
+      <h2>Best <a href="${href}">${escapeHtml(type.name)}</a> plugin this week</h2>
     </header>
     <div class="showdown-pair">
       ${showdownEntry(type.winner, "winner", href)}
@@ -325,7 +340,7 @@ function showdownSection(type) {
     <p class="showdown-gap">
       ${lead != null ? `<span class="delta">${lead.toFixed(1)}% ahead</span>` : ""}
       <span>${type.eligibleCount} eligible</span>
-      <a class="text-link" href="${href}">Open the shortlist</a>
+      <a class="text-link" href="${href}">Compare champion and runner-up</a>
     </p>
   </article>`;
 }
@@ -336,12 +351,13 @@ function featureArticle(type) {
   const runner = type.runnerUp?.name
     ? ` · runner-up ${type.runnerUp.name} by ${type.runnerUp.author || "Unknown author"}`
     : "";
-  return `<a class="feature support" href="${href}" data-feature data-pick-section data-search="${escapeHtml(searchBlob(type))}">
-    <span class="feature-media" aria-hidden="true">${mediaImage(winner)}</span>
+  return `<a class="feature support" href="${href}" data-feature>
+    <span class="feature-media" aria-hidden="true">${mediaImage(winner, { decorative: true })}</span>
     <div class="support-copy">
       <p class="kicker">${escapeHtml(type.name)}</p>
       <h3>${escapeHtml(winner.name)}</h3>
       <p class="support-meta">Champion by ${escapeHtml(winner.author || "Unknown author")}${escapeHtml(runner)}</p>
+      <p class="feature-action">Compare champion and runner-up</p>
     </div>
   </a>`;
 }
@@ -354,12 +370,24 @@ function catalogRow(type) {
     ? `${type.runnerUp.name} · ${type.runnerUp.author || "Unknown author"}`
     : "—";
   const aria = `${type.name}: champion ${winner}; runner-up ${runnerUp}; ${type.eligibleCount} eligible`;
-  return `<a class="catalog-row" href="/picks/${encodeURIComponent(type.id)}/" aria-label="${escapeHtml(aria)}" data-catalog-row data-pick-section data-search="${escapeHtml(searchBlob(type))}">
+  return `<a class="catalog-row" href="/picks/${encodeURIComponent(type.id)}/" aria-label="${escapeHtml(aria)}" data-catalog-row data-search="${escapeHtml(searchBlob(type))}">
     <span class="type">${escapeHtml(type.name)}</span>
-    <span class="champ">${escapeHtml(winner)}</span>
-    <span class="runner">${escapeHtml(runnerUp)}</span>
+    <span class="champ"><span class="field-label">Champion</span> ${escapeHtml(winner)}</span>
+    <span class="runner"><span class="field-label">Runner-up</span> ${escapeHtml(runnerUp)}</span>
     <span class="count">${type.eligibleCount}</span>
   </a>`;
+}
+
+function finderItem(type, suggested) {
+  const champion = type.winner?.name ?? "No pick yet";
+  const suggestedAttr = suggested ? " data-suggested" : "";
+  const hiddenAttr = suggested ? "" : " hidden";
+  return `<li data-finder-item data-search="${escapeHtml(searchBlob(type))}"${suggestedAttr}${hiddenAttr}>
+    <a href="/picks/${encodeURIComponent(type.id)}/">
+      <span>${escapeHtml(type.name)}</span>
+      <strong>${escapeHtml(champion)}</strong>
+    </a>
+  </li>`;
 }
 
 function otherCategoryLink(type) {
@@ -388,20 +416,36 @@ function categoryNavigation(type, rankings) {
 }
 
 function homePage(rankings) {
-  const populated = rankings.types.filter((type) => type.winner);
-  const eligibleEntries = rankings.types.reduce((sum, type) => sum + Number(type.eligibleCount || 0), 0);
+  const types = rankings.types ?? [];
+  const categoryCount = types.length;
+  const eligibleEntries = types.reduce((sum, type) => sum + Number(type.eligibleCount || 0), 0);
   const featured = featuredTypes(rankings, 5);
   const [lead, ...supporting] = featured;
+  const suggestedIds = new Set(featured.map((type) => type.id));
+  const catalogTypes = types.slice().sort(byCategoryName);
   const body = `<section class="hero">
     <div class="hero-copy">
       <p class="eyebrow">${weekLabel(rankings.week, rankings.generatedAt)}</p>
-      <h1>Weekly picks for Omarchy plugins</h1>
-      <p>One champion and one runner-up per category, rescored every Monday from public registry data.</p>
+      <h1>Find the best Omarchy plugin for the job.</h1>
+      <p class="hero-lede">A champion and a runner-up in each category, rescored every Monday from public registry data.</p>
+      <p class="hero-trust">No votes. No sponsorships. Just a reproducible weekly snapshot of public registry evidence.</p>
+      <p class="hero-actions">
+        <a class="button" href="#catalog">${escapeHtml(browseLabel(categoryCount))}</a>
+        <a class="text-link" href="/methodology/">How rankings work</a>
+      </p>
     </div>
     <aside class="hero-aside">
-      <p>No votes. No sponsorships. Just a reproducible weekly snapshot of public registry evidence.</p>
+      <div class="hero-finder" role="search">
+        <label id="finder-label" for="pick-filter">Find a category</label>
+        <input id="pick-filter" type="search" placeholder="Weather, clipboard, Spotify…" autocomplete="off" spellcheck="false" aria-describedby="filter-status" aria-controls="finder-results" data-pick-filter>
+        <p id="filter-status" data-filter-status aria-live="polite"></p>
+        <ul class="finder-results" id="finder-results" data-finder-results aria-label="Suggested categories">
+          ${catalogTypes.map((type) => finderItem(type, suggestedIds.has(type.id))).join("")}
+        </ul>
+        <p class="filter-empty" data-finder-empty hidden>No categories match.</p>
+      </div>
       <dl class="hero-meta">
-        <div><dt>Categories</dt><dd>${populated.length}</dd></div>
+        <div><dt>Categories</dt><dd>${categoryCount}</dd></div>
         <div><dt>Eligible entries</dt><dd>${eligibleEntries.toLocaleString("en-US")}</dd></div>
         <div><dt>Snapshot</dt><dd>${escapeHtml(dateLabel(rankings.generatedAt) ?? rankings.week ?? "Pending")}</dd></div>
       </dl>
@@ -417,18 +461,13 @@ function homePage(rankings) {
   </section>`
       : ""
   }
-  <section class="catalog" aria-labelledby="catalog-heading">
+  <section class="catalog" id="catalog" aria-labelledby="catalog-heading">
     <div class="catalog-header">
-      <h2 id="catalog-heading">All categories</h2>
-      <div class="finder">
-        <label for="pick-filter">Search</label>
-        <input id="pick-filter" type="search" placeholder="Weather, clipboard, Spotify…" autocomplete="off" data-pick-filter>
-        <p data-filter-status aria-live="polite"></p>
-      </div>
+      <h2 id="catalog-heading">${escapeHtml(browseLabel(categoryCount, { all: true }))}</h2>
     </div>
     <div class="catalog-table">
       <div class="catalog-head" aria-hidden="true" data-catalog-head><span>Category</span><span>Champion · Author</span><span>Runner-up · Author</span><span>Eligible</span></div>
-      ${rankings.types.map((type) => catalogRow(type)).join("")}
+      ${catalogTypes.map((type) => catalogRow(type)).join("")}
     </div>
     <p class="filter-empty" data-filter-empty hidden>No categories match.</p>
   </section>`;
@@ -602,14 +641,25 @@ function changelogPage(history) {
 }
 
 function badgeSvg(type, candidate, week) {
-  const label = `${type.name} · ${week}`;
-  const width = Math.max(360, Math.min(720, 210 + (label.length + candidate.name.length) * 7));
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="64" role="img" aria-label="${escapeHtml(label)}: ${escapeHtml(candidate.name)}">
-  <title>${escapeHtml(label)}: ${escapeHtml(candidate.name)}</title>
-  <rect width="100%" height="100%" fill="${PALETTE.bg}"/>
-  <rect x="0" y="0" width="8" height="64" fill="${PALETTE.accent}"/>
-  <text x="24" y="25" fill="${PALETTE.accent}" font-family="ui-sans-serif,system-ui,sans-serif" font-size="13">${escapeHtml(label)}</text>
-  <text x="24" y="47" fill="${PALETTE.ink}" font-family="Liberation Serif,Georgia,serif" font-size="16" font-weight="700">${escapeHtml(candidate.name)}</text>
+  const left = "OmaPicks";
+  const right = `${candidate.name} · ${type.name} · ${week}`;
+  const leftWidth = 78;
+  const rightWidth = Math.max(140, Math.min(520, Math.round(20 + right.length * 6.6)));
+  const width = leftWidth + rightWidth;
+  const label = `${left} ${type.name} champion: ${candidate.name}`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="20" role="img" aria-label="${escapeHtml(label)}">
+  <title>${escapeHtml(label)}</title>
+  <defs>
+    <clipPath id="badge">
+      <rect width="${width}" height="20" rx="3"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#badge)">
+    <rect width="${leftWidth}" height="20" fill="${PALETTE.ink}"/>
+    <rect x="${leftWidth}" width="${rightWidth}" height="20" fill="${PALETTE.accent}"/>
+  </g>
+  <text x="10" y="14.5" fill="${PALETTE.bg}" font-family="ui-sans-serif,system-ui,sans-serif" font-size="11" font-weight="700">${escapeHtml(left)}</text>
+  <text x="${leftWidth + 8}" y="14.5" fill="#fff" font-family="ui-sans-serif,system-ui,sans-serif" font-size="11">${escapeHtml(right)}</text>
 </svg>
 `;
 }
