@@ -539,7 +539,7 @@ button {
 }
 
 .lede,
-.card-body > p:not(.byline):not(.why-won) {
+.card-body > p:not(.byline):not(.why-won):not(.install-disclaimer) {
   color: var(--muted);
 }
 
@@ -836,7 +836,7 @@ button {
   line-clamp: 2;
 }
 
-.card-body > p:not(.byline):not(.why-won) {
+.card-body > p:not(.byline):not(.why-won):not(.install-disclaimer) {
   display: -webkit-box;
   margin: 0 0 1.15rem;
   overflow: hidden;
@@ -912,6 +912,17 @@ button {
   min-height: 1.2em;
   margin-top: 0.9rem;
   font-size: 0.84rem;
+}
+
+.install-disclaimer {
+  margin: 0.85rem 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.install-disclaimer a {
+  color: inherit;
 }
 
 .badge-embed {

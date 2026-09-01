@@ -12,6 +12,7 @@
     "build": "node build/index.mjs",
     "refresh": "node build/refresh.mjs",
     "test": "node --test",
-    "check": "node --test && node build/index.mjs"
+    "check": "node --test && node build/index.mjs",
+    "traffic": "node scripts/report-traffic.mjs"
   }
 }

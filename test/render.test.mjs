@@ -249,6 +249,8 @@ test("type rendering explains the ranking in plain language", () => {
   assert.match(html, /style="width:0%"><\/span><\/span>\s*<span>—<\/span>/);
   assert.doesNotMatch(html, /Score 0\.750 of 1\.00 within Weather/);
   assert.match(html, /How we pick/);
+  assert.match(html, /A ranking is not an endorsement or a safety review/);
+  assert.match(html, /href="\/methodology\/#safety"/);
   assert.match(html, /For plugin authors/);
   assert.match(html, /Copy this markdown into your README/);
   assert.match(html, /src="\/badges\/2026-W36\/weather\/winner\.svg"/);
@@ -288,15 +290,17 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   const result = await render();
   assert.equal(result.typeCount, rankings.types.length);
   const weather = rankings.types.find((type) => type.id === "weather");
-  const [home, methodology, changelog, pick, sitemap, feed, feedXsl, headers, badge] = await Promise.all([
+  const [home, methodology, changelog, privacy, pick, sitemap, feed, feedXsl, headers, routes, badge] = await Promise.all([
     readFile(new URL("../dist/index.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/methodology/index.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/changelog/index.html", import.meta.url), "utf8"),
+    readFile(new URL("../dist/privacy/index.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/picks/weather/index.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/sitemap.xml", import.meta.url), "utf8"),
     readFile(new URL("../dist/feed.xml", import.meta.url), "utf8"),
     readFile(new URL("../dist/feed.xsl", import.meta.url), "utf8"),
     readFile(new URL("../dist/_headers", import.meta.url), "utf8"),
+    readFile(new URL("../dist/_routes.json", import.meta.url), "utf8"),
     readFile(new URL(`../dist/badges/${rankings.week}/weather/${encodeURIComponent(weather.winner.id)}.svg`, import.meta.url), "utf8")
   ]);
   const typeCount = rankings.types.length;
@@ -329,14 +333,24 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.match(home, /og:image" content="https:\/\/omapicks\.com\/og\/home\.jpg"/);
   assert.match(home, /Plugin metadata, engagement signals, and previews come from/);
   assert.match(home, /Open-source code/);
+  assert.match(home, /href="\/privacy\/"/);
   assert.match(methodology, /In plain terms/);
   assert.match(methodology, /Copying the install command counts most/);
   assert.match(methodology, /weight-track/);
   assert.match(methodology, /id="data-sources"/);
+  assert.match(methodology, /id="safety"/);
+  assert.match(methodology, /not an endorsement/);
   assert.match(methodology, /https:\/\/plugins\.omarchy\.org\/catalog\.json/);
   assert.match(methodology, /https:\/\/api\.omarchyplugins\.com\/v1\/stats/);
   assert.match(changelog, /first-champions/);
   assert.match(changelog, /Subscribe via RSS/);
+  assert.match(privacy, /How OmaPicks treats visitors/);
+  assert.match(privacy, /does not receive an analytics script/);
+  assert.match(privacy, /one-way identifier that is salted for that day/);
+  assert.match(privacy, /github.com\/BVisagie\/omapicks\/issues\/new/);
+  assert.match(privacy, /Do not post sensitive personal information/);
+  assert.doesNotMatch(privacy, /beacon\.min\.js/);
+  assert.doesNotMatch(privacy, /cookie (popup|banner|consent)/i);
   assert.match(pick, /Weather/);
   assert.match(pick, /How they compare/);
   assert.match(pick, /These bars are raw public counts/);
@@ -351,7 +365,8 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.doesNotMatch(pick, /href="#winner-badge"/);
   assert.doesNotMatch(pick, /<a href="\/badges\//);
   assert.match(pick, /og:image:type" content="image\/jpeg"/);
-  assert.match(sitemap, /https:\/\/omapicks\.com\/picks\/weather\//);
+  assert.match(pick, /A ranking is not an endorsement or a safety review/);
+  assert.match(sitemap, /https:\/\/omapicks\.com\/privacy\//);
   assert.match(feed, /<\?xml-stylesheet type="text\/xsl" href="\/feed\.xsl"\?>/);
   assert.match(feed, /<rss version="2.0">/);
   assert.match(feed, /<\/channel><\/rss>/);
@@ -359,15 +374,20 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.match(feedXsl, /Weekly champion changes/);
   assert.match(headers, /\/feed\.xsl\n  Content-Type: text\/xsl; charset=utf-8/);
   assert.match(headers, /immutable/);
+  const publishedRoutes = JSON.parse(routes);
+  assert.deepEqual(publishedRoutes.include, ["/*"]);
+  assert.ok(publishedRoutes.exclude.includes("/assets/*"));
+  assert.doesNotMatch(home, /beacon\.min\.js/);
+  assert.doesNotMatch(home, /cookie (popup|banner|consent)/i);
   assert.ok(badge.includes(escapeHtml(weather.winner.name)));
   assert.match(badge, /height="20"/);
   await stat(new URL("../dist/og/home.jpg", import.meta.url));
   await stat(new URL("../dist/feed.xsl", import.meta.url));
-  for (const output of [home, methodology, changelog, pick, sitemap, feed, feedXsl, badge]) {
+  for (const output of [home, methodology, changelog, privacy, pick, sitemap, feed, feedXsl, badge]) {
     assert.ok(!output.includes("undefined"));
   }
 
-  const pages = [home, methodology, changelog, pick];
+  const pages = [home, methodology, changelog, privacy, pick];
   for (const html of pages) {
     const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
     assert.equal(new Set(ids).size, ids.length, "Generated page contains duplicate IDs");

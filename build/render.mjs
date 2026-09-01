@@ -7,6 +7,11 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DIST = path.join(ROOT, "dist");
 const ORIGIN = "https://omapicks.com";
 const SIGNAL_METRICS = ["copies", "hearts", "stars", "views", "freshness"];
+const FUNCTION_ROUTES = {
+  version: 1,
+  include: ["/*"],
+  exclude: ["/assets/*", "/og/*", "/badges/*", "/feed.xml", "/feed.xsl", "/sitemap.xml", "/rankings.json", "/robots.txt", "/site.webmanifest"]
+};
 const PALETTE = Object.freeze({
   bg: "#f3eee4",
   ink: "#1a1612",
@@ -259,7 +264,7 @@ function shell({ title, description, pathname, image, body, structuredData = nul
     <main id="main">${body}</main>
     <footer>
       <p>Plugin metadata, engagement signals, and previews come from <a href="https://plugins.omarchy.org/?sort=copies">Omarchy Plugins</a>. OmaPicks calculates the rankings independently and is not affiliated with Omarchy, 37signals, or omarchyplugins.com.</p>
-      <p><a href="/methodology/#data-sources">Data and methodology</a> · <a href="https://github.com/BVisagie/omapicks">Open-source code</a></p>
+      <p><a href="/methodology/#data-sources">Data and methodology</a> · <a href="/privacy/">Privacy</a> · <a href="https://github.com/BVisagie/omapicks">Open-source code</a></p>
     </footer>
   </div>
 </body>
@@ -364,6 +369,7 @@ function candidateCard(candidate, place, type, week, { runnerUp = null } = {}) {
         ${outboundLink(candidate.detailUrl, "Original listing")}
         ${outboundLink(candidate.repository, "Repository")}
       </div>
+      <p class="install-disclaimer">A ranking is not an endorsement or a safety review. Inspect the plugin yourself and install it at your own risk. <a href="/methodology/#safety">Read the full note</a></p>
       ${place === "winner" ? `<div class="badge-embed">
         <p class="kicker">For plugin authors</p>
         <p>Copy this markdown into your README to show that you won this category this week.</p>
@@ -632,6 +638,9 @@ function methodologyPage(rankings) {
       <li><strong><a href="https://plugins.omarchy.org/?sort=copies">Browsable marketplace</a></strong> — the human-readable original listings behind the catalog data.</li>
     </ul>
     <p>The feeds are fetched once during the weekly refresh; visitors never call them. Source timestamps, response metadata, SHA-256 checksums, metric contributions, and methodology version are included in the published <a href="/rankings.json">ranking snapshot</a>. Preview images remain attributable to their plugin authors and source marketplace. A failed or suspiciously small feed cannot replace the previous week.</p>
+    <h2 id="safety">Safety and responsibility</h2>
+    <p>OmaPicks ranks public evidence of use and upkeep. It does not audit plugin source code, maintainers, or install behavior, and it does not certify that a plugin is safe, high quality, compatible, licensed for your use, or still maintained.</p>
+    <p>A champion or runner-up listing is not an endorsement, recommendation, or warranty. Before you install anything, inspect the repository, permissions, and marketplace listing yourself. You are responsible for what you run on your machine.</p>
   </section>`;
   return shell({
     title: "How the rankings work",
@@ -651,6 +660,29 @@ function historyChanges(history) {
       generatedAt: snapshot.generatedAt,
       changes: snapshot.changes ?? []
     }));
+}
+
+function privacyPage() {
+  const body = `<section class="prose">
+    <p class="eyebrow">Privacy</p>
+    <h1>How OmaPicks treats visitors</h1>
+    <p>OmaPicks has no accounts, comments, advertising, or marketing trackers. The published pages are static files. Your browser does not receive an analytics script, analytics cookie, or analytics storage from this site.</p>
+    <h2>Theme preference</h2>
+    <p>If you use the theme toggle, OmaPicks stores <code>light</code> or <code>dark</code> in your browser's <code>localStorage</code> so the choice can persist. That value is not sent to the server and is not used to measure traffic.</p>
+    <h2>Traffic measurement</h2>
+    <p>To understand how many people use the site and which category pages are popular, Cloudflare's edge records a small server-side event for successful HTML page views. The browser is not asked to run extra code for this.</p>
+    <p>Each event keeps only the UTC date, the page path such as <code>/picks/network/</code>, and a one-way identifier that is salted for that day. Raw IP addresses, user-agent strings, query strings, referrers, and device fingerprints are not stored. The daily identifier cannot follow a visitor across days or websites, so weekly or monthly visitor totals are estimates, not an exact headcount.</p>
+    <p>Measurement is skipped when a request sends Global Privacy Control or Do Not Track, looks like an automated crawler, or is not a successful HTML page. Events are processed by Cloudflare and retained for three months.</p>
+    <h2>Contact</h2>
+    <p>Questions about this page can go to the <a href="https://github.com/BVisagie/omapicks/issues/new">OmaPicks GitHub repository</a>. Do not post sensitive personal information in a public issue.</p>
+  </section>`;
+  return shell({
+    title: "Privacy",
+    description: "How OmaPicks measures traffic without analytics cookies or a browser tracker.",
+    pathname: "/privacy/",
+    image: { url: "/og/home.jpg", type: "image/jpeg", width: 1200, height: 630 },
+    body
+  });
 }
 
 function changelogPage(history) {
@@ -817,6 +849,7 @@ export async function render({ root = ROOT } = {}) {
 
   await write("index.html", homePage(rankings));
   await write("methodology/index.html", methodologyPage(rankings));
+  await write("privacy/index.html", privacyPage());
   await write("changelog/index.html", changelogPage(history));
   for (const type of rankings.types) {
     await write(`picks/${encodeURIComponent(type.id)}/index.html`, typePage(type, rankings));
@@ -841,7 +874,7 @@ export async function render({ root = ROOT } = {}) {
     }
   }
 
-  const urls = ["/", "/methodology/", "/changelog/", ...rankings.types.map((type) => `/picks/${type.id}/`)];
+  const urls = ["/", "/methodology/", "/privacy/", "/changelog/", ...rankings.types.map((type) => `/picks/${type.id}/`)];
   await write(
     "sitemap.xml",
     `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls
@@ -859,6 +892,7 @@ export async function render({ root = ROOT } = {}) {
     "_headers",
     `/assets/*\n  Cache-Control: public, max-age=604800\n/og/*\n  Cache-Control: public, max-age=86400\n/badges/*\n  Cache-Control: public, max-age=31536000, immutable\n/feed.xsl\n  Content-Type: text/xsl; charset=utf-8\n  Cache-Control: public, max-age=604800\n/*.xml\n  Content-Type: application/xml; charset=utf-8\n`
   );
+  await write("_routes.json", `${JSON.stringify(FUNCTION_ROUTES, null, 2)}\n`);
   await write(
     "404.html",
     shell({
