@@ -6,6 +6,13 @@ import { METHODOLOGY, changesBetween } from "./rank.mjs";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DIST = path.join(ROOT, "dist");
 const ORIGIN = "https://omapicks.com";
+const SIGNAL_METRICS = ["copies", "hearts", "stars", "views", "freshness"];
+const PALETTE = Object.freeze({
+  bg: "#f3eee4",
+  ink: "#1a1612",
+  muted: "#5c564c",
+  accent: "#b53415"
+});
 
 export function escapeHtml(value) {
   return String(value ?? "")
@@ -50,30 +57,105 @@ function metricLabel(metric) {
   ]).get(metric) ?? metric;
 }
 
+function clamp01(value) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return 0;
+  return Math.max(0, Math.min(1, number));
+}
+
+function dateLabel(value) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return null;
+  return date.toLocaleDateString("en-US", { dateStyle: "long", timeZone: "UTC" });
+}
+
+export function weekLabel(week, generatedAt) {
+  const label = dateLabel(generatedAt);
+  const iso = week ? escapeHtml(week) : "pending";
+  return label
+    ? `<time datetime="${escapeHtml(generatedAt)}">Week of ${escapeHtml(label)} <span>(${iso})</span></time>`
+    : `Week ${iso}`;
+}
+
+function scoreLead(winner, runnerUp) {
+  if (!winner || !runnerUp || !Number.isFinite(winner.score) || !Number.isFinite(runnerUp.score) || runnerUp.score <= 0) {
+    return null;
+  }
+  return Math.max(0, ((winner.score - runnerUp.score) / runnerUp.score) * 100);
+}
+
+function searchBlob(type) {
+  return [
+    type.name,
+    type.description,
+    type.winner?.name,
+    type.winner?.author,
+    type.runnerUp?.name,
+    type.runnerUp?.author
+  ].filter(Boolean).join(" ").toLowerCase();
+}
+
+export function featuredTypes(rankings, count = 6) {
+  const selected = [];
+  const seenWinners = new Set();
+  const ranked = (rankings.types ?? [])
+    .filter((type) => type.winner)
+    .slice()
+    .sort((a, b) => b.eligibleCount - a.eligibleCount || a.id.localeCompare(b.id));
+  for (const type of ranked) {
+    if (seenWinners.has(type.winner.id)) continue;
+    seenWinners.add(type.winner.id);
+    selected.push(type);
+    if (selected.length >= count) break;
+  }
+  return selected;
+}
+
+function themeBoot() {
+  return `<script>
+(() => {
+  try {
+    const stored = localStorage.getItem("omapicks-theme");
+    const theme = stored === "light" || stored === "dark"
+      ? stored
+      : (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.dataset.theme = theme;
+  } catch {
+    document.documentElement.dataset.theme = "light";
+  }
+})();
+</script>`;
+}
+
 function nav() {
   return `<header class="site-header">
-    <a class="brand" href="/" aria-label="OmaPicks home"><span aria-hidden="true">&gt;_</span> OmaPicks</a>
+    <a class="brand" href="/" aria-label="OmaPicks home">OmaPicks</a>
     <nav aria-label="Primary navigation">
-      <a href="/methodology/">Methodology</a>
-      <a href="/changelog/">Changelog</a>
+      <a href="/methodology/">Method</a>
+      <a href="/changelog/">Changes</a>
       <a href="/feed.xml">RSS</a>
-      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme">◐</button>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+        <span class="theme-label-dark" aria-hidden="true">Dark</span>
+        <span class="theme-label-light" aria-hidden="true">Light</span>
+      </button>
     </nav>
   </header>`;
 }
 
-function shell({ title, description, pathname, body, structuredData = null }) {
+function shell({ title, description, pathname, image, body, structuredData = null }) {
   const canonical = `${ORIGIN}${pathname}`;
-  const fullTitle = title === "OmaPicks" ? title : `${title} · OmaPicks`;
+  const fullTitle = title === "OmaPicks" ? "OmaPicks — weekly Omarchy plugin rankings" : `${title} · OmaPicks`;
+  const ogImage = `${ORIGIN}${image.url}`;
   return `<!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="utf-8">
+  ${themeBoot()}
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${escapeHtml(fullTitle)}</title>
   <meta name="description" content="${escapeHtml(description)}">
-  <meta name="color-scheme" content="dark light">
-  <meta name="theme-color" content="#0f1221">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="${PALETTE.bg}">
   <link rel="canonical" href="${canonical}">
   <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
   <link rel="manifest" href="/site.webmanifest">
@@ -84,14 +166,14 @@ function shell({ title, description, pathname, body, structuredData = null }) {
   <meta property="og:title" content="${escapeHtml(fullTitle)}">
   <meta property="og:description" content="${escapeHtml(description)}">
   <meta property="og:url" content="${canonical}">
-  <meta property="og:image" content="${ORIGIN}/og/home.jpg">
-  <meta property="og:image:type" content="image/jpeg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="OmaPicks weekly Omarchy plugin rankings">
+  <meta property="og:image" content="${ogImage}">
+  <meta property="og:image:type" content="${escapeHtml(image.type)}">
+  <meta property="og:image:width" content="${escapeHtml(image.width)}">
+  <meta property="og:image:height" content="${escapeHtml(image.height)}">
+  <meta property="og:image:alt" content="${escapeHtml(image.alt ?? "OmaPicks weekly Omarchy plugin rankings")}">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="${ORIGIN}/og/home.jpg">
-  <meta name="twitter:image:alt" content="OmaPicks weekly Omarchy plugin rankings">
+  <meta name="twitter:image" content="${ogImage}">
+  <meta name="twitter:image:alt" content="${escapeHtml(image.alt ?? "OmaPicks weekly Omarchy plugin rankings")}">
   ${structuredData ? `<script type="application/ld+json">${jsonLd(structuredData)}</script>` : ""}
   <script src="/assets/app.js" defer></script>
 </head>
@@ -115,132 +197,300 @@ function statusPill(candidate) {
   return `<span class="status ${verified ? "verified" : ""}">${verified ? "Verified" : "Community"}</span>`;
 }
 
-function metricBars(candidate) {
-  return `<div class="metrics" aria-label="Score components">
-    ${["copies", "hearts", "stars", "views", "freshness"]
-      .map((metric) => {
-        const normalized = Math.max(0, Math.min(1, Number(candidate.normalized?.[metric] ?? 0)));
-        const raw = candidate.metrics?.[metric];
-        const display = metric === "freshness" ? `${Math.round(normalized * 100)}%` : Number(raw ?? 0).toLocaleString("en-US");
-        return `<div class="metric">
-          <span>${metricLabel(metric)}</span>
-          <span>${escapeHtml(display)}</span>
-          <span class="bar" aria-hidden="true"><span style="width:${Math.round(normalized * 100)}%"></span></span>
-        </div>`;
-      })
-      .join("")}
-  </div>`;
+function mediaImage(candidate) {
+  const src = safeLocalImage(candidate?.localImage);
+  const width = candidate?.previewWidth || 720;
+  const height = candidate?.previewHeight || 405;
+  return `<img src="${src}" alt="" width="${escapeHtml(width)}" height="${escapeHtml(height)}" loading="lazy">`;
 }
 
-function candidateCard(candidate, place, type, week) {
-  if (!candidate) return `<article class="pick-card empty"><p>No eligible pick this week.</p></article>`;
+function metricValue(candidate, metric) {
+  if (metric === "freshness") return clamp01(candidate?.normalized?.freshness);
+  const value = Number(candidate?.metrics?.[metric] ?? 0);
+  return Number.isFinite(value) ? Math.max(0, value) : 0;
+}
+
+function metricDisplay(candidate, metric) {
+  const value = metricValue(candidate, metric);
+  if (value === 0) return "—";
+  return metric === "freshness"
+    ? `${Math.round(value * 100)}%`
+    : value.toLocaleString("en-US");
+}
+
+function comparisonBar(candidate, metric, max) {
+  const value = metricValue(candidate, metric);
+  const width = value === 0 ? 0 : Math.round((value / max) * 100);
+  return `<span class="comparison-value">
+    <span class="signal-bar" aria-hidden="true"><span style="width:${width}%"></span></span>
+    <span>${escapeHtml(metricDisplay(candidate, metric))}</span>
+  </span>`;
+}
+
+function scoreComparison(winner, runnerUp) {
+  if (!winner) return "";
+  const candidates = [winner, runnerUp].filter(Boolean);
+  return `<section class="score-comparison" aria-labelledby="comparison-heading">
+    <div class="comparison-heading">
+      <div>
+        <p class="kicker">Raw evidence</p>
+        <h2 id="comparison-heading">Head-to-head</h2>
+      </div>
+      <p>Bars compare these finalists only. Freshness is the repository's recency score. <a href="/methodology/">How the ranking is calculated</a></p>
+    </div>
+    <div class="comparison-table">
+      <div class="comparison-head" aria-hidden="true">
+        <span>Signal</span>
+        <span>${escapeHtml(winner.name)}</span>
+        ${runnerUp ? `<span>${escapeHtml(runnerUp.name)}</span>` : ""}
+      </div>
+      ${SIGNAL_METRICS.map((metric) => {
+        const values = candidates.map((candidate) => metricValue(candidate, metric));
+        const max = Math.max(...values, metric === "freshness" ? 0.01 : 1);
+        return `<div class="comparison-row">
+          <span class="comparison-metric">${metricLabel(metric)}</span>
+          ${comparisonBar(winner, metric, max)}
+          ${runnerUp ? comparisonBar(runnerUp, metric, max) : ""}
+        </div>`;
+      }).join("")}
+    </div>
+  </section>`;
+}
+
+function previewFrame(candidate) {
+  return `<div class="preview-frame">${mediaImage(candidate)}</div>`;
+}
+
+function candidateCard(candidate, place, type, week, lead = null) {
+  if (!candidate) return `<article class="pick-card empty"><p>No eligible plugin this week.</p></article>`;
   const badgePath = `/badges/${encodeURIComponent(week)}/${encodeURIComponent(type.id)}/${encodeURIComponent(candidate.id)}.svg`;
+  const rank = place === "winner" ? "01 Champion" : "02 Runner-up";
+  const extras = [statusPill(candidate)];
+  if (place === "winner" && lead != null) extras.push(`<span class="delta">${lead.toFixed(1)}% ahead</span>`);
+  const badgeMarkdown = `[![OmaPicks ${type.name} champion](${ORIGIN}${badgePath})](${ORIGIN}/picks/${type.id}/)`;
   return `<article class="pick-card ${place === "winner" ? "champion" : ""}">
-    <div class="card-label"><span>${place === "winner" ? "01 / champion" : "02 / runner-up"}</span>${statusPill(candidate)}</div>
-    <img class="preview" src="${safeLocalImage(candidate.localImage)}" alt="" width="720" height="405" loading="lazy">
+    <div class="card-label"><span>${rank}</span><span class="card-flags">${extras.join("")}</span></div>
+    ${previewFrame(candidate)}
     <div class="card-body">
       <h3><a href="${safeUrl(candidate.detailUrl)}">${escapeHtml(candidate.name)}</a></h3>
-      <p class="byline">by ${escapeHtml(candidate.author || "unknown")} · ${escapeHtml(candidate.license || "license unknown")} · score ${candidate.score.toFixed(3)}</p>
+      <p class="byline">${escapeHtml(candidate.author || "Unknown author")} · ${escapeHtml(candidate.license || "license unknown")} · Score ${candidate.score.toFixed(3)} of 1.00 within ${escapeHtml(type.name)}</p>
       <p>${escapeHtml(candidate.description)}</p>
-      ${metricBars(candidate)}
       <div class="command-row">
         <code>${escapeHtml(candidate.installCommand)}</code>
-        <button type="button" data-copy-command>Copy</button>
+        <button type="button" data-copy-command data-copy-label="install command">Copy</button>
       </div>
       <div class="card-links">
         <a href="${safeUrl(candidate.detailUrl)}">Original listing</a>
         <a href="${safeUrl(candidate.repository)}">Repository</a>
-        ${place === "winner" ? `<a href="${badgePath}">Award badge</a>` : ""}
+        ${place === "winner" ? `<a href="#winner-badge">Winner badge</a>` : `<span class="card-link-spacer" aria-hidden="true"></span>`}
       </div>
+      ${place === "winner" ? `<div class="badge-embed" id="winner-badge">
+        <a href="${badgePath}" aria-label="Open the ${escapeHtml(type.name)} winner badge"><img src="${badgePath}" alt="OmaPicks ${escapeHtml(type.name)} champion: ${escapeHtml(candidate.name)}" loading="lazy"></a>
+        <p>Show the win in a README:</p>
+        <div class="command-row">
+          <code>${escapeHtml(badgeMarkdown)}</code>
+          <button type="button" data-copy-command data-copy-label="badge markdown">Copy</button>
+        </div>
+      </div>` : ""}
     </div>
   </article>`;
 }
 
-function typeSection(type, week, headingLevel = 2) {
-  const Heading = `h${headingLevel}`;
-  return `<section class="pick-section" id="${escapeHtml(type.id)}" data-pick-section data-search="${escapeHtml(
-    [type.name, type.description, type.winner?.name, type.runnerUp?.name].filter(Boolean).join(" ").toLowerCase()
-  )}">
-    <div class="section-heading">
-      <div>
-        <span class="prompt" aria-hidden="true">~/picks/${escapeHtml(type.id)} $</span>
-        <${Heading}><a href="/picks/${encodeURIComponent(type.id)}/">${escapeHtml(type.name)}</a></${Heading}>
-        <p>${escapeHtml(type.description)}</p>
-      </div>
+function showdownEntry(candidate, place, href) {
+  if (!candidate) {
+    return `<div class="showdown-entry empty"><p class="rank">02 Runner-up</p><p>No runner-up this week.</p></div>`;
+  }
+  const champion = place === "winner";
+  return `<div class="showdown-entry${champion ? " champion" : ""}">
+    <p class="rank">${champion ? "01 Champion" : "02 Runner-up"}</p>
+    <a class="feature-media" href="${href}" tabindex="-1" aria-hidden="true">${mediaImage(candidate)}</a>
+    <h3><a href="${href}">${escapeHtml(candidate.name)}</a></h3>
+    <p class="byline">By ${escapeHtml(candidate.author || "Unknown author")}</p>
+    <p class="lede">${escapeHtml(candidate.description)}</p>
+  </div>`;
+}
+
+function showdownSection(type) {
+  const href = `/picks/${encodeURIComponent(type.id)}/`;
+  const lead = scoreLead(type.winner, type.runnerUp);
+  return `<article class="showdown" data-pick-section data-search="${escapeHtml(searchBlob(type))}">
+    <header class="showdown-head">
+      <p class="kicker">${escapeHtml(type.name)}</p>
+      <h2>${escapeHtml(type.winner.name)} wins <a href="${href}">${escapeHtml(type.name)}</a></h2>
+    </header>
+    <div class="showdown-pair">
+      ${showdownEntry(type.winner, "winner", href)}
+      ${showdownEntry(type.runnerUp, "runner-up", href)}
+    </div>
+    <p class="showdown-gap">
+      ${lead != null ? `<span class="delta">${lead.toFixed(1)}% ahead</span>` : ""}
       <span>${type.eligibleCount} eligible</span>
+      <a class="text-link" href="${href}">Open the shortlist</a>
+    </p>
+  </article>`;
+}
+
+function featureArticle(type) {
+  const winner = type.winner;
+  const href = `/picks/${encodeURIComponent(type.id)}/`;
+  const runner = type.runnerUp?.name
+    ? ` · runner-up ${type.runnerUp.name} by ${type.runnerUp.author || "Unknown author"}`
+    : "";
+  return `<a class="feature support" href="${href}" data-feature data-pick-section data-search="${escapeHtml(searchBlob(type))}">
+    <span class="feature-media" aria-hidden="true">${mediaImage(winner)}</span>
+    <div class="support-copy">
+      <p class="kicker">${escapeHtml(type.name)}</p>
+      <h3>${escapeHtml(winner.name)}</h3>
+      <p class="support-meta">Champion by ${escapeHtml(winner.author || "Unknown author")}${escapeHtml(runner)}</p>
     </div>
-    <div class="podium">
-      ${candidateCard(type.winner, "winner", type, week)}
-      ${candidateCard(type.runnerUp, "runner-up", type, week)}
+  </a>`;
+}
+
+function catalogRow(type) {
+  const winner = type.winner
+    ? `${type.winner.name} · ${type.winner.author || "Unknown author"}`
+    : "No pick yet";
+  const runnerUp = type.runnerUp
+    ? `${type.runnerUp.name} · ${type.runnerUp.author || "Unknown author"}`
+    : "—";
+  const aria = `${type.name}: champion ${winner}; runner-up ${runnerUp}; ${type.eligibleCount} eligible`;
+  return `<a class="catalog-row" href="/picks/${encodeURIComponent(type.id)}/" aria-label="${escapeHtml(aria)}" data-catalog-row data-pick-section data-search="${escapeHtml(searchBlob(type))}">
+    <span class="type">${escapeHtml(type.name)}</span>
+    <span class="champ">${escapeHtml(winner)}</span>
+    <span class="runner">${escapeHtml(runnerUp)}</span>
+    <span class="count">${type.eligibleCount}</span>
+  </a>`;
+}
+
+function otherCategoryLink(type) {
+  return `<a href="/picks/${encodeURIComponent(type.id)}/">
+    <span>${escapeHtml(type.name)}</span>
+    <strong>${escapeHtml(type.winner?.name ?? "No pick yet")}</strong>
+  </a>`;
+}
+
+function categoryNavigation(type, rankings) {
+  const index = rankings.types.findIndex((candidate) => candidate.id === type.id);
+  const previous = index > 0 ? rankings.types[index - 1] : null;
+  const next = index >= 0 && index < rankings.types.length - 1 ? rankings.types[index + 1] : null;
+  const others = rankings.types.filter((candidate) => candidate.id !== type.id);
+  return `<section class="category-directory" aria-labelledby="other-categories-heading">
+    <div class="category-directory-head">
+      <h2 id="other-categories-heading">Other categories</h2>
+      <a href="/">See all picks</a>
     </div>
+    <div class="category-grid">${others.map((candidate) => otherCategoryLink(candidate)).join("")}</div>
+    <nav class="category-pagination" aria-label="Adjacent categories">
+      ${previous ? `<a rel="prev" href="/picks/${encodeURIComponent(previous.id)}/"><span>Previous</span><strong>${escapeHtml(previous.name)}</strong></a>` : "<span></span>"}
+      ${next ? `<a rel="next" href="/picks/${encodeURIComponent(next.id)}/"><span>Next</span><strong>${escapeHtml(next.name)}</strong></a>` : "<span></span>"}
+    </nav>
   </section>`;
 }
 
 function homePage(rankings) {
   const populated = rankings.types.filter((type) => type.winner);
-  const heroItems = populated.map((type) => ({
-    type: type.name.toLowerCase(),
-    name: type.winner.name,
-    href: `/picks/${type.id}/`
-  }));
-  const hero = heroItems[0];
+  const eligibleEntries = rankings.types.reduce((sum, type) => sum + Number(type.eligibleCount || 0), 0);
+  const featured = featuredTypes(rankings, 5);
+  const [lead, ...supporting] = featured;
   const body = `<section class="hero">
-    <p class="eyebrow">Independent · weekly · transparent</p>
-    <h1>The shortest path to the best Omarchy plugins.</h1>
-    <p class="hero-pick" data-hero-pick data-items="${escapeHtml(JSON.stringify(heroItems))}">
-      ${hero ? `The best ${escapeHtml(hero.type)} is <a href="${hero.href}">${escapeHtml(hero.name)}</a>.` : "The first picks are being prepared."}
-    </p>
-    <p>OmaPicks compares adoption, community support, maintenance, and verification across focused app types. No votes. No sponsorships. Just reproducible public data.</p>
-    <div class="hero-meta"><span>Week ${escapeHtml(rankings.week ?? "pending")}</span><span>${populated.length} ranked app types</span></div>
+    <div class="hero-copy">
+      <p class="eyebrow">${weekLabel(rankings.week, rankings.generatedAt)}</p>
+      <h1>Weekly picks for Omarchy plugins</h1>
+      <p>One champion and one runner-up per category, rescored every Monday from public registry data.</p>
+    </div>
+    <aside class="hero-aside">
+      <p>No votes. No sponsorships. Just a reproducible weekly snapshot of public registry evidence.</p>
+      <dl class="hero-meta">
+        <div><dt>Categories</dt><dd>${populated.length}</dd></div>
+        <div><dt>Eligible entries</dt><dd>${eligibleEntries.toLocaleString("en-US")}</dd></div>
+        <div><dt>Snapshot</dt><dd>${escapeHtml(dateLabel(rankings.generatedAt) ?? rankings.week ?? "Pending")}</dd></div>
+      </dl>
+    </aside>
   </section>
-  <section class="finder" aria-label="Filter picks">
-    <label for="pick-filter">Find a pick</label>
-    <input id="pick-filter" type="search" placeholder="Try weather, clipboard, Spotify…" autocomplete="off" data-pick-filter>
-    <p data-filter-status aria-live="polite"></p>
-  </section>
-  <div data-pick-list>
-    ${rankings.types.map((type) => typeSection(type, rankings.week)).join("")}
-  </div>`;
+  ${
+    lead
+      ? `<section class="showcase" aria-label="Featured picks">
+    ${showdownSection(lead)}
+    <div class="supporting">
+      ${supporting.map((type) => featureArticle(type)).join("")}
+    </div>
+  </section>`
+      : ""
+  }
+  <section class="catalog" aria-labelledby="catalog-heading">
+    <div class="catalog-header">
+      <h2 id="catalog-heading">All categories</h2>
+      <div class="finder">
+        <label for="pick-filter">Search</label>
+        <input id="pick-filter" type="search" placeholder="Weather, clipboard, Spotify…" autocomplete="off" data-pick-filter>
+        <p data-filter-status aria-live="polite"></p>
+      </div>
+    </div>
+    <div class="catalog-table">
+      <div class="catalog-head" aria-hidden="true" data-catalog-head><span>Category</span><span>Champion · Author</span><span>Runner-up · Author</span><span>Eligible</span></div>
+      ${rankings.types.map((type) => catalogRow(type)).join("")}
+    </div>
+    <p class="filter-empty" data-filter-empty hidden>No categories match.</p>
+  </section>`;
   return shell({
     title: "OmaPicks",
-    description: "Independent weekly rankings of the best Omarchy plugins by app type.",
+    description: "Independent weekly rankings of Omarchy plugins, one champion and one runner-up per app type.",
     pathname: "/",
+    image: { url: "/og/home.jpg", type: "image/jpeg", width: 1200, height: 630, alt: "OmaPicks weekly picks for Omarchy plugins" },
     body,
     structuredData: {
       "@context": "https://schema.org",
       "@type": "WebSite",
       name: "OmaPicks",
       url: ORIGIN,
-      description: "Independent weekly rankings of the best Omarchy plugins by app type."
+      description: "Independent weekly rankings of Omarchy plugins, one champion and one runner-up per app type."
     }
   });
 }
 
 function typePage(type, rankings) {
-  const description = `The best ${type.name.toLowerCase()} plugins for Omarchy, ranked from public adoption and maintenance signals.`;
+  const description = `${type.winner ? type.winner.name : "No champion yet"} leads this week's ${type.name.toLowerCase()} ranking for Omarchy.`;
   const itemList = [type.winner, type.runnerUp].filter(Boolean).map((candidate, index) => ({
     "@type": "ListItem",
     position: index + 1,
     name: candidate.name,
     url: candidate.detailUrl
   }));
-  const body = `<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Picks</a> / ${escapeHtml(type.name)}</nav>
+  const lead = scoreLead(type.winner, type.runnerUp);
+  const body = `<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">All picks</a> / ${escapeHtml(type.name)}</nav>
     <section class="type-intro">
-      <p class="eyebrow">OmaPicks · ${escapeHtml(rankings.week ?? "pending")}</p>
-      <h1>Best ${escapeHtml(type.name)} plugins for Omarchy</h1>
-      <p>${escapeHtml(type.description)}. Ranked weekly from public registry signals, with a 10% stability margin to prevent churn.</p>
+      <div>
+        <p class="eyebrow">${weekLabel(rankings.week, rankings.generatedAt)}</p>
+        <h1>${escapeHtml(type.name)}</h1>
+      </div>
+      <p>${escapeHtml(type.description)}. ${type.eligibleCount} plugins were eligible. A challenger needs more than a 10% score lead to take the champion slot.</p>
     </section>
-    ${typeSection(type, rankings.week, 2)}
-    <aside class="method-note"><h2>Why these picks?</h2><p>The score combines command copies, hearts, GitHub stars, views, repository freshness, and registry verification. Low-sample entries are damped toward the cohort average.</p><a href="/methodology/">Read the complete methodology →</a></aside>`;
+    <div class="podium">
+      ${candidateCard(type.winner, "winner", type, rankings.week, lead)}
+      ${candidateCard(type.runnerUp, "runner-up", type, rankings.week)}
+    </div>
+    ${scoreComparison(type.winner, type.runnerUp)}
+    <aside class="method-note">
+      <h2>Why these two</h2>
+      <p>The score mixes command copies, hearts, GitHub stars, views, repository freshness, and a small verified-listing bonus. Plugins with little evidence are pulled toward the middle of the pack so a brand-new listing cannot win on three copies. <a href="/methodology/">Full scoring notes</a></p>
+    </aside>
+    ${categoryNavigation(type, rankings)}`;
   return shell({
-    title: `Best ${type.name} plugins for Omarchy`,
+    title: `${type.name} plugins for Omarchy`,
     description,
     pathname: `/picks/${type.id}/`,
+    image: {
+      url: "/og/home.jpg",
+      type: "image/jpeg",
+      width: 1200,
+      height: 630,
+      alt: `${type.winner?.name ?? "This week's champion"} leads the ${type.name} ranking on OmaPicks`
+    },
     body,
     structuredData: {
       "@context": "https://schema.org",
       "@type": "ItemList",
-      name: `Best ${type.name} plugins for Omarchy`,
+      name: `${type.name} plugins for Omarchy`,
       numberOfItems: itemList.length,
       itemListElement: itemList
     }
@@ -249,16 +499,20 @@ function typePage(type, rankings) {
 
 function methodologyPage(rankings) {
   const weights = Object.entries(METHODOLOGY.weights)
-    .map(([metric, weight]) => `<li><strong>${escapeHtml(metricLabel(metric))}</strong><span>${Math.round(weight * 100)}%</span></li>`)
+    .map(
+      ([metric, weight]) =>
+        `<li><span>${escapeHtml(metricLabel(metric))}</span><span class="weight-track" aria-hidden="true"><span style="width:${Math.round(weight * 100)}%"></span></span><span class="pct">${Math.round(weight * 100)}%</span></li>`
+    )
     .join("");
   const body = `<section class="prose">
     <p class="eyebrow">Methodology v${escapeHtml(rankings.methodologyVersion)}</p>
-    <h1>Opinionated picks, auditable math.</h1>
-    <p>OmaPicks refreshes once per ISO week. The site itself never fetches data in your browser; each page is rendered from a validated, committed snapshot.</p>
-    <h2>Eligibility and classification</h2>
-    <p>A plugin must have an install command and a valid HTTPS repository. Retired and delisted entries are excluded. Curated regular-expression rules can place a plugin in every app type where it legitimately competes.</p>
-    <h2>Score</h2>
-    <p>Cumulative counts are transformed with <code>log1p</code>. Each signal combines a 70% within-type percentile with a 30% scale capped at the cohort's 95th percentile. Every result is then damped toward 50% based on copies, hearts, and a capped portion of views. This prevents a nearly unseen plugin from jumping to first place on tiny numbers.</p>
+    <h1>How the rankings work</h1>
+    <p>OmaPicks refreshes once per ISO week. Your browser never calls the source APIs. Each page is built from a committed snapshot that already passed schema and size checks.</p>
+    <p class="pullout">A plugin can win on evidence, not on being first to the registry.</p>
+    <h2>Who can compete</h2>
+    <p>A plugin needs an install command and an HTTPS repository. Retired and delisted listings are out. A plugin can appear in more than one app type when it genuinely belongs in both.</p>
+    <h2>The score</h2>
+    <p>Raw counts are logged with <code>log1p</code>. Each signal is 70% a within-type percentile and 30% a scale capped at the 95th percentile. Sparse evidence pulls that result toward 50%.</p>
     <ul class="weight-list">${weights}</ul>
     <p>Repository freshness decays with a 180-day half-life. Missing timestamps receive no freshness points. Verification is a small bonus, not a requirement.</p>
     <h2>Stability</h2>
@@ -273,9 +527,10 @@ function methodologyPage(rankings) {
     <p>The feeds are fetched once during the weekly refresh; visitors never call them. Source timestamps, response metadata, SHA-256 checksums, metric contributions, and methodology version are included in the published <a href="/rankings.json">ranking snapshot</a>. Preview images remain attributable to their plugin authors and source marketplace. A failed or suspiciously small feed cannot replace the previous week.</p>
   </section>`;
   return shell({
-    title: "Methodology",
-    description: "How OmaPicks classifies and ranks Omarchy plugins.",
+    title: "How the rankings work",
+    description: "Eligibility, scoring weights, damping, and the weekly freeze used by OmaPicks.",
     pathname: "/methodology/",
+    image: { url: "/og/home.jpg", type: "image/jpeg", width: 1200, height: 630 },
     body
   });
 }
@@ -293,59 +548,68 @@ function historyChanges(history) {
 
 function changelogPage(history) {
   const weeks = historyChanges(history);
+  const changeList = (entry) => {
+    if (!entry.changes.length) return "<p>No champion changes.</p>";
+    const firsts = entry.changes.filter((change) => change.current && change.kind !== "displaced" && !change.previous);
+    const updates = entry.changes.filter((change) => !firsts.includes(change));
+    return `${firsts.length ? `<p class="timeline-summary">${firsts.length} categories received their first champion.</p>
+      <dl class="first-champions">${firsts.map((change) => `<div>
+        <dt>${escapeHtml(change.typeName)}</dt>
+        <dd><strong>${escapeHtml(change.current.name)}</strong></dd>
+      </div>`).join("")}</dl>` : ""}
+      ${updates.length ? `<ul class="change-list">${updates.map((change) => {
+        if (change.kind === "displaced") {
+          return `<li><strong>${escapeHtml(change.current.name)}</strong> replaced ${escapeHtml(change.previous.name)} in ${escapeHtml(change.typeName)}.</li>`;
+        }
+        if (change.current) {
+          return `<li><strong>${escapeHtml(change.current.name)}</strong> became the ${escapeHtml(change.typeName)} champion.</li>`;
+        }
+        return `<li>${escapeHtml(change.typeName)} has no champion this week.</li>`;
+      }).join("")}</ul>` : ""}`;
+  };
   const body = `<section class="prose">
-    <p class="eyebrow">Weekly log</p>
-    <h1>Champions change. The record stays.</h1>
-    <p>Every displacement is preserved in an immutable weekly snapshot.</p>
+    <p class="eyebrow">Change log</p>
+    <h1>What changed</h1>
+    <p>When a champion is replaced, the previous week stays on disk. This page is built from those snapshots.</p>
     <div class="timeline">
       ${
         weeks.length
           ? weeks
               .map(
                 (entry) => `<section>
-                  <h2>${escapeHtml(entry.week)}</h2>
-                  <time datetime="${escapeHtml(entry.generatedAt)}">${escapeHtml(
-                    new Date(entry.generatedAt).toLocaleDateString("en-US", { dateStyle: "long", timeZone: "UTC" })
-                  )}</time>
-                  ${
-                    entry.changes.length
-                      ? `<ul>${entry.changes
-                          .map((change) => {
-                            if (change.kind === "displaced") {
-                              return `<li><strong>${escapeHtml(change.current.name)}</strong> displaced ${escapeHtml(change.previous.name)} for ${escapeHtml(change.typeName)}.</li>`;
-                            }
-                            if (change.current) {
-                              return `<li><strong>${escapeHtml(change.current.name)}</strong> became the first ${escapeHtml(change.typeName)} champion.</li>`;
-                            }
-                            return `<li>The ${escapeHtml(change.typeName)} champion spot became vacant.</li>`;
-                          })
-                          .join("")}</ul>`
-                      : "<p>No champion changes.</p>"
-                  }
+                  <h2>${weekLabel(entry.week, entry.generatedAt)}</h2>
+                  ${changeList(entry)}
                 </section>`
               )
               .join("")
           : "<p>No weekly history has been published yet.</p>"
       }
     </div>
+    <aside class="rss-callout">
+      <p class="kicker">Follow the ranking</p>
+      <h2>Get champion changes in your reader</h2>
+      <p>The RSS feed only publishes meaningful changes, so quiet weeks stay quiet.</p>
+      <a class="text-link" href="/feed.xml">Subscribe via RSS</a>
+    </aside>
   </section>`;
   return shell({
-    title: "Changelog",
-    description: "Weekly OmaPicks champion changes.",
+    title: "What changed",
+    description: "Champion replacements in the weekly OmaPicks rankings.",
     pathname: "/changelog/",
+    image: { url: "/og/home.jpg", type: "image/jpeg", width: 1200, height: 630 },
     body
   });
 }
 
 function badgeSvg(type, candidate, week) {
-  const label = `Best ${type.name} · ${week}`;
+  const label = `${type.name} · ${week}`;
   const width = Math.max(360, Math.min(720, 210 + (label.length + candidate.name.length) * 7));
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="64" role="img" aria-label="${escapeHtml(label)}: ${escapeHtml(candidate.name)}">
   <title>${escapeHtml(label)}: ${escapeHtml(candidate.name)}</title>
-  <rect width="100%" height="100%" rx="8" fill="#0f1221"/>
-  <rect x="1" y="1" width="${width - 2}" height="62" rx="7" fill="none" stroke="#4c567a"/>
-  <text x="18" y="25" fill="#8bd5ca" font-family="ui-monospace,monospace" font-size="13">${escapeHtml(label)}</text>
-  <text x="18" y="47" fill="#e6e9f5" font-family="ui-monospace,monospace" font-size="16" font-weight="700">${escapeHtml(candidate.name)}</text>
+  <rect width="100%" height="100%" fill="${PALETTE.bg}"/>
+  <rect x="0" y="0" width="8" height="64" fill="${PALETTE.accent}"/>
+  <text x="24" y="25" fill="${PALETTE.accent}" font-family="ui-sans-serif,system-ui,sans-serif" font-size="13">${escapeHtml(label)}</text>
+  <text x="24" y="47" fill="${PALETTE.ink}" font-family="Liberation Serif,Georgia,serif" font-size="16" font-weight="700">${escapeHtml(candidate.name)}</text>
 </svg>
 `;
 }
@@ -378,6 +642,7 @@ function rss(history) {
     )
     .slice(0, 50);
   return `<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="/feed.xsl"?>
 <rss version="2.0"><channel>
   <title>OmaPicks weekly changes</title>
   <link>${ORIGIN}/changelog/</link>
@@ -389,7 +654,7 @@ function rss(history) {
         ? `${entry.current.name} is the ${entry.typeName} champion`
         : `${entry.typeName} champion spot is vacant`;
       const description = entry.previous
-        ? `${entry.current?.name ?? "No plugin"} displaced ${entry.previous.name}.`
+        ? `${entry.current?.name ?? "No plugin"} replaced ${entry.previous.name}.`
         : `${entry.current?.name ?? "No plugin"} became the first champion.`;
       const guid = `${entry.week}:${entry.typeId}:${entry.current?.id ?? "vacant"}`;
       return `<item><title>${xml(title)}</title><link>${ORIGIN}/picks/${encodeURIComponent(entry.typeId)}/</link><guid isPermaLink="false">${xml(guid)}</guid><pubDate>${new Date(entry.generatedAt).toUTCString()}</pubDate><description>${xml(description)}</description></item>`;
@@ -429,6 +694,7 @@ export async function render({ root = ROOT } = {}) {
   await cp(path.join(ROOT, "site", "icon.svg"), path.join(DIST, "assets", "icon.svg"));
   await cp(path.join(ROOT, "site", "placeholder.svg"), path.join(DIST, "assets", "placeholder.svg"));
   await cp(path.join(ROOT, "site", "og-home.jpg"), path.join(DIST, "og", "home.jpg"));
+  await cp(path.join(ROOT, "site", "feed.xsl"), path.join(DIST, "feed.xsl"));
   await copyOptionalDirectory(path.join(ROOT, "data", "assets", "plugins"), path.join(DIST, "assets", "plugins"));
 
   await write("index.html", homePage(rankings));
@@ -457,12 +723,7 @@ export async function render({ root = ROOT } = {}) {
     }
   }
 
-  const urls = [
-    "/",
-    "/methodology/",
-    "/changelog/",
-    ...rankings.types.map((type) => `/picks/${type.id}/`)
-  ];
+  const urls = ["/", "/methodology/", "/changelog/", ...rankings.types.map((type) => `/picks/${type.id}/`)];
   await write(
     "sitemap.xml",
     `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls
@@ -474,11 +735,11 @@ export async function render({ root = ROOT } = {}) {
   await write("rankings.json", `${JSON.stringify(rankings, null, 2)}\n`);
   await write(
     "site.webmanifest",
-    `${JSON.stringify({ name: "OmaPicks", short_name: "OmaPicks", start_url: "/", display: "standalone", background_color: "#0f1221", theme_color: "#0f1221" }, null, 2)}\n`
+    `${JSON.stringify({ name: "OmaPicks", short_name: "OmaPicks", start_url: "/", display: "standalone", background_color: PALETTE.bg, theme_color: PALETTE.bg }, null, 2)}\n`
   );
   await write(
     "_headers",
-    `/assets/*\n  Cache-Control: public, max-age=604800\n/og/*\n  Cache-Control: public, max-age=86400\n/badges/*\n  Cache-Control: public, max-age=31536000, immutable\n/*.xml\n  Content-Type: application/xml; charset=utf-8\n`
+    `/assets/*\n  Cache-Control: public, max-age=604800\n/og/*\n  Cache-Control: public, max-age=86400\n/badges/*\n  Cache-Control: public, max-age=31536000, immutable\n/feed.xsl\n  Content-Type: text/xsl; charset=utf-8\n  Cache-Control: public, max-age=604800\n/*.xml\n  Content-Type: application/xml; charset=utf-8\n`
   );
   await write(
     "404.html",
@@ -486,7 +747,8 @@ export async function render({ root = ROOT } = {}) {
       title: "Not found",
       description: "This OmaPicks page does not exist.",
       pathname: "/404.html",
-      body: `<section class="prose"><p class="eyebrow">404</p><h1>That pick is off the board.</h1><p><a href="/">Return to all picks →</a></p></section>`
+      image: { url: "/og/home.jpg", type: "image/jpeg", width: 1200, height: 630 },
+      body: `<section class="prose"><p class="eyebrow">404</p><h1>This page isn't here</h1><p><a href="/">Back to this week's picks</a></p></section>`
     })
   );
   return { typeCount: rankings.types.length, historyCount: history.length, output: DIST };
@@ -494,6 +756,10 @@ export async function render({ root = ROOT } = {}) {
 
 export function renderFixtureHome(rankings) {
   return homePage(rankings);
+}
+
+export function renderFixtureType(type, rankings) {
+  return typePage(type, rankings);
 }
 
 export function deriveChanges(previous, current) {

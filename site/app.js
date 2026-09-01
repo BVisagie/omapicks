@@ -12,11 +12,17 @@ function storedTheme() {
 function setTheme(theme) {
   root.dataset.theme = theme;
   if (themeButton) {
-    themeButton.setAttribute("aria-label", `Switch to ${theme === "dark" ? "light" : "dark"} theme`);
+    const next = theme === "dark" ? "light" : "dark";
+    themeButton.setAttribute("aria-label", `Switch to ${next} theme`);
+    themeButton.setAttribute("aria-pressed", String(theme === "dark"));
   }
 }
 
-setTheme(storedTheme() || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"));
+setTheme(
+  root.dataset.theme === "light" || root.dataset.theme === "dark"
+    ? root.dataset.theme
+    : storedTheme() || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+);
 
 themeButton?.addEventListener("click", () => {
   const theme = root.dataset.theme === "dark" ? "light" : "dark";
@@ -29,22 +35,29 @@ themeButton?.addEventListener("click", () => {
 });
 
 const filter = document.querySelector("[data-pick-filter]");
-const sections = [...document.querySelectorAll("[data-pick-section]")];
+const filterables = [...document.querySelectorAll("[data-pick-section]")];
+const catalogRows = [...document.querySelectorAll("[data-catalog-row]")];
 const filterStatus = document.querySelector("[data-filter-status]");
+const filterEmpty = document.querySelector("[data-filter-empty]");
+const catalogHead = document.querySelector("[data-catalog-head]");
 
 function applyFilter() {
   const query = filter.value.trim().toLocaleLowerCase();
   let visible = 0;
-  for (const section of sections) {
-    const match = !query || section.dataset.search.includes(query);
-    section.hidden = !match;
-    if (match) visible += 1;
+  for (const node of filterables) {
+    const match = !query || node.dataset.search.includes(query);
+    node.hidden = !match;
+    if (match && node.hasAttribute("data-catalog-row")) visible += 1;
   }
-  if (filterStatus) filterStatus.textContent = `${visible} ${visible === 1 ? "type" : "types"} shown`;
+  if (!catalogRows.length) {
+    visible = filterables.filter((node) => !node.hidden).length;
+  }
+  if (filterStatus) filterStatus.textContent = query ? `${visible} ${visible === 1 ? "category" : "categories"}` : "";
+  if (filterEmpty) filterEmpty.hidden = !query || visible > 0;
+  if (catalogHead) catalogHead.hidden = Boolean(query) && visible === 0;
 }
 
 filter?.addEventListener("input", applyFilter);
-if (filter) applyFilter();
 
 async function copyText(text) {
   if (navigator.clipboard?.writeText) {
@@ -65,38 +78,21 @@ async function copyText(text) {
 for (const button of document.querySelectorAll("[data-copy-command]")) {
   button.addEventListener("click", async () => {
     const command = button.closest(".command-row")?.querySelector("code")?.textContent ?? "";
+    const label = button.dataset.copyLabel || "text";
     const original = button.textContent;
+    const originalLabel = button.getAttribute("aria-label");
     try {
       await copyText(command);
       button.textContent = "Copied";
-      button.setAttribute("aria-label", "Install command copied");
+      button.setAttribute("aria-label", `${label} copied`);
     } catch {
       button.textContent = "Select";
-      button.closest(".command-row")?.querySelector("code")?.focus();
+      button.setAttribute("aria-label", `Select ${label} manually`);
     }
     window.setTimeout(() => {
       button.textContent = original;
-      button.removeAttribute("aria-label");
+      if (originalLabel) button.setAttribute("aria-label", originalLabel);
+      else button.removeAttribute("aria-label");
     }, 1800);
   });
-}
-
-const hero = document.querySelector("[data-hero-pick]");
-if (hero && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
-  try {
-    const items = JSON.parse(hero.dataset.items);
-    let index = 0;
-    if (Array.isArray(items) && items.length > 1) {
-      window.setInterval(() => {
-        index = (index + 1) % items.length;
-        const item = items[index];
-        const link = document.createElement("a");
-        link.href = item.href;
-        link.textContent = item.name;
-        hero.replaceChildren(`The best ${item.type} is `, link, ".");
-      }, 4800);
-    }
-  } catch {
-    // The prerendered first pick remains visible if metadata is malformed.
-  }
 }
