@@ -614,7 +614,7 @@ function methodologyPage(rankings) {
     <p class="eyebrow">Methodology v${escapeHtml(rankings.methodologyVersion)}</p>
     <h1>How the rankings work</h1>
     <p>In plain terms: we rank plugins by public evidence of use and upkeep, not votes. Copying the install command counts most, then hearts and GitHub stars. Listing views barely count. Abandoned repositories sink. A verified listing is a small bonus, not a win condition. A champion keeps the title until someone beats their score by more than 10%.</p>
-    <p>OmaPicks refreshes once per ISO week. Your browser never calls the source APIs. Each page is built from a committed snapshot that already passed schema and size checks.</p>
+    <p>OmaPicks refreshes once per ISO week. Your browser never calls the source APIs. Each page is built from that week's published snapshot.</p>
     <p class="pullout">A plugin can win on evidence, not on being first to the registry.</p>
     <h2>Who can compete</h2>
     <p>A plugin needs an install command and an HTTPS repository. Retired and delisted listings are out. A plugin can appear in more than one app type when it genuinely belongs in both.</p>
@@ -635,7 +635,7 @@ function methodologyPage(rankings) {
   </section>`;
   return shell({
     title: "How the rankings work",
-    description: "Eligibility, scoring weights, damping, and the weekly freeze used by OmaPicks.",
+    description: "Eligibility, scoring weights, and weekly cadence used by OmaPicks.",
     pathname: "/methodology/",
     image: { url: "/og/home.jpg", type: "image/jpeg", width: 1200, height: 630 },
     body

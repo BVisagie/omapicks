@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-01T09:43:30.892Z",
-  "catalogCount": 2064,
-  "eligibleClassifiedCount": 725,
-  "classificationAssignments": 883,
-  "uniqueUnclassifiedCount": 1020,
+  "generatedAt": "2026-09-01T14:36:46.203Z",
+  "catalogCount": 2074,
+  "eligibleClassifiedCount": 722,
+  "classificationAssignments": 873,
+  "uniqueUnclassifiedCount": 1032,
   "excluded": {
-    "not-installable": 319
+    "not-installable": 320
   },
   "unclassified": [
     {
@@ -27,6 +27,11 @@
     {
       "id": "local.prayer-times",
       "name": "Prayer times",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.elynch303.security-scan",
+      "name": "Security Scan",
       "category": "Widgets"
     },
     {
@@ -228,6 +233,11 @@
       "id": "io.github.ypmrg.bambu-companion",
       "name": "Bambu Companion",
       "category": "Hardware"
+    },
+    {
+      "id": "io.github.tomdavenport.cam-stream",
+      "name": "Cam Stream",
+      "category": "Widgets"
     },
     {
       "id": "mdick.cloudflare",
@@ -1190,6 +1200,11 @@
       "category": "Productivity"
     },
     {
+      "id": "dlpwaters.metronome",
+      "name": "Metronome",
+      "category": "Widgets"
+    },
+    {
       "id": "io.github.sahzudin.omatick",
       "name": "OmaTick",
       "category": "Productivity"
@@ -1248,6 +1263,11 @@
       "id": "hector.currency",
       "name": "Currency",
       "category": "Productivity"
+    },
+    {
+      "id": "leyanora.plugincontainers",
+      "name": "Plugin containers",
+      "category": "Widgets"
     },
     {
       "id": "bylund.presenter-overlay",
@@ -3095,6 +3115,11 @@
       "category": "Widgets"
     },
     {
+      "id": "io.github.jeremylongshore.x-files",
+      "name": "X Files",
+      "category": "Productivity"
+    },
+    {
       "id": "io.github.tmartinppc.omavert",
       "name": "OmaVERT",
       "category": "Productivity"
@@ -3910,6 +3935,11 @@
       "category": "Appearance"
     },
     {
+      "id": "crueber.omacoin",
+      "name": "OmaCoin",
+      "category": "Widgets"
+    },
+    {
       "id": "io.github.okurmustafa.voxtype-history",
       "name": "Dictation (Voxtype) History",
       "category": "Productivity"
@@ -3942,6 +3972,11 @@
     {
       "id": "io.github.markschellhas.circle-of-fifths",
       "name": "Circle of Fifths",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.lxp-git.stay-awake-indicators",
+      "name": "Stay Awake Indicators",
       "category": "Widgets"
     },
     {
@@ -4880,6 +4915,11 @@
       "category": "Hardware"
     },
     {
+      "id": "cvatca.autotheme",
+      "name": "Auto Theme",
+      "category": "Appearance"
+    },
+    {
       "id": "shl.deeplok",
       "name": "Deeplok",
       "category": "Productivity"
@@ -5108,6 +5148,26 @@
       "id": "leomoon-studios.omarchy-screencast-keys",
       "name": "Omarchy Screencast Keys",
       "category": "Productivity"
+    },
+    {
+      "id": "dailen.omarcharium",
+      "name": "Omarcharium",
+      "category": "Appearance"
+    },
+    {
+      "id": "jellyfrog.esheep",
+      "name": "eSheep",
+      "category": "Other"
+    },
+    {
+      "id": "io.github.mtolhuys.news-radar",
+      "name": "Omarchy News Radar",
+      "category": "Productivity"
+    },
+    {
+      "id": "com.columbiafoundry.loderunner",
+      "name": "Lode Runner",
+      "category": "Other"
     }
   ]
 }

@@ -45,6 +45,67 @@ test("the production taxonomy is valid and intentionally broad", async () => {
   assert.equal(new Set(prepared.types.map((type) => type.id)).size, prepared.types.length);
 });
 
+test("production taxonomy keeps real overlap and rejects accidental keyword hits", async () => {
+  const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
+  const prepared = prepareTaxonomy(source);
+  const typesOf = (values) => classifyPlugin(plugin(values.id, values), prepared);
+
+  assert.deepEqual(
+    typesOf({
+      id: "io.github.r-witz.nothing-ear",
+      name: "Nothing Audio",
+      description:
+        "Nothing earbuds and headphones in the Omarchy bar: battery, noise control, codec selection, and low-latency mode."
+    }),
+    ["battery", "audio"]
+  );
+  assert.deepEqual(
+    typesOf({
+      id: "nixfred.internet-latency",
+      name: "Internet Latency",
+      description: "Live color-coded internet latency with target selection, packet loss, jitter, and history."
+    }),
+    ["network"]
+  );
+  assert.deepEqual(
+    typesOf({
+      id: "jackzasian.clash-verge",
+      name: "Clash Verge",
+      description: "Clash Verge proxy status, node switching, latency testing and traffic in the Omarchy bar."
+    }),
+    ["network"]
+  );
+  assert.deepEqual(
+    typesOf({
+      id: "vitals",
+      name: "Vitals",
+      description: "Native Linux CPU, memory, GPU, storage, network, and process monitor"
+    }),
+    ["system-monitor", "network"]
+  );
+  assert.ok(
+    !typesOf({
+      id: "cam-stream",
+      name: "Cam Stream",
+      description: "Cam Stream keeps its low-latency camera preview as a normal movable window."
+    }).includes("network")
+  );
+  assert.ok(
+    !typesOf({
+      id: "crueber.omacoin",
+      name: "OmaCoin",
+      description: "CoinGecko crypto tracker: USD price, volume, and 1h/1d/1w trend lines."
+    }).includes("audio")
+  );
+  assert.ok(
+    !typesOf({
+      id: "stay-awake",
+      name: "Stay Awake Indicators",
+      description: "A Stay Awake cup that shows steam when another program is holding idle or sleep."
+    }).includes("gaming")
+  );
+});
+
 test("classification supports multiple legitimate app types and overrides", () => {
   const prepared = prepareTaxonomy(taxonomy);
   assert.deepEqual(

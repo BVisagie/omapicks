@@ -162,6 +162,13 @@ function withoutLocalImages(snapshot) {
   return copy;
 }
 
+function weekChangeLog(previous, week, existingHistory, computedChanges) {
+  const prior = existingHistory?.changes;
+  if (previous?.week !== week || !Array.isArray(prior) || prior.length === 0) return computedChanges;
+  if (computedChanges.length === 0) return prior;
+  return [...prior, ...computedChanges];
+}
+
 async function removeStaleImages(rankings, root) {
   const directory = path.join(root, "data", "assets", "plugins");
   const current = new Set();
@@ -192,15 +199,16 @@ export async function refresh({
   const taxonomyFile = path.join(root, "data", "app-types.json");
   const rankingsFile = path.join(root, "data", "rankings.json");
   const previous = await readJson(rankingsFile, null);
+  const taxonomy = await readJson(taxonomyFile);
+  const taxonomySha = checksum(taxonomy);
   const week = isoWeek(now);
-  if (!dryRun && previous?.week === week) {
+  if (!dryRun && previous?.week === week && previous.source?.taxonomy?.sha256 === taxonomySha) {
     return { changed: false, week, reason: "already-refreshed" };
   }
 
-  const [catalogResult, statsResult, taxonomy] = await Promise.all([
+  const [catalogResult, statsResult] = await Promise.all([
     fetchJson(CATALOG_URL, { fetchImpl }),
-    fetchJson(STATS_URL, { fetchImpl }),
-    readJson(taxonomyFile)
+    fetchJson(STATS_URL, { fetchImpl })
   ]);
   validateFeeds(catalogResult.body, statsResult.body, minimumCatalogSize);
 
@@ -220,6 +228,10 @@ export async function refresh({
       lastModified: statsResult.lastModified,
       sha256: checksum(statsResult.body),
       count: Object.keys(statsResult.body.plugins).length
+    },
+    taxonomy: {
+      sha256: taxonomySha,
+      typeCount: Array.isArray(taxonomy?.types) ? taxonomy.types.length : 0
     }
   };
 
@@ -231,7 +243,10 @@ export async function refresh({
     now,
     source
   });
-  const changes = changesBetween(previous, rankings);
+  const historyFile = path.join(root, "data", "history", `${week}.json`);
+  const existingHistory = await readJson(historyFile, null);
+  const computedChanges = changesBetween(previous, rankings);
+  const changes = weekChangeLog(previous, week, existingHistory, computedChanges);
 
   if (dryRun) {
     return { changed: true, week, rankings, report, changes, imageWarnings: [] };
@@ -242,7 +257,7 @@ export async function refresh({
     ...withoutLocalImages(rankings),
     changes
   };
-  await writeJsonAtomic(path.join(root, "data", "history", `${week}.json`), history);
+  await writeJsonAtomic(historyFile, history);
   await writeJsonAtomic(path.join(root, "data", "changelog.json"), {
     schemaVersion: 1,
     week,

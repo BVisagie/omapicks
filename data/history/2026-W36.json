@@ -3,23 +3,27 @@
   "methodologyVersion": "1.0.0",
   "site": "https://omapicks.com",
   "week": "2026-W36",
-  "generatedAt": "2026-09-01T09:43:30.892Z",
+  "generatedAt": "2026-09-01T14:36:46.203Z",
   "source": {
     "catalog": {
       "url": "https://plugins.omarchy.org/catalog.json",
-      "generatedAt": "2026-09-01T09:24:04.447Z",
-      "etag": "W/\"6a969b5f-4d6b64\"",
-      "lastModified": "Tue, 01 Sep 2026 09:31:11 GMT",
-      "sha256": "6b3421665470cf07755a9d20add14fbcb1f468cc0ceb702eb06dde9758af5812",
-      "count": 2064
+      "generatedAt": "2026-09-01T14:09:46.713Z",
+      "etag": "W/\"6a96dcf1-4dc9f7\"",
+      "lastModified": "Tue, 01 Sep 2026 14:10:57 GMT",
+      "sha256": "98ff75bbbc5236e408b58d902bb9d526310cc2817df442c68a027be4057d2784",
+      "count": 2074
     },
     "stats": {
       "url": "https://api.omarchyplugins.com/v1/stats",
       "schemaVersion": 1,
       "etag": null,
-      "lastModified": "Tue, 01 Sep 2026 09:42:08 GMT",
-      "sha256": "efd6036cfbd06c8edde96cf0f1438d79ff7c804884d23295bc8f8c54212c50ce",
-      "count": 2081
+      "lastModified": "Tue, 01 Sep 2026 14:31:47 GMT",
+      "sha256": "122fd063443c976593362400d2528b0eeb4bc3947528bebf82dc99e410d251aa",
+      "count": 2091
+    },
+    "taxonomy": {
+      "sha256": "34d7e7b2e77e7e3c5c6d004d8c46dbbb34678726cba49db2f563f240dc27a53d",
+      "typeCount": 26
     }
   },
   "types": [
@@ -27,7 +31,7 @@
       "id": "system-monitor",
       "name": "System Monitor",
       "description": "CPU, memory, temperature, and resource monitoring",
-      "eligibleCount": 88,
+      "eligibleCount": 82,
       "winner": {
         "id": "im0001gt.hw-tooltip",
         "name": "Hardware Tooltip",
@@ -45,30 +49,30 @@
         "previewHeight": 720,
         "localImage": null,
         "metrics": {
-          "copies": 717,
+          "copies": 721,
           "hearts": 46,
           "stars": 4,
-          "views": 1758
+          "views": 1771
         },
         "normalized": {
-          "copies": 0.992727,
-          "hearts": 0.992727,
-          "stars": 0.822216,
-          "views": 0.976869,
-          "freshness": 0.961311,
+          "copies": 0.992762,
+          "hearts": 0.992762,
+          "stars": 0.811212,
+          "views": 0.975729,
+          "freshness": 0.960557,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.357382,
-          "hearts": 0.198545,
-          "stars": 0.147999,
-          "views": 0.07815,
-          "freshness": 0.12497,
+          "copies": 0.357394,
+          "hearts": 0.198552,
+          "stars": 0.146018,
+          "views": 0.078058,
+          "freshness": 0.124872,
           "verified": 0.05
         },
-        "evidence": 0.985455,
+        "evidence": 0.985525,
         "freshnessDays": 10,
-        "score": 0.957046
+        "score": 0.954894
       },
       "runnerUp": {
         "id": "stappmus.activity-monitor",
@@ -87,30 +91,30 @@
         "previewHeight": 665,
         "localImage": null,
         "metrics": {
-          "copies": 674,
+          "copies": 684,
           "hearts": 29,
           "stars": 29,
-          "views": 2286
+          "views": 2311
         },
         "normalized": {
-          "copies": 0.976317,
-          "hearts": 0.960478,
-          "stars": 0.992157,
-          "views": 0.992157,
-          "freshness": 0.995921,
+          "copies": 0.975242,
+          "hearts": 0.958225,
+          "stars": 0.992258,
+          "views": 0.992258,
+          "freshness": 0.995141,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.351474,
-          "hearts": 0.192096,
-          "stars": 0.178588,
-          "views": 0.079373,
-          "freshness": 0.12947,
+          "copies": 0.351087,
+          "hearts": 0.191645,
+          "stars": 0.178606,
+          "views": 0.079381,
+          "freshness": 0.129368,
           "verified": 0
         },
-        "evidence": 0.984314,
+        "evidence": 0.984516,
         "freshnessDays": 1,
-        "score": 0.931001
+        "score": 0.930087
       }
     },
     {
@@ -135,30 +139,30 @@
         "previewHeight": 405,
         "localImage": null,
         "metrics": {
-          "copies": 613,
+          "copies": 629,
           "hearts": 51,
           "stars": 32,
-          "views": 1846
+          "views": 1907
         },
         "normalized": {
-          "copies": 0.969528,
-          "hearts": 0.969528,
-          "stars": 0.991736,
-          "views": 0.944663,
-          "freshness": 0.985764,
+          "copies": 0.991914,
+          "hearts": 0.969698,
+          "stars": 0.991914,
+          "views": 0.945222,
+          "freshness": 0.984991,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.34903,
-          "hearts": 0.193906,
-          "stars": 0.178512,
-          "views": 0.075573,
-          "freshness": 0.128149,
+          "copies": 0.357089,
+          "hearts": 0.19394,
+          "stars": 0.178545,
+          "views": 0.075618,
+          "freshness": 0.128049,
           "verified": 0.05
         },
-        "evidence": 0.983471,
+        "evidence": 0.983827,
         "freshnessDays": 3,
-        "score": 0.97517
+        "score": 0.983241
       },
       "runnerUp": {
         "id": "omaconnect",
@@ -177,30 +181,30 @@
         "previewHeight": 473,
         "localImage": null,
         "metrics": {
-          "copies": 617,
+          "copies": 618,
           "hearts": 92,
           "stars": 21,
-          "views": 2378
+          "views": 2399
         },
         "normalized": {
-          "copies": 0.992218,
-          "hearts": 0.992218,
-          "stars": 0.936341,
-          "views": 0.992218,
-          "freshness": 0.994272,
+          "copies": 0.969998,
+          "hearts": 0.992228,
+          "stars": 0.93635,
+          "views": 0.992228,
+          "freshness": 0.993492,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.357198,
-          "hearts": 0.198444,
-          "stars": 0.168541,
-          "views": 0.079377,
-          "freshness": 0.129255,
+          "copies": 0.349199,
+          "hearts": 0.198446,
+          "stars": 0.168543,
+          "views": 0.079378,
+          "freshness": 0.129154,
           "verified": 0
         },
-        "evidence": 0.984436,
+        "evidence": 0.984456,
         "freshnessDays": 1,
-        "score": 0.932815
+        "score": 0.92472
       }
     },
     {
@@ -225,30 +229,30 @@
         "previewHeight": 513,
         "localImage": null,
         "metrics": {
-          "copies": 965,
-          "hearts": 54,
+          "copies": 989,
+          "hearts": 55,
           "stars": 122,
-          "views": 5764
+          "views": 5889
         },
         "normalized": {
-          "copies": 0.99445,
-          "hearts": 0.99445,
-          "stars": 0.99445,
-          "views": 0.99445,
-          "freshness": 0.996805,
+          "copies": 0.994575,
+          "hearts": 0.994575,
+          "stars": 0.994575,
+          "views": 0.994575,
+          "freshness": 0.996023,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.358002,
-          "hearts": 0.19889,
-          "stars": 0.179001,
-          "views": 0.079556,
-          "freshness": 0.129585,
+          "copies": 0.358047,
+          "hearts": 0.198915,
+          "stars": 0.179024,
+          "views": 0.079566,
+          "freshness": 0.129483,
           "verified": 0
         },
-        "evidence": 0.988899,
-        "freshnessDays": 0,
-        "score": 0.945034
+        "evidence": 0.98915,
+        "freshnessDays": 1,
+        "score": 0.945035
       },
       "runnerUp": {
         "id": "jankeesvw.gmail-inbox",
@@ -267,30 +271,30 @@
         "previewHeight": 475,
         "localImage": null,
         "metrics": {
-          "copies": 108,
+          "copies": 110,
           "hearts": 8,
           "stars": 10,
-          "views": 535
+          "views": 540
         },
         "normalized": {
-          "copies": 0.864012,
-          "hearts": 0.776779,
-          "stars": 0.827965,
-          "views": 0.871071,
-          "freshness": 0.988937,
+          "copies": 0.864485,
+          "hearts": 0.776639,
+          "stars": 0.82836,
+          "views": 0.871403,
+          "freshness": 0.988162,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.311044,
-          "hearts": 0.155356,
-          "stars": 0.149034,
-          "views": 0.069686,
-          "freshness": 0.128562,
+          "copies": 0.311215,
+          "hearts": 0.155328,
+          "stars": 0.149105,
+          "views": 0.069712,
+          "freshness": 0.128461,
           "verified": 0.05
         },
-        "evidence": 0.922456,
-        "freshnessDays": 2,
-        "score": 0.863682
+        "evidence": 0.923567,
+        "freshnessDays": 3,
+        "score": 0.863821
       }
     },
     {
@@ -315,30 +319,30 @@
         "previewHeight": 405,
         "localImage": null,
         "metrics": {
-          "copies": 412,
-          "hearts": 16,
+          "copies": 422,
+          "hearts": 17,
           "stars": 8,
-          "views": 1074
+          "views": 1093
         },
         "normalized": {
-          "copies": 0.9693,
-          "hearts": 0.9693,
-          "stars": 0.945207,
-          "views": 0.9693,
-          "freshness": 0.933307,
+          "copies": 0.969558,
+          "hearts": 0.969558,
+          "stars": 0.945452,
+          "views": 0.969558,
+          "freshness": 0.932575,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.348948,
-          "hearts": 0.19386,
-          "stars": 0.170137,
-          "views": 0.077544,
-          "freshness": 0.12133,
+          "copies": 0.349041,
+          "hearts": 0.193912,
+          "stars": 0.170181,
+          "views": 0.077565,
+          "freshness": 0.121235,
           "verified": 0.05
         },
-        "evidence": 0.97551,
-        "freshnessDays": 17,
-        "score": 0.961819
+        "evidence": 0.976048,
+        "freshnessDays": 18,
+        "score": 0.961934
       },
       "runnerUp": {
         "id": "quickshell.ytmusic",
@@ -357,37 +361,37 @@
         "previewHeight": 720,
         "localImage": null,
         "metrics": {
-          "copies": 525,
-          "hearts": 47,
+          "copies": 539,
+          "hearts": 49,
           "stars": 16,
-          "views": 1958
+          "views": 1997
         },
         "normalized": {
-          "copies": 0.990536,
-          "hearts": 0.990536,
-          "stars": 0.990536,
-          "views": 0.990536,
-          "freshness": 0.954923,
+          "copies": 0.990769,
+          "hearts": 0.990769,
+          "stars": 0.990769,
+          "views": 0.990769,
+          "freshness": 0.954174,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.356593,
-          "hearts": 0.198107,
-          "stars": 0.178296,
-          "views": 0.079243,
-          "freshness": 0.12414,
+          "copies": 0.356677,
+          "hearts": 0.198154,
+          "stars": 0.178338,
+          "views": 0.079262,
+          "freshness": 0.124043,
           "verified": 0
         },
-        "evidence": 0.981073,
-        "freshnessDays": 11,
-        "score": 0.936379
+        "evidence": 0.981538,
+        "freshnessDays": 12,
+        "score": 0.936474
       }
     },
     {
       "id": "weather",
       "name": "Weather",
       "description": "Forecasts and current conditions",
-      "eligibleCount": 19,
+      "eligibleCount": 20,
       "winner": {
         "id": "eduardodallecort.weather-radar",
         "name": "Weather Radar",
@@ -405,30 +409,30 @@
         "previewHeight": 720,
         "localImage": null,
         "metrics": {
-          "copies": 662,
+          "copies": 673,
           "hearts": 45,
           "stars": 9,
-          "views": 2012
+          "views": 2043
         },
         "normalized": {
-          "copies": 0.992198,
-          "hearts": 0.992198,
-          "stars": 0.992198,
-          "views": 0.992198,
-          "freshness": 0.998609,
+          "copies": 0.992308,
+          "hearts": 0.992308,
+          "stars": 0.992308,
+          "views": 0.992308,
+          "freshness": 0.997827,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.357191,
-          "hearts": 0.19844,
-          "stars": 0.178596,
-          "views": 0.079376,
-          "freshness": 0.129819,
+          "copies": 0.357231,
+          "hearts": 0.198462,
+          "stars": 0.178615,
+          "views": 0.079385,
+          "freshness": 0.129718,
           "verified": 0
         },
-        "evidence": 0.984395,
+        "evidence": 0.984615,
         "freshnessDays": 0,
-        "score": 0.943422
+        "score": 0.943411
       },
       "runnerUp": {
         "id": "io.github.calebhat.weather",
@@ -447,37 +451,37 @@
         "previewHeight": 720,
         "localImage": null,
         "metrics": {
-          "copies": 130,
+          "copies": 131,
           "hearts": 10,
           "stars": 3,
-          "views": 358
+          "views": 359
         },
         "normalized": {
-          "copies": 0.919568,
-          "hearts": 0.794581,
-          "stars": 0.825758,
-          "views": 0.79464,
-          "freshness": 0.960544,
+          "copies": 0.926065,
+          "hearts": 0.803407,
+          "stars": 0.835523,
+          "views": 0.804377,
+          "freshness": 0.959791,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.331044,
-          "hearts": 0.158916,
-          "stars": 0.148636,
-          "views": 0.063571,
-          "freshness": 0.124871,
+          "copies": 0.333383,
+          "hearts": 0.160681,
+          "stars": 0.150394,
+          "views": 0.06435,
+          "freshness": 0.124773,
           "verified": 0.05
         },
-        "evidence": 0.92937,
+        "evidence": 0.929804,
         "freshnessDays": 10,
-        "score": 0.877038
+        "score": 0.883581
       }
     },
     {
       "id": "battery",
       "name": "Battery",
       "description": "Battery level, charging, and power health",
-      "eligibleCount": 44,
+      "eligibleCount": 45,
       "winner": {
         "id": "omaconnect",
         "name": "OmaConnect",
@@ -495,30 +499,30 @@
         "previewHeight": 473,
         "localImage": null,
         "metrics": {
-          "copies": 617,
+          "copies": 618,
           "hearts": 92,
           "stars": 21,
-          "views": 2378
+          "views": 2399
         },
         "normalized": {
-          "copies": 0.992218,
-          "hearts": 0.992218,
-          "stars": 0.992218,
-          "views": 0.992218,
-          "freshness": 0.994272,
+          "copies": 0.992228,
+          "hearts": 0.992228,
+          "stars": 0.992228,
+          "views": 0.992228,
+          "freshness": 0.993492,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.357198,
-          "hearts": 0.198444,
-          "stars": 0.178599,
-          "views": 0.079377,
-          "freshness": 0.129255,
+          "copies": 0.357202,
+          "hearts": 0.198446,
+          "stars": 0.178601,
+          "views": 0.079378,
+          "freshness": 0.129154,
           "verified": 0
         },
-        "evidence": 0.984436,
+        "evidence": 0.984456,
         "freshnessDays": 1,
-        "score": 0.942873
+        "score": 0.942781
       },
       "runnerUp": {
         "id": "io.github.diegopluna.argus",
@@ -538,29 +542,29 @@
         "localImage": null,
         "metrics": {
           "copies": 169,
-          "hearts": 19,
+          "hearts": 20,
           "stars": 2,
-          "views": 616
+          "views": 627
         },
         "normalized": {
-          "copies": 0.958571,
-          "hearts": 0.958571,
-          "stars": 0.729385,
-          "views": 0.958571,
-          "freshness": 0.99131,
+          "copies": 0.959089,
+          "hearts": 0.959089,
+          "stars": 0.733942,
+          "views": 0.959089,
+          "freshness": 0.990533,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.345086,
-          "hearts": 0.191714,
-          "stars": 0.131289,
-          "views": 0.076686,
-          "freshness": 0.12887,
+          "copies": 0.345272,
+          "hearts": 0.191818,
+          "stars": 0.13211,
+          "views": 0.076727,
+          "freshness": 0.128769,
           "verified": 0.05
         },
-        "evidence": 0.948007,
+        "evidence": 0.948354,
         "freshnessDays": 2,
-        "score": 0.923645
+        "score": 0.924696
       }
     },
     {
@@ -585,30 +589,30 @@
         "previewHeight": 473,
         "localImage": null,
         "metrics": {
-          "copies": 617,
+          "copies": 618,
           "hearts": 92,
           "stars": 21,
-          "views": 2378
+          "views": 2399
         },
         "normalized": {
-          "copies": 0.992218,
-          "hearts": 0.992218,
-          "stars": 0.992218,
-          "views": 0.992218,
-          "freshness": 0.994272,
+          "copies": 0.992228,
+          "hearts": 0.992228,
+          "stars": 0.992228,
+          "views": 0.992228,
+          "freshness": 0.993492,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.357198,
-          "hearts": 0.198444,
-          "stars": 0.178599,
-          "views": 0.079377,
-          "freshness": 0.129255,
+          "copies": 0.357202,
+          "hearts": 0.198446,
+          "stars": 0.178601,
+          "views": 0.079378,
+          "freshness": 0.129154,
           "verified": 0
         },
-        "evidence": 0.984436,
+        "evidence": 0.984456,
         "freshnessDays": 1,
-        "score": 0.942873
+        "score": 0.942781
       },
       "runnerUp": {
         "id": "io.github.vuhuy.clipboard-manager",
@@ -630,27 +634,27 @@
           "copies": 147,
           "hearts": 6,
           "stars": 4,
-          "views": 471
+          "views": 474
         },
         "normalized": {
-          "copies": 0.944769,
-          "hearts": 0.794955,
-          "stars": 0.944769,
-          "views": 0.921015,
-          "freshness": 0.945077,
+          "copies": 0.944793,
+          "hearts": 0.794971,
+          "stars": 0.944793,
+          "views": 0.921097,
+          "freshness": 0.944336,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.340117,
-          "hearts": 0.158991,
-          "stars": 0.170058,
-          "views": 0.073681,
-          "freshness": 0.12286,
+          "copies": 0.340125,
+          "hearts": 0.158994,
+          "stars": 0.170063,
+          "views": 0.073688,
+          "freshness": 0.122764,
           "verified": 0.05
         },
-        "evidence": 0.936356,
+        "evidence": 0.936407,
         "freshnessDays": 14,
-        "score": 0.915707
+        "score": 0.915634
       }
     },
     {
@@ -675,30 +679,30 @@
         "previewHeight": 509,
         "localImage": null,
         "metrics": {
-          "copies": 289,
+          "copies": 291,
           "hearts": 20,
           "stars": 1,
-          "views": 928
+          "views": 944
         },
         "normalized": {
-          "copies": 0.983669,
-          "hearts": 0.983669,
-          "stars": 0.45058,
-          "views": 0.983669,
-          "freshness": 0.968095,
+          "copies": 0.983793,
+          "hearts": 0.983793,
+          "stars": 0.450568,
+          "views": 0.983793,
+          "freshness": 0.967336,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.354121,
-          "hearts": 0.196734,
-          "stars": 0.081104,
-          "views": 0.078694,
-          "freshness": 0.125852,
+          "copies": 0.354165,
+          "hearts": 0.196759,
+          "stars": 0.081102,
+          "views": 0.078703,
+          "freshness": 0.125754,
           "verified": 0.05
         },
-        "evidence": 0.967338,
+        "evidence": 0.967585,
         "freshnessDays": 8,
-        "score": 0.886505
+        "score": 0.886483
       },
       "runnerUp": {
         "id": "io.github.ilyazar.plugin-control",
@@ -720,34 +724,34 @@
           "copies": 110,
           "hearts": 7,
           "stars": 3,
-          "views": 448
+          "views": 455
         },
         "normalized": {
-          "copies": 0.860901,
-          "hearts": 0.832587,
-          "stars": 0.866292,
-          "views": 0.871781,
-          "freshness": 0.9942,
+          "copies": 0.860794,
+          "hearts": 0.832653,
+          "stars": 0.866364,
+          "views": 0.87186,
+          "freshness": 0.99342,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.309924,
-          "hearts": 0.166517,
-          "stars": 0.155933,
-          "views": 0.069742,
-          "freshness": 0.129246,
+          "copies": 0.309886,
+          "hearts": 0.166531,
+          "stars": 0.155946,
+          "views": 0.069749,
+          "freshness": 0.129145,
           "verified": 0.05
         },
-        "evidence": 0.92074,
+        "evidence": 0.920923,
         "freshnessDays": 1,
-        "score": 0.881362
+        "score": 0.881257
       }
     },
     {
       "id": "network",
       "name": "Network",
       "description": "Network status, traffic, Wi-Fi, and connectivity",
-      "eligibleCount": 62,
+      "eligibleCount": 58,
       "winner": {
         "id": "vitals",
         "name": "Vitals",
@@ -768,69 +772,69 @@
           "copies": 689,
           "hearts": 32,
           "stars": 7,
-          "views": 1301
+          "views": 1305
         },
         "normalized": {
           "copies": 0.992337,
           "hearts": 0.992337,
-          "stars": 0.947139,
+          "stars": 0.968152,
           "views": 0.992337,
-          "freshness": 0.977756,
+          "freshness": 0.97699,
           "verified": 0
         },
         "contributions": {
           "copies": 0.357241,
           "hearts": 0.198467,
-          "stars": 0.170485,
+          "stars": 0.174267,
           "views": 0.079387,
-          "freshness": 0.127108,
+          "freshness": 0.127009,
           "verified": 0
         },
         "evidence": 0.984674,
-        "freshnessDays": 5,
-        "score": 0.932688
+        "freshnessDays": 6,
+        "score": 0.936371
       },
       "runnerUp": {
-        "id": "io.github.r-witz.nothing-ear",
-        "name": "Nothing Audio",
-        "description": "Nothing earbuds and headphones in the Omarchy bar: battery, noise control, codec selection, and low-latency mode.",
-        "author": "r-witz",
-        "category": "Hardware",
-        "repository": "https://github.com/r-witz/omarchy-nothing-ear",
-        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.r-witz.nothing-ear",
-        "installCommand": "omarchy plugin add https://github.com/r-witz/omarchy-nothing-ear.git --enable",
+        "id": "io.github.diegopluna.argus",
+        "name": "Argus",
+        "description": "CPU, RAM, GPU, disk, network, battery, power, and temperature stats in the bar, with a full system panel: 2m/1h/24h history that survives restarts (the flight recorder), per-metric opt-in alerts with context snapshots, a filterable sortable process table, per-process GPU usage, drive SMART health, an alert hook for automation, and a GAME tab that configures your MangoHud in-game overlay live.",
+        "author": "Diego Peter",
+        "category": "System",
+        "repository": "https://github.com/diegopluna/omarchy-argus",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.diegopluna.argus",
+        "installCommand": "omarchy plugin add https://github.com/diegopluna/omarchy-argus.git --enable",
         "verificationStatus": "verified",
         "license": "MIT",
-        "repositoryUpdatedAt": "2026-08-27T19:19:51.000Z",
-        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/6-r-witz-omarchy-nothing-ear-card.webp",
+        "repositoryUpdatedAt": "2026-08-30T03:19:39.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/10-diegopluna-omarchy-argus-card.webp",
         "previewWidth": 720,
-        "previewHeight": 379,
+        "previewHeight": 405,
         "localImage": null,
         "metrics": {
-          "copies": 103,
-          "hearts": 18,
-          "stars": 9,
-          "views": 482
+          "copies": 169,
+          "hearts": 20,
+          "stars": 2,
+          "views": 627
         },
         "normalized": {
-          "copies": 0.883015,
-          "hearts": 0.94061,
-          "stars": 0.951209,
-          "views": 0.876237,
-          "freshness": 0.982443,
+          "copies": 0.939092,
+          "hearts": 0.96253,
+          "stars": 0.735163,
+          "views": 0.926136,
+          "freshness": 0.990533,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.317885,
-          "hearts": 0.188122,
-          "stars": 0.171218,
-          "views": 0.070099,
-          "freshness": 0.127718,
+          "copies": 0.338073,
+          "hearts": 0.192506,
+          "stars": 0.132329,
+          "views": 0.074091,
+          "freshness": 0.128769,
           "verified": 0.05
         },
-        "evidence": 0.923616,
-        "freshnessDays": 4,
-        "score": 0.925042
+        "evidence": 0.948354,
+        "freshnessDays": 2,
+        "score": 0.915768
       }
     },
     {
@@ -855,30 +859,30 @@
         "previewHeight": 405,
         "localImage": null,
         "metrics": {
-          "copies": 419,
+          "copies": 423,
           "hearts": 38,
           "stars": 6,
-          "views": 1541
+          "views": 1560
         },
         "normalized": {
-          "copies": 0.988439,
-          "hearts": 0.988439,
-          "stars": 0.988439,
-          "views": 0.988439,
-          "freshness": 0.992496,
+          "copies": 0.988528,
+          "hearts": 0.988528,
+          "stars": 0.988528,
+          "views": 0.988528,
+          "freshness": 0.991718,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.355838,
-          "hearts": 0.197688,
-          "stars": 0.177919,
-          "views": 0.079075,
-          "freshness": 0.129024,
+          "copies": 0.35587,
+          "hearts": 0.197706,
+          "stars": 0.177935,
+          "views": 0.079082,
+          "freshness": 0.128923,
           "verified": 0
         },
-        "evidence": 0.976879,
-        "freshnessDays": 1,
-        "score": 0.939544
+        "evidence": 0.977055,
+        "freshnessDays": 2,
+        "score": 0.939516
       },
       "runnerUp": {
         "id": "ssupt.bluetooth-audio",
@@ -897,37 +901,37 @@
         "previewHeight": 405,
         "localImage": null,
         "metrics": {
-          "copies": 195,
+          "copies": 196,
           "hearts": 22,
           "stars": 5,
-          "views": 797
+          "views": 806
         },
         "normalized": {
-          "copies": 0.857554,
-          "hearts": 0.853867,
-          "stars": 0.866967,
-          "views": 0.864887,
-          "freshness": 0.988506,
+          "copies": 0.857536,
+          "hearts": 0.853955,
+          "stars": 0.867059,
+          "views": 0.86498,
+          "freshness": 0.987731,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.308719,
-          "hearts": 0.170773,
-          "stars": 0.156054,
-          "views": 0.069191,
-          "freshness": 0.128506,
+          "copies": 0.308713,
+          "hearts": 0.170791,
+          "stars": 0.156071,
+          "views": 0.069198,
+          "freshness": 0.128405,
           "verified": 0
         },
-        "evidence": 0.955365,
+        "evidence": 0.955605,
         "freshnessDays": 3,
-        "score": 0.833243
+        "score": 0.833178
       }
     },
     {
       "id": "audio",
       "name": "Audio",
       "description": "Volume, microphones, sinks, and audio routing",
-      "eligibleCount": 45,
+      "eligibleCount": 43,
       "winner": {
         "id": "ssupt.audio-control",
         "name": "Advanced Audio Control",
@@ -945,30 +949,30 @@
         "previewHeight": 405,
         "localImage": null,
         "metrics": {
-          "copies": 419,
+          "copies": 423,
           "hearts": 38,
           "stars": 6,
-          "views": 1541
+          "views": 1560
         },
         "normalized": {
-          "copies": 0.988439,
-          "hearts": 0.972898,
-          "stars": 0.957357,
-          "views": 0.957357,
-          "freshness": 0.992496,
+          "copies": 0.988528,
+          "hearts": 0.972243,
+          "stars": 0.955959,
+          "views": 0.955959,
+          "freshness": 0.991718,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.355838,
-          "hearts": 0.19458,
-          "stars": 0.172324,
-          "views": 0.076589,
-          "freshness": 0.129024,
+          "copies": 0.35587,
+          "hearts": 0.194449,
+          "stars": 0.172073,
+          "views": 0.076477,
+          "freshness": 0.128923,
           "verified": 0
         },
-        "evidence": 0.976879,
-        "freshnessDays": 1,
-        "score": 0.928355
+        "evidence": 0.977055,
+        "freshnessDays": 2,
+        "score": 0.927792
       },
       "runnerUp": {
         "id": "io.github.mshareef-git.omavibes",
@@ -987,30 +991,30 @@
         "previewHeight": 405,
         "localImage": null,
         "metrics": {
-          "copies": 347,
+          "copies": 354,
           "hearts": 26,
           "stars": 15,
-          "views": 3741
+          "views": 3762
         },
         "normalized": {
-          "copies": 0.970737,
-          "hearts": 0.955266,
-          "stars": 0.986207,
-          "views": 0.986207,
-          "freshness": 0.985519,
+          "copies": 0.970211,
+          "hearts": 0.953997,
+          "stars": 0.986425,
+          "views": 0.986425,
+          "freshness": 0.984747,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.349465,
-          "hearts": 0.191053,
-          "stars": 0.177517,
-          "views": 0.078897,
-          "freshness": 0.128117,
+          "copies": 0.349276,
+          "hearts": 0.190799,
+          "stars": 0.177557,
+          "views": 0.078914,
+          "freshness": 0.128017,
           "verified": 0
         },
-        "evidence": 0.972414,
+        "evidence": 0.972851,
         "freshnessDays": 3,
-        "score": 0.925049
+        "score": 0.924563
       }
     },
     {
@@ -1035,30 +1039,30 @@
         "previewHeight": 405,
         "localImage": null,
         "metrics": {
-          "copies": 3028,
-          "hearts": 203,
+          "copies": 3093,
+          "hearts": 207,
           "stars": 67,
-          "views": 8533
+          "views": 8680
         },
         "normalized": {
-          "copies": 0.998178,
-          "hearts": 0.998178,
-          "stars": 0.998178,
-          "views": 0.998178,
-          "freshness": 0.99725,
+          "copies": 0.998215,
+          "hearts": 0.998215,
+          "stars": 0.998215,
+          "views": 0.998215,
+          "freshness": 0.996468,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.359344,
-          "hearts": 0.199636,
-          "stars": 0.179672,
-          "views": 0.079854,
-          "freshness": 0.129643,
+          "copies": 0.359357,
+          "hearts": 0.199643,
+          "stars": 0.179679,
+          "views": 0.079857,
+          "freshness": 0.129541,
           "verified": 0.05
         },
-        "evidence": 0.996356,
+        "evidence": 0.996431,
         "freshnessDays": 0,
-        "score": 0.998149
+        "score": 0.998077
       },
       "runnerUp": {
         "id": "im0001gt.screens",
@@ -1077,37 +1081,37 @@
         "previewHeight": 405,
         "localImage": null,
         "metrics": {
-          "copies": 699,
+          "copies": 706,
           "hearts": 44,
           "stars": 12,
-          "views": 2405
+          "views": 2439
         },
         "normalized": {
-          "copies": 0.961203,
-          "hearts": 0.961203,
-          "stars": 0.961203,
-          "views": 0.961203,
-          "freshness": 0.975272,
+          "copies": 0.961263,
+          "hearts": 0.961263,
+          "stars": 0.961263,
+          "views": 0.961263,
+          "freshness": 0.974508,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.346033,
-          "hearts": 0.192241,
-          "stars": 0.173017,
-          "views": 0.076896,
-          "freshness": 0.126785,
+          "copies": 0.346055,
+          "hearts": 0.192253,
+          "stars": 0.173027,
+          "views": 0.076901,
+          "freshness": 0.126686,
           "verified": 0.05
         },
-        "evidence": 0.985093,
+        "evidence": 0.985222,
         "freshnessDays": 6,
-        "score": 0.964972
+        "score": 0.964922
       }
     },
     {
       "id": "notifications",
       "name": "Notifications",
       "description": "Notification centers, history, and do-not-disturb",
-      "eligibleCount": 70,
+      "eligibleCount": 71,
       "winner": {
         "id": "jankeesvw.notification-center",
         "name": "Notification Center",
@@ -1125,30 +1129,30 @@
         "previewHeight": 720,
         "localImage": null,
         "metrics": {
-          "copies": 1148,
-          "hearts": 91,
+          "copies": 1183,
+          "hearts": 93,
           "stars": 28,
-          "views": 2974
+          "views": 3055
         },
         "normalized": {
-          "copies": 0.985337,
-          "hearts": 0.995388,
-          "stars": 0.985337,
-          "views": 0.985337,
-          "freshness": 0.988889,
+          "copies": 0.985605,
+          "hearts": 0.995516,
+          "stars": 0.985605,
+          "views": 0.985605,
+          "freshness": 0.988114,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.354721,
-          "hearts": 0.199078,
-          "stars": 0.177361,
-          "views": 0.078827,
-          "freshness": 0.128556,
+          "copies": 0.354818,
+          "hearts": 0.199103,
+          "stars": 0.177409,
+          "views": 0.078848,
+          "freshness": 0.128455,
           "verified": 0.05
         },
-        "evidence": 0.990776,
-        "freshnessDays": 2,
-        "score": 0.988543
+        "evidence": 0.991031,
+        "freshnessDays": 3,
+        "score": 0.988633
       },
       "runnerUp": {
         "id": "shavanced.notification-center",
@@ -1167,37 +1171,37 @@
         "previewHeight": 631,
         "localImage": null,
         "metrics": {
-          "copies": 1255,
+          "copies": 1260,
           "hearts": 64,
           "stars": 18,
-          "views": 3703
+          "views": 3735
         },
         "normalized": {
-          "copies": 0.995655,
-          "hearts": 0.985599,
-          "stars": 0.965485,
-          "views": 0.995655,
-          "freshness": 0.967355,
+          "copies": 0.995671,
+          "hearts": 0.985758,
+          "stars": 0.965931,
+          "views": 0.995671,
+          "freshness": 0.966597,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.358436,
-          "hearts": 0.19712,
-          "stars": 0.173787,
-          "views": 0.079652,
-          "freshness": 0.125756,
+          "copies": 0.358442,
+          "hearts": 0.197152,
+          "stars": 0.173868,
+          "views": 0.079654,
+          "freshness": 0.125658,
           "verified": 0
         },
-        "evidence": 0.991311,
+        "evidence": 0.991342,
         "freshnessDays": 8,
-        "score": 0.934751
+        "score": 0.934774
       }
     },
     {
       "id": "calendar",
       "name": "Calendar",
       "description": "Calendars, events, and agenda widgets",
-      "eligibleCount": 37,
+      "eligibleCount": 39,
       "winner": {
         "id": "tmn73.calendar",
         "name": "Calendar",
@@ -1215,30 +1219,30 @@
         "previewHeight": 643,
         "localImage": null,
         "metrics": {
-          "copies": 677,
+          "copies": 694,
           "hearts": 54,
           "stars": 25,
-          "views": 2367
+          "views": 2410
         },
         "normalized": {
-          "copies": 0.992434,
-          "hearts": 0.992434,
-          "stars": 0.992434,
-          "views": 0.992434,
-          "freshness": 0.933928,
+          "copies": 0.992593,
+          "hearts": 0.992593,
+          "stars": 0.992593,
+          "views": 0.992593,
+          "freshness": 0.933196,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.357276,
-          "hearts": 0.198487,
-          "stars": 0.178638,
-          "views": 0.079395,
-          "freshness": 0.121411,
+          "copies": 0.357333,
+          "hearts": 0.198519,
+          "stars": 0.178667,
+          "views": 0.079407,
+          "freshness": 0.121315,
           "verified": 0
         },
-        "evidence": 0.984868,
+        "evidence": 0.985185,
         "freshnessDays": 17,
-        "score": 0.935207
+        "score": 0.935241
       },
       "runnerUp": {
         "id": "sirwizardlizard.calendar",
@@ -1257,37 +1261,37 @@
         "previewHeight": 403,
         "localImage": null,
         "metrics": {
-          "copies": 97,
+          "copies": 99,
           "hearts": 15,
           "stars": 6,
-          "views": 711
+          "views": 721
         },
         "normalized": {
-          "copies": 0.841547,
-          "hearts": 0.9202,
-          "stars": 0.836549,
-          "views": 0.944412,
-          "freshness": 0.990532,
+          "copies": 0.849025,
+          "hearts": 0.925706,
+          "stars": 0.841571,
+          "views": 0.945917,
+          "freshness": 0.989756,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.302957,
-          "hearts": 0.18404,
-          "stars": 0.150579,
-          "views": 0.075553,
-          "freshness": 0.128769,
+          "copies": 0.305649,
+          "hearts": 0.185141,
+          "stars": 0.151483,
+          "views": 0.075673,
+          "freshness": 0.128668,
           "verified": 0.05
         },
-        "evidence": 0.924788,
+        "evidence": 0.925949,
         "freshnessDays": 2,
-        "score": 0.891898
+        "score": 0.896614
       }
     },
     {
       "id": "clock-timer",
       "name": "Clock & Timer",
       "description": "Clocks, timers, stopwatches, and alarms",
-      "eligibleCount": 57,
+      "eligibleCount": 55,
       "winner": {
         "id": "pnkm0nk.omodoro",
         "name": "Omodoro",
@@ -1305,30 +1309,30 @@
         "previewHeight": 378,
         "localImage": null,
         "metrics": {
-          "copies": 195,
+          "copies": 200,
           "hearts": 16,
           "stars": 5,
-          "views": 681
+          "views": 697
         },
         "normalized": {
-          "copies": 0.93996,
-          "hearts": 0.952825,
-          "stars": 0.842541,
-          "views": 0.926997,
-          "freshness": 0.99227,
+          "copies": 0.938604,
+          "hearts": 0.952431,
+          "stars": 0.837087,
+          "views": 0.926075,
+          "freshness": 0.991492,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.338386,
-          "hearts": 0.190565,
-          "stars": 0.151657,
-          "views": 0.07416,
-          "freshness": 0.128995,
+          "copies": 0.337897,
+          "hearts": 0.190486,
+          "stars": 0.150676,
+          "views": 0.074086,
+          "freshness": 0.128894,
           "verified": 0.05
         },
-        "evidence": 0.953316,
+        "evidence": 0.954347,
         "freshnessDays": 2,
-        "score": 0.933763
+        "score": 0.932039
       },
       "runnerUp": {
         "id": "io.github.sspaeti.timezones",
@@ -1347,30 +1351,30 @@
         "previewHeight": 185,
         "localImage": null,
         "metrics": {
-          "copies": 221,
+          "copies": 225,
           "hearts": 46,
           "stars": 14,
-          "views": 977
+          "views": 985
         },
         "normalized": {
-          "copies": 0.969656,
-          "hearts": 0.981699,
-          "stars": 0.981699,
-          "views": 0.981699,
-          "freshness": 0.979144,
+          "copies": 0.969447,
+          "hearts": 0.981941,
+          "stars": 0.981941,
+          "views": 0.981941,
+          "freshness": 0.978377,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.349076,
-          "hearts": 0.19634,
-          "stars": 0.176706,
-          "views": 0.078536,
-          "freshness": 0.127289,
+          "copies": 0.349001,
+          "hearts": 0.196388,
+          "stars": 0.176749,
+          "views": 0.078555,
+          "freshness": 0.127189,
           "verified": 0
         },
-        "evidence": 0.963398,
+        "evidence": 0.963883,
         "freshnessDays": 5,
-        "score": 0.927947
+        "score": 0.927882
       }
     },
     {
@@ -1395,30 +1399,30 @@
         "previewHeight": 378,
         "localImage": null,
         "metrics": {
-          "copies": 195,
+          "copies": 200,
           "hearts": 16,
           "stars": 5,
-          "views": 681
+          "views": 697
         },
         "normalized": {
-          "copies": 0.947644,
-          "hearts": 0.947644,
-          "stars": 0.83794,
-          "views": 0.947644,
-          "freshness": 0.99227,
+          "copies": 0.948128,
+          "hearts": 0.948128,
+          "stars": 0.838305,
+          "views": 0.948128,
+          "freshness": 0.991492,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.341152,
-          "hearts": 0.189529,
-          "stars": 0.150829,
-          "views": 0.075812,
-          "freshness": 0.128995,
+          "copies": 0.341326,
+          "hearts": 0.189626,
+          "stars": 0.150895,
+          "views": 0.07585,
+          "freshness": 0.128894,
           "verified": 0.05
         },
-        "evidence": 0.953316,
+        "evidence": 0.954347,
         "freshnessDays": 2,
-        "score": 0.936317
+        "score": 0.936591
       },
       "runnerUp": {
         "id": "io.github.pjgeutjens.clockwork",
@@ -1437,30 +1441,30 @@
         "previewHeight": 435,
         "localImage": null,
         "metrics": {
-          "copies": 194,
+          "copies": 197,
           "hearts": 14,
           "stars": 6,
-          "views": 506
+          "views": 513
         },
         "normalized": {
-          "copies": 0.917413,
-          "hearts": 0.906863,
-          "stars": 0.901923,
-          "views": 0.877348,
-          "freshness": 0.989524,
+          "copies": 0.917249,
+          "hearts": 0.892662,
+          "stars": 0.902202,
+          "views": 0.877298,
+          "freshness": 0.988748,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.330269,
-          "hearts": 0.181373,
-          "stars": 0.162346,
-          "views": 0.070188,
-          "freshness": 0.128638,
+          "copies": 0.33021,
+          "hearts": 0.178532,
+          "stars": 0.162396,
+          "views": 0.070184,
+          "freshness": 0.128537,
           "verified": 0.05
         },
-        "evidence": 0.95108,
+        "evidence": 0.951739,
         "freshnessDays": 2,
-        "score": 0.922814
+        "score": 0.919859
       }
     },
     {
@@ -1485,30 +1489,30 @@
         "previewHeight": 405,
         "localImage": null,
         "metrics": {
-          "copies": 3028,
-          "hearts": 203,
+          "copies": 3093,
+          "hearts": 207,
           "stars": 67,
-          "views": 8533
+          "views": 8680
         },
         "normalized": {
-          "copies": 0.998178,
-          "hearts": 0.998178,
-          "stars": 0.998178,
-          "views": 0.998178,
-          "freshness": 0.99725,
+          "copies": 0.998215,
+          "hearts": 0.998215,
+          "stars": 0.998215,
+          "views": 0.998215,
+          "freshness": 0.996468,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.359344,
-          "hearts": 0.199636,
-          "stars": 0.179672,
-          "views": 0.079854,
-          "freshness": 0.129643,
+          "copies": 0.359357,
+          "hearts": 0.199643,
+          "stars": 0.179679,
+          "views": 0.079857,
+          "freshness": 0.129541,
           "verified": 0.05
         },
-        "evidence": 0.996356,
+        "evidence": 0.996431,
         "freshnessDays": 0,
-        "score": 0.998149
+        "score": 0.998077
       },
       "runnerUp": {
         "id": "im0001gt.screens",
@@ -1527,30 +1531,30 @@
         "previewHeight": 405,
         "localImage": null,
         "metrics": {
-          "copies": 699,
+          "copies": 706,
           "hearts": 44,
           "stars": 12,
-          "views": 2405
+          "views": 2439
         },
         "normalized": {
-          "copies": 0.987476,
-          "hearts": 0.982406,
-          "stars": 0.955356,
-          "views": 0.982406,
-          "freshness": 0.975272,
+          "copies": 0.98754,
+          "hearts": 0.982469,
+          "stars": 0.955416,
+          "views": 0.982469,
+          "freshness": 0.974508,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.355491,
-          "hearts": 0.196481,
-          "stars": 0.171964,
-          "views": 0.078592,
-          "freshness": 0.126785,
+          "copies": 0.355514,
+          "hearts": 0.196494,
+          "stars": 0.171975,
+          "views": 0.078598,
+          "freshness": 0.126686,
           "verified": 0.05
         },
-        "evidence": 0.985093,
+        "evidence": 0.985222,
         "freshnessDays": 6,
-        "score": 0.979313
+        "score": 0.979267
       }
     },
     {
@@ -1575,30 +1579,30 @@
         "previewHeight": 405,
         "localImage": null,
         "metrics": {
-          "copies": 398,
+          "copies": 407,
           "hearts": 18,
           "stars": 17,
-          "views": 1736
+          "views": 1758
         },
         "normalized": {
-          "copies": 0.987448,
-          "hearts": 0.908619,
-          "stars": 0.987448,
-          "views": 0.959013,
-          "freshness": 0.991664,
+          "copies": 0.98768,
+          "hearts": 0.908814,
+          "stars": 0.98768,
+          "views": 0.959232,
+          "freshness": 0.990887,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.355481,
-          "hearts": 0.181724,
-          "stars": 0.177741,
-          "views": 0.076721,
-          "freshness": 0.128916,
+          "copies": 0.355565,
+          "hearts": 0.181763,
+          "stars": 0.177782,
+          "views": 0.076739,
+          "freshness": 0.128815,
           "verified": 0
         },
-        "evidence": 0.974895,
+        "evidence": 0.975359,
         "freshnessDays": 2,
-        "score": 0.920583
+        "score": 0.920664
       },
       "runnerUp": {
         "id": "omadock",
@@ -1617,30 +1621,30 @@
         "previewHeight": 405,
         "localImage": null,
         "metrics": {
-          "copies": 331,
+          "copies": 336,
           "hearts": 34,
           "stars": 10,
-          "views": 2012
+          "views": 2035
         },
         "normalized": {
-          "copies": 0.957601,
-          "hearts": 0.985948,
-          "stars": 0.943428,
-          "views": 0.985948,
-          "freshness": 0.982274,
+          "copies": 0.957755,
+          "hearts": 0.986111,
+          "stars": 0.943576,
+          "views": 0.986111,
+          "freshness": 0.981504,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.344736,
-          "hearts": 0.19719,
-          "stars": 0.169817,
-          "views": 0.078876,
-          "freshness": 0.127696,
+          "copies": 0.344792,
+          "hearts": 0.197222,
+          "stars": 0.169844,
+          "views": 0.078889,
+          "freshness": 0.127596,
           "verified": 0
         },
-        "evidence": 0.971897,
+        "evidence": 0.972222,
         "freshnessDays": 4,
-        "score": 0.918315
+        "score": 0.918343
       }
     },
     {
@@ -1665,30 +1669,30 @@
         "previewHeight": 405,
         "localImage": null,
         "metrics": {
-          "copies": 68,
+          "copies": 69,
           "hearts": 5,
           "stars": 5,
-          "views": 359
+          "views": 362
         },
         "normalized": {
-          "copies": 0.941719,
-          "hearts": 0.772867,
-          "stars": 0.941719,
-          "views": 0.874955,
-          "freshness": 0.971373,
+          "copies": 0.942363,
+          "hearts": 0.773265,
+          "stars": 0.942363,
+          "views": 0.875461,
+          "freshness": 0.970611,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.339019,
-          "hearts": 0.154573,
-          "stars": 0.169509,
-          "views": 0.069996,
-          "freshness": 0.126278,
+          "copies": 0.339251,
+          "hearts": 0.154653,
+          "stars": 0.169625,
+          "views": 0.070037,
+          "freshness": 0.126179,
           "verified": 0.05
         },
-        "evidence": 0.883439,
+        "evidence": 0.884726,
         "freshnessDays": 7,
-        "score": 0.909375
+        "score": 0.909745
       },
       "runnerUp": {
         "id": "glasschan.oma-swiss",
@@ -1707,30 +1711,30 @@
         "previewHeight": 345,
         "localImage": null,
         "metrics": {
-          "copies": 58,
+          "copies": 59,
           "hearts": 7,
           "stars": 2,
-          "views": 618
+          "views": 625
         },
         "normalized": {
-          "copies": 0.855025,
-          "hearts": 0.944393,
-          "stars": 0.751366,
-          "views": 0.944393,
-          "freshness": 0.994006,
+          "copies": 0.855661,
+          "hearts": 0.94508,
+          "stars": 0.751755,
+          "views": 0.94508,
+          "freshness": 0.993227,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.307809,
-          "hearts": 0.188879,
-          "stars": 0.135246,
-          "views": 0.075551,
-          "freshness": 0.129221,
+          "copies": 0.308038,
+          "hearts": 0.189016,
+          "stars": 0.135316,
+          "views": 0.075606,
+          "freshness": 0.12912,
           "verified": 0.05
         },
-        "evidence": 0.888786,
+        "evidence": 0.89016,
         "freshnessDays": 1,
-        "score": 0.886706
+        "score": 0.887096
       }
     },
     {
@@ -1755,30 +1759,30 @@
         "previewHeight": 211,
         "localImage": null,
         "metrics": {
-          "copies": 269,
+          "copies": 274,
           "hearts": 12,
           "stars": 12,
-          "views": 1242
+          "views": 1268
         },
         "normalized": {
-          "copies": 0.982507,
-          "hearts": 0.841603,
-          "stars": 0.982507,
-          "views": 0.982507,
-          "freshness": 0.986324,
+          "copies": 0.982759,
+          "hearts": 0.841781,
+          "stars": 0.982759,
+          "views": 0.982759,
+          "freshness": 0.985551,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.353703,
-          "hearts": 0.168321,
-          "stars": 0.176851,
-          "views": 0.078601,
-          "freshness": 0.128222,
+          "copies": 0.353793,
+          "hearts": 0.168356,
+          "stars": 0.176897,
+          "views": 0.078621,
+          "freshness": 0.128122,
           "verified": 0.05
         },
-        "evidence": 0.965015,
+        "evidence": 0.965517,
         "freshnessDays": 3,
-        "score": 0.955698
+        "score": 0.955789
       },
       "runnerUp": {
         "id": "tenzin.live-wallpaper",
@@ -1797,30 +1801,30 @@
         "previewHeight": 405,
         "localImage": null,
         "metrics": {
-          "copies": 259,
+          "copies": 260,
           "hearts": 20,
           "stars": 10,
-          "views": 1138
+          "views": 1153
         },
         "normalized": {
-          "copies": 0.959892,
-          "hearts": 0.931169,
-          "stars": 0.959892,
-          "views": 0.93669,
-          "freshness": 0.956707,
+          "copies": 0.959942,
+          "hearts": 0.931215,
+          "stars": 0.959942,
+          "views": 0.936849,
+          "freshness": 0.955957,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.345561,
-          "hearts": 0.186234,
-          "stars": 0.172781,
-          "views": 0.074935,
-          "freshness": 0.124372,
+          "copies": 0.345579,
+          "hearts": 0.186243,
+          "stars": 0.17279,
+          "views": 0.074948,
+          "freshness": 0.124274,
           "verified": 0.05
         },
-        "evidence": 0.964809,
+        "evidence": 0.964912,
         "freshnessDays": 11,
-        "score": 0.953883
+        "score": 0.953834
       }
     },
     {
@@ -1848,27 +1852,27 @@
           "copies": 21,
           "hearts": 0,
           "stars": 0,
-          "views": 89
+          "views": 90
         },
         "normalized": {
-          "copies": 0.839786,
-          "hearts": 0.160214,
+          "copies": 0.84,
+          "hearts": 0.16,
           "stars": 0.5,
-          "views": 0.839786,
-          "freshness": 0.969486,
+          "views": 0.84,
+          "freshness": 0.968726,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.302323,
-          "hearts": 0.032043,
+          "copies": 0.3024,
+          "hearts": 0.032,
           "stars": 0.09,
-          "views": 0.067183,
-          "freshness": 0.126033,
+          "views": 0.0672,
+          "freshness": 0.125934,
           "verified": 0.05
         },
-        "evidence": 0.679573,
+        "evidence": 0.68,
         "freshnessDays": 8,
-        "score": 0.667582
+        "score": 0.667534
       },
       "runnerUp": {
         "id": "io.github.arcanavox.colorhistory",
@@ -1887,37 +1891,37 @@
         "previewHeight": 228,
         "localImage": null,
         "metrics": {
-          "copies": 4,
+          "copies": 6,
           "hearts": 2,
           "stars": 0,
-          "views": 21
+          "views": 23
         },
         "normalized": {
-          "copies": 0.374188,
-          "hearts": 0.685039,
+          "copies": 0.366935,
+          "hearts": 0.716312,
           "stars": 0.5,
-          "views": 0.392439,
-          "freshness": 0.981476,
+          "views": 0.376499,
+          "freshness": 0.980707,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.134708,
-          "hearts": 0.137008,
+          "copies": 0.132097,
+          "hearts": 0.143262,
           "stars": 0.09,
-          "views": 0.031395,
-          "freshness": 0.127592,
+          "views": 0.03012,
+          "freshness": 0.127492,
           "verified": 0.05
         },
-        "evidence": 0.370079,
-        "freshnessDays": 4,
-        "score": 0.570703
+        "evidence": 0.432624,
+        "freshnessDays": 5,
+        "score": 0.572971
       }
     },
     {
       "id": "ai-assistant",
       "name": "AI Assistant",
       "description": "AI chat, local models, and model launchers",
-      "eligibleCount": 26,
+      "eligibleCount": 27,
       "winner": {
         "id": "othavi0.agent-bar",
         "name": "Agent Bar",
@@ -1935,30 +1939,30 @@
         "previewHeight": 406,
         "localImage": null,
         "metrics": {
-          "copies": 123,
+          "copies": 125,
           "hearts": 19,
           "stars": 9,
-          "views": 921
+          "views": 940
         },
         "normalized": {
-          "copies": 0.956847,
-          "hearts": 0.970007,
-          "stars": 0.970007,
-          "views": 0.970007,
-          "freshness": 0.997498,
+          "copies": 0.970443,
+          "hearts": 0.970443,
+          "stars": 0.970443,
+          "views": 0.970443,
+          "freshness": 0.996716,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.344465,
-          "hearts": 0.194001,
-          "stars": 0.174601,
-          "views": 0.077601,
-          "freshness": 0.129675,
+          "copies": 0.349359,
+          "hearts": 0.194089,
+          "stars": 0.17468,
+          "views": 0.077635,
+          "freshness": 0.129573,
           "verified": 0
         },
-        "evidence": 0.940015,
+        "evidence": 0.940887,
         "freshnessDays": 0,
-        "score": 0.920343
+        "score": 0.925336
       },
       "runnerUp": {
         "id": "sid.sessions",
@@ -1980,27 +1984,27 @@
           "copies": 123,
           "hearts": 15,
           "stars": 3,
-          "views": 628
+          "views": 636
         },
         "normalized": {
-          "copies": 0.95385,
-          "hearts": 0.927702,
-          "stars": 0.755617,
-          "views": 0.911735,
-          "freshness": 0.980347,
+          "copies": 0.941851,
+          "hearts": 0.912481,
+          "stars": 0.760686,
+          "views": 0.912788,
+          "freshness": 0.979578,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.343386,
-          "hearts": 0.18554,
-          "stars": 0.136011,
-          "views": 0.072939,
-          "freshness": 0.127445,
+          "copies": 0.339066,
+          "hearts": 0.182496,
+          "stars": 0.136923,
+          "views": 0.073023,
+          "freshness": 0.127345,
           "verified": 0.05
         },
-        "evidence": 0.933848,
+        "evidence": 0.933993,
         "freshnessDays": 5,
-        "score": 0.915321
+        "score": 0.908853
       }
     },
     {
@@ -2025,30 +2029,30 @@
         "previewHeight": 720,
         "localImage": null,
         "metrics": {
-          "copies": 420,
-          "hearts": 29,
+          "copies": 428,
+          "hearts": 30,
           "stars": 46,
-          "views": 2085
+          "views": 2121
         },
         "normalized": {
-          "copies": 0.988258,
-          "hearts": 0.988258,
-          "stars": 0.988258,
-          "views": 0.988258,
-          "freshness": 0.998858,
+          "copies": 0.988462,
+          "hearts": 0.988462,
+          "stars": 0.988462,
+          "views": 0.988462,
+          "freshness": 0.998075,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.355773,
-          "hearts": 0.197652,
-          "stars": 0.177886,
-          "views": 0.079061,
-          "freshness": 0.129852,
+          "copies": 0.355846,
+          "hearts": 0.197692,
+          "stars": 0.177923,
+          "views": 0.079077,
+          "freshness": 0.12975,
           "verified": 0
         },
-        "evidence": 0.976517,
+        "evidence": 0.976923,
         "freshnessDays": 0,
-        "score": 0.940224
+        "score": 0.940288
       },
       "runnerUp": {
         "id": "io.github.ricky.ghstats",
@@ -2073,31 +2077,31 @@
           "views": 102
         },
         "normalized": {
-          "copies": 0.650857,
-          "hearts": 0.763725,
+          "copies": 0.650597,
+          "hearts": 0.762735,
           "stars": 0.664663,
-          "views": 0.641994,
-          "freshness": 0.957634,
+          "views": 0.641606,
+          "freshness": 0.956883,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.234309,
-          "hearts": 0.152745,
+          "copies": 0.234215,
+          "hearts": 0.152547,
           "stars": 0.119639,
-          "views": 0.05136,
-          "freshness": 0.124492,
+          "views": 0.051328,
+          "freshness": 0.124395,
           "verified": 0.05
         },
         "evidence": 0.721578,
         "freshnessDays": 11,
-        "score": 0.732545
+        "score": 0.732124
       }
     },
     {
       "id": "containers",
       "name": "Containers",
       "description": "Docker, Podman, and container management",
-      "eligibleCount": 20,
+      "eligibleCount": 19,
       "winner": {
         "id": "io.github.randazraik.xray",
         "name": "Omarchy X-Ray",
@@ -2115,30 +2119,30 @@
         "previewHeight": 411,
         "localImage": null,
         "metrics": {
-          "copies": 186,
-          "hearts": 24,
+          "copies": 190,
+          "hearts": 25,
           "stars": 4,
-          "views": 850
+          "views": 861
         },
         "normalized": {
-          "copies": 0.977316,
-          "hearts": 0.977316,
-          "stars": 0.876731,
-          "views": 0.977316,
-          "freshness": 0.974604,
+          "copies": 0.977782,
+          "hearts": 0.977782,
+          "stars": 0.872094,
+          "views": 0.977782,
+          "freshness": 0.97384,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.351834,
-          "hearts": 0.195463,
-          "stars": 0.157812,
-          "views": 0.078185,
-          "freshness": 0.126699,
+          "copies": 0.352002,
+          "hearts": 0.195556,
+          "stars": 0.156977,
+          "views": 0.078223,
+          "freshness": 0.126599,
           "verified": 0.05
         },
-        "evidence": 0.954631,
+        "evidence": 0.955564,
         "freshnessDays": 6,
-        "score": 0.959993
+        "score": 0.959357
       },
       "runnerUp": {
         "id": "io.github.andressm415.omaprox",
@@ -2160,34 +2164,34 @@
           "copies": 84,
           "hearts": 14,
           "stars": 6,
-          "views": 545
+          "views": 547
         },
         "normalized": {
-          "copies": 0.781686,
-          "hearts": 0.920105,
-          "stars": 0.956284,
-          "views": 0.883941,
-          "freshness": 0.96739,
+          "copies": 0.773421,
+          "hearts": 0.915374,
+          "stars": 0.956316,
+          "views": 0.87907,
+          "freshness": 0.966632,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.281407,
-          "hearts": 0.184021,
-          "stars": 0.172131,
-          "views": 0.070715,
-          "freshness": 0.125761,
+          "copies": 0.278432,
+          "hearts": 0.183075,
+          "stars": 0.172137,
+          "views": 0.070326,
+          "freshness": 0.125662,
           "verified": 0.05
         },
-        "evidence": 0.912568,
+        "evidence": 0.912632,
         "freshnessDays": 8,
-        "score": 0.884035
+        "score": 0.879632
       }
     },
     {
       "id": "gaming",
       "name": "Gaming",
       "description": "Game launchers, performance, and gaming status",
-      "eligibleCount": 17,
+      "eligibleCount": 16,
       "winner": {
         "id": "silvaio.gamemode",
         "name": "Game Mode Switcher",
@@ -2205,30 +2209,30 @@
         "previewHeight": 292,
         "localImage": null,
         "metrics": {
-          "copies": 118,
+          "copies": 119,
           "hearts": 11,
           "stars": 7,
-          "views": 507
+          "views": 511
         },
         "normalized": {
-          "copies": 0.92324,
-          "hearts": 0.963931,
-          "stars": 0.963931,
-          "views": 0.875293,
-          "freshness": 0.986307,
+          "copies": 0.942528,
+          "hearts": 0.96419,
+          "stars": 0.96419,
+          "views": 0.87008,
+          "freshness": 0.985534,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.332366,
-          "hearts": 0.192786,
-          "stars": 0.173508,
-          "views": 0.070023,
-          "freshness": 0.12822,
+          "copies": 0.33931,
+          "hearts": 0.192838,
+          "stars": 0.173554,
+          "views": 0.069606,
+          "freshness": 0.128119,
           "verified": 0
         },
-        "evidence": 0.927863,
+        "evidence": 0.92838,
         "freshnessDays": 3,
-        "score": 0.896903
+        "score": 0.903427
       },
       "runnerUp": {
         "id": "io.github.dkgamer02ai.wallpaper-engine",
@@ -2250,27 +2254,27 @@
           "copies": 119,
           "hearts": 4,
           "stars": 4,
-          "views": 598
+          "views": 601
         },
         "normalized": {
-          "copies": 0.963614,
-          "hearts": 0.669546,
-          "stars": 0.907698,
-          "views": 0.922763,
-          "freshness": 0.895157,
+          "copies": 0.942011,
+          "hearts": 0.652757,
+          "stars": 0.901446,
+          "views": 0.919949,
+          "freshness": 0.894455,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.346901,
-          "hearts": 0.133909,
-          "stars": 0.163386,
-          "views": 0.073821,
-          "freshness": 0.11637,
+          "copies": 0.339124,
+          "hearts": 0.130551,
+          "stars": 0.16226,
+          "views": 0.073596,
+          "freshness": 0.116279,
           "verified": 0
         },
-        "evidence": 0.927229,
+        "evidence": 0.927295,
         "freshnessDays": 28,
-        "score": 0.834387
+        "score": 0.82181
       }
     },
     {
@@ -2295,30 +2299,30 @@
         "previewHeight": 529,
         "localImage": null,
         "metrics": {
-          "copies": 223,
+          "copies": 225,
           "hearts": 16,
           "stars": 8,
-          "views": 662
+          "views": 670
         },
         "normalized": {
-          "copies": 0.978881,
-          "hearts": 0.978881,
-          "stars": 0.978881,
-          "views": 0.978881,
-          "freshness": 0.966365,
+          "copies": 0.979058,
+          "hearts": 0.979058,
+          "stars": 0.979058,
+          "views": 0.979058,
+          "freshness": 0.965608,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.352397,
-          "hearts": 0.195776,
-          "stars": 0.176199,
-          "views": 0.07831,
-          "freshness": 0.125627,
+          "copies": 0.352461,
+          "hearts": 0.195812,
+          "stars": 0.17623,
+          "views": 0.078325,
+          "freshness": 0.125529,
           "verified": 0.05
         },
-        "evidence": 0.957761,
-        "freshnessDays": 8,
-        "score": 0.978309
+        "evidence": 0.958115,
+        "freshnessDays": 9,
+        "score": 0.978357
       },
       "runnerUp": {
         "id": "gennaro.updater",
@@ -2343,24 +2347,24 @@
           "views": 140
         },
         "normalized": {
-          "copies": 0.534602,
+          "copies": 0.534375,
           "hearts": 0.446684,
           "stars": 0.254592,
-          "views": 0.563501,
-          "freshness": 0.963412,
+          "views": 0.5632,
+          "freshness": 0.962657,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.192457,
+          "copies": 0.192375,
           "hearts": 0.089337,
           "stars": 0.045827,
-          "views": 0.04508,
-          "freshness": 0.125244,
+          "views": 0.045056,
+          "freshness": 0.125145,
           "verified": 0
         },
         "evidence": 0.755102,
         "freshnessDays": 9,
-        "score": 0.497945
+        "score": 0.49774
       }
     }
   ],

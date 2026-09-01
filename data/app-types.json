@@ -6,7 +6,7 @@
       "name": "System Monitor",
       "description": "CPU, memory, temperature, and resource monitoring",
       "include": ["\\b(system|resource|hardware) monitor\\b", "\\b(cpu|processor|ram|memory|temperature|thermals?)\\b", "\\b(btop|htop|nvtop)\\b"],
-      "exclude": ["\\bkeyboard\\b", "\\bkeybind"]
+      "exclude": ["\\bkeyboard\\b", "\\bkeybind", "\\b(color|night[- ]light|ferment) temperature\\b"]
     },
     {
       "id": "vpn",
@@ -57,8 +57,8 @@
       "id": "network",
       "name": "Network",
       "description": "Network status, traffic, Wi-Fi, and connectivity",
-      "include": ["\\b(network|wifi|wi-fi|ethernet|bandwidth|internet speed|traffic monitor|latency|ping)\\b"],
-      "exclude": ["\\bsocial network\\b", "\\bneural network\\b"]
+      "include": ["\\b(network|wifi|wi-fi|ethernet|bandwidth|internet speed|traffic monitor|network latency|internet latency|latency test(?:ing)?|ping)\\b"],
+      "exclude": ["\\bsocial network\\b", "\\bneural network\\b", "\\blow[- ]latency\\b"]
     },
     {
       "id": "bluetooth",
@@ -71,7 +71,7 @@
       "name": "Audio",
       "description": "Volume, microphones, sinks, and audio routing",
       "include": ["\\b(volume|audio|microphone|pipewire|pulseaudio|sound output|audio sink)\\b"],
-      "exclude": ["\\baudiobook\\b"]
+      "exclude": ["\\baudiobook\\b", "\\b(price, volume|volume, velocity|trading volume)\\b"]
     },
     {
       "id": "brightness",
@@ -96,7 +96,7 @@
       "name": "Clock & Timer",
       "description": "Clocks, timers, stopwatches, and alarms",
       "include": ["\\b(clock|timer|stopwatch|alarm|world time|time zone)\\b"],
-      "exclude": ["\\bclock speed\\b"]
+      "exclude": ["\\bclock[- ]speed\\b", "\\bon a(?: [\\w-]+)? timer\\b"]
     },
     {
       "id": "focus",
@@ -150,13 +150,15 @@
       "id": "containers",
       "name": "Containers",
       "description": "Docker, Podman, and container management",
-      "include": ["\\b(docker|podman|container|containers|kubernetes|k8s)\\b"]
+      "include": ["\\b(docker|podman|container|containers|kubernetes|k8s)\\b"],
+      "exclude": ["\\b(named|plugin) containers?\\b"]
     },
     {
       "id": "gaming",
       "name": "Gaming",
       "description": "Game launchers, performance, and gaming status",
-      "include": ["\\b(gaming|games? launcher|steam|lutris|protondb|game mode|gamemode)\\b"]
+      "include": ["\\b(gaming|games? launcher|steam|lutris|protondb|game mode|gamemode)\\b"],
+      "exclude": ["\\bshows steam\\b"]
     },
     {
       "id": "system-updates",
