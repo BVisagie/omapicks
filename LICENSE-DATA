@@ -1,0 +1,26 @@
+OmaPicks data license
+
+The original taxonomy in data/app-types.json and the generated JSON
+datasets in data/rankings.json, data/history/, data/changelog.json, and
+data/unclassified-report.json are made available under the Creative
+Commons Attribution 4.0 International License (CC BY 4.0), only to the
+extent that OmaPicks contributors own copyright or database rights in
+that material.
+
+License text:
+https://creativecommons.org/licenses/by/4.0/legalcode
+
+Required attribution:
+"OmaPicks — https://omapicks.com"
+
+This license does not apply to:
+
+- plugin metadata obtained from Omarchy Plugins;
+- downloaded plugin previews in data/assets/plugins/;
+- third-party names, trademarks, repositories, or other upstream
+  material represented in the datasets; or
+- the OmaPicks name, logo, icon, and social artwork.
+
+Rights in excluded material remain with their respective authors,
+licensors, and source services. Nothing in this file expands the rights
+that OmaPicks received from an upstream source.

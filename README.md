@@ -35,6 +35,17 @@ Copies, hearts, stars, and views are transformed with `log1p`. Each signal blend
 
 The exact weights and tie-breaks live in `build/rank.mjs` and are published on the methodology page with each snapshot's methodology version and source checksums.
 
+## Data sources and attribution
+
+The weekly refresh reads two public feeds operated by Omarchy Plugins:
+
+- [`plugins.omarchy.org/catalog.json`](https://plugins.omarchy.org/catalog.json) — plugin metadata, repositories, licenses, maintenance dates, verification status, install availability, GitHub stars, and preview locations
+- [`api.omarchyplugins.com/v1/stats`](https://api.omarchyplugins.com/v1/stats) — install-command copies, hearts, and views by plugin ID
+
+The corresponding human-readable listings are available in the [Omarchy Plugins marketplace](https://plugins.omarchy.org/?sort=copies). OmaPicks independently classifies and ranks this evidence; the source services do not select or sponsor winners.
+
+Each snapshot records source timestamps and SHA-256 checksums in `data/rankings.json`. Downloaded plugin preview images under `data/assets/plugins/` remain attributable to their respective authors and source marketplace.
+
 ## Deployment
 
 1. Create a public GitHub repository.
@@ -45,6 +56,19 @@ The exact weights and tie-breaks live in `build/rank.mjs` and are published on t
 
 Cloudflare's Git integration deploys the bot commit. The refresh workflow has concurrency protection and does not recursively trigger itself.
 
+The Monday workflow publishes the immutable weekly snapshot. A separate Thursday workflow fetches and validates the live feeds with `--dry-run`, calculates candidate changes, and runs the full test/render check without committing or changing the published ranking. Both workflows share a concurrency group so they cannot overlap.
+
 ## Independence
 
 OmaPicks is not affiliated with Omarchy, 37signals, or omarchyplugins.com. Marketplace data and plugin previews remain attributable to their respective sources and authors.
+
+## Licensing
+
+OmaPicks uses split licensing so publishing the source does not claim ownership of upstream material:
+
+- Source code in `build/`, `site/` (excluding brand artwork), `test/`, and `.github/` is licensed under [Apache License 2.0](LICENSE).
+- The original taxonomy and generated JSON datasets under `data/` are offered under [CC BY 4.0](LICENSE-DATA), only to the extent OmaPicks owns rights in them. Upstream rights remain unaffected.
+- Downloaded plugin previews under `data/assets/plugins/` belong to their respective authors or licensors and are not covered by the project licenses.
+- The OmaPicks name, logo, icon, and social artwork are reserved brand assets and are not covered by the project licenses.
+
+See [NOTICE](NOTICE) for the concise scope and attribution statement. The `"private": true` package setting only prevents accidental publication to npm; it does not make the repository closed source.

@@ -2,6 +2,7 @@
   "name": "omapicks",
   "version": "0.1.0",
   "private": true,
+  "license": "Apache-2.0",
   "description": "Independent weekly rankings for Omarchy plugins",
   "type": "module",
   "engines": {

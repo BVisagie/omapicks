@@ -80,12 +80,20 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   ]);
   assert.match(home, /OmaPicks/);
   assert.match(home, /data-pick-filter/);
+  assert.match(home, /Plugin metadata, engagement signals, and previews come from/);
+  assert.match(home, /Open-source code/);
+  assert.match(home, /og:image" content="https:\/\/omapicks\.com\/og\/home\.jpg"/);
   assert.match(methodology, /Opinionated picks, auditable math/);
+  assert.match(methodology, /id="data-sources"/);
+  assert.match(methodology, /https:\/\/plugins\.omarchy\.org\/catalog\.json/);
+  assert.match(methodology, /https:\/\/api\.omarchyplugins\.com\/v1\/stats/);
   assert.match(pick, /Best Weather plugins for Omarchy/);
+  assert.match(pick, />Original listing<\/a>/);
   assert.match(sitemap, /https:\/\/omapicks\.com\/picks\/weather\//);
   assert.match(feed, /<rss version="2.0">/);
   assert.match(headers, /immutable/);
   assert.ok(badge.includes(escapeHtml(weather.winner.name)));
+  await stat(new URL("../dist/og/home.jpg", import.meta.url));
   for (const output of [home, methodology, pick, sitemap, feed, badge]) {
     assert.ok(!output.includes("undefined"));
   }

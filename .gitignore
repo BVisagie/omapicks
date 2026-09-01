@@ -1,5 +1,6 @@
 tmp/
 dist/
 node_modules/
+/profile/
 *.tmp
 .DS_Store

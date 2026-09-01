@@ -84,7 +84,14 @@ function shell({ title, description, pathname, body, structuredData = null }) {
   <meta property="og:title" content="${escapeHtml(fullTitle)}">
   <meta property="og:description" content="${escapeHtml(description)}">
   <meta property="og:url" content="${canonical}">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="${ORIGIN}/og/home.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="OmaPicks weekly Omarchy plugin rankings">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="${ORIGIN}/og/home.jpg">
+  <meta name="twitter:image:alt" content="OmaPicks weekly Omarchy plugin rankings">
   ${structuredData ? `<script type="application/ld+json">${jsonLd(structuredData)}</script>` : ""}
   <script src="/assets/app.js" defer></script>
 </head>
@@ -94,8 +101,8 @@ function shell({ title, description, pathname, body, structuredData = null }) {
     ${nav()}
     <main id="main">${body}</main>
     <footer>
-      <p>Independent rankings built from public registry data. Not affiliated with Omarchy, 37signals, or omarchyplugins.com.</p>
-      <p><a href="/methodology/">How picks are calculated</a> · <a href="https://github.com/BVisagie/omapicks">Source</a></p>
+      <p>Plugin metadata, engagement signals, and previews come from <a href="https://plugins.omarchy.org/?sort=copies">Omarchy Plugins</a>. OmaPicks calculates the rankings independently and is not affiliated with Omarchy, 37signals, or omarchyplugins.com.</p>
+      <p><a href="/methodology/#data-sources">Data and methodology</a> · <a href="https://github.com/BVisagie/omapicks">Open-source code</a></p>
     </footer>
   </div>
 </body>
@@ -141,6 +148,7 @@ function candidateCard(candidate, place, type, week) {
         <button type="button" data-copy-command>Copy</button>
       </div>
       <div class="card-links">
+        <a href="${safeUrl(candidate.detailUrl)}">Original listing</a>
         <a href="${safeUrl(candidate.repository)}">Repository</a>
         ${place === "winner" ? `<a href="${badgePath}">Award badge</a>` : ""}
       </div>
@@ -255,8 +263,14 @@ function methodologyPage(rankings) {
     <p>Repository freshness decays with a 180-day half-life. Missing timestamps receive no freshness points. Verification is a small bonus, not a requirement.</p>
     <h2>Stability</h2>
     <p>An eligible incumbent remains in place until a challenger scores more than 10% higher. If an incumbent becomes unavailable, the highest-scoring eligible plugin takes its place immediately. Ties fall back to copies, hearts, stars, then plugin ID.</p>
-    <h2>Data provenance</h2>
-    <p>Source timestamps, response metadata, SHA-256 checksums, metric contributions, and methodology version are included in the published <a href="/rankings.json">ranking snapshot</a>. A failed or suspiciously small feed cannot replace the previous week.</p>
+    <h2 id="data-sources">Data sources</h2>
+    <p>OmaPicks calculates its rankings from two public feeds operated by Omarchy Plugins. The source services do not select, approve, or sponsor OmaPicks winners.</p>
+    <ul class="source-list">
+      <li><strong><a href="https://plugins.omarchy.org/catalog.json">Plugin catalog</a></strong> — names, descriptions, authors, repositories, licenses, GitHub stars, maintenance dates, verification status, install availability, and preview locations.</li>
+      <li><strong><a href="https://api.omarchyplugins.com/v1/stats">Engagement statistics</a></strong> — install-command copies, hearts, and views by plugin ID.</li>
+      <li><strong><a href="https://plugins.omarchy.org/?sort=copies">Browsable marketplace</a></strong> — the human-readable original listings behind the catalog data.</li>
+    </ul>
+    <p>The feeds are fetched once during the weekly refresh; visitors never call them. Source timestamps, response metadata, SHA-256 checksums, metric contributions, and methodology version are included in the published <a href="/rankings.json">ranking snapshot</a>. Preview images remain attributable to their plugin authors and source marketplace. A failed or suspiciously small feed cannot replace the previous week.</p>
   </section>`;
   return shell({
     title: "Methodology",
@@ -409,10 +423,12 @@ export async function render({ root = ROOT } = {}) {
   const history = await readHistory();
   await rm(DIST, { recursive: true, force: true });
   await mkdir(path.join(DIST, "assets"), { recursive: true });
+  await mkdir(path.join(DIST, "og"), { recursive: true });
   await cp(path.join(ROOT, "site", "styles.css"), path.join(DIST, "assets", "styles.css"));
   await cp(path.join(ROOT, "site", "app.js"), path.join(DIST, "assets", "app.js"));
   await cp(path.join(ROOT, "site", "icon.svg"), path.join(DIST, "assets", "icon.svg"));
   await cp(path.join(ROOT, "site", "placeholder.svg"), path.join(DIST, "assets", "placeholder.svg"));
+  await cp(path.join(ROOT, "site", "og-home.jpg"), path.join(DIST, "og", "home.jpg"));
   await copyOptionalDirectory(path.join(ROOT, "data", "assets", "plugins"), path.join(DIST, "assets", "plugins"));
 
   await write("index.html", homePage(rankings));
@@ -462,7 +478,7 @@ export async function render({ root = ROOT } = {}) {
   );
   await write(
     "_headers",
-    `/assets/*\n  Cache-Control: public, max-age=604800\n/badges/*\n  Cache-Control: public, max-age=31536000, immutable\n/*.xml\n  Content-Type: application/xml; charset=utf-8\n`
+    `/assets/*\n  Cache-Control: public, max-age=604800\n/og/*\n  Cache-Control: public, max-age=86400\n/badges/*\n  Cache-Control: public, max-age=31536000, immutable\n/*.xml\n  Content-Type: application/xml; charset=utf-8\n`
   );
   await write(
     "404.html",

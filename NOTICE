@@ -1,0 +1,40 @@
+OmaPicks
+Copyright 2026 OmaPicks contributors
+
+Software
+--------
+
+Original source code in build/, site/ (excluding the brand assets listed
+below), test/, and .github/ is licensed under the Apache License 2.0.
+See LICENSE.
+
+Data
+----
+
+The original taxonomy and generated JSON datasets under data/ use the
+separate terms in LICENSE-DATA. Those terms apply only to rights owned
+by OmaPicks contributors.
+
+Third-party material
+--------------------
+
+Plugin metadata, engagement statistics, and preview locations come from
+Omarchy Plugins:
+
+https://plugins.omarchy.org/catalog.json
+https://api.omarchyplugins.com/v1/stats
+https://plugins.omarchy.org/?sort=copies
+
+Downloaded plugin previews under data/assets/plugins/ remain the property
+of their respective authors or licensors and are not licensed by
+OmaPicks.
+
+Brand assets
+------------
+
+The OmaPicks name, logo, site/icon.svg, site/og-home.jpg, and corresponding
+generated copies are reserved brand assets. The Apache License 2.0 does
+not grant trademark rights.
+
+OmaPicks is independent and is not affiliated with Omarchy, 37signals,
+or omarchyplugins.com.
