@@ -539,7 +539,7 @@ button {
 }
 
 .lede,
-.card-body > p:not(.byline) {
+.card-body > p:not(.byline):not(.why-won) {
   color: var(--muted);
 }
 
@@ -836,7 +836,7 @@ button {
   line-clamp: 2;
 }
 
-.card-body > p:not(.byline) {
+.card-body > p:not(.byline):not(.why-won) {
   display: -webkit-box;
   margin: 0 0 1.15rem;
   overflow: hidden;
@@ -848,6 +848,20 @@ button {
 
 .byline {
   margin: 0.35rem 0 0.8rem;
+}
+
+.byline:has(+ .why-won) {
+  margin-bottom: 0.3rem;
+}
+
+.why-won {
+  margin: 0 0 0.9rem;
+  color: var(--ink);
+  font-size: 0.98rem;
+}
+
+.pick-card.champion .why-won {
+  color: var(--accent);
 }
 
 .signal-bar {
@@ -1426,7 +1440,7 @@ footer p {
   }
 
   .catalog-row .count::after {
-    content: " eligible";
+    content: " competed";
     font-weight: 500;
   }
 

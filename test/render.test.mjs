@@ -7,7 +7,8 @@ import {
   render,
   renderFixtureHome,
   renderFixtureType,
-  weekLabel
+  weekLabel,
+  winningReason
 } from "../build/render.mjs";
 
 function fixtureCandidate(values = {}) {
@@ -191,30 +192,63 @@ test("homepage client script filters the finder and catalog without touching fea
   assert.doesNotMatch(js, /data-pick-section/);
 });
 
-test("type rendering compares raw finalist evidence honestly", () => {
+test("winning reasons describe the score gap in plain language", () => {
+  const winner = fixtureCandidate({
+    verificationStatus: "unverified",
+    contributions: { copies: 0.3, hearts: 0.1, stars: 0.05, views: 0.02, freshness: 0.1, verified: 0 }
+  });
+  const runnerUp = fixtureCandidate({
+    id: "runner.plugin",
+    verificationStatus: "unverified",
+    contributions: { copies: 0.12, hearts: 0.12, stars: 0.08, views: 0.04, freshness: 0.1, verified: 0 }
+  });
+  assert.equal(winningReason(winner, runnerUp), "It won mainly because more people copied the install command.");
+  assert.equal(winningReason(winner, null), "It was the only eligible plugin in this category this week.");
+  const close = fixtureCandidate({
+    contributions: { copies: 0.2, hearts: 0.2, stars: 0.1, views: 0.05, freshness: 0.1, verified: 0.05 }
+  });
+  const closeRunner = fixtureCandidate({
+    id: "runner.plugin",
+    verificationStatus: "unverified",
+    contributions: { copies: 0.2, hearts: 0.2, stars: 0.1, views: 0.05, freshness: 0.1, verified: 0 }
+  });
+  assert.equal(
+    winningReason(close, closeRunner),
+    "The two were close on public activity; a verified listing tipped this week's score."
+  );
+});
+
+test("type rendering explains the ranking in plain language", () => {
   const winner = fixtureCandidate({
     id: "winner",
     name: "Winner",
     score: 0.75,
     metrics: { copies: 0, hearts: 8, stars: 0, views: 20 },
-    normalized: { copies: 0.9, hearts: 0.8, stars: 0.7, views: 0.6, freshness: 0, verified: 1 }
+    normalized: { copies: 0.9, hearts: 0.8, stars: 0.7, views: 0.6, freshness: 0, verified: 1 },
+    contributions: { copies: 0.3, hearts: 0.1, stars: 0.05, views: 0.02, freshness: 0.1, verified: 0.05 }
   });
   const runnerUp = fixtureCandidate({
     id: "runner",
     name: "Runner",
     score: 0.6,
     metrics: { copies: 12, hearts: 4, stars: 6, views: 0 },
-    normalized: { copies: 0.2, hearts: 0.3, stars: 0.4, views: 0.5, freshness: 0.5, verified: 0 }
+    normalized: { copies: 0.2, hearts: 0.3, stars: 0.4, views: 0.5, freshness: 0.5, verified: 0 },
+    contributions: { copies: 0.12, hearts: 0.12, stars: 0.1, views: 0.04, freshness: 0.1, verified: 0 }
   });
   const rankings = fixtureRankings(winner);
   rankings.types[0].eligibleCount = 2;
   rankings.types[0].runnerUp = runnerUp;
   const html = renderFixtureType(rankings.types[0], rankings);
 
-  assert.match(html, /25\.0% ahead/);
-  assert.match(html, /Bars compare these finalists only/);
+  assert.match(html, /2 plugins competed this week/);
+  assert.match(html, /This page shows the champion and runner-up/);
+  assert.match(html, /It won mainly because more people copied the install command/);
+  assert.match(html, /25\.0% apart/);
+  assert.match(html, /These bars are raw public counts/);
+  assert.match(html, /Install-command copies count most/);
   assert.match(html, /style="width:0%"><\/span><\/span>\s*<span>—<\/span>/);
-  assert.match(html, /Score 0\.750 of 1\.00 within Weather/);
+  assert.doesNotMatch(html, /Score 0\.750 of 1\.00 within Weather/);
+  assert.match(html, /How we pick/);
   assert.match(html, /For plugin authors/);
   assert.match(html, /Copy this markdown into your README/);
   assert.match(html, /src="\/badges\/2026-W36\/weather\/winner\.svg"/);
@@ -222,6 +256,31 @@ test("type rendering compares raw finalist evidence honestly", () => {
   assert.doesNotMatch(html, /href="#winner-badge"/);
   assert.doesNotMatch(html, /href="\/badges\/[^"]+"/);
   assert.match(html, /Other categories/);
+  assert.match(
+    html,
+    /<a href="https:\/\/plugins\.omarchy\.org\/plugin\.html\?id=safe\.plugin" target="_blank" rel="noopener noreferrer">Winner<\/a>/
+  );
+  assert.match(
+    html,
+    /<a href="https:\/\/plugins\.omarchy\.org\/plugin\.html\?id=safe\.plugin" target="_blank" rel="noopener noreferrer">Original listing<\/a>/
+  );
+  assert.match(
+    html,
+    /<a href="https:\/\/github\.com\/example\/safe" target="_blank" rel="noopener noreferrer">Repository<\/a>/
+  );
+});
+
+test("rejected plugin URLs stay as inert in-page hashes", () => {
+  const rankings = fixtureRankings(
+    fixtureCandidate({
+      repository: "javascript:alert(1)",
+      detailUrl: "http://insecure.example/plugin"
+    })
+  );
+  const html = renderFixtureType(rankings.types[0], rankings);
+  assert.match(html, /<a href="#">Original listing<\/a>/);
+  assert.match(html, /<a href="#">Repository<\/a>/);
+  assert.doesNotMatch(html, /href="#" target="_blank"/);
 });
 
 test("production render emits the offline site, SEO files, RSS, and immutable badges", async () => {
@@ -270,7 +329,8 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.match(home, /og:image" content="https:\/\/omapicks\.com\/og\/home\.jpg"/);
   assert.match(home, /Plugin metadata, engagement signals, and previews come from/);
   assert.match(home, /Open-source code/);
-  assert.match(methodology, /How the rankings work/);
+  assert.match(methodology, /In plain terms/);
+  assert.match(methodology, /Copying the install command counts most/);
   assert.match(methodology, /weight-track/);
   assert.match(methodology, /id="data-sources"/);
   assert.match(methodology, /https:\/\/plugins\.omarchy\.org\/catalog\.json/);
@@ -278,10 +338,13 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.match(changelog, /first-champions/);
   assert.match(changelog, /Subscribe via RSS/);
   assert.match(pick, /Weather/);
-  assert.match(pick, /score-comparison/);
-  assert.match(pick, /Bars compare these finalists only/);
+  assert.match(pick, /How they compare/);
+  assert.match(pick, /These bars are raw public counts/);
+  assert.match(pick, /It won mainly because/);
+  assert.match(pick, /How we pick/);
   assert.match(pick, /01 Champion/);
-  assert.match(pick, />Original listing<\/a>/);
+  assert.match(pick, /target="_blank" rel="noopener noreferrer">Original listing<\/a>/);
+  assert.match(pick, /target="_blank" rel="noopener noreferrer">Repository<\/a>/);
   assert.match(pick, /For plugin authors/);
   assert.match(pick, /Copy this markdown into your README/);
   assert.doesNotMatch(pick, /Winner badge/);

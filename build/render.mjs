@@ -36,6 +36,12 @@ function safeUrl(value, fallback = "#") {
   }
 }
 
+function outboundLink(href, label) {
+  const url = safeUrl(href);
+  const extra = url === "#" ? "" : ` target="_blank" rel="noopener noreferrer"`;
+  return `<a href="${url}"${extra}>${label}</a>`;
+}
+
 function safeLocalImage(value) {
   return /^assets\/plugins\/[a-zA-Z0-9.-]+\.(?:webp|png|jpg)$/.test(value ?? "")
     ? `/${value}`
@@ -82,6 +88,63 @@ function scoreLead(winner, runnerUp) {
     return null;
   }
   return Math.max(0, ((winner.score - runnerUp.score) / runnerUp.score) * 100);
+}
+
+const WINNING_SIGNALS = Object.freeze({
+  copies: "more people copied the install command",
+  hearts: "it received more marketplace hearts",
+  stars: "it had more GitHub stars",
+  freshness: "its repository was updated more recently"
+});
+
+function signalDelta(winner, runnerUp, metric) {
+  if (winner?.contributions && runnerUp?.contributions) {
+    return Number(winner.contributions[metric] ?? 0) - Number(runnerUp.contributions[metric] ?? 0);
+  }
+  if (metric === "verified") {
+    const flag = (candidate) => (candidate?.verificationStatus === "verified" ? 1 : 0);
+    return flag(winner) - flag(runnerUp);
+  }
+  if (metric === "freshness") {
+    return Number(winner?.normalized?.freshness ?? 0) - Number(runnerUp?.normalized?.freshness ?? 0);
+  }
+  return Number(winner?.metrics?.[metric] ?? 0) - Number(runnerUp?.metrics?.[metric] ?? 0);
+}
+
+function meaningfulLead(delta, metric, usedContributions) {
+  if (usedContributions) return delta > 0.003;
+  if (metric === "verified") return delta > 0;
+  if (metric === "freshness") return delta > 0.05;
+  return delta >= 1;
+}
+
+export function winningReason(winner, runnerUp) {
+  if (!winner) return "No champion this week.";
+  if (!runnerUp) return "It was the only eligible plugin in this category this week.";
+  const usedContributions = Boolean(winner.contributions && runnerUp.contributions);
+  const leads = Object.keys(WINNING_SIGNALS)
+    .map((metric) => ({ metric, delta: signalDelta(winner, runnerUp, metric) }))
+    .filter((entry) => meaningfulLead(entry.delta, entry.metric, usedContributions))
+    .sort((a, b) => b.delta - a.delta);
+  const verifiedLead = meaningfulLead(signalDelta(winner, runnerUp, "verified"), "verified", usedContributions);
+  if (!leads.length) {
+    return verifiedLead
+      ? "The two were close on public activity; a verified listing tipped this week's score."
+      : "It led this week's combined public-registry score in a close race.";
+  }
+  const copiesLead = leads.find((entry) => entry.metric === "copies");
+  const primary = copiesLead ?? leads[0];
+  const secondary = leads.find((entry) => entry.metric !== primary.metric);
+  if (!secondary) {
+    return verifiedLead
+      ? `It won mainly because ${WINNING_SIGNALS[primary.metric]}, plus a small verified-listing bonus.`
+      : `It won mainly because ${WINNING_SIGNALS[primary.metric]}.`;
+  }
+  return `It won mainly because ${WINNING_SIGNALS[primary.metric]}, and ${WINNING_SIGNALS[secondary.metric]}.`;
+}
+
+function competedLabel(count) {
+  return `${count} ${Number(count) === 1 ? "plugin" : "plugins"} competed`;
 }
 
 function searchBlob(type) {
@@ -243,13 +306,17 @@ function comparisonBar(candidate, metric, max) {
 function scoreComparison(winner, runnerUp) {
   if (!winner) return "";
   const candidates = [winner, runnerUp].filter(Boolean);
+  const lead = scoreLead(winner, runnerUp);
+  const scores = runnerUp
+    ? `Combined scores in this category: ${escapeHtml(winner.name)} ${winner.score.toFixed(3)}, ${escapeHtml(runnerUp.name)} ${runnerUp.score.toFixed(3)}${lead != null ? ` (${lead.toFixed(1)}% apart)` : ""}.`
+    : `Combined score in this category: ${winner.score.toFixed(3)} of 1.00.`;
   return `<section class="score-comparison" aria-labelledby="comparison-heading">
     <div class="comparison-heading">
       <div>
-        <p class="kicker">Raw evidence</p>
-        <h2 id="comparison-heading">Head-to-head</h2>
+        <p class="kicker">Marketplace counts</p>
+        <h2 id="comparison-heading">How they compare</h2>
       </div>
-      <p>Bars compare these finalists only. Freshness is the repository's recency score. <a href="/methodology/">How the ranking is calculated</a></p>
+      <p>These bars are raw public counts for these two plugins, not the ranking itself. Install-command copies count most. Freshness is how recently the repository was updated. ${scores} <a href="/methodology/">How the ranking is calculated</a></p>
     </div>
     <div class="comparison-table">
       <div class="comparison-head" aria-hidden="true">
@@ -274,27 +341,28 @@ function previewFrame(candidate) {
   return `<div class="preview-frame">${mediaImage(candidate)}</div>`;
 }
 
-function candidateCard(candidate, place, type, week, lead = null) {
+function candidateCard(candidate, place, type, week, { runnerUp = null } = {}) {
   if (!candidate) return `<article class="pick-card empty"><p>No eligible plugin this week.</p></article>`;
   const badgePath = `/badges/${encodeURIComponent(week)}/${encodeURIComponent(type.id)}/${encodeURIComponent(candidate.id)}.svg`;
   const rank = place === "winner" ? "01 Champion" : "02 Runner-up";
   const extras = [statusPill(candidate)];
-  if (place === "winner" && lead != null) extras.push(`<span class="delta">${lead.toFixed(1)}% ahead</span>`);
   const badgeMarkdown = `[![OmaPicks ${type.name} champion](${ORIGIN}${badgePath})](${ORIGIN}/picks/${type.id}/)`;
+  const reason = place === "winner" ? winningReason(candidate, runnerUp) : "";
   return `<article class="pick-card ${place === "winner" ? "champion" : ""}">
     <div class="card-label"><span>${rank}</span><span class="card-flags">${extras.join("")}</span></div>
     ${previewFrame(candidate)}
     <div class="card-body">
-      <h3><a href="${safeUrl(candidate.detailUrl)}">${escapeHtml(candidate.name)}</a></h3>
-      <p class="byline">${escapeHtml(candidate.author || "Unknown author")} · ${escapeHtml(candidate.license || "license unknown")} · Score ${candidate.score.toFixed(3)} of 1.00 within ${escapeHtml(type.name)}</p>
+      <h3>${outboundLink(candidate.detailUrl, escapeHtml(candidate.name))}</h3>
+      <p class="byline">${escapeHtml(candidate.author || "Unknown author")} · ${escapeHtml(candidate.license || "license unknown")}</p>
+      ${reason ? `<p class="why-won">${escapeHtml(reason)}</p>` : ""}
       <p>${escapeHtml(candidate.description)}</p>
       <div class="command-row">
         <code>${escapeHtml(candidate.installCommand)}</code>
         <button type="button" data-copy-command data-copy-label="install command">Copy</button>
       </div>
       <div class="card-links">
-        <a href="${safeUrl(candidate.detailUrl)}">Original listing</a>
-        <a href="${safeUrl(candidate.repository)}">Repository</a>
+        ${outboundLink(candidate.detailUrl, "Original listing")}
+        ${outboundLink(candidate.repository, "Repository")}
       </div>
       ${place === "winner" ? `<div class="badge-embed">
         <p class="kicker">For plugin authors</p>
@@ -338,8 +406,8 @@ function showdownSection(type) {
       ${showdownEntry(type.runnerUp, "runner-up", href)}
     </div>
     <p class="showdown-gap">
-      ${lead != null ? `<span class="delta">${lead.toFixed(1)}% ahead</span>` : ""}
-      <span>${type.eligibleCount} eligible</span>
+      ${lead != null ? `<span class="delta">${lead.toFixed(1)}% ahead on score</span>` : ""}
+      <span>${competedLabel(type.eligibleCount)}</span>
       <a class="text-link" href="${href}">Compare champion and runner-up</a>
     </p>
   </article>`;
@@ -369,7 +437,7 @@ function catalogRow(type) {
   const runnerUp = type.runnerUp
     ? `${type.runnerUp.name} · ${type.runnerUp.author || "Unknown author"}`
     : "—";
-  const aria = `${type.name}: champion ${winner}; runner-up ${runnerUp}; ${type.eligibleCount} eligible`;
+  const aria = `${type.name}: champion ${winner}; runner-up ${runnerUp}; ${competedLabel(type.eligibleCount)}`;
   return `<a class="catalog-row" href="/picks/${encodeURIComponent(type.id)}/" aria-label="${escapeHtml(aria)}" data-catalog-row data-search="${escapeHtml(searchBlob(type))}">
     <span class="type">${escapeHtml(type.name)}</span>
     <span class="champ"><span class="field-label">Champion</span> ${escapeHtml(winner)}</span>
@@ -466,7 +534,7 @@ function homePage(rankings) {
       <h2 id="catalog-heading">${escapeHtml(browseLabel(categoryCount, { all: true }))}</h2>
     </div>
     <div class="catalog-table">
-      <div class="catalog-head" aria-hidden="true" data-catalog-head><span>Category</span><span>Champion · Author</span><span>Runner-up · Author</span><span>Eligible</span></div>
+      <div class="catalog-head" aria-hidden="true" data-catalog-head><span>Category</span><span>Champion · Author</span><span>Runner-up · Author</span><span>Competed</span></div>
       ${catalogTypes.map((type) => catalogRow(type)).join("")}
     </div>
     <p class="filter-empty" data-filter-empty hidden>No categories match.</p>
@@ -495,23 +563,22 @@ function typePage(type, rankings) {
     name: candidate.name,
     url: candidate.detailUrl
   }));
-  const lead = scoreLead(type.winner, type.runnerUp);
   const body = `<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">All picks</a> / ${escapeHtml(type.name)}</nav>
     <section class="type-intro">
       <div>
         <p class="eyebrow">${weekLabel(rankings.week, rankings.generatedAt)}</p>
         <h1>${escapeHtml(type.name)}</h1>
       </div>
-      <p>${escapeHtml(type.description)}. ${type.eligibleCount} plugins were eligible. A challenger needs more than a 10% score lead to take the champion slot.</p>
+      <p>${escapeHtml(type.description)}. ${competedLabel(type.eligibleCount)} this week. This page shows the champion and runner-up.</p>
     </section>
     <div class="podium">
-      ${candidateCard(type.winner, "winner", type, rankings.week, lead)}
+      ${candidateCard(type.winner, "winner", type, rankings.week, { runnerUp: type.runnerUp })}
       ${candidateCard(type.runnerUp, "runner-up", type, rankings.week)}
     </div>
     ${scoreComparison(type.winner, type.runnerUp)}
     <aside class="method-note">
-      <h2>Why these two</h2>
-      <p>The score mixes command copies, hearts, GitHub stars, views, repository freshness, and a small verified-listing bonus. Plugins with little evidence are pulled toward the middle of the pack so a brand-new listing cannot win on three copies. <a href="/methodology/">Full scoring notes</a></p>
+      <h2>How we pick</h2>
+      <p>This is not a vote. Install-command copies count most, then hearts and GitHub stars. Listing views barely count. Recently updated repositories rank higher than abandoned ones, and a verified listing is only a small bonus. Plugins with little public evidence are pulled toward the middle, so a brand-new listing cannot win on three copies. A champion stays until a challenger is more than 10% ahead on the combined score. <a href="/methodology/">Full scoring notes</a></p>
     </aside>
     ${categoryNavigation(type, rankings)}`;
   return shell({
@@ -546,6 +613,7 @@ function methodologyPage(rankings) {
   const body = `<section class="prose">
     <p class="eyebrow">Methodology v${escapeHtml(rankings.methodologyVersion)}</p>
     <h1>How the rankings work</h1>
+    <p>In plain terms: we rank plugins by public evidence of use and upkeep, not votes. Copying the install command counts most, then hearts and GitHub stars. Listing views barely count. Abandoned repositories sink. A verified listing is a small bonus, not a win condition. A champion keeps the title until someone beats their score by more than 10%.</p>
     <p>OmaPicks refreshes once per ISO week. Your browser never calls the source APIs. Each page is built from a committed snapshot that already passed schema and size checks.</p>
     <p class="pullout">A plugin can win on evidence, not on being first to the registry.</p>
     <h2>Who can compete</h2>
