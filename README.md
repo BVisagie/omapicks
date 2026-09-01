@@ -19,7 +19,7 @@ npm run check          # tests followed by a production render
 
 ## Ranking method
 
-Plugins must be installable and point to an HTTPS repository. A curated taxonomy can place one plugin in more than one app type when it genuinely belongs in both. A ranking is not an endorsement or a safety review of the plugin.
+Plugins must be installable and point to an HTTPS repository. Only plugins matching at least one focused app type compete; unmatched listings intentionally remain unranked instead of being forced into a catch-all category. The curated taxonomy can place one plugin in more than one app type when it genuinely belongs in both. A ranking is not an endorsement or a safety review of the plugin.
 
 Copies, hearts, stars, and views are transformed with `log1p`. Each signal blends a 70% within-type percentile with a 30% scale capped at the cohort's 95th percentile, then is damped toward the cohort midpoint when evidence is sparse. Repository freshness uses a 180-day half-life; registry verification contributes a small bonus. An eligible incumbent remains champion or runner-up until a challenger scores more than 10% higher.
 

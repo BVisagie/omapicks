@@ -111,6 +111,74 @@ test("refresh appends weekly history and leaves prior weeks intact", async (cont
   await assert.rejects(readFile(path.join(root, "data", "assets", "plugins", "stale.webp")), /ENOENT/);
 });
 
+test("refresh retains a matching cached preview when its download fails", async (context) => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "omapicks-image-fallback-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  const assetDirectory = path.join(root, "data", "assets", "plugins");
+  await mkdir(assetDirectory, { recursive: true });
+  await writeFile(
+    path.join(root, "data", "app-types.json"),
+    JSON.stringify({
+      schemaVersion: 1,
+      types: [{ id: "weather", name: "Weather", description: "Forecasts", include: ["\\bweather\\b"] }],
+      overrides: { include: {}, exclude: {} }
+    })
+  );
+
+  const previewSource = "https://plugins.omarchy.org/assets/weather.webp";
+  const localImage = "assets/plugins/weather-cached.webp";
+  await writeFile(path.join(root, "data", localImage), "cached preview");
+  await writeFile(
+    path.join(root, "data", "rankings.json"),
+    JSON.stringify({
+      schemaVersion: 1,
+      week: "2026-W35",
+      types: [
+        {
+          id: "weather",
+          winner: { id: "weather", previewSource, localImage },
+          runnerUp: null
+        }
+      ]
+    })
+  );
+
+  const catalog = {
+    generatedAt: "2026-09-08T00:00:00Z",
+    plugins: [
+      {
+        id: "weather",
+        name: "Weather",
+        description: "Weather forecast",
+        installAvailable: true,
+        installCommand: "omarchy plugin add https://github.com/example/weather.git",
+        repo: "https://github.com/example/weather",
+        repositoryUpdatedAt: "2026-09-07T00:00:00Z",
+        verificationStatus: "verified",
+        previewThumbnail: "/assets/weather.webp",
+        stars: 10
+      }
+    ]
+  };
+  const stats = { schemaVersion: 1, plugins: { weather: { views: 20, copies: 5, hearts: 2 } } };
+  const fetchImpl = async (url) => {
+    if (String(url).endsWith(".webp")) return new Response(null, { status: 503 });
+    return String(url).includes("/stats") ? jsonResponse(stats) : jsonResponse(catalog);
+  };
+
+  const result = await refresh({
+    root,
+    now: new Date("2026-09-08T09:00:00Z"),
+    minimumCatalogSize: 1,
+    fetchImpl
+  });
+  assert.equal(result.rankings.types[0].winner.localImage, localImage);
+  assert.match(result.imageWarnings[0], /retained cached preview/);
+  assert.equal(await readFile(path.join(root, "data", localImage), "utf8"), "cached preview");
+  const persisted = JSON.parse(await readFile(path.join(root, "data", "rankings.json"), "utf8"));
+  assert.equal(persisted.types[0].winner.localImage, localImage);
+});
+
 test("same-week refresh stays frozen unless the taxonomy checksum changes", async (context) => {
   const root = await mkdtemp(path.join(os.tmpdir(), "omapicks-taxonomy-"));
   context.after(() => rm(root, { recursive: true, force: true }));

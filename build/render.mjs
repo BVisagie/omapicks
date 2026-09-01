@@ -628,7 +628,7 @@ function methodologyPage(rankings) {
     <p>OmaPicks refreshes once per ISO week. Your browser never calls the source APIs. Each page is built from that week's published snapshot.</p>
     <p class="pullout">A plugin can win on evidence, not on being first to the registry.</p>
     <h2>Who can compete</h2>
-    <p>A plugin needs an install command and an HTTPS repository. Retired and delisted listings are out. A plugin can appear in more than one app type when it genuinely belongs in both.</p>
+    <p>A plugin needs an install command and an HTTPS repository. Retired and delisted listings are out. Only plugins matching at least one focused app type compete; unmatched listings remain unranked instead of being forced into a catch-all category. A plugin can appear in more than one app type when it genuinely belongs in both.</p>
     <h2>The score</h2>
     <p>Raw counts are logged with <code>log1p</code>. Each signal is 70% a within-type percentile and 30% a scale capped at the 95th percentile. Sparse evidence pulls that result toward 50%.</p>
     <ul class="weight-list">${weights}</ul>

@@ -1,24 +1,14 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-01T14:36:46.203Z",
-  "catalogCount": 2074,
-  "eligibleClassifiedCount": 722,
-  "classificationAssignments": 873,
-  "uniqueUnclassifiedCount": 1032,
+  "generatedAt": "2026-09-01T19:32:30.215Z",
+  "catalogCount": 2085,
+  "eligibleClassifiedCount": 783,
+  "classificationAssignments": 942,
+  "uniqueUnclassifiedCount": 979,
   "excluded": {
-    "not-installable": 320
+    "not-installable": 323
   },
   "unclassified": [
-    {
-      "id": "dizziee.cline-model-usage",
-      "name": "Cline Usage",
-      "category": "Widgets"
-    },
-    {
-      "id": "dizziee.opencode-model-usage",
-      "name": "OpenCode Usage",
-      "category": "Widgets"
-    },
     {
       "id": "ericvrp.bar-autohide",
       "name": "Bar Autohide",
@@ -35,19 +25,9 @@
       "category": "Widgets"
     },
     {
-      "id": "markbusai.opencode-usage",
-      "name": "OpenCode Usage",
-      "category": "Developer Tools"
-    },
-    {
       "id": "brianstarke.omp-usage",
       "name": "OMP Usage",
       "category": "Widgets"
-    },
-    {
-      "id": "taxin.cursor-style",
-      "name": "Cursor Style",
-      "category": "Appearance"
     },
     {
       "id": "shell.settings",
@@ -60,13 +40,8 @@
       "category": "Appearance"
     },
     {
-      "id": "felixzsh.codexbar",
-      "name": "CodexBar",
-      "category": "Widgets"
-    },
-    {
-      "id": "ssobhani.openrouter-usage",
-      "name": "OpenRouter Usage",
+      "id": "nille.elgato-keylight",
+      "name": "Elgato Key Light",
       "category": "Widgets"
     },
     {
@@ -88,11 +63,6 @@
       "id": "ky.seerr-requests",
       "name": "Seerr Requests",
       "category": "Widgets"
-    },
-    {
-      "id": "hass",
-      "name": "Home Assistant",
-      "category": "Productivity"
     },
     {
       "id": "b.okomart",
@@ -165,11 +135,6 @@
       "category": "Widgets"
     },
     {
-      "id": "omasot",
-      "name": "Screen Time",
-      "category": "System"
-    },
-    {
       "id": "esegnorelli.omacapy",
       "name": "OmaCapy",
       "category": "Widgets"
@@ -190,11 +155,6 @@
       "category": "Appearance"
     },
     {
-      "id": "acrogenesis.theme-scheduler",
-      "name": "Theme Scheduler",
-      "category": "Appearance"
-    },
-    {
       "id": "dev.deoxizn.keybind-manager",
       "name": "Keybind Manager",
       "category": "System"
@@ -208,11 +168,6 @@
       "id": "com.aktivesolutions.bw-vault",
       "name": "BW Vault",
       "category": "Productivity"
-    },
-    {
-      "id": "io.github.bmontythe3rd.display-manager",
-      "name": "Omarchy Display Manager",
-      "category": "Hardware"
     },
     {
       "id": "crmne.active-window",
@@ -265,11 +220,6 @@
       "category": "Developer Tools"
     },
     {
-      "id": "white.nights",
-      "name": "No Sleep",
-      "category": "System"
-    },
-    {
       "id": "io.github.tuxmontero.ipscan",
       "name": "IP Scan",
       "category": "Other"
@@ -280,29 +230,14 @@
       "category": "Widgets"
     },
     {
-      "id": "akitaonrails.ai-usagebar",
-      "name": "AI Usage",
-      "category": "Widgets"
-    },
-    {
       "id": "io.github.woogy7.tides",
       "name": "Tides",
       "category": "Widgets"
     },
     {
-      "id": "agx.screen-time",
-      "name": "Screen Time",
-      "category": "Productivity"
-    },
-    {
       "id": "sh.lerd.glance",
       "name": "lerd Glance",
       "category": "Developer Tools"
-    },
-    {
-      "id": "io.github.krongggggg.caffeine",
-      "name": "Caffeine",
-      "category": "System"
     },
     {
       "id": "io.github.sshbrian.comfyui-status",
@@ -333,6 +268,11 @@
       "id": "kayleg.parcel",
       "name": "Parcel",
       "category": "Productivity"
+    },
+    {
+      "id": "avila.wled",
+      "name": "WLED",
+      "category": "Appearance"
     },
     {
       "id": "io.github.cempack.songrec",
@@ -378,6 +318,11 @@
       "id": "community.cn-input",
       "name": "Chinese Input",
       "category": "Productivity"
+    },
+    {
+      "id": "didlix.case-rgb",
+      "name": "RGB Lighting",
+      "category": "Hardware"
     },
     {
       "id": "io.github.cempack.proton-pass",
@@ -468,11 +413,6 @@
       "id": "stappmus.udder",
       "name": "Udder",
       "category": "Developer Tools"
-    },
-    {
-      "id": "mustafaokur.agent-leaderboard",
-      "name": "Agent Leaderboard",
-      "category": "Widgets"
     },
     {
       "id": "3lymn.plugin-drawer",
@@ -645,16 +585,6 @@
       "category": "Productivity"
     },
     {
-      "id": "io.github.allstars101-sudo.dyson-air",
-      "name": "Dyson Air",
-      "category": "Hardware"
-    },
-    {
-      "id": "grantabell.lock-fingerprint-on-enter",
-      "name": "Omarchy Lockscreen Fingerprint on Enter",
-      "category": "System"
-    },
-    {
       "id": "io.github.wesleycole.vercel",
       "name": "Vercel",
       "category": "Developer Tools"
@@ -730,11 +660,6 @@
       "category": "Widgets"
     },
     {
-      "id": "hermes.openrouter",
-      "name": "Hermes OpenRouter",
-      "category": "Developer Tools"
-    },
-    {
       "id": "io.github.nick-friedrich.hyprland-dock",
       "name": "Hyprland Dock",
       "category": "Appearance"
@@ -755,11 +680,6 @@
       "category": "Productivity"
     },
     {
-      "id": "io.github.sirjul1337.lock-explorer",
-      "name": "Lock Screen Explorer",
-      "category": "Appearance"
-    },
-    {
       "id": "kevinchiha.theme-colors",
       "name": "Theme Colors",
       "category": "Appearance"
@@ -768,11 +688,6 @@
       "id": "roymelgarv.omarchy-keyboard-cleaner",
       "name": "Keyboard Cleaner",
       "category": "Hardware"
-    },
-    {
-      "id": "io.github.smillunchick.aether-wallpapers",
-      "name": "Aether Wallpapers",
-      "category": "Appearance"
     },
     {
       "id": "io.github.simasrazinskas.trading212",
@@ -855,11 +770,6 @@
       "category": "Widgets"
     },
     {
-      "id": "io.github.fishmacc.omahome",
-      "name": "OmaHome",
-      "category": "Widgets"
-    },
-    {
       "id": "io.github.aayushstha03.meeting-notes",
       "name": "Meeting Notes",
       "category": "Productivity"
@@ -868,11 +778,6 @@
       "id": "getsubwave.radio",
       "name": "SUB/WAVE Radio",
       "category": "Widgets"
-    },
-    {
-      "id": "io.github.aryan-techie.todoist",
-      "name": "Todoist",
-      "category": "Productivity"
     },
     {
       "id": "io.github.tyrichards.orthodox-daily",
@@ -938,11 +843,6 @@
       "id": "ujjawal.competitive",
       "name": "Competitive Programming",
       "category": "Productivity"
-    },
-    {
-      "id": "joegeary.on-air",
-      "name": "On Air",
-      "category": "System"
     },
     {
       "id": "bscott.scratch-terminal",
@@ -1185,11 +1085,6 @@
       "category": "Widgets"
     },
     {
-      "id": "mrpbennett.dusk",
-      "name": "Dusk",
-      "category": "Widgets"
-    },
-    {
       "id": "gobijan.ui-sounds",
       "name": "UI Sounds",
       "category": "Desktop"
@@ -1245,19 +1140,9 @@
       "category": "Productivity"
     },
     {
-      "id": "io.github.spoilheap.openrouter",
-      "name": "OpenRouter",
-      "category": "Widgets"
-    },
-    {
       "id": "alvarosaavedra.market-stats",
       "name": "Market Stats",
       "category": "Developer Tools"
-    },
-    {
-      "id": "vt.screentime",
-      "name": "Screen Time",
-      "category": "Productivity"
     },
     {
       "id": "hector.currency",
@@ -1295,11 +1180,6 @@
       "category": "Widgets"
     },
     {
-      "id": "io.github.tahler.lid-awake",
-      "name": "Stay Awake With Lid Closed",
-      "category": "System"
-    },
-    {
       "id": "ianswope.snapshots",
       "name": "Snapshots",
       "category": "System"
@@ -1323,11 +1203,6 @@
       "id": "copytracker",
       "name": "Copy Tracker",
       "category": "Productivity"
-    },
-    {
-      "id": "community.codex-usage",
-      "name": "Codex Usage",
-      "category": "Widgets"
     },
     {
       "id": "io.github.mohuddle.liturgy-of-the-hours",
@@ -1420,16 +1295,6 @@
       "category": "System"
     },
     {
-      "id": "io.github.davidojedalopez.todoist",
-      "name": "Todoist Quick Add",
-      "category": "Productivity"
-    },
-    {
-      "id": "codeburn",
-      "name": "CodeBurn",
-      "category": "Widgets"
-    },
-    {
       "id": "angus.fault",
       "name": "Fault",
       "category": "System"
@@ -1438,11 +1303,6 @@
       "id": "arh.file-picker",
       "name": "File Picker",
       "category": "Productivity"
-    },
-    {
-      "id": "mimiqdev.vibe-usage",
-      "name": "Vibe Usage",
-      "category": "Widgets"
     },
     {
       "id": "io.github.bvisagie.kernel-spirit",
@@ -1540,11 +1400,6 @@
       "category": "Developer Tools"
     },
     {
-      "id": "io.github.tyrichards.display-scanlines",
-      "name": "Display Scanlines",
-      "category": "Appearance"
-    },
-    {
       "id": "io.github.jeremylongshore.pit-wall",
       "name": "Pit Wall",
       "category": "Widgets"
@@ -1593,11 +1448,6 @@
       "id": "anel.tictactoe",
       "name": "Tic-Tac-Toe",
       "category": "Widgets"
-    },
-    {
-      "id": "io.github.bodhiblues.idle-toggle",
-      "name": "Screensaver & Lock",
-      "category": "System"
     },
     {
       "id": "io.github.brm-src.ai-quick-clean",
@@ -1685,11 +1535,6 @@
       "category": "Widgets"
     },
     {
-      "id": "omarchy-philips-hue",
-      "name": "Omarchy Hue Light Control and Theme Sync",
-      "category": "Desktop"
-    },
-    {
       "id": "ucmz851.omascan",
       "name": "OmaScan",
       "category": "System"
@@ -1738,11 +1583,6 @@
       "id": "io.github.chris.snitch",
       "name": "Snitch",
       "category": "System"
-    },
-    {
-      "id": "io.github.haydenmckay.omasmash",
-      "name": "Omasmash",
-      "category": "Appearance"
     },
     {
       "id": "omapets",
@@ -2060,11 +1900,6 @@
       "category": "Other"
     },
     {
-      "id": "dev.shantzware.monitor-profiles",
-      "name": "Monitor Profiles",
-      "category": "System"
-    },
-    {
       "id": "community.fnos-sync",
       "name": "FN sync",
       "category": "Productivity"
@@ -2175,6 +2010,11 @@
       "category": "Developer Tools"
     },
     {
+      "id": "omakeyboard.brightness",
+      "name": "OmaKeyboard-Brightness",
+      "category": "Hardware"
+    },
+    {
       "id": "ogarza.binaural-noise",
       "name": "Binaural noise",
       "category": "Other"
@@ -2215,11 +2055,6 @@
       "category": "System"
     },
     {
-      "id": "io.github.amitcpatel.homearchy",
-      "name": "Homearchy",
-      "category": "Widgets"
-    },
-    {
       "id": "bms.videocorner",
       "name": "VideoCorner",
       "category": "Widgets"
@@ -2245,11 +2080,6 @@
       "category": "Widgets"
     },
     {
-      "id": "andrewbacon.daynight",
-      "name": "DayNight",
-      "category": "Appearance"
-    },
-    {
       "id": "io.github.sanjyay.wiggle",
       "name": "Wiggle",
       "category": "Desktop"
@@ -2258,11 +2088,6 @@
       "id": "stefanmara.bookmarks",
       "name": "Bookmarks",
       "category": "Productivity"
-    },
-    {
-      "id": "pretty.omagen",
-      "name": "Omagen",
-      "category": "Appearance"
     },
     {
       "id": "kairos.flight-tracker",
@@ -2425,11 +2250,6 @@
       "category": "Widgets"
     },
     {
-      "id": "priard.before-sunset",
-      "name": "Before Sunset",
-      "category": "Appearance"
-    },
-    {
       "id": "io.github.weedwhitesandwine.japanquake",
       "name": "Japan Quake Monitor",
       "category": "Widgets"
@@ -2570,6 +2390,11 @@
       "category": "Widgets"
     },
     {
+      "id": "andrewf.keyboard-idle",
+      "name": "Keyboard Backlight Idle Auto-Off",
+      "category": "Hardware"
+    },
+    {
       "id": "wyatt.oloopsy",
       "name": "Oloopsy",
       "category": "Widgets"
@@ -2605,6 +2430,11 @@
       "category": "Desktop"
     },
     {
+      "id": "io.github.adibains.manual-backlight-lock",
+      "name": "Manual Backlight Lock",
+      "category": "System"
+    },
+    {
       "id": "brianstarke.ometronorth",
       "name": "OmetroNorth",
       "category": "Widgets"
@@ -2615,19 +2445,9 @@
       "category": "Desktop"
     },
     {
-      "id": "io.github.mtolhuys.theme-manager",
-      "name": "Omarchy Theme Manager",
-      "category": "Appearance"
-    },
-    {
       "id": "io.github.homie10.catch",
       "name": "Catch",
       "category": "Widgets"
-    },
-    {
-      "id": "gotar.omarchy-themes",
-      "name": "Themes Gallery",
-      "category": "Appearance"
     },
     {
       "id": "seabass.clamshell",
@@ -2715,11 +2535,6 @@
       "category": "Hardware"
     },
     {
-      "id": "yass-gr.screen-time",
-      "name": "Screen Time",
-      "category": "Productivity"
-    },
-    {
       "id": "user.omarchy-notion",
       "name": "Omarchy Notion Capture",
       "category": "Productivity"
@@ -2753,16 +2568,6 @@
       "id": "io.github.elgemmy.cp-buddy",
       "name": "CP Buddy",
       "category": "Productivity"
-    },
-    {
-      "id": "io.github.regionallyfamous.iromihon",
-      "name": "Iromihon",
-      "category": "Appearance"
-    },
-    {
-      "id": "omalive-lock",
-      "name": "OmaLive Lock",
-      "category": "System"
     },
     {
       "id": "luotao.persona",
@@ -2880,16 +2685,6 @@
       "category": "Widgets"
     },
     {
-      "id": "io.github.dougfour.grok-usage",
-      "name": "Grok Usage",
-      "category": "Developer Tools"
-    },
-    {
-      "id": "bivekk51.screentime",
-      "name": "Screen Time",
-      "category": "System"
-    },
-    {
       "id": "io.github.liambateman.stoic-pulse",
       "name": "Stoic Pulse",
       "category": "Productivity"
@@ -2918,11 +2713,6 @@
       "id": "io.github.cgaray.mbta",
       "name": "MBTA",
       "category": "Widgets"
-    },
-    {
-      "id": "case.monitor-switcher",
-      "name": "Monitor Switcher",
-      "category": "System"
     },
     {
       "id": "roymelgarv.omarchy-downloads",
@@ -3355,11 +3145,6 @@
       "category": "Productivity"
     },
     {
-      "id": "calmasacow.grok-usage",
-      "name": "Grok Usage",
-      "category": "Developer Tools"
-    },
-    {
       "id": "io.github.qadram.nvme-health",
       "name": "NVMe Health",
       "category": "Hardware"
@@ -3378,11 +3163,6 @@
       "id": "soprano.quotes",
       "name": "Soprano",
       "category": "Other"
-    },
-    {
-      "id": "io.github.xfurti.magilla-ai-usage",
-      "name": "Magilla AI Usage",
-      "category": "Widgets"
     },
     {
       "id": "io.github.jeremylongshore.listening-post",
@@ -3445,11 +3225,6 @@
       "category": "Productivity"
     },
     {
-      "id": "dumidu.orbital-lock",
-      "name": "Orbital Lock",
-      "category": "System"
-    },
-    {
       "id": "com.mirashif.omarest",
       "name": "OmaRest",
       "category": "Productivity"
@@ -3485,11 +3260,6 @@
       "category": "Developer Tools"
     },
     {
-      "id": "icons",
-      "name": "Icon Theme Switcher",
-      "category": "Appearance"
-    },
-    {
       "id": "lgw.airgradient",
       "name": "AirGradient",
       "category": "Other"
@@ -3508,11 +3278,6 @@
       "id": "io.github.brm-src.omadrives",
       "name": "OmaDrives",
       "category": "Hardware"
-    },
-    {
-      "id": "anishkn.mstodo",
-      "name": "MS To Do",
-      "category": "Productivity"
     },
     {
       "id": "io.github.nico-kovacs.netbird",
@@ -3710,11 +3475,6 @@
       "category": "Productivity"
     },
     {
-      "id": "io.github.da5ater.theme-drift",
-      "name": "Theme Drift",
-      "category": "Appearance"
-    },
-    {
       "id": "oameye.eduvpn",
       "name": "eduVPN",
       "category": "Widgets"
@@ -3757,11 +3517,6 @@
     {
       "id": "io.github.daniel-felipe.omashelf",
       "name": "Omashelf",
-      "category": "Productivity"
-    },
-    {
-      "id": "xak47d.todoist",
-      "name": "Todoist",
       "category": "Productivity"
     },
     {
@@ -3885,16 +3640,6 @@
       "category": "Other"
     },
     {
-      "id": "io.github.artur-hash.smartac",
-      "name": "SmartThings AC",
-      "category": "Hardware"
-    },
-    {
-      "id": "nate.howdy-lock",
-      "name": "Howdy Lock",
-      "category": "System"
-    },
-    {
       "id": "io.github.nousd.voxbox",
       "name": "Voxbox",
       "category": "Productivity"
@@ -3972,11 +3717,6 @@
     {
       "id": "io.github.markschellhas.circle-of-fifths",
       "name": "Circle of Fifths",
-      "category": "Widgets"
-    },
-    {
-      "id": "io.github.lxp-git.stay-awake-indicators",
-      "name": "Stay Awake Indicators",
       "category": "Widgets"
     },
     {
@@ -4115,11 +3855,6 @@
       "category": "Productivity"
     },
     {
-      "id": "io.github.ricky.screentime",
-      "name": "Screen Time",
-      "category": "Productivity"
-    },
-    {
       "id": "ranjithraj.news-reader",
       "name": "News Reader",
       "category": "Productivity"
@@ -4128,11 +3863,6 @@
       "id": "io.github.szentesg.clamav-monitor",
       "name": "ClamAV Monitor",
       "category": "System"
-    },
-    {
-      "id": "io.github.mrlarsendk.cursor-usage",
-      "name": "Cursor Usage",
-      "category": "Developer Tools"
     },
     {
       "id": "bar-glow",
@@ -4163,11 +3893,6 @@
       "id": "abdul.hotcorners",
       "name": "Hot Corners",
       "category": "Desktop"
-    },
-    {
-      "id": "vt.grok-usage",
-      "name": "Grok Usage",
-      "category": "Developer Tools"
     },
     {
       "id": "io.github.omashift.omashift",
@@ -4350,11 +4075,6 @@
       "category": "Widgets"
     },
     {
-      "id": "io.github.bitshiftxr.atrium",
-      "name": "Atrium",
-      "category": "Widgets"
-    },
-    {
       "id": "devinblack001.wazuh-view",
       "name": "Wazuh View",
       "category": "System"
@@ -4400,6 +4120,11 @@
       "category": "System"
     },
     {
+      "id": "io.github.majesticio.keyboard-backlight",
+      "name": "Keyboard Backlight",
+      "category": "Hardware"
+    },
+    {
       "id": "io.github.joshferrara.quick-emoji",
       "name": "Quick Emoji",
       "category": "Productivity"
@@ -4408,11 +4133,6 @@
       "id": "io.github.luxore.unifi-protect",
       "name": "UniFi Protect Viewer",
       "category": "Widgets"
-    },
-    {
-      "id": "themo.monitor-profiles",
-      "name": "Monitor Profiles",
-      "category": "Hardware"
     },
     {
       "id": "eduardo.nvim-screensaver",
@@ -4650,11 +4370,6 @@
       "category": "System"
     },
     {
-      "id": "wellatleastitried.copilot-panel-usage",
-      "name": "Copilot Usage Panel",
-      "category": "Developer Tools"
-    },
-    {
       "id": "dev.ilegna.xcompose",
       "name": "XCompose Picker",
       "category": "Productivity"
@@ -4740,11 +4455,6 @@
       "category": "System"
     },
     {
-      "id": "io.github.bruce-forte.old-theme-switcher",
-      "name": "Old Theme Switcher",
-      "category": "Appearance"
-    },
-    {
       "id": "io.github.weedwhitesandwine.omafetti",
       "name": "Omafetti",
       "category": "Desktop"
@@ -4793,6 +4503,11 @@
       "id": "max.scene",
       "name": "Scene Switcher",
       "category": "Productivity"
+    },
+    {
+      "id": "io.github.danielsuhett.vivobook-rgb",
+      "name": "Vivobook RGB",
+      "category": "Hardware"
     },
     {
       "id": "omarchy-wvkbd",
@@ -4915,11 +4630,6 @@
       "category": "Hardware"
     },
     {
-      "id": "cvatca.autotheme",
-      "name": "Auto Theme",
-      "category": "Appearance"
-    },
-    {
       "id": "shl.deeplok",
       "name": "Deeplok",
       "category": "Productivity"
@@ -4978,11 +4688,6 @@
       "id": "io.github.christopherhaynes33.omacanvas",
       "name": "Omacanvas",
       "category": "Productivity"
-    },
-    {
-      "id": "tim.theme-rotate",
-      "name": "Theme Rotate",
-      "category": "Appearance"
     },
     {
       "id": "harbefas.vault",
@@ -5110,14 +4815,14 @@
       "category": "Widgets"
     },
     {
+      "id": "joao.kbd-backlight",
+      "name": "Samsung Book Keyboard Backlight",
+      "category": "System"
+    },
+    {
       "id": "chaz.bar-autohide",
       "name": "Auto-Hide Status Bar",
       "category": "Appearance"
-    },
-    {
-      "id": "io.github.ramous19.copilot-companion",
-      "name": "Copilot Companion",
-      "category": "Developer Tools"
     },
     {
       "id": "remi.reload",
@@ -5168,6 +4873,36 @@
       "id": "com.columbiafoundry.loderunner",
       "name": "Lode Runner",
       "category": "Other"
+    },
+    {
+      "id": "io.github.rodrix2000.reolink-cameras",
+      "name": "Reolink Cameras",
+      "category": "Hardware"
+    },
+    {
+      "id": "io.github.kszx11.apphider",
+      "name": "App Hider",
+      "category": "System"
+    },
+    {
+      "id": "micahele.donotify",
+      "name": "DoNotify",
+      "category": "Productivity"
+    },
+    {
+      "id": "lifetime.time-visualizer",
+      "name": "Lifetime",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.deca.from-time-to-time",
+      "name": "From Time to Time",
+      "category": "Productivity"
+    },
+    {
+      "id": "rblalock.omarchy-island",
+      "name": "Omarchy Island",
+      "category": "System"
     }
   ]
 }

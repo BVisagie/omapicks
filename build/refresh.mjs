@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { mkdir, readFile, readdir, rename, rm, writeFile } from "node:fs/promises";
+import { access, mkdir, readFile, readdir, rename, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { changesBetween, isoWeek, rankPlugins } from "./rank.mjs";
@@ -131,8 +131,31 @@ async function downloadImage(candidate, { fetchImpl = fetch, root = ROOT } = {})
   }
 }
 
-async function attachImages(rankings, options) {
+function previousImagesById(previous) {
+  const images = new Map();
+  for (const type of previous?.types ?? []) {
+    for (const candidate of [type.winner, type.runnerUp]) {
+      if (candidate?.id && candidate.localImage) images.set(candidate.id, candidate);
+    }
+  }
+  return images;
+}
+
+async function reusableCachedImage(candidate, previousImages, root) {
+  const prior = previousImages.get(candidate.id);
+  if (!prior || prior.previewSource !== candidate.previewSource) return null;
+  if (!/^assets\/plugins\/[a-zA-Z0-9][a-zA-Z0-9.-]*\.(?:webp|png|jpg)$/.test(prior.localImage)) return null;
+  try {
+    await access(path.join(root, "data", prior.localImage));
+    return prior.localImage;
+  } catch {
+    return null;
+  }
+}
+
+async function attachImages(rankings, { previous = null, root = ROOT, ...options }) {
   const seen = new Map();
+  const previousImages = previousImagesById(previous);
   const warnings = [];
   for (const type of rankings.types) {
     for (const candidate of [type.winner, type.runnerUp]) {
@@ -142,10 +165,11 @@ async function attachImages(rankings, options) {
         continue;
       }
       try {
-        candidate.localImage = await downloadImage(candidate, options);
+        candidate.localImage = await downloadImage(candidate, { ...options, root });
       } catch (error) {
-        candidate.localImage = null;
-        warnings.push(`${candidate.id}: ${error.message}`);
+        candidate.localImage = await reusableCachedImage(candidate, previousImages, root);
+        const retained = candidate.localImage ? "; retained cached preview" : "";
+        warnings.push(`${candidate.id}: ${error.message}${retained}`);
       }
       seen.set(candidate.id, candidate.localImage);
     }
@@ -252,7 +276,7 @@ export async function refresh({
     return { changed: true, week, rankings, report, changes, imageWarnings: [] };
   }
 
-  const imageWarnings = await attachImages(rankings, { fetchImpl, root });
+  const imageWarnings = await attachImages(rankings, { fetchImpl, previous, root });
   const history = {
     ...withoutLocalImages(rankings),
     changes

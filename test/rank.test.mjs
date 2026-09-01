@@ -41,7 +41,7 @@ function plugin(id, values = {}) {
 test("the production taxonomy is valid and intentionally broad", async () => {
   const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
   const prepared = prepareTaxonomy(source);
-  assert.equal(prepared.types.length, 26);
+  assert.equal(prepared.types.length, 32);
   assert.equal(new Set(prepared.types.map((type) => type.id)).size, prepared.types.length);
 });
 
@@ -103,6 +103,83 @@ test("production taxonomy keeps real overlap and rejects accidental keyword hits
       name: "Stay Awake Indicators",
       description: "A Stay Awake cup that shows steam when another program is holding idle or sleep."
     }).includes("gaming")
+  );
+});
+
+test("production taxonomy covers recurring jobs without bleeding into adjacent categories", async () => {
+  const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
+  const prepared = prepareTaxonomy(source);
+  const typesOf = (values) => classifyPlugin(plugin(values.id, values), prepared);
+
+  assert.deepEqual(
+    typesOf({
+      id: "hyprmoncfg",
+      name: "Multi-Monitor Manager",
+      description: "Configure monitor layouts, per-display brightness, and workspaces across connected displays."
+    }),
+    ["display-monitors"]
+  );
+  assert.deepEqual(
+    typesOf({
+      id: "claude-usage",
+      name: "Claude Usage",
+      description: "Usage tracker for Claude quotas, token limits, and credits remaining."
+    }),
+    ["ai-api-usage"]
+  );
+  assert.deepEqual(
+    typesOf({
+      id: "stay-awake",
+      name: "Stay Awake",
+      description: "Prevent system sleep and suspend while long-running work completes."
+    }),
+    ["lock-idle"]
+  );
+  assert.deepEqual(
+    typesOf({
+      id: "theme-gallery",
+      name: "Themes Gallery",
+      description: "Browse and install Omarchy themes."
+    }),
+    ["themes-appearance"]
+  );
+  assert.deepEqual(
+    typesOf({
+      id: "home-assistant",
+      name: "Home Assistant",
+      description: "Control Home Assistant devices and smart lights."
+    }),
+    ["smart-home"]
+  );
+  assert.deepEqual(
+    typesOf({
+      id: "screen-time",
+      name: "Screen Time",
+      description: "Tracks screen time and desktop usage."
+    }),
+    ["screen-time"]
+  );
+  assert.deepEqual(
+    typesOf({
+      id: "todoist",
+      name: "Todoist",
+      description: "View and complete Todoist tasks."
+    }),
+    ["focus"]
+  );
+  assert.ok(
+    !typesOf({
+      id: "themed-weather",
+      name: "Themed Weather",
+      description: "A weather widget that follows the current theme."
+    }).includes("themes-appearance")
+  );
+  assert.ok(
+    !typesOf({
+      id: "rgb-lighting",
+      name: "RGB Lighting",
+      description: "OpenRGB peripheral lighting with color presets and brightness controls."
+    }).includes("brightness")
   );
 });
 

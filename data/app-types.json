@@ -77,13 +77,28 @@
       "id": "brightness",
       "name": "Brightness",
       "description": "Display brightness and night-light controls",
-      "include": ["\\b(brightness|backlight|night light|blue light|gammastep|hyprsunset)\\b"]
+      "include": ["\\b(brightness|backlight|night light|blue light|gammastep|hyprsunset)\\b"],
+      "exclude": ["\\b(display|monitor) (manager|configuration|config|profiles?|layouts?)\\b", "\\b(monitor layout|refresh rate|display arrangement)\\b", "\\b(keyboard|key light|smart lights?|rgb|openrgb|wled|govee|wiz lights?|hue lights?|peripherals?)\\b"]
+    },
+    {
+      "id": "display-monitors",
+      "name": "Display & Monitors",
+      "description": "Monitor layouts, display profiles, and output controls",
+      "include": ["\\b(display outputs?|monitor layouts?|display profiles?|display toggles?|display arrangement|refresh rate controls?)\\b", "\\b(display|monitor) (manager|configuration|config|settings|profiles?|layouts?|switcher|controls?)\\b", "\\b(manager|configure|configuration|switcher|controls?) (?:your )?(display|monitors?)\\b"],
+      "exclude": ["\\b(system|resource|hardware|traffic|temperature) monitor\\b", "\\b(screen time|wallpaper|backgrounds?)\\b"]
     },
     {
       "id": "notifications",
       "name": "Notifications",
       "description": "Notification centers, history, and do-not-disturb",
       "include": ["\\b(notification|notifications|do not disturb|dnd mode|mako)\\b"]
+    },
+    {
+      "id": "lock-idle",
+      "name": "Lock & Idle",
+      "description": "Screen locking, idle behavior, and sleep prevention",
+      "include": ["\\b(lock screen|screen lock(?:er|ing)?|idle inhibit(?:or|ion)?|idle manager|idle timeout)\\b", "\\b(prevent|disable|inhibit) (?:system )?(sleep|suspend|idle)\\b", "\\b(stay awake|keep awake|no sleep|caffeine|hypridle|hyprlock)\\b"],
+      "exclude": ["\\bpassword manager\\b", "\\b(caps lock|rotation lock|screen auto-rotate|keyboard backlight)\\b"]
     },
     {
       "id": "calendar",
@@ -102,13 +117,20 @@
       "id": "focus",
       "name": "Focus",
       "description": "Pomodoro, habits, tasks, and focus sessions",
-      "include": ["\\b(pomodoro|focus timer|focus session|habit tracker|todo|to-do|task list)\\b"]
+      "include": ["\\b(pomodoro|focus timer|focus session|habit tracker|todo|to-do|todoist|ticktick|microsoft to do|task list)\\b"]
+    },
+    {
+      "id": "screen-time",
+      "name": "Screen Time",
+      "description": "Screen-time tracking and digital wellbeing",
+      "include": ["\\b(screen time|digital well[- ]?being|desktop usage tracker|application usage tracker|app usage tracker)\\b"]
     },
     {
       "id": "workspaces",
       "name": "Workspaces",
       "description": "Hyprland workspace indicators and navigation",
-      "include": ["\\b(workspace|workspaces|virtual desktop)\\b"]
+      "include": ["\\b(workspace|workspaces|virtual desktop)\\b"],
+      "exclude": ["\\b(display outputs?|monitor layouts?|display profiles?)\\b", "\\b(display|monitor) (manager|configuration|config|settings|profiles?|layouts?|switcher|controls?)\\b"]
     },
     {
       "id": "window-management",
@@ -129,6 +151,13 @@
       "include": ["\\b(wallpaper|background image|hyprpaper|swww)\\b"]
     },
     {
+      "id": "themes-appearance",
+      "name": "Themes & Appearance",
+      "description": "Theme browsing, switching, scheduling, and visual customization",
+      "include": ["\\bthemes? (browser|gallery|manager|scheduler|selector|switcher|installer|roulette|generator|drift|modes?)\\b", "\\b(cursor|icon) theme (picker|manager|switcher)\\b", "\\b(browse|install|manage|switch|schedule|rotate|generate|create|apply|preview|pick|select|cycle|set)(?:s|d|ing)? [^.]{0,40}\\bthemes?\\b", "\\b(cursor style|appearance manager|visual customization|themebook|omagen)\\b"],
+      "exclude": ["\\b(color theme support|theme integration|theme sync|theme follower|follows? (?:the )?(?:current )?theme|theme[- ]aware|matches? (?:every|the) theme)\\b"]
+    },
+    {
       "id": "color-picker",
       "name": "Color Picker",
       "description": "On-screen color picking and palette tools",
@@ -138,7 +167,20 @@
       "id": "ai-assistant",
       "name": "AI Assistant",
       "description": "AI chat, local models, and model launchers",
-      "include": ["\\b(ai assistant|artificial intelligence|chatgpt|claude|gemini|ollama|llm|language model)\\b"]
+      "include": ["\\b(ai assistant|artificial intelligence|chatgpt|claude|gemini|ollama|llm|language model)\\b"],
+      "exclude": ["\\b(usage tracker|usage monitor|usage bar|model usage|token usage|api usage|usage limits?|quota|rate limits?|credits? remaining)\\b"]
+    },
+    {
+      "id": "ai-api-usage",
+      "name": "AI & API Usage",
+      "description": "AI model quotas, token usage, and API spending",
+      "include": ["\\b(ai|model|token|llm) (usage|quota|limits?|spend|costs?|credits?)\\b", "\\b(claude|cursor|codex|opencode|openrouter|gemini|cline|copilot|grok) (usage|quota|limits?|spend|costs?|credits?)\\b", "\\b(codexbar|usagebar)\\b"]
+    },
+    {
+      "id": "smart-home",
+      "name": "Smart Home",
+      "description": "Home automation, lighting, and connected-device controls",
+      "include": ["\\b(home assistant|home automation|smart home|homekit|smartthings)\\b", "\\b(philips hue|hue lights?|smart lights?|mqtt devices?)\\b"]
     },
     {
       "id": "github",
