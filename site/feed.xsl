@@ -62,9 +62,17 @@
                         <time><xsl:value-of select="pubDate"/></time>
                         <div>
                           <h2>
+                            <xsl:variable name="item-link" select="*[local-name()='link']"/>
                             <a>
                               <xsl:attribute name="href">
-                                <xsl:value-of select="*[local-name()='link']"/>
+                                <xsl:choose>
+                                  <xsl:when test="contains($item-link, '://omapicks.com')">
+                                    <xsl:value-of select="substring-after($item-link, '://omapicks.com')"/>
+                                  </xsl:when>
+                                  <xsl:otherwise>
+                                    <xsl:value-of select="$item-link"/>
+                                  </xsl:otherwise>
+                                </xsl:choose>
                               </xsl:attribute>
                               <xsl:value-of select="title"/>
                             </a>

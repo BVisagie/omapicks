@@ -384,6 +384,7 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.match(feedXsl, /href="\/feed\.xml" aria-current="page">RSS/);
   assert.match(feedXsl, /data-theme-toggle/);
   assert.match(feedXsl, /xsl:attribute name="href"/);
+  assert.match(feedXsl, /substring-after\(\$item-link, ':\/\/omapicks\.com'\)/);
   assert.match(feedXsl, /local-name\(\)='link'/);
   assert.doesNotMatch(feedXsl, /href="\{link\}"/);
   assert.doesNotMatch(feedXsl, /min\(760px/);
