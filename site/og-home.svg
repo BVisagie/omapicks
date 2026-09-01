@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="OmaPicks: find the best Omarchy plugin for the job. No votes, no sponsorships, a reproducible weekly snapshot.">
+  <title>OmaPicks weekly Omarchy plugin rankings</title>
+  <style>
+    text { font-family: "CaskaydiaMono NF", "Cascadia Mono", "JetBrains Mono", "DejaVu Sans Mono", monospace; }
+  </style>
+  <rect width="1200" height="630" fill="#1a1b26"/>
+  <rect x="36.5" y="36.5" width="1127" height="557" fill="none" stroke="#414868"/>
+
+  <!-- brand -->
+  <rect x="80" y="80" width="44" height="44" rx="8" fill="#24283b"/>
+  <path d="m90 92 8.5 10-8.5 10" fill="none" stroke="#8bd5ca" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
+  <path d="M103 111h12" fill="none" stroke="#c0caf5" stroke-linecap="round" stroke-width="4"/>
+  <text x="140" y="112" font-size="30" font-weight="700" fill="#c0caf5">OmaPicks</text>
+
+  <!-- prompt -->
+  <text x="80" y="222" font-size="26" fill="#7f849c"><tspan fill="#8bd5ca" font-weight="800">$</tspan> omapicks rank <tspan fill="#8bd5ca">&#9608;</tspan></text>
+
+  <!-- headline -->
+  <text x="80" y="308" font-size="64" font-weight="700" fill="#c0caf5">find the best omarchy</text>
+  <text x="80" y="384" font-size="64" font-weight="700" fill="#c0caf5">plugin for the job.</text>
+
+  <!-- comment -->
+  <text x="80" y="446" font-size="24" fill="#7f849c"># no votes. no sponsorships. a reproducible weekly snapshot.</text>
+
+  <!-- status bar -->
+  <rect x="36.5" y="536.5" width="1127" height="57" fill="#24283b" stroke="#414868"/>
+  <text x="80" y="572" font-size="20" fill="#7f849c"><tspan fill="#8bd5ca" font-weight="700">omapicks.com</tspan>  &#183;  champion + runner-up per category  &#183;  rescored every monday</text>
+</svg>

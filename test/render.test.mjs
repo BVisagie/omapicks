@@ -127,6 +127,9 @@ test("homepage discovery chrome follows the ranking taxonomy", () => {
     ]
   });
   assert.match(two, /Find the best Omarchy plugin for the job/);
+  assert.match(two, /\$<\/span> omapicks rank --week 2026-W36/);
+  assert.match(two, /# no votes\. no sponsorships\. just a reproducible weekly snapshot/);
+  assert.match(two, /data-filter-status data-total="2"/);
   assert.match(two, /Browse 2 categories/);
   assert.match(two, /Browse all 2 categories/);
   assert.match(two, /href="\/methodology\/">How rankings work/);
@@ -318,7 +321,7 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.match(home, /02 Runner-up/);
   assert.match(home, /runner-up /);
   assert.match(home, /Week of [A-Z][a-z]+ \d{1,2}, \d{4}/);
-  assert.match(home, /Eligible entries/);
+  assert.match(home, /eligible_entries/);
   assert.equal([...home.matchAll(/data-catalog-row/g)].length, typeCount);
   assert.equal([...home.matchAll(/data-finder-item/g)].length, typeCount);
   assert.equal([...home.matchAll(/data-suggested/g)].length, featured.length);
@@ -353,7 +356,7 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.match(privacy, /How OmaPicks treats visitors/);
   assert.match(privacy, /does not receive an analytics script/);
   assert.match(privacy, /one-way identifier that is salted for that day/);
-  assert.match(privacy, /github.com\/BVisagie\/omapicks\/issues\/new/);
+  assert.match(privacy, /href="https:\/\/github\.com\/BVisagie\/omapicks\/issues\/new" target="_blank" rel="noopener noreferrer"/);
   assert.match(privacy, /Do not post sensitive personal information/);
   assert.doesNotMatch(privacy, /beacon\.min\.js/);
   assert.doesNotMatch(privacy, /cookie (popup|banner|consent)/i);

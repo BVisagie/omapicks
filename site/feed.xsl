@@ -14,10 +14,10 @@
     const stored = localStorage.getItem("omapicks-theme");
     const theme = stored === "light" || stored === "dark"
       ? stored
-      : (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      : (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
     document.documentElement.dataset.theme = theme;
   } catch {
-    document.documentElement.dataset.theme = "light";
+    document.documentElement.dataset.theme = "dark";
   }
 })();
 ]]>
@@ -42,7 +42,7 @@
               <a href="/methodology/">Method</a>
               <a href="/changelog/">Changes</a>
               <a href="/feed.xml" aria-current="page">RSS</a>
-              <button class="theme-toggle" type="button" data-theme-toggle="" aria-label="Switch to dark theme" aria-pressed="false">
+              <button class="theme-toggle" type="button" data-theme-toggle="" aria-label="Switch to light theme" aria-pressed="true">
                 <span class="theme-label-dark" aria-hidden="true">Dark</span>
                 <span class="theme-label-light" aria-hidden="true">Light</span>
               </button>

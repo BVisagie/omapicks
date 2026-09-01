@@ -13,10 +13,11 @@ const FUNCTION_ROUTES = {
   exclude: ["/assets/*", "/og/*", "/badges/*", "/feed.xml", "/feed.xsl", "/sitemap.xml", "/rankings.json", "/robots.txt", "/site.webmanifest"]
 };
 const PALETTE = Object.freeze({
-  bg: "#f3eee4",
-  ink: "#1a1612",
-  muted: "#5c564c",
-  accent: "#b53415"
+  bg: "#1a1b26",
+  lightBg: "#e9e9ec",
+  ink: "#c0caf5",
+  muted: "#7f849c",
+  accent: "#8bd5ca"
 });
 
 export function escapeHtml(value) {
@@ -198,10 +199,10 @@ function themeBoot() {
     const stored = localStorage.getItem("omapicks-theme");
     const theme = stored === "light" || stored === "dark"
       ? stored
-      : (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      : (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
     document.documentElement.dataset.theme = theme;
   } catch {
-    document.documentElement.dataset.theme = "light";
+    document.documentElement.dataset.theme = "dark";
   }
 })();
 </script>`;
@@ -219,7 +220,7 @@ function nav(pathname = "/") {
       ${navLink("/methodology/", "Method", pathname)}
       ${navLink("/changelog/", "Changes", pathname)}
       ${navLink("/feed.xml", "RSS", pathname)}
-      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme" aria-pressed="true">
         <span class="theme-label-dark" aria-hidden="true">Dark</span>
         <span class="theme-label-light" aria-hidden="true">Light</span>
       </button>
@@ -240,7 +241,8 @@ function shell({ title, description, pathname, image, body, structuredData = nul
   <title>${escapeHtml(fullTitle)}</title>
   <meta name="description" content="${escapeHtml(description)}">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="${PALETTE.bg}">
+  <meta name="theme-color" content="${PALETTE.bg}" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="${PALETTE.lightBg}" media="(prefers-color-scheme: light)">
   <link rel="canonical" href="${canonical}">
   <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
   <link rel="manifest" href="/site.webmanifest">
@@ -504,10 +506,13 @@ function homePage(rankings) {
   const catalogTypes = types.slice().sort(byCategoryName);
   const body = `<section class="hero">
     <div class="hero-copy">
-      <p class="eyebrow">${weekLabel(rankings.week, rankings.generatedAt)}</p>
+      <p class="eyebrow command-prompt">
+        <span aria-hidden="true"><span class="prompt-mark">$</span> omapicks rank --week ${escapeHtml(rankings.week ?? "pending")}<span class="terminal-cursor"></span></span>
+        <span class="visually-hidden">${weekLabel(rankings.week, rankings.generatedAt)}</span>
+      </p>
       <h1>Find the best Omarchy plugin for the job.</h1>
       <p class="hero-lede">A champion and a runner-up in each category, rescored every Monday from public registry data.</p>
-      <p class="hero-trust">No votes. No sponsorships. Just a reproducible weekly snapshot of public registry evidence.</p>
+      <p class="hero-trust"># no votes. no sponsorships. just a reproducible weekly snapshot of public registry evidence.</p>
       <p class="hero-actions">
         <a class="button" href="#catalog">${escapeHtml(browseLabel(categoryCount))}</a>
         <a class="text-link" href="/methodology/">How rankings work</a>
@@ -516,17 +521,20 @@ function homePage(rankings) {
     <aside class="hero-aside">
       <div class="hero-finder" role="search">
         <label id="finder-label" for="pick-filter">Find a category</label>
-        <input id="pick-filter" type="search" placeholder="Weather, clipboard, Spotify…" autocomplete="off" spellcheck="false" aria-describedby="filter-status" aria-controls="finder-results" data-pick-filter>
-        <p id="filter-status" data-filter-status aria-live="polite"></p>
+        <div class="finder-command">
+          <span class="finder-prompt" aria-hidden="true">&gt;</span>
+          <input id="pick-filter" type="search" placeholder="weather, clipboard, spotify…" autocomplete="off" spellcheck="false" aria-describedby="filter-status" aria-controls="finder-results" data-pick-filter>
+          <span id="filter-status" data-filter-status data-total="${categoryCount}" aria-live="polite"></span>
+        </div>
         <ul class="finder-results" id="finder-results" data-finder-results aria-label="Suggested categories">
           ${catalogTypes.map((type) => finderItem(type, suggestedIds.has(type.id))).join("")}
         </ul>
         <p class="filter-empty" data-finder-empty hidden>No categories match.</p>
       </div>
       <dl class="hero-meta">
-        <div><dt>Categories</dt><dd>${categoryCount}</dd></div>
-        <div><dt>Eligible entries</dt><dd>${eligibleEntries.toLocaleString("en-US")}</dd></div>
-        <div><dt>Snapshot</dt><dd>${escapeHtml(dateLabel(rankings.generatedAt) ?? rankings.week ?? "Pending")}</dd></div>
+        <div><dt>categories</dt><dd>${categoryCount}</dd></div>
+        <div><dt>eligible_entries</dt><dd>${eligibleEntries.toLocaleString("en-US")}</dd></div>
+        <div><dt>snapshot</dt><dd>${escapeHtml(dateLabel(rankings.generatedAt) ?? rankings.week ?? "pending")}</dd></div>
       </dl>
     </aside>
   </section>
@@ -679,7 +687,7 @@ function privacyPage() {
     <p>Each event keeps only the UTC date, the page path such as <code>/picks/network/</code>, and a one-way identifier that is salted for that day. Raw IP addresses, user-agent strings, query strings, referrers, and device fingerprints are not stored. The daily identifier cannot follow a visitor across days or websites, so weekly or monthly visitor totals are estimates, not an exact headcount.</p>
     <p>Measurement is skipped when a request sends Global Privacy Control or Do Not Track, looks like an automated crawler, or is not a successful HTML page. Events are processed by Cloudflare and retained for three months.</p>
     <h2>Contact</h2>
-    <p>Questions about this page can go to the <a href="https://github.com/BVisagie/omapicks/issues/new">OmaPicks GitHub repository</a>. Do not post sensitive personal information in a public issue.</p>
+    <p>Questions about this page can go to the ${outboundLink("https://github.com/BVisagie/omapicks/issues/new", "OmaPicks GitHub repository")}. Do not post sensitive personal information in a public issue.</p>
   </section>`;
   return shell({
     title: "Privacy",
@@ -763,8 +771,8 @@ function badgeSvg(type, candidate, week) {
     <rect width="${leftWidth}" height="20" fill="${PALETTE.ink}"/>
     <rect x="${leftWidth}" width="${rightWidth}" height="20" fill="${PALETTE.accent}"/>
   </g>
-  <text x="10" y="14.5" fill="${PALETTE.bg}" font-family="ui-sans-serif,system-ui,sans-serif" font-size="11" font-weight="700">${escapeHtml(left)}</text>
-  <text x="${leftWidth + 8}" y="14.5" fill="#fff" font-family="ui-sans-serif,system-ui,sans-serif" font-size="11">${escapeHtml(right)}</text>
+  <text x="10" y="14.5" fill="${PALETTE.bg}" font-family="'Cascadia Mono',ui-monospace,monospace" font-size="11" font-weight="700">${escapeHtml(left)}</text>
+  <text x="${leftWidth + 8}" y="14.5" fill="${PALETTE.bg}" font-family="'Cascadia Mono',ui-monospace,monospace" font-size="11">${escapeHtml(right)}</text>
 </svg>
 `;
 }

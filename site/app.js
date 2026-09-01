@@ -21,7 +21,7 @@ function setTheme(theme) {
 setTheme(
   root.dataset.theme === "light" || root.dataset.theme === "dark"
     ? root.dataset.theme
-    : storedTheme() || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+    : storedTheme() || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark")
 );
 
 themeButton?.addEventListener("click", () => {
@@ -66,7 +66,12 @@ function applyFilter() {
   }
 
   if (filterStatus) {
-    filterStatus.textContent = query ? `${visibleRows} ${visibleRows === 1 ? "category" : "categories"}` : "";
+    const total = Number(filterStatus.dataset.total) || catalogRows.length;
+    const visible = query ? visibleRows : visibleFinder;
+    filterStatus.textContent = `${visible}/${total}`;
+    filterStatus.setAttribute("aria-label", query
+      ? `${visibleRows} of ${total} categories match`
+      : `${visibleFinder} of ${total} suggested categories shown`);
   }
   if (filterEmpty) filterEmpty.hidden = !query || visibleRows > 0;
   if (finderEmpty) finderEmpty.hidden = !query || visibleFinder > 0;
