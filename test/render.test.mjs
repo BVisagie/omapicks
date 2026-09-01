@@ -333,7 +333,8 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
       .map((type) => escapeHtml(type.name))
   );
   assert.ok(home.includes(`alt="${escapeHtml(featured[0].winner.name)} preview"`));
-  assert.match(home, /og:image" content="https:\/\/omapicks\.com\/og\/home\.jpg"/);
+  assert.match(home, /og:image" content="https:\/\/omapicks\.com\/og\/terminal\.jpg"/);
+  assert.match(pick, /og:image" content="https:\/\/omapicks\.com\/og\/terminal\.jpg"/);
   assert.match(home, /Plugin metadata, engagement signals, and previews come from/);
   assert.match(home, /target="_blank" rel="noopener noreferrer">Open-source code<\/a>/);
   assert.match(feedXsl, /target="_blank" rel="noopener noreferrer">Open-source code<\/a>/);
@@ -402,6 +403,7 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.ok(badge.includes(escapeHtml(weather.winner.name)));
   assert.match(badge, /height="20"/);
   await stat(new URL("../dist/og/home.jpg", import.meta.url));
+  await stat(new URL("../dist/og/terminal.jpg", import.meta.url));
   await stat(new URL("../dist/feed.xsl", import.meta.url));
   for (const output of [home, methodology, changelog, privacy, pick, sitemap, feed, feedXsl, badge]) {
     assert.ok(!output.includes("undefined"));

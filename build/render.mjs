@@ -19,6 +19,16 @@ const PALETTE = Object.freeze({
   muted: "#7f849c",
   accent: "#8bd5ca"
 });
+const SOCIAL_IMAGE = Object.freeze({
+  url: "/og/terminal.jpg",
+  type: "image/jpeg",
+  width: 1200,
+  height: 630
+});
+
+function socialImage(alt) {
+  return alt ? { ...SOCIAL_IMAGE, alt } : { ...SOCIAL_IMAGE };
+}
 
 export function escapeHtml(value) {
   return String(value ?? "")
@@ -562,7 +572,7 @@ function homePage(rankings) {
     title: "OmaPicks",
     description: "Independent weekly rankings of Omarchy plugins, one champion and one runner-up per app type.",
     pathname: "/",
-    image: { url: "/og/home.jpg", type: "image/jpeg", width: 1200, height: 630, alt: "OmaPicks weekly picks for Omarchy plugins" },
+    image: socialImage("OmaPicks weekly picks for Omarchy plugins"),
     body,
     structuredData: {
       "@context": "https://schema.org",
@@ -604,13 +614,7 @@ function typePage(type, rankings) {
     title: `${type.name} plugins for Omarchy`,
     description,
     pathname: `/picks/${type.id}/`,
-    image: {
-      url: "/og/home.jpg",
-      type: "image/jpeg",
-      width: 1200,
-      height: 630,
-      alt: `${type.winner?.name ?? "This week's champion"} leads the ${type.name} ranking on OmaPicks`
-    },
+    image: socialImage(`${type.winner?.name ?? "This week's champion"} leads the ${type.name} ranking on OmaPicks`),
     body,
     structuredData: {
       "@context": "https://schema.org",
@@ -659,7 +663,7 @@ function methodologyPage(rankings) {
     title: "How the rankings work",
     description: "Eligibility, scoring weights, and weekly cadence used by OmaPicks.",
     pathname: "/methodology/",
-    image: { url: "/og/home.jpg", type: "image/jpeg", width: 1200, height: 630 },
+    image: socialImage(),
     body
   });
 }
@@ -693,7 +697,7 @@ function privacyPage() {
     title: "Privacy",
     description: "How OmaPicks measures traffic without analytics cookies or a browser tracker.",
     pathname: "/privacy/",
-    image: { url: "/og/home.jpg", type: "image/jpeg", width: 1200, height: 630 },
+    image: socialImage(),
     body
   });
 }
@@ -748,7 +752,7 @@ function changelogPage(history) {
     title: "What changed",
     description: "Champion replacements in the weekly OmaPicks rankings.",
     pathname: "/changelog/",
-    image: { url: "/og/home.jpg", type: "image/jpeg", width: 1200, height: 630 },
+    image: socialImage(),
     body
   });
 }
@@ -857,6 +861,7 @@ export async function render({ root = ROOT } = {}) {
   await cp(path.join(ROOT, "site", "icon.svg"), path.join(DIST, "assets", "icon.svg"));
   await cp(path.join(ROOT, "site", "placeholder.svg"), path.join(DIST, "assets", "placeholder.svg"));
   await cp(path.join(ROOT, "site", "og-home.jpg"), path.join(DIST, "og", "home.jpg"));
+  await cp(path.join(ROOT, "site", "og-home.jpg"), path.join(DIST, "og", "terminal.jpg"));
   await cp(path.join(ROOT, "site", "feed.xsl"), path.join(DIST, "feed.xsl"));
   await copyOptionalDirectory(path.join(ROOT, "data", "assets", "plugins"), path.join(DIST, "assets", "plugins"));
 
@@ -912,7 +917,7 @@ export async function render({ root = ROOT } = {}) {
       title: "Not found",
       description: "This OmaPicks page does not exist.",
       pathname: "/404.html",
-      image: { url: "/og/home.jpg", type: "image/jpeg", width: 1200, height: 630 },
+      image: socialImage(),
       body: `<section class="page-section prose"><p class="eyebrow">404</p><h1>This page isn't here</h1><p class="page-lede"><a href="/">Back to this week's picks</a></p></section>`
     })
   );
