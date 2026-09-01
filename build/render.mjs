@@ -207,13 +207,18 @@ function themeBoot() {
 </script>`;
 }
 
-function nav() {
+function navLink(href, label, pathname) {
+  const current = pathname === href ? ` aria-current="page"` : "";
+  return `<a href="${href}"${current}>${label}</a>`;
+}
+
+function nav(pathname = "/") {
   return `<header class="site-header">
     <a class="brand" href="/" aria-label="OmaPicks home">OmaPicks</a>
     <nav aria-label="Primary navigation">
-      <a href="/methodology/">Method</a>
-      <a href="/changelog/">Changes</a>
-      <a href="/feed.xml">RSS</a>
+      ${navLink("/methodology/", "Method", pathname)}
+      ${navLink("/changelog/", "Changes", pathname)}
+      ${navLink("/feed.xml", "RSS", pathname)}
       <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
         <span class="theme-label-dark" aria-hidden="true">Dark</span>
         <span class="theme-label-light" aria-hidden="true">Light</span>
@@ -260,7 +265,7 @@ function shell({ title, description, pathname, image, body, structuredData = nul
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="page-wrap">
-    ${nav()}
+    ${nav(pathname)}
     <main id="main">${body}</main>
     <footer>
       <p>Plugin metadata, engagement signals, and previews come from <a href="https://plugins.omarchy.org/?sort=copies">Omarchy Plugins</a>. OmaPicks calculates the rankings independently and is not affiliated with Omarchy, 37signals, or omarchyplugins.com.</p>
@@ -616,10 +621,10 @@ function methodologyPage(rankings) {
         `<li><span>${escapeHtml(metricLabel(metric))}</span><span class="weight-track" aria-hidden="true"><span style="width:${Math.round(weight * 100)}%"></span></span><span class="pct">${Math.round(weight * 100)}%</span></li>`
     )
     .join("");
-  const body = `<section class="prose">
+  const body = `<section class="page-section prose">
     <p class="eyebrow">Methodology v${escapeHtml(rankings.methodologyVersion)}</p>
     <h1>How the rankings work</h1>
-    <p>In plain terms: we rank plugins by public evidence of use and upkeep, not votes. Copying the install command counts most, then hearts and GitHub stars. Listing views barely count. Abandoned repositories sink. A verified listing is a small bonus, not a win condition. A champion keeps the title until someone beats their score by more than 10%.</p>
+    <p class="page-lede">In plain terms: we rank plugins by public evidence of use and upkeep, not votes. Copying the install command counts most, then hearts and GitHub stars. Listing views barely count. Abandoned repositories sink. A verified listing is a small bonus, not a win condition. A champion keeps the title until someone beats their score by more than 10%.</p>
     <p>OmaPicks refreshes once per ISO week. Your browser never calls the source APIs. Each page is built from that week's published snapshot.</p>
     <p class="pullout">A plugin can win on evidence, not on being first to the registry.</p>
     <h2>Who can compete</h2>
@@ -663,10 +668,10 @@ function historyChanges(history) {
 }
 
 function privacyPage() {
-  const body = `<section class="prose">
+  const body = `<section class="page-section prose">
     <p class="eyebrow">Privacy</p>
     <h1>How OmaPicks treats visitors</h1>
-    <p>OmaPicks has no accounts, comments, advertising, or marketing trackers. The published pages are static files. Your browser does not receive an analytics script, analytics cookie, or analytics storage from this site.</p>
+    <p class="page-lede">OmaPicks has no accounts, comments, advertising, or marketing trackers. The published pages are static files. Your browser does not receive an analytics script, analytics cookie, or analytics storage from this site.</p>
     <h2>Theme preference</h2>
     <p>If you use the theme toggle, OmaPicks stores <code>light</code> or <code>dark</code> in your browser's <code>localStorage</code> so the choice can persist. That value is not sent to the server and is not used to measure traffic.</p>
     <h2>Traffic measurement</h2>
@@ -706,10 +711,10 @@ function changelogPage(history) {
         return `<li>${escapeHtml(change.typeName)} has no champion this week.</li>`;
       }).join("")}</ul>` : ""}`;
   };
-  const body = `<section class="prose">
+  const body = `<section class="page-section">
     <p class="eyebrow">Change log</p>
     <h1>What changed</h1>
-    <p>When a champion is replaced, the previous week stays on disk. This page is built from those snapshots.</p>
+    <p class="page-lede">When a champion is replaced, the previous week stays on disk. This page is built from those snapshots.</p>
     <div class="timeline">
       ${
         weeks.length
@@ -900,7 +905,7 @@ export async function render({ root = ROOT } = {}) {
       description: "This OmaPicks page does not exist.",
       pathname: "/404.html",
       image: { url: "/og/home.jpg", type: "image/jpeg", width: 1200, height: 630 },
-      body: `<section class="prose"><p class="eyebrow">404</p><h1>This page isn't here</h1><p><a href="/">Back to this week's picks</a></p></section>`
+      body: `<section class="page-section prose"><p class="eyebrow">404</p><h1>This page isn't here</h1><p class="page-lede"><a href="/">Back to this week's picks</a></p></section>`
     })
   );
   return { typeCount: rankings.types.length, historyCount: history.length, output: DIST };

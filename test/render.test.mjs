@@ -334,6 +334,8 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.match(home, /Plugin metadata, engagement signals, and previews come from/);
   assert.match(home, /Open-source code/);
   assert.match(home, /href="\/privacy\/"/);
+  assert.match(methodology, /class="page-section prose"/);
+  assert.match(methodology, /aria-current="page">Method/);
   assert.match(methodology, /In plain terms/);
   assert.match(methodology, /Copying the install command counts most/);
   assert.match(methodology, /weight-track/);
@@ -342,8 +344,11 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.match(methodology, /not an endorsement/);
   assert.match(methodology, /https:\/\/plugins\.omarchy\.org\/catalog\.json/);
   assert.match(methodology, /https:\/\/api\.omarchyplugins\.com\/v1\/stats/);
+  assert.match(changelog, /class="page-section"/);
+  assert.match(changelog, /aria-current="page">Changes/);
   assert.match(changelog, /first-champions/);
   assert.match(changelog, /Subscribe via RSS/);
+  assert.doesNotMatch(home, /aria-current="page"/);
   assert.match(privacy, /How OmaPicks treats visitors/);
   assert.match(privacy, /does not receive an analytics script/);
   assert.match(privacy, /one-way identifier that is salted for that day/);
@@ -372,6 +377,8 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.match(feed, /<\/channel><\/rss>/);
   assert.match(feedXsl, /<xsl:stylesheet/);
   assert.match(feedXsl, /Weekly champion changes/);
+  assert.match(feedXsl, /class="page-section"/);
+  assert.match(feedXsl, /class="page-lede"/);
   assert.match(feedXsl, /class="page-wrap"/);
   assert.match(feedXsl, /href="\/assets\/styles\.css"/);
   assert.match(feedXsl, /href="\/feed\.xml" aria-current="page">RSS/);

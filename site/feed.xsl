@@ -49,10 +49,10 @@
             </nav>
           </header>
           <main id="main">
-            <section class="feed-browser">
+            <section class="page-section">
               <p class="eyebrow">RSS feed</p>
               <h1>Weekly champion changes</h1>
-              <p class="feed-intro"><xsl:value-of select="/rss/channel/description"/> This browser view is provided for people; feed readers receive the same RSS 2.0 entries.</p>
+              <p class="page-lede"><xsl:value-of select="/rss/channel/description"/> This browser view is provided for people; feed readers receive the same RSS 2.0 entries.</p>
               <p class="feed-subscribe"><strong>Subscribe:</strong> copy <a href="/feed.xml">https://omapicks.com/feed.xml</a> into your feed reader.</p>
               <section class="feed-entries" aria-label="Recent changes">
                 <xsl:choose>
