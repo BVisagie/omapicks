@@ -332,7 +332,8 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.ok(home.includes(`alt="${escapeHtml(featured[0].winner.name)} preview"`));
   assert.match(home, /og:image" content="https:\/\/omapicks\.com\/og\/home\.jpg"/);
   assert.match(home, /Plugin metadata, engagement signals, and previews come from/);
-  assert.match(home, /Open-source code/);
+  assert.match(home, /target="_blank" rel="noopener noreferrer">Open-source code<\/a>/);
+  assert.match(feedXsl, /target="_blank" rel="noopener noreferrer">Open-source code<\/a>/);
   assert.match(home, /href="\/privacy\/"/);
   assert.match(methodology, /class="page-section prose"/);
   assert.match(methodology, /aria-current="page">Method/);

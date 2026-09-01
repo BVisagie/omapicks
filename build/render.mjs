@@ -269,7 +269,7 @@ function shell({ title, description, pathname, image, body, structuredData = nul
     <main id="main">${body}</main>
     <footer>
       <p>Plugin metadata, engagement signals, and previews come from <a href="https://plugins.omarchy.org/?sort=copies">Omarchy Plugins</a>. OmaPicks calculates the rankings independently and is not affiliated with Omarchy, 37signals, or omarchyplugins.com.</p>
-      <p><a href="/methodology/#data-sources">Data and methodology</a> · <a href="/privacy/">Privacy</a> · <a href="https://github.com/BVisagie/omapicks">Open-source code</a></p>
+      <p><a href="/methodology/#data-sources">Data and methodology</a> · <a href="/privacy/">Privacy</a> · ${outboundLink("https://github.com/BVisagie/omapicks", "Open-source code")}</p>
     </footer>
   </div>
 </body>
