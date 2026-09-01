@@ -372,6 +372,14 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.match(feed, /<\/channel><\/rss>/);
   assert.match(feedXsl, /<xsl:stylesheet/);
   assert.match(feedXsl, /Weekly champion changes/);
+  assert.match(feedXsl, /class="page-wrap"/);
+  assert.match(feedXsl, /href="\/assets\/styles\.css"/);
+  assert.match(feedXsl, /href="\/feed\.xml" aria-current="page">RSS/);
+  assert.match(feedXsl, /data-theme-toggle/);
+  assert.match(feedXsl, /xsl:attribute name="href"/);
+  assert.match(feedXsl, /local-name\(\)='link'/);
+  assert.doesNotMatch(feedXsl, /href="\{link\}"/);
+  assert.doesNotMatch(feedXsl, /min\(760px/);
   assert.match(headers, /\/feed\.xsl\n  Content-Type: text\/xsl; charset=utf-8/);
   assert.match(headers, /immutable/);
   const publishedRoutes = JSON.parse(routes);

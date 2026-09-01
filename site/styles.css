@@ -1308,6 +1308,78 @@ button {
   background: var(--surface);
 }
 
+.feed-browser {
+  padding: 4.2rem 0 5rem;
+}
+
+.feed-browser h1 {
+  max-width: 14ch;
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(3rem, 6vw, 4.2rem);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+
+.feed-intro {
+  max-width: 42rem;
+  margin: 1.25rem 0 2.5rem;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+.feed-subscribe {
+  margin: 0 0 2.8rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.feed-subscribe strong {
+  color: var(--ink);
+}
+
+.feed-entries {
+  border-top: 1px solid var(--ink);
+}
+
+.feed-entries article {
+  display: grid;
+  grid-template-columns: 12rem minmax(0, 1fr);
+  gap: 1.4rem 2rem;
+  padding: 1.3rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.feed-entries time {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.feed-entries h2 {
+  margin: 0 0 0.35rem;
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  line-height: 1.2;
+}
+
+.feed-entries h2 a {
+  text-decoration: none;
+}
+
+.feed-entries article p,
+.feed-empty {
+  margin: 0;
+  color: var(--muted);
+}
+
+.feed-empty {
+  padding: 2rem 0;
+}
+
 .rss-callout > p:not(.kicker) {
   color: var(--muted);
 }
@@ -1404,8 +1476,18 @@ footer p {
     padding-top: 2.4rem;
   }
 
-  .hero h1 {
+  .hero h1,
+  .feed-browser h1 {
     font-size: clamp(2.75rem, 13vw, 3.8rem);
+  }
+
+  .feed-browser {
+    padding-top: 2.4rem;
+  }
+
+  .feed-entries article {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
   }
 
   .supporting,
