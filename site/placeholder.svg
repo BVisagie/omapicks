@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 405" role="img" aria-label="Plugin preview unavailable">
+  <rect width="720" height="405" fill="#171b2e"/>
+  <path d="M0 0 720 405M720 0 0 405" stroke="#303a5b" stroke-width="2"/>
+  <rect x="215" y="148" width="290" height="108" rx="8" fill="#0f1221" stroke="#4c567a"/>
+  <text x="360" y="194" fill="#8bd5ca" font-family="ui-monospace,monospace" font-size="20" text-anchor="middle">&gt;_ OmaPicks</text>
+  <text x="360" y="225" fill="#9aa3bf" font-family="ui-monospace,monospace" font-size="13" text-anchor="middle">preview unavailable</text>
+</svg>

@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "types": [
+    {
+      "id": "system-monitor",
+      "name": "System Monitor",
+      "description": "CPU, memory, temperature, and resource monitoring",
+      "include": ["\\b(system|resource|hardware) monitor\\b", "\\b(cpu|processor|ram|memory|temperature|thermals?)\\b", "\\b(btop|htop|nvtop)\\b"],
+      "exclude": ["\\bkeyboard\\b", "\\bkeybind"]
+    },
+    {
+      "id": "vpn",
+      "name": "VPN",
+      "description": "VPN status, connection, and privacy controls",
+      "include": ["\\b(vpn|wireguard|openvpn|tailscale|proton\\s?vpn|mullvad)\\b"]
+    },
+    {
+      "id": "mail",
+      "name": "Mail",
+      "description": "Unread mail, inbox, and email shortcuts",
+      "include": ["\\b(e-?mail|mailbox|gmail|imap|thunderbird|fastmail)\\b", "\\boutlook mail\\b"],
+      "exclude": ["\\bminimap\\b"]
+    },
+    {
+      "id": "music",
+      "name": "Music",
+      "description": "Music playback and now-playing controls",
+      "include": ["\\b(spotify|music|mpris|playerctl|now playing|media player)\\b"],
+      "exclude": ["\\bvideo wall\\b"]
+    },
+    {
+      "id": "weather",
+      "name": "Weather",
+      "description": "Forecasts and current conditions",
+      "include": ["\\b(weather|forecast|temperature outside|meteo|precipitation)\\b"]
+    },
+    {
+      "id": "battery",
+      "name": "Battery",
+      "description": "Battery level, charging, and power health",
+      "include": ["\\b(battery|charging|charge limit|power profile|upower)\\b"],
+      "exclude": ["\\bcar battery\\b"]
+    },
+    {
+      "id": "clipboard",
+      "name": "Clipboard",
+      "description": "Clipboard history and quick paste tools",
+      "include": ["\\b(clipboard|cliphist|copy history|paste history)\\b"]
+    },
+    {
+      "id": "launcher",
+      "name": "Launcher",
+      "description": "Application launchers, command palettes, and quick search",
+      "include": ["\\b(app|application|command|program|web) launcher\\b", "\\b(rofi|wofi|fuzzel|walker)\\b", "\\bcommand palette\\b"]
+    },
+    {
+      "id": "network",
+      "name": "Network",
+      "description": "Network status, traffic, Wi-Fi, and connectivity",
+      "include": ["\\b(network|wifi|wi-fi|ethernet|bandwidth|internet speed|traffic monitor|latency|ping)\\b"],
+      "exclude": ["\\bsocial network\\b", "\\bneural network\\b"]
+    },
+    {
+      "id": "bluetooth",
+      "name": "Bluetooth",
+      "description": "Bluetooth devices, status, and controls",
+      "include": ["\\b(bluetooth|bluez|blueman)\\b"]
+    },
+    {
+      "id": "audio",
+      "name": "Audio",
+      "description": "Volume, microphones, sinks, and audio routing",
+      "include": ["\\b(volume|audio|microphone|pipewire|pulseaudio|sound output|audio sink)\\b"],
+      "exclude": ["\\baudiobook\\b"]
+    },
+    {
+      "id": "brightness",
+      "name": "Brightness",
+      "description": "Display brightness and night-light controls",
+      "include": ["\\b(brightness|backlight|night light|blue light|gammastep|hyprsunset)\\b"]
+    },
+    {
+      "id": "notifications",
+      "name": "Notifications",
+      "description": "Notification centers, history, and do-not-disturb",
+      "include": ["\\b(notification|notifications|do not disturb|dnd mode|mako)\\b"]
+    },
+    {
+      "id": "calendar",
+      "name": "Calendar",
+      "description": "Calendars, events, and agenda widgets",
+      "include": ["\\b(calendar|agenda|caldav|google calendar|events? widget)\\b"]
+    },
+    {
+      "id": "clock-timer",
+      "name": "Clock & Timer",
+      "description": "Clocks, timers, stopwatches, and alarms",
+      "include": ["\\b(clock|timer|stopwatch|alarm|world time|time zone)\\b"],
+      "exclude": ["\\bclock speed\\b"]
+    },
+    {
+      "id": "focus",
+      "name": "Focus",
+      "description": "Pomodoro, habits, tasks, and focus sessions",
+      "include": ["\\b(pomodoro|focus timer|focus session|habit tracker|todo|to-do|task list)\\b"]
+    },
+    {
+      "id": "workspaces",
+      "name": "Workspaces",
+      "description": "Hyprland workspace indicators and navigation",
+      "include": ["\\b(workspace|workspaces|virtual desktop)\\b"]
+    },
+    {
+      "id": "window-management",
+      "name": "Window Management",
+      "description": "Window switchers, layouts, tiling, and window rules",
+      "include": ["\\b(window switcher|window management|window manager|window rules?|tiling|layout switcher|alt[+-]?tab|exposé)\\b", "\\b(workspace|window) overview\\b"]
+    },
+    {
+      "id": "screenshots",
+      "name": "Screenshots & Recording",
+      "description": "Screenshots, screen recording, and OCR capture",
+      "include": ["\\b(screenshot|screen capture|screen record|screen recorder|ocr|grimblast|slurp)\\b"]
+    },
+    {
+      "id": "wallpaper",
+      "name": "Wallpaper",
+      "description": "Wallpaper browsing, switching, and automation",
+      "include": ["\\b(wallpaper|background image|hyprpaper|swww)\\b"]
+    },
+    {
+      "id": "color-picker",
+      "name": "Color Picker",
+      "description": "On-screen color picking and palette tools",
+      "include": ["\\b(color picker|colour picker|eyedropper|hyprpicker)\\b"]
+    },
+    {
+      "id": "ai-assistant",
+      "name": "AI Assistant",
+      "description": "AI chat, local models, and model launchers",
+      "include": ["\\b(ai assistant|artificial intelligence|chatgpt|claude|gemini|ollama|llm|language model)\\b"]
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "description": "GitHub activity, pull requests, issues, and shortcuts",
+      "include": ["\\bgithub (inbox|notifications?|pull requests?|issues?|actions?|repositories?|repo search|status|stats|contributions?)\\b", "\\bpull requests?\\b", "\\breview requests?\\b"]
+    },
+    {
+      "id": "containers",
+      "name": "Containers",
+      "description": "Docker, Podman, and container management",
+      "include": ["\\b(docker|podman|container|containers|kubernetes|k8s)\\b"]
+    },
+    {
+      "id": "gaming",
+      "name": "Gaming",
+      "description": "Game launchers, performance, and gaming status",
+      "include": ["\\b(gaming|games? launcher|steam|lutris|protondb|game mode|gamemode)\\b"]
+    },
+    {
+      "id": "system-updates",
+      "name": "System Updates",
+      "description": "Arch package updates and update notifications",
+      "include": ["\\b(system|package|arch|aur) updates?\\b", "\\b(pacman|yay|paru) updates?\\b", "\\bupdate checker\\b"]
+    }
+  ],
+  "overrides": {
+    "include": {},
+    "exclude": {
+      "monorkin.voyager-disco": ["color-picker"],
+      "network-speed": ["color-picker"],
+      "io.github.aryagorjipour.nitro-keyboard": ["color-picker"]
+    }
+  }
+}

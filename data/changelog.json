@@ -1,0 +1,267 @@
+{
+  "schemaVersion": 1,
+  "week": "2026-W36",
+  "generatedAt": "2026-09-01T09:43:30.892Z",
+  "changes": [
+    {
+      "typeId": "system-monitor",
+      "typeName": "System Monitor",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "im0001gt.hw-tooltip",
+        "name": "Hardware Tooltip"
+      }
+    },
+    {
+      "typeId": "vpn",
+      "typeName": "VPN",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.grichard99.omaproton-vpn",
+        "name": "OmaProton VPN"
+      }
+    },
+    {
+      "typeId": "mail",
+      "typeName": "Mail",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "omamail",
+        "name": "Omamail"
+      }
+    },
+    {
+      "typeId": "music",
+      "typeName": "Music",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "crmne.mpris",
+        "name": "Media Controls + Album Art"
+      }
+    },
+    {
+      "typeId": "weather",
+      "typeName": "Weather",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "eduardodallecort.weather-radar",
+        "name": "Weather Radar"
+      }
+    },
+    {
+      "typeId": "battery",
+      "typeName": "Battery",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "omaconnect",
+        "name": "OmaConnect"
+      }
+    },
+    {
+      "typeId": "clipboard",
+      "typeName": "Clipboard",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "omaconnect",
+        "name": "OmaConnect"
+      }
+    },
+    {
+      "typeId": "launcher",
+      "typeName": "Launcher",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "tyrsolution.app-launcher",
+        "name": "App Launcher"
+      }
+    },
+    {
+      "typeId": "network",
+      "typeName": "Network",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "vitals",
+        "name": "Vitals"
+      }
+    },
+    {
+      "typeId": "bluetooth",
+      "typeName": "Bluetooth",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "ssupt.audio-control",
+        "name": "Advanced Audio Control"
+      }
+    },
+    {
+      "typeId": "audio",
+      "typeName": "Audio",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "ssupt.audio-control",
+        "name": "Advanced Audio Control"
+      }
+    },
+    {
+      "typeId": "brightness",
+      "typeName": "Brightness",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "crmne.hyprmoncfg",
+        "name": "hyprmoncfg: Multi-Monitor Manager for Omarchy"
+      }
+    },
+    {
+      "typeId": "notifications",
+      "typeName": "Notifications",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "jankeesvw.notification-center",
+        "name": "Notification Center"
+      }
+    },
+    {
+      "typeId": "calendar",
+      "typeName": "Calendar",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "tmn73.calendar",
+        "name": "Calendar"
+      }
+    },
+    {
+      "typeId": "clock-timer",
+      "typeName": "Clock & Timer",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "pnkm0nk.omodoro",
+        "name": "Omodoro"
+      }
+    },
+    {
+      "typeId": "focus",
+      "typeName": "Focus",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "pnkm0nk.omodoro",
+        "name": "Omodoro"
+      }
+    },
+    {
+      "typeId": "workspaces",
+      "typeName": "Workspaces",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "crmne.hyprmoncfg",
+        "name": "hyprmoncfg: Multi-Monitor Manager for Omarchy"
+      }
+    },
+    {
+      "typeId": "window-management",
+      "typeName": "Window Management",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.pablo-merino.altswitch",
+        "name": "Alt-tab switcher"
+      }
+    },
+    {
+      "typeId": "screenshots",
+      "typeName": "Screenshots & Recording",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "b.omashot",
+        "name": "Omashot"
+      }
+    },
+    {
+      "typeId": "wallpaper",
+      "typeName": "Wallpaper",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "nosignal.motion-wallpaper",
+        "name": "Motion Wallpaper"
+      }
+    },
+    {
+      "typeId": "color-picker",
+      "typeName": "Color Picker",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.ajanraj.chroma",
+        "name": "Chroma"
+      }
+    },
+    {
+      "typeId": "ai-assistant",
+      "typeName": "AI Assistant",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "othavi0.agent-bar",
+        "name": "Agent Bar"
+      }
+    },
+    {
+      "typeId": "github",
+      "typeName": "GitHub",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "robzolkos.github",
+        "name": "GitHub"
+      }
+    },
+    {
+      "typeId": "containers",
+      "typeName": "Containers",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.randazraik.xray",
+        "name": "Omarchy X-Ray"
+      }
+    },
+    {
+      "typeId": "gaming",
+      "typeName": "Gaming",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "silvaio.gamemode",
+        "name": "Game Mode Switcher"
+      }
+    },
+    {
+      "typeId": "system-updates",
+      "typeName": "System Updates",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "dizziee.system-updates",
+        "name": "System Updates"
+      }
+    }
+  ]
+}

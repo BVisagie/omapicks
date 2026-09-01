@@ -1,0 +1,44 @@
+name: Weekly rankings
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: weekly-rankings
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+      - name: Use Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: 24
+      - name: Refresh validated snapshot
+        run: node build/refresh.mjs
+      - name: Test refreshed data and render
+        run: npm run check
+      - name: Commit snapshot when changed
+        shell: bash
+        run: |
+          git add data/rankings.json data/changelog.json data/unclassified-report.json data/history data/assets
+          if git diff --cached --quiet; then
+            echo "No validated ranking changes to commit."
+            exit 0
+          fi
+          WEEK="$(node -p "JSON.parse(require('fs').readFileSync('data/rankings.json')).week")"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: refresh OmaPicks rankings for ${WEEK}"
+          git push

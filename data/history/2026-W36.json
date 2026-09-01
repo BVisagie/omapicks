@@ -1,0 +1,2629 @@
+{
+  "schemaVersion": 1,
+  "methodologyVersion": "1.0.0",
+  "site": "https://omapicks.com",
+  "week": "2026-W36",
+  "generatedAt": "2026-09-01T09:43:30.892Z",
+  "source": {
+    "catalog": {
+      "url": "https://plugins.omarchy.org/catalog.json",
+      "generatedAt": "2026-09-01T09:24:04.447Z",
+      "etag": "W/\"6a969b5f-4d6b64\"",
+      "lastModified": "Tue, 01 Sep 2026 09:31:11 GMT",
+      "sha256": "6b3421665470cf07755a9d20add14fbcb1f468cc0ceb702eb06dde9758af5812",
+      "count": 2064
+    },
+    "stats": {
+      "url": "https://api.omarchyplugins.com/v1/stats",
+      "schemaVersion": 1,
+      "etag": null,
+      "lastModified": "Tue, 01 Sep 2026 09:42:08 GMT",
+      "sha256": "efd6036cfbd06c8edde96cf0f1438d79ff7c804884d23295bc8f8c54212c50ce",
+      "count": 2081
+    }
+  },
+  "types": [
+    {
+      "id": "system-monitor",
+      "name": "System Monitor",
+      "description": "CPU, memory, temperature, and resource monitoring",
+      "eligibleCount": 88,
+      "winner": {
+        "id": "im0001gt.hw-tooltip",
+        "name": "Hardware Tooltip",
+        "description": "Omarchy-native click panel that names your CPU, RAM, GPU, and disks, then shows live load bars that follow the theme",
+        "author": "IM0001GT",
+        "category": "Hardware",
+        "repository": "https://github.com/IM0001GT/omarchy-hw-tooltip",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=im0001gt.hw-tooltip",
+        "installCommand": "omarchy plugin add https://github.com/IM0001GT/omarchy-hw-tooltip.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-22T03:48:27.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-im0001gt-omarchy-hw-tooltip-card.webp",
+        "previewWidth": 500,
+        "previewHeight": 720,
+        "localImage": null,
+        "metrics": {
+          "copies": 717,
+          "hearts": 46,
+          "stars": 4,
+          "views": 1758
+        },
+        "normalized": {
+          "copies": 0.992727,
+          "hearts": 0.992727,
+          "stars": 0.822216,
+          "views": 0.976869,
+          "freshness": 0.961311,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.357382,
+          "hearts": 0.198545,
+          "stars": 0.147999,
+          "views": 0.07815,
+          "freshness": 0.12497,
+          "verified": 0.05
+        },
+        "evidence": 0.985455,
+        "freshnessDays": 10,
+        "score": 0.957046
+      },
+      "runnerUp": {
+        "id": "stappmus.activity-monitor",
+        "name": "Activity Monitor",
+        "description": "A calm, low-overhead glance at CPU, memory, GPU, storage, and processes — with a die that matches your chip",
+        "author": "Kristoffer Haugland",
+        "category": "System",
+        "repository": "https://github.com/stappmus/omarchy-activity-monitor",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=stappmus.activity-monitor",
+        "installCommand": "omarchy plugin add https://github.com/stappmus/omarchy-activity-monitor.git --enable",
+        "verificationStatus": "unverified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-31T08:15:14.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-stappmus-omarchy-activity-monitor-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 665,
+        "localImage": null,
+        "metrics": {
+          "copies": 674,
+          "hearts": 29,
+          "stars": 29,
+          "views": 2286
+        },
+        "normalized": {
+          "copies": 0.976317,
+          "hearts": 0.960478,
+          "stars": 0.992157,
+          "views": 0.992157,
+          "freshness": 0.995921,
+          "verified": 0
+        },
+        "contributions": {
+          "copies": 0.351474,
+          "hearts": 0.192096,
+          "stars": 0.178588,
+          "views": 0.079373,
+          "freshness": 0.12947,
+          "verified": 0
+        },
+        "evidence": 0.984314,
+        "freshnessDays": 1,
+        "score": 0.931001
+      }
+    },
+    {
+      "id": "vpn",
+      "name": "VPN",
+      "description": "VPN status, connection, and privacy controls",
+      "eligibleCount": 32,
+      "winner": {
+        "id": "io.github.grichard99.omaproton-vpn",
+        "name": "OmaProton VPN",
+        "description": "Proton VPN, built for Omarchy. No terminal: one click to connect, a world map of cities, Kill Switch, in a widget that wears every Omarchy theme.",
+        "author": "grichard99",
+        "category": "Widgets",
+        "repository": "https://github.com/grichard99/omaproton-vpn",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.grichard99.omaproton-vpn",
+        "installCommand": "omarchy plugin add https://github.com/grichard99/omaproton-vpn.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-28T16:21:45.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/10-grichard99-omaproton-vpn-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 405,
+        "localImage": null,
+        "metrics": {
+          "copies": 613,
+          "hearts": 51,
+          "stars": 32,
+          "views": 1846
+        },
+        "normalized": {
+          "copies": 0.969528,
+          "hearts": 0.969528,
+          "stars": 0.991736,
+          "views": 0.944663,
+          "freshness": 0.985764,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.34903,
+          "hearts": 0.193906,
+          "stars": 0.178512,
+          "views": 0.075573,
+          "freshness": 0.128149,
+          "verified": 0.05
+        },
+        "evidence": 0.983471,
+        "freshnessDays": 3,
+        "score": 0.97517
+      },
+      "runnerUp": {
+        "id": "omaconnect",
+        "name": "OmaConnect",
+        "description": "Seamless KDE Connect integration for Omarchy: Tailscale discovery, pairing, SMS, battery stats, clipboard sync, file sharing, remote commands, and media controls.",
+        "author": "Jitendra Dara (jitendradara12)",
+        "category": "Productivity",
+        "repository": "https://github.com/jitendradara12/omaconnect",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=omaconnect",
+        "installCommand": "omarchy plugin add https://github.com/jitendradara12/omaconnect.git --enable",
+        "verificationStatus": "unverified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-30T21:55:19.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/14-jitendradara12-omaconnect-card.webp",
+        "previewWidth": 709,
+        "previewHeight": 473,
+        "localImage": null,
+        "metrics": {
+          "copies": 617,
+          "hearts": 92,
+          "stars": 21,
+          "views": 2378
+        },
+        "normalized": {
+          "copies": 0.992218,
+          "hearts": 0.992218,
+          "stars": 0.936341,
+          "views": 0.992218,
+          "freshness": 0.994272,
+          "verified": 0
+        },
+        "contributions": {
+          "copies": 0.357198,
+          "hearts": 0.198444,
+          "stars": 0.168541,
+          "views": 0.079377,
+          "freshness": 0.129255,
+          "verified": 0
+        },
+        "evidence": 0.984436,
+        "freshnessDays": 1,
+        "score": 0.932815
+      }
+    },
+    {
+      "id": "mail",
+      "name": "Mail",
+      "description": "Unread mail, inbox, and email shortcuts",
+      "eligibleCount": 13,
+      "winner": {
+        "id": "omamail",
+        "name": "Omamail",
+        "description": "Email client for Omarchy: read, triage, and reply to Gmail, HEY and any IMAP mailbox in a native window. Fastmail, iCloud, Outlook, Zoho, or your own server.",
+        "author": "Jason Lee <huacnlee@gmail.com>",
+        "category": "Productivity",
+        "repository": "https://github.com/huacnlee/omamail",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=omamail",
+        "installCommand": "omarchy plugin add https://github.com/huacnlee/omamail.git --enable",
+        "verificationStatus": "unverified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-31T13:46:42.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-huacnlee-omamail-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 513,
+        "localImage": null,
+        "metrics": {
+          "copies": 965,
+          "hearts": 54,
+          "stars": 122,
+          "views": 5764
+        },
+        "normalized": {
+          "copies": 0.99445,
+          "hearts": 0.99445,
+          "stars": 0.99445,
+          "views": 0.99445,
+          "freshness": 0.996805,
+          "verified": 0
+        },
+        "contributions": {
+          "copies": 0.358002,
+          "hearts": 0.19889,
+          "stars": 0.179001,
+          "views": 0.079556,
+          "freshness": 0.129585,
+          "verified": 0
+        },
+        "evidence": 0.988899,
+        "freshnessDays": 0,
+        "score": 0.945034
+      },
+      "runnerUp": {
+        "id": "jankeesvw.gmail-inbox",
+        "name": "Gmail Inbox",
+        "description": "Unread count in the bar, with the inbox in a panel",
+        "author": "Jankees",
+        "category": "Productivity",
+        "repository": "https://github.com/jankeesvw/omarchy-gmail-inbox",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=jankeesvw.gmail-inbox",
+        "installCommand": "omarchy plugin add https://github.com/jankeesvw/omarchy-gmail-inbox.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-29T12:23:26.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/9-jankeesvw-omarchy-gmail-inbox-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 475,
+        "localImage": null,
+        "metrics": {
+          "copies": 108,
+          "hearts": 8,
+          "stars": 10,
+          "views": 535
+        },
+        "normalized": {
+          "copies": 0.864012,
+          "hearts": 0.776779,
+          "stars": 0.827965,
+          "views": 0.871071,
+          "freshness": 0.988937,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.311044,
+          "hearts": 0.155356,
+          "stars": 0.149034,
+          "views": 0.069686,
+          "freshness": 0.128562,
+          "verified": 0.05
+        },
+        "evidence": 0.922456,
+        "freshnessDays": 2,
+        "score": 0.863682
+      }
+    },
+    {
+      "id": "music",
+      "name": "Music",
+      "description": "Music playback and now-playing controls",
+      "eligibleCount": 38,
+      "winner": {
+        "id": "crmne.mpris",
+        "name": "Media Controls + Album Art",
+        "description": "Media controls for the Omarchy bar with live album art, now-playing details, and previous/play-pause/next buttons for Spotify and other players.",
+        "author": "Carmine Paolino",
+        "category": "Widgets",
+        "repository": "https://github.com/crmne/omarchy-mpris",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=crmne.mpris",
+        "installCommand": "omarchy plugin add https://github.com/crmne/omarchy-mpris.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-14T11:33:21.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/5-crmne-omarchy-mpris-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 405,
+        "localImage": null,
+        "metrics": {
+          "copies": 412,
+          "hearts": 16,
+          "stars": 8,
+          "views": 1074
+        },
+        "normalized": {
+          "copies": 0.9693,
+          "hearts": 0.9693,
+          "stars": 0.945207,
+          "views": 0.9693,
+          "freshness": 0.933307,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.348948,
+          "hearts": 0.19386,
+          "stars": 0.170137,
+          "views": 0.077544,
+          "freshness": 0.12133,
+          "verified": 0.05
+        },
+        "evidence": 0.97551,
+        "freshnessDays": 17,
+        "score": 0.961819
+      },
+      "runnerUp": {
+        "id": "quickshell.ytmusic",
+        "name": "Omarchy YouTube Music",
+        "description": "YouTube Music in Quickshell—not Chromium. Search, library, playlists, and a mini player, with local mpv playback.",
+        "author": "rlimberger",
+        "category": "Widgets",
+        "repository": "https://github.com/rlimberger/omarchy-ytmusic",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=quickshell.ytmusic",
+        "installCommand": "omarchy plugin add https://github.com/rlimberger/omarchy-ytmusic.git --enable",
+        "verificationStatus": "unverified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-20T10:15:20.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/10-rlimberger-omarchy-ytmusic-card.webp",
+        "previewWidth": 655,
+        "previewHeight": 720,
+        "localImage": null,
+        "metrics": {
+          "copies": 525,
+          "hearts": 47,
+          "stars": 16,
+          "views": 1958
+        },
+        "normalized": {
+          "copies": 0.990536,
+          "hearts": 0.990536,
+          "stars": 0.990536,
+          "views": 0.990536,
+          "freshness": 0.954923,
+          "verified": 0
+        },
+        "contributions": {
+          "copies": 0.356593,
+          "hearts": 0.198107,
+          "stars": 0.178296,
+          "views": 0.079243,
+          "freshness": 0.12414,
+          "verified": 0
+        },
+        "evidence": 0.981073,
+        "freshnessDays": 11,
+        "score": 0.936379
+      }
+    },
+    {
+      "id": "weather",
+      "name": "Weather",
+      "description": "Forecasts and current conditions",
+      "eligibleCount": 19,
+      "winner": {
+        "id": "eduardodallecort.weather-radar",
+        "name": "Weather Radar",
+        "description": "Live weather radar map in the Omarchy bar, with optional storm alerts for your location.",
+        "author": "Eduardo Dalle Cort",
+        "category": "Widgets",
+        "repository": "https://github.com/eduardodallecort/omarchy-weather-radar",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=eduardodallecort.weather-radar",
+        "installCommand": "omarchy plugin add https://github.com/eduardodallecort/omarchy-weather-radar.git --enable",
+        "verificationStatus": "unverified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-09-01T01:03:07.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/16-eduardodallecort-omarchy-weather-radar-card.webp",
+        "previewWidth": 589,
+        "previewHeight": 720,
+        "localImage": null,
+        "metrics": {
+          "copies": 662,
+          "hearts": 45,
+          "stars": 9,
+          "views": 2012
+        },
+        "normalized": {
+          "copies": 0.992198,
+          "hearts": 0.992198,
+          "stars": 0.992198,
+          "views": 0.992198,
+          "freshness": 0.998609,
+          "verified": 0
+        },
+        "contributions": {
+          "copies": 0.357191,
+          "hearts": 0.19844,
+          "stars": 0.178596,
+          "views": 0.079376,
+          "freshness": 0.129819,
+          "verified": 0
+        },
+        "evidence": 0.984395,
+        "freshnessDays": 0,
+        "score": 0.943422
+      },
+      "runnerUp": {
+        "id": "io.github.calebhat.weather",
+        "name": "Detailed Weather",
+        "description": "Replaces the Omarchy weather pill with today's remaining-hour forecast, a ten-day outlook, city peek, and Open radar in the default browser.",
+        "author": "calebhat",
+        "category": "Widgets",
+        "repository": "https://github.com/calebhat/omarchy-weather",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.calebhat.weather",
+        "installCommand": "omarchy plugin add https://github.com/calebhat/omarchy-weather.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-21T22:50:14.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-calebhat-omarchy-weather-card.webp",
+        "previewWidth": 596,
+        "previewHeight": 720,
+        "localImage": null,
+        "metrics": {
+          "copies": 130,
+          "hearts": 10,
+          "stars": 3,
+          "views": 358
+        },
+        "normalized": {
+          "copies": 0.919568,
+          "hearts": 0.794581,
+          "stars": 0.825758,
+          "views": 0.79464,
+          "freshness": 0.960544,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.331044,
+          "hearts": 0.158916,
+          "stars": 0.148636,
+          "views": 0.063571,
+          "freshness": 0.124871,
+          "verified": 0.05
+        },
+        "evidence": 0.92937,
+        "freshnessDays": 10,
+        "score": 0.877038
+      }
+    },
+    {
+      "id": "battery",
+      "name": "Battery",
+      "description": "Battery level, charging, and power health",
+      "eligibleCount": 44,
+      "winner": {
+        "id": "omaconnect",
+        "name": "OmaConnect",
+        "description": "Seamless KDE Connect integration for Omarchy: Tailscale discovery, pairing, SMS, battery stats, clipboard sync, file sharing, remote commands, and media controls.",
+        "author": "Jitendra Dara (jitendradara12)",
+        "category": "Productivity",
+        "repository": "https://github.com/jitendradara12/omaconnect",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=omaconnect",
+        "installCommand": "omarchy plugin add https://github.com/jitendradara12/omaconnect.git --enable",
+        "verificationStatus": "unverified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-30T21:55:19.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/14-jitendradara12-omaconnect-card.webp",
+        "previewWidth": 709,
+        "previewHeight": 473,
+        "localImage": null,
+        "metrics": {
+          "copies": 617,
+          "hearts": 92,
+          "stars": 21,
+          "views": 2378
+        },
+        "normalized": {
+          "copies": 0.992218,
+          "hearts": 0.992218,
+          "stars": 0.992218,
+          "views": 0.992218,
+          "freshness": 0.994272,
+          "verified": 0
+        },
+        "contributions": {
+          "copies": 0.357198,
+          "hearts": 0.198444,
+          "stars": 0.178599,
+          "views": 0.079377,
+          "freshness": 0.129255,
+          "verified": 0
+        },
+        "evidence": 0.984436,
+        "freshnessDays": 1,
+        "score": 0.942873
+      },
+      "runnerUp": {
+        "id": "io.github.diegopluna.argus",
+        "name": "Argus",
+        "description": "CPU, RAM, GPU, disk, network, battery, power, and temperature stats in the bar, with a full system panel: 2m/1h/24h history that survives restarts (the flight recorder), per-metric opt-in alerts with context snapshots, a filterable sortable process table, per-process GPU usage, drive SMART health, an alert hook for automation, and a GAME tab that configures your MangoHud in-game overlay live.",
+        "author": "Diego Peter",
+        "category": "System",
+        "repository": "https://github.com/diegopluna/omarchy-argus",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.diegopluna.argus",
+        "installCommand": "omarchy plugin add https://github.com/diegopluna/omarchy-argus.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-30T03:19:39.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/10-diegopluna-omarchy-argus-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 405,
+        "localImage": null,
+        "metrics": {
+          "copies": 169,
+          "hearts": 19,
+          "stars": 2,
+          "views": 616
+        },
+        "normalized": {
+          "copies": 0.958571,
+          "hearts": 0.958571,
+          "stars": 0.729385,
+          "views": 0.958571,
+          "freshness": 0.99131,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.345086,
+          "hearts": 0.191714,
+          "stars": 0.131289,
+          "views": 0.076686,
+          "freshness": 0.12887,
+          "verified": 0.05
+        },
+        "evidence": 0.948007,
+        "freshnessDays": 2,
+        "score": 0.923645
+      }
+    },
+    {
+      "id": "clipboard",
+      "name": "Clipboard",
+      "description": "Clipboard history and quick paste tools",
+      "eligibleCount": 29,
+      "winner": {
+        "id": "omaconnect",
+        "name": "OmaConnect",
+        "description": "Seamless KDE Connect integration for Omarchy: Tailscale discovery, pairing, SMS, battery stats, clipboard sync, file sharing, remote commands, and media controls.",
+        "author": "Jitendra Dara (jitendradara12)",
+        "category": "Productivity",
+        "repository": "https://github.com/jitendradara12/omaconnect",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=omaconnect",
+        "installCommand": "omarchy plugin add https://github.com/jitendradara12/omaconnect.git --enable",
+        "verificationStatus": "unverified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-30T21:55:19.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/14-jitendradara12-omaconnect-card.webp",
+        "previewWidth": 709,
+        "previewHeight": 473,
+        "localImage": null,
+        "metrics": {
+          "copies": 617,
+          "hearts": 92,
+          "stars": 21,
+          "views": 2378
+        },
+        "normalized": {
+          "copies": 0.992218,
+          "hearts": 0.992218,
+          "stars": 0.992218,
+          "views": 0.992218,
+          "freshness": 0.994272,
+          "verified": 0
+        },
+        "contributions": {
+          "copies": 0.357198,
+          "hearts": 0.198444,
+          "stars": 0.178599,
+          "views": 0.079377,
+          "freshness": 0.129255,
+          "verified": 0
+        },
+        "evidence": 0.984436,
+        "freshnessDays": 1,
+        "score": 0.942873
+      },
+      "runnerUp": {
+        "id": "io.github.vuhuy.clipboard-manager",
+        "name": "Clipboard Manager",
+        "description": "A native Omarchy bar panel for browsing and reusing clipboard history.",
+        "author": "Huy Vu Quang",
+        "category": "Productivity",
+        "repository": "https://github.com/huyhuyvu01/omarchy-clipboard",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.vuhuy.clipboard-manager",
+        "installCommand": "omarchy plugin add https://github.com/huyhuyvu01/omarchy-clipboard.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-17T17:39:30.000Z",
+        "previewSource": null,
+        "previewWidth": null,
+        "previewHeight": null,
+        "localImage": null,
+        "metrics": {
+          "copies": 147,
+          "hearts": 6,
+          "stars": 4,
+          "views": 471
+        },
+        "normalized": {
+          "copies": 0.944769,
+          "hearts": 0.794955,
+          "stars": 0.944769,
+          "views": 0.921015,
+          "freshness": 0.945077,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.340117,
+          "hearts": 0.158991,
+          "stars": 0.170058,
+          "views": 0.073681,
+          "freshness": 0.12286,
+          "verified": 0.05
+        },
+        "evidence": 0.936356,
+        "freshnessDays": 14,
+        "score": 0.915707
+      }
+    },
+    {
+      "id": "launcher",
+      "name": "Launcher",
+      "description": "Application launchers, command palettes, and quick search",
+      "eligibleCount": 10,
+      "winner": {
+        "id": "tyrsolution.app-launcher",
+        "name": "App Launcher",
+        "description": "Centered icon-grid app launcher: clickable app icons, live install/remove tracking, frecency ordering",
+        "author": "Tyrsolution",
+        "category": "Desktop",
+        "repository": "https://github.com/Tyrsolution/omarchy-app-launcher",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=tyrsolution.app-launcher",
+        "installCommand": "omarchy plugin add https://github.com/Tyrsolution/omarchy-app-launcher.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-23T23:38:22.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/11-tyrsolution-omarchy-app-launcher-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 509,
+        "localImage": null,
+        "metrics": {
+          "copies": 289,
+          "hearts": 20,
+          "stars": 1,
+          "views": 928
+        },
+        "normalized": {
+          "copies": 0.983669,
+          "hearts": 0.983669,
+          "stars": 0.45058,
+          "views": 0.983669,
+          "freshness": 0.968095,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.354121,
+          "hearts": 0.196734,
+          "stars": 0.081104,
+          "views": 0.078694,
+          "freshness": 0.125852,
+          "verified": 0.05
+        },
+        "evidence": 0.967338,
+        "freshnessDays": 8,
+        "score": 0.886505
+      },
+      "runnerUp": {
+        "id": "io.github.ilyazar.plugin-control",
+        "name": "Plugin Control",
+        "description": "Fuzzy command palette (Ctrl+P-like) for quickly adding, updating, enabling, disabling, and removing plugins (a la Sublime Text Package Control or VS Code Command Palette). The tray icon can be hidden in the settings so it runs nicely in the background without bloating your system. The main keybinding is customizable. The palette opens only when you fire it up, so it works on slower systems with minimal overhead (approximately 10 MiB of additional memory while idle).",
+        "author": "ilyaZar",
+        "category": "Developer Tools",
+        "repository": "https://github.com/ilyaZar/plugin-control",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.ilyazar.plugin-control",
+        "installCommand": "omarchy plugin add https://github.com/ilyaZar/plugin-control.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-30T21:28:10.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/7-ilyazar-plugin-control-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 270,
+        "localImage": null,
+        "metrics": {
+          "copies": 110,
+          "hearts": 7,
+          "stars": 3,
+          "views": 448
+        },
+        "normalized": {
+          "copies": 0.860901,
+          "hearts": 0.832587,
+          "stars": 0.866292,
+          "views": 0.871781,
+          "freshness": 0.9942,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.309924,
+          "hearts": 0.166517,
+          "stars": 0.155933,
+          "views": 0.069742,
+          "freshness": 0.129246,
+          "verified": 0.05
+        },
+        "evidence": 0.92074,
+        "freshnessDays": 1,
+        "score": 0.881362
+      }
+    },
+    {
+      "id": "network",
+      "name": "Network",
+      "description": "Network status, traffic, Wi-Fi, and connectivity",
+      "eligibleCount": 62,
+      "winner": {
+        "id": "vitals",
+        "name": "Vitals",
+        "description": "Native Linux CPU, memory, GPU, storage, network, and process monitor",
+        "author": "niraletter",
+        "category": "System",
+        "repository": "https://github.com/niraletter/vitals",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=vitals",
+        "installCommand": "omarchy plugin add https://github.com/niraletter/vitals.git --enable",
+        "verificationStatus": "unverified",
+        "license": "See repository",
+        "repositoryUpdatedAt": "2026-08-26T13:31:37.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/10-niraletter-vitals-card.webp",
+        "previewWidth": 517,
+        "previewHeight": 720,
+        "localImage": null,
+        "metrics": {
+          "copies": 689,
+          "hearts": 32,
+          "stars": 7,
+          "views": 1301
+        },
+        "normalized": {
+          "copies": 0.992337,
+          "hearts": 0.992337,
+          "stars": 0.947139,
+          "views": 0.992337,
+          "freshness": 0.977756,
+          "verified": 0
+        },
+        "contributions": {
+          "copies": 0.357241,
+          "hearts": 0.198467,
+          "stars": 0.170485,
+          "views": 0.079387,
+          "freshness": 0.127108,
+          "verified": 0
+        },
+        "evidence": 0.984674,
+        "freshnessDays": 5,
+        "score": 0.932688
+      },
+      "runnerUp": {
+        "id": "io.github.r-witz.nothing-ear",
+        "name": "Nothing Audio",
+        "description": "Nothing earbuds and headphones in the Omarchy bar: battery, noise control, codec selection, and low-latency mode.",
+        "author": "r-witz",
+        "category": "Hardware",
+        "repository": "https://github.com/r-witz/omarchy-nothing-ear",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.r-witz.nothing-ear",
+        "installCommand": "omarchy plugin add https://github.com/r-witz/omarchy-nothing-ear.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-27T19:19:51.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/6-r-witz-omarchy-nothing-ear-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 379,
+        "localImage": null,
+        "metrics": {
+          "copies": 103,
+          "hearts": 18,
+          "stars": 9,
+          "views": 482
+        },
+        "normalized": {
+          "copies": 0.883015,
+          "hearts": 0.94061,
+          "stars": 0.951209,
+          "views": 0.876237,
+          "freshness": 0.982443,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.317885,
+          "hearts": 0.188122,
+          "stars": 0.171218,
+          "views": 0.070099,
+          "freshness": 0.127718,
+          "verified": 0.05
+        },
+        "evidence": 0.923616,
+        "freshnessDays": 4,
+        "score": 0.925042
+      }
+    },
+    {
+      "id": "bluetooth",
+      "name": "Bluetooth",
+      "description": "Bluetooth devices, status, and controls",
+      "eligibleCount": 8,
+      "winner": {
+        "id": "ssupt.audio-control",
+        "name": "Advanced Audio Control",
+        "description": "Advanced PipeWire and WirePlumber audio mixer for Omarchy: devices, Bluetooth codecs, safety policies, microphone privacy, audio scenes, persistent routing rules, graph and service diagnostics, channel tests, support reports, and guarded recovery",
+        "author": "ssupt",
+        "category": "Hardware",
+        "repository": "https://github.com/ssupt/omarchy-audio-control",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=ssupt.audio-control",
+        "installCommand": "omarchy plugin add https://github.com/ssupt/omarchy-audio-control.git --enable",
+        "verificationStatus": "unverified",
+        "license": "See repository",
+        "repositoryUpdatedAt": "2026-08-30T10:46:47.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/5-ssupt-omarchy-audio-control-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 405,
+        "localImage": null,
+        "metrics": {
+          "copies": 419,
+          "hearts": 38,
+          "stars": 6,
+          "views": 1541
+        },
+        "normalized": {
+          "copies": 0.988439,
+          "hearts": 0.988439,
+          "stars": 0.988439,
+          "views": 0.988439,
+          "freshness": 0.992496,
+          "verified": 0
+        },
+        "contributions": {
+          "copies": 0.355838,
+          "hearts": 0.197688,
+          "stars": 0.177919,
+          "views": 0.079075,
+          "freshness": 0.129024,
+          "verified": 0
+        },
+        "evidence": 0.976879,
+        "freshnessDays": 1,
+        "score": 0.939544
+      },
+      "runnerUp": {
+        "id": "ssupt.bluetooth-audio",
+        "name": "Advanced Bluetooth Audio",
+        "description": "Adds Bluetooth device details, reliable controls, codec selection, and per-device connect-time audio policies",
+        "author": "ssupt",
+        "category": "Hardware",
+        "repository": "https://github.com/ssupt/omarchy-bluetooth-audio",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=ssupt.bluetooth-audio",
+        "installCommand": "omarchy plugin add https://github.com/ssupt/omarchy-bluetooth-audio.git --enable",
+        "verificationStatus": "unverified",
+        "license": "See repository",
+        "repositoryUpdatedAt": "2026-08-29T09:40:35.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/5-ssupt-omarchy-bluetooth-audio-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 405,
+        "localImage": null,
+        "metrics": {
+          "copies": 195,
+          "hearts": 22,
+          "stars": 5,
+          "views": 797
+        },
+        "normalized": {
+          "copies": 0.857554,
+          "hearts": 0.853867,
+          "stars": 0.866967,
+          "views": 0.864887,
+          "freshness": 0.988506,
+          "verified": 0
+        },
+        "contributions": {
+          "copies": 0.308719,
+          "hearts": 0.170773,
+          "stars": 0.156054,
+          "views": 0.069191,
+          "freshness": 0.128506,
+          "verified": 0
+        },
+        "evidence": 0.955365,
+        "freshnessDays": 3,
+        "score": 0.833243
+      }
+    },
+    {
+      "id": "audio",
+      "name": "Audio",
+      "description": "Volume, microphones, sinks, and audio routing",
+      "eligibleCount": 45,
+      "winner": {
+        "id": "ssupt.audio-control",
+        "name": "Advanced Audio Control",
+        "description": "Advanced PipeWire and WirePlumber audio mixer for Omarchy: devices, Bluetooth codecs, safety policies, microphone privacy, audio scenes, persistent routing rules, graph and service diagnostics, channel tests, support reports, and guarded recovery",
+        "author": "ssupt",
+        "category": "Hardware",
+        "repository": "https://github.com/ssupt/omarchy-audio-control",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=ssupt.audio-control",
+        "installCommand": "omarchy plugin add https://github.com/ssupt/omarchy-audio-control.git --enable",
+        "verificationStatus": "unverified",
+        "license": "See repository",
+        "repositoryUpdatedAt": "2026-08-30T10:46:47.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/5-ssupt-omarchy-audio-control-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 405,
+        "localImage": null,
+        "metrics": {
+          "copies": 419,
+          "hearts": 38,
+          "stars": 6,
+          "views": 1541
+        },
+        "normalized": {
+          "copies": 0.988439,
+          "hearts": 0.972898,
+          "stars": 0.957357,
+          "views": 0.957357,
+          "freshness": 0.992496,
+          "verified": 0
+        },
+        "contributions": {
+          "copies": 0.355838,
+          "hearts": 0.19458,
+          "stars": 0.172324,
+          "views": 0.076589,
+          "freshness": 0.129024,
+          "verified": 0
+        },
+        "evidence": 0.976879,
+        "freshnessDays": 1,
+        "score": 0.928355
+      },
+      "runnerUp": {
+        "id": "io.github.mshareef-git.omavibes",
+        "name": "OmaVibes",
+        "description": "Cozy typing sound effects with over 40+ sounds, gamified typing stats with ranks, detailed analytics, random playback, and volume control for the Omarchy bar.",
+        "author": "Mohammed Shareef",
+        "category": "Desktop",
+        "repository": "https://github.com/mshareef-git/omavibes",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.mshareef-git.omavibes",
+        "installCommand": "omarchy plugin add https://github.com/mshareef-git/omavibes.git --enable",
+        "verificationStatus": "unverified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-28T14:48:55.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/12-mshareef-git-omavibes-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 405,
+        "localImage": null,
+        "metrics": {
+          "copies": 347,
+          "hearts": 26,
+          "stars": 15,
+          "views": 3741
+        },
+        "normalized": {
+          "copies": 0.970737,
+          "hearts": 0.955266,
+          "stars": 0.986207,
+          "views": 0.986207,
+          "freshness": 0.985519,
+          "verified": 0
+        },
+        "contributions": {
+          "copies": 0.349465,
+          "hearts": 0.191053,
+          "stars": 0.177517,
+          "views": 0.078897,
+          "freshness": 0.128117,
+          "verified": 0
+        },
+        "evidence": 0.972414,
+        "freshnessDays": 3,
+        "score": 0.925049
+      }
+    },
+    {
+      "id": "brightness",
+      "name": "Brightness",
+      "description": "Display brightness and night-light controls",
+      "eligibleCount": 23,
+      "winner": {
+        "id": "crmne.hyprmoncfg",
+        "name": "hyprmoncfg: Multi-Monitor Manager for Omarchy",
+        "description": "Plug your monitors in and the right layout comes back. Save a profile per setup and hyprmoncfg applies it automatically on hotplug, on lid open and close, and after suspend. Layout editor with per-display brightness, snapping, per-output scale and sharpness checking, HDR, wide gamut and ICC colour management, mirroring, rotation, and a workspace planner. Profiles match monitors by make, model and serial rather than the port they are plugged into, so moving a cable does not break your layout.",
+        "author": "Carmine Paolino",
+        "category": "Hardware",
+        "repository": "https://github.com/crmne/omarchy-hyprmoncfg",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=crmne.hyprmoncfg",
+        "installCommand": "omarchy plugin add https://github.com/crmne/omarchy-hyprmoncfg.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-31T16:33:46.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/5-crmne-omarchy-hyprmoncfg-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 405,
+        "localImage": null,
+        "metrics": {
+          "copies": 3028,
+          "hearts": 203,
+          "stars": 67,
+          "views": 8533
+        },
+        "normalized": {
+          "copies": 0.998178,
+          "hearts": 0.998178,
+          "stars": 0.998178,
+          "views": 0.998178,
+          "freshness": 0.99725,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.359344,
+          "hearts": 0.199636,
+          "stars": 0.179672,
+          "views": 0.079854,
+          "freshness": 0.129643,
+          "verified": 0.05
+        },
+        "evidence": 0.996356,
+        "freshnessDays": 0,
+        "score": 0.998149
+      },
+      "runnerUp": {
+        "id": "im0001gt.screens",
+        "name": "Screens",
+        "description": "Snap-to-edge monitor layout with brightness, text size, HDR, VRR, hardware-aware profiles, optional bar dim, and 10-workspace spreading with names and icons",
+        "author": "IM0001GT",
+        "category": "Hardware",
+        "repository": "https://github.com/IM0001GT/omarchy-screens",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=im0001gt.screens",
+        "installCommand": "omarchy plugin add https://github.com/IM0001GT/omarchy-screens.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-25T21:40:24.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-im0001gt-omarchy-screens-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 405,
+        "localImage": null,
+        "metrics": {
+          "copies": 699,
+          "hearts": 44,
+          "stars": 12,
+          "views": 2405
+        },
+        "normalized": {
+          "copies": 0.961203,
+          "hearts": 0.961203,
+          "stars": 0.961203,
+          "views": 0.961203,
+          "freshness": 0.975272,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.346033,
+          "hearts": 0.192241,
+          "stars": 0.173017,
+          "views": 0.076896,
+          "freshness": 0.126785,
+          "verified": 0.05
+        },
+        "evidence": 0.985093,
+        "freshnessDays": 6,
+        "score": 0.964972
+      }
+    },
+    {
+      "id": "notifications",
+      "name": "Notifications",
+      "description": "Notification centers, history, and do-not-disturb",
+      "eligibleCount": 70,
+      "winner": {
+        "id": "jankeesvw.notification-center",
+        "name": "Notification Center",
+        "description": "Every notification you were sent, kept, and readable again",
+        "author": "Jankees van Woezik",
+        "category": "Desktop",
+        "repository": "https://github.com/jankeesvw/omarchy-notification-center",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=jankeesvw.notification-center",
+        "installCommand": "omarchy plugin add https://github.com/jankeesvw/omarchy-notification-center.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-29T12:05:21.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/9-jankeesvw-omarchy-notification-center-card.webp",
+        "previewWidth": 559,
+        "previewHeight": 720,
+        "localImage": null,
+        "metrics": {
+          "copies": 1148,
+          "hearts": 91,
+          "stars": 28,
+          "views": 2974
+        },
+        "normalized": {
+          "copies": 0.985337,
+          "hearts": 0.995388,
+          "stars": 0.985337,
+          "views": 0.985337,
+          "freshness": 0.988889,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.354721,
+          "hearts": 0.199078,
+          "stars": 0.177361,
+          "views": 0.078827,
+          "freshness": 0.128556,
+          "verified": 0.05
+        },
+        "evidence": 0.990776,
+        "freshnessDays": 2,
+        "score": 0.988543
+      },
+      "runnerUp": {
+        "id": "shavanced.notification-center",
+        "name": "Notification Center",
+        "description": "A native Omarchy notification center with live notifications, persistent history, search, Do Not Disturb, and a theme-aware bar widget.",
+        "author": "Shavanced",
+        "category": "System",
+        "repository": "https://github.com/Shavanced/omarchy-notification-center-plugin",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=shavanced.notification-center",
+        "installCommand": "omarchy plugin add https://github.com/Shavanced/omarchy-notification-center-plugin.git --enable",
+        "verificationStatus": "unverified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-23T18:52:29.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/9-shavanced-omarchy-notification-center-plugin-card.webp",
+        "previewWidth": 486,
+        "previewHeight": 631,
+        "localImage": null,
+        "metrics": {
+          "copies": 1255,
+          "hearts": 64,
+          "stars": 18,
+          "views": 3703
+        },
+        "normalized": {
+          "copies": 0.995655,
+          "hearts": 0.985599,
+          "stars": 0.965485,
+          "views": 0.995655,
+          "freshness": 0.967355,
+          "verified": 0
+        },
+        "contributions": {
+          "copies": 0.358436,
+          "hearts": 0.19712,
+          "stars": 0.173787,
+          "views": 0.079652,
+          "freshness": 0.125756,
+          "verified": 0
+        },
+        "evidence": 0.991311,
+        "freshnessDays": 8,
+        "score": 0.934751
+      }
+    },
+    {
+      "id": "calendar",
+      "name": "Calendar",
+      "description": "Calendars, events, and agenda widgets",
+      "eligibleCount": 37,
+      "winner": {
+        "id": "tmn73.calendar",
+        "name": "Calendar",
+        "description": "Your Google Calendar in the bar. Your next meeting at a glance, and one click to join it.",
+        "author": "tmn73",
+        "category": "Widgets",
+        "repository": "https://github.com/tmn73/omarchy-calendar",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=tmn73.calendar",
+        "installCommand": "omarchy plugin add https://github.com/tmn73/omarchy-calendar.git --enable",
+        "verificationStatus": "unverified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-14T15:42:11.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/5-tmn73-omarchy-calendar-card.webp",
+        "previewWidth": 641,
+        "previewHeight": 643,
+        "localImage": null,
+        "metrics": {
+          "copies": 677,
+          "hearts": 54,
+          "stars": 25,
+          "views": 2367
+        },
+        "normalized": {
+          "copies": 0.992434,
+          "hearts": 0.992434,
+          "stars": 0.992434,
+          "views": 0.992434,
+          "freshness": 0.933928,
+          "verified": 0
+        },
+        "contributions": {
+          "copies": 0.357276,
+          "hearts": 0.198487,
+          "stars": 0.178638,
+          "views": 0.079395,
+          "freshness": 0.121411,
+          "verified": 0
+        },
+        "evidence": 0.984868,
+        "freshnessDays": 17,
+        "score": 0.935207
+      },
+      "runnerUp": {
+        "id": "sirwizardlizard.calendar",
+        "name": "CalDav Calendar",
+        "description": "Create events in the Omarchy clock and sync them to iPhone, Mac, and other CalDAV calendars.",
+        "author": "sirwizardlizard",
+        "category": "Productivity",
+        "repository": "https://github.com/SirWizardLizard/omarchy-caldav-calendar",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=sirwizardlizard.calendar",
+        "installCommand": "omarchy plugin add https://github.com/SirWizardLizard/omarchy-caldav-calendar.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-29T22:26:11.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/15-sirwizardlizard-omarchy-caldav-calendar-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 403,
+        "localImage": null,
+        "metrics": {
+          "copies": 97,
+          "hearts": 15,
+          "stars": 6,
+          "views": 711
+        },
+        "normalized": {
+          "copies": 0.841547,
+          "hearts": 0.9202,
+          "stars": 0.836549,
+          "views": 0.944412,
+          "freshness": 0.990532,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.302957,
+          "hearts": 0.18404,
+          "stars": 0.150579,
+          "views": 0.075553,
+          "freshness": 0.128769,
+          "verified": 0.05
+        },
+        "evidence": 0.924788,
+        "freshnessDays": 2,
+        "score": 0.891898
+      }
+    },
+    {
+      "id": "clock-timer",
+      "name": "Clock & Timer",
+      "description": "Clocks, timers, stopwatches, and alarms",
+      "eligibleCount": 57,
+      "winner": {
+        "id": "pnkm0nk.omodoro",
+        "name": "Omodoro",
+        "description": "Pomodoro technique timer panel with task tracking, keybindings, configuration and notifications",
+        "author": "pnkm0nk",
+        "category": "Productivity",
+        "repository": "https://github.com/Pnkm0nK/Omodoro",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=pnkm0nk.omodoro",
+        "installCommand": "omarchy plugin add https://github.com/Pnkm0nK/Omodoro.git --enable",
+        "verificationStatus": "verified",
+        "license": "See repository",
+        "repositoryUpdatedAt": "2026-08-30T09:21:48.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/7-pnkm0nk-omodoro-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 378,
+        "localImage": null,
+        "metrics": {
+          "copies": 195,
+          "hearts": 16,
+          "stars": 5,
+          "views": 681
+        },
+        "normalized": {
+          "copies": 0.93996,
+          "hearts": 0.952825,
+          "stars": 0.842541,
+          "views": 0.926997,
+          "freshness": 0.99227,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.338386,
+          "hearts": 0.190565,
+          "stars": 0.151657,
+          "views": 0.07416,
+          "freshness": 0.128995,
+          "verified": 0.05
+        },
+        "evidence": 0.953316,
+        "freshnessDays": 2,
+        "score": 0.933763
+      },
+      "runnerUp": {
+        "id": "io.github.sspaeti.timezones",
+        "name": "Timezones",
+        "description": "World clock bar pill with a worldtimebuddy-style hour-grid popup. Hover a column to convert any moment across all your zones.",
+        "author": "Simon Späti",
+        "category": "Widgets",
+        "repository": "https://github.com/sspaeti/omarchy-timezones-plugin",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.sspaeti.timezones",
+        "installCommand": "omarchy plugin add https://github.com/sspaeti/omarchy-timezones-plugin.git --enable",
+        "verificationStatus": "unverified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-26T22:22:08.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/7-sspaeti-omarchy-timezones-plugin-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 185,
+        "localImage": null,
+        "metrics": {
+          "copies": 221,
+          "hearts": 46,
+          "stars": 14,
+          "views": 977
+        },
+        "normalized": {
+          "copies": 0.969656,
+          "hearts": 0.981699,
+          "stars": 0.981699,
+          "views": 0.981699,
+          "freshness": 0.979144,
+          "verified": 0
+        },
+        "contributions": {
+          "copies": 0.349076,
+          "hearts": 0.19634,
+          "stars": 0.176706,
+          "views": 0.078536,
+          "freshness": 0.127289,
+          "verified": 0
+        },
+        "evidence": 0.963398,
+        "freshnessDays": 5,
+        "score": 0.927947
+      }
+    },
+    {
+      "id": "focus",
+      "name": "Focus",
+      "description": "Pomodoro, habits, tasks, and focus sessions",
+      "eligibleCount": 24,
+      "winner": {
+        "id": "pnkm0nk.omodoro",
+        "name": "Omodoro",
+        "description": "Pomodoro technique timer panel with task tracking, keybindings, configuration and notifications",
+        "author": "pnkm0nk",
+        "category": "Productivity",
+        "repository": "https://github.com/Pnkm0nK/Omodoro",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=pnkm0nk.omodoro",
+        "installCommand": "omarchy plugin add https://github.com/Pnkm0nK/Omodoro.git --enable",
+        "verificationStatus": "verified",
+        "license": "See repository",
+        "repositoryUpdatedAt": "2026-08-30T09:21:48.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/7-pnkm0nk-omodoro-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 378,
+        "localImage": null,
+        "metrics": {
+          "copies": 195,
+          "hearts": 16,
+          "stars": 5,
+          "views": 681
+        },
+        "normalized": {
+          "copies": 0.947644,
+          "hearts": 0.947644,
+          "stars": 0.83794,
+          "views": 0.947644,
+          "freshness": 0.99227,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.341152,
+          "hearts": 0.189529,
+          "stars": 0.150829,
+          "views": 0.075812,
+          "freshness": 0.128995,
+          "verified": 0.05
+        },
+        "evidence": 0.953316,
+        "freshnessDays": 2,
+        "score": 0.936317
+      },
+      "runnerUp": {
+        "id": "io.github.pjgeutjens.clockwork",
+        "name": "Clockwork",
+        "description": "A stopwatch, countdown, alarm, intervals, and Pomodoro timer for the Omarchy bar.",
+        "author": "Pieter Geutjens",
+        "category": "Widgets",
+        "repository": "https://github.com/pjgeutjens/omarchy-clockwork",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.pjgeutjens.clockwork",
+        "installCommand": "omarchy plugin add https://github.com/pjgeutjens/omarchy-clockwork.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-29T16:05:26.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/10-pjgeutjens-omarchy-clockwork-card.webp",
+        "previewWidth": 430,
+        "previewHeight": 435,
+        "localImage": null,
+        "metrics": {
+          "copies": 194,
+          "hearts": 14,
+          "stars": 6,
+          "views": 506
+        },
+        "normalized": {
+          "copies": 0.917413,
+          "hearts": 0.906863,
+          "stars": 0.901923,
+          "views": 0.877348,
+          "freshness": 0.989524,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.330269,
+          "hearts": 0.181373,
+          "stars": 0.162346,
+          "views": 0.070188,
+          "freshness": 0.128638,
+          "verified": 0.05
+        },
+        "evidence": 0.95108,
+        "freshnessDays": 2,
+        "score": 0.922814
+      }
+    },
+    {
+      "id": "workspaces",
+      "name": "Workspaces",
+      "description": "Hyprland workspace indicators and navigation",
+      "eligibleCount": 137,
+      "winner": {
+        "id": "crmne.hyprmoncfg",
+        "name": "hyprmoncfg: Multi-Monitor Manager for Omarchy",
+        "description": "Plug your monitors in and the right layout comes back. Save a profile per setup and hyprmoncfg applies it automatically on hotplug, on lid open and close, and after suspend. Layout editor with per-display brightness, snapping, per-output scale and sharpness checking, HDR, wide gamut and ICC colour management, mirroring, rotation, and a workspace planner. Profiles match monitors by make, model and serial rather than the port they are plugged into, so moving a cable does not break your layout.",
+        "author": "Carmine Paolino",
+        "category": "Hardware",
+        "repository": "https://github.com/crmne/omarchy-hyprmoncfg",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=crmne.hyprmoncfg",
+        "installCommand": "omarchy plugin add https://github.com/crmne/omarchy-hyprmoncfg.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-31T16:33:46.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/5-crmne-omarchy-hyprmoncfg-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 405,
+        "localImage": null,
+        "metrics": {
+          "copies": 3028,
+          "hearts": 203,
+          "stars": 67,
+          "views": 8533
+        },
+        "normalized": {
+          "copies": 0.998178,
+          "hearts": 0.998178,
+          "stars": 0.998178,
+          "views": 0.998178,
+          "freshness": 0.99725,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.359344,
+          "hearts": 0.199636,
+          "stars": 0.179672,
+          "views": 0.079854,
+          "freshness": 0.129643,
+          "verified": 0.05
+        },
+        "evidence": 0.996356,
+        "freshnessDays": 0,
+        "score": 0.998149
+      },
+      "runnerUp": {
+        "id": "im0001gt.screens",
+        "name": "Screens",
+        "description": "Snap-to-edge monitor layout with brightness, text size, HDR, VRR, hardware-aware profiles, optional bar dim, and 10-workspace spreading with names and icons",
+        "author": "IM0001GT",
+        "category": "Hardware",
+        "repository": "https://github.com/IM0001GT/omarchy-screens",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=im0001gt.screens",
+        "installCommand": "omarchy plugin add https://github.com/IM0001GT/omarchy-screens.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-25T21:40:24.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-im0001gt-omarchy-screens-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 405,
+        "localImage": null,
+        "metrics": {
+          "copies": 699,
+          "hearts": 44,
+          "stars": 12,
+          "views": 2405
+        },
+        "normalized": {
+          "copies": 0.987476,
+          "hearts": 0.982406,
+          "stars": 0.955356,
+          "views": 0.982406,
+          "freshness": 0.975272,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.355491,
+          "hearts": 0.196481,
+          "stars": 0.171964,
+          "views": 0.078592,
+          "freshness": 0.126785,
+          "verified": 0.05
+        },
+        "evidence": 0.985093,
+        "freshnessDays": 6,
+        "score": 0.979313
+      }
+    },
+    {
+      "id": "window-management",
+      "name": "Window Management",
+      "description": "Window switchers, layouts, tiling, and window rules",
+      "eligibleCount": 25,
+      "winner": {
+        "id": "io.github.pablo-merino.altswitch",
+        "name": "Alt-tab switcher",
+        "description": "Windows-style ALT+TAB window switcher across every workspace, ordered by most recently used.",
+        "author": "Pablo Merino",
+        "category": "Desktop",
+        "repository": "https://github.com/Pablo-Merino/omarchy-altswitch",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.pablo-merino.altswitch",
+        "installCommand": "omarchy plugin add https://github.com/Pablo-Merino/omarchy-altswitch.git --enable",
+        "verificationStatus": "unverified",
+        "license": "See repository",
+        "repositoryUpdatedAt": "2026-08-30T05:33:14.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/12-pablo-merino-omarchy-altswitch-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 405,
+        "localImage": null,
+        "metrics": {
+          "copies": 398,
+          "hearts": 18,
+          "stars": 17,
+          "views": 1736
+        },
+        "normalized": {
+          "copies": 0.987448,
+          "hearts": 0.908619,
+          "stars": 0.987448,
+          "views": 0.959013,
+          "freshness": 0.991664,
+          "verified": 0
+        },
+        "contributions": {
+          "copies": 0.355481,
+          "hearts": 0.181724,
+          "stars": 0.177741,
+          "views": 0.076721,
+          "freshness": 0.128916,
+          "verified": 0
+        },
+        "evidence": 0.974895,
+        "freshnessDays": 2,
+        "score": 0.920583
+      },
+      "runnerUp": {
+        "id": "omadock",
+        "name": "omadock",
+        "description": "Clean, modern, high-performance application dock for Omarchy with zero-CPU autohide, tiling window adaptation, and deep customization",
+        "author": "thepathless",
+        "category": "Desktop",
+        "repository": "https://github.com/thepathless/omadock",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=omadock",
+        "installCommand": "omarchy plugin add https://github.com/thepathless/omadock.git --enable",
+        "verificationStatus": "unverified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-27T18:15:22.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/11-thepathless-omadock-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 405,
+        "localImage": null,
+        "metrics": {
+          "copies": 331,
+          "hearts": 34,
+          "stars": 10,
+          "views": 2012
+        },
+        "normalized": {
+          "copies": 0.957601,
+          "hearts": 0.985948,
+          "stars": 0.943428,
+          "views": 0.985948,
+          "freshness": 0.982274,
+          "verified": 0
+        },
+        "contributions": {
+          "copies": 0.344736,
+          "hearts": 0.19719,
+          "stars": 0.169817,
+          "views": 0.078876,
+          "freshness": 0.127696,
+          "verified": 0
+        },
+        "evidence": 0.971897,
+        "freshnessDays": 4,
+        "score": 0.918315
+      }
+    },
+    {
+      "id": "screenshots",
+      "name": "Screenshots & Recording",
+      "description": "Screenshots, screen recording, and OCR capture",
+      "eligibleCount": 12,
+      "winner": {
+        "id": "b.omashot",
+        "name": "Omashot",
+        "description": "Screenshot and screen-recording overlay for Omarchy",
+        "author": "Brian Blakely",
+        "category": "Productivity",
+        "repository": "https://github.com/brianblakely/omashot",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=b.omashot",
+        "installCommand": "omarchy plugin add https://github.com/brianblakely/omashot.git --enable",
+        "verificationStatus": "verified",
+        "license": "See repository",
+        "repositoryUpdatedAt": "2026-08-24T20:42:09.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/12-brianblakely-omashot-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 405,
+        "localImage": null,
+        "metrics": {
+          "copies": 68,
+          "hearts": 5,
+          "stars": 5,
+          "views": 359
+        },
+        "normalized": {
+          "copies": 0.941719,
+          "hearts": 0.772867,
+          "stars": 0.941719,
+          "views": 0.874955,
+          "freshness": 0.971373,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.339019,
+          "hearts": 0.154573,
+          "stars": 0.169509,
+          "views": 0.069996,
+          "freshness": 0.126278,
+          "verified": 0.05
+        },
+        "evidence": 0.883439,
+        "freshnessDays": 7,
+        "score": 0.909375
+      },
+      "runnerUp": {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss",
+        "description": "One bar icon, five Hyprland tools: laptop Super⇄Alt swap, single-window aspect ratio, Opinionated Looks, gaming mode, and one-click screenshots, OCR, QR scan & recording. No daemon, no idle cost.",
+        "author": "Glass Chan",
+        "category": "Widgets",
+        "repository": "https://github.com/glasschan/oma-swiss",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=glasschan.oma-swiss",
+        "installCommand": "omarchy plugin add https://github.com/glasschan/oma-swiss.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-30T20:15:21.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/9-glasschan-oma-swiss-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 345,
+        "localImage": null,
+        "metrics": {
+          "copies": 58,
+          "hearts": 7,
+          "stars": 2,
+          "views": 618
+        },
+        "normalized": {
+          "copies": 0.855025,
+          "hearts": 0.944393,
+          "stars": 0.751366,
+          "views": 0.944393,
+          "freshness": 0.994006,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.307809,
+          "hearts": 0.188879,
+          "stars": 0.135246,
+          "views": 0.075551,
+          "freshness": 0.129221,
+          "verified": 0.05
+        },
+        "evidence": 0.888786,
+        "freshnessDays": 1,
+        "score": 0.886706
+      }
+    },
+    {
+      "id": "wallpaper",
+      "name": "Wallpaper",
+      "description": "Wallpaper browsing, switching, and automation",
+      "eligibleCount": 31,
+      "winner": {
+        "id": "nosignal.motion-wallpaper",
+        "name": "Motion Wallpaper",
+        "description": "Native looping video wallpaper for omarchy-shell. Renders a muted, looping video on the background layer above the static wallpaper, with a different clip per monitor if you want one, and auto-pause on fullscreen. Controlled from its bar widget, or from a terminal with the motion-wallpaper CLI.",
+        "author": "Gavin Nugent",
+        "category": "Appearance",
+        "repository": "https://github.com/28allday/Motion-Wallpaper-Omarchy",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=nosignal.motion-wallpaper",
+        "installCommand": "omarchy plugin add https://github.com/28allday/Motion-Wallpaper-Omarchy.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-28T19:54:19.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-28allday-motion-wallpaper-omarchy-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 211,
+        "localImage": null,
+        "metrics": {
+          "copies": 269,
+          "hearts": 12,
+          "stars": 12,
+          "views": 1242
+        },
+        "normalized": {
+          "copies": 0.982507,
+          "hearts": 0.841603,
+          "stars": 0.982507,
+          "views": 0.982507,
+          "freshness": 0.986324,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.353703,
+          "hearts": 0.168321,
+          "stars": 0.176851,
+          "views": 0.078601,
+          "freshness": 0.128222,
+          "verified": 0.05
+        },
+        "evidence": 0.965015,
+        "freshnessDays": 3,
+        "score": 0.955698
+      },
+      "runnerUp": {
+        "id": "tenzin.live-wallpaper",
+        "name": "Live Wallpaper",
+        "description": "Add seamless video wallpapers by dropping a video into the current theme's background folder, then selecting it in Style > Background.",
+        "author": "tenzin",
+        "category": "Appearance",
+        "repository": "https://github.com/yesheytenzin/live-wallpaper",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=tenzin.live-wallpaper",
+        "installCommand": "omarchy plugin add https://github.com/yesheytenzin/live-wallpaper.git --enable",
+        "verificationStatus": "verified",
+        "license": "See repository",
+        "repositoryUpdatedAt": "2026-08-20T21:53:16.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/12-yesheytenzin-live-wallpaper-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 405,
+        "localImage": null,
+        "metrics": {
+          "copies": 259,
+          "hearts": 20,
+          "stars": 10,
+          "views": 1138
+        },
+        "normalized": {
+          "copies": 0.959892,
+          "hearts": 0.931169,
+          "stars": 0.959892,
+          "views": 0.93669,
+          "freshness": 0.956707,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.345561,
+          "hearts": 0.186234,
+          "stars": 0.172781,
+          "views": 0.074935,
+          "freshness": 0.124372,
+          "verified": 0.05
+        },
+        "evidence": 0.964809,
+        "freshnessDays": 11,
+        "score": 0.953883
+      }
+    },
+    {
+      "id": "color-picker",
+      "name": "Color Picker",
+      "description": "On-screen color picking and palette tools",
+      "eligibleCount": 2,
+      "winner": {
+        "id": "io.github.ajanraj.chroma",
+        "name": "Chroma",
+        "description": "Fast screen color picker and eyedropper for Omarchy. Pick any pixel, copy HEX, RGB or HSL values, browse color history, generate palettes, and check WCAG contrast.",
+        "author": "Ajan Raj",
+        "category": "Developer Tools",
+        "repository": "https://github.com/ajanraj/omarchy-chroma",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.ajanraj.chroma",
+        "installCommand": "omarchy plugin add https://github.com/ajanraj/omarchy-chroma.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-24T08:35:16.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/7-ajanraj-omarchy-chroma-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 405,
+        "localImage": null,
+        "metrics": {
+          "copies": 21,
+          "hearts": 0,
+          "stars": 0,
+          "views": 89
+        },
+        "normalized": {
+          "copies": 0.839786,
+          "hearts": 0.160214,
+          "stars": 0.5,
+          "views": 0.839786,
+          "freshness": 0.969486,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.302323,
+          "hearts": 0.032043,
+          "stars": 0.09,
+          "views": 0.067183,
+          "freshness": 0.126033,
+          "verified": 0.05
+        },
+        "evidence": 0.679573,
+        "freshnessDays": 8,
+        "score": 0.667582
+      },
+      "runnerUp": {
+        "id": "io.github.arcanavox.colorhistory",
+        "name": "Color History",
+        "description": "Keeps every color you pick with hyprpicker, ready to copy back as hex, rgb or hsl.",
+        "author": "Arcana Vox",
+        "category": "Widgets",
+        "repository": "https://github.com/arcanaVox/colorhistory",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.arcanavox.colorhistory",
+        "installCommand": "omarchy plugin add https://github.com/arcanaVox/colorhistory.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-27T13:11:39.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/9-arcanavox-colorhistory-card.webp",
+        "previewWidth": 344,
+        "previewHeight": 228,
+        "localImage": null,
+        "metrics": {
+          "copies": 4,
+          "hearts": 2,
+          "stars": 0,
+          "views": 21
+        },
+        "normalized": {
+          "copies": 0.374188,
+          "hearts": 0.685039,
+          "stars": 0.5,
+          "views": 0.392439,
+          "freshness": 0.981476,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.134708,
+          "hearts": 0.137008,
+          "stars": 0.09,
+          "views": 0.031395,
+          "freshness": 0.127592,
+          "verified": 0.05
+        },
+        "evidence": 0.370079,
+        "freshnessDays": 4,
+        "score": 0.570703
+      }
+    },
+    {
+      "id": "ai-assistant",
+      "name": "AI Assistant",
+      "description": "AI chat, local models, and model launchers",
+      "eligibleCount": 26,
+      "winner": {
+        "id": "othavi0.agent-bar",
+        "name": "Agent Bar",
+        "description": "LLM quota monitor for Claude, Codex, Amp, Grok, and Antigravity.",
+        "author": "othavi0",
+        "category": "Widgets",
+        "repository": "https://github.com/othavi0/omarchy-agent-bar",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=othavi0.agent-bar",
+        "installCommand": "omarchy plugin add https://github.com/othavi0/omarchy-agent-bar.git --enable",
+        "verificationStatus": "unverified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-31T18:06:48.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/7-othavi0-omarchy-agent-bar-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 406,
+        "localImage": null,
+        "metrics": {
+          "copies": 123,
+          "hearts": 19,
+          "stars": 9,
+          "views": 921
+        },
+        "normalized": {
+          "copies": 0.956847,
+          "hearts": 0.970007,
+          "stars": 0.970007,
+          "views": 0.970007,
+          "freshness": 0.997498,
+          "verified": 0
+        },
+        "contributions": {
+          "copies": 0.344465,
+          "hearts": 0.194001,
+          "stars": 0.174601,
+          "views": 0.077601,
+          "freshness": 0.129675,
+          "verified": 0
+        },
+        "evidence": 0.940015,
+        "freshnessDays": 0,
+        "score": 0.920343
+      },
+      "runnerUp": {
+        "id": "sid.sessions",
+        "name": "Session Browser",
+        "description": "Browse previous sessions from every AI coding agent on this machine (Claude Code, Codex, opencode, Copilot, Pi, Gemini, Grok) and resume any of them in a terminal.",
+        "author": "Sudhanshu Gautam",
+        "category": "Developer Tools",
+        "repository": "https://github.com/Sudhanshugtm/omarchy-session-browser",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=sid.sessions",
+        "installCommand": "omarchy plugin add https://github.com/Sudhanshugtm/omarchy-session-browser.git --enable",
+        "verificationStatus": "verified",
+        "license": "See repository",
+        "repositoryUpdatedAt": "2026-08-27T06:01:05.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/12-sudhanshugtm-omarchy-session-browser-card.webp",
+        "previewWidth": 555,
+        "previewHeight": 720,
+        "localImage": null,
+        "metrics": {
+          "copies": 123,
+          "hearts": 15,
+          "stars": 3,
+          "views": 628
+        },
+        "normalized": {
+          "copies": 0.95385,
+          "hearts": 0.927702,
+          "stars": 0.755617,
+          "views": 0.911735,
+          "freshness": 0.980347,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.343386,
+          "hearts": 0.18554,
+          "stars": 0.136011,
+          "views": 0.072939,
+          "freshness": 0.127445,
+          "verified": 0.05
+        },
+        "evidence": 0.933848,
+        "freshnessDays": 5,
+        "score": 0.915321
+      }
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "description": "GitHub activity, pull requests, issues, and shortcuts",
+      "eligibleCount": 11,
+      "winner": {
+        "id": "robzolkos.github",
+        "name": "GitHub",
+        "description": "A keyboard-friendly GitHub inbox for notifications, reviews, your own pull requests, assigned issues, Actions, and repositories.",
+        "author": "Rob Zolkos",
+        "category": "Developer Tools",
+        "repository": "https://github.com/robzolkos/omarchy-github",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=robzolkos.github",
+        "installCommand": "omarchy plugin add https://github.com/robzolkos/omarchy-github.git --enable",
+        "verificationStatus": "unverified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-09-01T02:36:18.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/9-robzolkos-omarchy-github-card.webp",
+        "previewWidth": 470,
+        "previewHeight": 720,
+        "localImage": null,
+        "metrics": {
+          "copies": 420,
+          "hearts": 29,
+          "stars": 46,
+          "views": 2085
+        },
+        "normalized": {
+          "copies": 0.988258,
+          "hearts": 0.988258,
+          "stars": 0.988258,
+          "views": 0.988258,
+          "freshness": 0.998858,
+          "verified": 0
+        },
+        "contributions": {
+          "copies": 0.355773,
+          "hearts": 0.197652,
+          "stars": 0.177886,
+          "views": 0.079061,
+          "freshness": 0.129852,
+          "verified": 0
+        },
+        "evidence": 0.976517,
+        "freshnessDays": 0,
+        "score": 0.940224
+      },
+      "runnerUp": {
+        "id": "io.github.ricky.ghstats",
+        "name": "GitHub Stats",
+        "description": "GitHub contribution boxes and inbox notifications in the Omarchy bar.",
+        "author": "ricky",
+        "category": "Widgets",
+        "repository": "https://github.com/srineshr1/omarchy-ghstats",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.ricky.ghstats",
+        "installCommand": "omarchy plugin add https://github.com/srineshr1/omarchy-ghstats.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-21T03:55:20.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/9-srineshr1-omarchy-ghstats-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 309,
+        "localImage": null,
+        "metrics": {
+          "copies": 18,
+          "hearts": 8,
+          "stars": 2,
+          "views": 102
+        },
+        "normalized": {
+          "copies": 0.650857,
+          "hearts": 0.763725,
+          "stars": 0.664663,
+          "views": 0.641994,
+          "freshness": 0.957634,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.234309,
+          "hearts": 0.152745,
+          "stars": 0.119639,
+          "views": 0.05136,
+          "freshness": 0.124492,
+          "verified": 0.05
+        },
+        "evidence": 0.721578,
+        "freshnessDays": 11,
+        "score": 0.732545
+      }
+    },
+    {
+      "id": "containers",
+      "name": "Containers",
+      "description": "Docker, Podman, and container management",
+      "eligibleCount": 20,
+      "winner": {
+        "id": "io.github.randazraik.xray",
+        "name": "Omarchy X-Ray",
+        "description": "Trace any window, process, service, container, port, file, or device to the process behind it, how it started, and what it is using.",
+        "author": "RandaZraik",
+        "category": "System",
+        "repository": "https://github.com/RandaZraik/omarchy-xray",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.randazraik.xray",
+        "installCommand": "omarchy plugin add https://github.com/RandaZraik/omarchy-xray.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-25T17:23:55.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/10-randazraik-omarchy-xray-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 411,
+        "localImage": null,
+        "metrics": {
+          "copies": 186,
+          "hearts": 24,
+          "stars": 4,
+          "views": 850
+        },
+        "normalized": {
+          "copies": 0.977316,
+          "hearts": 0.977316,
+          "stars": 0.876731,
+          "views": 0.977316,
+          "freshness": 0.974604,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.351834,
+          "hearts": 0.195463,
+          "stars": 0.157812,
+          "views": 0.078185,
+          "freshness": 0.126699,
+          "verified": 0.05
+        },
+        "evidence": 0.954631,
+        "freshnessDays": 6,
+        "score": 0.959993
+      },
+      "runnerUp": {
+        "id": "io.github.andressm415.omaprox",
+        "name": "Omaprox",
+        "description": "Read-only Proxmox VE dashboard in the Omarchy bar: every container and VM with a status LED, per-guest stats, and one key to a console.",
+        "author": "AndresSM415",
+        "category": "System",
+        "repository": "https://github.com/AndresSM415/omaprox",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.andressm415.omaprox",
+        "installCommand": "omarchy plugin add https://github.com/AndresSM415/omaprox.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-23T19:06:01.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/11-andressm415-omaprox-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 638,
+        "localImage": null,
+        "metrics": {
+          "copies": 84,
+          "hearts": 14,
+          "stars": 6,
+          "views": 545
+        },
+        "normalized": {
+          "copies": 0.781686,
+          "hearts": 0.920105,
+          "stars": 0.956284,
+          "views": 0.883941,
+          "freshness": 0.96739,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.281407,
+          "hearts": 0.184021,
+          "stars": 0.172131,
+          "views": 0.070715,
+          "freshness": 0.125761,
+          "verified": 0.05
+        },
+        "evidence": 0.912568,
+        "freshnessDays": 8,
+        "score": 0.884035
+      }
+    },
+    {
+      "id": "gaming",
+      "name": "Gaming",
+      "description": "Game launchers, performance, and gaming status",
+      "eligibleCount": 17,
+      "winner": {
+        "id": "silvaio.gamemode",
+        "name": "Game Mode Switcher",
+        "description": "One-click Game Mode for Omarchy: lock compositor shortcuts, optimize Hyprland, silence the desktop, and optionally launch Steam in Gamescope / Big Picture.",
+        "author": "silvaio",
+        "category": "Desktop",
+        "repository": "https://github.com/silvaio/gamemode-switcher",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=silvaio.gamemode",
+        "installCommand": "omarchy plugin add https://github.com/silvaio/gamemode-switcher.git --enable",
+        "verificationStatus": "unverified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-28T19:47:51.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/7-silvaio-gamemode-switcher-card.webp",
+        "previewWidth": 474,
+        "previewHeight": 292,
+        "localImage": null,
+        "metrics": {
+          "copies": 118,
+          "hearts": 11,
+          "stars": 7,
+          "views": 507
+        },
+        "normalized": {
+          "copies": 0.92324,
+          "hearts": 0.963931,
+          "stars": 0.963931,
+          "views": 0.875293,
+          "freshness": 0.986307,
+          "verified": 0
+        },
+        "contributions": {
+          "copies": 0.332366,
+          "hearts": 0.192786,
+          "stars": 0.173508,
+          "views": 0.070023,
+          "freshness": 0.12822,
+          "verified": 0
+        },
+        "evidence": 0.927863,
+        "freshnessDays": 3,
+        "score": 0.896903
+      },
+      "runnerUp": {
+        "id": "io.github.dkgamer02ai.wallpaper-engine",
+        "name": "Wallpaper Engine",
+        "description": "Use Steam Wallpaper Engine wallpapers as live Omarchy wallpapers. Adds menu > Style > Wallpaper Engine, which opens the thumbnail picker.",
+        "author": "dkgamer02ai",
+        "category": "Appearance",
+        "repository": "https://github.com/dkgamer02ai/omarchy-wallpaper-engine",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.dkgamer02ai.wallpaper-engine",
+        "installCommand": "omarchy plugin add https://github.com/dkgamer02ai/omarchy-wallpaper-engine.git --enable",
+        "verificationStatus": "unverified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-03T15:26:34.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/11-dkgamer02ai-omarchy-wallpaper-engine-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 396,
+        "localImage": null,
+        "metrics": {
+          "copies": 119,
+          "hearts": 4,
+          "stars": 4,
+          "views": 598
+        },
+        "normalized": {
+          "copies": 0.963614,
+          "hearts": 0.669546,
+          "stars": 0.907698,
+          "views": 0.922763,
+          "freshness": 0.895157,
+          "verified": 0
+        },
+        "contributions": {
+          "copies": 0.346901,
+          "hearts": 0.133909,
+          "stars": 0.163386,
+          "views": 0.073821,
+          "freshness": 0.11637,
+          "verified": 0
+        },
+        "evidence": 0.927229,
+        "freshnessDays": 28,
+        "score": 0.834387
+      }
+    },
+    {
+      "id": "system-updates",
+      "name": "System Updates",
+      "description": "Arch package updates and update notifications",
+      "eligibleCount": 3,
+      "winner": {
+        "id": "dizziee.system-updates",
+        "name": "System Updates",
+        "description": "Arch, AUR, Flatpak, and Omarchy update indicator with per-repo update buttons.",
+        "author": "Dizziee",
+        "category": "System",
+        "repository": "https://github.com/JJDizz1L/dizziee.system-updates",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=dizziee.system-updates",
+        "installCommand": "omarchy plugin add https://github.com/JJDizz1L/dizziee.system-updates.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-23T12:29:34.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-jjdizz1l-dizziee.system-updates-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 529,
+        "localImage": null,
+        "metrics": {
+          "copies": 223,
+          "hearts": 16,
+          "stars": 8,
+          "views": 662
+        },
+        "normalized": {
+          "copies": 0.978881,
+          "hearts": 0.978881,
+          "stars": 0.978881,
+          "views": 0.978881,
+          "freshness": 0.966365,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.352397,
+          "hearts": 0.195776,
+          "stars": 0.176199,
+          "views": 0.07831,
+          "freshness": 0.125627,
+          "verified": 0.05
+        },
+        "evidence": 0.957761,
+        "freshnessDays": 8,
+        "score": 0.978309
+      },
+      "runnerUp": {
+        "id": "gennaro.updater",
+        "name": "System Updater",
+        "description": "Review and run pending Omarchy, system, and AUR updates; search installed apps by name.",
+        "author": "Gennaro Riccio",
+        "category": "Widgets",
+        "repository": "https://github.com/GennaroRiccio/update-widget",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=gennaro.updater",
+        "installCommand": "omarchy plugin add https://github.com/GennaroRiccio/update-widget.git --enable",
+        "verificationStatus": "unverified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-22T17:25:05.000Z",
+        "previewSource": null,
+        "previewWidth": null,
+        "previewHeight": null,
+        "localImage": null,
+        "metrics": {
+          "copies": 29,
+          "hearts": 1,
+          "stars": 0,
+          "views": 140
+        },
+        "normalized": {
+          "copies": 0.534602,
+          "hearts": 0.446684,
+          "stars": 0.254592,
+          "views": 0.563501,
+          "freshness": 0.963412,
+          "verified": 0
+        },
+        "contributions": {
+          "copies": 0.192457,
+          "hearts": 0.089337,
+          "stars": 0.045827,
+          "views": 0.04508,
+          "freshness": 0.125244,
+          "verified": 0
+        },
+        "evidence": 0.755102,
+        "freshnessDays": 9,
+        "score": 0.497945
+      }
+    }
+  ],
+  "changes": [
+    {
+      "typeId": "system-monitor",
+      "typeName": "System Monitor",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "im0001gt.hw-tooltip",
+        "name": "Hardware Tooltip"
+      }
+    },
+    {
+      "typeId": "vpn",
+      "typeName": "VPN",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.grichard99.omaproton-vpn",
+        "name": "OmaProton VPN"
+      }
+    },
+    {
+      "typeId": "mail",
+      "typeName": "Mail",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "omamail",
+        "name": "Omamail"
+      }
+    },
+    {
+      "typeId": "music",
+      "typeName": "Music",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "crmne.mpris",
+        "name": "Media Controls + Album Art"
+      }
+    },
+    {
+      "typeId": "weather",
+      "typeName": "Weather",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "eduardodallecort.weather-radar",
+        "name": "Weather Radar"
+      }
+    },
+    {
+      "typeId": "battery",
+      "typeName": "Battery",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "omaconnect",
+        "name": "OmaConnect"
+      }
+    },
+    {
+      "typeId": "clipboard",
+      "typeName": "Clipboard",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "omaconnect",
+        "name": "OmaConnect"
+      }
+    },
+    {
+      "typeId": "launcher",
+      "typeName": "Launcher",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "tyrsolution.app-launcher",
+        "name": "App Launcher"
+      }
+    },
+    {
+      "typeId": "network",
+      "typeName": "Network",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "vitals",
+        "name": "Vitals"
+      }
+    },
+    {
+      "typeId": "bluetooth",
+      "typeName": "Bluetooth",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "ssupt.audio-control",
+        "name": "Advanced Audio Control"
+      }
+    },
+    {
+      "typeId": "audio",
+      "typeName": "Audio",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "ssupt.audio-control",
+        "name": "Advanced Audio Control"
+      }
+    },
+    {
+      "typeId": "brightness",
+      "typeName": "Brightness",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "crmne.hyprmoncfg",
+        "name": "hyprmoncfg: Multi-Monitor Manager for Omarchy"
+      }
+    },
+    {
+      "typeId": "notifications",
+      "typeName": "Notifications",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "jankeesvw.notification-center",
+        "name": "Notification Center"
+      }
+    },
+    {
+      "typeId": "calendar",
+      "typeName": "Calendar",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "tmn73.calendar",
+        "name": "Calendar"
+      }
+    },
+    {
+      "typeId": "clock-timer",
+      "typeName": "Clock & Timer",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "pnkm0nk.omodoro",
+        "name": "Omodoro"
+      }
+    },
+    {
+      "typeId": "focus",
+      "typeName": "Focus",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "pnkm0nk.omodoro",
+        "name": "Omodoro"
+      }
+    },
+    {
+      "typeId": "workspaces",
+      "typeName": "Workspaces",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "crmne.hyprmoncfg",
+        "name": "hyprmoncfg: Multi-Monitor Manager for Omarchy"
+      }
+    },
+    {
+      "typeId": "window-management",
+      "typeName": "Window Management",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.pablo-merino.altswitch",
+        "name": "Alt-tab switcher"
+      }
+    },
+    {
+      "typeId": "screenshots",
+      "typeName": "Screenshots & Recording",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "b.omashot",
+        "name": "Omashot"
+      }
+    },
+    {
+      "typeId": "wallpaper",
+      "typeName": "Wallpaper",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "nosignal.motion-wallpaper",
+        "name": "Motion Wallpaper"
+      }
+    },
+    {
+      "typeId": "color-picker",
+      "typeName": "Color Picker",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.ajanraj.chroma",
+        "name": "Chroma"
+      }
+    },
+    {
+      "typeId": "ai-assistant",
+      "typeName": "AI Assistant",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "othavi0.agent-bar",
+        "name": "Agent Bar"
+      }
+    },
+    {
+      "typeId": "github",
+      "typeName": "GitHub",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "robzolkos.github",
+        "name": "GitHub"
+      }
+    },
+    {
+      "typeId": "containers",
+      "typeName": "Containers",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.randazraik.xray",
+        "name": "Omarchy X-Ray"
+      }
+    },
+    {
+      "typeId": "gaming",
+      "typeName": "Gaming",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "silvaio.gamemode",
+        "name": "Game Mode Switcher"
+      }
+    },
+    {
+      "typeId": "system-updates",
+      "typeName": "System Updates",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "dizziee.system-updates",
+        "name": "System Updates"
+      }
+    }
+  ]
+}
