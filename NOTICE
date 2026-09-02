@@ -32,9 +32,10 @@ OmaPicks.
 Brand assets
 ------------
 
-The OmaPicks name, logo, site/icon.svg, site/og-home.svg, site/og-home.jpg,
-and corresponding generated copies are reserved brand assets. The Apache License 2.0 does
-not grant trademark rights.
+The OmaPicks name, logo, site/icon.svg, site/favicon.ico, site/apple-touch-icon.png,
+site/icon-192.png, site/icon-512.png, site/icon-maskable-512.png, site/og-home.svg,
+site/og-home.jpg, and corresponding generated copies are reserved brand assets. The
+Apache License 2.0 does not grant trademark rights.
 
 OmaPicks is independent and is not affiliated with Omarchy, 37signals,
 or omarchyplugins.com.

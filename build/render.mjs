@@ -10,7 +10,19 @@ const SIGNAL_METRICS = ["copies", "hearts", "stars", "views", "freshness"];
 const FUNCTION_ROUTES = {
   version: 1,
   include: ["/*"],
-  exclude: ["/assets/*", "/og/*", "/badges/*", "/feed.xml", "/feed.xsl", "/sitemap.xml", "/rankings.json", "/robots.txt", "/site.webmanifest"]
+  exclude: [
+    "/assets/*",
+    "/og/*",
+    "/badges/*",
+    "/feed.xml",
+    "/feed.xsl",
+    "/sitemap.xml",
+    "/rankings.json",
+    "/robots.txt",
+    "/site.webmanifest",
+    "/favicon.ico",
+    "/apple-touch-icon.png"
+  ]
 };
 const PALETTE = Object.freeze({
   bg: "#1a1b26",
@@ -25,6 +37,18 @@ const SOCIAL_IMAGE = Object.freeze({
   width: 1200,
   height: 630
 });
+const MANIFEST_ICONS = Object.freeze([
+  { src: "/assets/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
+  { src: "/assets/icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
+  { src: "/assets/icon-maskable-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" }
+]);
+
+function iconLinks() {
+  return `<link rel="icon" href="/assets/icon.svg" type="image/svg+xml" sizes="any">
+  <link rel="icon" href="/assets/icon-192.png" type="image/png" sizes="192x192">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">`;
+}
 
 function socialImage(alt) {
   return alt ? { ...SOCIAL_IMAGE, alt } : { ...SOCIAL_IMAGE };
@@ -254,7 +278,7 @@ function shell({ title, description, pathname, image, body, structuredData = nul
   <meta name="theme-color" content="${PALETTE.bg}" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="${PALETTE.lightBg}" media="(prefers-color-scheme: light)">
   <link rel="canonical" href="${canonical}">
-  <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+  ${iconLinks()}
   <link rel="manifest" href="/site.webmanifest">
   <link rel="alternate" type="application/rss+xml" title="OmaPicks weekly changes" href="/feed.xml">
   <link rel="stylesheet" href="/assets/styles.css">
@@ -859,6 +883,11 @@ export async function render({ root = ROOT } = {}) {
   await cp(path.join(ROOT, "site", "styles.css"), path.join(DIST, "assets", "styles.css"));
   await cp(path.join(ROOT, "site", "app.js"), path.join(DIST, "assets", "app.js"));
   await cp(path.join(ROOT, "site", "icon.svg"), path.join(DIST, "assets", "icon.svg"));
+  await cp(path.join(ROOT, "site", "icon-192.png"), path.join(DIST, "assets", "icon-192.png"));
+  await cp(path.join(ROOT, "site", "icon-512.png"), path.join(DIST, "assets", "icon-512.png"));
+  await cp(path.join(ROOT, "site", "icon-maskable-512.png"), path.join(DIST, "assets", "icon-maskable-512.png"));
+  await cp(path.join(ROOT, "site", "favicon.ico"), path.join(DIST, "favicon.ico"));
+  await cp(path.join(ROOT, "site", "apple-touch-icon.png"), path.join(DIST, "apple-touch-icon.png"));
   await cp(path.join(ROOT, "site", "placeholder.svg"), path.join(DIST, "assets", "placeholder.svg"));
   await cp(path.join(ROOT, "site", "og-home.jpg"), path.join(DIST, "og", "home.jpg"));
   await cp(path.join(ROOT, "site", "og-home.jpg"), path.join(DIST, "og", "terminal.jpg"));
@@ -904,11 +933,23 @@ export async function render({ root = ROOT } = {}) {
   await write("rankings.json", `${JSON.stringify(rankings, null, 2)}\n`);
   await write(
     "site.webmanifest",
-    `${JSON.stringify({ name: "OmaPicks", short_name: "OmaPicks", start_url: "/", display: "standalone", background_color: PALETTE.bg, theme_color: PALETTE.bg }, null, 2)}\n`
+    `${JSON.stringify(
+      {
+        name: "OmaPicks",
+        short_name: "OmaPicks",
+        start_url: "/",
+        display: "standalone",
+        background_color: PALETTE.bg,
+        theme_color: PALETTE.bg,
+        icons: MANIFEST_ICONS
+      },
+      null,
+      2
+    )}\n`
   );
   await write(
     "_headers",
-    `/assets/*\n  Cache-Control: public, max-age=604800\n/og/*\n  Cache-Control: public, max-age=86400\n/badges/*\n  Cache-Control: public, max-age=31536000, immutable\n/feed.xsl\n  Content-Type: text/xsl; charset=utf-8\n  Cache-Control: public, max-age=604800\n/*.xml\n  Content-Type: application/xml; charset=utf-8\n`
+    `/assets/*\n  Cache-Control: public, max-age=604800\n/favicon.ico\n  Cache-Control: public, max-age=604800\n/apple-touch-icon.png\n  Cache-Control: public, max-age=604800\n/og/*\n  Cache-Control: public, max-age=86400\n/badges/*\n  Cache-Control: public, max-age=31536000, immutable\n/feed.xsl\n  Content-Type: text/xsl; charset=utf-8\n  Cache-Control: public, max-age=604800\n/*.xml\n  Content-Type: application/xml; charset=utf-8\n`
   );
   await write("_routes.json", `${JSON.stringify(FUNCTION_ROUTES, null, 2)}\n`);
   await write(
