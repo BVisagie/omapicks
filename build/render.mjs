@@ -76,10 +76,15 @@ function safeUrl(value, fallback = "#") {
   }
 }
 
-function outboundLink(href, label) {
+function outboundLink(href, label, className) {
   const url = safeUrl(href);
   const extra = url === "#" ? "" : ` target="_blank" rel="noopener noreferrer"`;
-  return `<a href="${url}"${extra}>${label}</a>`;
+  const cls = className ? ` class="${className}"` : "";
+  return `<a href="${url}"${cls}${extra}>${label}</a>`;
+}
+
+function xShareLink(text, url, label) {
+  return outboundLink(`https://x.com/intent/post?${new URLSearchParams({ text: `${text} ${url}` })}`, label, "text-link");
 }
 
 function safeLocalImage(value) {
@@ -550,6 +555,11 @@ function homePage(rankings) {
       <p class="hero-actions">
         <a class="button" href="#catalog">${escapeHtml(browseLabel(categoryCount))}</a>
         <a class="text-link" href="/methodology/">How rankings work</a>
+        ${xShareLink(
+          "This week's Omarchy plugin rankings, independently scored from public registry data.",
+          `${ORIGIN}/`,
+          "Share this week on X"
+        )}
       </p>
     </div>
     <aside class="hero-aside">
@@ -622,7 +632,18 @@ function typePage(type, rankings) {
         <p class="eyebrow">${weekLabel(rankings.week, rankings.generatedAt)}</p>
         <h1>${escapeHtml(type.name)}</h1>
       </div>
-      <p>${escapeHtml(type.description)}. ${competedLabel(type.eligibleCount)} this week. This page shows the champion and runner-up.</p>
+      <div class="type-intro-copy">
+        <p>${escapeHtml(type.description)}. ${competedLabel(type.eligibleCount)} this week. This page shows the champion and runner-up.</p>
+        ${
+          type.winner
+            ? xShareLink(
+                `${type.winner.name} is this week's ${type.name} champion on OmaPicks.`,
+                `${ORIGIN}/picks/${encodeURIComponent(type.id)}/`,
+                "Share this ranking on X"
+              )
+            : ""
+        }
+      </div>
     </section>
     <div class="podium">
       ${candidateCard(type.winner, "winner", type, rankings.week, { runnerUp: type.runnerUp })}
@@ -708,6 +729,7 @@ function privacyPage() {
     <p class="eyebrow">Privacy</p>
     <h1>How OmaPicks treats visitors</h1>
     <p class="page-lede">OmaPicks has no accounts, comments, advertising, or marketing trackers. The published pages are static files. Your browser does not receive an analytics script, analytics cookie, or analytics storage from this site.</p>
+    <p>Optional share links open X in a new tab after you leave OmaPicks; this site does not load an X script.</p>
     <h2>Theme preference</h2>
     <p>If you use the theme toggle, OmaPicks stores <code>light</code> or <code>dark</code> in your browser's <code>localStorage</code> so the choice can persist. That value is not sent to the server and is not used to measure traffic.</p>
     <h2>Traffic measurement</h2>

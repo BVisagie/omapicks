@@ -98,10 +98,20 @@ test("fixture rendering escapes remote data and rejects unsafe links", () => {
   assert.match(html, /Find a category/);
   assert.match(html, /Browse 1 category/);
   assert.match(html, /alt="&lt;img src=x onerror=alert\(1\)&gt; preview"/);
+  const pick = renderFixtureType(
+    fixtureRankings(fixtureCandidate({ name: attack })).types[0],
+    fixtureRankings(fixtureCandidate({ name: attack }))
+  );
+  assert.ok(!pick.includes("<img src=x onerror=alert(1)>"));
+  assert.ok(pick.includes(xShareHref(`${attack} is this week's Weather champion on OmaPicks.`, "https://omapicks.com/picks/weather/")));
 });
 
 function catalogNames(html) {
   return [...html.matchAll(/class="catalog-row"[^>]*>\s*<span class="type">([^<]*)<\/span>/g)].map((match) => match[1]);
+}
+
+function xShareHref(text, url) {
+  return `https://x.com/intent/post?${new URLSearchParams({ text: `${text} ${url}` })}`;
 }
 
 test("homepage discovery chrome follows the ranking taxonomy", () => {
@@ -275,6 +285,38 @@ test("type rendering explains the ranking in plain language", () => {
   );
 });
 
+test("home and champion pick pages expose X intent links without third-party scripts", () => {
+  const rankings = fixtureRankings();
+  const home = renderFixtureHome(rankings);
+  const pick = renderFixtureType(rankings.types[0], rankings);
+  const vacantRankings = fixtureRankings();
+  vacantRankings.types[0] = { ...vacantRankings.types[0], winner: null, runnerUp: null, eligibleCount: 0 };
+  const vacant = renderFixtureType(vacantRankings.types[0], vacantRankings);
+
+  assert.ok(
+    home.includes(
+      xShareHref(
+        "This week's Omarchy plugin rankings, independently scored from public registry data.",
+        "https://omapicks.com/"
+      )
+    )
+  );
+  assert.match(home, /Share this week on X/);
+  assert.ok(
+    pick.includes(
+      xShareHref("Safe Plugin is this week's Weather champion on OmaPicks.", "https://omapicks.com/picks/weather/")
+    )
+  );
+  assert.match(pick, /Share this ranking on X/);
+  assert.doesNotMatch(vacant, /Share this ranking on X/);
+  assert.doesNotMatch(vacant, /x\.com\/intent\/post/);
+  for (const html of [home, pick, vacant]) {
+    assert.doesNotMatch(html, /platform\.twitter\.com/);
+    assert.doesNotMatch(html, /widgets\.js/);
+    assert.doesNotMatch(html, /beacon\.min\.js/);
+  }
+});
+
 test("rejected plugin URLs stay as inert in-page hashes", () => {
   const rankings = fixtureRankings(
     fixtureCandidate({
@@ -363,12 +405,36 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.doesNotMatch(home, /aria-current="page"/);
   assert.match(privacy, /How OmaPicks treats visitors/);
   assert.match(privacy, /does not receive an analytics script/);
+  assert.match(privacy, /does not load an X script/);
   assert.match(privacy, /one-way identifier that is salted for that day/);
   assert.match(privacy, /href="https:\/\/github\.com\/BVisagie\/omapicks\/issues\/new" target="_blank" rel="noopener noreferrer"/);
   assert.match(privacy, /Do not post sensitive personal information/);
   assert.doesNotMatch(privacy, /beacon\.min\.js/);
   assert.doesNotMatch(privacy, /cookie (popup|banner|consent)/i);
-  assert.match(pick, /Weather/);
+  assert.ok(
+    home.includes(
+      xShareHref(
+        "This week's Omarchy plugin rankings, independently scored from public registry data.",
+        "https://omapicks.com/"
+      )
+    )
+  );
+  assert.match(home, /Share this week on X/);
+  assert.ok(
+    pick.includes(
+      xShareHref(
+        `${weather.winner.name} is this week's Weather champion on OmaPicks.`,
+        "https://omapicks.com/picks/weather/"
+      )
+    )
+  );
+  assert.match(pick, /Share this ranking on X/);
+  assert.doesNotMatch(methodology, /x\.com\/intent\/post/);
+  assert.doesNotMatch(privacy, /x\.com\/intent\/post/);
+  assert.doesNotMatch(changelog, /x\.com\/intent\/post/);
+  assert.doesNotMatch(home, /platform\.twitter\.com/);
+  assert.doesNotMatch(pick, /platform\.twitter\.com/);
+  assert.doesNotMatch(home, /widgets\.js/);
   assert.match(pick, /How they compare/);
   assert.match(pick, /These bars are raw public counts/);
   assert.match(pick, /It won mainly because/);
