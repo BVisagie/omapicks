@@ -293,7 +293,7 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   const result = await render();
   assert.equal(result.typeCount, rankings.types.length);
   const weather = rankings.types.find((type) => type.id === "weather");
-  const [home, methodology, changelog, privacy, pick, sitemap, feed, feedXsl, headers, routes, badge] = await Promise.all([
+  const [home, methodology, changelog, privacy, pick, sitemap, feed, feedXsl, headers, routes, manifestSource, badge] = await Promise.all([
     readFile(new URL("../dist/index.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/methodology/index.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/changelog/index.html", import.meta.url), "utf8"),
@@ -304,11 +304,18 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
     readFile(new URL("../dist/feed.xsl", import.meta.url), "utf8"),
     readFile(new URL("../dist/_headers", import.meta.url), "utf8"),
     readFile(new URL("../dist/_routes.json", import.meta.url), "utf8"),
+    readFile(new URL("../dist/site.webmanifest", import.meta.url), "utf8"),
     readFile(new URL(`../dist/badges/${rankings.week}/weather/${encodeURIComponent(weather.winner.id)}.svg`, import.meta.url), "utf8")
   ]);
   const typeCount = rankings.types.length;
   const featured = featuredTypes(rankings, 5);
-  assert.match(home, /OmaPicks/);
+  assert.match(home, /rel="icon" href="\/assets\/icon\.svg" type="image\/svg\+xml" sizes="any"/);
+  assert.match(home, /rel="icon" href="\/assets\/icon-192\.png" type="image\/png" sizes="192x192"/);
+  assert.match(home, /rel="icon" href="\/favicon\.ico" sizes="48x48"/);
+  assert.match(home, /rel="apple-touch-icon" href="\/apple-touch-icon\.png" sizes="180x180"/);
+  assert.match(feedXsl, /rel="icon" href="\/assets\/icon-192\.png" type="image\/png" sizes="192x192"/);
+  assert.match(feedXsl, /rel="icon" href="\/favicon\.ico" sizes="48x48"/);
+  assert.match(feedXsl, /rel="apple-touch-icon" href="\/apple-touch-icon\.png" sizes="180x180"/);
   assert.match(home, /Find the best Omarchy plugin for the job/);
   assert.match(home, /Find a category/);
   assert.match(home, new RegExp(`Browse ${typeCount} categories`));
@@ -398,6 +405,16 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   const publishedRoutes = JSON.parse(routes);
   assert.deepEqual(publishedRoutes.include, ["/*"]);
   assert.ok(publishedRoutes.exclude.includes("/assets/*"));
+  assert.ok(publishedRoutes.exclude.includes("/favicon.ico"));
+  assert.ok(publishedRoutes.exclude.includes("/apple-touch-icon.png"));
+  assert.match(headers, /\/favicon\.ico\n  Cache-Control: public, max-age=604800/);
+  assert.match(headers, /\/apple-touch-icon\.png\n  Cache-Control: public, max-age=604800/);
+  const manifest = JSON.parse(manifestSource);
+  assert.deepEqual(manifest.icons, [
+    { src: "/assets/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
+    { src: "/assets/icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
+    { src: "/assets/icon-maskable-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" }
+  ]);
   assert.doesNotMatch(home, /beacon\.min\.js/);
   assert.doesNotMatch(home, /cookie (popup|banner|consent)/i);
   assert.ok(badge.includes(escapeHtml(weather.winner.name)));
@@ -405,6 +422,11 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   await stat(new URL("../dist/og/home.jpg", import.meta.url));
   await stat(new URL("../dist/og/terminal.jpg", import.meta.url));
   await stat(new URL("../dist/feed.xsl", import.meta.url));
+  await stat(new URL("../dist/favicon.ico", import.meta.url));
+  await stat(new URL("../dist/apple-touch-icon.png", import.meta.url));
+  await stat(new URL("../dist/assets/icon-192.png", import.meta.url));
+  await stat(new URL("../dist/assets/icon-512.png", import.meta.url));
+  await stat(new URL("../dist/assets/icon-maskable-512.png", import.meta.url));
   for (const output of [home, methodology, changelog, privacy, pick, sitemap, feed, feedXsl, badge]) {
     assert.ok(!output.includes("undefined"));
   }

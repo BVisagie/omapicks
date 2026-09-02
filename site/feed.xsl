@@ -27,7 +27,10 @@
         <meta name="description" content="Champion changes in the weekly OmaPicks rankings."/>
         <meta name="color-scheme" content="light dark"/>
         <link rel="canonical" href="https://omapicks.com/feed.xml"/>
-        <link rel="icon" href="/assets/icon.svg" type="image/svg+xml"/>
+        <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" sizes="any"/>
+        <link rel="icon" href="/assets/icon-192.png" type="image/png" sizes="192x192"/>
+        <link rel="icon" href="/favicon.ico" sizes="48x48"/>
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180"/>
         <link rel="manifest" href="/site.webmanifest"/>
         <link rel="alternate" type="application/rss+xml" title="OmaPicks weekly changes" href="/feed.xml"/>
         <link rel="stylesheet" href="/assets/styles.css"/>
