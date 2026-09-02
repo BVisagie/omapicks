@@ -138,7 +138,8 @@ test("homepage discovery chrome follows the ranking taxonomy", () => {
   });
   assert.match(two, /Find the best Omarchy plugin for the job/);
   assert.match(two, /\$<\/span> omapicks rank --week 2026-W36/);
-  assert.match(two, /# no votes\. no sponsorships\. just a reproducible weekly snapshot/);
+  assert.match(two, /# no votes\. no sponsorships\. just a reproducible weekly snapshot from omarchy plugins/);
+  assert.match(two, /rescored every Monday from Omarchy Plugins/);
   assert.match(two, /data-filter-status data-total="2"/);
   assert.match(two, /Browse 2 categories/);
   assert.match(two, /Browse all 2 categories/);
@@ -296,7 +297,7 @@ test("home and champion pick pages expose X intent links without third-party scr
   assert.ok(
     home.includes(
       xShareHref(
-        "This week's Omarchy plugin rankings, independently scored from public registry data.",
+        "This week's Omarchy plugin rankings, independently scored from Omarchy Plugins.",
         "https://omapicks.com/"
       )
     )
@@ -414,7 +415,7 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.ok(
     home.includes(
       xShareHref(
-        "This week's Omarchy plugin rankings, independently scored from public registry data.",
+        "This week's Omarchy plugin rankings, independently scored from Omarchy Plugins.",
         "https://omapicks.com/"
       )
     )
