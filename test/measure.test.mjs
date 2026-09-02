@@ -132,6 +132,30 @@ test("pages without a binding still render", async () => {
   assert.deepEqual(points, []);
 });
 
+test("the Worker redirects HTTP and www requests to canonical HTTPS", async () => {
+  let assetRequests = 0;
+  const env = {
+    ASSETS: {
+      fetch() {
+        assetRequests += 1;
+        return htmlResponse();
+      }
+    }
+  };
+
+  for (const [source, destination] of [
+    ["http://omapicks.com/picks/network/?ref=home", "https://omapicks.com/picks/network/?ref=home"],
+    ["https://www.omapicks.com/methodology/", "https://omapicks.com/methodology/"],
+    ["http://www.omapicks.com/changelog/", "https://omapicks.com/changelog/"]
+  ]) {
+    const response = await worker.fetch(new Request(source), env, {});
+    assert.equal(response.status, 308);
+    assert.equal(response.headers.get("location"), destination);
+  }
+
+  assert.equal(assetRequests, 0);
+});
+
 test("the Worker serves assets and records HTML page views", async () => {
   const points = [];
   const env = {
@@ -154,6 +178,7 @@ test("the Worker serves assets and records HTML page views", async () => {
   };
   const result = await worker.fetch(pageRequest("/picks/network/"), env, ctx);
   assert.equal(result.status, 200);
+  assert.equal(result.headers.get("strict-transport-security"), "max-age=300");
   await ctx.pending;
   assert.equal(points.length, 1);
   assert.equal(points[0].blobs[0], "/picks/network/");

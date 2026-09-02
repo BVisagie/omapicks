@@ -8,6 +8,14 @@ binding = "ASSETS"
 html_handling = "auto-trailing-slash"
 run_worker_first = true
 
+[[routes]]
+pattern = "omapicks.com/*"
+zone_name = "omapicks.com"
+
+[[routes]]
+pattern = "www.omapicks.com/*"
+zone_name = "omapicks.com"
+
 [[analytics_engine_datasets]]
 binding = "ANALYTICS"
 dataset = "omapicks_pages"
