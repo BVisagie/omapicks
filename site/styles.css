@@ -401,9 +401,10 @@ button {
 
 .finder-results {
   max-height: 16.5rem;
-  margin: 0.55rem 0 0;
+  margin: 0.55rem -0.45rem 0;
   padding: 0;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   border-top: 1px solid var(--line);
   list-style: none;
 }
@@ -416,7 +417,6 @@ button {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   gap: 0.7rem;
-  margin: 0 -0.45rem;
   padding: 0.55rem 0.45rem;
   border-bottom: 1px solid var(--line);
   color: inherit;
@@ -429,19 +429,23 @@ button {
   color: inherit;
 }
 
+.finder-results span,
+.finder-results strong {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .finder-results span {
   font-weight: 650;
 }
 
 .finder-results strong {
-  min-width: 0;
-  overflow: hidden;
   color: var(--muted);
   font-family: var(--mono);
   font-weight: 600;
   text-align: right;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .finder-results a:hover span,
