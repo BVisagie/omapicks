@@ -550,13 +550,13 @@ function homePage(rankings) {
         <span class="visually-hidden">${weekLabel(rankings.week, rankings.generatedAt)}</span>
       </p>
       <h1>Find the best Omarchy plugin for the job.</h1>
-      <p class="hero-lede">A champion and a runner-up in each category, rescored every Monday from public registry data.</p>
-      <p class="hero-trust"># no votes. no sponsorships. just a reproducible weekly snapshot of public registry evidence.</p>
+      <p class="hero-lede">A champion and a runner-up in each category, rescored every Monday from Omarchy Plugins.</p>
+      <p class="hero-trust"># no votes. no sponsorships. just a reproducible weekly snapshot from omarchy plugins.</p>
       <p class="hero-actions">
         <a class="button" href="#catalog">${escapeHtml(browseLabel(categoryCount))}</a>
         <a class="text-link" href="/methodology/">How rankings work</a>
         ${xShareLink(
-          "This week's Omarchy plugin rankings, independently scored from public registry data.",
+          "This week's Omarchy plugin rankings, independently scored from Omarchy Plugins.",
           `${ORIGIN}/`,
           "Share this week on X"
         )}
