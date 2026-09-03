@@ -3,6 +3,7 @@ import { readFile, stat } from "node:fs/promises";
 import test from "node:test";
 import {
   escapeHtml,
+  featuredDayIndex,
   featuredTypes,
   render,
   renderFixtureHome,
@@ -65,6 +66,21 @@ test("featured types favor category depth while keeping winners unique", () => {
   assert.deepEqual(featured.map((type) => type.id), ["focus", "mail", "clock"]);
 });
 
+test("featured day index rotates by UTC date without depending on local timezone", () => {
+  assert.equal(featuredDayIndex(0), 0);
+  assert.equal(featuredDayIndex(5, new Date("1970-01-01T00:00:00Z")), 0);
+  assert.equal(featuredDayIndex(5, new Date("1970-01-02T00:00:00Z")), 1);
+  assert.equal(featuredDayIndex(5, new Date("1970-01-06T00:00:00Z")), 0);
+  assert.equal(featuredDayIndex(5, new Date("1970-01-08T12:00:00Z")), 2);
+  const pacificEvening = new Date("2026-09-03T23:00:00-07:00");
+  const utcNextDay = new Date("2026-09-04T06:00:00Z");
+  const pacificSameCalendarDay = new Date("2026-09-03T12:00:00-07:00");
+  assert.equal(featuredDayIndex(5, pacificEvening), featuredDayIndex(5, utcNextDay));
+  assert.notEqual(featuredDayIndex(5, pacificSameCalendarDay), featuredDayIndex(5, pacificEvening));
+  const today = featuredDayIndex(5);
+  assert.ok(today >= 0 && today < 5);
+});
+
 test("readable week labels retain the machine-readable snapshot date", () => {
   assert.equal(
     weekLabel("2026-W36", "2026-09-01T09:00:00Z"),
@@ -92,6 +108,12 @@ test("fixture rendering escapes remote data and rejects unsafe links", () => {
   assert.ok(!html.includes("</script><script>"));
   assert.match(html, /catalog-row/);
   assert.match(html, /showdown/);
+  assert.match(html, /<article class="showdown" data-slot="0">/);
+  assert.match(html, /Featured today/);
+  assert.doesNotMatch(html, /Featured this week/);
+  assert.doesNotMatch(html, /dataset\.featuredIndex/);
+  assert.equal([...html.matchAll(/<article class="showdown" data-slot="/g)].length, 1);
+  assert.equal([...html.matchAll(/data-feature data-slot="/g)].length, 0);
   assert.match(html, /01 Champion/);
   assert.match(html, /02 Runner-up/);
   assert.match(html, /No runner-up this week/);
@@ -146,6 +168,19 @@ test("homepage discovery chrome follows the ranking taxonomy", () => {
   assert.match(two, /href="\/methodology\/">How rankings work/);
   assert.match(two, /Compare champion and runner-up/);
   assert.match(two, /Best <a href="\/picks\/vpn\/">VPN<\/a> plugin this week/);
+  assert.match(two, /Best <a href="\/picks\/weather\/">Weather<\/a> plugin this week/);
+  assert.match(two, /Featured today/);
+  assert.doesNotMatch(two, /Featured this week/);
+  assert.match(two, /A different category each day\. Rankings refresh Monday\./);
+  assert.match(two, /dataset\.featuredIndex/);
+  assert.match(two, /html\[data-featured-index="0"\]/);
+  assert.match(two, /html\[data-featured-index="1"\]/);
+  assert.deepEqual(
+    [...two.matchAll(/<article class="showdown" data-slot="(\d+)">[\s\S]*?Best <a href="\/picks\/([^/]+)\/">/g)].map((match) => [match[1], match[2]]),
+    [["0", "vpn"], ["1", "weather"]]
+  );
+  assert.equal([...two.matchAll(/<article class="showdown" data-slot="/g)].length, 2);
+  assert.equal([...two.matchAll(/data-feature data-slot="/g)].length, 2);
   assert.match(two, /alt="Tunnel preview"/);
   assert.equal([...two.matchAll(/data-catalog-row/g)].length, 2);
   assert.equal([...two.matchAll(/data-finder-item/g)].length, 2);
@@ -156,6 +191,8 @@ test("homepage discovery chrome follows the ranking taxonomy", () => {
   const one = renderFixtureHome(fixtureRankings());
   assert.match(one, /Browse 1 category/);
   assert.match(one, /Browse all 1 category/);
+  assert.match(one, /<article class="showdown" data-slot="0">/);
+  assert.doesNotMatch(one, /dataset\.featuredIndex/);
   assert.equal([...one.matchAll(/data-catalog-row/g)].length, 1);
   assert.equal([...one.matchAll(/data-finder-item/g)].length, 1);
   assert.deepEqual(catalogNames(one), ["Weather"]);
@@ -195,6 +232,7 @@ test("homepage discovery chrome follows the ranking taxonomy", () => {
   assert.equal([...three.matchAll(/data-finder-item/g)].length, 3);
   assert.equal([...three.matchAll(/data-suggested/g)].length, 2);
   assert.match(three, /data-finder-item data-search="clipboard paste history"[^>]* hidden>/);
+  assert.equal([...three.matchAll(/<article class="showdown" data-slot="/g)].length, 2);
   assert.deepEqual(catalogNames(three), ["Clipboard", "VPN", "Weather"]);
 });
 
@@ -367,6 +405,9 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.match(home, /data-pick-filter/);
   assert.match(home, /catalog-row/);
   assert.match(home, /showdown/);
+  assert.match(home, /Featured today/);
+  assert.doesNotMatch(home, /Featured this week/);
+  assert.match(home, /A different category each day\. Rankings refresh Monday\./);
   assert.match(home, /01 Champion/);
   assert.match(home, /02 Runner-up/);
   assert.match(home, /runner-up /);
@@ -375,6 +416,18 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.equal([...home.matchAll(/data-catalog-row/g)].length, typeCount);
   assert.equal([...home.matchAll(/data-finder-item/g)].length, typeCount);
   assert.equal([...home.matchAll(/data-suggested/g)].length, featured.length);
+  assert.equal([...home.matchAll(/<article class="showdown" data-slot="/g)].length, featured.length);
+  assert.equal([...home.matchAll(/data-feature data-slot="/g)].length, featured.length > 1 ? featured.length : 0);
+  assert.match(home, /dataset\.featuredIndex/);
+  assert.match(home, /html\[data-featured-index="0"\]/);
+  assert.doesNotMatch(methodology, /dataset\.featuredIndex/);
+  assert.doesNotMatch(methodology, /html\[data-featured-index/);
+  assert.doesNotMatch(changelog, /dataset\.featuredIndex/);
+  assert.doesNotMatch(privacy, /dataset\.featuredIndex/);
+  assert.doesNotMatch(pick, /dataset\.featuredIndex/);
+  assert.doesNotMatch(pick, /<article class="showdown"/);
+  assert.ok(home.includes(`<article class="showdown" data-slot="0">`));
+  assert.ok(home.includes(`Best <a href="/picks/${featured[0].id}/">${escapeHtml(featured[0].name)}</a> plugin this week`));
   assert.deepEqual(
     catalogNames(home),
     rankings.types

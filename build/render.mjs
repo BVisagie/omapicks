@@ -231,6 +231,38 @@ export function featuredTypes(rankings, count = 6) {
   return selected;
 }
 
+export function featuredDayIndex(count, date = new Date()) {
+  if (!count) return 0;
+  const utcDay = Math.floor(Date.UTC(
+    date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()
+  ) / 86400000);
+  return ((utcDay % count) + count) % count;
+}
+
+function featuredBoot(count) {
+  return `<script>
+(() => {
+  const count = ${Number(count)};
+  if (!count) return;
+  const now = new Date();
+  const utcDay = Math.floor(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()) / 86400000);
+  document.documentElement.dataset.featuredIndex = String(((utcDay % count) + count) % count);
+})();
+</script>`;
+}
+
+function featuredSlotStyle(count) {
+  if (count < 2) return "";
+  const rules = [];
+  for (let slot = 0; slot < count; slot += 1) {
+    rules.push(`html[data-featured-index="${slot}"] .showdown[data-slot]:not([data-slot="${slot}"]){display:none}`);
+    rules.push(`html[data-featured-index="${slot}"] .showdown[data-slot="${slot}"]{display:block}`);
+    rules.push(`html[data-featured-index="${slot}"] .support[data-slot="${slot}"]{display:none}`);
+    rules.push(`html[data-featured-index="${slot}"] .support[data-slot]:not([data-slot="${slot}"]){display:block}`);
+  }
+  return `<style>${rules.join("")}</style>`;
+}
+
 function themeBoot() {
   return `<script>
 (() => {
@@ -267,7 +299,7 @@ function nav(pathname = "/") {
   </header>`;
 }
 
-function shell({ title, description, pathname, image, body, structuredData = null }) {
+function shell({ title, description, pathname, image, body, structuredData = null, headExtra = "" }) {
   const canonical = `${ORIGIN}${pathname}`;
   const fullTitle = title === "OmaPicks" ? "OmaPicks — weekly Omarchy plugin rankings" : `${title} · OmaPicks`;
   const ogImage = `${ORIGIN}${image.url}`;
@@ -275,7 +307,7 @@ function shell({ title, description, pathname, image, body, structuredData = nul
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  ${themeBoot()}
+  ${themeBoot()}${headExtra ? `\n  ${headExtra}` : ""}
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${escapeHtml(fullTitle)}</title>
   <meta name="description" content="${escapeHtml(description)}">
@@ -445,12 +477,13 @@ function showdownEntry(candidate, place, href) {
   </div>`;
 }
 
-function showdownSection(type) {
+function showdownSection(type, slot = 0) {
   const href = `/picks/${encodeURIComponent(type.id)}/`;
   const lead = scoreLead(type.winner, type.runnerUp);
-  return `<article class="showdown">
+  return `<article class="showdown" data-slot="${slot}">
     <header class="showdown-head">
-      <p class="kicker">Featured this week</p>
+      <p class="kicker">Featured today</p>
+      <p class="showdown-note">A different category each day. Rankings refresh Monday.</p>
       <h2>Best <a href="${href}">${escapeHtml(type.name)}</a> plugin this week</h2>
     </header>
     <div class="showdown-pair">
@@ -465,13 +498,13 @@ function showdownSection(type) {
   </article>`;
 }
 
-function featureArticle(type) {
+function featureArticle(type, slot = 0) {
   const winner = type.winner;
   const href = `/picks/${encodeURIComponent(type.id)}/`;
   const runner = type.runnerUp?.name
     ? ` · runner-up ${type.runnerUp.name} by ${type.runnerUp.author || "Unknown author"}`
     : "";
-  return `<a class="feature support" href="${href}" data-feature>
+  return `<a class="feature support" href="${href}" data-feature data-slot="${slot}">
     <span class="feature-media" aria-hidden="true">${mediaImage(winner, { decorative: true })}</span>
     <div class="support-copy">
       <p class="kicker">${escapeHtml(type.name)}</p>
@@ -540,7 +573,6 @@ function homePage(rankings) {
   const categoryCount = types.length;
   const eligibleEntries = types.reduce((sum, type) => sum + Number(type.eligibleCount || 0), 0);
   const featured = featuredTypes(rankings, 5);
-  const [lead, ...supporting] = featured;
   const suggestedIds = new Set(featured.map((type) => type.id));
   const catalogTypes = types.slice().sort(byCategoryName);
   const body = `<section class="hero">
@@ -583,12 +615,16 @@ function homePage(rankings) {
     </aside>
   </section>
   ${
-    lead
+    featured.length
       ? `<section class="showcase" aria-label="Featured picks">
-    ${showdownSection(lead)}
-    <div class="supporting">
-      ${supporting.map((type) => featureArticle(type)).join("")}
-    </div>
+    ${featured.map((type, slot) => showdownSection(type, slot)).join("")}
+    ${
+      featured.length > 1
+        ? `<div class="supporting">
+      ${featured.map((type, slot) => featureArticle(type, slot)).join("")}
+    </div>`
+        : ""
+    }
   </section>`
       : ""
   }
@@ -608,6 +644,7 @@ function homePage(rankings) {
     pathname: "/",
     image: socialImage("OmaPicks weekly picks for Omarchy plugins"),
     body,
+    headExtra: featured.length > 1 ? `${featuredBoot(featured.length)}\n  ${featuredSlotStyle(featured.length)}` : "",
     structuredData: {
       "@context": "https://schema.org",
       "@type": "WebSite",
