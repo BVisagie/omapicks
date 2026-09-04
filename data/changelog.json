@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "week": "2026-W36",
-  "generatedAt": "2026-09-01T19:32:30.215Z",
+  "generatedAt": "2026-09-04T05:19:30.672Z",
   "changes": [
     {
       "typeId": "system-monitor",
@@ -360,6 +360,96 @@
       "current": {
         "id": "hass",
         "name": "Home Assistant"
+      }
+    },
+    {
+      "typeId": "password-manager",
+      "typeName": "Password Manager",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.elevate08.qs-bitwarden-cli",
+        "name": "Bitwarden"
+      }
+    },
+    {
+      "typeId": "notes",
+      "typeName": "Notes",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.huligabuliga.omasticky",
+        "name": "Omasticky"
+      }
+    },
+    {
+      "typeId": "mini-games",
+      "typeName": "Mini-Games",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "slcode777.omagotchi",
+        "name": "Omagotchi"
+      }
+    },
+    {
+      "typeId": "radio",
+      "typeName": "Radio",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "akshar.radio-atlas",
+        "name": "Radio Atlas"
+      }
+    },
+    {
+      "typeId": "screensavers",
+      "typeName": "Screensavers",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.fabiopauli.oligarchy-screensaver",
+        "name": "Oligarchy Screensaver"
+      }
+    },
+    {
+      "typeId": "power-menu",
+      "typeName": "Power & Session",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.edgarsilva.power-button",
+        "name": "Power Button"
+      }
+    },
+    {
+      "typeId": "plugin-manager",
+      "typeName": "Plugin Manager",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "omaplug",
+        "name": "Plugin Manager"
+      }
+    },
+    {
+      "typeId": "firewall",
+      "typeName": "Firewall",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.chris.snitch",
+        "name": "Snitch"
+      }
+    },
+    {
+      "typeId": "dev-ports",
+      "typeName": "Dev Ports",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "zeru.portwatch",
+        "name": "Port Watch"
       }
     }
   ]

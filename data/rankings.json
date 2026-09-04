@@ -3,27 +3,27 @@
   "methodologyVersion": "1.0.0",
   "site": "https://omapicks.com",
   "week": "2026-W36",
-  "generatedAt": "2026-09-01T19:32:30.215Z",
+  "generatedAt": "2026-09-04T05:19:30.672Z",
   "source": {
     "catalog": {
       "url": "https://plugins.omarchy.org/catalog.json",
-      "generatedAt": "2026-09-01T19:30:41.000Z",
-      "etag": "W/\"6a972820-4e3217\"",
-      "lastModified": "Tue, 01 Sep 2026 19:31:44 GMT",
-      "sha256": "7326688df0b44fcf1e0a5ab0d8cdafd7cf0e0cae9464bb24b473a952ebdf67ac",
-      "count": 2085
+      "generatedAt": "2026-09-04T03:54:00.041Z",
+      "etag": "W/\"6a9a4118-534a49\"",
+      "lastModified": "Fri, 04 Sep 2026 03:55:04 GMT",
+      "sha256": "5ca78c2edb4f3f6cf093447e0ab9a9a04ef31729319d1d0dc39d8b150e597514",
+      "count": 2214
     },
     "stats": {
       "url": "https://api.omarchyplugins.com/v1/stats",
       "schemaVersion": 1,
       "etag": null,
-      "lastModified": "Tue, 01 Sep 2026 19:31:08 GMT",
-      "sha256": "4d3ed18a2ed0fdaa3fa3a913405301b7e2f97a908a9aee70f2633b6bdc9ff8ab",
-      "count": 2101
+      "lastModified": null,
+      "sha256": "b7285c3336ab8397595b3f79221f2c5ffe192251148d652f90c3bd4584361606",
+      "count": 2231
     },
     "taxonomy": {
-      "sha256": "6e73fa5f6d8821c803f76aa5422e8de6f35153fa1dd50b02150e3c44c235dba1",
-      "typeCount": 32
+      "sha256": "75e677c8728111079f2936edf25b5c0c6772f074e928421efd5ee511aa80d6bd",
+      "typeCount": 41
     }
   },
   "types": [
@@ -31,7 +31,7 @@
       "id": "system-monitor",
       "name": "System Monitor",
       "description": "CPU, memory, temperature, and resource monitoring",
-      "eligibleCount": 82,
+      "eligibleCount": 89,
       "winner": {
         "id": "im0001gt.hw-tooltip",
         "name": "Hardware Tooltip",
@@ -49,30 +49,30 @@
         "previewHeight": 720,
         "localImage": "assets/plugins/im0001gt.hw-tooltip-5c615c2e27.webp",
         "metrics": {
-          "copies": 729,
-          "hearts": 46,
+          "copies": 824,
+          "hearts": 48,
           "stars": 4,
-          "views": 1800
+          "views": 2035
         },
         "normalized": {
-          "copies": 0.992832,
-          "hearts": 0.992832,
-          "stars": 0.811255,
-          "views": 0.975795,
-          "freshness": 0.959798,
+          "copies": 0.985724,
+          "hearts": 0.993576,
+          "stars": 0.813441,
+          "views": 0.977871,
+          "freshness": 0.95094,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.35742,
-          "hearts": 0.198566,
-          "stars": 0.146026,
-          "views": 0.078064,
-          "freshness": 0.124774,
+          "copies": 0.354861,
+          "hearts": 0.198715,
+          "stars": 0.146419,
+          "views": 0.07823,
+          "freshness": 0.123622,
           "verified": 0.05
         },
-        "evidence": 0.985663,
-        "freshnessDays": 10,
-        "score": 0.95485
+        "evidence": 0.987152,
+        "freshnessDays": 13,
+        "score": 0.951847
       },
       "runnerUp": {
         "id": "stappmus.activity-monitor",
@@ -91,37 +91,37 @@
         "previewHeight": 665,
         "localImage": "assets/plugins/stappmus.activity-monitor-65142653bf.webp",
         "metrics": {
-          "copies": 706,
-          "hearts": 29,
-          "stars": 29,
-          "views": 2369
+          "copies": 859,
+          "hearts": 32,
+          "stars": 30,
+          "views": 2842
         },
         "normalized": {
-          "copies": 0.98396,
-          "hearts": 0.958424,
-          "stars": 0.992472,
-          "views": 0.992472,
-          "freshness": 0.994354,
+          "copies": 0.993704,
+          "hearts": 0.966214,
+          "stars": 0.993704,
+          "views": 0.993704,
+          "freshness": 0.985178,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.354226,
-          "hearts": 0.191685,
-          "stars": 0.178645,
-          "views": 0.079398,
-          "freshness": 0.129266,
+          "copies": 0.357733,
+          "hearts": 0.193243,
+          "stars": 0.178867,
+          "views": 0.079496,
+          "freshness": 0.128073,
           "verified": 0
         },
-        "evidence": 0.984944,
-        "freshnessDays": 1,
-        "score": 0.93322
+        "evidence": 0.987408,
+        "freshnessDays": 3,
+        "score": 0.937412
       }
     },
     {
       "id": "vpn",
       "name": "VPN",
       "description": "VPN status, connection, and privacy controls",
-      "eligibleCount": 33,
+      "eligibleCount": 41,
       "winner": {
         "id": "io.github.grichard99.omaproton-vpn",
         "name": "OmaProton VPN",
@@ -139,30 +139,30 @@
         "previewHeight": 405,
         "localImage": "assets/plugins/io.github.grichard99.omaproton-vpn-ec60c5e384.webp",
         "metrics": {
-          "copies": 647,
-          "hearts": 53,
-          "stars": 34,
-          "views": 1972
+          "copies": 855,
+          "hearts": 66,
+          "stars": 42,
+          "views": 2530
         },
         "normalized": {
-          "copies": 0.992126,
-          "hearts": 0.970595,
-          "stars": 0.992126,
-          "views": 0.947372,
-          "freshness": 0.999454,
+          "copies": 0.993896,
+          "hearts": 0.97661,
+          "stars": 0.993896,
+          "views": 0.97661,
+          "freshness": 0.99023,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.357165,
-          "hearts": 0.194119,
-          "stars": 0.178583,
-          "views": 0.07579,
-          "freshness": 0.129929,
+          "copies": 0.357803,
+          "hearts": 0.195322,
+          "stars": 0.178901,
+          "views": 0.078129,
+          "freshness": 0.12873,
           "verified": 0.05
         },
-        "evidence": 0.984252,
-        "freshnessDays": 0,
-        "score": 0.985586
+        "evidence": 0.987792,
+        "freshnessDays": 2,
+        "score": 0.988885
       },
       "runnerUp": {
         "id": "omaconnect",
@@ -181,30 +181,30 @@
         "previewHeight": 473,
         "localImage": "assets/plugins/omaconnect-fe8afd62df.webp",
         "metrics": {
-          "copies": 629,
-          "hearts": 92,
-          "stars": 21,
-          "views": 2448
+          "copies": 705,
+          "hearts": 96,
+          "stars": 22,
+          "views": 2743
         },
         "normalized": {
-          "copies": 0.970797,
-          "hearts": 0.992337,
-          "stars": 0.939062,
-          "views": 0.992337,
-          "freshness": 0.992707,
+          "copies": 0.975791,
+          "hearts": 0.993048,
+          "stars": 0.958534,
+          "views": 0.993048,
+          "freshness": 0.983546,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.349487,
-          "hearts": 0.198467,
-          "stars": 0.169031,
-          "views": 0.079387,
-          "freshness": 0.129052,
+          "copies": 0.351285,
+          "hearts": 0.19861,
+          "stars": 0.172536,
+          "views": 0.079444,
+          "freshness": 0.127861,
           "verified": 0
         },
-        "evidence": 0.984674,
-        "freshnessDays": 1,
-        "score": 0.925424
+        "evidence": 0.986095,
+        "freshnessDays": 4,
+        "score": 0.929736
       }
     },
     {
@@ -215,44 +215,44 @@
       "winner": {
         "id": "omamail",
         "name": "Omamail",
-        "description": "Email client for Omarchy: read, triage, and reply to Gmail, HEY and any IMAP mailbox in a native window. Fastmail, iCloud, Outlook, Zoho, or your own server.",
-        "author": "Jason Lee <huacnlee@gmail.com>",
+        "description": "Email client for Omarchy: read, triage, and reply to Gmail, HEY and any IMAP mailbox in a native window. Fastmail, iCloud, Outlook, Zoho, Proton Bridge, or your own server — several accounts at once, each with its own inbox and unread count. Keyboard-first, three columns when there is room and one when there is not, and it follows your theme. Meeting invitations are drawn as meetings you can answer, newsletters unsubscribe in one click, and remote images stay blocked until you ask.",
+        "author": "huacnlee",
         "category": "Productivity",
         "repository": "https://github.com/huacnlee/omamail",
         "detailUrl": "https://plugins.omarchy.org/plugin.html?id=omamail",
         "installCommand": "omarchy plugin add https://github.com/huacnlee/omamail.git --enable",
         "verificationStatus": "unverified",
         "license": "MIT",
-        "repositoryUpdatedAt": "2026-08-31T13:46:42.000Z",
+        "repositoryUpdatedAt": "2026-09-03T16:07:29.000Z",
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-huacnlee-omamail-card.webp",
         "previewWidth": 720,
-        "previewHeight": 513,
+        "previewHeight": 503,
         "localImage": "assets/plugins/omamail-59e9896291.webp",
         "metrics": {
-          "copies": 1032,
-          "hearts": 57,
-          "stars": 122,
-          "views": 6076
+          "copies": 1265,
+          "hearts": 73,
+          "stars": 142,
+          "views": 7321
         },
         "normalized": {
-          "copies": 0.994787,
-          "hearts": 0.994787,
-          "stars": 0.994787,
-          "views": 0.994787,
-          "freshness": 0.995236,
+          "copies": 0.995714,
+          "hearts": 0.995714,
+          "stars": 0.995714,
+          "views": 0.995714,
+          "freshness": 0.997884,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.358123,
-          "hearts": 0.198957,
-          "stars": 0.179062,
-          "views": 0.079583,
-          "freshness": 0.129381,
+          "copies": 0.358457,
+          "hearts": 0.199143,
+          "stars": 0.179229,
+          "views": 0.079657,
+          "freshness": 0.129725,
           "verified": 0
         },
-        "evidence": 0.989574,
-        "freshnessDays": 1,
-        "score": 0.945106
+        "evidence": 0.991429,
+        "freshnessDays": 0,
+        "score": 0.946211
       },
       "runnerUp": {
         "id": "jankeesvw.gmail-inbox",
@@ -271,37 +271,37 @@
         "previewHeight": 475,
         "localImage": "assets/plugins/jankeesvw.gmail-inbox-2ae9497f9b.webp",
         "metrics": {
-          "copies": 112,
-          "hearts": 8,
+          "copies": 126,
+          "hearts": 10,
           "stars": 10,
-          "views": 544
+          "views": 622
         },
         "normalized": {
-          "copies": 0.864629,
-          "hearts": 0.776039,
-          "stars": 0.828736,
-          "views": 0.871548,
-          "freshness": 0.98738,
+          "copies": 0.86741,
+          "hearts": 0.817333,
+          "stars": 0.828201,
+          "views": 0.874895,
+          "freshness": 0.978268,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.311266,
-          "hearts": 0.155208,
-          "stars": 0.149172,
-          "views": 0.069724,
-          "freshness": 0.128359,
+          "copies": 0.312268,
+          "hearts": 0.163467,
+          "stars": 0.149076,
+          "views": 0.069992,
+          "freshness": 0.127175,
           "verified": 0.05
         },
-        "evidence": 0.924623,
-        "freshnessDays": 3,
-        "score": 0.863729
+        "evidence": 0.932998,
+        "freshnessDays": 5,
+        "score": 0.871978
       }
     },
     {
       "id": "music",
       "name": "Music",
       "description": "Music playback and now-playing controls",
-      "eligibleCount": 38,
+      "eligibleCount": 44,
       "winner": {
         "id": "crmne.mpris",
         "name": "Media Controls + Album Art",
@@ -311,38 +311,38 @@
         "repository": "https://github.com/crmne/omarchy-mpris",
         "detailUrl": "https://plugins.omarchy.org/plugin.html?id=crmne.mpris",
         "installCommand": "omarchy plugin add https://github.com/crmne/omarchy-mpris.git --enable",
-        "verificationStatus": "verified",
+        "verificationStatus": "unverified",
         "license": "MIT",
-        "repositoryUpdatedAt": "2026-08-14T11:33:21.000Z",
+        "repositoryUpdatedAt": "2026-09-02T21:19:51.000Z",
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/5-crmne-omarchy-mpris-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
         "localImage": "assets/plugins/crmne.mpris-2328981fbf.webp",
         "metrics": {
-          "copies": 430,
-          "hearts": 17,
-          "stars": 8,
-          "views": 1109
+          "copies": 506,
+          "hearts": 21,
+          "stars": 9,
+          "views": 1282
         },
         "normalized": {
-          "copies": 0.969739,
-          "hearts": 0.969739,
-          "stars": 0.945624,
-          "views": 0.969739,
-          "freshness": 0.931838,
-          "verified": 1
+          "copies": 0.973866,
+          "hearts": 0.973866,
+          "stars": 0.957918,
+          "views": 0.973866,
+          "freshness": 0.99488,
+          "verified": 0
         },
         "contributions": {
-          "copies": 0.349106,
-          "hearts": 0.193948,
-          "stars": 0.170212,
-          "views": 0.077579,
-          "freshness": 0.121139,
-          "verified": 0.05
+          "copies": 0.350592,
+          "hearts": 0.194773,
+          "stars": 0.172425,
+          "views": 0.077909,
+          "freshness": 0.129334,
+          "verified": 0
         },
-        "evidence": 0.976424,
-        "freshnessDays": 18,
-        "score": 0.961984
+        "evidence": 0.979626,
+        "freshnessDays": 1,
+        "score": 0.925033
       },
       "runnerUp": {
         "id": "quickshell.ytmusic",
@@ -361,37 +361,37 @@
         "previewHeight": 720,
         "localImage": "assets/plugins/quickshell.ytmusic-45aa0a8fc1.webp",
         "metrics": {
-          "copies": 547,
-          "hearts": 49,
-          "stars": 16,
-          "views": 2032
+          "copies": 653,
+          "hearts": 51,
+          "stars": 18,
+          "views": 2406
         },
         "normalized": {
-          "copies": 0.990881,
-          "hearts": 0.990881,
-          "stars": 0.990881,
-          "views": 0.990881,
-          "freshness": 0.95342,
+          "copies": 0.992167,
+          "hearts": 0.992167,
+          "stars": 0.992167,
+          "views": 0.992167,
+          "freshness": 0.944621,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.356717,
-          "hearts": 0.198176,
-          "stars": 0.178359,
-          "views": 0.07927,
-          "freshness": 0.123945,
+          "copies": 0.35718,
+          "hearts": 0.198433,
+          "stars": 0.17859,
+          "views": 0.079373,
+          "freshness": 0.122801,
           "verified": 0
         },
-        "evidence": 0.981763,
-        "freshnessDays": 12,
-        "score": 0.936467
+        "evidence": 0.984334,
+        "freshnessDays": 14,
+        "score": 0.936377
       }
     },
     {
       "id": "weather",
       "name": "Weather",
       "description": "Forecasts and current conditions",
-      "eligibleCount": 20,
+      "eligibleCount": 27,
       "winner": {
         "id": "eduardodallecort.weather-radar",
         "name": "Weather Radar",
@@ -403,36 +403,36 @@
         "installCommand": "omarchy plugin add https://github.com/eduardodallecort/omarchy-weather-radar.git --enable",
         "verificationStatus": "unverified",
         "license": "MIT",
-        "repositoryUpdatedAt": "2026-09-01T01:03:07.000Z",
+        "repositoryUpdatedAt": "2026-09-01T23:19:47.000Z",
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/16-eduardodallecort-omarchy-weather-radar-card.webp",
         "previewWidth": 589,
         "previewHeight": 720,
         "localImage": "assets/plugins/eduardodallecort.weather-radar-cfd07114cb.webp",
         "metrics": {
-          "copies": 679,
-          "hearts": 45,
-          "stars": 9,
-          "views": 2060
+          "copies": 786,
+          "hearts": 46,
+          "stars": 10,
+          "views": 2297
         },
         "normalized": {
-          "copies": 0.992366,
-          "hearts": 0.992366,
-          "stars": 0.992366,
-          "views": 0.992366,
-          "freshness": 0.997038,
+          "copies": 0.993289,
+          "hearts": 0.993289,
+          "stars": 0.993289,
+          "views": 0.993289,
+          "freshness": 0.991374,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.357252,
-          "hearts": 0.198473,
-          "stars": 0.178626,
-          "views": 0.079389,
-          "freshness": 0.129615,
+          "copies": 0.357584,
+          "hearts": 0.198658,
+          "stars": 0.178792,
+          "views": 0.079463,
+          "freshness": 0.128879,
           "verified": 0
         },
-        "evidence": 0.984733,
-        "freshnessDays": 0,
-        "score": 0.943355
+        "evidence": 0.986577,
+        "freshnessDays": 2,
+        "score": 0.943376
       },
       "runnerUp": {
         "id": "io.github.calebhat.weather",
@@ -451,37 +451,37 @@
         "previewHeight": 720,
         "localImage": "assets/plugins/io.github.calebhat.weather-d82be211d0.webp",
         "metrics": {
-          "copies": 133,
-          "hearts": 10,
-          "stars": 3,
-          "views": 360
+          "copies": 154,
+          "hearts": 11,
+          "stars": 5,
+          "views": 408
         },
         "normalized": {
-          "copies": 0.926477,
-          "hearts": 0.800365,
-          "stars": 0.835823,
-          "views": 0.80443,
-          "freshness": 0.959033,
+          "copies": 0.944318,
+          "hearts": 0.849841,
+          "stars": 0.931675,
+          "views": 0.827883,
+          "freshness": 0.950182,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.333532,
-          "hearts": 0.160073,
-          "stars": 0.150448,
-          "views": 0.064354,
-          "freshness": 0.124674,
+          "copies": 0.339954,
+          "hearts": 0.169968,
+          "stars": 0.167702,
+          "views": 0.066231,
+          "freshness": 0.123524,
           "verified": 0.05
         },
-        "evidence": 0.930636,
-        "freshnessDays": 10,
-        "score": 0.883081
+        "evidence": 0.93921,
+        "freshnessDays": 13,
+        "score": 0.917379
       }
     },
     {
       "id": "battery",
       "name": "Battery",
       "description": "Battery level, charging, and power health",
-      "eligibleCount": 45,
+      "eligibleCount": 48,
       "winner": {
         "id": "omaconnect",
         "name": "OmaConnect",
@@ -499,30 +499,30 @@
         "previewHeight": 473,
         "localImage": "assets/plugins/omaconnect-fe8afd62df.webp",
         "metrics": {
-          "copies": 629,
-          "hearts": 92,
-          "stars": 21,
-          "views": 2448
+          "copies": 705,
+          "hearts": 96,
+          "stars": 22,
+          "views": 2743
         },
         "normalized": {
-          "copies": 0.992337,
-          "hearts": 0.992337,
-          "stars": 0.992337,
-          "views": 0.992337,
-          "freshness": 0.992707,
+          "copies": 0.993048,
+          "hearts": 0.993048,
+          "stars": 0.993048,
+          "views": 0.993048,
+          "freshness": 0.983546,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.357241,
-          "hearts": 0.198467,
-          "stars": 0.178621,
-          "views": 0.079387,
-          "freshness": 0.129052,
+          "copies": 0.357497,
+          "hearts": 0.19861,
+          "stars": 0.178749,
+          "views": 0.079444,
+          "freshness": 0.127861,
           "verified": 0
         },
-        "evidence": 0.984674,
-        "freshnessDays": 1,
-        "score": 0.942768
+        "evidence": 0.986095,
+        "freshnessDays": 4,
+        "score": 0.942161
       },
       "runnerUp": {
         "id": "io.github.diegopluna.argus",
@@ -541,37 +541,37 @@
         "previewHeight": 405,
         "localImage": "assets/plugins/io.github.diegopluna.argus-0fb78acb96.webp",
         "metrics": {
-          "copies": 174,
-          "hearts": 20,
-          "stars": 2,
-          "views": 639
+          "copies": 214,
+          "hearts": 22,
+          "stars": 3,
+          "views": 765
         },
         "normalized": {
-          "copies": 0.959678,
-          "hearts": 0.959678,
-          "stars": 0.734242,
-          "views": 0.959678,
-          "freshness": 0.98975,
+          "copies": 0.96477,
+          "hearts": 0.96477,
+          "stars": 0.813695,
+          "views": 0.96477,
+          "freshness": 0.980616,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.345484,
-          "hearts": 0.191936,
-          "stars": 0.132164,
-          "views": 0.076774,
-          "freshness": 0.128668,
+          "copies": 0.347317,
+          "hearts": 0.192954,
+          "stars": 0.146465,
+          "views": 0.077182,
+          "freshness": 0.12748,
           "verified": 0.05
         },
-        "evidence": 0.949569,
-        "freshnessDays": 2,
-        "score": 0.925026
+        "evidence": 0.958079,
+        "freshnessDays": 5,
+        "score": 0.941398
       }
     },
     {
       "id": "clipboard",
       "name": "Clipboard",
       "description": "Clipboard history and quick paste tools",
-      "eligibleCount": 29,
+      "eligibleCount": 31,
       "winner": {
         "id": "omaconnect",
         "name": "OmaConnect",
@@ -589,30 +589,30 @@
         "previewHeight": 473,
         "localImage": "assets/plugins/omaconnect-fe8afd62df.webp",
         "metrics": {
-          "copies": 629,
-          "hearts": 92,
-          "stars": 21,
-          "views": 2448
+          "copies": 705,
+          "hearts": 96,
+          "stars": 22,
+          "views": 2743
         },
         "normalized": {
-          "copies": 0.992337,
-          "hearts": 0.992337,
-          "stars": 0.992337,
-          "views": 0.992337,
-          "freshness": 0.992707,
+          "copies": 0.993048,
+          "hearts": 0.993048,
+          "stars": 0.993048,
+          "views": 0.993048,
+          "freshness": 0.983546,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.357241,
-          "hearts": 0.198467,
-          "stars": 0.178621,
-          "views": 0.079387,
-          "freshness": 0.129052,
+          "copies": 0.357497,
+          "hearts": 0.19861,
+          "stars": 0.178749,
+          "views": 0.079444,
+          "freshness": 0.127861,
           "verified": 0
         },
-        "evidence": 0.984674,
-        "freshnessDays": 1,
-        "score": 0.942768
+        "evidence": 0.986095,
+        "freshnessDays": 4,
+        "score": 0.942161
       },
       "runnerUp": {
         "id": "io.github.vuhuy.clipboard-manager",
@@ -631,30 +631,30 @@
         "previewHeight": null,
         "localImage": null,
         "metrics": {
-          "copies": 148,
+          "copies": 158,
           "hearts": 6,
           "stars": 4,
-          "views": 475
+          "views": 506
         },
         "normalized": {
-          "copies": 0.94496,
-          "hearts": 0.79124,
-          "stars": 0.94496,
-          "views": 0.921256,
-          "freshness": 0.943589,
+          "copies": 0.948251,
+          "hearts": 0.789669,
+          "stars": 0.948251,
+          "views": 0.948251,
+          "freshness": 0.934881,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.340186,
-          "hearts": 0.158248,
-          "stars": 0.170093,
-          "views": 0.0737,
-          "freshness": 0.122667,
+          "copies": 0.34137,
+          "hearts": 0.157934,
+          "stars": 0.170685,
+          "views": 0.07586,
+          "freshness": 0.121535,
           "verified": 0.05
         },
-        "evidence": 0.936759,
-        "freshnessDays": 15,
-        "score": 0.914894
+        "evidence": 0.940387,
+        "freshnessDays": 17,
+        "score": 0.917384
       }
     },
     {
@@ -671,38 +671,38 @@
         "repository": "https://github.com/Tyrsolution/omarchy-app-launcher",
         "detailUrl": "https://plugins.omarchy.org/plugin.html?id=tyrsolution.app-launcher",
         "installCommand": "omarchy plugin add https://github.com/Tyrsolution/omarchy-app-launcher.git --enable",
-        "verificationStatus": "verified",
+        "verificationStatus": "unverified",
         "license": "MIT",
-        "repositoryUpdatedAt": "2026-08-23T23:38:22.000Z",
+        "repositoryUpdatedAt": "2026-09-03T20:19:59.000Z",
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/11-tyrsolution-omarchy-app-launcher-card.webp",
         "previewWidth": 720,
-        "previewHeight": 509,
+        "previewHeight": 534,
         "localImage": "assets/plugins/tyrsolution.app-launcher-12c1fa8aa7.webp",
         "metrics": {
-          "copies": 300,
-          "hearts": 22,
-          "stars": 1,
-          "views": 974
+          "copies": 336,
+          "hearts": 24,
+          "stars": 2,
+          "views": 1125
         },
         "normalized": {
-          "copies": 0.984322,
-          "hearts": 0.984322,
-          "stars": 0.450514,
-          "views": 0.984322,
-          "freshness": 0.966572,
-          "verified": 1
+          "copies": 0.985782,
+          "hearts": 0.985782,
+          "stars": 0.646055,
+          "views": 0.985782,
+          "freshness": 0.998558,
+          "verified": 0
         },
         "contributions": {
-          "copies": 0.354356,
-          "hearts": 0.196864,
-          "stars": 0.081093,
-          "views": 0.078746,
-          "freshness": 0.125654,
-          "verified": 0.05
+          "copies": 0.354882,
+          "hearts": 0.197156,
+          "stars": 0.11629,
+          "views": 0.078863,
+          "freshness": 0.129813,
+          "verified": 0
         },
-        "evidence": 0.968644,
-        "freshnessDays": 8,
-        "score": 0.886713
+        "evidence": 0.971564,
+        "freshnessDays": 0,
+        "score": 0.877004
       },
       "runnerUp": {
         "id": "io.github.ilyazar.plugin-control",
@@ -710,48 +710,48 @@
         "description": "Fuzzy command palette (Ctrl+P-like) for quickly adding, updating, enabling, disabling, and removing plugins (a la Sublime Text Package Control or VS Code Command Palette). The tray icon can be hidden in the settings so it runs nicely in the background without bloating your system. The main keybinding is customizable. The palette opens only when you fire it up, so it works on slower systems with minimal overhead (approximately 10 MiB of additional memory while idle).",
         "author": "ilyaZar",
         "category": "Developer Tools",
-        "repository": "https://github.com/ilyaZar/plugin-control",
+        "repository": "https://github.com/omarchy-QOL/plugin-control",
         "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.ilyazar.plugin-control",
-        "installCommand": "omarchy plugin add https://github.com/ilyaZar/plugin-control.git --enable",
+        "installCommand": "omarchy plugin add https://github.com/omarchy-QOL/plugin-control.git --enable",
         "verificationStatus": "verified",
         "license": "MIT",
-        "repositoryUpdatedAt": "2026-08-30T21:28:10.000Z",
-        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/7-ilyazar-plugin-control-card.webp",
+        "repositoryUpdatedAt": "2026-09-03T15:41:20.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/11-omarchy-qol-plugin-control-card.webp",
         "previewWidth": 720,
         "previewHeight": 270,
-        "localImage": "assets/plugins/io.github.ilyazar.plugin-control-0fdb8ec05d.webp",
+        "localImage": "assets/plugins/io.github.ilyazar.plugin-control-39d182a413.webp",
         "metrics": {
-          "copies": 110,
-          "hearts": 7,
-          "stars": 3,
-          "views": 462
+          "copies": 117,
+          "hearts": 8,
+          "stars": 4,
+          "views": 488
         },
         "normalized": {
-          "copies": 0.860077,
-          "hearts": 0.828578,
-          "stars": 0.866437,
-          "views": 0.871624,
-          "freshness": 0.992635,
+          "copies": 0.86086,
+          "hearts": 0.834277,
+          "stars": 0.862193,
+          "views": 0.871677,
+          "freshness": 0.997814,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.309628,
-          "hearts": 0.165716,
-          "stars": 0.155959,
-          "views": 0.06973,
-          "freshness": 0.129043,
+          "copies": 0.30991,
+          "hearts": 0.166855,
+          "stars": 0.155195,
+          "views": 0.069734,
+          "freshness": 0.129716,
           "verified": 0.05
         },
-        "evidence": 0.921105,
-        "freshnessDays": 1,
-        "score": 0.880076
+        "evidence": 0.925651,
+        "freshnessDays": 0,
+        "score": 0.88141
       }
     },
     {
       "id": "network",
       "name": "Network",
       "description": "Network status, traffic, Wi-Fi, and connectivity",
-      "eligibleCount": 58,
+      "eligibleCount": 61,
       "winner": {
         "id": "vitals",
         "name": "Vitals",
@@ -769,30 +769,30 @@
         "previewHeight": 720,
         "localImage": "assets/plugins/vitals-d921a9c368.webp",
         "metrics": {
-          "copies": 695,
+          "copies": 716,
           "hearts": 32,
           "stars": 7,
-          "views": 1324
+          "views": 1426
         },
         "normalized": {
-          "copies": 0.992395,
-          "hearts": 0.992395,
-          "stars": 0.968208,
-          "views": 0.992395,
-          "freshness": 0.976217,
+          "copies": 0.992593,
+          "hearts": 0.992593,
+          "stars": 0.930774,
+          "views": 0.992593,
+          "freshness": 0.967208,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.357262,
-          "hearts": 0.198479,
-          "stars": 0.174277,
-          "views": 0.079392,
-          "freshness": 0.126908,
+          "copies": 0.357333,
+          "hearts": 0.198519,
+          "stars": 0.167539,
+          "views": 0.079407,
+          "freshness": 0.125737,
           "verified": 0
         },
-        "evidence": 0.984791,
-        "freshnessDays": 6,
-        "score": 0.936318
+        "evidence": 0.985185,
+        "freshnessDays": 8,
+        "score": 0.928535
       },
       "runnerUp": {
         "id": "io.github.diegopluna.argus",
@@ -811,41 +811,41 @@
         "previewHeight": 405,
         "localImage": "assets/plugins/io.github.diegopluna.argus-0fb78acb96.webp",
         "metrics": {
-          "copies": 174,
-          "hearts": 20,
-          "stars": 2,
-          "views": 639
+          "copies": 214,
+          "hearts": 22,
+          "stars": 3,
+          "views": 765
         },
         "normalized": {
-          "copies": 0.939753,
-          "hearts": 0.963123,
-          "stars": 0.735465,
-          "views": 0.926919,
-          "freshness": 0.98975,
+          "copies": 0.956684,
+          "hearts": 0.967862,
+          "stars": 0.783539,
+          "views": 0.945507,
+          "freshness": 0.980616,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.338311,
-          "hearts": 0.192625,
-          "stars": 0.132384,
-          "views": 0.074154,
-          "freshness": 0.128668,
+          "copies": 0.344406,
+          "hearts": 0.193572,
+          "stars": 0.141037,
+          "views": 0.075641,
+          "freshness": 0.12748,
           "verified": 0.05
         },
-        "evidence": 0.949569,
-        "freshnessDays": 2,
-        "score": 0.916142
+        "evidence": 0.958079,
+        "freshnessDays": 5,
+        "score": 0.932136
       }
     },
     {
       "id": "bluetooth",
       "name": "Bluetooth",
       "description": "Bluetooth devices, status, and controls",
-      "eligibleCount": 8,
+      "eligibleCount": 9,
       "winner": {
         "id": "ssupt.audio-control",
         "name": "Advanced Audio Control",
-        "description": "Advanced PipeWire and WirePlumber audio mixer for Omarchy: devices, Bluetooth codecs, safety policies, microphone privacy, audio scenes, persistent routing rules, graph and service diagnostics, channel tests, support reports, and guarded recovery",
+        "description": "Advanced PipeWire and WirePlumber audio mixer for Omarchy: devices, multi-output groups, Bluetooth codecs, safety policies, microphone privacy, audio scenes, persistent routing rules, graph and service diagnostics, channel tests, support reports, and guarded recovery",
         "author": "ssupt",
         "category": "Hardware",
         "repository": "https://github.com/ssupt/omarchy-audio-control",
@@ -853,36 +853,36 @@
         "installCommand": "omarchy plugin add https://github.com/ssupt/omarchy-audio-control.git --enable",
         "verificationStatus": "unverified",
         "license": "See repository",
-        "repositoryUpdatedAt": "2026-08-30T10:46:47.000Z",
+        "repositoryUpdatedAt": "2026-09-01T22:00:48.000Z",
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/5-ssupt-omarchy-audio-control-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
         "localImage": "assets/plugins/ssupt.audio-control-ce29b33866.webp",
         "metrics": {
-          "copies": 429,
-          "hearts": 38,
+          "copies": 502,
+          "hearts": 39,
           "stars": 6,
-          "views": 1592
+          "views": 1842
         },
         "normalized": {
-          "copies": 0.988658,
-          "hearts": 0.988658,
-          "stars": 0.988658,
-          "views": 0.988658,
-          "freshness": 0.990934,
+          "copies": 0.99005,
+          "hearts": 0.99005,
+          "stars": 0.94717,
+          "views": 0.99005,
+          "freshness": 0.991164,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.355917,
-          "hearts": 0.197732,
-          "stars": 0.177958,
-          "views": 0.079093,
-          "freshness": 0.128821,
+          "copies": 0.356418,
+          "hearts": 0.19801,
+          "stars": 0.170491,
+          "views": 0.079204,
+          "freshness": 0.128851,
           "verified": 0
         },
-        "evidence": 0.977316,
+        "evidence": 0.9801,
         "freshnessDays": 2,
-        "score": 0.939521
+        "score": 0.932974
       },
       "runnerUp": {
         "id": "ssupt.bluetooth-audio",
@@ -901,41 +901,41 @@
         "previewHeight": 405,
         "localImage": "assets/plugins/ssupt.bluetooth-audio-0a0d38a9bd.webp",
         "metrics": {
-          "copies": 199,
-          "hearts": 22,
-          "stars": 5,
-          "views": 823
+          "copies": 222,
+          "hearts": 24,
+          "stars": 6,
+          "views": 930
         },
         "normalized": {
-          "copies": 0.857865,
-          "hearts": 0.854186,
-          "stars": 0.867299,
-          "views": 0.865282,
-          "freshness": 0.986951,
+          "copies": 0.872386,
+          "hearts": 0.873031,
+          "stars": 0.93827,
+          "views": 0.879948,
+          "freshness": 0.977842,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.308831,
-          "hearts": 0.170837,
-          "stars": 0.156114,
-          "views": 0.069223,
-          "freshness": 0.128304,
+          "copies": 0.314059,
+          "hearts": 0.174606,
+          "stars": 0.168889,
+          "views": 0.070396,
+          "freshness": 0.127119,
           "verified": 0
         },
-        "evidence": 0.956228,
-        "freshnessDays": 3,
-        "score": 0.833309
+        "evidence": 0.960591,
+        "freshnessDays": 5,
+        "score": 0.855069
       }
     },
     {
       "id": "audio",
       "name": "Audio",
       "description": "Volume, microphones, sinks, and audio routing",
-      "eligibleCount": 43,
+      "eligibleCount": 46,
       "winner": {
         "id": "ssupt.audio-control",
         "name": "Advanced Audio Control",
-        "description": "Advanced PipeWire and WirePlumber audio mixer for Omarchy: devices, Bluetooth codecs, safety policies, microphone privacy, audio scenes, persistent routing rules, graph and service diagnostics, channel tests, support reports, and guarded recovery",
+        "description": "Advanced PipeWire and WirePlumber audio mixer for Omarchy: devices, multi-output groups, Bluetooth codecs, safety policies, microphone privacy, audio scenes, persistent routing rules, graph and service diagnostics, channel tests, support reports, and guarded recovery",
         "author": "ssupt",
         "category": "Hardware",
         "repository": "https://github.com/ssupt/omarchy-audio-control",
@@ -943,36 +943,36 @@
         "installCommand": "omarchy plugin add https://github.com/ssupt/omarchy-audio-control.git --enable",
         "verificationStatus": "unverified",
         "license": "See repository",
-        "repositoryUpdatedAt": "2026-08-30T10:46:47.000Z",
+        "repositoryUpdatedAt": "2026-09-01T22:00:48.000Z",
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/5-ssupt-omarchy-audio-control-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
         "localImage": "assets/plugins/ssupt.audio-control-ce29b33866.webp",
         "metrics": {
-          "copies": 429,
-          "hearts": 38,
+          "copies": 502,
+          "hearts": 39,
           "stars": 6,
-          "views": 1592
+          "views": 1842
         },
         "normalized": {
-          "copies": 0.988658,
-          "hearts": 0.972369,
-          "stars": 0.956081,
-          "views": 0.956081,
-          "freshness": 0.990934,
+          "copies": 0.99005,
+          "hearts": 0.974804,
+          "stars": 0.951935,
+          "views": 0.959558,
+          "freshness": 0.991164,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.355917,
-          "hearts": 0.194474,
-          "stars": 0.172095,
-          "views": 0.076486,
-          "freshness": 0.128821,
+          "copies": 0.356418,
+          "hearts": 0.194961,
+          "stars": 0.171348,
+          "views": 0.076765,
+          "freshness": 0.128851,
           "verified": 0
         },
-        "evidence": 0.977316,
+        "evidence": 0.9801,
         "freshnessDays": 2,
-        "score": 0.927793
+        "score": 0.928343
       },
       "runnerUp": {
         "id": "io.github.mshareef-git.omavibes",
@@ -991,30 +991,30 @@
         "previewHeight": 405,
         "localImage": "assets/plugins/io.github.mshareef-git.omavibes-ba3d99cd2d.webp",
         "metrics": {
-          "copies": 360,
-          "hearts": 26,
+          "copies": 399,
+          "hearts": 27,
           "stars": 15,
-          "views": 3797
+          "views": 4060
         },
         "normalized": {
-          "copies": 0.970387,
-          "hearts": 0.954167,
-          "stars": 0.986607,
-          "views": 0.986607,
-          "freshness": 0.983968,
+          "copies": 0.972532,
+          "hearts": 0.957359,
+          "stars": 0.987705,
+          "views": 0.987705,
+          "freshness": 0.974888,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.349339,
-          "hearts": 0.190833,
-          "stars": 0.177589,
-          "views": 0.078929,
-          "freshness": 0.127916,
+          "copies": 0.350112,
+          "hearts": 0.191472,
+          "stars": 0.177787,
+          "views": 0.079016,
+          "freshness": 0.126735,
           "verified": 0
         },
-        "evidence": 0.973214,
-        "freshnessDays": 4,
-        "score": 0.924606
+        "evidence": 0.97541,
+        "freshnessDays": 6,
+        "score": 0.925122
       }
     },
     {
@@ -1039,30 +1039,30 @@
         "previewHeight": 340,
         "localImage": "assets/plugins/io.github.jeremylanger.nightlight-2c2d5d46fa.webp",
         "metrics": {
-          "copies": 31,
-          "hearts": 4,
-          "stars": 0,
-          "views": 80
+          "copies": 36,
+          "hearts": 5,
+          "stars": 1,
+          "views": 108
         },
         "normalized": {
-          "copies": 0.882353,
-          "hearts": 0.776282,
-          "stars": 0.251471,
-          "views": 0.790969,
-          "freshness": 0.978946,
+          "copies": 0.801017,
+          "hearts": 0.850913,
+          "stars": 0.758219,
+          "views": 0.89726,
+          "freshness": 0.969912,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.317647,
-          "hearts": 0.155256,
-          "stars": 0.045265,
-          "views": 0.063278,
-          "freshness": 0.127263,
+          "copies": 0.288366,
+          "hearts": 0.170183,
+          "stars": 0.136479,
+          "views": 0.071781,
+          "freshness": 0.126089,
           "verified": 0.05
         },
-        "evidence": 0.764706,
-        "freshnessDays": 5,
-        "score": 0.758709
+        "evidence": 0.794521,
+        "freshnessDays": 7,
+        "score": 0.842898
       },
       "runnerUp": {
         "id": "io.github.marioxabel.hyprsunset",
@@ -1081,30 +1081,30 @@
         "previewHeight": 405,
         "localImage": "assets/plugins/io.github.marioxabel.hyprsunset-8fd8d79654.webp",
         "metrics": {
-          "copies": 15,
+          "copies": 18,
           "hearts": 5,
           "stars": 1,
-          "views": 85
+          "views": 104
         },
         "normalized": {
-          "copies": 0.562603,
-          "hearts": 0.834483,
-          "stars": 0.756437,
-          "views": 0.834483,
-          "freshness": 0.981007,
+          "copies": 0.563826,
+          "hearts": 0.809826,
+          "stars": 0.727985,
+          "views": 0.767729,
+          "freshness": 0.971953,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.202537,
-          "hearts": 0.166897,
-          "stars": 0.136159,
-          "views": 0.066759,
-          "freshness": 0.127531,
+          "copies": 0.202977,
+          "hearts": 0.161965,
+          "stars": 0.131037,
+          "views": 0.061418,
+          "freshness": 0.126354,
           "verified": 0.05
         },
-        "evidence": 0.668966,
-        "freshnessDays": 4,
-        "score": 0.749883
+        "evidence": 0.701493,
+        "freshnessDays": 7,
+        "score": 0.733751
       }
     },
     {
@@ -1121,38 +1121,38 @@
         "repository": "https://github.com/crmne/omarchy-hyprmoncfg",
         "detailUrl": "https://plugins.omarchy.org/plugin.html?id=crmne.hyprmoncfg",
         "installCommand": "omarchy plugin add https://github.com/crmne/omarchy-hyprmoncfg.git --enable",
-        "verificationStatus": "verified",
+        "verificationStatus": "unverified",
         "license": "MIT",
-        "repositoryUpdatedAt": "2026-08-31T16:33:46.000Z",
+        "repositoryUpdatedAt": "2026-09-02T10:29:04.000Z",
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/5-crmne-omarchy-hyprmoncfg-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
         "localImage": "assets/plugins/crmne.hyprmoncfg-4972c1b7dd.webp",
         "metrics": {
-          "copies": 3179,
-          "hearts": 211,
-          "stars": 67,
-          "views": 8882
+          "copies": 3822,
+          "hearts": 233,
+          "stars": 70,
+          "views": 10411
         },
         "normalized": {
-          "copies": 0.998262,
-          "hearts": 0.998262,
-          "stars": 0.998262,
-          "views": 0.998262,
-          "freshness": 0.995681,
-          "verified": 1
+          "copies": 0.998543,
+          "hearts": 0.998543,
+          "stars": 0.998543,
+          "views": 0.998543,
+          "freshness": 0.99315,
+          "verified": 0
         },
         "contributions": {
-          "copies": 0.359374,
-          "hearts": 0.199652,
-          "stars": 0.179687,
-          "views": 0.079861,
-          "freshness": 0.129439,
-          "verified": 0.05
+          "copies": 0.359475,
+          "hearts": 0.199709,
+          "stars": 0.179738,
+          "views": 0.079883,
+          "freshness": 0.129109,
+          "verified": 0
         },
-        "evidence": 0.996524,
+        "evidence": 0.997085,
         "freshnessDays": 1,
-        "score": 0.998013
+        "score": 0.947914
       },
       "runnerUp": {
         "id": "im0001gt.screens",
@@ -1171,37 +1171,37 @@
         "previewHeight": 405,
         "localImage": "assets/plugins/im0001gt.screens-39eb03295c.webp",
         "metrics": {
-          "copies": 719,
-          "hearts": 45,
-          "stars": 12,
-          "views": 2482
+          "copies": 804,
+          "hearts": 48,
+          "stars": 15,
+          "views": 2837
         },
         "normalized": {
-          "copies": 0.883433,
-          "hearts": 0.862876,
-          "stars": 0.838667,
-          "views": 0.891756,
-          "freshness": 0.973737,
+          "copies": 0.883068,
+          "hearts": 0.8631,
+          "stars": 0.849132,
+          "views": 0.892254,
+          "freshness": 0.964751,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.318036,
-          "hearts": 0.172575,
-          "stars": 0.15096,
-          "views": 0.07134,
-          "freshness": 0.126586,
+          "copies": 0.317904,
+          "hearts": 0.17262,
+          "stars": 0.152844,
+          "views": 0.07138,
+          "freshness": 0.125418,
           "verified": 0.05
         },
-        "evidence": 0.985472,
-        "freshnessDays": 6,
-        "score": 0.889497
+        "evidence": 0.986871,
+        "freshnessDays": 9,
+        "score": 0.890166
       }
     },
     {
       "id": "notifications",
       "name": "Notifications",
       "description": "Notification centers, history, and do-not-disturb",
-      "eligibleCount": 71,
+      "eligibleCount": 73,
       "winner": {
         "id": "jankeesvw.notification-center",
         "name": "Notification Center",
@@ -1219,30 +1219,30 @@
         "previewHeight": 720,
         "localImage": "assets/plugins/jankeesvw.notification-center-ddbc259c15.webp",
         "metrics": {
-          "copies": 1232,
-          "hearts": 95,
-          "stars": 28,
-          "views": 3172
+          "copies": 1629,
+          "hearts": 114,
+          "stars": 37,
+          "views": 4078
         },
         "normalized": {
-          "copies": 0.985767,
-          "hearts": 0.99568,
-          "stars": 0.985767,
-          "views": 0.985767,
-          "freshness": 0.987333,
+          "copies": 0.996676,
+          "hearts": 0.996676,
+          "stars": 0.987018,
+          "views": 0.987018,
+          "freshness": 0.978221,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.354876,
-          "hearts": 0.199136,
-          "stars": 0.177438,
-          "views": 0.078861,
-          "freshness": 0.128353,
+          "copies": 0.358803,
+          "hearts": 0.199335,
+          "stars": 0.177663,
+          "views": 0.078961,
+          "freshness": 0.127169,
           "verified": 0.05
         },
-        "evidence": 0.991361,
-        "freshnessDays": 3,
-        "score": 0.988664
+        "evidence": 0.993352,
+        "freshnessDays": 5,
+        "score": 0.991931
       },
       "runnerUp": {
         "id": "shavanced.notification-center",
@@ -1261,37 +1261,37 @@
         "previewHeight": 631,
         "localImage": "assets/plugins/shavanced.notification-center-7d5a779b85.webp",
         "metrics": {
-          "copies": 1266,
+          "copies": 1325,
           "hearts": 65,
-          "stars": 18,
-          "views": 3786
+          "stars": 19,
+          "views": 4083
         },
         "normalized": {
-          "copies": 0.995693,
-          "hearts": 0.985779,
-          "stars": 0.965951,
-          "views": 0.995693,
-          "freshness": 0.965833,
+          "copies": 0.986226,
+          "hearts": 0.986226,
+          "stars": 0.966942,
+          "views": 0.995868,
+          "freshness": 0.95692,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.358449,
-          "hearts": 0.197156,
-          "stars": 0.173871,
-          "views": 0.079655,
-          "freshness": 0.125558,
+          "copies": 0.355041,
+          "hearts": 0.197245,
+          "stars": 0.17405,
+          "views": 0.079669,
+          "freshness": 0.1244,
           "verified": 0
         },
-        "evidence": 0.991385,
-        "freshnessDays": 9,
-        "score": 0.934689
+        "evidence": 0.991736,
+        "freshnessDays": 11,
+        "score": 0.930405
       }
     },
     {
       "id": "lock-idle",
       "name": "Lock & Idle",
       "description": "Screen locking, idle behavior, and sleep prevention",
-      "eligibleCount": 15,
+      "eligibleCount": 27,
       "winner": {
         "id": "io.github.sirjul1337.lock-explorer",
         "name": "Lock Screen Explorer",
@@ -1303,85 +1303,175 @@
         "installCommand": "omarchy plugin add https://github.com/SirJul1337/omarchy-lock-explorer.git --enable",
         "verificationStatus": "unverified",
         "license": "MIT",
-        "repositoryUpdatedAt": "2026-08-31T20:45:29.000Z",
+        "repositoryUpdatedAt": "2026-09-02T19:05:45.000Z",
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/10-sirjul1337-omarchy-lock-explorer-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
         "localImage": "assets/plugins/io.github.sirjul1337.lock-explorer-e55a36ee2a.webp",
         "metrics": {
-          "copies": 2186,
-          "hearts": 172,
-          "stars": 101,
-          "views": 6576
+          "copies": 2689,
+          "hearts": 200,
+          "stars": 112,
+          "views": 8153
         },
         "normalized": {
-          "copies": 0.997521,
-          "hearts": 0.997521,
-          "stars": 0.997521,
-          "views": 0.997521,
-          "freshness": 0.996351,
+          "copies": 0.997967,
+          "hearts": 0.997967,
+          "stars": 0.997967,
+          "views": 0.997967,
+          "freshness": 0.994523,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.359108,
-          "hearts": 0.199504,
-          "stars": 0.179554,
-          "views": 0.079802,
-          "freshness": 0.129526,
+          "copies": 0.359268,
+          "hearts": 0.199593,
+          "stars": 0.179634,
+          "views": 0.079837,
+          "freshness": 0.129288,
           "verified": 0
         },
-        "evidence": 0.995041,
-        "freshnessDays": 0,
-        "score": 0.947494
+        "evidence": 0.995934,
+        "freshnessDays": 1,
+        "score": 0.94762
       },
       "runnerUp": {
-        "id": "omarchy-lock-style",
-        "name": "Lock Style",
-        "description": "Omarchy lock screen customizer with real-time preview, clock, user profile, dev quotes, MPRIS media, and backup/restore management.",
-        "author": "MrDemonc",
-        "category": "Appearance",
-        "repository": "https://github.com/MrDemonc/Omarchy-lock-style",
-        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=omarchy-lock-style",
-        "installCommand": "omarchy plugin add https://github.com/MrDemonc/Omarchy-lock-style.git --enable",
-        "verificationStatus": "unverified",
+        "id": "lgse.sandman",
+        "name": "Sandman",
+        "description": "Set lid-close actions and when your screen rests, locks, sleeps, and hibernates.",
+        "author": "Pierre Berube",
+        "category": "System",
+        "repository": "https://github.com/lgse/sandman",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=lgse.sandman",
+        "installCommand": "omarchy plugin add https://github.com/lgse/sandman.git --enable",
+        "verificationStatus": "verified",
         "license": "MIT",
-        "repositoryUpdatedAt": "2026-08-21T00:58:22.000Z",
-        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-mrdemonc-omarchy-lock-style-card.webp",
-        "previewWidth": 720,
-        "previewHeight": 695,
-        "localImage": "assets/plugins/omarchy-lock-style-cf3d0708c9.webp",
+        "repositoryUpdatedAt": "2026-08-22T15:46:30.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/4-lgse-sandman-card.webp",
+        "previewWidth": 384,
+        "previewHeight": 720,
+        "localImage": "assets/plugins/lgse.sandman-7a3f72e0b5.webp",
         "metrics": {
-          "copies": 140,
-          "hearts": 10,
-          "stars": 2,
-          "views": 514
+          "copies": 294,
+          "hearts": 34,
+          "stars": 18,
+          "views": 1089
         },
         "normalized": {
-          "copies": 0.881211,
-          "hearts": 0.825839,
-          "stars": 0.71632,
-          "views": 0.890611,
-          "freshness": 0.955674,
-          "verified": 0
+          "copies": 0.958521,
+          "hearts": 0.889676,
+          "stars": 0.958521,
+          "views": 0.958521,
+          "freshness": 0.952768,
+          "verified": 1
         },
         "contributions": {
-          "copies": 0.317236,
-          "hearts": 0.165168,
-          "stars": 0.128938,
-          "views": 0.071249,
-          "freshness": 0.124238,
-          "verified": 0
+          "copies": 0.345068,
+          "hearts": 0.177935,
+          "stars": 0.172534,
+          "views": 0.076682,
+          "freshness": 0.12386,
+          "verified": 0.05
         },
-        "evidence": 0.936068,
-        "freshnessDays": 11,
-        "score": 0.806829
+        "evidence": 0.969231,
+        "freshnessDays": 12,
+        "score": 0.946079
+      }
+    },
+    {
+      "id": "password-manager",
+      "name": "Password Manager",
+      "description": "Password vaults, TOTP codes, and credential managers",
+      "eligibleCount": 9,
+      "winner": {
+        "id": "io.github.elevate08.qs-bitwarden-cli",
+        "name": "Bitwarden",
+        "description": "Bitwarden password manager integration for the Omarchy status bar and quick access panel.",
+        "author": "David Spencer",
+        "category": "Productivity",
+        "repository": "https://github.com/Elevate08/qs-bitwarden-cli",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.elevate08.qs-bitwarden-cli",
+        "installCommand": "omarchy plugin add https://github.com/Elevate08/qs-bitwarden-cli.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-09-03T20:51:34.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/9-elevate08-qs-bitwarden-cli-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 593,
+        "localImage": "assets/plugins/io.github.elevate08.qs-bitwarden-cli-9adce0c9d5.webp",
+        "metrics": {
+          "copies": 405,
+          "hearts": 29,
+          "stars": 11,
+          "views": 1687
+        },
+        "normalized": {
+          "copies": 0.987903,
+          "hearts": 0.987903,
+          "stars": 0.987903,
+          "views": 0.987903,
+          "freshness": 0.998643,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.355645,
+          "hearts": 0.197581,
+          "stars": 0.177823,
+          "views": 0.079032,
+          "freshness": 0.129824,
+          "verified": 0.05
+        },
+        "evidence": 0.975806,
+        "freshnessDays": 0,
+        "score": 0.989905
+      },
+      "runnerUp": {
+        "id": "io.github.salemsayed.omawarden",
+        "name": "OmaWarden",
+        "description": "Bitwarden in the Omarchy bar: instant search, safe timed copies, lock and sync.",
+        "author": "Salem Sayed",
+        "category": "Productivity",
+        "repository": "https://github.com/salemsayed/omawarden",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.salemsayed.omawarden",
+        "installCommand": "omarchy plugin add https://github.com/salemsayed/omawarden.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-31T15:47:48.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/10-salemsayed-omawarden-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 450,
+        "localImage": "assets/plugins/io.github.salemsayed.omawarden-f67a5bac65.webp",
+        "metrics": {
+          "copies": 90,
+          "hearts": 11,
+          "stars": 1,
+          "views": 499
+        },
+        "normalized": {
+          "copies": 0.831173,
+          "hearts": 0.787052,
+          "stars": 0.323329,
+          "views": 0.847825,
+          "freshness": 0.986371,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.299222,
+          "hearts": 0.15741,
+          "stars": 0.058199,
+          "views": 0.067826,
+          "freshness": 0.128228,
+          "verified": 0.05
+        },
+        "evidence": 0.913012,
+        "freshnessDays": 3,
+        "score": 0.760885
       }
     },
     {
       "id": "calendar",
       "name": "Calendar",
       "description": "Calendars, events, and agenda widgets",
-      "eligibleCount": 39,
+      "eligibleCount": 41,
       "winner": {
         "id": "tmn73.calendar",
         "name": "Calendar",
@@ -1399,30 +1489,30 @@
         "previewHeight": 643,
         "localImage": "assets/plugins/tmn73.calendar-f53589b42f.webp",
         "metrics": {
-          "copies": 708,
-          "hearts": 55,
-          "stars": 25,
-          "views": 2464
+          "copies": 819,
+          "hearts": 58,
+          "stars": 26,
+          "views": 2874
         },
         "normalized": {
-          "copies": 0.992727,
-          "hearts": 0.992727,
-          "stars": 0.992727,
-          "views": 0.992727,
-          "freshness": 0.932458,
+          "copies": 0.99361,
+          "hearts": 0.99361,
+          "stars": 0.99361,
+          "views": 0.99361,
+          "freshness": 0.923853,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.357382,
-          "hearts": 0.198545,
-          "stars": 0.178691,
-          "views": 0.079418,
-          "freshness": 0.12122,
+          "copies": 0.3577,
+          "hearts": 0.198722,
+          "stars": 0.17885,
+          "views": 0.079489,
+          "freshness": 0.120101,
           "verified": 0
         },
-        "evidence": 0.985455,
-        "freshnessDays": 18,
-        "score": 0.935256
+        "evidence": 0.98722,
+        "freshnessDays": 20,
+        "score": 0.934862
       },
       "runnerUp": {
         "id": "sirwizardlizard.calendar",
@@ -1441,37 +1531,37 @@
         "previewHeight": 403,
         "localImage": "assets/plugins/sirwizardlizard.calendar-940eb81a1a.webp",
         "metrics": {
-          "copies": 99,
-          "hearts": 15,
-          "stars": 6,
-          "views": 729
+          "copies": 112,
+          "hearts": 16,
+          "stars": 5,
+          "views": 804
         },
         "normalized": {
-          "copies": 0.848279,
-          "hearts": 0.92579,
-          "stars": 0.841639,
-          "views": 0.946005,
-          "freshness": 0.988973,
+          "copies": 0.872123,
+          "hearts": 0.934034,
+          "stars": 0.800619,
+          "views": 0.950369,
+          "freshness": 0.979846,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.30538,
-          "hearts": 0.185158,
-          "stars": 0.151495,
-          "views": 0.07568,
-          "freshness": 0.128566,
+          "copies": 0.313964,
+          "hearts": 0.186807,
+          "stars": 0.144111,
+          "views": 0.07603,
+          "freshness": 0.12738,
           "verified": 0.05
         },
-        "evidence": 0.926131,
-        "freshnessDays": 2,
-        "score": 0.896279
+        "evidence": 0.933407,
+        "freshnessDays": 5,
+        "score": 0.898292
       }
     },
     {
       "id": "clock-timer",
       "name": "Clock & Timer",
       "description": "Clocks, timers, stopwatches, and alarms",
-      "eligibleCount": 55,
+      "eligibleCount": 56,
       "winner": {
         "id": "pnkm0nk.omodoro",
         "name": "Omodoro",
@@ -1489,30 +1579,30 @@
         "previewHeight": 378,
         "localImage": "assets/plugins/pnkm0nk.omodoro-13fa17a5e4.webp",
         "metrics": {
-          "copies": 204,
-          "hearts": 17,
+          "copies": 240,
+          "hearts": 18,
           "stars": 5,
-          "views": 709
+          "views": 801
         },
         "normalized": {
-          "copies": 0.93929,
-          "hearts": 0.959074,
-          "stars": 0.837423,
-          "views": 0.926855,
-          "freshness": 0.990709,
+          "copies": 0.956179,
+          "hearts": 0.962296,
+          "stars": 0.845945,
+          "views": 0.943904,
+          "freshness": 0.981566,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.338144,
-          "hearts": 0.191815,
-          "stars": 0.150736,
-          "views": 0.074148,
-          "freshness": 0.128792,
+          "copies": 0.344224,
+          "hearts": 0.192459,
+          "stars": 0.15227,
+          "views": 0.075512,
+          "freshness": 0.127604,
           "verified": 0.05
         },
-        "evidence": 0.955299,
-        "freshnessDays": 2,
-        "score": 0.933635
+        "evidence": 0.961297,
+        "freshnessDays": 4,
+        "score": 0.942069
       },
       "runnerUp": {
         "id": "io.github.sspaeti.timezones",
@@ -1531,30 +1621,30 @@
         "previewHeight": 185,
         "localImage": "assets/plugins/io.github.sspaeti.timezones-ecfc8edd0c.webp",
         "metrics": {
-          "copies": 226,
+          "copies": 241,
           "hearts": 46,
           "stars": 14,
-          "views": 992
+          "views": 1065
         },
         "normalized": {
-          "copies": 0.969518,
-          "hearts": 0.982014,
-          "stars": 0.982014,
-          "views": 0.982014,
-          "freshness": 0.977603,
+          "copies": 0.970518,
+          "hearts": 0.982808,
+          "stars": 0.982808,
+          "views": 0.982808,
+          "freshness": 0.968581,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.349026,
-          "hearts": 0.196403,
-          "stars": 0.176763,
-          "views": 0.078561,
-          "freshness": 0.127088,
+          "copies": 0.349386,
+          "hearts": 0.196562,
+          "stars": 0.176905,
+          "views": 0.078625,
+          "freshness": 0.125916,
           "verified": 0
         },
-        "evidence": 0.964029,
-        "freshnessDays": 5,
-        "score": 0.927841
+        "evidence": 0.965616,
+        "freshnessDays": 8,
+        "score": 0.927394
       }
     },
     {
@@ -1579,30 +1669,30 @@
         "previewHeight": 378,
         "localImage": "assets/plugins/pnkm0nk.omodoro-13fa17a5e4.webp",
         "metrics": {
-          "copies": 204,
-          "hearts": 17,
+          "copies": 240,
+          "hearts": 18,
           "stars": 5,
-          "views": 709
+          "views": 801
         },
         "normalized": {
-          "copies": 0.929323,
-          "hearts": 0.943061,
-          "stars": 0.826775,
-          "views": 0.930768,
-          "freshness": 0.990709,
+          "copies": 0.957445,
+          "hearts": 0.945843,
+          "stars": 0.828827,
+          "views": 0.957445,
+          "freshness": 0.981566,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.334556,
-          "hearts": 0.188612,
-          "stars": 0.14882,
-          "views": 0.074461,
-          "freshness": 0.128792,
+          "copies": 0.34468,
+          "hearts": 0.189169,
+          "stars": 0.149189,
+          "views": 0.076596,
+          "freshness": 0.127604,
           "verified": 0.05
         },
-        "evidence": 0.955299,
-        "freshnessDays": 2,
-        "score": 0.925241
+        "evidence": 0.961297,
+        "freshnessDays": 4,
+        "score": 0.937238
       },
       "runnerUp": {
         "id": "io.github.pjgeutjens.clockwork",
@@ -1621,30 +1711,120 @@
         "previewHeight": 435,
         "localImage": "assets/plugins/io.github.pjgeutjens.clockwork-63633c45f1.webp",
         "metrics": {
-          "copies": 198,
-          "hearts": 14,
+          "copies": 220,
+          "hearts": 15,
           "stars": 6,
-          "views": 520
+          "views": 576
         },
         "normalized": {
-          "copies": 0.90328,
-          "hearts": 0.877557,
-          "stars": 0.880648,
-          "views": 0.869893,
-          "freshness": 0.987967,
+          "copies": 0.905234,
+          "hearts": 0.869147,
+          "stars": 0.882443,
+          "views": 0.871926,
+          "freshness": 0.978849,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.325181,
-          "hearts": 0.175511,
-          "stars": 0.158517,
-          "views": 0.069591,
-          "freshness": 0.128436,
+          "copies": 0.325884,
+          "hearts": 0.173829,
+          "stars": 0.15884,
+          "views": 0.069754,
+          "freshness": 0.12725,
           "verified": 0.05
         },
-        "evidence": 0.952,
-        "freshnessDays": 3,
-        "score": 0.907236
+        "evidence": 0.95649,
+        "freshnessDays": 5,
+        "score": 0.905557
+      }
+    },
+    {
+      "id": "notes",
+      "name": "Notes",
+      "description": "Note-taking, scratchpads, and quick capture tools",
+      "eligibleCount": 37,
+      "winner": {
+        "id": "io.github.huligabuliga.omasticky",
+        "name": "Omasticky",
+        "description": "Markdown sticky notes pinned to the desktop.",
+        "author": "Jonas Clausen",
+        "category": "Productivity",
+        "repository": "https://github.com/huligabuliga/Omasticky",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.huligabuliga.omasticky",
+        "installCommand": "omarchy plugin add https://github.com/huligabuliga/Omasticky.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-19T15:31:23.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/12-huligabuliga-omasticky-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 405,
+        "localImage": "assets/plugins/io.github.huligabuliga.omasticky-f8fda23e15.webp",
+        "metrics": {
+          "copies": 96,
+          "hearts": 9,
+          "stars": 5,
+          "views": 328
+        },
+        "normalized": {
+          "copies": 0.955022,
+          "hearts": 0.829772,
+          "stars": 0.919632,
+          "views": 0.683072,
+          "freshness": 0.941786,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.343808,
+          "hearts": 0.165954,
+          "stars": 0.165534,
+          "views": 0.054646,
+          "freshness": 0.122432,
+          "verified": 0.05
+        },
+        "evidence": 0.910045,
+        "freshnessDays": 15,
+        "score": 0.902374
+      },
+      "runnerUp": {
+        "id": "luca.obsidian-daily",
+        "name": "Obsidian Daily",
+        "description": "View and manage Obsidian daily note todos from the Omarchy bar. Set vaultPath or OBSIDIAN_VAULT_ROOT.",
+        "author": "Luca Nerlich",
+        "category": "Productivity",
+        "repository": "https://github.com/LucaNerlich/obsidian-daily-qs",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=luca.obsidian-daily",
+        "installCommand": "omarchy plugin add https://github.com/LucaNerlich/obsidian-daily-qs.git --enable",
+        "verificationStatus": "verified",
+        "license": "Apache-2.0",
+        "repositoryUpdatedAt": "2026-09-01T06:34:55.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/11-lucanerlich-obsidian-daily-qs-card.webp",
+        "previewWidth": 542,
+        "previewHeight": 720,
+        "localImage": "assets/plugins/luca.obsidian-daily-decc197a17.webp",
+        "metrics": {
+          "copies": 73,
+          "hearts": 12,
+          "stars": 5,
+          "views": 493
+        },
+        "normalized": {
+          "copies": 0.814119,
+          "hearts": 0.924389,
+          "stars": 0.915625,
+          "views": 0.87387,
+          "freshness": 0.988713,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.293083,
+          "hearts": 0.184878,
+          "stars": 0.164813,
+          "views": 0.06991,
+          "freshness": 0.128533,
+          "verified": 0.05
+        },
+        "evidence": 0.901356,
+        "freshnessDays": 2,
+        "score": 0.891217
       }
     },
     {
@@ -1669,30 +1849,30 @@
         "previewHeight": 360,
         "localImage": "assets/plugins/agx.screen-time-f3d72a021c.webp",
         "metrics": {
-          "copies": 894,
-          "hearts": 138,
-          "stars": 22,
-          "views": 2705
+          "copies": 1025,
+          "hearts": 154,
+          "stars": 23,
+          "views": 3229
         },
         "normalized": {
-          "copies": 0.994516,
-          "hearts": 0.994516,
-          "stars": 0.994516,
-          "views": 0.994516,
-          "freshness": 0.999486,
+          "copies": 0.995165,
+          "hearts": 0.995165,
+          "stars": 0.995165,
+          "views": 0.995165,
+          "freshness": 0.990262,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.358026,
-          "hearts": 0.198903,
-          "stars": 0.179013,
-          "views": 0.079561,
-          "freshness": 0.129933,
+          "copies": 0.358259,
+          "hearts": 0.199033,
+          "stars": 0.17913,
+          "views": 0.079613,
+          "freshness": 0.128734,
           "verified": 0.05
         },
-        "evidence": 0.989031,
-        "freshnessDays": 0,
-        "score": 0.995436
+        "evidence": 0.99033,
+        "freshnessDays": 2,
+        "score": 0.994769
       },
       "runnerUp": {
         "id": "io.github.ricky.screentime",
@@ -1711,37 +1891,37 @@
         "previewHeight": 446,
         "localImage": "assets/plugins/io.github.ricky.screentime-820e04f72b.webp",
         "metrics": {
-          "copies": 77,
+          "copies": 84,
           "hearts": 10,
           "stars": 1,
-          "views": 294
+          "views": 319
         },
         "normalized": {
-          "copies": 0.74263,
-          "hearts": 0.703295,
-          "stars": 0.627333,
-          "views": 0.761314,
-          "freshness": 0.982677,
+          "copies": 0.744509,
+          "hearts": 0.702105,
+          "stars": 0.627422,
+          "views": 0.762062,
+          "freshness": 0.973609,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.267347,
-          "hearts": 0.140659,
-          "stars": 0.11292,
-          "views": 0.060905,
-          "freshness": 0.127748,
+          "copies": 0.268023,
+          "hearts": 0.140421,
+          "stars": 0.112936,
+          "views": 0.060965,
+          "freshness": 0.126569,
           "verified": 0.05
         },
-        "evidence": 0.894459,
-        "freshnessDays": 4,
-        "score": 0.759579
+        "evidence": 0.901599,
+        "freshnessDays": 6,
+        "score": 0.758914
       }
     },
     {
       "id": "workspaces",
       "name": "Workspaces",
       "description": "Hyprland workspace indicators and navigation",
-      "eligibleCount": 134,
+      "eligibleCount": 146,
       "winner": {
         "id": "expose.window-overview",
         "name": "Exposé",
@@ -1753,36 +1933,36 @@
         "installCommand": "omarchy plugin add https://github.com/kristofferR/omarchy-expose.git --enable",
         "verificationStatus": "verified",
         "license": "MIT",
-        "repositoryUpdatedAt": "2026-08-25T19:24:12.000Z",
+        "repositoryUpdatedAt": "2026-09-02T15:16:48.000Z",
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/11-kristofferr-omarchy-expose-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
         "localImage": "assets/plugins/expose.window-overview-2ed64d83ba.webp",
         "metrics": {
-          "copies": 306,
-          "hearts": 25,
-          "stars": 11,
-          "views": 1231
+          "copies": 373,
+          "hearts": 27,
+          "stars": 15,
+          "views": 1491
         },
         "normalized": {
-          "copies": 0.974528,
-          "hearts": 0.966874,
-          "stars": 0.954118,
-          "views": 0.969425,
-          "freshness": 0.973383,
+          "copies": 0.977609,
+          "hearts": 0.970555,
+          "stars": 0.963502,
+          "views": 0.977609,
+          "freshness": 0.993914,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.35083,
-          "hearts": 0.193375,
-          "stars": 0.171741,
-          "views": 0.077554,
-          "freshness": 0.12654,
+          "copies": 0.351939,
+          "hearts": 0.194111,
+          "stars": 0.17343,
+          "views": 0.078209,
+          "freshness": 0.129209,
           "verified": 0.05
         },
-        "evidence": 0.969466,
-        "freshnessDays": 7,
-        "score": 0.97004
+        "evidence": 0.974026,
+        "freshnessDays": 1,
+        "score": 0.976898
       },
       "runnerUp": {
         "id": "io.github.thetrueferret.decent-workspaces",
@@ -1801,37 +1981,37 @@
         "previewHeight": 161,
         "localImage": "assets/plugins/io.github.thetrueferret.decent-workspaces-27b447702b.webp",
         "metrics": {
-          "copies": 280,
-          "hearts": 29,
-          "stars": 16,
-          "views": 1143
+          "copies": 316,
+          "hearts": 31,
+          "stars": 19,
+          "views": 1278
         },
         "normalized": {
-          "copies": 0.968549,
-          "hearts": 0.973642,
-          "stars": 0.963456,
-          "views": 0.963456,
-          "freshness": 0.933464,
+          "copies": 0.971272,
+          "hearts": 0.975958,
+          "stars": 0.968929,
+          "views": 0.966586,
+          "freshness": 0.92485,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.348678,
-          "hearts": 0.194728,
-          "stars": 0.173422,
-          "views": 0.077076,
-          "freshness": 0.12135,
+          "copies": 0.349658,
+          "hearts": 0.195192,
+          "stars": 0.174407,
+          "views": 0.077327,
+          "freshness": 0.120231,
           "verified": 0.05
         },
-        "evidence": 0.967655,
-        "freshnessDays": 17,
-        "score": 0.965254
+        "evidence": 0.97066,
+        "freshnessDays": 20,
+        "score": 0.966815
       }
     },
     {
       "id": "window-management",
       "name": "Window Management",
       "description": "Window switchers, layouts, tiling, and window rules",
-      "eligibleCount": 25,
+      "eligibleCount": 27,
       "winner": {
         "id": "io.github.pablo-merino.altswitch",
         "name": "Alt-tab switcher",
@@ -1849,30 +2029,30 @@
         "previewHeight": 405,
         "localImage": "assets/plugins/io.github.pablo-merino.altswitch-3bf31226ae.webp",
         "metrics": {
-          "copies": 414,
-          "hearts": 18,
-          "stars": 17,
-          "views": 1788
+          "copies": 482,
+          "hearts": 22,
+          "stars": 19,
+          "views": 2049
         },
         "normalized": {
-          "copies": 0.987854,
-          "hearts": 0.90896,
-          "stars": 0.987854,
-          "views": 0.959396,
-          "freshness": 0.990103,
+          "copies": 0.989399,
+          "hearts": 0.963047,
+          "stars": 0.989399,
+          "views": 0.963047,
+          "freshness": 0.980966,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.355627,
-          "hearts": 0.181792,
-          "stars": 0.177814,
-          "views": 0.076752,
-          "freshness": 0.128713,
+          "copies": 0.356184,
+          "hearts": 0.192609,
+          "stars": 0.178092,
+          "views": 0.077044,
+          "freshness": 0.127526,
           "verified": 0
         },
-        "evidence": 0.975709,
-        "freshnessDays": 2,
-        "score": 0.920698
+        "evidence": 0.978799,
+        "freshnessDays": 4,
+        "score": 0.931455
       },
       "runnerUp": {
         "id": "omadock",
@@ -1891,37 +2071,37 @@
         "previewHeight": 405,
         "localImage": "assets/plugins/omadock-ad8cb67956.webp",
         "metrics": {
-          "copies": 341,
-          "hearts": 35,
-          "stars": 10,
-          "views": 2064
+          "copies": 402,
+          "hearts": 38,
+          "stars": 11,
+          "views": 2337
         },
         "normalized": {
-          "copies": 0.957934,
-          "hearts": 0.986301,
-          "stars": 0.94375,
-          "views": 0.986301,
-          "freshness": 0.980728,
+          "copies": 0.961768,
+          "hearts": 0.988048,
+          "stars": 0.948629,
+          "views": 0.988048,
+          "freshness": 0.971677,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.344856,
-          "hearts": 0.19726,
-          "stars": 0.169875,
-          "views": 0.078904,
-          "freshness": 0.127495,
+          "copies": 0.346236,
+          "hearts": 0.19761,
+          "stars": 0.170753,
+          "views": 0.079044,
+          "freshness": 0.126318,
           "verified": 0
         },
-        "evidence": 0.972603,
-        "freshnessDays": 5,
-        "score": 0.91839
+        "evidence": 0.976096,
+        "freshnessDays": 7,
+        "score": 0.919961
       }
     },
     {
       "id": "screenshots",
       "name": "Screenshots & Recording",
       "description": "Screenshots, screen recording, and OCR capture",
-      "eligibleCount": 12,
+      "eligibleCount": 15,
       "winner": {
         "id": "b.omashot",
         "name": "Omashot",
@@ -1939,30 +2119,30 @@
         "previewHeight": 405,
         "localImage": "assets/plugins/b.omashot-0ea98c1c0c.webp",
         "metrics": {
-          "copies": 70,
+          "copies": 77,
           "hearts": 5,
-          "stars": 5,
-          "views": 364
+          "stars": 6,
+          "views": 402
         },
         "normalized": {
-          "copies": 0.942966,
-          "hearts": 0.773637,
-          "stars": 0.942966,
-          "views": 0.875818,
-          "freshness": 0.969844,
+          "copies": 0.947415,
+          "hearts": 0.805075,
+          "stars": 0.947415,
+          "views": 0.895606,
+          "freshness": 0.960894,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.339468,
-          "hearts": 0.154727,
-          "stars": 0.169734,
-          "views": 0.070065,
-          "freshness": 0.12608,
+          "copies": 0.341069,
+          "hearts": 0.161015,
+          "stars": 0.170535,
+          "views": 0.071648,
+          "freshness": 0.124916,
           "verified": 0.05
         },
-        "evidence": 0.885932,
-        "freshnessDays": 7,
-        "score": 0.910074
+        "evidence": 0.894829,
+        "freshnessDays": 10,
+        "score": 0.919183
       },
       "runnerUp": {
         "id": "glasschan.oma-swiss",
@@ -1981,37 +2161,37 @@
         "previewHeight": 345,
         "localImage": "assets/plugins/glasschan.oma-swiss-e9b871e055.webp",
         "metrics": {
-          "copies": 60,
-          "hearts": 7,
-          "stars": 2,
-          "views": 634
+          "copies": 70,
+          "hearts": 8,
+          "stars": 3,
+          "views": 691
         },
         "normalized": {
-          "copies": 0.85632,
-          "hearts": 0.945799,
-          "stars": 0.752162,
-          "views": 0.945799,
-          "freshness": 0.992442,
+          "copies": 0.904862,
+          "hearts": 0.951827,
+          "stars": 0.854768,
+          "views": 0.951827,
+          "freshness": 0.983283,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.308275,
-          "hearts": 0.18916,
-          "stars": 0.135389,
-          "views": 0.075664,
-          "freshness": 0.129017,
+          "copies": 0.32575,
+          "hearts": 0.190365,
+          "stars": 0.153858,
+          "views": 0.076146,
+          "freshness": 0.127827,
           "verified": 0.05
         },
-        "evidence": 0.891599,
-        "freshnessDays": 1,
-        "score": 0.887505
+        "evidence": 0.903653,
+        "freshnessDays": 4,
+        "score": 0.923946
       }
     },
     {
       "id": "wallpaper",
       "name": "Wallpaper",
       "description": "Wallpaper browsing, switching, and automation",
-      "eligibleCount": 31,
+      "eligibleCount": 33,
       "winner": {
         "id": "nosignal.motion-wallpaper",
         "name": "Motion Wallpaper",
@@ -2029,30 +2209,30 @@
         "previewHeight": 211,
         "localImage": "assets/plugins/nosignal.motion-wallpaper-6b5d37cfda.webp",
         "metrics": {
-          "copies": 284,
-          "hearts": 12,
-          "stars": 12,
-          "views": 1301
+          "copies": 334,
+          "hearts": 15,
+          "stars": 15,
+          "views": 1561
         },
         "normalized": {
-          "copies": 0.98324,
-          "hearts": 0.842122,
-          "stars": 0.98324,
-          "views": 0.98324,
-          "freshness": 0.984772,
+          "copies": 0.985401,
+          "hearts": 0.865357,
+          "stars": 0.985401,
+          "views": 0.985401,
+          "freshness": 0.975684,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.353966,
-          "hearts": 0.168424,
-          "stars": 0.176983,
-          "views": 0.078659,
-          "freshness": 0.12802,
+          "copies": 0.354744,
+          "hearts": 0.173071,
+          "stars": 0.177372,
+          "views": 0.078832,
+          "freshness": 0.126839,
           "verified": 0.05
         },
-        "evidence": 0.96648,
-        "freshnessDays": 3,
-        "score": 0.956052
+        "evidence": 0.970803,
+        "freshnessDays": 6,
+        "score": 0.960858
       },
       "runnerUp": {
         "id": "tenzin.live-wallpaper",
@@ -2065,43 +2245,43 @@
         "installCommand": "omarchy plugin add https://github.com/yesheytenzin/live-wallpaper.git --enable",
         "verificationStatus": "verified",
         "license": "See repository",
-        "repositoryUpdatedAt": "2026-08-20T21:53:16.000Z",
+        "repositoryUpdatedAt": "2026-09-03T05:05:02.000Z",
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/12-yesheytenzin-live-wallpaper-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
         "localImage": "assets/plugins/tenzin.live-wallpaper-0bb16ee0de.webp",
         "metrics": {
-          "copies": 264,
-          "hearts": 20,
-          "stars": 10,
-          "views": 1174
+          "copies": 300,
+          "hearts": 22,
+          "stars": 11,
+          "views": 1353
         },
         "normalized": {
-          "copies": 0.960135,
-          "hearts": 0.931396,
-          "stars": 0.960135,
-          "views": 0.937265,
-          "freshness": 0.955201,
+          "copies": 0.963184,
+          "hearts": 0.940423,
+          "stars": 0.963184,
+          "views": 0.963184,
+          "freshness": 0.996118,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.345649,
-          "hearts": 0.186279,
-          "stars": 0.172824,
-          "views": 0.074981,
-          "freshness": 0.124176,
+          "copies": 0.346746,
+          "hearts": 0.188085,
+          "stars": 0.173373,
+          "views": 0.077055,
+          "freshness": 0.129495,
           "verified": 0.05
         },
-        "evidence": 0.965318,
-        "freshnessDays": 11,
-        "score": 0.953909
+        "evidence": 0.96875,
+        "freshnessDays": 1,
+        "score": 0.964754
       }
     },
     {
       "id": "themes-appearance",
       "name": "Themes & Appearance",
       "description": "Theme browsing, switching, scheduling, and visual customization",
-      "eligibleCount": 20,
+      "eligibleCount": 21,
       "winner": {
         "id": "io.github.mtolhuys.theme-manager",
         "name": "Omarchy Theme Manager",
@@ -2119,30 +2299,30 @@
         "previewHeight": 450,
         "localImage": "assets/plugins/io.github.mtolhuys.theme-manager-c412922c8c.webp",
         "metrics": {
-          "copies": 330,
-          "hearts": 21,
+          "copies": 392,
+          "hearts": 24,
           "stars": 3,
-          "views": 1405
+          "views": 1627
         },
         "normalized": {
-          "copies": 0.948802,
-          "hearts": 0.949099,
-          "stars": 0.78621,
-          "views": 0.985472,
-          "freshness": 0.985319,
+          "copies": 0.953326,
+          "hearts": 0.970387,
+          "stars": 0.766853,
+          "views": 0.987448,
+          "freshness": 0.976226,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.341569,
-          "hearts": 0.18982,
-          "stars": 0.141518,
-          "views": 0.078838,
-          "freshness": 0.128091,
+          "copies": 0.343197,
+          "hearts": 0.194077,
+          "stars": 0.138034,
+          "views": 0.078996,
+          "freshness": 0.126909,
           "verified": 0.05
         },
-        "evidence": 0.970944,
-        "freshnessDays": 3,
-        "score": 0.929836
+        "evidence": 0.974895,
+        "freshnessDays": 6,
+        "score": 0.931213
       },
       "runnerUp": {
         "id": "gotar.omarchy-themes",
@@ -2161,30 +2341,30 @@
         "previewHeight": 530,
         "localImage": "assets/plugins/gotar.omarchy-themes-fa36346f7c.webp",
         "metrics": {
-          "copies": 473,
-          "hearts": 19,
-          "stars": 3,
-          "views": 1285
+          "copies": 558,
+          "hearts": 20,
+          "stars": 4,
+          "views": 1490
         },
         "normalized": {
-          "copies": 0.98917,
-          "hearts": 0.871401,
-          "stars": 0.78839,
-          "views": 0.952943,
-          "freshness": 0.968964,
+          "copies": 0.990625,
+          "hearts": 0.888821,
+          "stars": 0.853865,
+          "views": 0.956281,
+          "freshness": 0.960022,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.356101,
-          "hearts": 0.17428,
-          "stars": 0.14191,
-          "views": 0.076235,
-          "freshness": 0.125965,
+          "copies": 0.356625,
+          "hearts": 0.177764,
+          "stars": 0.153696,
+          "views": 0.076502,
+          "freshness": 0.124803,
           "verified": 0.05
         },
-        "evidence": 0.978339,
-        "freshnessDays": 8,
-        "score": 0.924491
+        "evidence": 0.98125,
+        "freshnessDays": 10,
+        "score": 0.93939
       }
     },
     {
@@ -2212,27 +2392,27 @@
           "copies": 21,
           "hearts": 0,
           "stars": 0,
-          "views": 92
+          "views": 94
         },
         "normalized": {
-          "copies": 0.840426,
-          "hearts": 0.159574,
+          "copies": 0.840849,
+          "hearts": 0.159151,
           "stars": 0.5,
-          "views": 0.840426,
-          "freshness": 0.96796,
+          "views": 0.840849,
+          "freshness": 0.959028,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.302553,
-          "hearts": 0.031915,
+          "copies": 0.302706,
+          "hearts": 0.03183,
           "stars": 0.09,
-          "views": 0.067234,
-          "freshness": 0.125835,
+          "views": 0.067268,
+          "freshness": 0.124674,
           "verified": 0.05
         },
-        "evidence": 0.680851,
-        "freshnessDays": 8,
-        "score": 0.667537
+        "evidence": 0.681698,
+        "freshnessDays": 10,
+        "score": 0.666478
       },
       "runnerUp": {
         "id": "io.github.arcanavox.colorhistory",
@@ -2254,34 +2434,34 @@
           "copies": 7,
           "hearts": 2,
           "stars": 0,
-          "views": 24
+          "views": 27
         },
         "normalized": {
-          "copies": 0.364541,
-          "hearts": 0.72973,
+          "copies": 0.363471,
+          "hearts": 0.731544,
           "stars": 0.5,
-          "views": 0.369597,
-          "freshness": 0.979932,
+          "views": 0.371495,
+          "freshness": 0.970888,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.131235,
-          "hearts": 0.145946,
+          "copies": 0.13085,
+          "hearts": 0.146309,
           "stars": 0.09,
-          "views": 0.029568,
-          "freshness": 0.127391,
+          "views": 0.02972,
+          "freshness": 0.126215,
           "verified": 0.05
         },
-        "evidence": 0.459459,
-        "freshnessDays": 5,
-        "score": 0.57414
+        "evidence": 0.463087,
+        "freshnessDays": 7,
+        "score": 0.573094
       }
     },
     {
       "id": "ai-assistant",
       "name": "AI Assistant",
       "description": "AI chat, local models, and model launchers",
-      "eligibleCount": 24,
+      "eligibleCount": 25,
       "winner": {
         "id": "sid.sessions",
         "name": "Session Browser",
@@ -2299,30 +2479,30 @@
         "previewHeight": 720,
         "localImage": "assets/plugins/sid.sessions-745df1f813.webp",
         "metrics": {
-          "copies": 128,
-          "hearts": 16,
-          "stars": 3,
-          "views": 653
+          "copies": 148,
+          "hearts": 17,
+          "stars": 4,
+          "views": 740
         },
         "normalized": {
-          "copies": 0.968195,
-          "hearts": 0.939696,
-          "stars": 0.775819,
-          "views": 0.939696,
-          "freshness": 0.978804,
+          "copies": 0.971963,
+          "hearts": 0.944431,
+          "stars": 0.816644,
+          "views": 0.944431,
+          "freshness": 0.969771,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.34855,
-          "hearts": 0.187939,
-          "stars": 0.139647,
-          "views": 0.075176,
-          "freshness": 0.127245,
+          "copies": 0.349907,
+          "hearts": 0.188886,
+          "stars": 0.146996,
+          "views": 0.075554,
+          "freshness": 0.12607,
           "verified": 0.05
         },
-        "evidence": 0.93639,
-        "freshnessDays": 5,
-        "score": 0.928557
+        "evidence": 0.943925,
+        "freshnessDays": 7,
+        "score": 0.937413
       },
       "runnerUp": {
         "id": "meviusisback.agent-orchestr",
@@ -2335,43 +2515,43 @@
         "installCommand": "omarchy plugin add https://github.com/meviusisback/agent-orchestr.git --enable",
         "verificationStatus": "unverified",
         "license": "MIT",
-        "repositoryUpdatedAt": "2026-08-31T11:42:29.000Z",
+        "repositoryUpdatedAt": "2026-09-03T07:43:12.000Z",
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/12-meviusisback-agent-orchestr-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
         "localImage": "assets/plugins/meviusisback.agent-orchestr-0bc4dfb0ea.webp",
         "metrics": {
-          "copies": 87,
+          "copies": 111,
           "hearts": 18,
           "stars": 6,
-          "views": 775
+          "views": 1030
         },
         "normalized": {
-          "copies": 0.933387,
-          "hearts": 0.961477,
-          "stars": 0.947432,
-          "views": 0.961477,
-          "freshness": 0.994905,
+          "copies": 0.941252,
+          "hearts": 0.968586,
+          "stars": 0.954919,
+          "views": 0.968586,
+          "freshness": 0.996539,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.336019,
-          "hearts": 0.192295,
-          "stars": 0.170538,
-          "views": 0.076918,
-          "freshness": 0.129338,
+          "copies": 0.338851,
+          "hearts": 0.193717,
+          "stars": 0.171885,
+          "views": 0.077487,
+          "freshness": 0.12955,
           "verified": 0
         },
-        "evidence": 0.922953,
-        "freshnessDays": 1,
-        "score": 0.905108
+        "evidence": 0.937173,
+        "freshnessDays": 0,
+        "score": 0.91149
       }
     },
     {
       "id": "ai-api-usage",
       "name": "AI & API Usage",
       "description": "AI model quotas, token usage, and API spending",
-      "eligibleCount": 23,
+      "eligibleCount": 32,
       "winner": {
         "id": "akitaonrails.ai-usagebar",
         "name": "AI Usage",
@@ -2383,36 +2563,36 @@
         "installCommand": "omarchy plugin add https://github.com/akitaonrails/ai-usagebar.git --enable",
         "verificationStatus": "unverified",
         "license": "MIT",
-        "repositoryUpdatedAt": "2026-08-30T21:28:04.000Z",
+        "repositoryUpdatedAt": "2026-09-03T14:39:42.000Z",
         "previewSource": null,
         "previewWidth": null,
         "previewHeight": null,
         "localImage": null,
         "metrics": {
-          "copies": 1481,
-          "hearts": 100,
-          "stars": 388,
-          "views": 8890
+          "copies": 1728,
+          "hearts": 106,
+          "stars": 392,
+          "views": 10168
         },
         "normalized": {
-          "copies": 0.996348,
-          "hearts": 0.996348,
-          "stars": 0.996348,
-          "views": 0.996348,
-          "freshness": 0.992635,
+          "copies": 0.996835,
+          "hearts": 0.996835,
+          "stars": 0.996835,
+          "views": 0.996835,
+          "freshness": 0.99765,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.358685,
-          "hearts": 0.19927,
-          "stars": 0.179343,
-          "views": 0.079708,
-          "freshness": 0.129043,
+          "copies": 0.358861,
+          "hearts": 0.199367,
+          "stars": 0.17943,
+          "views": 0.079747,
+          "freshness": 0.129695,
           "verified": 0
         },
-        "evidence": 0.992696,
-        "freshnessDays": 1,
-        "score": 0.946049
+        "evidence": 0.993671,
+        "freshnessDays": 0,
+        "score": 0.9471
       },
       "runnerUp": {
         "id": "othavi0.agent-bar",
@@ -2431,37 +2611,37 @@
         "previewHeight": 406,
         "localImage": "assets/plugins/othavi0.agent-bar-f70e87d39f.webp",
         "metrics": {
-          "copies": 128,
-          "hearts": 19,
+          "copies": 140,
+          "hearts": 20,
           "stars": 9,
-          "views": 958
+          "views": 1105
         },
         "normalized": {
-          "copies": 0.941028,
-          "hearts": 0.941028,
-          "stars": 0.941028,
-          "views": 0.941028,
-          "freshness": 0.995928,
+          "copies": 0.872785,
+          "hearts": 0.951613,
+          "stars": 0.951613,
+          "views": 0.951613,
+          "freshness": 0.986737,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.33877,
-          "hearts": 0.188206,
-          "stars": 0.169385,
-          "views": 0.075282,
-          "freshness": 0.129471,
+          "copies": 0.314203,
+          "hearts": 0.190323,
+          "stars": 0.17129,
+          "views": 0.076129,
+          "freshness": 0.128276,
           "verified": 0
         },
-        "evidence": 0.942001,
-        "freshnessDays": 1,
-        "score": 0.901114
+        "evidence": 0.945946,
+        "freshnessDays": 3,
+        "score": 0.880221
       }
     },
     {
       "id": "smart-home",
       "name": "Smart Home",
       "description": "Home automation, lighting, and connected-device controls",
-      "eligibleCount": 10,
+      "eligibleCount": 15,
       "winner": {
         "id": "hass",
         "name": "Home Assistant",
@@ -2471,38 +2651,38 @@
         "repository": "https://github.com/konradk/hass",
         "detailUrl": "https://plugins.omarchy.org/plugin.html?id=hass",
         "installCommand": "omarchy plugin add https://github.com/konradk/hass.git --enable",
-        "verificationStatus": "verified",
+        "verificationStatus": "unverified",
         "license": "MIT",
-        "repositoryUpdatedAt": "2026-08-17T22:21:49.000Z",
+        "repositoryUpdatedAt": "2026-09-03T20:10:34.000Z",
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/7-konradk-hass-card.webp",
         "previewWidth": 475,
         "previewHeight": 720,
         "localImage": "assets/plugins/hass-b14e908654.webp",
         "metrics": {
-          "copies": 641,
-          "hearts": 68,
-          "stars": 27,
-          "views": 2213
+          "copies": 741,
+          "hearts": 75,
+          "stars": 29,
+          "views": 2578
         },
         "normalized": {
-          "copies": 0.992218,
-          "hearts": 0.992218,
-          "stars": 0.992218,
-          "views": 0.992218,
-          "freshness": 0.944302,
-          "verified": 1
+          "copies": 0.993166,
+          "hearts": 0.993166,
+          "stars": 0.993166,
+          "views": 0.993166,
+          "freshness": 0.998533,
+          "verified": 0
         },
         "contributions": {
-          "copies": 0.357198,
-          "hearts": 0.198444,
-          "stars": 0.178599,
-          "views": 0.079377,
-          "freshness": 0.122759,
-          "verified": 0.05
+          "copies": 0.35754,
+          "hearts": 0.198633,
+          "stars": 0.17877,
+          "views": 0.079453,
+          "freshness": 0.129809,
+          "verified": 0
         },
-        "evidence": 0.984436,
-        "freshnessDays": 14,
-        "score": 0.986377
+        "evidence": 0.986333,
+        "freshnessDays": 0,
+        "score": 0.944205
       },
       "runnerUp": {
         "id": "omarchy-philips-hue",
@@ -2513,45 +2693,45 @@
         "repository": "https://github.com/sethchev/omarchy-philips-hue",
         "detailUrl": "https://plugins.omarchy.org/plugin.html?id=omarchy-philips-hue",
         "installCommand": "omarchy plugin add https://github.com/sethchev/omarchy-philips-hue.git --enable",
-        "verificationStatus": "verified",
+        "verificationStatus": "unverified",
         "license": "MIT",
-        "repositoryUpdatedAt": "2026-08-28T20:29:08.000Z",
+        "repositoryUpdatedAt": "2026-09-03T01:20:49.000Z",
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-sethchev-omarchy-philips-hue-card.webp",
         "previewWidth": 441,
         "previewHeight": 720,
         "localImage": "assets/plugins/omarchy-philips-hue-7648a4390f.webp",
         "metrics": {
-          "copies": 27,
+          "copies": 37,
           "hearts": 2,
           "stars": 2,
-          "views": 117
+          "views": 136
         },
         "normalized": {
-          "copies": 0.73802,
-          "hearts": 0.463521,
-          "stars": 0.638413,
-          "views": 0.66622,
-          "freshness": 0.984864,
-          "verified": 1
+          "copies": 0.809781,
+          "hearts": 0.515561,
+          "stars": 0.650994,
+          "views": 0.652127,
+          "freshness": 0.995521,
+          "verified": 0
         },
         "contributions": {
-          "copies": 0.265687,
-          "hearts": 0.092704,
-          "stars": 0.114914,
-          "views": 0.053298,
-          "freshness": 0.128032,
-          "verified": 0.05
+          "copies": 0.291521,
+          "hearts": 0.103112,
+          "stars": 0.117179,
+          "views": 0.05217,
+          "freshness": 0.129418,
+          "verified": 0
         },
-        "evidence": 0.743863,
-        "freshnessDays": 3,
-        "score": 0.704635
+        "evidence": 0.792388,
+        "freshnessDays": 1,
+        "score": 0.6934
       }
     },
     {
       "id": "github",
       "name": "GitHub",
       "description": "GitHub activity, pull requests, issues, and shortcuts",
-      "eligibleCount": 11,
+      "eligibleCount": 12,
       "winner": {
         "id": "robzolkos.github",
         "name": "GitHub",
@@ -2569,30 +2749,30 @@
         "previewHeight": 720,
         "localImage": "assets/plugins/robzolkos.github-026fdb4440.webp",
         "metrics": {
-          "copies": 438,
-          "hearts": 31,
-          "stars": 46,
-          "views": 2154
+          "copies": 486,
+          "hearts": 33,
+          "stars": 47,
+          "views": 2432
         },
         "normalized": {
-          "copies": 0.988701,
-          "hearts": 0.988701,
-          "stars": 0.988701,
-          "views": 0.988701,
-          "freshness": 0.997286,
+          "copies": 0.989673,
+          "hearts": 0.989673,
+          "stars": 0.989673,
+          "views": 0.989673,
+          "freshness": 0.988083,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.355932,
-          "hearts": 0.19774,
-          "stars": 0.177966,
-          "views": 0.079096,
-          "freshness": 0.129647,
+          "copies": 0.356282,
+          "hearts": 0.197935,
+          "stars": 0.178141,
+          "views": 0.079174,
+          "freshness": 0.128451,
           "verified": 0
         },
-        "evidence": 0.977401,
-        "freshnessDays": 0,
-        "score": 0.940381
+        "evidence": 0.979346,
+        "freshnessDays": 3,
+        "score": 0.939983
       },
       "runnerUp": {
         "id": "io.github.ricky.ghstats",
@@ -2611,30 +2791,30 @@
         "previewHeight": 309,
         "localImage": "assets/plugins/io.github.ricky.ghstats-200e63dfff.webp",
         "metrics": {
-          "copies": 18,
+          "copies": 20,
           "hearts": 8,
           "stars": 2,
-          "views": 104
+          "views": 108
         },
         "normalized": {
-          "copies": 0.650415,
-          "hearts": 0.762022,
-          "stars": 0.66481,
-          "views": 0.641889,
-          "freshness": 0.956126,
+          "copies": 0.695259,
+          "hearts": 0.773802,
+          "stars": 0.680254,
+          "views": 0.660069,
+          "freshness": 0.947303,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.234149,
-          "hearts": 0.152404,
-          "stars": 0.119666,
-          "views": 0.051351,
-          "freshness": 0.124296,
+          "copies": 0.250293,
+          "hearts": 0.15476,
+          "stars": 0.122446,
+          "views": 0.052806,
+          "freshness": 0.123149,
           "verified": 0.05
         },
-        "evidence": 0.722222,
-        "freshnessDays": 11,
-        "score": 0.731866
+        "evidence": 0.735683,
+        "freshnessDays": 14,
+        "score": 0.753454
       }
     },
     {
@@ -2653,36 +2833,36 @@
         "installCommand": "omarchy plugin add https://github.com/RandaZraik/omarchy-xray.git --enable",
         "verificationStatus": "verified",
         "license": "MIT",
-        "repositoryUpdatedAt": "2026-08-25T17:23:55.000Z",
+        "repositoryUpdatedAt": "2026-09-02T14:03:31.000Z",
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/10-randazraik-omarchy-xray-card.webp",
         "previewWidth": 720,
         "previewHeight": 411,
         "localImage": "assets/plugins/io.github.randazraik.xray-08dce2d985.webp",
         "metrics": {
-          "copies": 197,
+          "copies": 224,
           "hearts": 26,
-          "stars": 4,
-          "views": 882
+          "stars": 5,
+          "views": 1011
         },
         "normalized": {
-          "copies": 0.978502,
-          "hearts": 0.978502,
-          "stars": 0.872655,
-          "views": 0.978502,
-          "freshness": 0.97307,
+          "copies": 0.980769,
+          "hearts": 0.980769,
+          "stars": 0.922219,
+          "views": 0.980769,
+          "freshness": 0.993719,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.352261,
-          "hearts": 0.1957,
-          "stars": 0.157078,
-          "views": 0.07828,
-          "freshness": 0.126499,
+          "copies": 0.353077,
+          "hearts": 0.196154,
+          "stars": 0.165999,
+          "views": 0.078462,
+          "freshness": 0.129183,
           "verified": 0.05
         },
-        "evidence": 0.957005,
-        "freshnessDays": 7,
-        "score": 0.959818
+        "evidence": 0.961538,
+        "freshnessDays": 1,
+        "score": 0.972875
       },
       "runnerUp": {
         "id": "io.github.andressm415.omaprox",
@@ -2701,37 +2881,37 @@
         "previewHeight": 638,
         "localImage": "assets/plugins/io.github.andressm415.omaprox-3bdbcaf10b.webp",
         "metrics": {
-          "copies": 84,
-          "hearts": 15,
+          "copies": 86,
+          "hearts": 16,
           "stars": 6,
-          "views": 552
+          "views": 586
         },
         "normalized": {
-          "copies": 0.773066,
-          "hearts": 0.916112,
-          "stars": 0.95671,
-          "views": 0.87914,
-          "freshness": 0.965868,
+          "copies": 0.737265,
+          "hearts": 0.918081,
+          "stars": 0.95813,
+          "views": 0.879093,
+          "freshness": 0.956954,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.278304,
-          "hearts": 0.183222,
-          "stars": 0.172208,
-          "views": 0.070331,
-          "freshness": 0.125563,
+          "copies": 0.265415,
+          "hearts": 0.183616,
+          "stars": 0.172463,
+          "views": 0.070327,
+          "freshness": 0.124404,
           "verified": 0.05
         },
-        "evidence": 0.91342,
-        "freshnessDays": 9,
-        "score": 0.879628
+        "evidence": 0.91626,
+        "freshnessDays": 11,
+        "score": 0.866225
       }
     },
     {
       "id": "gaming",
       "name": "Gaming",
       "description": "Game launchers, performance, and gaming status",
-      "eligibleCount": 16,
+      "eligibleCount": 17,
       "winner": {
         "id": "silvaio.gamemode",
         "name": "Game Mode Switcher",
@@ -2749,30 +2929,30 @@
         "previewHeight": 292,
         "localImage": "assets/plugins/silvaio.gamemode-8c24b44497.webp",
         "metrics": {
-          "copies": 120,
+          "copies": 134,
           "hearts": 11,
           "stars": 7,
-          "views": 521
+          "views": 596
         },
         "normalized": {
-          "copies": 0.920916,
-          "hearts": 0.964508,
-          "stars": 0.964508,
-          "views": 0.870501,
-          "freshness": 0.984755,
+          "copies": 0.926525,
+          "hearts": 0.96788,
+          "stars": 0.918598,
+          "views": 0.839064,
+          "freshness": 0.975667,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.33153,
-          "hearts": 0.192902,
-          "stars": 0.173611,
-          "views": 0.06964,
-          "freshness": 0.128018,
+          "copies": 0.333549,
+          "hearts": 0.193576,
+          "stars": 0.165348,
+          "views": 0.067125,
+          "freshness": 0.126837,
           "verified": 0
         },
-        "evidence": 0.929015,
-        "freshnessDays": 3,
-        "score": 0.895701
+        "evidence": 0.93576,
+        "freshnessDays": 6,
+        "score": 0.886435
       },
       "runnerUp": {
         "id": "io.github.dkgamer02ai.wallpaper-engine",
@@ -2791,30 +2971,120 @@
         "previewHeight": 396,
         "localImage": "assets/plugins/io.github.dkgamer02ai.wallpaper-engine-0355de64d1.webp",
         "metrics": {
-          "copies": 122,
+          "copies": 139,
           "hearts": 4,
           "stars": 4,
-          "views": 611
+          "views": 684
         },
         "normalized": {
-          "copies": 0.964402,
-          "hearts": 0.653005,
-          "stars": 0.902099,
-          "views": 0.920658,
-          "freshness": 0.893748,
+          "copies": 0.968288,
+          "hearts": 0.601046,
+          "stars": 0.816368,
+          "views": 0.927225,
+          "freshness": 0.8855,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.347185,
-          "hearts": 0.130601,
-          "stars": 0.162378,
-          "views": 0.073653,
-          "freshness": 0.116187,
+          "copies": 0.348584,
+          "hearts": 0.120209,
+          "stars": 0.146946,
+          "views": 0.074178,
+          "freshness": 0.115115,
           "verified": 0
         },
-        "evidence": 0.928805,
-        "freshnessDays": 29,
-        "score": 0.830004
+        "evidence": 0.936575,
+        "freshnessDays": 31,
+        "score": 0.805032
+      }
+    },
+    {
+      "id": "mini-games",
+      "name": "Mini-Games",
+      "description": "Playable arcade, puzzle, and mini-games in the bar or on the desktop",
+      "eligibleCount": 39,
+      "winner": {
+        "id": "slcode777.omagotchi",
+        "name": "Omagotchi",
+        "description": "A 1-bit desktop pet in your bar, in the spirit of the 1997 originals: feed it, scrub it clean, cuddle it, and let it out to roam your screen and climb your windows. It hatches, grows, and evolves with the care you give.",
+        "author": "SLcode777",
+        "category": "Other",
+        "repository": "https://github.com/SLcode777/omagotchi",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=slcode777.omagotchi",
+        "installCommand": "omarchy plugin add https://github.com/SLcode777/omagotchi.git --enable",
+        "verificationStatus": "unverified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-09-03T04:55:52.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/9-slcode777-omagotchi-card.webp",
+        "previewWidth": 410,
+        "previewHeight": 536,
+        "localImage": "assets/plugins/slcode777.omagotchi-b698f09db1.webp",
+        "metrics": {
+          "copies": 471,
+          "hearts": 44,
+          "stars": 12,
+          "views": 3272
+        },
+        "normalized": {
+          "copies": 0.989601,
+          "hearts": 0.989601,
+          "stars": 0.971563,
+          "views": 0.989601,
+          "freshness": 0.996094,
+          "verified": 0
+        },
+        "contributions": {
+          "copies": 0.356256,
+          "hearts": 0.19792,
+          "stars": 0.174881,
+          "views": 0.079168,
+          "freshness": 0.129492,
+          "verified": 0
+        },
+        "evidence": 0.979203,
+        "freshnessDays": 1,
+        "score": 0.937717
+      },
+      "runnerUp": {
+        "id": "nosignal.quattrolitaire",
+        "name": "Quattrolitaire",
+        "description": "Klondike solitaire for omarchy-shell. Drag-and-drop card table drawn entirely in QML, coloured from the active theme, with undo, autocomplete, scoring and a game that survives a shell restart. Summon with: omarchy-shell shell toggle nosignal.quattrolitaire",
+        "author": "Gavin Nugent",
+        "category": "Widgets",
+        "repository": "https://github.com/28allday/Quattrolitaire",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=nosignal.quattrolitaire",
+        "installCommand": "omarchy plugin add https://github.com/28allday/Quattrolitaire.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-17T19:23:46.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-28allday-quattrolitaire-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 502,
+        "localImage": "assets/plugins/nosignal.quattrolitaire-6053b127ab.webp",
+        "metrics": {
+          "copies": 210,
+          "hearts": 14,
+          "stars": 25,
+          "views": 928
+        },
+        "normalized": {
+          "copies": 0.942923,
+          "hearts": 0.874539,
+          "stars": 0.978754,
+          "views": 0.942649,
+          "freshness": 0.935142,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.339452,
+          "hearts": 0.174908,
+          "stars": 0.176176,
+          "views": 0.075412,
+          "freshness": 0.121568,
+          "verified": 0.05
+        },
+        "evidence": 0.957507,
+        "freshnessDays": 17,
+        "score": 0.937516
       }
     },
     {
@@ -2839,30 +3109,30 @@
         "previewHeight": 529,
         "localImage": "assets/plugins/dizziee.system-updates-609e5fc607.webp",
         "metrics": {
-          "copies": 230,
-          "hearts": 16,
+          "copies": 268,
+          "hearts": 18,
           "stars": 8,
-          "views": 683
+          "views": 781
         },
         "normalized": {
-          "copies": 0.979463,
-          "hearts": 0.979463,
-          "stars": 0.979463,
-          "views": 0.979463,
-          "freshness": 0.964844,
+          "copies": 0.982198,
+          "hearts": 0.982198,
+          "stars": 0.982198,
+          "views": 0.982198,
+          "freshness": 0.95594,
           "verified": 1
         },
         "contributions": {
-          "copies": 0.352607,
-          "hearts": 0.195893,
-          "stars": 0.176303,
-          "views": 0.078357,
-          "freshness": 0.12543,
+          "copies": 0.353591,
+          "hearts": 0.19644,
+          "stars": 0.176796,
+          "views": 0.078576,
+          "freshness": 0.124272,
           "verified": 0.05
         },
-        "evidence": 0.958925,
-        "freshnessDays": 9,
-        "score": 0.97859
+        "evidence": 0.964397,
+        "freshnessDays": 11,
+        "score": 0.979675
       },
       "runnerUp": {
         "id": "gennaro.updater",
@@ -2881,30 +3151,570 @@
         "previewHeight": null,
         "localImage": null,
         "metrics": {
-          "copies": 29,
+          "copies": 32,
           "hearts": 1,
           "stars": 0,
-          "views": 141
+          "views": 151
         },
         "normalized": {
-          "copies": 0.533831,
-          "hearts": 0.446666,
-          "stars": 0.254511,
-          "views": 0.562975,
-          "freshness": 0.961896,
+          "copies": 0.534566,
+          "hearts": 0.44326,
+          "stars": 0.249215,
+          "views": 0.563229,
+          "freshness": 0.953019,
           "verified": 0
         },
         "contributions": {
-          "copies": 0.192179,
-          "hearts": 0.089333,
-          "stars": 0.045812,
-          "views": 0.045038,
-          "freshness": 0.125046,
+          "copies": 0.192444,
+          "hearts": 0.088652,
+          "stars": 0.044859,
+          "views": 0.045058,
+          "freshness": 0.123892,
           "verified": 0
         },
-        "evidence": 0.755352,
+        "evidence": 0.771646,
+        "freshnessDays": 12,
+        "score": 0.494905
+      }
+    },
+    {
+      "id": "radio",
+      "name": "Radio",
+      "description": "Internet and streaming radio players",
+      "eligibleCount": 10,
+      "winner": {
+        "id": "akshar.radio-atlas",
+        "name": "Radio Atlas",
+        "description": "Explore live radio on a rotatable globe and play stations through Omarchy's media controls.",
+        "author": "Akshar Patel",
+        "category": "Widgets",
+        "repository": "https://github.com/AksharP5/omarchy-radio-atlas",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=akshar.radio-atlas",
+        "installCommand": "omarchy plugin add https://github.com/AksharP5/omarchy-radio-atlas.git --enable",
+        "verificationStatus": "unverified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-09-03T21:03:31.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-aksharp5-omarchy-radio-atlas-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 464,
+        "localImage": "assets/plugins/akshar.radio-atlas-d725d6030d.webp",
+        "metrics": {
+          "copies": 2043,
+          "hearts": 101,
+          "stars": 35,
+          "views": 5562
+        },
+        "normalized": {
+          "copies": 0.99728,
+          "hearts": 0.99728,
+          "stars": 0.99728,
+          "views": 0.99728,
+          "freshness": 0.998675,
+          "verified": 0
+        },
+        "contributions": {
+          "copies": 0.359021,
+          "hearts": 0.199456,
+          "stars": 0.17951,
+          "views": 0.079782,
+          "freshness": 0.129828,
+          "verified": 0
+        },
+        "evidence": 0.99456,
+        "freshnessDays": 0,
+        "score": 0.947597
+      },
+      "runnerUp": {
+        "id": "ronnie.worldradio",
+        "name": "World Radio",
+        "description": "Pick a country and a mood, tune in to a live radio station from there — inspired by radiooooo.com",
+        "author": "ronnie",
+        "category": "Widgets",
+        "repository": "https://github.com/Macs9319/omarchy-world-radio",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=ronnie.worldradio",
+        "installCommand": "omarchy plugin add https://github.com/Macs9319/omarchy-world-radio.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-30T05:09:08.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-macs9319-omarchy-world-radio-card.webp",
+        "previewWidth": 642,
+        "previewHeight": 720,
+        "localImage": "assets/plugins/ronnie.worldradio-5ee3ebd089.webp",
+        "metrics": {
+          "copies": 111,
+          "hearts": 8,
+          "stars": 0,
+          "views": 328
+        },
+        "normalized": {
+          "copies": 0.818154,
+          "hearts": 0.783682,
+          "stars": 0.290766,
+          "views": 0.685068,
+          "freshness": 0.980903,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.294535,
+          "hearts": 0.156736,
+          "stars": 0.052338,
+          "views": 0.054805,
+          "freshness": 0.127517,
+          "verified": 0.05
+        },
+        "evidence": 0.918589,
+        "freshnessDays": 5,
+        "score": 0.735931
+      }
+    },
+    {
+      "id": "screensavers",
+      "name": "Screensavers",
+      "description": "Screensavers and idle-screen visuals",
+      "eligibleCount": 5,
+      "winner": {
+        "id": "io.github.fabiopauli.oligarchy-screensaver",
+        "name": "Oligarchy Screensaver",
+        "description": "Rotates oligarchy.fyi taglines beneath Omarchy's screensaver banner.",
+        "author": "Fabio Pauli",
+        "category": "Appearance",
+        "repository": "https://github.com/fabiopauli/omarchy-oligarchy-plugin",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.fabiopauli.oligarchy-screensaver",
+        "installCommand": "omarchy plugin add https://github.com/fabiopauli/omarchy-oligarchy-plugin.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-24T14:14:46.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/10-fabiopauli-omarchy-oligarchy-plugin-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 405,
+        "localImage": "assets/plugins/io.github.fabiopauli.oligarchy-screensaver-1713b33823.webp",
+        "metrics": {
+          "copies": 55,
+          "hearts": 13,
+          "stars": 1,
+          "views": 753
+        },
+        "normalized": {
+          "copies": 0.949001,
+          "hearts": 0.949001,
+          "stars": 0.574808,
+          "views": 0.949001,
+          "freshness": 0.959899,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.34164,
+          "hearts": 0.1898,
+          "stars": 0.103465,
+          "views": 0.07592,
+          "freshness": 0.124787,
+          "verified": 0.05
+        },
+        "evidence": 0.898003,
         "freshnessDays": 10,
-        "score": 0.497408
+        "score": 0.885612
+      },
+      "runnerUp": {
+        "id": "dailen.omarcharium",
+        "name": "Omarcharium",
+        "description": "A living TTE-inspired tropical aquarium screensaver with a tray-hosted control room and procedural ambience.",
+        "author": "Dailen Gunter",
+        "category": "Appearance",
+        "repository": "https://github.com/DailenG/omarcharium",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=dailen.omarcharium",
+        "installCommand": "omarchy plugin add https://github.com/DailenG/omarcharium.git --enable",
+        "verificationStatus": "unverified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-09-02T21:45:52.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/7-daileng-omarcharium-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 405,
+        "localImage": "assets/plugins/dailen.omarcharium-28291ed5cc.webp",
+        "metrics": {
+          "copies": 41,
+          "hearts": 5,
+          "stars": 1,
+          "views": 430
+        },
+        "normalized": {
+          "copies": 0.761169,
+          "hearts": 0.70603,
+          "stars": 0.570731,
+          "views": 0.758446,
+          "freshness": 0.994949,
+          "verified": 0
+        },
+        "contributions": {
+          "copies": 0.274021,
+          "hearts": 0.141206,
+          "stars": 0.102732,
+          "views": 0.060676,
+          "freshness": 0.129343,
+          "verified": 0
+        },
+        "evidence": 0.849057,
+        "freshnessDays": 1,
+        "score": 0.707978
+      }
+    },
+    {
+      "id": "power-menu",
+      "name": "Power & Session",
+      "description": "Power menus, session actions, and shutdown controls",
+      "eligibleCount": 5,
+      "winner": {
+        "id": "io.github.edgarsilva.power-button",
+        "name": "Power Button",
+        "description": "A power button for the bar with a keyboard-navigable session menu: screens off, lock, suspend, shutdown, reboot, logout.",
+        "author": "Edgar Silva",
+        "category": "System",
+        "repository": "https://github.com/edgarsilva/omarchy-power-button",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.edgarsilva.power-button",
+        "installCommand": "omarchy plugin add https://github.com/edgarsilva/omarchy-power-button.git --enable",
+        "verificationStatus": "unverified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-19T00:49:41.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/10-edgarsilva-omarchy-power-button-card.webp",
+        "previewWidth": 462,
+        "previewHeight": 648,
+        "localImage": "assets/plugins/io.github.edgarsilva.power-button-2ae19aa323.webp",
+        "metrics": {
+          "copies": 237,
+          "hearts": 8,
+          "stars": 1,
+          "views": 683
+        },
+        "normalized": {
+          "copies": 0.979392,
+          "hearts": 0.979392,
+          "stars": 0.979392,
+          "views": 0.979392,
+          "freshness": 0.939568,
+          "verified": 0
+        },
+        "contributions": {
+          "copies": 0.352581,
+          "hearts": 0.195878,
+          "stars": 0.176291,
+          "views": 0.078351,
+          "freshness": 0.122144,
+          "verified": 0
+        },
+        "evidence": 0.958784,
+        "freshnessDays": 16,
+        "score": 0.925245
+      },
+      "runnerUp": {
+        "id": "henri.timed-shutdown",
+        "name": "Timed Shutdown",
+        "description": "Schedule a shutdown from the Omarchy bar. Pick 15 minutes, 30 minutes, 1 hour, or 2 hours, or enter any custom duration in seconds.",
+        "author": "Henri Dumortier",
+        "category": "System",
+        "repository": "https://github.com/Henri1130/omarchy-timed-shutdown",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=henri.timed-shutdown",
+        "installCommand": "omarchy plugin add https://github.com/Henri1130/omarchy-timed-shutdown.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-30T13:33:33.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/9-henri1130-omarchy-timed-shutdown-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 491,
+        "localImage": "assets/plugins/henri.timed-shutdown-629866c432.webp",
+        "metrics": {
+          "copies": 18,
+          "hearts": 1,
+          "stars": 0,
+          "views": 85
+        },
+        "normalized": {
+          "copies": 0.51837,
+          "hearts": 0.353035,
+          "stars": 0.343351,
+          "views": 0.425132,
+          "freshness": 0.982227,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.186613,
+          "hearts": 0.070607,
+          "stars": 0.061803,
+          "views": 0.034011,
+          "freshness": 0.12769,
+          "verified": 0.05
+        },
+        "evidence": 0.659574,
+        "freshnessDays": 4,
+        "score": 0.530724
+      }
+    },
+    {
+      "id": "plugin-manager",
+      "name": "Plugin Manager",
+      "description": "Browsing, installing, and managing Omarchy plugins",
+      "eligibleCount": 10,
+      "winner": {
+        "id": "omaplug",
+        "name": "Plugin Manager",
+        "description": "Manage installed Omarchy plugins: enable/disable, update, install from git, and remove third-party plugins",
+        "author": "Fross",
+        "category": "System",
+        "repository": "https://github.com/fross100/omaplug",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=omaplug",
+        "installCommand": "omarchy plugin add https://github.com/fross100/omaplug.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-09-01T05:37:01.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-fross100-omaplug-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 360,
+        "localImage": "assets/plugins/omaplug-21825cda52.webp",
+        "metrics": {
+          "copies": 2141,
+          "hearts": 67,
+          "stars": 41,
+          "views": 4343
+        },
+        "normalized": {
+          "copies": 0.997357,
+          "hearts": 0.997357,
+          "stars": 0.906459,
+          "views": 0.919094,
+          "freshness": 0.98856,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.359049,
+          "hearts": 0.199471,
+          "stars": 0.163163,
+          "views": 0.073528,
+          "freshness": 0.128513,
+          "verified": 0.05
+        },
+        "evidence": 0.994714,
+        "freshnessDays": 2,
+        "score": 0.973724
+      },
+      "runnerUp": {
+        "id": "b.okomart",
+        "name": "Okomart",
+        "description": "Browse, install, enable, disable, update, and remove Omarchy plugins from a storefront interface",
+        "author": "Brian Blakely",
+        "category": "System",
+        "repository": "https://github.com/brianblakely/omarchy-plugins",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=b.okomart",
+        "installCommand": "omarchy plugin add https://github.com/brianblakely/omarchy-plugins.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-25T17:19:56.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/12-brianblakely-omarchy-plugins-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 450,
+        "localImage": "assets/plugins/b.okomart-95fcc95e68.webp",
+        "metrics": {
+          "copies": 982,
+          "hearts": 19,
+          "stars": 57,
+          "views": 4547
+        },
+        "normalized": {
+          "copies": 0.900095,
+          "hearts": 0.701689,
+          "stars": 0.994356,
+          "views": 0.994356,
+          "freshness": 0.964079,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.324034,
+          "hearts": 0.140338,
+          "stars": 0.178984,
+          "views": 0.079548,
+          "freshness": 0.12533,
+          "verified": 0.05
+        },
+        "evidence": 0.988711,
+        "freshnessDays": 9,
+        "score": 0.898234
+      }
+    },
+    {
+      "id": "firewall",
+      "name": "Firewall",
+      "description": "Firewall rules and outbound connection control",
+      "eligibleCount": 5,
+      "winner": {
+        "id": "io.github.chris.snitch",
+        "name": "Snitch",
+        "description": "Live per-app outbound connection map with country flags and one-key per-app firewall blocks.",
+        "author": "chris",
+        "category": "System",
+        "repository": "https://github.com/ccdwyer/omarchy-snitch",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.chris.snitch",
+        "installCommand": "omarchy plugin add https://github.com/ccdwyer/omarchy-snitch.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-21T03:28:57.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/7-ccdwyer-omarchy-snitch-card.webp",
+        "previewWidth": 720,
+        "previewHeight": 405,
+        "localImage": "assets/plugins/io.github.chris.snitch-89a36e96b5.webp",
+        "metrics": {
+          "copies": 98,
+          "hearts": 8,
+          "stars": 1,
+          "views": 504
+        },
+        "normalized": {
+          "copies": 0.958101,
+          "hearts": 0.779051,
+          "stars": 0.63743,
+          "views": 0.958101,
+          "freshness": 0.947236,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.344916,
+          "hearts": 0.15581,
+          "stars": 0.114737,
+          "views": 0.076648,
+          "freshness": 0.123141,
+          "verified": 0.05
+        },
+        "evidence": 0.916201,
+        "freshnessDays": 14,
+        "score": 0.865252
+      },
+      "runnerUp": {
+        "id": "io.github.sahzudin.omawall",
+        "name": "Omawall",
+        "description": "View and manage the Omarchy UFW firewall from the bar.",
+        "author": "Sahzudin Mahmic",
+        "category": "System",
+        "repository": "https://github.com/sahzudin/omawall",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.sahzudin.omawall",
+        "installCommand": "omarchy plugin add https://github.com/sahzudin/omawall.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-22T06:42:26.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-sahzudin-omawall-card.webp",
+        "previewWidth": 592,
+        "previewHeight": 720,
+        "localImage": "assets/plugins/io.github.sahzudin.omawall-046383de66.webp",
+        "metrics": {
+          "copies": 81,
+          "hearts": 7,
+          "stars": 1,
+          "views": 269
+        },
+        "normalized": {
+          "copies": 0.781752,
+          "hearts": 0.602467,
+          "stars": 0.634134,
+          "views": 0.768592,
+          "freshness": 0.951383,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.281431,
+          "hearts": 0.120493,
+          "stars": 0.114144,
+          "views": 0.061487,
+          "freshness": 0.12368,
+          "verified": 0.05
+        },
+        "evidence": 0.894227,
+        "freshnessDays": 12,
+        "score": 0.751235
+      }
+    },
+    {
+      "id": "dev-ports",
+      "name": "Dev Ports",
+      "description": "Local development ports and listening servers",
+      "eligibleCount": 7,
+      "winner": {
+        "id": "zeru.portwatch",
+        "name": "Port Watch",
+        "description": "Shows local listening ports/dev servers in the bar with a popup to stop them",
+        "author": "ZerubbabelT",
+        "category": "Developer Tools",
+        "repository": "https://github.com/ZerubbabelT/portwatch",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=zeru.portwatch",
+        "installCommand": "omarchy plugin add https://github.com/ZerubbabelT/portwatch.git --enable",
+        "verificationStatus": "verified",
+        "license": "See repository",
+        "repositoryUpdatedAt": "2026-09-02T14:54:21.000Z",
+        "previewSource": null,
+        "previewWidth": null,
+        "previewHeight": null,
+        "localImage": null,
+        "metrics": {
+          "copies": 141,
+          "hearts": 6,
+          "stars": 37,
+          "views": 337
+        },
+        "normalized": {
+          "copies": 0.96588,
+          "hearts": 0.811778,
+          "stars": 0.96588,
+          "views": 0.856294,
+          "freshness": 0.993855,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.347717,
+          "hearts": 0.162356,
+          "stars": 0.173858,
+          "views": 0.068504,
+          "freshness": 0.129201,
+          "verified": 0.05
+        },
+        "evidence": 0.93176,
+        "freshnessDays": 1,
+        "score": 0.931636
+      },
+      "runnerUp": {
+        "id": "io.github.mich-nduka.omaports",
+        "name": "Omaports",
+        "description": "Open dev ports on localhost in the Omarchy bar: which project holds which port, what is reachable beyond this machine, and a way to close it.",
+        "author": "Mich Nduka",
+        "category": "Developer Tools",
+        "repository": "https://github.com/mich-nduka/omaports",
+        "detailUrl": "https://plugins.omarchy.org/plugin.html?id=io.github.mich-nduka.omaports",
+        "installCommand": "omarchy plugin add https://github.com/mich-nduka/omaports.git --enable",
+        "verificationStatus": "verified",
+        "license": "MIT",
+        "repositoryUpdatedAt": "2026-08-21T11:25:00.000Z",
+        "previewSource": "https://plugins.omarchy.org/assets/img/plugins/10-mich-nduka-omaports-card.webp",
+        "previewWidth": 442,
+        "previewHeight": 444,
+        "localImage": "assets/plugins/io.github.mich-nduka.omaports-c83463db76.webp",
+        "metrics": {
+          "copies": 100,
+          "hearts": 11,
+          "stars": 1,
+          "views": 296
+        },
+        "normalized": {
+          "copies": 0.836494,
+          "hearts": 0.956459,
+          "stars": 0.480402,
+          "views": 0.736519,
+          "freshness": 0.948443,
+          "verified": 1
+        },
+        "contributions": {
+          "copies": 0.301138,
+          "hearts": 0.191292,
+          "stars": 0.086472,
+          "views": 0.058922,
+          "freshness": 0.123298,
+          "verified": 0.05
+        },
+        "evidence": 0.912917,
+        "freshnessDays": 13,
+        "score": 0.811122
       }
     }
   ]
