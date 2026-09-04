@@ -570,6 +570,13 @@ test("screensavers ranks actual savers, not suppressors or togglers", async () =
       description: "Bar toggle that switches the screensaver and idle screen lock off and on."
     }).includes("screensavers")
   );
+  assert.ok(
+    !typesOf({
+      id: "idle-screencounter",
+      name: "Idle Screen Counter",
+      description: "A theme-aware split-flap countdown before Omarchy starts the screensaver."
+    }).includes("screensavers")
+  );
 });
 
 test("power-menu, plugin-manager, firewall and dev-ports rank their own clusters", async () => {
@@ -606,6 +613,20 @@ test("power-menu, plugin-manager, firewall and dev-ports rank their own clusters
       id: "plugin-guard",
       name: "Plugin Guard",
       description: "Security scanner for your installed Omarchy plugins — static behavior analysis with an offline report."
+    }).includes("plugin-manager")
+  );
+  assert.ok(
+    !typesOf({
+      id: "plugin-pulse",
+      name: "Plugin Pulse",
+      description: "Local runtime observability for enabled Omarchy plugins, their processes, reloads, source cues, and shell errors."
+    }).includes("plugin-manager")
+  );
+  assert.ok(
+    !typesOf({
+      id: "plugin-settings",
+      name: "Plugin Settings",
+      description: "Configure the Omarchy shell and schema-enabled plugins."
     }).includes("plugin-manager")
   );
 

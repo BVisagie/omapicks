@@ -254,7 +254,8 @@
         "\\b(keeps?|prevent\\w*|block\\w*|inhibit\\w*|suppress\\w*|disable\\w*|pause\\w*)[^.]{0,45}screensaver",
         "\\bscreensaver[^.]{0,30}(off and on|away)\\b",
         "\\b(timeouts?|timing control|idle cycle|idle service|wake locks?)\\b",
-        "\\b(suspend|hibernate|sleep)\\b"
+        "\\b(suspend|hibernate|sleep)\\b",
+        "\\bcountdown before\\b"
       ]
     },
     {
@@ -268,7 +269,7 @@
       "id": "plugin-manager",
       "name": "Plugin Manager",
       "description": "Browsing, installing, and managing Omarchy plugins",
-      "include": ["\\bplugin (manager|marketplace|store|storefront|control center|directory)\\b", "\\b(browse|install|manage|update|remove|enable|disable)[^.]{0,40}\\bplugins\\b"],
+      "include": ["\\bplugin (manager|marketplace|store|storefront|control center|directory)\\b", "\\b(browse|install|manage|update|remove|enable|disable)\\b[^.]{0,40}\\bplugins\\b"],
       "exclude": ["\\bplugin containers?\\b", "\\bdotfiles\\b", "\\b(security (review|scanner|scan)|capability scan|behavior analysis|source drift)\\b", "\\bback ?up\\b"]
     },
     {
