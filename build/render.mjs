@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
 import { cp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -42,6 +44,20 @@ const MANIFEST_ICONS = Object.freeze([
   { src: "/assets/icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
   { src: "/assets/icon-maskable-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" }
 ]);
+
+// Content-hashed names let styles.css and app.js be cached immutably: a changed file gets a new
+// URL, so a returning visitor can never run stale CSS/JS against freshly revalidated HTML.
+let assetUrlCache = null;
+function assetUrls() {
+  if (assetUrlCache) return assetUrlCache;
+  const digest = (file) =>
+    createHash("sha256").update(readFileSync(path.join(ROOT, "site", file))).digest("hex").slice(0, 10);
+  assetUrlCache = Object.freeze({
+    styles: `/assets/styles-${digest("styles.css")}.css`,
+    app: `/assets/app-${digest("app.js")}.js`
+  });
+  return assetUrlCache;
+}
 
 function iconLinks() {
   return `<link rel="icon" href="/assets/icon.svg" type="image/svg+xml" sizes="any">
@@ -318,7 +334,7 @@ function shell({ title, description, pathname, image, body, structuredData = nul
   ${iconLinks()}
   <link rel="manifest" href="/site.webmanifest">
   <link rel="alternate" type="application/rss+xml" title="OmaPicks weekly changes" href="/feed.xml">
-  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="${assetUrls().styles}">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="OmaPicks">
   <meta property="og:title" content="${escapeHtml(fullTitle)}">
@@ -333,7 +349,7 @@ function shell({ title, description, pathname, image, body, structuredData = nul
   <meta name="twitter:image" content="${ogImage}">
   <meta name="twitter:image:alt" content="${escapeHtml(image.alt ?? "OmaPicks weekly Omarchy plugin rankings")}">
   ${structuredData ? `<script type="application/ld+json">${jsonLd(structuredData)}</script>` : ""}
-  <script src="/assets/app.js" defer></script>
+  <script src="${assetUrls().app}" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -939,8 +955,8 @@ export async function render({ root = ROOT } = {}) {
   await rm(DIST, { recursive: true, force: true });
   await mkdir(path.join(DIST, "assets"), { recursive: true });
   await mkdir(path.join(DIST, "og"), { recursive: true });
-  await cp(path.join(ROOT, "site", "styles.css"), path.join(DIST, "assets", "styles.css"));
-  await cp(path.join(ROOT, "site", "app.js"), path.join(DIST, "assets", "app.js"));
+  await cp(path.join(ROOT, "site", "styles.css"), path.join(DIST, assetUrls().styles.slice(1)));
+  await cp(path.join(ROOT, "site", "app.js"), path.join(DIST, assetUrls().app.slice(1)));
   await cp(path.join(ROOT, "site", "icon.svg"), path.join(DIST, "assets", "icon.svg"));
   await cp(path.join(ROOT, "site", "icon-192.png"), path.join(DIST, "assets", "icon-192.png"));
   await cp(path.join(ROOT, "site", "icon-512.png"), path.join(DIST, "assets", "icon-512.png"));
@@ -950,7 +966,13 @@ export async function render({ root = ROOT } = {}) {
   await cp(path.join(ROOT, "site", "placeholder.svg"), path.join(DIST, "assets", "placeholder.svg"));
   await cp(path.join(ROOT, "site", "og-home.jpg"), path.join(DIST, "og", "home.jpg"));
   await cp(path.join(ROOT, "site", "og-home.jpg"), path.join(DIST, "og", "terminal.jpg"));
-  await cp(path.join(ROOT, "site", "feed.xsl"), path.join(DIST, "feed.xsl"));
+  const feedStylesheet = await readFile(path.join(ROOT, "site", "feed.xsl"), "utf8");
+  await writeFile(
+    path.join(DIST, "feed.xsl"),
+    feedStylesheet
+      .replaceAll("/assets/styles.css", assetUrls().styles)
+      .replaceAll("/assets/app.js", assetUrls().app)
+  );
   await copyOptionalDirectory(path.join(ROOT, "data", "assets", "plugins"), path.join(DIST, "assets", "plugins"));
 
   await write("index.html", homePage(rankings));
@@ -1008,7 +1030,10 @@ export async function render({ root = ROOT } = {}) {
   );
   await write(
     "_headers",
-    `/assets/*\n  Cache-Control: public, max-age=604800\n/favicon.ico\n  Cache-Control: public, max-age=604800\n/apple-touch-icon.png\n  Cache-Control: public, max-age=604800\n/og/*\n  Cache-Control: public, max-age=86400\n/badges/*\n  Cache-Control: public, max-age=31536000, immutable\n/feed.xsl\n  Content-Type: text/xsl; charset=utf-8\n  Cache-Control: public, max-age=604800\n/*.xml\n  Content-Type: application/xml; charset=utf-8\n`
+    // Cloudflare merges the headers of every matching rule rather than picking the most
+    // specific one, so these patterns must not overlap: a broad /assets/* rule here would
+    // attach a second Cache-Control to the immutable fingerprinted files.
+    `/assets/styles-*.css\n  Cache-Control: public, max-age=31536000, immutable\n/assets/app-*.js\n  Cache-Control: public, max-age=31536000, immutable\n/assets/plugins/*\n  Cache-Control: public, max-age=604800\n/assets/icon.svg\n  Cache-Control: public, max-age=604800\n/assets/icon-*.png\n  Cache-Control: public, max-age=604800\n/assets/placeholder.svg\n  Cache-Control: public, max-age=604800\n/favicon.ico\n  Cache-Control: public, max-age=604800\n/apple-touch-icon.png\n  Cache-Control: public, max-age=604800\n/og/*\n  Cache-Control: public, max-age=86400\n/badges/*\n  Cache-Control: public, max-age=31536000, immutable\n/feed.xsl\n  Content-Type: text/xsl; charset=utf-8\n  Cache-Control: public, max-age=604800\n/*.xml\n  Content-Type: application/xml; charset=utf-8\n`
   );
   await write("_routes.json", `${JSON.stringify(FUNCTION_ROUTES, null, 2)}\n`);
   await write(

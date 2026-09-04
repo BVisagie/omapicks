@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { readFile, stat } from "node:fs/promises";
 import test from "node:test";
 import {
@@ -512,7 +513,7 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.match(feedXsl, /class="page-section"/);
   assert.match(feedXsl, /class="page-lede"/);
   assert.match(feedXsl, /class="page-wrap"/);
-  assert.match(feedXsl, /href="\/assets\/styles\.css"/);
+  assert.match(feedXsl, /href="\/assets\/styles-[a-f0-9]{10}\.css"/);
   assert.match(feedXsl, /href="\/feed\.xml" aria-current="page">RSS/);
   assert.match(feedXsl, /data-theme-toggle/);
   assert.match(feedXsl, /xsl:attribute name="href"/);
@@ -522,6 +523,39 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.doesNotMatch(feedXsl, /min\(760px/);
   assert.match(headers, /\/feed\.xsl\n  Content-Type: text\/xsl; charset=utf-8/);
   assert.match(headers, /immutable/);
+
+  // Cache busting: styles.css and app.js ship under content-hashed names so they can be
+  // served immutable without ever pinning a returning visitor to stale CSS/JS.
+  const stylesHref = home.match(/href="(\/assets\/styles-[a-f0-9]{10}\.css)"/)?.[1];
+  const appSrc = home.match(/src="(\/assets\/app-[a-f0-9]{10}\.js)"/)?.[1];
+  assert.ok(stylesHref, "home should link a fingerprinted stylesheet");
+  assert.ok(appSrc, "home should load a fingerprinted script");
+
+  // The hash must be derived from the file's bytes, otherwise it cannot bust anything.
+  const digestOf = async (file) =>
+    createHash("sha256")
+      .update(await readFile(new URL(`../site/${file}`, import.meta.url)))
+      .digest("hex")
+      .slice(0, 10);
+  assert.equal(stylesHref, `/assets/styles-${await digestOf("styles.css")}.css`);
+  assert.equal(appSrc, `/assets/app-${await digestOf("app.js")}.js`);
+
+  // The hashed files are the ones actually published, and the unhashed names are gone.
+  await stat(new URL(`../dist${stylesHref}`, import.meta.url));
+  await stat(new URL(`../dist${appSrc}`, import.meta.url));
+  await assert.rejects(() => stat(new URL("../dist/assets/styles.css", import.meta.url)));
+  await assert.rejects(() => stat(new URL("../dist/assets/app.js", import.meta.url)));
+
+  // The RSS stylesheet is templated too, so it cannot drift from the markup.
+  assert.ok(feedXsl.includes(stylesHref));
+  assert.ok(feedXsl.includes(appSrc));
+  assert.doesNotMatch(feedXsl, /\/assets\/(styles\.css|app\.js)/);
+
+  assert.match(headers, /\/assets\/styles-\*\.css\n  Cache-Control: public, max-age=31536000, immutable/);
+  assert.match(headers, /\/assets\/app-\*\.js\n  Cache-Control: public, max-age=31536000, immutable/);
+  // Cloudflare merges every matching rule's headers instead of taking the most specific one,
+  // so a broad /assets/* rule would attach a second Cache-Control to the immutable files.
+  assert.doesNotMatch(headers, /^\/assets\/\*$/m);
   const publishedRoutes = JSON.parse(routes);
   assert.deepEqual(publishedRoutes.include, ["/*"]);
   assert.ok(publishedRoutes.exclude.includes("/assets/*"));
