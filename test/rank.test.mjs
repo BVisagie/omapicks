@@ -41,7 +41,7 @@ function plugin(id, values = {}) {
 test("the production taxonomy is valid and intentionally broad", async () => {
   const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
   const prepared = prepareTaxonomy(source);
-  assert.equal(prepared.types.length, 35);
+  assert.equal(prepared.types.length, 41);
   assert.equal(new Set(prepared.types.map((type) => type.id)).size, prepared.types.length);
 });
 
@@ -375,6 +375,272 @@ test("smart-home include catches WLED and key lights previously excluded from Br
       description: "Elgato Key Light control: power, brightness, and color temperature for one or many lights."
     }),
     ["smart-home"]
+  );
+});
+
+test("vpn matches provider names that fuse the acronym onto a prefix", async () => {
+  const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
+  const prepared = prepareTaxonomy(source);
+  const typesOf = (values) => classifyPlugin(plugin(values.id, values), prepared);
+
+  // "\bvpn\b" could never match these: there is no word boundary before "vpn".
+  assert.deepEqual(
+    typesOf({
+      id: "ivpn",
+      name: "IVPN",
+      description: "Connect, disconnect and pick a server for IVPN from the Omarchy bar."
+    }),
+    ["vpn"]
+  );
+  assert.deepEqual(
+    typesOf({ id: "eduvpn", name: "eduVPN", description: "A focused eduVPN controller for the Omarchy bar." }),
+    ["vpn"]
+  );
+});
+
+test("music matches hyphenated now-playing, and screenshots matches reversed record wording", async () => {
+  const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
+  const prepared = prepareTaxonomy(source);
+  const typesOf = (values) => classifyPlugin(plugin(values.id, values), prepared);
+
+  assert.deepEqual(
+    typesOf({ id: "omadeezer", name: "OmaDeezer", description: "Deezer now-playing widget with playback controls" }),
+    ["music"]
+  );
+  assert.deepEqual(
+    typesOf({
+      id: "omascreen",
+      name: "Omascreen",
+      description: "Record your screen and cut it into a finished video — capture, timeline, layers, subtitles and render."
+    }),
+    ["screenshots"]
+  );
+  assert.ok(
+    !typesOf({
+      id: "privacy-devices",
+      name: "Privacy Devices",
+      description:
+        "Unified, configurable privacy indicators for microphones, audio playback, cameras, screen sharing, screenshots, screen recording, and location access."
+    }).includes("screenshots")
+  );
+});
+
+test("lock-idle covers lid, session-lock and idle-timeout wording", async () => {
+  const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
+  const prepared = prepareTaxonomy(source);
+  const typesOf = (values) => classifyPlugin(plugin(values.id, values), prepared);
+
+  assert.deepEqual(
+    typesOf({
+      id: "sandman",
+      name: "Sandman",
+      description: "Set lid-close actions and when your screen rests, locks, sleeps, and hibernates."
+    }),
+    ["lock-idle"]
+  );
+  assert.deepEqual(
+    typesOf({
+      id: "locksigil",
+      name: "LockSigil",
+      description: "Quickshell session lock with separate password and fingerprint PAM flows."
+    }),
+    ["lock-idle"]
+  );
+  // A screensaver *timing* tool belongs here, not in the Screensavers ranking.
+  const ristretto = typesOf({
+    id: "ristretto",
+    name: "Ristretto",
+    description: "Screensaver, lock, and sleep-after-idle-lock timing control."
+  });
+  assert.ok(ristretto.includes("lock-idle"));
+  assert.ok(!ristretto.includes("screensavers"));
+});
+
+test("ai-api-usage covers agent and subscription usage without swallowing cloud dashboards", async () => {
+  const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
+  const prepared = prepareTaxonomy(source);
+  const typesOf = (values) => classifyPlugin(plugin(values.id, values), prepared);
+
+  assert.ok(
+    typesOf({
+      id: "agent-usage-plus",
+      name: "Agent Usage Plus",
+      description: "Live AI coding-subscription usage, limits, API-rate estimates, and token history in a native bar panel."
+    }).includes("ai-api-usage")
+  );
+  assert.ok(
+    typesOf({
+      id: "token-maxxer-hub",
+      name: "Token Maxxer Hub",
+      description: "A local-first multi-account usage hub for sessions, quotas, balances, and alerts across 17 AI integrations."
+    }).includes("ai-api-usage")
+  );
+  assert.ok(
+    !typesOf({
+      id: "cloudflare",
+      name: "Cloudflare",
+      description: "Cloudflare account resources, deployment status, usage meters, and dashboard token shortcuts in the bar."
+    }).includes("ai-api-usage")
+  );
+});
+
+test("radio ranks streaming players without ham radio, autoplay radio, or radio-effect players", async () => {
+  const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
+  const prepared = prepareTaxonomy(source);
+  const typesOf = (values) => classifyPlugin(plugin(values.id, values), prepared);
+
+  assert.deepEqual(
+    typesOf({
+      id: "radio-atlas",
+      name: "Radio Atlas",
+      description: "Explore live radio on a rotatable globe and play stations through Omarchy's media controls."
+    }),
+    ["radio"]
+  );
+  assert.ok(
+    typesOf({
+      id: "radiogram",
+      name: "Radiogram",
+      description: "Control Radiogram web radio from the Omarchy bar. Shows the current station and play/pause state."
+    }).includes("radio")
+  );
+  assert.ok(
+    !typesOf({
+      id: "qrz",
+      name: "QRZ",
+      description: "Look up amateur radio callsigns on QRZ.com from the bar or a keyboard shortcut"
+    }).includes("radio")
+  );
+  assert.ok(
+    !typesOf({
+      id: "ham-radio",
+      name: "Ham Radio",
+      description: "HF band conditions in the Omarchy bar: which band is open now, day and night, with the solar index."
+    }).includes("radio")
+  );
+  assert.ok(
+    !typesOf({
+      id: "yt-mini",
+      name: "YT Mini",
+      description: "Small floating YouTube window owned by the Omarchy shell: clipboard handoff, playlists, radio auto-advance."
+    }).includes("radio")
+  );
+  // A music player that merely *sounds* like a radio is not a radio player.
+  const omampy = typesOf({
+    id: "omampy",
+    name: "OMAMPY",
+    description: "A local music player that makes your files sound like a 1980s MW/SW radio broadcast."
+  });
+  assert.ok(omampy.includes("music"));
+  assert.ok(!omampy.includes("radio"));
+});
+
+test("screensavers ranks actual savers, not suppressors or togglers", async () => {
+  const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
+  const prepared = prepareTaxonomy(source);
+  const typesOf = (values) => classifyPlugin(plugin(values.id, values), prepared);
+
+  assert.deepEqual(
+    typesOf({
+      id: "nvim-screensaver",
+      name: "Nvim Screensaver",
+      description: "Screensaver that replays your recent git commits as a live Neovim editing session"
+    }),
+    ["screensavers"]
+  );
+  assert.ok(
+    typesOf({
+      id: "omarcharium",
+      name: "Omarcharium",
+      description: "A living TTE-inspired tropical aquarium screensaver with a tray-hosted control room."
+    }).includes("screensavers")
+  );
+  assert.ok(
+    !typesOf({
+      id: "hey-im-gaming-here",
+      name: "Hey! I'm Gaming Here!",
+      description:
+        "Detects Steam/Lutris/Heroic/Bottles game sessions and keeps the screensaver and lock screen off while you're actually playing."
+    }).includes("screensavers")
+  );
+  assert.ok(
+    !typesOf({
+      id: "screensaver-and-lock",
+      name: "Screensaver & Lock",
+      description: "Bar toggle that switches the screensaver and idle screen lock off and on."
+    }).includes("screensavers")
+  );
+});
+
+test("power-menu, plugin-manager, firewall and dev-ports rank their own clusters", async () => {
+  const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
+  const prepared = prepareTaxonomy(source);
+  const typesOf = (values) => classifyPlugin(plugin(values.id, values), prepared);
+
+  assert.deepEqual(
+    typesOf({
+      id: "simple-power-menu",
+      name: "Simple Power Menu",
+      description: "A compact, customizable power menu anchored to the Omarchy bar"
+    }),
+    ["power-menu"]
+  );
+  // Excluded by id override: a dock whose "System menu" mention is incidental.
+  assert.ok(
+    !typesOf({
+      id: "primo.dock",
+      name: "PrimoDock",
+      description: "Application dock for Omarchy. A Super-held System menu handles pinning and custom icon overrides."
+    }).includes("power-menu")
+  );
+
+  assert.ok(
+    typesOf({
+      id: "okomart",
+      name: "Okomart",
+      description: "Browse, install, enable, disable, update, and remove Omarchy plugins from a storefront interface"
+    }).includes("plugin-manager")
+  );
+  assert.ok(
+    !typesOf({
+      id: "plugin-guard",
+      name: "Plugin Guard",
+      description: "Security scanner for your installed Omarchy plugins — static behavior analysis with an offline report."
+    }).includes("plugin-manager")
+  );
+
+  assert.deepEqual(
+    typesOf({ id: "omawall", name: "Omawall", description: "View and manage the Omarchy UFW firewall from the bar." }),
+    ["firewall"]
+  );
+  assert.ok(
+    !typesOf({
+      id: "windscribe",
+      name: "Windscribe",
+      description: "Windscribe controls for Omarchy in a terminal-grade panel: one-key connect, live traffic, firewall."
+    }).includes("firewall")
+  );
+
+  assert.ok(
+    typesOf({
+      id: "portboard",
+      name: "Portboard",
+      description: "Summonable panel of listening localhost ports with owning process and cwd."
+    }).includes("dev-ports")
+  );
+  assert.ok(
+    typesOf({
+      id: "harbor",
+      name: "Harbor",
+      description: "Answers the EADDRINUSE moment: type a port to learn it's free, get the next free port, and kill it."
+    }).includes("dev-ports")
+  );
+  assert.ok(
+    !typesOf({
+      id: "my-network",
+      name: "My Network",
+      description: "Scans the local subnet and identifies every device on it: name, vendor, model, mDNS and open ports."
+    }).includes("dev-ports")
   );
 });
 

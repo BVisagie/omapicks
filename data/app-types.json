@@ -12,7 +12,7 @@
       "id": "vpn",
       "name": "VPN",
       "description": "VPN status, connection, and privacy controls",
-      "include": ["\\b(vpn|wireguard|openvpn|tailscale|proton\\s?vpn|mullvad)\\b"]
+      "include": ["vpn\\b", "\\b(wireguard|tailscale|mullvad|windscribe|cloudflare warp)\\b"]
     },
     {
       "id": "mail",
@@ -25,14 +25,14 @@
       "id": "music",
       "name": "Music",
       "description": "Music playback and now-playing controls",
-      "include": ["\\b(spotify|music|mpris|playerctl|now playing|media player)\\b"],
+      "include": ["\\b(spotify|music|mpris|playerctl|now[- ]playing|media player)\\b", "\\bidentify the song\\b"],
       "exclude": ["\\bvideo wall\\b"]
     },
     {
       "id": "weather",
       "name": "Weather",
       "description": "Forecasts and current conditions",
-      "include": ["\\b(weather|forecast|temperature outside|meteo|precipitation)\\b"]
+      "include": ["\\b(weather|forecast|temperature outside|meteo|precipitation)\\b", "\\b(counts? down to rain|rain (starts|begins|expected)|chance of rain|rainfall|rain radar)\\b"]
     },
     {
       "id": "battery",
@@ -45,7 +45,7 @@
       "id": "clipboard",
       "name": "Clipboard",
       "description": "Clipboard history and quick paste tools",
-      "include": ["\\b(clipboard|cliphist|copy history|paste history)\\b"]
+      "include": ["\\b(clipboard|cliphist|copy history|paste history)\\b", "\\bcopy (tracker|action)\\b", "\\bre-copy\\b"]
     },
     {
       "id": "launcher",
@@ -97,7 +97,7 @@
       "id": "lock-idle",
       "name": "Lock & Idle",
       "description": "Screen locking, idle behavior, and sleep prevention",
-      "include": ["\\b(lock screen|screen lock(?:er|ing)?|idle inhibit(?:or|ion)?|idle manager|idle timeout)\\b", "\\b(prevent|disable|inhibit) (?:system )?(sleep|suspend|idle)\\b", "\\b(stay awake|keep awake|no sleep|caffeine|hypridle|hyprlock)\\b"],
+      "include": ["\\b(lock screen|screen lock(?:er|ing)?|idle inhibit(?:or|ion)?|idle manager|idle timeout)\\b", "\\b(prevent|disable|inhibit) (?:system )?(sleep|suspend|idle)\\b", "\\b(stay awake|keep awake|no sleep|caffeine|hypridle|hyprlock)\\b", "\\bsession lock\\b", "\\blid[- ](close|action|switch)\\b", "\\bhibernat\\w+", "\\bauto[- ]suspend\\b", "\\b(idle|lock|screensaver)[^.]{0,25}\\btimeouts?\\b", "\\bsleep[- ]after[- ]idle\\b"],
       "exclude": ["\\bpassword manager\\b", "\\b(caps lock|rotation lock|screen auto-rotate|keyboard backlight)\\b"]
     },
     {
@@ -156,7 +156,8 @@
       "id": "screenshots",
       "name": "Screenshots & Recording",
       "description": "Screenshots, screen recording, and OCR capture",
-      "include": ["\\b(screenshot|screen capture|screen record|screen recorder|ocr|grimblast|slurp)\\b"]
+      "include": ["\\b(screenshot|screen capture|screen record|screen recorder|ocr|grimblast|slurp)\\b", "\\brecord (?:your |the )?(?:screen|desktop)\\b", "\\bscreen[- ]?recording\\b"],
+      "exclude": ["\\bprivacy (indicators?|alerts?)\\b"]
     },
     {
       "id": "wallpaper",
@@ -188,7 +189,7 @@
       "id": "ai-api-usage",
       "name": "AI & API Usage",
       "description": "AI model quotas, token usage, and API spending",
-      "include": ["\\b(ai|model|token|llm) (usage|quota|limits?|spend|costs?|credits?)\\b", "\\b(claude|cursor|codex|opencode|openrouter|gemini|cline|copilot|grok) (usage|quota|limits?|spend|costs?|credits?)\\b", "\\b(codexbar|usagebar)\\b"]
+      "include": ["\\b(ai|model|token|llm) (usage|quota|limits?|spend|costs?|credits?)\\b", "\\b(claude|cursor|codex|opencode|openrouter|gemini|cline|copilot|grok) (usage|quota|limits?|spend|costs?|credits?)\\b", "\\b(codexbar|usagebar)\\b", "\\b(agent|subscription|api) usage\\b", "\\busage (hub|collectors?|stats)\\b", "\\bquota (records?|balances?)\\b", "\\btoken history\\b"]
     },
     {
       "id": "smart-home",
@@ -236,6 +237,60 @@
       "name": "System Updates",
       "description": "Arch package updates and update notifications",
       "include": ["\\b(system|package|arch|aur) updates?\\b", "\\b(pacman|yay|paru) updates?\\b", "\\bupdate checker\\b"]
+    },
+    {
+      "id": "radio",
+      "name": "Radio",
+      "description": "Internet and streaming radio players",
+      "include": ["\\bradio\\b"],
+      "exclude": ["\\b(amateur|ham) radio\\b", "\\bcallsigns?\\b", "\\bband conditions\\b", "\\bradio (exam|quiz|licen[cs]e)\\b", "\\bradio auto-advance\\b", "\\bradio broadcast\\b"]
+    },
+    {
+      "id": "screensavers",
+      "name": "Screensavers",
+      "description": "Screensavers and idle-screen visuals",
+      "include": ["\\bscreensavers?\\b"],
+      "exclude": [
+        "\\b(keeps?|prevent\\w*|block\\w*|inhibit\\w*|suppress\\w*|disable\\w*|pause\\w*)[^.]{0,45}screensaver",
+        "\\bscreensaver[^.]{0,30}(off and on|away)\\b",
+        "\\b(timeouts?|timing control|idle cycle|idle service|wake locks?)\\b",
+        "\\b(suspend|hibernate|sleep)\\b"
+      ]
+    },
+    {
+      "id": "power-menu",
+      "name": "Power & Session",
+      "description": "Power menus, session actions, and shutdown controls",
+      "include": ["\\bpower (menu|button|glyph|actions?)\\b", "\\bsession menu\\b", "\\b(timed|scheduled?) shutdown\\b"],
+      "exclude": ["\\bpower (management|manager|profiles?)\\b"]
+    },
+    {
+      "id": "plugin-manager",
+      "name": "Plugin Manager",
+      "description": "Browsing, installing, and managing Omarchy plugins",
+      "include": ["\\bplugin (manager|marketplace|store|storefront|control center|directory)\\b", "\\b(browse|install|manage|update|remove|enable|disable)[^.]{0,40}\\bplugins\\b"],
+      "exclude": ["\\bplugin containers?\\b", "\\bdotfiles\\b", "\\b(security (review|scanner|scan)|capability scan|behavior analysis|source drift)\\b", "\\bback ?up\\b"]
+    },
+    {
+      "id": "firewall",
+      "name": "Firewall",
+      "description": "Firewall rules and outbound connection control",
+      "include": ["\\b(firewall|ufw|iptables|nftables)\\b", "\\boutbound connections?\\b"],
+      "exclude": ["vpn", "\\bwindscribe\\b", "\\bsystem services\\b"]
+    },
+    {
+      "id": "dev-ports",
+      "name": "Dev Ports",
+      "description": "Local development ports and listening servers",
+      "include": [
+        "\\b(dev|development|listening|open|tcp|local) ports?\\b",
+        "\\b(listening|localhost|dev servers?)[^.]{0,25}\\bports?\\b",
+        "\\bports?[^.]{0,35}\\b(localhost|dev servers?|listening)\\b",
+        "\\bport (manager|watch|board)\\b",
+        "\\beaddrinuse\\b",
+        "\\bfree port\\b"
+      ],
+      "exclude": ["\\b(subnet|mdns|mac vendor|icmp)\\b", "\\b(wayland|hyprland|linux) port\\b", "\\bdpi presets?\\b"]
     }
   ],
   "overrides": {
@@ -243,7 +298,11 @@
     "exclude": {
       "monorkin.voyager-disco": ["color-picker"],
       "network-speed": ["color-picker"],
-      "io.github.aryagorjipour.nitro-keyboard": ["color-picker"]
+      "io.github.aryagorjipour.nitro-keyboard": ["color-picker"],
+      "primo.dock": ["power-menu"],
+      "perfektnacht.omatower-defense": ["screensavers"],
+      "rookepoole.oligarchy-tax-department": ["screensavers"],
+      "modoterra.omabench": ["dev-ports"]
     }
   }
 }
