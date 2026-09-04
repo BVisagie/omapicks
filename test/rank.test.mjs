@@ -183,7 +183,7 @@ test("production taxonomy covers recurring jobs without bleeding into adjacent c
   );
 });
 
-test("mini-games, notes, and password-manager cover real clusters without bleeding into sports, journald, or VPN plugins", async () => {
+test("mini-games ranks playable games without trainers, sports widgets, or chess stats", async () => {
   const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
   const prepared = prepareTaxonomy(source);
   const typesOf = (values) => classifyPlugin(plugin(values.id, values), prepared);
@@ -198,11 +198,33 @@ test("mini-games, notes, and password-manager cover real clusters without bleedi
   );
   assert.deepEqual(
     typesOf({
+      id: "omarchy-chess",
+      name: "Omarchy Chess",
+      description: "Native, theme-aware chess for Omarchy with computer and local two-player modes."
+    }),
+    ["mini-games"]
+  );
+  assert.deepEqual(
+    typesOf({
+      id: "jhgundersen.snake",
+      name: "Snake",
+      description: "Something to do while the build's compiling and the agent's still thinking. Snake, in your top bar."
+    }),
+    ["mini-games"]
+  );
+  assert.ok(
+    !typesOf({
       id: "omachess",
       name: "Omachess",
       description: "Chess.com in your Omarchy bar: live rating pill, a popup with bullet/blitz/rapid results."
-    }),
-    ["mini-games"]
+    }).includes("mini-games")
+  );
+  assert.ok(
+    !typesOf({
+      id: "keycade",
+      name: "Keycade",
+      description: "Keycade — a shortcut recall arcade for Omarchy. It trains the shortcuts your machine actually uses."
+    }).includes("mini-games")
   );
   assert.ok(
     !typesOf({
@@ -219,12 +241,34 @@ test("mini-games, notes, and password-manager cover real clusters without bleedi
       description: "Map any game controller's button combos to desktop shortcuts and commands."
     }).includes("mini-games")
   );
+});
+
+test("notes ranks capture tools without Hyprland scratchpads or incidental mentions", async () => {
+  const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
+  const prepared = prepareTaxonomy(source);
+  const typesOf = (values) => classifyPlugin(plugin(values.id, values), prepared);
 
   assert.deepEqual(
     typesOf({
       id: "obsidian-search",
       name: "Obsidian Search",
       description: "Search and open Obsidian notes from the Omarchy shell with fuzzy ranking, plus bases and canvases."
+    }),
+    ["notes"]
+  );
+  assert.deepEqual(
+    typesOf({
+      id: "omascratch",
+      name: "Omascratch",
+      description: "A quick-note scratchpad that docks to a screen corner."
+    }),
+    ["notes"]
+  );
+  assert.deepEqual(
+    typesOf({
+      id: "quick-capture",
+      name: "Quick Capture",
+      description: "A system-wide Markdown note capture panel for Omarchy."
     }),
     ["notes"]
   );
@@ -235,12 +279,55 @@ test("mini-games, notes, and password-manager cover real clusters without bleedi
       description: "Failed systemd units, journal errors, and coredumps in the bar."
     }).includes("notes")
   );
+  assert.ok(
+    !typesOf({
+      id: "rob.scratchpad",
+      name: "Scratchpad",
+      description: "Scratchpad occupancy indicator and toggle"
+    }).includes("notes")
+  );
+  assert.ok(
+    !typesOf({
+      id: "ianm.scratchpad",
+      name: "Scratchpad placeholders",
+      description: "Remember scratchpad apps across reboots and restore them as clickable placeholders."
+    }).includes("notes")
+  );
+  assert.ok(
+    !typesOf({
+      id: "file-picker",
+      name: "File Picker",
+      description: "Fuzzy file selector and launcher for documents, media, markdown notes, and code"
+    }).includes("notes")
+  );
+  assert.ok(
+    !typesOf({
+      id: "omarchycast",
+      name: "Omarchycast",
+      description:
+        "Keyboard launcher for Omarchy with Raycast-style calculations and markdown notes — one hotkey."
+    }).includes("notes")
+  );
+});
+
+test("password-manager ranks vaults and TOTP without file lockers, compliance desks, or VPN MFA", async () => {
+  const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
+  const prepared = prepareTaxonomy(source);
+  const typesOf = (values) => classifyPlugin(plugin(values.id, values), prepared);
 
   assert.deepEqual(
     typesOf({
       id: "bw-vault",
       name: "BW Vault",
       description: "Bitwarden vault in the Omarchy bar, powered by the bw CLI."
+    }),
+    ["password-manager"]
+  );
+  assert.deepEqual(
+    typesOf({
+      id: "firefox-passwords",
+      name: "Firefox Passwords",
+      description: "Search, view, and copy Firefox saved logins from the bar, backed by firefox_decrypt"
     }),
     ["password-manager"]
   );
@@ -252,12 +339,40 @@ test("mini-games, notes, and password-manager cover real clusters without bleedi
         "OpenVPN client for Omarchy — multi-profile .ovpn import, username/password + TOTP (MFA) challenge/response auth."
     }).includes("password-manager")
   );
+  assert.ok(
+    !typesOf({
+      id: "omavault",
+      name: "Omavault",
+      description: "A secret vault for your files: unlock it from the bar, use it, and it locks itself again."
+    }).includes("password-manager")
+  );
+  assert.ok(
+    !typesOf({
+      id: "compliantish",
+      name: "Compliantish",
+      description: "Local workstation checks for Omarchy: disk encryption, screen lock, antivirus, password manager."
+    }).includes("password-manager")
+  );
+});
+
+test("smart-home include catches WLED and key lights previously excluded from Brightness", async () => {
+  const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
+  const prepared = prepareTaxonomy(source);
+  const typesOf = (values) => classifyPlugin(plugin(values.id, values), prepared);
 
   assert.deepEqual(
     typesOf({
       id: "wled",
       name: "WLED",
       description: "Control WLED lights from the bar: power, brightness, and one click to a device's own web UI."
+    }),
+    ["smart-home"]
+  );
+  assert.deepEqual(
+    typesOf({
+      id: "elgato-keylight",
+      name: "Elgato Key Light",
+      description: "Elgato Key Light control: power, brightness, and color temperature for one or many lights."
     }),
     ["smart-home"]
   );
