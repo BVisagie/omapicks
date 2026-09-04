@@ -41,7 +41,7 @@ function plugin(id, values = {}) {
 test("the production taxonomy is valid and intentionally broad", async () => {
   const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
   const prepared = prepareTaxonomy(source);
-  assert.equal(prepared.types.length, 32);
+  assert.equal(prepared.types.length, 35);
   assert.equal(new Set(prepared.types.map((type) => type.id)).size, prepared.types.length);
 });
 
@@ -180,6 +180,86 @@ test("production taxonomy covers recurring jobs without bleeding into adjacent c
       name: "RGB Lighting",
       description: "OpenRGB peripheral lighting with color presets and brightness controls."
     }).includes("brightness")
+  );
+});
+
+test("mini-games, notes, and password-manager cover real clusters without bleeding into sports, journald, or VPN plugins", async () => {
+  const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
+  const prepared = prepareTaxonomy(source);
+  const typesOf = (values) => classifyPlugin(plugin(values.id, values), prepared);
+
+  assert.deepEqual(
+    typesOf({
+      id: "omasweeper",
+      name: "Omasweeper",
+      description: "Minesweeper for omarchy-shell, drawn like a TUI: a character grid on hairlines, base-36 guesses."
+    }),
+    ["mini-games"]
+  );
+  assert.deepEqual(
+    typesOf({
+      id: "omachess",
+      name: "Omachess",
+      description: "Chess.com in your Omarchy bar: live rating pill, a popup with bullet/blitz/rapid results."
+    }),
+    ["mini-games"]
+  );
+  assert.ok(
+    !typesOf({
+      id: "mlb-booth",
+      name: "MLB Booth",
+      description:
+        "MLB Booth makes your chosen club legible at a glance: first-pitch countdowns before games, then score and inning."
+    }).includes("mini-games")
+  );
+  assert.ok(
+    !typesOf({
+      id: "controller-control",
+      name: "Controller Control",
+      description: "Map any game controller's button combos to desktop shortcuts and commands."
+    }).includes("mini-games")
+  );
+
+  assert.deepEqual(
+    typesOf({
+      id: "obsidian-search",
+      name: "Obsidian Search",
+      description: "Search and open Obsidian notes from the Omarchy shell with fuzzy ranking, plus bases and canvases."
+    }),
+    ["notes"]
+  );
+  assert.ok(
+    !typesOf({
+      id: "cassandra",
+      name: "Cassandra",
+      description: "Failed systemd units, journal errors, and coredumps in the bar."
+    }).includes("notes")
+  );
+
+  assert.deepEqual(
+    typesOf({
+      id: "bw-vault",
+      name: "BW Vault",
+      description: "Bitwarden vault in the Omarchy bar, powered by the bw CLI."
+    }),
+    ["password-manager"]
+  );
+  assert.ok(
+    !typesOf({
+      id: "omarchy-openvpn-connect",
+      name: "Omarchy OpenVPN Connect",
+      description:
+        "OpenVPN client for Omarchy — multi-profile .ovpn import, username/password + TOTP (MFA) challenge/response auth."
+    }).includes("password-manager")
+  );
+
+  assert.deepEqual(
+    typesOf({
+      id: "wled",
+      name: "WLED",
+      description: "Control WLED lights from the bar: power, brightness, and one click to a device's own web UI."
+    }),
+    ["smart-home"]
   );
 });
 

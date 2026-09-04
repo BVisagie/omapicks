@@ -101,6 +101,13 @@
       "exclude": ["\\bpassword manager\\b", "\\b(caps lock|rotation lock|screen auto-rotate|keyboard backlight)\\b"]
     },
     {
+      "id": "password-manager",
+      "name": "Password Manager",
+      "description": "Password vaults, TOTP codes, and credential managers",
+      "include": ["\\b(bitwarden|vaultwarden|proton pass|totp|two-factor|2fa|authenticator|password manager|password vault|secret vault)\\b"],
+      "exclude": ["\\b(compliance|workstation checks?)\\b", "vpn"]
+    },
+    {
       "id": "calendar",
       "name": "Calendar",
       "description": "Calendars, events, and agenda widgets",
@@ -118,6 +125,13 @@
       "name": "Focus",
       "description": "Pomodoro, habits, tasks, and focus sessions",
       "include": ["\\b(pomodoro|focus timer|focus session|habit tracker|todo|to-do|todoist|ticktick|microsoft to do|task list)\\b"]
+    },
+    {
+      "id": "notes",
+      "name": "Notes",
+      "description": "Note-taking, scratchpads, and quick capture tools",
+      "include": ["\\bnotes\\b", "\\bobsidian\\b", "\\b(scratch ?pad|scratch note|quick note|sticky note|note-?taking|bullet journal)\\b"],
+      "exclude": ["\\b(systemd journal|journal errors|four-note|meal plan)\\b"]
     },
     {
       "id": "screen-time",
@@ -180,7 +194,7 @@
       "id": "smart-home",
       "name": "Smart Home",
       "description": "Home automation, lighting, and connected-device controls",
-      "include": ["\\b(home assistant|home automation|smart home|homekit|smartthings)\\b", "\\b(philips hue|hue lights?|smart lights?|mqtt devices?)\\b"]
+      "include": ["\\b(home assistant|home automation|smart home|homekit|smartthings)\\b", "\\b(philips hue|hue lights?|smart lights?|mqtt devices?)\\b", "\\b(wled|key lights?|litra)\\b"]
     },
     {
       "id": "github",
@@ -201,6 +215,20 @@
       "description": "Game launchers, performance, and gaming status",
       "include": ["\\b(gaming|games? launcher|steam|lutris|protondb|game mode|gamemode)\\b"],
       "exclude": ["\\bshows steam\\b"]
+    },
+    {
+      "id": "mini-games",
+      "name": "Mini-Games",
+      "description": "Playable arcade, puzzle, and mini-games in the bar or on the desktop",
+      "include": [
+        "\\b(arcade|mini-?games?|video game|game of life|tower defense|desktop pet)\\b",
+        "\\b(tetris|2048|minesweeper|solitaire|blackjack|wordle|breakout|tic-?tac-?toe|sudoku|pinball|invaders|lode runner|bubble pop|flappy (bird|pipes|bot)|snake game|play snake|snakes and ladders|skiing game)\\b",
+        "\\bchess\\b"
+      ],
+      "exclude": [
+        "\\b(nfl|mlb|nba|nhl|premier league|fantasy (football|premier)|esports|sportsbook|scoreboard|match stats|match schedule|skill training|exam quiz|typing test|sourdough)\\b",
+        "\\bgame controller\\b"
+      ]
     },
     {
       "id": "system-updates",
