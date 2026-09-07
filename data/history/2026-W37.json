@@ -47,7 +47,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-im0001gt-omarchy-hw-tooltip-card.webp",
         "previewWidth": 500,
         "previewHeight": 720,
-        "localImage": "assets/plugins/im0001gt.hw-tooltip-5c615c2e27.webp",
+        "localImage": null,
         "metrics": {
           "copies": 893,
           "hearts": 50,
@@ -89,7 +89,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-stappmus-omarchy-activity-monitor-card.webp",
         "previewWidth": 720,
         "previewHeight": 665,
-        "localImage": "assets/plugins/stappmus.activity-monitor-65142653bf.webp",
+        "localImage": null,
         "metrics": {
           "copies": 1074,
           "hearts": 37,
@@ -137,7 +137,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/10-grichard99-omaproton-vpn-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
-        "localImage": "assets/plugins/io.github.grichard99.omaproton-vpn-ec60c5e384.webp",
+        "localImage": null,
         "metrics": {
           "copies": 1126,
           "hearts": 82,
@@ -179,7 +179,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/14-jitendradara12-omaconnect-card.webp",
         "previewWidth": 709,
         "previewHeight": 473,
-        "localImage": "assets/plugins/omaconnect-fe8afd62df.webp",
+        "localImage": null,
         "metrics": {
           "copies": 792,
           "hearts": 108,
@@ -227,7 +227,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-huacnlee-omamail-card.webp",
         "previewWidth": 720,
         "previewHeight": 503,
-        "localImage": "assets/plugins/omamail-59e9896291.webp",
+        "localImage": null,
         "metrics": {
           "copies": 1584,
           "hearts": 86,
@@ -269,7 +269,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/9-jankeesvw-omarchy-gmail-inbox-card.webp",
         "previewWidth": 720,
         "previewHeight": 475,
-        "localImage": "assets/plugins/jankeesvw.gmail-inbox-2ae9497f9b.webp",
+        "localImage": null,
         "metrics": {
           "copies": 141,
           "hearts": 10,
@@ -317,7 +317,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/5-crmne-omarchy-mpris-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
-        "localImage": "assets/plugins/crmne.mpris-2328981fbf.webp",
+        "localImage": null,
         "metrics": {
           "copies": 587,
           "hearts": 23,
@@ -359,7 +359,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/10-rlimberger-omarchy-ytmusic-card.webp",
         "previewWidth": 655,
         "previewHeight": 720,
-        "localImage": "assets/plugins/quickshell.ytmusic-45aa0a8fc1.webp",
+        "localImage": null,
         "metrics": {
           "copies": 761,
           "hearts": 55,
@@ -407,7 +407,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/16-eduardodallecort-omarchy-weather-radar-card.webp",
         "previewWidth": 589,
         "previewHeight": 720,
-        "localImage": "assets/plugins/eduardodallecort.weather-radar-cfd07114cb.webp",
+        "localImage": null,
         "metrics": {
           "copies": 888,
           "hearts": 51,
@@ -449,7 +449,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-calebhat-omarchy-weather-card.webp",
         "previewWidth": 596,
         "previewHeight": 720,
-        "localImage": "assets/plugins/io.github.calebhat.weather-d82be211d0.webp",
+        "localImage": null,
         "metrics": {
           "copies": 170,
           "hearts": 11,
@@ -497,7 +497,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/14-jitendradara12-omaconnect-card.webp",
         "previewWidth": 709,
         "previewHeight": 473,
-        "localImage": "assets/plugins/omaconnect-fe8afd62df.webp",
+        "localImage": null,
         "metrics": {
           "copies": 792,
           "hearts": 108,
@@ -539,7 +539,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/10-diegopluna-omarchy-argus-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
-        "localImage": "assets/plugins/io.github.diegopluna.argus-0fb78acb96.webp",
+        "localImage": null,
         "metrics": {
           "copies": 264,
           "hearts": 26,
@@ -587,7 +587,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/14-jitendradara12-omaconnect-card.webp",
         "previewWidth": 709,
         "previewHeight": 473,
-        "localImage": "assets/plugins/omaconnect-fe8afd62df.webp",
+        "localImage": null,
         "metrics": {
           "copies": 792,
           "hearts": 108,
@@ -677,7 +677,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/11-tyrsolution-omarchy-app-launcher-card.webp",
         "previewWidth": 720,
         "previewHeight": 666,
-        "localImage": "assets/plugins/tyrsolution.app-launcher-12c1fa8aa7.webp",
+        "localImage": null,
         "metrics": {
           "copies": 391,
           "hearts": 26,
@@ -719,7 +719,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/11-omarchy-qol-plugin-control-card.webp",
         "previewWidth": 720,
         "previewHeight": 270,
-        "localImage": "assets/plugins/io.github.ilyazar.plugin-control-39d182a413.webp",
+        "localImage": null,
         "metrics": {
           "copies": 129,
           "hearts": 8,
@@ -767,7 +767,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/10-niraletter-vitals-card.webp",
         "previewWidth": 517,
         "previewHeight": 720,
-        "localImage": "assets/plugins/vitals-d921a9c368.webp",
+        "localImage": null,
         "metrics": {
           "copies": 745,
           "hearts": 34,
@@ -809,7 +809,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/10-diegopluna-omarchy-argus-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
-        "localImage": "assets/plugins/io.github.diegopluna.argus-0fb78acb96.webp",
+        "localImage": null,
         "metrics": {
           "copies": 264,
           "hearts": 26,
@@ -857,7 +857,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/5-ssupt-omarchy-audio-control-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
-        "localImage": "assets/plugins/ssupt.audio-control-ce29b33866.webp",
+        "localImage": null,
         "metrics": {
           "copies": 582,
           "hearts": 42,
@@ -899,7 +899,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/5-ssupt-omarchy-bluetooth-audio-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
-        "localImage": "assets/plugins/ssupt.bluetooth-audio-0a0d38a9bd.webp",
+        "localImage": null,
         "metrics": {
           "copies": 248,
           "hearts": 26,
@@ -947,7 +947,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/5-ssupt-omarchy-audio-control-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
-        "localImage": "assets/plugins/ssupt.audio-control-ce29b33866.webp",
+        "localImage": null,
         "metrics": {
           "copies": 582,
           "hearts": 42,
@@ -989,7 +989,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/12-mshareef-git-omavibes-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
-        "localImage": "assets/plugins/io.github.mshareef-git.omavibes-ba3d99cd2d.webp",
+        "localImage": null,
         "metrics": {
           "copies": 456,
           "hearts": 27,
@@ -1037,7 +1037,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/12-jeremylanger-omarchy-nightlight-card.webp",
         "previewWidth": 600,
         "previewHeight": 540,
-        "localImage": "assets/plugins/io.github.jeremylanger.nightlight-2c2d5d46fa.webp",
+        "localImage": null,
         "metrics": {
           "copies": 40,
           "hearts": 6,
@@ -1079,7 +1079,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-key-tone-omarchy-nightlight-card.webp",
         "previewWidth": 520,
         "previewHeight": 495,
-        "localImage": "assets/plugins/kenny.nightlight-5338488ea2.webp",
+        "localImage": null,
         "metrics": {
           "copies": 49,
           "hearts": 2,
@@ -1127,7 +1127,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/5-crmne-omarchy-hyprmoncfg-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
-        "localImage": "assets/plugins/crmne.hyprmoncfg-4972c1b7dd.webp",
+        "localImage": null,
         "metrics": {
           "copies": 5008,
           "hearts": 267,
@@ -1169,7 +1169,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-im0001gt-omarchy-screens-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
-        "localImage": "assets/plugins/im0001gt.screens-39eb03295c.webp",
+        "localImage": null,
         "metrics": {
           "copies": 933,
           "hearts": 55,
@@ -1217,7 +1217,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/9-jankeesvw-omarchy-notification-center-card.webp",
         "previewWidth": 559,
         "previewHeight": 720,
-        "localImage": "assets/plugins/jankeesvw.notification-center-ddbc259c15.webp",
+        "localImage": null,
         "metrics": {
           "copies": 2071,
           "hearts": 133,
@@ -1259,7 +1259,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/9-shavanced-omarchy-notification-center-plugin-card.webp",
         "previewWidth": 486,
         "previewHeight": 631,
-        "localImage": "assets/plugins/shavanced.notification-center-7d5a779b85.webp",
+        "localImage": null,
         "metrics": {
           "copies": 1384,
           "hearts": 68,
@@ -1307,7 +1307,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/10-sirjul1337-omarchy-lock-explorer-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
-        "localImage": "assets/plugins/io.github.sirjul1337.lock-explorer-e55a36ee2a.webp",
+        "localImage": null,
         "metrics": {
           "copies": 3238,
           "hearts": 230,
@@ -1349,7 +1349,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/4-lgse-sandman-card.webp",
         "previewWidth": 384,
         "previewHeight": 720,
-        "localImage": "assets/plugins/lgse.sandman-7a3f72e0b5.webp",
+        "localImage": null,
         "metrics": {
           "copies": 324,
           "hearts": 35,
@@ -1397,7 +1397,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/9-elevate08-qs-bitwarden-cli-card.webp",
         "previewWidth": 720,
         "previewHeight": 585,
-        "localImage": "assets/plugins/io.github.elevate08.qs-bitwarden-cli-9adce0c9d5.webp",
+        "localImage": null,
         "metrics": {
           "copies": 489,
           "hearts": 40,
@@ -1439,7 +1439,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/10-salemsayed-omawarden-card.webp",
         "previewWidth": 720,
         "previewHeight": 450,
-        "localImage": "assets/plugins/io.github.salemsayed.omawarden-f67a5bac65.webp",
+        "localImage": null,
         "metrics": {
           "copies": 96,
           "hearts": 11,
@@ -1487,7 +1487,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/5-tmn73-omarchy-calendar-card.webp",
         "previewWidth": 641,
         "previewHeight": 643,
-        "localImage": "assets/plugins/tmn73.calendar-f53589b42f.webp",
+        "localImage": null,
         "metrics": {
           "copies": 959,
           "hearts": 64,
@@ -1529,7 +1529,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/15-sirwizardlizard-omarchy-caldav-calendar-card.webp",
         "previewWidth": 720,
         "previewHeight": 403,
-        "localImage": "assets/plugins/sirwizardlizard.calendar-940eb81a1a.webp",
+        "localImage": null,
         "metrics": {
           "copies": 121,
           "hearts": 19,
@@ -1577,7 +1577,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/7-pnkm0nk-omodoro-card.webp",
         "previewWidth": 720,
         "previewHeight": 378,
-        "localImage": "assets/plugins/pnkm0nk.omodoro-13fa17a5e4.webp",
+        "localImage": null,
         "metrics": {
           "copies": 287,
           "hearts": 19,
@@ -1619,7 +1619,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/7-sspaeti-omarchy-timezones-plugin-card.webp",
         "previewWidth": 720,
         "previewHeight": 185,
-        "localImage": "assets/plugins/io.github.sspaeti.timezones-ecfc8edd0c.webp",
+        "localImage": null,
         "metrics": {
           "copies": 258,
           "hearts": 46,
@@ -1667,7 +1667,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/7-pnkm0nk-omodoro-card.webp",
         "previewWidth": 720,
         "previewHeight": 378,
-        "localImage": "assets/plugins/pnkm0nk.omodoro-13fa17a5e4.webp",
+        "localImage": null,
         "metrics": {
           "copies": 287,
           "hearts": 19,
@@ -1709,7 +1709,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/10-pjgeutjens-omarchy-clockwork-card.webp",
         "previewWidth": 430,
         "previewHeight": 435,
-        "localImage": "assets/plugins/io.github.pjgeutjens.clockwork-63633c45f1.webp",
+        "localImage": null,
         "metrics": {
           "copies": 253,
           "hearts": 15,
@@ -1757,7 +1757,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/12-huligabuliga-omasticky-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
-        "localImage": "assets/plugins/io.github.huligabuliga.omasticky-f8fda23e15.webp",
+        "localImage": null,
         "metrics": {
           "copies": 104,
           "hearts": 11,
@@ -1799,7 +1799,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/11-lucanerlich-obsidian-daily-qs-card.webp",
         "previewWidth": 542,
         "previewHeight": 720,
-        "localImage": "assets/plugins/luca.obsidian-daily-decc197a17.webp",
+        "localImage": null,
         "metrics": {
           "copies": 91,
           "hearts": 14,
@@ -1847,7 +1847,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/4-ax1g-quickshell-screentime-plugin-card.webp",
         "previewWidth": 720,
         "previewHeight": 360,
-        "localImage": "assets/plugins/agx.screen-time-f3d72a021c.webp",
+        "localImage": null,
         "metrics": {
           "copies": 1203,
           "hearts": 161,
@@ -1889,7 +1889,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/9-srineshr1-omarchy-screentime-card.webp",
         "previewWidth": 720,
         "previewHeight": 446,
-        "localImage": "assets/plugins/io.github.ricky.screentime-820e04f72b.webp",
+        "localImage": null,
         "metrics": {
           "copies": 87,
           "hearts": 10,
@@ -1937,7 +1937,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/11-kristofferr-omarchy-expose-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
-        "localImage": "assets/plugins/expose.window-overview-2ed64d83ba.webp",
+        "localImage": null,
         "metrics": {
           "copies": 470,
           "hearts": 37,
@@ -1979,7 +1979,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/13-thetrueferret-omarchy-decent-workspaces-card.webp",
         "previewWidth": 720,
         "previewHeight": 296,
-        "localImage": "assets/plugins/io.github.thetrueferret.decent-workspaces-27b447702b.webp",
+        "localImage": null,
         "metrics": {
           "copies": 360,
           "hearts": 34,
@@ -2027,7 +2027,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/12-pablo-merino-omarchy-altswitch-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
-        "localImage": "assets/plugins/io.github.pablo-merino.altswitch-3bf31226ae.webp",
+        "localImage": null,
         "metrics": {
           "copies": 575,
           "hearts": 27,
@@ -2069,7 +2069,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/11-thepathless-omadock-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
-        "localImage": "assets/plugins/omadock-ad8cb67956.webp",
+        "localImage": null,
         "metrics": {
           "copies": 496,
           "hearts": 47,
@@ -2117,7 +2117,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/12-brianblakely-omashot-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
-        "localImage": "assets/plugins/b.omashot-0ea98c1c0c.webp",
+        "localImage": null,
         "metrics": {
           "copies": 85,
           "hearts": 5,
@@ -2159,7 +2159,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/9-glasschan-oma-swiss-card.webp",
         "previewWidth": 720,
         "previewHeight": 345,
-        "localImage": "assets/plugins/glasschan.oma-swiss-e9b871e055.webp",
+        "localImage": null,
         "metrics": {
           "copies": 85,
           "hearts": 9,
@@ -2207,7 +2207,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-28allday-motion-wallpaper-omarchy-card.webp",
         "previewWidth": 720,
         "previewHeight": 211,
-        "localImage": "assets/plugins/nosignal.motion-wallpaper-6b5d37cfda.webp",
+        "localImage": null,
         "metrics": {
           "copies": 395,
           "hearts": 19,
@@ -2249,7 +2249,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/12-yesheytenzin-live-wallpaper-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
-        "localImage": "assets/plugins/tenzin.live-wallpaper-0bb16ee0de.webp",
+        "localImage": null,
         "metrics": {
           "copies": 341,
           "hearts": 24,
@@ -2297,7 +2297,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-mtolhuys-omarchy-theme-manager-card.webp",
         "previewWidth": 720,
         "previewHeight": 429,
-        "localImage": "assets/plugins/io.github.mtolhuys.theme-manager-c412922c8c.webp",
+        "localImage": null,
         "metrics": {
           "copies": 489,
           "hearts": 27,
@@ -2339,7 +2339,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/5-gotar-omarchy-themes-card.webp",
         "previewWidth": 720,
         "previewHeight": 530,
-        "localImage": "assets/plugins/gotar.omarchy-themes-fa36346f7c.webp",
+        "localImage": null,
         "metrics": {
           "copies": 672,
           "hearts": 22,
@@ -2387,7 +2387,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/7-ajanraj-omarchy-chroma-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
-        "localImage": "assets/plugins/io.github.ajanraj.chroma-63acd870fd.webp",
+        "localImage": null,
         "metrics": {
           "copies": 23,
           "hearts": 1,
@@ -2429,7 +2429,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/9-arcanavox-colorhistory-card.webp",
         "previewWidth": 344,
         "previewHeight": 228,
-        "localImage": "assets/plugins/io.github.arcanavox.colorhistory-fad6913555.webp",
+        "localImage": null,
         "metrics": {
           "copies": 9,
           "hearts": 2,
@@ -2477,7 +2477,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/12-sudhanshugtm-omarchy-session-browser-card.webp",
         "previewWidth": 555,
         "previewHeight": 720,
-        "localImage": "assets/plugins/sid.sessions-745df1f813.webp",
+        "localImage": null,
         "metrics": {
           "copies": 165,
           "hearts": 18,
@@ -2519,7 +2519,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/12-meviusisback-agent-orchestr-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
-        "localImage": "assets/plugins/meviusisback.agent-orchestr-0bc4dfb0ea.webp",
+        "localImage": null,
         "metrics": {
           "copies": 148,
           "hearts": 19,
@@ -2609,7 +2609,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/7-othavi0-omarchy-agent-bar-card.webp",
         "previewWidth": 720,
         "previewHeight": 406,
-        "localImage": "assets/plugins/othavi0.agent-bar-f70e87d39f.webp",
+        "localImage": null,
         "metrics": {
           "copies": 161,
           "hearts": 20,
@@ -2657,7 +2657,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/7-konradk-hass-card.webp",
         "previewWidth": 475,
         "previewHeight": 720,
-        "localImage": "assets/plugins/hass-b14e908654.webp",
+        "localImage": null,
         "metrics": {
           "copies": 843,
           "hearts": 82,
@@ -2699,7 +2699,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-sethchev-omarchy-philips-hue-card.webp",
         "previewWidth": 441,
         "previewHeight": 720,
-        "localImage": "assets/plugins/omarchy-philips-hue-7648a4390f.webp",
+        "localImage": null,
         "metrics": {
           "copies": 41,
           "hearts": 2,
@@ -2747,7 +2747,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/9-robzolkos-omarchy-github-card.webp",
         "previewWidth": 470,
         "previewHeight": 720,
-        "localImage": "assets/plugins/robzolkos.github-026fdb4440.webp",
+        "localImage": null,
         "metrics": {
           "copies": 541,
           "hearts": 35,
@@ -2789,7 +2789,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/9-srineshr1-omarchy-ghstats-card.webp",
         "previewWidth": 720,
         "previewHeight": 309,
-        "localImage": "assets/plugins/io.github.ricky.ghstats-200e63dfff.webp",
+        "localImage": null,
         "metrics": {
           "copies": 24,
           "hearts": 9,
@@ -2837,7 +2837,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/10-randazraik-omarchy-xray-card.webp",
         "previewWidth": 720,
         "previewHeight": 411,
-        "localImage": "assets/plugins/io.github.randazraik.xray-08dce2d985.webp",
+        "localImage": null,
         "metrics": {
           "copies": 266,
           "hearts": 30,
@@ -2879,7 +2879,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/11-andressm415-omaprox-card.webp",
         "previewWidth": 720,
         "previewHeight": 638,
-        "localImage": "assets/plugins/io.github.andressm415.omaprox-3bdbcaf10b.webp",
+        "localImage": null,
         "metrics": {
           "copies": 94,
           "hearts": 16,
@@ -2927,7 +2927,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/7-silvaio-gamemode-switcher-card.webp",
         "previewWidth": 474,
         "previewHeight": 292,
-        "localImage": "assets/plugins/silvaio.gamemode-8c24b44497.webp",
+        "localImage": null,
         "metrics": {
           "copies": 149,
           "hearts": 12,
@@ -2969,7 +2969,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/11-dkgamer02ai-omarchy-wallpaper-engine-card.webp",
         "previewWidth": 720,
         "previewHeight": 396,
-        "localImage": "assets/plugins/io.github.dkgamer02ai.wallpaper-engine-0355de64d1.webp",
+        "localImage": null,
         "metrics": {
           "copies": 152,
           "hearts": 4,
@@ -3017,7 +3017,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/9-slcode777-omagotchi-card.webp",
         "previewWidth": 410,
         "previewHeight": 536,
-        "localImage": "assets/plugins/slcode777.omagotchi-b698f09db1.webp",
+        "localImage": null,
         "metrics": {
           "copies": 524,
           "hearts": 47,
@@ -3059,7 +3059,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-28allday-quattrolitaire-card.webp",
         "previewWidth": 720,
         "previewHeight": 502,
-        "localImage": "assets/plugins/nosignal.quattrolitaire-6053b127ab.webp",
+        "localImage": null,
         "metrics": {
           "copies": 257,
           "hearts": 15,
@@ -3107,7 +3107,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-jjdizz1l-dizziee.system-updates-card.webp",
         "previewWidth": 720,
         "previewHeight": 529,
-        "localImage": "assets/plugins/dizziee.system-updates-609e5fc607.webp",
+        "localImage": null,
         "metrics": {
           "copies": 313,
           "hearts": 20,
@@ -3197,7 +3197,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-aksharp5-omarchy-radio-atlas-card.webp",
         "previewWidth": 720,
         "previewHeight": 464,
-        "localImage": "assets/plugins/akshar.radio-atlas-d725d6030d.webp",
+        "localImage": null,
         "metrics": {
           "copies": 2750,
           "hearts": 131,
@@ -3239,7 +3239,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-macs9319-omarchy-world-radio-card.webp",
         "previewWidth": 651,
         "previewHeight": 720,
-        "localImage": "assets/plugins/ronnie.worldradio-5ee3ebd089.webp",
+        "localImage": null,
         "metrics": {
           "copies": 140,
           "hearts": 9,
@@ -3287,7 +3287,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/10-fabiopauli-omarchy-oligarchy-plugin-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
-        "localImage": "assets/plugins/io.github.fabiopauli.oligarchy-screensaver-1713b33823.webp",
+        "localImage": null,
         "metrics": {
           "copies": 57,
           "hearts": 13,
@@ -3329,7 +3329,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/7-daileng-omarcharium-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
-        "localImage": "assets/plugins/dailen.omarcharium-28291ed5cc.webp",
+        "localImage": null,
         "metrics": {
           "copies": 48,
           "hearts": 5,
@@ -3377,7 +3377,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/10-edgarsilva-omarchy-power-button-card.webp",
         "previewWidth": 462,
         "previewHeight": 648,
-        "localImage": "assets/plugins/io.github.edgarsilva.power-button-2ae19aa323.webp",
+        "localImage": null,
         "metrics": {
           "copies": 266,
           "hearts": 9,
@@ -3419,7 +3419,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/12-jordanneenan-simple-power-menu-card.webp",
         "previewWidth": 585,
         "previewHeight": 388,
-        "localImage": "assets/plugins/io.github.jordanneenan.simple-power-menu-6fe8a800eb.webp",
+        "localImage": null,
         "metrics": {
           "copies": 53,
           "hearts": 10,
@@ -3467,7 +3467,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-fross100-omaplug-card.webp",
         "previewWidth": 720,
         "previewHeight": 360,
-        "localImage": "assets/plugins/omaplug-21825cda52.webp",
+        "localImage": null,
         "metrics": {
           "copies": 2827,
           "hearts": 80,
@@ -3509,7 +3509,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/12-brianblakely-omarchy-plugins-card.webp",
         "previewWidth": 720,
         "previewHeight": 450,
-        "localImage": "assets/plugins/b.okomart-95fcc95e68.webp",
+        "localImage": null,
         "metrics": {
           "copies": 1121,
           "hearts": 23,
@@ -3557,7 +3557,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/7-ccdwyer-omarchy-snitch-card.webp",
         "previewWidth": 720,
         "previewHeight": 405,
-        "localImage": "assets/plugins/io.github.chris.snitch-89a36e96b5.webp",
+        "localImage": null,
         "metrics": {
           "copies": 106,
           "hearts": 8,
@@ -3599,7 +3599,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/8-sahzudin-omawall-card.webp",
         "previewWidth": 592,
         "previewHeight": 720,
-        "localImage": "assets/plugins/io.github.sahzudin.omawall-046383de66.webp",
+        "localImage": null,
         "metrics": {
           "copies": 95,
           "hearts": 8,
@@ -3689,7 +3689,7 @@
         "previewSource": "https://plugins.omarchy.org/assets/img/plugins/10-mich-nduka-omaports-card.webp",
         "previewWidth": 442,
         "previewHeight": 444,
-        "localImage": "assets/plugins/io.github.mich-nduka.omaports-c83463db76.webp",
+        "localImage": null,
         "metrics": {
           "copies": 109,
           "hearts": 12,
@@ -3717,5 +3717,6 @@
         "score": 0.839625
       }
     }
-  ]
+  ],
+  "changes": []
 }
