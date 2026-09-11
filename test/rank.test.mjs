@@ -185,6 +185,173 @@ test("production taxonomy covers recurring jobs without bleeding into adjacent c
   );
 });
 
+test("existing types catch focused near-misses without catch-all jobs", async () => {
+  const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
+  const prepared = prepareTaxonomy(source);
+  const typesOf = (values) => classifyPlugin(plugin(values.id, values), prepared);
+
+  assert.deepEqual(
+    typesOf({
+      id: "dev.git",
+      name: "Git",
+      description: "GitHub, GitLab and Gitea open work: a full-year contribution graph, review queue, and your open pull/merge requests."
+    }),
+    ["github"]
+  );
+  assert.deepEqual(
+    typesOf({
+      id: "io.github.cbullard.github-actions",
+      name: "GAS (Git Actions Status)",
+      description: "Monitor GitHub, Forgejo, Gitea, and GitLab CI status from the Omarchy bar."
+    }),
+    ["github"]
+  );
+  assert.deepEqual(
+    typesOf({
+      id: "sashoush.depot",
+      name: "Depot",
+      description: "A depot for your GitHub repos in the Omarchy bar: which checkouts have uncommitted work."
+    }),
+    ["github"]
+  );
+  assert.ok(
+    !typesOf({
+      id: "habitgrid",
+      name: "HabitGrid",
+      description: "Habit tracking from the bar: a GitHub-style contribution graph per habit."
+    }).includes("github")
+  );
+
+  assert.deepEqual(
+    typesOf({
+      id: "io.github.erikburdett.diskspace",
+      name: "Disk Space",
+      description: "A circular disk usage meter with total, used and free space in a popup."
+    }),
+    ["system-monitor"]
+  );
+  assert.deepEqual(
+    typesOf({
+      id: "io.github.qadram.nvme-health",
+      name: "NVMe Health",
+      description: "Disk SMART health in the Omarchy bar via UDisks2: power-on hours, reallocated sectors, TBW, and remaining life."
+    }),
+    ["system-monitor"]
+  );
+  assert.ok(
+    !typesOf({
+      id: "omaonedrive",
+      name: "OmaOneDrive",
+      description: "OneDrive status, timed pause controls, cloud storage, and recent sync activity in the Omarchy bar."
+    }).includes("system-monitor")
+  );
+
+  assert.deepEqual(
+    typesOf({
+      id: "io.github.saiiiiiph.update-center",
+      name: "Update Center",
+      description: "One quiet indicator for pending system, AUR, Flatpak, and Omarchy plugin updates."
+    }),
+    ["system-updates"]
+  );
+
+  assert.deepEqual(
+    typesOf({
+      id: "io.github.devdussey.search-bar",
+      name: "Search Bar",
+      description: "A search bar for launching applications, web apps, directories, and files in the Omarchy bar."
+    }),
+    ["launcher"]
+  );
+  assert.deepEqual(
+    typesOf({
+      id: "kailbert.omascope",
+      name: "Omascope",
+      description: "A fast, theme-aware Omarchy launcher with fuzzy search and instant answers."
+    }),
+    ["launcher"]
+  );
+  assert.ok(
+    !typesOf({
+      id: "file-picker",
+      name: "File Picker",
+      description: "Fuzzy file selector and launcher for documents, media, markdown notes, and code"
+    }).includes("launcher")
+  );
+
+  assert.deepEqual(
+    typesOf({
+      id: "io.github.andrewmsboyd.omamode",
+      name: "Omamode",
+      description: "Switch GNOME color-scheme and the default Omarchy theme together, manually or on a schedule."
+    }),
+    ["themes-appearance"]
+  );
+  assert.deepEqual(
+    typesOf({
+      id: "scrimwiggins.terminal-theme-studio",
+      name: "Terminal Theme Studio",
+      description: "Author a terminal palette and save it as an Omarchy theme."
+    }),
+    ["themes-appearance"]
+  );
+  assert.deepEqual(
+    typesOf({
+      id: "io.github.geoochi.theme-sync",
+      name: "Theme Sync",
+      description: "Switch between a light and a dark Omarchy theme on a local-time schedule."
+    }),
+    ["themes-appearance"]
+  );
+  assert.deepEqual(
+    typesOf({
+      id: "codefriendly.nightman",
+      name: "NightMan",
+      description: "Control light and dark mode independently of your Omarchy theme. Switch manually, follow the theme, or set a schedule."
+    }),
+    ["themes-appearance"]
+  );
+  assert.ok(
+    !typesOf({
+      id: "quattrograph",
+      name: "Quattrograph",
+      description: "A hypotrochoid that draws itself. Wander, save looks, theme ink."
+    }).includes("themes-appearance")
+  );
+  assert.ok(
+    !typesOf({
+      id: "wallpaper-roulette",
+      name: "Wallpaper Roulette",
+      description: "Rotates through your wallpapers on a timer and switches the Omarchy theme to match each one."
+    }).includes("themes-appearance")
+  );
+  assert.ok(
+    !typesOf({
+      id: "intellij-theme-sync",
+      name: "IntelliJ Theme Sync",
+      description: "Syncs the active Omarchy theme to JetBrains IDEs."
+    }).includes("themes-appearance")
+  );
+
+  assert.deepEqual(
+    typesOf({
+      id: "io.github.adibains.manual-backlight-lock",
+      name: "Manual Backlight Lock",
+      description: "The stock Omarchy lock screen, but the keyboard backlight stays under your control."
+    }),
+    ["lock-idle"]
+  );
+
+  assert.ok(
+    typesOf({
+      id: "io.github.androydified.omasony",
+      name: "Sony Headphones",
+      description: "Sony WH-1000XM5 Headphone Manager"
+    }).includes("audio")
+  );
+});
+
+
 test("mini-games ranks playable games without trainers, sports widgets, or chess stats", async () => {
   const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
   const prepared = prepareTaxonomy(source);
