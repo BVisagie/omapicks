@@ -51,7 +51,7 @@
       "id": "launcher",
       "name": "Launcher",
       "description": "Application launchers, command palettes, and quick search",
-      "include": ["\\b(app|application|command|program|web) launcher\\b", "\\b(rofi|wofi|fuzzel|walker)\\b", "\\bcommand palette\\b", "\\blaunching applications\\b", "\\b(theme-aware(?: omarchy)?|omarchy) launcher\\b"]
+      "include": ["\\b(app|application|command|program|web) launcher\\b", "\\b(rofi|wofi|fuzzel|walker)\\b", "\\bcommand palette\\b", "\\blaunching applications\\b", "\\btheme-aware(?: omarchy)? launcher\\b", "\\bomarchy launcher\\b[^.]{0,60}\\b(apps?|applications?|programs?|commands?|search)\\b"]
     },
     {
       "id": "network",
@@ -169,7 +169,7 @@
       "id": "themes-appearance",
       "name": "Themes & Appearance",
       "description": "Theme browsing, switching, scheduling, and visual customization",
-      "include": ["\\bthemes? (browser|gallery|manager|scheduler|selector|switcher|installer|roulette|generator|drift|modes?)\\b", "\\b(cursor|icon) theme (picker|manager|switcher)\\b", "\\b(browse|install|manage|switch|schedule|rotate|generate|create|apply|preview|pick|select|cycle|set|author|export|save it as)(?:s|d|ing)? [^.]{0,50}\\bthemes?\\b", "\\b(cursor style|appearance manager|visual customization|themebook|omagen)\\b", "\\blight and dark themes?\\b"],
+      "include": ["\\bthemes? (browser|gallery|manager|scheduler|selector|switcher|installer|roulette|generator|drift|modes?)\\b", "\\b(cursor|icon) theme (picker|manager|switcher)\\b", "\\b(browse|install|manage|switch|schedule|rotate|generate|create|apply|preview|pick|select|cycle|set|author|export|save it as)(?:s|d|ing)? [^.]{0,50}\\bthemes?\\b", "\\b(cursor style|appearance manager|visual customization|themebook|omagen)\\b"],
       "exclude": ["\\b(color theme support|theme integration|theme sync|theme follower|follows? (?:the )?(?:current )?theme|theme[- ]aware|matches? (?:every|the) theme)\\b"]
     },
     {
