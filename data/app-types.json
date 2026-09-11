@@ -5,8 +5,8 @@
       "id": "system-monitor",
       "name": "System Monitor",
       "description": "CPU, memory, temperature, and resource monitoring",
-      "include": ["\\b(system|resource|hardware) monitor\\b", "\\b(cpu|processor|ram|memory|temperature|thermals?)\\b", "\\b(btop|htop|nvtop)\\b"],
-      "exclude": ["\\bkeyboard\\b", "\\bkeybind", "\\b(color|night[- ]light|ferment) temperature\\b"]
+      "include": ["\\b(system|resource|hardware) monitor\\b", "\\b(cpu|processor|ram|memory|temperature|thermals?)\\b", "\\b(btop|htop|nvtop)\\b", "\\b(disk(?: space| usage)|storage (?:space |usage )?monitor|storage (?:analyzer|horizon)|nvme health|disk smart)\\b"],
+      "exclude": ["\\bkeyboard\\b", "\\bkeybind", "\\b(color|night[- ]light|ferment) temperature\\b", "\\bcloud storage\\b"]
     },
     {
       "id": "vpn",
@@ -51,7 +51,7 @@
       "id": "launcher",
       "name": "Launcher",
       "description": "Application launchers, command palettes, and quick search",
-      "include": ["\\b(app|application|command|program|web) launcher\\b", "\\b(rofi|wofi|fuzzel|walker)\\b", "\\bcommand palette\\b"]
+      "include": ["\\b(app|application|command|program|web) launcher\\b", "\\b(rofi|wofi|fuzzel|walker)\\b", "\\bcommand palette\\b", "\\blaunching applications\\b", "\\b(theme-aware(?: omarchy)?|omarchy) launcher\\b"]
     },
     {
       "id": "network",
@@ -70,7 +70,7 @@
       "id": "audio",
       "name": "Audio",
       "description": "Volume, microphones, sinks, and audio routing",
-      "include": ["\\b(volume|audio|microphone|pipewire|pulseaudio|sound output|audio sink)\\b"],
+      "include": ["\\b(volume|audio|microphone|pipewire|pulseaudio|sound output|audio sink)\\b", "\\b(headphones?|earbuds)\\b"],
       "exclude": ["\\baudiobook\\b", "\\b(price, volume|volume, velocity|trading volume)\\b"]
     },
     {
@@ -98,7 +98,7 @@
       "name": "Lock & Idle",
       "description": "Screen locking, idle behavior, and sleep prevention",
       "include": ["\\b(lock screen|screen lock(?:er|ing)?|idle inhibit(?:or|ion)?|idle manager|idle timeout)\\b", "\\b(prevent|disable|inhibit) (?:system )?(sleep|suspend|idle)\\b", "\\b(stay awake|keep awake|no sleep|caffeine|hypridle|hyprlock)\\b", "\\bsession lock\\b", "\\blid[- ](close|action|switch)\\b", "\\bhibernat\\w+", "\\bauto[- ]suspend\\b", "\\b(idle|lock|screensaver)[^.]{0,25}\\btimeouts?\\b", "\\bsleep[- ]after[- ]idle\\b"],
-      "exclude": ["\\bpassword manager\\b", "\\b(caps lock|rotation lock|screen auto-rotate|keyboard backlight)\\b"]
+      "exclude": ["\\bpassword manager\\b", "\\b(caps lock|rotation lock|screen auto-rotate)\\b", "\\bkeyboard backlight\\b"]
     },
     {
       "id": "password-manager",
@@ -169,7 +169,7 @@
       "id": "themes-appearance",
       "name": "Themes & Appearance",
       "description": "Theme browsing, switching, scheduling, and visual customization",
-      "include": ["\\bthemes? (browser|gallery|manager|scheduler|selector|switcher|installer|roulette|generator|drift|modes?)\\b", "\\b(cursor|icon) theme (picker|manager|switcher)\\b", "\\b(browse|install|manage|switch|schedule|rotate|generate|create|apply|preview|pick|select|cycle|set)(?:s|d|ing)? [^.]{0,40}\\bthemes?\\b", "\\b(cursor style|appearance manager|visual customization|themebook|omagen)\\b"],
+      "include": ["\\bthemes? (browser|gallery|manager|scheduler|selector|switcher|installer|roulette|generator|drift|modes?)\\b", "\\b(cursor|icon) theme (picker|manager|switcher)\\b", "\\b(browse|install|manage|switch|schedule|rotate|generate|create|apply|preview|pick|select|cycle|set|author|export|save it as)(?:s|d|ing)? [^.]{0,50}\\bthemes?\\b", "\\b(cursor style|appearance manager|visual customization|themebook|omagen)\\b", "\\blight and dark themes?\\b"],
       "exclude": ["\\b(color theme support|theme integration|theme sync|theme follower|follows? (?:the )?(?:current )?theme|theme[- ]aware|matches? (?:every|the) theme)\\b"]
     },
     {
@@ -201,7 +201,7 @@
       "id": "github",
       "name": "GitHub",
       "description": "GitHub activity, pull requests, issues, and shortcuts",
-      "include": ["\\bgithub (inbox|notifications?|pull requests?|issues?|actions?|repositories?|repo search|status|stats|contributions?)\\b", "\\bpull requests?\\b", "\\breview requests?\\b"]
+      "include": ["\\bgithub (inbox|notifications?|pull(?:[/ ]merge)? requests?|issues?|actions?|repos(?:itories)?|repo search|status|stats|contributions?)\\b", "\\bpull(?:[/ ]merge)? requests?\\b", "\\breview requests?\\b", "\\b(github|gitlab|forgejo|gitea).{0,80}\\b(ci|actions?) status\\b"]
     },
     {
       "id": "containers",
@@ -236,7 +236,7 @@
       "id": "system-updates",
       "name": "System Updates",
       "description": "Arch package updates and update notifications",
-      "include": ["\\b(system|package|arch|aur) updates?\\b", "\\b(pacman|yay|paru) updates?\\b", "\\bupdate checker\\b"]
+      "include": ["\\b(system|package|arch|aur|flatpak) updates?\\b", "\\b(pacman|yay|paru) updates?\\b", "\\bupdate (?:checker|center)\\b", "\\bpending.{0,60}updates?\\b"]
     },
     {
       "id": "radio",
@@ -295,7 +295,11 @@
     }
   ],
   "overrides": {
-    "include": {},
+    "include": {
+      "codefriendly.nightman": ["themes-appearance"],
+      "io.github.geoochi.theme-sync": ["themes-appearance"],
+      "io.github.adibains.manual-backlight-lock": ["lock-idle"]
+    },
     "exclude": {
       "monorkin.voyager-disco": ["color-picker"],
       "network-speed": ["color-picker"],
