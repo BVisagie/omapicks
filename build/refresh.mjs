@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { access, mkdir, readFile, readdir, rename, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { changesBetween, isoWeek, rankPlugins } from "./rank.mjs";
+import { changesBetween, invertedRawScoreRaces, isoWeek, rankPlugins, runnerUpChangesBetween } from "./rank.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CATALOG_URL = "https://plugins.omarchy.org/catalog.json";
@@ -193,6 +193,60 @@ function weekChangeLog(previous, week, existingHistory, computedChanges) {
   return [...prior, ...computedChanges];
 }
 
+function countDelta(previous, current) {
+  return {
+    previous: Number.isFinite(previous) ? previous : null,
+    current,
+    delta: Number.isFinite(previous) ? current - previous : null
+  };
+}
+
+function formatSignedCount(value) {
+  return value >= 0 ? `+${value}` : String(value);
+}
+
+function formatCountDelta(label, { previous, current, delta }) {
+  if (!Number.isFinite(previous) || !Number.isFinite(delta)) return `${label} ${current} (no prior snapshot)`;
+  return `${label} ${current} (was ${previous}, ${formatSignedCount(delta)})`;
+}
+
+function formatPickName(pick) {
+  return pick?.name ?? "none";
+}
+
+function plural(count, singular, pluralForm = `${singular}s`) {
+  return `${count} ${count === 1 ? singular : pluralForm}`;
+}
+
+export function formatRefreshLog(result, { dryRun = false } = {}) {
+  const lines = [
+    `OmaPicks ${result.week}: ranked ${result.rankings.types.length} app types; ` +
+      `${result.changes.length} champion changes; ${result.report.uniqueUnclassifiedCount} unclassified.`
+  ];
+  if (!dryRun) return lines;
+
+  lines.push(
+    `${formatCountDelta("Catalog", result.deltas.catalog)}; ${formatCountDelta("unclassified", result.deltas.unclassified)}.`
+  );
+
+  const runnerUpChanges = result.runnerUpChanges ?? [];
+  const invertedRaces = result.invertedRaces ?? [];
+  const invertedClause = invertedRaces.length
+    ? `${plural(invertedRaces.length, "type")} where the raw-score leader is not champion (held by 10% hysteresis)`
+    : `${plural(0, "type")} where the raw-score leader is not champion`;
+  lines.push(`${plural(runnerUpChanges.length, "runner-up change")}; ${invertedClause}.`);
+
+  for (const change of runnerUpChanges) {
+    lines.push(`  Runner-up ${change.typeName}: ${formatPickName(change.previous)} -> ${formatPickName(change.current)}`);
+  }
+  for (const race of invertedRaces) {
+    lines.push(
+      `  ${race.typeName}: ${race.leader.name} ${race.leader.score} leads champion ${race.champion.name} ${race.champion.score} by ${race.gapPercent.toFixed(1)}%.`
+    );
+  }
+  return lines;
+}
+
 async function removeStaleImages(rankings, root) {
   const directory = path.join(root, "data", "assets", "plugins");
   const current = new Set();
@@ -271,10 +325,23 @@ export async function refresh({
   const existingHistory = await readJson(historyFile, null);
   const computedChanges = changesBetween(previous, rankings);
   const changes = weekChangeLog(previous, week, existingHistory, computedChanges);
+  const previousReport = await readJson(path.join(root, "data", "unclassified-report.json"), null);
+  const summary = {
+    changed: true,
+    week,
+    rankings,
+    report,
+    changes,
+    runnerUpChanges: runnerUpChangesBetween(previous, rankings),
+    invertedRaces: invertedRawScoreRaces(rankings),
+    deltas: {
+      catalog: countDelta(previous?.source?.catalog?.count, source.catalog.count),
+      unclassified: countDelta(previousReport?.uniqueUnclassifiedCount, report.uniqueUnclassifiedCount)
+    },
+    imageWarnings: []
+  };
 
-  if (dryRun) {
-    return { changed: true, week, rankings, report, changes, imageWarnings: [] };
-  }
+  if (dryRun) return summary;
 
   const imageWarnings = await attachImages(rankings, { fetchImpl, previous, root });
   const history = {
@@ -292,7 +359,7 @@ export async function refresh({
   await writeJsonAtomic(rankingsFile, rankings);
   await removeStaleImages(rankings, root);
 
-  return { changed: true, week, rankings, report, changes, imageWarnings };
+  return { ...summary, imageWarnings };
 }
 
 async function main() {
@@ -302,10 +369,7 @@ async function main() {
     console.log(`OmaPicks ${result.week}: no refresh needed (${result.reason}).`);
     return;
   }
-  console.log(
-    `OmaPicks ${result.week}: ranked ${result.rankings.types.length} app types; ` +
-      `${result.changes.length} champion changes; ${result.report.uniqueUnclassifiedCount} unclassified.`
-  );
+  for (const line of formatRefreshLog(result, { dryRun })) console.log(line);
   for (const warning of result.imageWarnings) console.warn(`Image warning: ${warning}`);
 }
 

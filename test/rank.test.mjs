@@ -5,10 +5,12 @@ import {
   changesBetween,
   classifyPlugin,
   eligibilityReason,
+  invertedRawScoreRaces,
   isoWeek,
   pickWithHysteresis,
   prepareTaxonomy,
-  rankPlugins
+  rankPlugins,
+  runnerUpChangesBetween
 } from "../build/rank.mjs";
 
 const taxonomy = {
@@ -739,5 +741,54 @@ test("champion changes distinguish first picks, displacement, and vacancy", () =
   assert.deepEqual(
     changesBetween(previous, current).map((change) => change.kind),
     ["displaced", "vacated", "new-champion"]
+  );
+});
+
+test("runner-up changes distinguish first picks, displacement, and vacancy", () => {
+  const previous = {
+    types: [
+      { id: "weather", name: "Weather", runnerUp: { id: "old", name: "Old" } },
+      { id: "clock", name: "Clock", runnerUp: { id: "clock", name: "Clock" } }
+    ]
+  };
+  const current = {
+    types: [
+      { id: "weather", name: "Weather", runnerUp: { id: "new", name: "New" } },
+      { id: "clock", name: "Clock", runnerUp: null },
+      { id: "mail", name: "Mail", runnerUp: { id: "mail", name: "Mail" } }
+    ]
+  };
+  assert.deepEqual(
+    runnerUpChangesBetween(previous, current).map((change) => change.kind),
+    ["displaced", "vacated", "new-runner-up"]
+  );
+});
+
+test("inverted raw-score races list hysteresis-held champions", () => {
+  const races = invertedRawScoreRaces({
+    types: [
+      {
+        id: "themes-appearance",
+        name: "Themes & Appearance",
+        winner: { id: "manager", name: "Omarchy Theme Manager", score: 0.881828 },
+        runnerUp: { id: "gallery", name: "Themes Gallery", score: 0.952667 }
+      },
+      {
+        id: "audio",
+        name: "Audio",
+        winner: { id: "ahead", name: "Advanced Audio Control", score: 0.93246 },
+        runnerUp: { id: "behind", name: "OmaVibes", score: 0.93111 }
+      },
+      {
+        id: "mail",
+        name: "Mail",
+        winner: { id: "omamail", name: "Omamail", score: 0.94 },
+        runnerUp: null
+      }
+    ]
+  });
+  assert.deepEqual(
+    races.map((race) => ({ typeId: race.typeId, gapPercent: race.gapPercent, leader: race.leader.id })),
+    [{ typeId: "themes-appearance", gapPercent: 8, leader: "gallery" }]
   );
 });

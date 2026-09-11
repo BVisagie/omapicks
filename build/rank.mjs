@@ -321,21 +321,50 @@ export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = n
   };
 }
 
-export function changesBetween(previous, current) {
+function pickRef(pick) {
+  return pick ? { id: pick.id, name: pick.name } : null;
+}
+
+function leadershipChanges(previous, current, slot) {
   const prior = new Map((previous?.types ?? []).map((type) => [type.id, type]));
   const changes = [];
   for (const type of current.types) {
     const before = prior.get(type.id);
-    const oldId = before?.winner?.id ?? null;
-    const newId = type.winner?.id ?? null;
+    const oldPick = before?.[slot] ?? null;
+    const newPick = type[slot] ?? null;
+    const oldId = oldPick?.id ?? null;
+    const newId = newPick?.id ?? null;
     if (oldId === newId) continue;
     changes.push({
       typeId: type.id,
       typeName: type.name,
-      kind: oldId ? (newId ? "displaced" : "vacated") : "new-champion",
-      previous: before?.winner ? { id: before.winner.id, name: before.winner.name } : null,
-      current: type.winner ? { id: type.winner.id, name: type.winner.name } : null
+      kind: oldId ? (newId ? "displaced" : "vacated") : slot === "winner" ? "new-champion" : "new-runner-up",
+      previous: pickRef(oldPick),
+      current: pickRef(newPick)
     });
   }
   return changes;
+}
+
+export function changesBetween(previous, current) {
+  return leadershipChanges(previous, current, "winner");
+}
+
+export function runnerUpChangesBetween(previous, current) {
+  return leadershipChanges(previous, current, "runnerUp");
+}
+
+export function invertedRawScoreRaces(rankings) {
+  const races = [];
+  for (const type of rankings?.types ?? []) {
+    if (!type.winner || !type.runnerUp || !(type.runnerUp.score > type.winner.score)) continue;
+    races.push({
+      typeId: type.id,
+      typeName: type.name,
+      champion: { id: type.winner.id, name: type.winner.name, score: type.winner.score },
+      leader: { id: type.runnerUp.id, name: type.runnerUp.name, score: type.runnerUp.score },
+      gapPercent: round((type.runnerUp.score / type.winner.score - 1) * 100, 1)
+    });
+  }
+  return races.sort((a, b) => b.gapPercent - a.gapPercent || a.typeId.localeCompare(b.typeId));
 }
