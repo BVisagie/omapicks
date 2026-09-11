@@ -3,7 +3,7 @@ import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { fetchJson, refresh, validateFeeds } from "../build/refresh.mjs";
+import { fetchJson, formatRefreshLog, refresh, validateFeeds } from "../build/refresh.mjs";
 
 function jsonResponse(value, status = 200) {
   return new Response(JSON.stringify(value), {
@@ -239,4 +239,178 @@ test("same-week refresh stays frozen unless the taxonomy checksum changes", asyn
   assert.ok(reranked.changes.length > 0);
   const rewrittenHistory = JSON.parse(await readFile(path.join(root, "data", "history", "2026-W36.json"), "utf8"));
   assert.deepEqual(rewrittenHistory.changes, first.changes);
+});
+
+test("formatRefreshLog adds dry-run context for deltas, runner-ups, and inverted races", () => {
+  const result = {
+    week: "2026-W37",
+    rankings: { types: [{ id: "weather" }, { id: "themes-appearance" }] },
+    changes: [],
+    report: { uniqueUnclassifiedCount: 1156 },
+    runnerUpChanges: [
+      {
+        typeId: "brightness",
+        typeName: "Brightness",
+        previous: { id: "hyprsunset", name: "Hyprsunset Night Light" },
+        current: { id: "nightlight", name: "Night Light" }
+      }
+    ],
+    invertedRaces: [
+      {
+        typeId: "themes-appearance",
+        typeName: "Themes & Appearance",
+        champion: { id: "manager", name: "Omarchy Theme Manager", score: 0.881828 },
+        leader: { id: "gallery", name: "Themes Gallery", score: 0.952667 },
+        gapPercent: 8
+      }
+    ],
+    deltas: {
+      catalog: { previous: 2599, current: 2599, delta: 0 },
+      unclassified: { previous: 1021, current: 1156, delta: 135 }
+    }
+  };
+
+  assert.deepEqual(formatRefreshLog(result), [
+    "OmaPicks 2026-W37: ranked 2 app types; 0 champion changes; 1156 unclassified."
+  ]);
+  assert.deepEqual(formatRefreshLog(result, { dryRun: true }), [
+    "OmaPicks 2026-W37: ranked 2 app types; 0 champion changes; 1156 unclassified.",
+    "Catalog 2599 (was 2599, +0); unclassified 1156 (was 1021, +135).",
+    "1 runner-up change; 1 type where the raw-score leader is not champion (held by 10% hysteresis).",
+    "  Runner-up Brightness: Hyprsunset Night Light -> Night Light",
+    "  Themes & Appearance: Themes Gallery 0.952667 leads champion Omarchy Theme Manager 0.881828 by 8.0%."
+  ]);
+  assert.deepEqual(
+    formatRefreshLog(
+      {
+        ...result,
+        runnerUpChanges: [],
+        invertedRaces: [],
+        deltas: {
+          catalog: { previous: null, current: 10, delta: null },
+          unclassified: { previous: null, current: 3, delta: null }
+        },
+        report: { uniqueUnclassifiedCount: 3 }
+      },
+      { dryRun: true }
+    ),
+    [
+      "OmaPicks 2026-W37: ranked 2 app types; 0 champion changes; 3 unclassified.",
+      "Catalog 10 (no prior snapshot); unclassified 3 (no prior snapshot).",
+      "0 runner-up changes; 0 types where the raw-score leader is not champion."
+    ]
+  );
+});
+
+test("dry-run reports catalog deltas and runner-up changes without writing snapshots", async (context) => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "omapicks-dry-run-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  await mkdir(path.join(root, "data"), { recursive: true });
+  await writeFile(
+    path.join(root, "data", "app-types.json"),
+    JSON.stringify({
+      schemaVersion: 1,
+      types: [{ id: "weather", name: "Weather", description: "Forecasts", include: ["\\bweather\\b"] }],
+      overrides: { include: {}, exclude: {} }
+    })
+  );
+  const previousRankings = {
+    schemaVersion: 1,
+    week: "2026-W37",
+    source: { catalog: { count: 2 }, stats: { count: 2 }, taxonomy: { sha256: "stale", typeCount: 1 } },
+    types: [
+      {
+        id: "weather",
+        name: "Weather",
+        winner: { id: "champ", name: "Champ" },
+        runnerUp: { id: "old-runner", name: "Old Runner" }
+      }
+    ]
+  };
+  await writeFile(path.join(root, "data", "rankings.json"), JSON.stringify(previousRankings));
+  await writeFile(
+    path.join(root, "data", "unclassified-report.json"),
+    JSON.stringify({ schemaVersion: 1, uniqueUnclassifiedCount: 4 })
+  );
+
+  const catalog = {
+    generatedAt: "2026-09-10T00:00:00Z",
+    plugins: [
+      {
+        id: "champ",
+        name: "Champ",
+        description: "Weather forecast",
+        installAvailable: true,
+        installCommand: "omarchy plugin add https://github.com/example/champ.git",
+        repo: "https://github.com/example/champ",
+        repositoryUpdatedAt: "2026-08-31T00:00:00Z",
+        verificationStatus: "verified",
+        stars: 10
+      },
+      {
+        id: "challenger",
+        name: "Challenger",
+        description: "Weather forecast",
+        installAvailable: true,
+        installCommand: "omarchy plugin add https://github.com/example/challenger.git",
+        repo: "https://github.com/example/challenger",
+        repositoryUpdatedAt: "2026-08-31T00:00:00Z",
+        verificationStatus: "verified",
+        stars: 8
+      },
+      {
+        id: "notes",
+        name: "Notes",
+        description: "Sticky notes",
+        installAvailable: true,
+        installCommand: "omarchy plugin add https://github.com/example/notes.git",
+        repo: "https://github.com/example/notes",
+        repositoryUpdatedAt: "2026-08-31T00:00:00Z",
+        verificationStatus: "verified",
+        stars: 1
+      }
+    ]
+  };
+  const stats = {
+    schemaVersion: 1,
+    plugins: {
+      champ: { views: 50, copies: 20, hearts: 5 },
+      challenger: { views: 40, copies: 10, hearts: 2 },
+      notes: { views: 3, copies: 1, hearts: 0 }
+    }
+  };
+  const fetchImpl = async (url) => (url.includes("/stats") ? jsonResponse(stats) : jsonResponse(catalog));
+
+  const result = await refresh({
+    root,
+    dryRun: true,
+    now: new Date("2026-09-10T11:00:00Z"),
+    minimumCatalogSize: 1,
+    fetchImpl
+  });
+
+  assert.equal(result.changed, true);
+  assert.equal(result.changes.length, 0);
+  assert.equal(result.rankings.types[0].winner.id, "champ");
+  assert.equal(result.rankings.types[0].runnerUp.id, "challenger");
+  assert.deepEqual(
+    result.runnerUpChanges.map((change) => ({ typeId: change.typeId, from: change.previous.id, to: change.current.id })),
+    [{ typeId: "weather", from: "old-runner", to: "challenger" }]
+  );
+  assert.equal(result.deltas.catalog.previous, 2);
+  assert.equal(result.deltas.catalog.current, 3);
+  assert.equal(result.deltas.catalog.delta, 1);
+  assert.equal(result.deltas.unclassified.previous, 4);
+  assert.equal(result.deltas.unclassified.current, 1);
+  assert.equal(result.deltas.unclassified.delta, -3);
+
+  const persisted = JSON.parse(await readFile(path.join(root, "data", "rankings.json"), "utf8"));
+  assert.deepEqual(persisted, previousRankings);
+  await assert.rejects(readFile(path.join(root, "data", "history", "2026-W37.json")), /ENOENT/);
+
+  const lines = formatRefreshLog(result, { dryRun: true });
+  assert.match(lines[0], /0 champion changes; 1 unclassified/);
+  assert.match(lines[1], /Catalog 3 \(was 2, \+1\); unclassified 1 \(was 4, -3\)/);
+  assert.match(lines[2], /1 runner-up change/);
+  assert.match(lines.join("\n"), /Runner-up Weather: Old Runner -> Challenger/);
 });
