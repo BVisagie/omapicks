@@ -23,7 +23,13 @@ jobs:
         with:
           node-version-file: .nvmrc
           check-latest: true
+      - name: Install build dependencies
+        run: npm ci
       - name: Test
         run: npm test
       - name: Verify production render
         run: node build/index.mjs
+      - name: Install Chromium for browser checks
+        run: npx playwright install --with-deps chromium
+      - name: Verify browser interactions and mobile layouts
+        run: npm run test:e2e

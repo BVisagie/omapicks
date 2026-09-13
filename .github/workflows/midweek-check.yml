@@ -24,6 +24,8 @@ jobs:
         with:
           node-version-file: .nvmrc
           check-latest: true
+      - name: Install build dependencies
+        run: npm ci
       - name: Validate live feeds and calculate candidate changes
         run: node build/refresh.mjs --dry-run
       - name: Test committed data and production render

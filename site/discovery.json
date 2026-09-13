@@ -1,0 +1,72 @@
+{
+  "aliases": {
+    "system-monitor": ["btop", "htop", "cpu", "ram", "disk space"],
+    "network": ["wifi", "wi-fi", "internet", "connectivity"],
+    "vpn": ["wireguard", "tailscale", "mullvad", "proton"],
+    "mail": ["email", "gmail", "outlook", "inbox"],
+    "music": ["spotify", "mpris", "playerctl", "now playing"],
+    "weather": ["forecast", "rain", "temperature"],
+    "battery": ["charging", "power profile"],
+    "clipboard": ["copy paste", "paste history"],
+    "launcher": ["app search", "open apps"],
+    "bluetooth": ["headphones", "earbuds", "pairing"],
+    "audio": ["volume", "microphone", "sound", "pipewire"],
+    "brightness": ["backlight", "night light", "blue light"],
+    "display-monitors": ["external monitor", "multi monitor", "screen layout"],
+    "notifications": ["do not disturb", "dnd", "mako"],
+    "lock-idle": ["screen lock", "sleep", "suspend", "caffeine"],
+    "password-manager": ["bitwarden", "passwords", "totp", "2fa"],
+    "calendar": ["agenda", "events", "caldav"],
+    "clock-timer": ["alarm", "stopwatch", "time zones"],
+    "focus": ["pomodoro", "todo", "tasks", "habits"],
+    "notes": ["obsidian", "scratchpad", "sticky notes"],
+    "screen-time": ["digital wellbeing", "app usage"],
+    "workspaces": ["virtual desktops", "workspace switcher"],
+    "window-management": ["alt tab", "tiling", "window switcher"],
+    "screenshots": ["screen recording", "ocr", "capture"],
+    "wallpaper": ["desktop background", "hyprpaper", "swww"],
+    "themes-appearance": ["colors", "colour", "cursor theme", "dark mode"],
+    "color-picker": ["colour picker", "eyedropper", "hex", "hyprpicker"],
+    "ai-assistant": ["chatgpt", "claude", "ollama", "llm"],
+    "ai-api-usage": ["tokens", "quota", "api spending", "codex usage"],
+    "smart-home": ["home assistant", "philips hue", "wled"],
+    "github": ["pull requests", "issues", "ci status"],
+    "containers": ["docker", "podman", "kubernetes"],
+    "gaming": ["steam", "lutris", "game mode"],
+    "mini-games": ["solitaire", "chess", "tetris", "desktop pet"],
+    "system-updates": ["pacman", "aur", "package updates"],
+    "radio": ["internet radio", "stations"],
+    "screensavers": ["idle visuals", "screen saver"],
+    "power-menu": ["shutdown", "restart", "logout"],
+    "plugin-manager": ["install plugins", "marketplace", "plugin store"],
+    "firewall": ["ufw", "outbound connections", "nftables"],
+    "dev-ports": ["localhost", "listening ports", "dev servers"]
+  },
+  "collections": [
+    {
+      "title": "Get through your day",
+      "description": "Capture a thought, keep track of plans, and make room to focus.",
+      "types": ["notes", "calendar", "clipboard", "focus"]
+    },
+    {
+      "title": "Make your desktop yours",
+      "description": "Find your colors, change the view, and move between windows.",
+      "types": ["themes-appearance", "wallpaper", "workspaces", "window-management"]
+    },
+    {
+      "title": "Keep your laptop ready",
+      "description": "Check power, manage sound, and see what needs attention.",
+      "types": ["battery", "audio", "network", "system-updates"]
+    }
+  ],
+  "relatedGroups": [
+    ["weather", "clock-timer", "calendar", "brightness", "battery"],
+    ["notes", "calendar", "clipboard", "focus", "mail", "clock-timer", "screen-time", "notifications"],
+    ["themes-appearance", "wallpaper", "color-picker", "screensavers", "smart-home"],
+    ["workspaces", "window-management", "launcher", "display-monitors", "screenshots"],
+    ["battery", "brightness", "lock-idle", "power-menu", "system-monitor", "system-updates"],
+    ["network", "vpn", "firewall", "password-manager", "bluetooth"],
+    ["audio", "bluetooth", "music", "radio", "gaming", "mini-games"],
+    ["dev-ports", "containers", "github", "ai-assistant", "ai-api-usage", "plugin-manager"]
+  ]
+}

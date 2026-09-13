@@ -414,3 +414,40 @@ test("dry-run reports catalog deltas and runner-up changes without writing snaps
   assert.match(lines[2], /1 runner-up change/);
   assert.match(lines.join("\n"), /Runner-up Weather: Old Runner -> Challenger/);
 });
+
+test("stats require catalog overlap and preserve most of the previous feed", () => {
+  const catalog = { plugins: Array.from({ length: 10 }, (_, i) => ({ id: `p${i}` })) };
+  const metrics = { views: 0, copies: 0, hearts: 0 };
+  const stats = (ids) => ({ schemaVersion: 1, plugins: Object.fromEntries(ids.map((id) => [id, metrics])) });
+  for (const plugins of [{}, [], "invalid", 123]) {
+    assert.throws(() => validateFeeds(catalog, { schemaVersion: 1, plugins }, 1), /Stats/);
+  }
+  assert.throws(() => validateFeeds(catalog, stats(["unrelated"]), 1), /overlap/);
+  const partial = stats(["p0", "p1", "p2", "p3", "p4"]);
+  assert.doesNotThrow(() => validateFeeds(catalog, partial, 1)); // New listings can lack engagement.
+  assert.throws(() => validateFeeds(catalog, partial, 1, { source: { stats: { count: 10 } } }), /75%/);
+  assert.doesNotThrow(() => validateFeeds(catalog, stats(catalog.plugins.slice(0, 8).map((p) => p.id)), 1,
+    { source: { stats: { count: 10 } } }));
+});
+
+test("a rejected stats refresh leaves all published snapshot files untouched", async (context) => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "omapicks-rejected-feed-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  await mkdir(path.join(root, "data", "history"), { recursive: true });
+  const previous = { week: "2026-W36", types: [], source: { stats: { count: 2 } } };
+  const files = {
+    "rankings.json": JSON.stringify(previous),
+    "changelog.json": '{"changes":[]}',
+    "unclassified-report.json": '{"catalogCount":2}',
+    "history/2026-W36.json": JSON.stringify(previous)
+  };
+  for (const [file, content] of Object.entries(files)) await writeFile(path.join(root, "data", file), content);
+  await writeFile(path.join(root, "data", "app-types.json"), JSON.stringify({ schemaVersion: 1, types: [] }));
+  await assert.rejects(refresh({
+    root, now: new Date("2026-09-14T07:00:00Z"), minimumCatalogSize: 1,
+    fetchImpl: async (url) => jsonResponse(url.includes("/stats")
+      ? { schemaVersion: 1, plugins: {} } : { plugins: [{ id: "a" }, { id: "b" }] })
+  }), /Stats overlap/);
+  for (const [file, content] of Object.entries(files)) assert.equal(await readFile(path.join(root, "data", file), "utf8"), content);
+  await assert.rejects(readFile(path.join(root, "data", "history", "2026-W38.json")), { code: "ENOENT" });
+});

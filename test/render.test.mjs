@@ -232,7 +232,7 @@ test("homepage discovery chrome follows the ranking taxonomy", () => {
   assert.equal([...three.matchAll(/data-catalog-row/g)].length, 3);
   assert.equal([...three.matchAll(/data-finder-item/g)].length, 3);
   assert.equal([...three.matchAll(/data-suggested/g)].length, 2);
-  assert.match(three, /data-finder-item data-search="clipboard paste history"[^>]* hidden>/);
+  assert.match(three, /data-finder-item data-search="clipboard paste history[^"]*"[^>]* hidden>/);
   assert.equal([...three.matchAll(/<article class="showdown" data-slot="/g)].length, 2);
   assert.deepEqual(catalogNames(three), ["Clipboard", "VPN", "Weather"]);
 });
@@ -310,7 +310,7 @@ test("type rendering explains the ranking in plain language", () => {
   assert.doesNotMatch(html, /Winner badge/);
   assert.doesNotMatch(html, /href="#winner-badge"/);
   assert.doesNotMatch(html, /href="\/badges\/[^"]+"/);
-  assert.match(html, /Other categories/);
+  assert.match(html, /Explore more categories/);
   assert.match(
     html,
     /<a href="https:\/\/plugins\.omarchy\.org\/plugin\.html\?id=safe\.plugin" target="_blank" rel="noopener noreferrer">Winner<\/a>/
@@ -413,7 +413,7 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.match(home, /02 Runner-up/);
   assert.match(home, /runner-up /);
   assert.match(home, /Week of [A-Z][a-z]+ \d{1,2}, \d{4}/);
-  assert.match(home, /eligible_entries/);
+  assert.match(home, /Category entries/);
   assert.equal([...home.matchAll(/data-catalog-row/g)].length, typeCount);
   assert.equal([...home.matchAll(/data-finder-item/g)].length, typeCount);
   assert.equal([...home.matchAll(/data-suggested/g)].length, featured.length);
@@ -438,7 +438,7 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   );
   assert.ok(home.includes(`alt="${escapeHtml(featured[0].winner.name)} preview"`));
   assert.match(home, /og:image" content="https:\/\/omapicks\.com\/og\/terminal\.jpg"/);
-  assert.match(pick, /og:image" content="https:\/\/omapicks\.com\/og\/terminal\.jpg"/);
+  assert.match(pick, /og:image" content="https:\/\/omapicks\.com\/og\/weather\.png"/);
   assert.match(home, /Plugin metadata, engagement signals, and previews come from/);
   assert.match(home, /target="_blank" rel="noopener noreferrer">Open-source code<\/a>/);
   assert.match(feedXsl, /target="_blank" rel="noopener noreferrer">Open-source code<\/a>/);
@@ -502,7 +502,7 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.doesNotMatch(pick, /Winner badge/);
   assert.doesNotMatch(pick, /href="#winner-badge"/);
   assert.doesNotMatch(pick, /<a href="\/badges\//);
-  assert.match(pick, /og:image:type" content="image\/jpeg"/);
+  assert.match(pick, /og:image:type" content="image\/png"/);
   assert.match(pick, /A ranking is not an endorsement or a safety review/);
   assert.match(sitemap, /https:\/\/omapicks\.com\/privacy\//);
   assert.match(feed, /<\?xml-stylesheet type="text\/xsl" href="\/feed\.xsl"\?>/);
@@ -595,4 +595,53 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
       assert.ok((await stat(new URL(`../dist${target}`, import.meta.url))).isFile(), `Missing local target: ${href}`);
     }
   }
+});
+
+test("retained champions disclose the real gap and stability rule", () => {
+  const rankings = fixtureRankings(fixtureCandidate({ id: "incumbent", name: "Incumbent", score: 0.9 }));
+  rankings.types[0].runnerUp = fixtureCandidate({ id: "challenger", name: "Challenger", score: 0.945 });
+  const pick = renderFixtureType(rankings.types[0], rankings);
+  const home = renderFixtureHome(rankings);
+  assert.match(pick, /5\.0% apart/);
+  assert.match(pick, /Challenger scored 5\.0% more/);
+  assert.match(pick, /keeps the title under the stability rule/);
+  assert.match(home, /5\.0% behind on score/);
+  assert.doesNotMatch(pick, /It won mainly because|0\.0% apart/);
+  assert.match(pick, /<table class="comparison-table">/);
+  assert.match(pick, /<th scope="col">Challenger<\/th>/);
+  assert.match(pick, /<th scope="row" class="comparison-metric">Copies<\/th>/);
+  rankings.types[0].runnerUp.score = 0.9;
+  assert.match(renderFixtureHome(rankings), /Equal combined scores/);
+  rankings.types[0].runnerUp.score = 0.900001;
+  assert.match(renderFixtureType(rankings.types[0], rankings), /less than 0.1% apart/);
+});
+
+test("weekly summary compares snapshots and handles unchanged and vacant picks", () => {
+  const current = fixtureRankings(fixtureCandidate({ name: "New", id: "new" }));
+  const previous = { ...fixtureRankings(), week: "2026-W35" };
+  const changed = renderFixtureHome(current, [previous]);
+  assert.match(changed, /1 category has a champion change/);
+  assert.match(changed, /New replaces Safe Plugin/);
+  assert.match(changed, /New to Omarchy/);
+  assert.match(changed, /See all weekly changes/);
+  const unchanged = renderFixtureHome(fixtureRankings(), [previous]);
+  assert.match(unchanged, /No champion changes/);
+  current.types[0].winner = null;
+  assert.match(renderFixtureHome(current, [previous]), /the champion spot is vacant/);
+});
+
+test("discovery metadata uses real categories and related navigation stays compact", async () => {
+  const discovery = JSON.parse(await readFile(new URL("../site/discovery.json", import.meta.url)));
+  const rankings = JSON.parse(await readFile(new URL("../data/rankings.json", import.meta.url)));
+  const ids = new Set(rankings.types.map((type) => type.id));
+  for (const id of [...Object.keys(discovery.aliases), ...discovery.relatedGroups.flat(), ...discovery.collections.flatMap((c) => c.types)]) {
+    assert.ok(ids.has(id), `Unknown discovery category: ${id}`);
+  }
+  const music = rankings.types.find((type) => type.id === "music");
+  const html = renderFixtureType(music, rankings);
+  const directory = html.match(/<div class="category-grid">([\s\S]*?)<\/div>/)[1];
+  assert.ok([...directory.matchAll(/<a href=/g)].length <= 6);
+  assert.match(directory, /\/picks\/audio\//);
+  assert.match(directory, /\/picks\/radio\//);
+  assert.match(html, /href="\/#catalog">Browse all categories/);
 });

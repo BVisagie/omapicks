@@ -4,10 +4,12 @@ import { cp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { METHODOLOGY, changesBetween } from "./rank.mjs";
+import { renderSocialImage } from "./social.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DIST = path.join(ROOT, "dist");
 const ORIGIN = "https://omapicks.com";
+const DISCOVERY = JSON.parse(readFileSync(new URL("../site/discovery.json", import.meta.url), "utf8"));
 const SIGNAL_METRICS = ["copies", "hearts", "stars", "views", "freshness"];
 const FUNCTION_ROUTES = {
   version: 1,
@@ -103,6 +105,17 @@ function xShareLink(text, url, label) {
   return outboundLink(`https://x.com/intent/post?${new URLSearchParams({ text: `${text} ${url}` })}`, label, "text-link");
 }
 
+function shareLinks(text, url, label) {
+  const email = `mailto:?${new URLSearchParams({ subject: "OmaPicks weekly picks", body: `${text}\n${url}` }).toString().replaceAll("+", "%20")}`;
+  return `<span class="share-links">
+    ${xShareLink(text, url, label)}
+    <a class="text-link" href="${escapeHtml(email)}">Email</a>
+    <button type="button" class="text-link" data-copy-link="${escapeHtml(url)}" hidden>Copy link</button>
+    <button type="button" class="text-link" data-share-url="${escapeHtml(url)}" data-share-text="${escapeHtml(text)}" hidden>Share…</button>
+    <span class="share-status" data-share-status role="status"></span>
+  </span>`;
+}
+
 function safeLocalImage(value) {
   return /^assets\/plugins\/[a-zA-Z0-9.-]+\.(?:webp|png|jpg)$/.test(value ?? "")
     ? `/${value}`
@@ -148,7 +161,21 @@ function scoreLead(winner, runnerUp) {
   if (!winner || !runnerUp || !Number.isFinite(winner.score) || !Number.isFinite(runnerUp.score) || runnerUp.score <= 0) {
     return null;
   }
-  return Math.max(0, ((winner.score - runnerUp.score) / runnerUp.score) * 100);
+  const lower = Math.min(winner.score, runnerUp.score);
+  if (lower <= 0) return null;
+  return ((winner.score - runnerUp.score) / lower) * 100;
+}
+
+function scorePercent(gap) {
+  const magnitude = Math.abs(gap);
+  return magnitude > 0 && magnitude < 0.05 ? "less than 0.1%" : `${magnitude.toFixed(1)}%`;
+}
+
+function scoreGapLabel(winner, runnerUp) {
+  const lead = scoreLead(winner, runnerUp);
+  if (lead === null) return "";
+  if (lead === 0) return "Equal combined scores";
+  return `${scorePercent(lead)} ${lead < 0 ? "behind" : "ahead"} on score`;
 }
 
 const WINNING_SIGNALS = Object.freeze({
@@ -182,6 +209,11 @@ function meaningfulLead(delta, metric, usedContributions) {
 export function winningReason(winner, runnerUp) {
   if (!winner) return "No champion this week.";
   if (!runnerUp) return "It was the only eligible plugin in this category this week.";
+  if (runnerUp.score > winner.score) {
+    const lead = scoreLead(winner, runnerUp);
+    const gap = lead === null ? "a higher score" : `${scorePercent(lead)} more`;
+    return `It keeps the title under the stability rule: ${runnerUp.name} scored ${gap}, but a challenger must score more than 10% above the champion to replace it.`;
+  }
   const usedContributions = Boolean(winner.contributions && runnerUp.contributions);
   const leads = Object.keys(WINNING_SIGNALS)
     .map((metric) => ({ metric, delta: signalDelta(winner, runnerUp, metric) }))
@@ -212,6 +244,7 @@ function searchBlob(type) {
   return [
     type.name,
     type.description,
+    ...(DISCOVERY.aliases[type.id] ?? []),
     type.winner?.name,
     type.winner?.author,
     type.runnerUp?.name,
@@ -407,7 +440,7 @@ function scoreComparison(winner, runnerUp) {
   const candidates = [winner, runnerUp].filter(Boolean);
   const lead = scoreLead(winner, runnerUp);
   const scores = runnerUp
-    ? `Combined scores in this category: ${escapeHtml(winner.name)} ${winner.score.toFixed(3)}, ${escapeHtml(runnerUp.name)} ${runnerUp.score.toFixed(3)}${lead != null ? ` (${lead.toFixed(1)}% apart)` : ""}.`
+    ? `Combined scores in this category: ${escapeHtml(winner.name)} ${winner.score.toFixed(3)}, ${escapeHtml(runnerUp.name)} ${runnerUp.score.toFixed(3)}${lead != null ? ` (${scorePercent(lead)} apart)` : ""}.`
     : `Combined score in this category: ${winner.score.toFixed(3)} of 1.00.`;
   return `<section class="score-comparison" aria-labelledby="comparison-heading">
     <div class="comparison-heading">
@@ -417,22 +450,25 @@ function scoreComparison(winner, runnerUp) {
       </div>
       <p>These bars are raw public counts for these two plugins, not the ranking itself. Install-command copies count most. Freshness is how recently the repository was updated. ${scores} <a href="/methodology/">How the ranking is calculated</a></p>
     </div>
-    <div class="comparison-table">
-      <div class="comparison-head" aria-hidden="true">
-        <span>Signal</span>
-        <span>${escapeHtml(winner.name)}</span>
-        ${runnerUp ? `<span>${escapeHtml(runnerUp.name)}</span>` : ""}
-      </div>
+    <table class="comparison-table">
+      <caption class="visually-hidden">Marketplace signals by plugin</caption>
+      <thead><tr class="comparison-head">
+        <th scope="col">Signal</th>
+        <th scope="col">${escapeHtml(winner.name)}</th>
+        ${runnerUp ? `<th scope="col">${escapeHtml(runnerUp.name)}</th>` : ""}
+      </tr></thead>
+      <tbody>
       ${SIGNAL_METRICS.map((metric) => {
         const values = candidates.map((candidate) => metricValue(candidate, metric));
         const max = Math.max(...values, metric === "freshness" ? 0.01 : 1);
-        return `<div class="comparison-row">
-          <span class="comparison-metric">${metricLabel(metric)}</span>
-          ${comparisonBar(winner, metric, max)}
-          ${runnerUp ? comparisonBar(runnerUp, metric, max) : ""}
-        </div>`;
+        return `<tr class="comparison-row">
+          <th scope="row" class="comparison-metric">${metricLabel(metric)}</th>
+          <td>${comparisonBar(winner, metric, max)}</td>
+          ${runnerUp ? `<td>${comparisonBar(runnerUp, metric, max)}</td>` : ""}
+        </tr>`;
       }).join("")}
-    </div>
+      </tbody>
+    </table>
   </section>`;
 }
 
@@ -507,7 +543,7 @@ function showdownSection(type, slot = 0) {
       ${showdownEntry(type.runnerUp, "runner-up", href)}
     </div>
     <p class="showdown-gap">
-      ${lead != null ? `<span class="delta">${lead.toFixed(1)}% ahead on score</span>` : ""}
+      ${lead != null ? `<span class="delta">${scoreGapLabel(type.winner, type.runnerUp)}</span>` : ""}
       <span>${competedLabel(type.eligibleCount)}</span>
       <a class="text-link" href="${href}">Compare champion and runner-up</a>
     </p>
@@ -570,11 +606,13 @@ function categoryNavigation(type, rankings) {
   const index = rankings.types.findIndex((candidate) => candidate.id === type.id);
   const previous = index > 0 ? rankings.types[index - 1] : null;
   const next = index >= 0 && index < rankings.types.length - 1 ? rankings.types[index + 1] : null;
-  const others = rankings.types.filter((candidate) => candidate.id !== type.id);
+  const relatedIds = new Set(DISCOVERY.relatedGroups.filter((group) => group.includes(type.id)).flat());
+  const related = rankings.types.filter((candidate) => candidate.id !== type.id && relatedIds.has(candidate.id));
+  const others = (related.length ? related : [previous, next].filter(Boolean)).sort(byCategoryName).slice(0, 6);
   return `<section class="category-directory" aria-labelledby="other-categories-heading">
     <div class="category-directory-head">
-      <h2 id="other-categories-heading">Other categories</h2>
-      <a href="/">See all picks</a>
+      <h2 id="other-categories-heading">Explore more categories</h2>
+      <a href="/#catalog">Browse all categories</a>
     </div>
     <div class="category-grid">${others.map((candidate) => otherCategoryLink(candidate)).join("")}</div>
     <nav class="category-pagination" aria-label="Adjacent categories">
@@ -584,7 +622,41 @@ function categoryNavigation(type, rankings) {
   </section>`;
 }
 
-function homePage(rankings) {
+function starterCollections(rankings) {
+  const types = new Map(rankings.types.map((type) => [type.id, type]));
+  const cards = DISCOVERY.collections.map((collection) => {
+    const picks = collection.types.map((id) => types.get(id)).filter(Boolean);
+    if (!picks.length) return "";
+    return `<article class="starter-card"><h3>${escapeHtml(collection.title)}</h3>
+      <p>${escapeHtml(collection.description)}</p>
+      <ul>${picks.map((type) => `<li><a href="/picks/${type.id}/">${escapeHtml(type.name)}</a></li>`).join("")}</ul></article>`;
+  }).filter(Boolean);
+  return `<section class="getting-started" aria-labelledby="getting-started-heading">
+    <div class="newcomer"><h2 id="getting-started-heading">New to Omarchy?</h2>
+      <p><a href="https://omarchy.org/">Omarchy</a> is a Linux desktop built around the keyboard. Plugins add tools and shortcuts to your setup. Explore a task below, compare this week’s picks, and visit the original listing for setup and version requirements.</p></div>
+    ${cards.length ? `<div class="starter-grid">${cards.join("")}</div>` : ""}
+  </section>`;
+}
+
+function weeklySummary(rankings, history) {
+  const previous = history.filter((snapshot) => snapshot.week < rankings.week)
+    .sort((a, b) => b.week.localeCompare(a.week))[0];
+  const current = history.find((snapshot) => snapshot.week === rankings.week);
+  const changes = previous ? changesBetween(previous, rankings) : current?.changes ?? [];
+  const count = changes.length;
+  const summary = !previous && !current
+    ? "The first weekly snapshot is ready to explore."
+    : count ? `${count} ${count === 1 ? "category has" : "categories have"} a champion change in this snapshot.`
+      : "No champion changes in this snapshot. The current picks kept their titles.";
+  return `<section class="weekly-summary" aria-labelledby="weekly-summary-heading">
+    <div><p class="kicker">${escapeHtml(rankings.week ?? "Latest snapshot")}</p>
+      <h2 id="weekly-summary-heading">What changed this week</h2><p>${summary}</p></div>
+    <div>${count ? `<ul>${changes.slice(0, 3).map((change) => `<li><a href="/picks/${encodeURIComponent(change.typeId)}/">${escapeHtml(change.typeName)}</a>: ${change.current ? `${escapeHtml(change.current.name)} ${change.previous ? `replaces ${escapeHtml(change.previous.name)}` : "is the first champion"}` : "the champion spot is vacant"}.</li>`).join("")}</ul>` : ""}
+      <p><a href="/changelog/">See all weekly changes</a> · <a href="/feed.xml">Subscribe with RSS</a></p></div>
+  </section>`;
+}
+
+function homePage(rankings, history = []) {
   const types = rankings.types ?? [];
   const categoryCount = types.length;
   const eligibleEntries = types.reduce((sum, type) => sum + Number(type.eligibleCount || 0), 0);
@@ -603,7 +675,7 @@ function homePage(rankings) {
       <p class="hero-actions">
         <a class="button" href="#catalog">${escapeHtml(browseLabel(categoryCount))}</a>
         <a class="text-link" href="/methodology/">How rankings work</a>
-        ${xShareLink(
+        ${shareLinks(
           "This week's Omarchy plugin rankings, independently scored from Omarchy Plugins.",
           `${ORIGIN}/`,
           "Share this week on X"
@@ -624,12 +696,15 @@ function homePage(rankings) {
         <p class="filter-empty" data-finder-empty hidden>No categories match.</p>
       </div>
       <dl class="hero-meta">
-        <div><dt>categories</dt><dd>${categoryCount}</dd></div>
-        <div><dt>eligible_entries</dt><dd>${eligibleEntries.toLocaleString("en-US")}</dd></div>
-        <div><dt>snapshot</dt><dd>${escapeHtml(dateLabel(rankings.generatedAt) ?? rankings.week ?? "pending")}</dd></div>
+        <div><dt>Categories</dt><dd>${categoryCount}</dd></div>
+        <div><dt>Category entries</dt><dd>${eligibleEntries.toLocaleString("en-US")}</dd></div>
+        <div><dt>Snapshot</dt><dd>${escapeHtml(dateLabel(rankings.generatedAt) ?? rankings.week ?? "pending")}</dd></div>
       </dl>
+      <p class="entry-note">Plugins in multiple categories count once in each.</p>
     </aside>
   </section>
+  ${starterCollections(rankings)}
+  ${weeklySummary(rankings, history)}
   ${
     featured.length
       ? `<section class="showcase" aria-label="Featured picks">
@@ -689,7 +764,7 @@ function typePage(type, rankings) {
         <p>${escapeHtml(type.description)}. ${competedLabel(type.eligibleCount)} this week. This page shows the champion and runner-up.</p>
         ${
           type.winner
-            ? xShareLink(
+            ? shareLinks(
                 `${type.winner.name} is this week's ${type.name} champion on OmaPicks.`,
                 `${ORIGIN}/picks/${encodeURIComponent(type.id)}/`,
                 "Share this ranking on X"
@@ -712,7 +787,8 @@ function typePage(type, rankings) {
     title: `${type.name} plugins for Omarchy`,
     description,
     pathname: `/picks/${type.id}/`,
-    image: socialImage(`${type.winner?.name ?? "This week's champion"} leads the ${type.name} ranking on OmaPicks`),
+    image: { url: `/og/${type.id}.png`, type: "image/png", width: 1200, height: 630,
+      alt: `${type.name}: ${type.winner?.name ?? "No champion yet"}, ${type.runnerUp?.name ?? "no runner-up yet"} — OmaPicks ${rankings.week}` },
     body,
     structuredData: {
       "@context": "https://schema.org",
@@ -975,12 +1051,13 @@ export async function render({ root = ROOT } = {}) {
   );
   await copyOptionalDirectory(path.join(ROOT, "data", "assets", "plugins"), path.join(DIST, "assets", "plugins"));
 
-  await write("index.html", homePage(rankings));
+  await write("index.html", homePage(rankings, history));
   await write("methodology/index.html", methodologyPage(rankings));
   await write("privacy/index.html", privacyPage());
   await write("changelog/index.html", changelogPage(history));
   for (const type of rankings.types) {
     await write(`picks/${encodeURIComponent(type.id)}/index.html`, typePage(type, rankings));
+    await write(`og/${type.id}.png`, renderSocialImage(type, rankings.week));
   }
   for (const snapshot of history) {
     for (const type of snapshot.types ?? []) {
@@ -1049,8 +1126,8 @@ export async function render({ root = ROOT } = {}) {
   return { typeCount: rankings.types.length, historyCount: history.length, output: DIST };
 }
 
-export function renderFixtureHome(rankings) {
-  return homePage(rankings);
+export function renderFixtureHome(rankings, history = []) {
+  return homePage(rankings, history);
 }
 
 export function renderFixtureType(type, rankings) {

@@ -96,18 +96,56 @@ if (filter) {
 
 async function copyText(text) {
   if (navigator.clipboard?.writeText) {
-    await navigator.clipboard.writeText(text);
-    return;
+    try {
+      await navigator.clipboard.writeText(text);
+      return;
+    } catch {
+      // Some browsers expose Clipboard API but deny writes. Try the selection fallback.
+    }
   }
   const area = document.createElement("textarea");
+  const activeElement = document.activeElement;
   area.value = text;
   area.style.position = "fixed";
   area.style.opacity = "0";
   document.body.append(area);
   area.select();
-  const copied = document.execCommand("copy");
-  area.remove();
+  let copied = false;
+  try {
+    copied = document.execCommand("copy");
+  } finally {
+    area.remove();
+    activeElement?.focus();
+  }
   if (!copied) throw new Error("Copy failed");
+}
+
+for (const button of document.querySelectorAll("[data-copy-link]")) {
+  button.hidden = false;
+  button.addEventListener("click", async () => {
+    const status = button.closest(".share-links")?.querySelector("[data-share-status]");
+    if (status) status.textContent = "";
+    try {
+      await copyText(button.dataset.copyLink);
+      if (status) status.textContent = "Link copied.";
+    } catch {
+      if (status) status.textContent = "Could not copy the link. Copy the address from your browser or use Email.";
+    }
+  });
+}
+
+for (const button of document.querySelectorAll("[data-share-url]")) {
+  if (typeof navigator.share !== "function") continue;
+  button.hidden = false;
+  button.addEventListener("click", async () => {
+    const status = button.closest(".share-links")?.querySelector("[data-share-status]");
+    if (status) status.textContent = "";
+    try {
+      await navigator.share({ title: "OmaPicks", text: button.dataset.shareText, url: button.dataset.shareUrl });
+    } catch (error) {
+      if (error.name !== "AbortError" && status) status.textContent = "Could not open sharing. Use Copy link or Email.";
+    }
+  });
 }
 
 for (const button of document.querySelectorAll("[data-copy-command]")) {
