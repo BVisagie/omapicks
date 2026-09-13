@@ -4,7 +4,7 @@ Copyright 2026 OmaPicks contributors
 Software
 --------
 
-Original source code in build/, site/ (excluding the brand assets listed
+Original source code in build/ (excluding fonts/), site/ (excluding the brand assets listed
 below), test/, and .github/ is licensed under the Apache License 2.0.
 See LICENSE.
 
@@ -17,6 +17,10 @@ by OmaPicks contributors.
 
 Third-party material
 --------------------
+
+The bundled Liberation Mono font in build/fonts/ is licensed under the
+SIL Open Font License 1.1; see build/fonts/LICENSE.txt. It is used only
+to render social images during the build.
 
 Plugin metadata, engagement statistics, and preview locations come from
 Omarchy Plugins:

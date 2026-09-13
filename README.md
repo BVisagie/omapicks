@@ -6,13 +6,16 @@ The site is static. Visitors never call the source APIs, and there are no accoun
 
 ## Develop
 
-Node.js 24.20.0 or newer. There are no npm packages to install.
+Node.js 24.20.0 or newer. Run `npm ci` to install the pinned development dependencies. Category social preview PNGs are rendered offline using `@resvg/resvg-js` and a bundled Liberation Mono font; no browser or system fonts are needed.
 
 ```sh
+npm ci                # install build dependencies
 npm test              # unit and rendering tests
 npm run build         # offline render into dist/
 npm run refresh       # fetch public feeds and write a new weekly snapshot
-npm run check          # tests followed by a production render
+npm run check         # tests followed by a production render
+npx playwright install chromium
+npm run test:e2e       # browser interactions, mobile layouts, contrast
 ```
 
 `npm run build` reads committed files under `data/` and never accesses the network. `npm run refresh` is the only networked step.
@@ -44,9 +47,19 @@ OmaPicks is not affiliated with Omarchy, 37signals, or omarchyplugins.com.
 
 OmaPicks uses split licensing so publishing the source does not claim ownership of upstream material:
 
-- Source code in `build/`, `site/` (excluding brand artwork), `test/`, and `.github/` is licensed under [Apache License 2.0](LICENSE).
+- Source code in `build/` (excluding the separately licensed font under `build/fonts/`), `site/` (excluding brand artwork), `test/`, and `.github/` is licensed under [Apache License 2.0](LICENSE).
 - The original taxonomy and generated JSON datasets under `data/` are offered under [CC BY 4.0](LICENSE-DATA), only to the extent OmaPicks owns rights in them. Upstream rights remain unaffected.
 - Downloaded plugin previews under `data/assets/plugins/` belong to their respective authors or licensors and are not covered by the project licenses.
 - The OmaPicks name, logo, icon, and social artwork are reserved brand assets and are not covered by the project licenses.
 
 See [NOTICE](NOTICE) for the concise scope and attribution statement.
+
+## Discovery and feed safeguards
+
+`site/discovery.json` contains category search aliases, three task-oriented starter collections, and related-category groups. These are editorial navigation aids; they do not affect classification or the weekly rankings. The homepage counts category entries, so a plugin competing in several categories is counted in each. Weekly highlights compare the latest ranking with the previous published week.
+
+A refresh rejects engagement feeds covering fewer than 50% of catalog IDs or containing fewer than 75% of the previous stats entry count. These conservative guards allow new listings without engagement while stopping empty, unrelated, or severely truncated responses before any files are written. If the upstream feed legitimately shrinks beyond these limits, investigate and deliberately adjust the guard; do not delete the previous snapshot to bypass it.
+
+Social images are regenerated from each category and its current picks during `npm run build`. Email links work without JavaScript; copying links and native sharing progressively enhance them where supported. No third-party sharing script is loaded.
+
+Browser tests launch their own local server. To use a system Chromium locally, set `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` to its executable path; CI installs Playwright’s pinned Chromium.

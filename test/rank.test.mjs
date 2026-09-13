@@ -10,7 +10,8 @@ import {
   pickWithHysteresis,
   prepareTaxonomy,
   rankPlugins,
-  runnerUpChangesBetween
+  runnerUpChangesBetween,
+  scoreLeader
 } from "../build/rank.mjs";
 
 const taxonomy = {
@@ -878,6 +879,7 @@ test("ranking is deterministic, dampens sparse entries, and permits a one-item c
   const weather = first.rankings.types.find((type) => type.id === "weather");
   const clock = first.rankings.types.find((type) => type.id === "clock");
   assert.equal(weather.winner.id, "popular");
+  assert.deepEqual(weather.topScorer, { id: "popular", name: "popular", score: weather.winner.score });
   assert.ok(weather.winner.evidence > weather.runnerUp.evidence);
   assert.equal(clock.winner.id, "clock-only");
   assert.equal(clock.runnerUp, null);
@@ -957,5 +959,20 @@ test("inverted raw-score races list hysteresis-held champions", () => {
   assert.deepEqual(
     races.map((race) => ({ typeId: race.typeId, gapPercent: race.gapPercent, leader: race.leader.id })),
     [{ typeId: "themes-appearance", gapPercent: 8, leader: "gallery" }]
+  );
+});
+
+test("score leaders include a top scorer held out of both sticky places", () => {
+  const winner = { id: "champion", name: "Champion", score: 0.92 };
+  const runnerUp = { id: "runner", name: "Runner", score: 0.9 };
+  const newcomer = { id: "newcomer", name: "Newcomer", score: 0.98 };
+  const type = { id: "weather", name: "Weather", winner, runnerUp, topScorer: newcomer };
+  assert.equal(scoreLeader(type), newcomer);
+  assert.equal(scoreLeader({ ...type, topScorer: winner }), null);
+  assert.equal(scoreLeader({ ...type, topScorer: undefined }), null);
+  assert.equal(scoreLeader({ ...type, topScorer: undefined, runnerUp: { ...runnerUp, score: 0.95 } }).id, "runner");
+  assert.deepEqual(
+    invertedRawScoreRaces({ types: [type] }).map((race) => ({ leader: race.leader.id, gapPercent: race.gapPercent })),
+    [{ leader: "newcomer", gapPercent: 6.5 }]
   );
 });

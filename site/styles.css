@@ -3,7 +3,7 @@
   --bg: #1a1b26;
   --surface: #24283b;
   --ink: #c0caf5;
-  --muted: #7f849c;
+  --muted: #949bb5;
   --line: #414868;
   --accent: #8bd5ca;
   --well: #1f2335;
@@ -21,7 +21,7 @@
     --bg: #e9e9ec;
     --surface: #f4f4f5;
     --ink: #343b58;
-    --muted: #6172a0;
+    --muted: #495a80;
     --line: #a8aec2;
     --accent: #166d67;
     --well: #d7dae5;
@@ -33,7 +33,7 @@
   --bg: #1a1b26;
   --surface: #24283b;
   --ink: #c0caf5;
-  --muted: #7f849c;
+  --muted: #949bb5;
   --line: #414868;
   --accent: #8bd5ca;
   --well: #1f2335;
@@ -44,7 +44,7 @@
   --bg: #e9e9ec;
   --surface: #f4f4f5;
   --ink: #343b58;
-  --muted: #6172a0;
+  --muted: #495a80;
   --line: #a8aec2;
   --accent: #166d67;
   --well: #d7dae5;
@@ -1125,35 +1125,40 @@ button {
 }
 
 .comparison-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
   border-top: 1px solid var(--ink);
-}
-
-.comparison-head,
-.comparison-row {
-  display: grid;
-  grid-template-columns: 7rem repeat(2, minmax(0, 1fr));
-  gap: 1.2rem;
-  align-items: center;
   font-family: var(--mono);
 }
 
+.comparison-table th,
+.comparison-table td {
+  padding: 0.8rem 0.6rem;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.comparison-table th:first-child {
+  width: 7rem;
+  padding-left: 0;
+}
+
 .comparison-head {
-  padding: 0.7rem 0;
   color: var(--muted);
   font-size: 0.72rem;
-  font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
 .comparison-row {
-  min-height: 2.8rem;
   border-top: 1px solid var(--line);
   font-size: 0.78rem;
 }
 
 .comparison-metric {
   color: var(--muted);
+  font-weight: 400;
 }
 
 .comparison-value {
@@ -1690,10 +1695,13 @@ footer p {
     font-weight: 500;
   }
 
-  .comparison-head,
-  .comparison-row {
-    grid-template-columns: 4.5rem repeat(2, minmax(0, 1fr));
-    gap: 0.55rem;
+  .comparison-table th,
+  .comparison-table td {
+    padding: 0.7rem 0.3rem;
+  }
+
+  .comparison-table th:first-child {
+    width: 5.25rem;
   }
 
   .comparison-value {
@@ -1764,4 +1772,104 @@ footer p {
     animation: none;
     opacity: 1;
   }
+}
+
+/* Discovery and sharing use the same reading order at every viewport size. */
+.share-links {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.7rem 1rem;
+}
+
+.share-links button {
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--accent);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.entry-note {
+  margin: 0.5rem 0 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.getting-started,
+.weekly-summary {
+  margin: 0 0 2.5rem;
+  padding-top: 1.8rem;
+  border-top: 1px solid var(--line);
+}
+
+.getting-started h2,
+.weekly-summary h2 {
+  margin: 0 0 0.8rem;
+  font: 650 1.65rem/1.2 var(--mono);
+}
+
+.newcomer {
+  max-width: 76ch;
+}
+
+.newcomer p,
+.starter-card p,
+.weekly-summary p {
+  color: var(--muted);
+}
+
+.starter-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.starter-card {
+  padding: 1.2rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+.starter-card h3 {
+  margin: 0;
+  font: 650 1.1rem/1.4 var(--mono);
+}
+
+.starter-card ul {
+  padding-left: 1.2rem;
+}
+
+.starter-card li,
+.weekly-summary li {
+  margin: 0.45rem 0;
+}
+
+.weekly-summary {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 2rem;
+}
+
+.weekly-summary ul {
+  margin-top: 0;
+  padding-left: 1.2rem;
+}
+
+@media (max-width: 700px) {
+  .starter-grid,
+  .weekly-summary {
+    grid-template-columns: 1fr;
+  }
+  .weekly-summary {
+    gap: 0.5rem;
+  }
+}
+
+.share-status:not(:empty) {
+  flex-basis: 100%;
+  color: var(--muted);
+  font-size: 0.84rem;
 }

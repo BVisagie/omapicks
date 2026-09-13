@@ -44,7 +44,7 @@ function checksum(value) {
   return createHash("sha256").update(JSON.stringify(value)).digest("hex");
 }
 
-export function validateFeeds(catalogFeed, statsFeed, minimumCatalogSize) {
+export function validateFeeds(catalogFeed, statsFeed, minimumCatalogSize, previous = null) {
   if (!catalogFeed || !Array.isArray(catalogFeed.plugins)) throw new Error("Catalog feed is missing plugins[]");
   if (catalogFeed.plugins.length < minimumCatalogSize) {
     throw new Error(`Catalog contains ${catalogFeed.plugins.length} plugins; expected at least ${minimumCatalogSize}`);
@@ -57,7 +57,8 @@ export function validateFeeds(catalogFeed, statsFeed, minimumCatalogSize) {
     if (ids.has(plugin.id)) throw new Error(`Catalog contains duplicate id: ${plugin.id}`);
     ids.add(plugin.id);
   }
-  if (!statsFeed || statsFeed.schemaVersion !== 1 || !statsFeed.plugins || Array.isArray(statsFeed.plugins)) {
+  if (!statsFeed || statsFeed.schemaVersion !== 1 || !statsFeed.plugins ||
+      typeof statsFeed.plugins !== "object" || Array.isArray(statsFeed.plugins)) {
     throw new Error("Stats feed does not match schemaVersion 1");
   }
   for (const [id, metrics] of Object.entries(statsFeed.plugins)) {
@@ -67,6 +68,17 @@ export function validateFeeds(catalogFeed, statsFeed, minimumCatalogSize) {
         throw new Error(`Stats entry ${id}.${key} must be a non-negative number`);
       }
     }
+  }
+  // A healthy catalog does not imply a healthy, independently fetched stats feed.
+  // Allow new listings without stats, but stop a partial response from resetting scores.
+  const statsCount = Object.keys(statsFeed.plugins).length;
+  const overlapCount = [...ids].filter((id) => Object.hasOwn(statsFeed.plugins, id)).length;
+  if (overlapCount < Math.max(1, Math.ceil(ids.size * 0.5))) {
+    throw new Error(`Stats overlap only ${overlapCount} of ${ids.size} catalog plugins; expected at least 50%`);
+  }
+  const previousCount = previous?.source?.stats?.count;
+  if (Number.isFinite(previousCount) && statsCount < previousCount * 0.75) {
+    throw new Error(`Stats contains ${statsCount} entries; fewer than 75% of the previous ${previousCount}`);
   }
 }
 
@@ -288,7 +300,7 @@ export async function refresh({
     fetchJson(CATALOG_URL, { fetchImpl }),
     fetchJson(STATS_URL, { fetchImpl })
   ]);
-  validateFeeds(catalogResult.body, statsResult.body, minimumCatalogSize);
+  validateFeeds(catalogResult.body, statsResult.body, minimumCatalogSize, previous);
 
   const source = {
     catalog: {

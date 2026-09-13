@@ -288,13 +288,17 @@ export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = n
     const winner = pickWithHysteresis(candidates, prior?.winner?.id);
     const winnerIds = new Set(winner ? [winner.id] : []);
     const runnerUp = pickWithHysteresis(candidates, prior?.runnerUp?.id, winnerIds);
+    // Both slots are sticky, so the highest raw score may belong to a plugin that is shown in
+    // neither. Record it so explanations can disclose the real gap instead of only the runner-up's.
+    const top = candidates[0];
     return {
       id: type.id,
       name: type.name,
       description: type.description ?? "",
       eligibleCount: candidates.length,
       winner,
-      runnerUp
+      runnerUp,
+      topScorer: top ? { id: top.id, name: top.name, score: top.score } : null
     };
   });
 
@@ -354,16 +358,27 @@ export function runnerUpChangesBetween(previous, current) {
   return leadershipChanges(previous, current, "runnerUp");
 }
 
+// The plugin that outscored a retained champion this week, if any. Snapshots written before
+// topScorer existed fall back to the runner-up, the only other score they recorded.
+export function scoreLeader(type) {
+  if (!type?.winner) return null;
+  const leader = [type.topScorer, type.runnerUp]
+    .filter((candidate) => candidate && Number.isFinite(candidate.score))
+    .sort((a, b) => b.score - a.score)[0];
+  return leader && leader.id !== type.winner.id && leader.score > type.winner.score ? leader : null;
+}
+
 export function invertedRawScoreRaces(rankings) {
   const races = [];
   for (const type of rankings?.types ?? []) {
-    if (!type.winner || !type.runnerUp || !(type.runnerUp.score > type.winner.score)) continue;
+    const leader = scoreLeader(type);
+    if (!leader) continue;
     races.push({
       typeId: type.id,
       typeName: type.name,
       champion: { id: type.winner.id, name: type.winner.name, score: type.winner.score },
-      leader: { id: type.runnerUp.id, name: type.runnerUp.name, score: type.runnerUp.score },
-      gapPercent: round((type.runnerUp.score / type.winner.score - 1) * 100, 1)
+      leader: { id: leader.id, name: leader.name, score: leader.score },
+      gapPercent: round((leader.score / type.winner.score - 1) * 100, 1)
     });
   }
   return races.sort((a, b) => b.gapPercent - a.gapPercent || a.typeId.localeCompare(b.typeId));
