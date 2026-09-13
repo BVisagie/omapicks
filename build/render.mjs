@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { cp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { METHODOLOGY, changesBetween } from "./rank.mjs";
+import { METHODOLOGY, changesBetween, scoreLeader } from "./rank.mjs";
 import { renderSocialImage } from "./social.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -66,6 +66,12 @@ function iconLinks() {
   <link rel="icon" href="/assets/icon-192.png" type="image/png" sizes="192x192">
   <link rel="icon" href="/favicon.ico" sizes="48x48">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">`;
+}
+
+// Category images are redrawn every refresh, so the week is part of the URL: /og/* is cached
+// for a day, and a stable name would keep showing last week's picks beside this week's alt text.
+function categoryImagePath(type, week) {
+  return `og/${encodeURIComponent(week ?? "pending")}/${encodeURIComponent(type.id)}.png`;
 }
 
 function socialImage(alt) {
@@ -171,9 +177,16 @@ function scorePercent(gap) {
   return magnitude > 0 && magnitude < 0.05 ? "less than 0.1%" : `${magnitude.toFixed(1)}%`;
 }
 
-function scoreGapLabel(winner, runnerUp) {
-  const lead = scoreLead(winner, runnerUp);
+function hiddenLeader(type) {
+  const leader = scoreLeader(type);
+  return leader && leader.id !== type.runnerUp?.id ? leader : null;
+}
+
+function scoreGapLabel(type) {
+  const hidden = hiddenLeader(type);
+  const lead = scoreLead(type.winner, hidden ?? type.runnerUp);
   if (lead === null) return "";
+  if (hidden) return `${scorePercent(lead)} behind this week's top score`;
   if (lead === 0) return "Equal combined scores";
   return `${scorePercent(lead)} ${lead < 0 ? "behind" : "ahead"} on score`;
 }
@@ -206,13 +219,14 @@ function meaningfulLead(delta, metric, usedContributions) {
   return delta >= 1;
 }
 
-export function winningReason(winner, runnerUp) {
+export function winningReason(winner, runnerUp, topScorer = null) {
   if (!winner) return "No champion this week.";
   if (!runnerUp) return "It was the only eligible plugin in this category this week.";
-  if (runnerUp.score > winner.score) {
-    const lead = scoreLead(winner, runnerUp);
+  const leader = scoreLeader({ winner, runnerUp, topScorer });
+  if (leader) {
+    const lead = scoreLead(winner, leader);
     const gap = lead === null ? "a higher score" : `${scorePercent(lead)} more`;
-    return `It keeps the title under the stability rule: ${runnerUp.name} scored ${gap}, but a challenger must score more than 10% above the champion to replace it.`;
+    return `It keeps the title under the stability rule: ${leader.name} scored ${gap}, but a challenger must score more than 10% above the champion to replace it.`;
   }
   const usedContributions = Boolean(winner.contributions && runnerUp.contributions);
   const leads = Object.keys(WINNING_SIGNALS)
@@ -435,20 +449,25 @@ function comparisonBar(candidate, metric, max) {
   </span>`;
 }
 
-function scoreComparison(winner, runnerUp) {
+function scoreComparison(type) {
+  const { winner, runnerUp } = type;
   if (!winner) return "";
   const candidates = [winner, runnerUp].filter(Boolean);
   const lead = scoreLead(winner, runnerUp);
+  const hidden = hiddenLeader(type);
   const scores = runnerUp
     ? `Combined scores in this category: ${escapeHtml(winner.name)} ${winner.score.toFixed(3)}, ${escapeHtml(runnerUp.name)} ${runnerUp.score.toFixed(3)}${lead != null ? ` (${scorePercent(lead)} apart)` : ""}.`
     : `Combined score in this category: ${winner.score.toFixed(3)} of 1.00.`;
+  const hiddenNote = hidden
+    ? ` The top score this week was ${escapeHtml(hidden.name)} at ${hidden.score.toFixed(3)}; it is not shown because both places stay with their holders until beaten by more than 10%.`
+    : "";
   return `<section class="score-comparison" aria-labelledby="comparison-heading">
     <div class="comparison-heading">
       <div>
         <p class="kicker">Marketplace counts</p>
         <h2 id="comparison-heading">How they compare</h2>
       </div>
-      <p>These bars are raw public counts for these two plugins, not the ranking itself. Install-command copies count most. Freshness is how recently the repository was updated. ${scores} <a href="/methodology/">How the ranking is calculated</a></p>
+      <p>These bars are raw public counts for these two plugins, not the ranking itself. Install-command copies count most. Freshness is how recently the repository was updated. ${scores}${hiddenNote} <a href="/methodology/">How the ranking is calculated</a></p>
     </div>
     <table class="comparison-table">
       <caption class="visually-hidden">Marketplace signals by plugin</caption>
@@ -476,13 +495,13 @@ function previewFrame(candidate) {
   return `<div class="preview-frame">${mediaImage(candidate)}</div>`;
 }
 
-function candidateCard(candidate, place, type, week, { runnerUp = null } = {}) {
+function candidateCard(candidate, place, type, week, { runnerUp = null, topScorer = null } = {}) {
   if (!candidate) return `<article class="pick-card empty"><p>No eligible plugin this week.</p></article>`;
   const badgePath = `/badges/${encodeURIComponent(week)}/${encodeURIComponent(type.id)}/${encodeURIComponent(candidate.id)}.svg`;
   const rank = place === "winner" ? "01 Champion" : "02 Runner-up";
   const extras = [statusPill(candidate)];
   const badgeMarkdown = `[![OmaPicks ${type.name} champion](${ORIGIN}${badgePath})](${ORIGIN}/picks/${type.id}/)`;
-  const reason = place === "winner" ? winningReason(candidate, runnerUp) : "";
+  const reason = place === "winner" ? winningReason(candidate, runnerUp, topScorer) : "";
   return `<article class="pick-card ${place === "winner" ? "champion" : ""}">
     <div class="card-label"><span>${rank}</span><span class="card-flags">${extras.join("")}</span></div>
     ${previewFrame(candidate)}
@@ -531,7 +550,7 @@ function showdownEntry(candidate, place, href) {
 
 function showdownSection(type, slot = 0) {
   const href = `/picks/${encodeURIComponent(type.id)}/`;
-  const lead = scoreLead(type.winner, type.runnerUp);
+  const gap = scoreGapLabel(type);
   return `<article class="showdown" data-slot="${slot}">
     <header class="showdown-head">
       <p class="kicker">Featured today</p>
@@ -543,7 +562,7 @@ function showdownSection(type, slot = 0) {
       ${showdownEntry(type.runnerUp, "runner-up", href)}
     </div>
     <p class="showdown-gap">
-      ${lead != null ? `<span class="delta">${scoreGapLabel(type.winner, type.runnerUp)}</span>` : ""}
+      ${gap ? `<span class="delta">${gap}</span>` : ""}
       <span>${competedLabel(type.eligibleCount)}</span>
       <a class="text-link" href="${href}">Compare champion and runner-up</a>
     </p>
@@ -774,10 +793,10 @@ function typePage(type, rankings) {
       </div>
     </section>
     <div class="podium">
-      ${candidateCard(type.winner, "winner", type, rankings.week, { runnerUp: type.runnerUp })}
+      ${candidateCard(type.winner, "winner", type, rankings.week, { runnerUp: type.runnerUp, topScorer: type.topScorer })}
       ${candidateCard(type.runnerUp, "runner-up", type, rankings.week)}
     </div>
-    ${scoreComparison(type.winner, type.runnerUp)}
+    ${scoreComparison(type)}
     <aside class="method-note">
       <h2>How we pick</h2>
       <p>This is not a vote. Install-command copies count most, then hearts and GitHub stars. Listing views barely count. Recently updated repositories rank higher than abandoned ones, and a verified listing is only a small bonus. Plugins with little public evidence are pulled toward the middle, so a brand-new listing cannot win on three copies. A champion stays until a challenger is more than 10% ahead on the combined score. <a href="/methodology/">Full scoring notes</a></p>
@@ -787,7 +806,7 @@ function typePage(type, rankings) {
     title: `${type.name} plugins for Omarchy`,
     description,
     pathname: `/picks/${type.id}/`,
-    image: { url: `/og/${type.id}.png`, type: "image/png", width: 1200, height: 630,
+    image: { url: `/${categoryImagePath(type, rankings.week)}`, type: "image/png", width: 1200, height: 630,
       alt: `${type.name}: ${type.winner?.name ?? "No champion yet"}, ${type.runnerUp?.name ?? "no runner-up yet"} — OmaPicks ${rankings.week}` },
     body,
     structuredData: {
@@ -1057,7 +1076,7 @@ export async function render({ root = ROOT } = {}) {
   await write("changelog/index.html", changelogPage(history));
   for (const type of rankings.types) {
     await write(`picks/${encodeURIComponent(type.id)}/index.html`, typePage(type, rankings));
-    await write(`og/${type.id}.png`, renderSocialImage(type, rankings.week));
+    await write(categoryImagePath(type, rankings.week), renderSocialImage(type, rankings.week));
   }
   for (const snapshot of history) {
     for (const type of snapshot.types ?? []) {

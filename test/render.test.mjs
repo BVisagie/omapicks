@@ -438,7 +438,8 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   );
   assert.ok(home.includes(`alt="${escapeHtml(featured[0].winner.name)} preview"`));
   assert.match(home, /og:image" content="https:\/\/omapicks\.com\/og\/terminal\.jpg"/);
-  assert.match(pick, /og:image" content="https:\/\/omapicks\.com\/og\/weather\.png"/);
+  assert.ok(pick.includes(`og:image" content="https://omapicks.com/og/${rankings.week}/weather.png"`));
+  await stat(new URL(`../dist/og/${rankings.week}/weather.png`, import.meta.url));
   assert.match(home, /Plugin metadata, engagement signals, and previews come from/);
   assert.match(home, /target="_blank" rel="noopener noreferrer">Open-source code<\/a>/);
   assert.match(feedXsl, /target="_blank" rel="noopener noreferrer">Open-source code<\/a>/);
@@ -612,6 +613,13 @@ test("retained champions disclose the real gap and stability rule", () => {
   assert.match(pick, /<th scope="row" class="comparison-metric">Copies<\/th>/);
   rankings.types[0].runnerUp.score = 0.9;
   assert.match(renderFixtureHome(rankings), /Equal combined scores/);
+  rankings.types[0].runnerUp.score = 0.945;
+  rankings.types[0].topScorer = { id: "newcomer", name: "Newcomer", score: 0.99 };
+  const hiddenPick = renderFixtureType(rankings.types[0], rankings);
+  assert.match(hiddenPick, /Newcomer scored 10\.0% more/);
+  assert.match(hiddenPick, /The top score this week was Newcomer at 0\.990/);
+  assert.match(renderFixtureHome(rankings), /10\.0% behind this week's top score/);
+  delete rankings.types[0].topScorer;
   rankings.types[0].runnerUp.score = 0.900001;
   assert.match(renderFixtureType(rankings.types[0], rankings), /less than 0.1% apart/);
 });
