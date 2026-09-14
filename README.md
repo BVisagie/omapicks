@@ -65,3 +65,7 @@ Social images are regenerated from each category and its current picks during `n
 Browser tests launch their own local server. To use a system Chromium locally, set `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` to its executable path; CI installs Playwright’s pinned Chromium.
 
 Both the midweek pre-check (`--dry-run`) and the weekly refresh explain their outcome in the Actions log and job summary: feed validation and checksum changes, catalog coverage, champion and runner-up changes, and the candidate scores behind each selection. A challenger must beat an available incumbent by strictly more than 10%; runner-up selection excludes the champion. Dry runs do not publish. A same-week refresh with unchanged taxonomy explicitly reports that it skipped fetching and recalculation because the weekly snapshot is frozen. Current-run changes are distinguished from earlier events retained in the weekly changelog.
+
+## Category discovery pilot
+
+The report-only **Weekly category discovery** workflow runs Tuesdays at 06:43 UTC and can be started manually. It scans for possible taxonomy gaps, requires repository diversity and observations at least six days apart, and provides an Actions summary plus a downloadable evidence bundle and LLM follow-up prompt. It uses no model API key and never changes categories or opens PRs. See [the pilot guide](docs/category-discovery.md) for limitations, review decisions, replay instructions, and the four-week evaluation.

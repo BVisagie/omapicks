@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "minimumRepositories": 3,
+  "minimumOwners": 2,
+  "maximumSuggestions": 3,
+  "concepts": [
+    { "id": "translation", "name": "Text translation", "terms": ["translate", "translation", "translator"] },
+    { "id": "dictionary", "name": "Dictionaries and word lookup", "terms": ["dictionary", "thesaurus", "word definitions"] },
+    { "id": "config-backup", "name": "Configuration backup and recovery", "terms": ["config snapshots", "configuration backup", "config backup", "config time machine", "configuration repository", "dotfile backup"] },
+    { "id": "prayer-times", "name": "Prayer times", "terms": ["prayer times", "prayer countdown", "adhan"] },
+    { "id": "security-scanning", "name": "Security scanning", "terms": ["security scan", "security scanner", "security posture", "security auditor", "dependency audit", "code health scanner"] },
+    { "id": "file-sync", "name": "File synchronization", "terms": ["syncthing", "file sync", "folder sync", "file synchronization"] },
+    { "id": "keybindings", "name": "Keyboard shortcut management", "terms": ["keybind manager", "keybinding manager", "keybindings", "keyboard shortcuts", "shortcut editor"] }
+  ],
+  "decisions": []
+}

@@ -1,0 +1,71 @@
+name: Weekly category discovery
+
+on:
+  schedule:
+    - cron: "43 6 * * 2"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: category-discovery-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Use Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          check-latest: true
+          package-manager-cache: false
+      - name: Test discovery safeguards
+        run: node --test test/category-discovery.test.mjs
+      - name: Restore last successful main-branch observation
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          RUN_ID="$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/category-discovery.yml/runs?status=success&branch=main&per_page=1" --jq '.workflow_runs[0].id // empty')"
+          if [[ -z "$RUN_ID" ]]; then
+            echo "No previous successful main-branch observation; starting a baseline."
+            exit 0
+          fi
+          ARTIFACT_ID="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${RUN_ID}/artifacts" --jq '.artifacts[] | select(.name == "category-discovery-state" and .expired == false) | .id')"
+          if [[ -z "$ARTIFACT_ID" ]]; then
+            echo "Previous state artifact is missing or expired; persistence must be established again."
+            exit 0
+          fi
+          gh run download "$RUN_ID" --repo "$GITHUB_REPOSITORY" --name category-discovery-state --dir tmp/category-discovery-previous
+          echo "DISCOVERY_PREVIOUS=tmp/category-discovery-previous/state.json" >> "$GITHUB_ENV"
+      - name: Scan live catalog and explain category opportunities
+        run: node scripts/category-discovery.mjs
+      - name: Archive reproducible evidence and LLM handoff
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: category-discovery-report
+          path: tmp/category-discovery/
+          if-no-files-found: error
+          retention-days: 90
+      - name: Preserve observations for next week
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: category-discovery-state
+          path: tmp/category-discovery/state.json
+          if-no-files-found: error
+          retention-days: 90
+      - name: Explain an incomplete run
+        if: failure()
+        run: |
+          echo '## Discovery did not complete successfully' >> "$GITHUB_STEP_SUMMARY"
+          echo 'A test, feed, history download, analysis, or artifact step failed. This is not evidence that no categories are missing. Inspect the failed step. The workflow has no repository write permission.' >> "$GITHUB_STEP_SUMMARY"
