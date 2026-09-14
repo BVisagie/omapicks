@@ -114,3 +114,66 @@ test("successful scan archives replayable evidence without changing published da
   assert.deepEqual(JSON.parse(await readFile(path.join(root, "data/rankings.json"))), ranking);
   assert.deepEqual(JSON.parse(await readFile(path.join(root, "tmp/category-discovery/state.json"))), report.state);
 });
+
+test("artifact restore supports flat/nested layouts and missing files without masking ambiguity", async (context) => {
+  const { restoreState } = await import("../scripts/restore-category-state.mjs");
+  const root = await mkdtemp(path.join(os.tmpdir(), "omapicks-restore-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  const directory = path.join(root, "download");
+  const destination = path.join(root, "restored/state.json");
+  const envFile = path.join(root, "env");
+  assert.equal(await restoreState({ directory, destination, envFile }), false);
+  await assert.rejects(readFile(envFile), /ENOENT/);
+  await mkdir(directory);
+  assert.equal(await restoreState({ directory, destination, envFile }), false);
+  const state = JSON.stringify(analyze(input).state);
+  await writeFile(path.join(directory, "state.json"), state);
+  assert.equal(await restoreState({ directory, destination, envFile }), true);
+  assert.equal(await readFile(destination, "utf8"), state);
+  await rm(path.join(directory, "state.json"));
+  await mkdir(path.join(directory, "nested"));
+  await writeFile(path.join(directory, "nested/state.json"), state);
+  assert.equal(await restoreState({ directory, destination, envFile }), true);
+  assert.match(await readFile(envFile, "utf8"), /DISCOVERY_PREVIOUS=/);
+  const restored = JSON.parse(await readFile(destination));
+  assert.equal(analyze({ ...input, previous: restored, now: laterDate }).suggestions.length, 1);
+  await writeFile(path.join(directory, "state.json"), state);
+  await assert.rejects(restoreState({ directory, destination, envFile }), /multiple state.json/);
+});
+
+test("collapsed groups retain full evidence and identify the parent group", () => {
+  const result = analyze({ ...input, catalog: catalog.map((p) => ({ ...p, description: "Translate foreign language" })) });
+  assert.equal(result.collapsedGroups.length, result.counts.duplicate);
+  const hidden = result.collapsedGroups.find((g) => g.id === "phrase:foreign-language");
+  assert.equal(hidden.collapsedInto, "concept:translation");
+  assert.equal(hidden.members.length, 3);
+  assert.deepEqual(hidden.evidenceRepositories, result.watchlist[0].evidenceRepositories);
+});
+
+test("new classified or incidental repositories cannot reopen a dismissed gap", () => {
+  const baseline = analyze(input);
+  const decided = { ...config, decisions: [{ id: "concept:translation", status: "dismissed", reason: "Reviewed", repositories: baseline.watchlist[0].repositories }] };
+  for (const description of ["Translate music", `${"Incidental text. ".repeat(10)} Translate text`]) {
+    const result = analyze({ ...input, config: decided, previous: baseline.state, now: laterDate, catalog: [...catalog, ...["delta", "epsilon", "zeta"].map((id) => plugin(id, description))] });
+    assert.equal(result.suggestions.length, 0);
+    assert.equal(result.candidates.find((g) => g.id === "concept:translation").newRepositories.length, 0);
+  }
+});
+
+test("GitHub subpaths cannot inflate repository diversity; nested namespaces remain intact", () => {
+  const root = repositoryIdentity("https://github.com/a/b");
+  for (const suffix of ["/tree/main", "/blob/main/README.md", ".git/tree/main"]) assert.deepEqual(repositoryIdentity(`https://github.com/a/b${suffix}`), root);
+  const result = analyze({ ...input, catalog: catalog.map((p, i) => ({ ...p, repo: `https://github.com/a/b/tree/branch${i}` })) });
+  assert.equal(result.watchlist.length, 0);
+  assert.equal(repositoryIdentity("https://gitlab.com/a/subgroup/repo").repository, "gitlab.com/a/subgroup/repo");
+});
+
+test("bounded response strips stale transport headers and preserves source metadata", async () => {
+  const { boundedFetch } = await import("../scripts/category-discovery.mjs");
+  const response = await boundedFetch(async () => new Response('{"ok":true}', { headers: { "content-encoding": "gzip", "content-length": "99", etag: '"source"', "last-modified": "Mon, 14 Sep 2026 00:00:00 GMT" } }), "https://example.test", {});
+  assert.equal(response.headers.get("content-encoding"), null);
+  assert.equal(response.headers.get("content-length"), null);
+  assert.equal(response.headers.get("etag"), '"source"');
+  assert.ok(response.headers.get("last-modified"));
+  assert.deepEqual(await response.json(), { ok: true });
+});

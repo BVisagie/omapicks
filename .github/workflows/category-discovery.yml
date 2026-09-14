@@ -47,7 +47,7 @@ jobs:
             exit 0
           fi
           gh run download "$RUN_ID" --repo "$GITHUB_REPOSITORY" --name category-discovery-state --dir tmp/category-discovery-previous
-          echo "DISCOVERY_PREVIOUS=tmp/category-discovery-previous/state.json" >> "$GITHUB_ENV"
+          node scripts/restore-category-state.mjs
       - name: Scan live catalog and explain category opportunities
         run: node scripts/category-discovery.mjs
       - name: Archive reproducible evidence and LLM handoff

@@ -7,7 +7,7 @@ import { fetchJson, validateFeeds } from "../build/refresh.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const VERSION = 1;
-const ALGORITHM_VERSION = 1; // Bump when evidence or clustering rules change.
+const ALGORITHM_VERSION = 2; // Bump when evidence or clustering rules change.
 const DAY = 86400000;
 const MAX_FEED_BYTES = 20 * 1024 * 1024;
 const STOP = new Set(`a an the and or for from with without your you in on to of by at is it its this that as into over per via all any new old own one two more not no can using use uses used plugin omarchy bar shell widget panel native quick simple small local live show shows showing open opens opening add adds status control controls manage manager support supports supported default current directly desktop system app application tools tool button click built based theme themed aware only style first driven api key across every full real time them which rather than see start stop between after how many far are what off selected active running super ctrl shift config hypr hyprland`.split(" "));
@@ -21,8 +21,12 @@ export function repositoryIdentity(repo) {
   try {
     const url = new URL(repo);
     if (url.protocol !== "https:" || url.username || url.password) return null;
-    const parts = url.pathname.replace(/\.git\/?$/i, "").replace(/\/$/, "").split("/").filter(Boolean);
+    let parts = url.pathname.replace(/\.git\/?$/i, "").replace(/\/$/, "").split("/").filter(Boolean);
     if (parts.length < 2) return null;
+    // GitHub tree/blob/issue URLs identify the same owner/repository. Other
+    // hosts may have nested namespaces, so do not truncate them generically.
+    if (url.hostname.toLowerCase() === "github.com") parts = parts.slice(0, 2);
+    parts[parts.length - 1] = parts.at(-1).replace(/\.git$/i, "");
     return { repository: `${url.hostname.toLowerCase()}/${parts.join("/").toLowerCase()}`, owner: `${url.hostname.toLowerCase()}/${parts[0].toLowerCase()}` };
   } catch { return null; }
 }
@@ -85,7 +89,7 @@ export function analyze({ catalog, stats, taxonomy, config, previous = null, now
     const route = overlap[0]?.count / group.members.length >= 0.5 ? "Check existing-category matching first" : "Probe a possible new category";
     const past = observations.filter((o) => now - new Date(o.at) >= 6 * DAY).find((o) => o.groups.some((g) => g.id === group.id && g.repositories.filter((r) => uncoveredRepos.has(r)).length >= config.minimumRepositories));
     const decision = config.decisions.find((d) => d.id === group.id);
-    const newRepositories = decision ? repositories.filter((r) => !decision.repositories.includes(r)) : [];
+    const newRepositories = decision ? [...uncoveredRepos].sort().filter((r) => !decision.repositories.includes(r)) : [];
     const suppressed = decision && newRepositories.length < config.minimumRepositories;
     const status = suppressed ? "suppressed" : past ? "ready-for-probe" : "watchlist";
     if (suppressed) counts.suppressed++;
@@ -96,9 +100,15 @@ export function analyze({ catalog, stats, taxonomy, config, previous = null, now
   }
   candidates.sort((a, b) => b.prominentRepositoryCount - a.prominentRepositoryCount || a.id.localeCompare(b.id));
   const distinct = [];
+  const collapsedGroups = [];
   // Prefer curated concepts to synonymous phrases with essentially the same evidence.
   for (const group of [...candidates].sort((a, b) => Number(b.origin === "curated probe") - Number(a.origin === "curated probe") || b.prominentRepositoryCount - a.prominentRepositoryCount || a.id.localeCompare(b.id))) {
-    if (distinct.some((prior) => group.repositories.filter((r) => prior.repositories.includes(r)).length / Math.min(group.repositories.length, prior.repositories.length) >= 0.8)) { counts.duplicate++; continue; }
+    const parent = distinct.find((prior) => group.repositories.filter((r) => prior.repositories.includes(r)).length / Math.min(group.repositories.length, prior.repositories.length) >= 0.8);
+    if (parent) {
+      counts.duplicate++;
+      collapsedGroups.push({ ...group, collapsedInto: parent.id });
+      continue;
+    }
     distinct.push(group);
   }
   const suggestions = distinct.filter((g) => g.status === "ready-for-probe").sort((a, b) => b.prominentRepositoryCount - a.prominentRepositoryCount || a.id.localeCompare(b.id)).slice(0, config.maximumSuggestions);
@@ -112,7 +122,7 @@ export function analyze({ catalog, stats, taxonomy, config, previous = null, now
     outcome: suggestions.length ? "ready-for-probe" : watchlist.length ? "insufficient-history" : "no-worthwhile-proposals",
     history: observations.length ? "Comparable recent observations available" : "No comparable recent history: first run, expired history, or changed analysis settings/taxonomy",
     coverage: { catalog: catalog.length, eligible: eligible.length, unclassified: eligible.filter((p) => !p.types.length).length },
-    counts, suggestions, watchlist, candidates: distinct,
+    counts, suggestions, watchlist, candidates: distinct, collapsedGroups,
     state: { schemaVersion: VERSION, observations: [...priorWeeks, thisWeek ?? observation].slice(-4) }
   };
 }
@@ -128,7 +138,7 @@ export function renderReport(report) {
     for (const group of groups) {
       lines.push(`### ${escape(group.label)}`, "", `ID: ${escape(group.id)}. ${group.route}. Evidence: ${group.repositories.length} repositories across ${group.owners} repository owners; ${group.unclassifiedCount} unclassified listings, ${group.prominentRepositoryCount} repositories with terms in the name or opening description. Source: ${group.origin}.`, "",
         `Existing-category overlap: ${group.overlap.map((t) => `${escape(t.name)} (${t.count})`).join(", ") || "none"}. Persistence: ${group.evidenceSince ?? "not yet established"}.`, "");
-      if (group.decision) lines.push(`Previously ${escape(group.decision.status)}: ${escape(group.decision.reason)}. Reopened because ${group.newRepositories.length} new repositories appeared.`, "");
+      if (group.decision) lines.push(`Previously ${escape(group.decision.status)}: ${escape(group.decision.reason)}. Reopened because ${group.newRepositories.length} new prominent unclassified repositories appeared.`, "");
       for (const member of group.members.slice(0, 8)) lines.push(`- [${escape(member.name)}](https://plugins.omarchy.org/plugin.html?id=${encodeURIComponent(member.id)}) — ${escape(member.id)}: ${escape(member.description)}`);
       if (group.members.length > 8) lines.push(`- ${group.members.length - 8} more listings in report.json.`);
       lines.push("");
@@ -165,7 +175,10 @@ export async function boundedFetch(fetchImpl, url, options) {
       chunks.push(value);
     }
   } finally { await reader.cancel(); }
-  return new Response(Buffer.concat(chunks), { status: response.status, headers: response.headers });
+  const headers = new Headers(response.headers);
+  headers.delete("content-encoding");
+  headers.delete("content-length");
+  return new Response(Buffer.concat(chunks), { status: response.status, headers });
 }
 
 export async function run({ root = ROOT, output = path.join(root, "tmp/category-discovery"), previous = null, now = new Date(), fetchImpl = fetch } = {}) {
