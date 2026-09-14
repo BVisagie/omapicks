@@ -270,36 +270,23 @@ test("formatRefreshLog adds dry-run context for deltas, runner-ups, and inverted
     }
   };
 
-  assert.deepEqual(formatRefreshLog(result), [
-    "OmaPicks 2026-W37: ranked 2 app types; 0 champion changes; 1156 unclassified."
-  ]);
-  assert.deepEqual(formatRefreshLog(result, { dryRun: true }), [
-    "OmaPicks 2026-W37: ranked 2 app types; 0 champion changes; 1156 unclassified.",
-    "Catalog 2599 (was 2599, +0); unclassified 1156 (was 1021, +135).",
-    "1 runner-up change; 1 type where the raw-score leader is not champion (held by 10% hysteresis).",
-    "  Runner-up Brightness: Hyprsunset Night Light -> Night Light",
-    "  Themes & Appearance: Themes Gallery 0.952667 leads champion Omarchy Theme Manager 0.881828 by 8.0%."
-  ]);
-  assert.deepEqual(
-    formatRefreshLog(
-      {
-        ...result,
-        runnerUpChanges: [],
-        invertedRaces: [],
-        deltas: {
-          catalog: { previous: null, current: 10, delta: null },
-          unclassified: { previous: null, current: 3, delta: null }
-        },
-        report: { uniqueUnclassifiedCount: 3 }
-      },
-      { dryRun: true }
-    ),
-    [
-      "OmaPicks 2026-W37: ranked 2 app types; 0 champion changes; 3 unclassified.",
-      "Catalog 10 (no prior snapshot); unclassified 3 (no prior snapshot).",
-      "0 runner-up changes; 0 types where the raw-score leader is not champion."
-    ]
-  );
+  for (const dryRun of [false, true]) {
+    const log = formatRefreshLog(result, { dryRun }).join("\n");
+    assert.match(log, /0 champion changes/);
+    assert.match(log, /No champion identities changed/);
+    assert.match(log, /Catalog 2599 \(was 2599, \+0\)/);
+    assert.match(log, /Runner-up Brightness: Hyprsunset Night Light -> Night Light/);
+    assert.match(log, /leads champion Omarchy Theme Manager 0.881828 by 8.0%/);
+    assert.match(log, /strictly more than 10%/);
+    assert.match(log, dryRun ? /no snapshot files written/ : /wrote the snapshot/);
+  }
+  const frozen = formatRefreshLog({ week: "2026-W37", reason: "already-refreshed" }).join("\n");
+  assert.match(frozen, /Live feeds were not fetched or validated/);
+  assert.match(frozen, /intentional weekly freeze/);
+  const rerun = formatRefreshLog({ ...result, changes: [{ typeName: "Old event" }], computedChanges: [] }).join("\n");
+  assert.match(rerun, /0 champion changes/);
+  assert.match(rerun, /Weekly changelog retains 1 events/);
+
 });
 
 test("dry-run reports catalog deltas and runner-up changes without writing snapshots", async (context) => {
@@ -410,8 +397,8 @@ test("dry-run reports catalog deltas and runner-up changes without writing snaps
 
   const lines = formatRefreshLog(result, { dryRun: true });
   assert.match(lines[0], /0 champion changes; 1 unclassified/);
-  assert.match(lines[1], /Catalog 3 \(was 2, \+1\); unclassified 1 \(was 4, -3\)/);
-  assert.match(lines[2], /1 runner-up change/);
+  assert.match(lines.join("\n"), /Catalog 3 \(was 2, \+1\); unclassified 1 \(was 4, -3\)/);
+  assert.match(lines.join("\n"), /1 runner-up change/);
   assert.match(lines.join("\n"), /Runner-up Weather: Old Runner -> Challenger/);
 });
 

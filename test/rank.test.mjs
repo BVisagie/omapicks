@@ -976,3 +976,16 @@ test("score leaders include a top scorer held out of both sticky places", () => 
     [{ leader: "newcomer", gapPercent: 6.5 }]
   );
 });
+
+test("pick explanations distinguish stable, held, replaced, unavailable and vacant places", async () => {
+  const { explainPick, pickWithHysteresis } = await import("../build/rank.mjs");
+  const old = { id: "old", name: "Old", score: 1 };
+  for (const [score, expected] of [[1.1, /Incumbent retained/], [1.11, /Challenger replaces incumbent/]]) {
+    const candidates = [{ id: "new", name: "New", score }, old];
+    assert.match(explainPick(candidates, "old", pickWithHysteresis(candidates, "old")), expected);
+  }
+  assert.match(explainPick([old], "old", old), /only available candidate/);
+  assert.match(explainPick([old], null, old), /no previous pick/);
+  assert.match(explainPick([old], "missing", old), /no longer available/);
+  assert.match(explainPick([old], "old", null, new Set(["old"])), /No eligible candidates/);
+});

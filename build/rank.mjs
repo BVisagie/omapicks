@@ -247,6 +247,18 @@ export function pickWithHysteresis(candidates, incumbentId, excludedIds = new Se
   return challenger.score > incumbent.score * (1 + METHODOLOGY.hysteresis) ? challenger : incumbent;
 }
 
+export function explainPick(candidates, incumbentId, selected, excludedIds = new Set()) {
+  const available = candidates.filter((candidate) => !excludedIds.has(candidate.id));
+  const incumbent = available.find((candidate) => candidate.id === incumbentId);
+  const challenger = available[0];
+  const threshold = METHODOLOGY.hysteresis * 100;
+  if (!selected) return "No eligible candidates remain for this place.";
+  if (!incumbent) return `${selected.name} (${selected.score}) is the highest-ranked available candidate; ${incumbentId ? "the previous pick is no longer available for this place" : "there was no previous pick"}.`;
+  if (incumbent.id === challenger.id) return `${selected.name} (${selected.score}) remains highest-ranked${available.length === 1 ? " and is the only available candidate" : "; score ties use copies, hearts, stars, then ID"}.`;
+  const comparison = `${challenger.name} (${challenger.score}) versus incumbent ${incumbent.name} (${incumbent.score}); replacement requires a score strictly above ${incumbent.score * (1 + METHODOLOGY.hysteresis)} (+${threshold}%)`;
+  return `${selected.id === incumbent.id ? "Incumbent retained" : "Challenger replaces incumbent"}: ${comparison}.`;
+}
+
 export function isoWeek(date) {
   const target = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
   const day = target.getUTCDay() || 7;
@@ -282,14 +294,20 @@ export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = n
   }
 
   const previousByType = new Map((previous?.types ?? []).map((type) => [type.id, type]));
+  const decisions = [];
   const types = prepared.types.map((type) => {
     const candidates = scoreCohort(cohorts.get(type.id), stats, now);
     const prior = previousByType.get(type.id);
     const winner = pickWithHysteresis(candidates, prior?.winner?.id);
     const winnerIds = new Set(winner ? [winner.id] : []);
     const runnerUp = pickWithHysteresis(candidates, prior?.runnerUp?.id, winnerIds);
-    // Both slots are sticky, so the highest raw score may belong to a plugin that is shown in
-    // neither. Record it so explanations can disclose the real gap instead of only the runner-up's.
+    decisions.push({
+      typeName: type.name,
+      eligibleCount: candidates.length,
+      champion: explainPick(candidates, prior?.winner?.id, winner),
+      runnerUp: explainPick(candidates, prior?.runnerUp?.id, runnerUp, winnerIds)
+    });
+    // Both slots are sticky; the raw-score leader may occupy neither place.
     const top = candidates[0];
     return {
       id: type.id,
@@ -303,6 +321,7 @@ export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = n
   });
 
   return {
+    decisions,
     rankings: {
       schemaVersion: 1,
       methodologyVersion: METHODOLOGY.version,
