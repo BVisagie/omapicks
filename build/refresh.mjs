@@ -1,8 +1,8 @@
 import { createHash } from "node:crypto";
-import { access, mkdir, readFile, readdir, rename, rm, writeFile } from "node:fs/promises";
+import { access, appendFile, mkdir, readFile, readdir, rename, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { changesBetween, invertedRawScoreRaces, isoWeek, rankPlugins, runnerUpChangesBetween } from "./rank.mjs";
+import { METHODOLOGY, changesBetween, invertedRawScoreRaces, isoWeek, rankPlugins, runnerUpChangesBetween } from "./rank.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CATALOG_URL = "https://plugins.omarchy.org/catalog.json";
@@ -230,12 +230,36 @@ function plural(count, singular, pluralForm = `${singular}s`) {
   return `${count} ${count === 1 ? singular : pluralForm}`;
 }
 
+function formatValidation(source, previous, catalog, stats, report) {
+  const contentChange = (feed) => {
+    const prior = previous?.source?.[feed]?.sha256;
+    return prior ? (prior === source[feed].sha256 ? "unchanged" : "changed") : "has no prior checksum";
+  };
+  const overlap = catalog.filter((plugin) => Object.hasOwn(stats, plugin.id)).length;
+  const excluded = Object.values(report.excluded).reduce((total, count) => total + count, 0);
+  return `Live feeds passed validation: ${source.catalog.count} catalog plugins; ${source.stats.count} stats entries; ${overlap} catalog IDs have stats. ` +
+    `Catalog content ${contentChange("catalog")}; stats content ${contentChange("stats")}. ` +
+    `${report.eligibleClassifiedCount} unique plugins classified; ${excluded} excluded; ${report.uniqueUnclassifiedCount} eligible but unclassified.`;
+}
+
 export function formatRefreshLog(result, { dryRun = false } = {}) {
+  if (result.reason === "already-refreshed") return [
+    `OmaPicks ${result.week}: skipped recalculation because this week's snapshot already exists and the taxonomy is unchanged.`,
+    "Live feeds were not fetched or validated. This is the intentional weekly freeze, not a fresh finding of no leadership changes. Use --dry-run to check live candidates without publishing."
+  ];
+  const changes = result.computedChanges ?? result.changes;
   const lines = [
     `OmaPicks ${result.week}: ranked ${result.rankings.types.length} app types; ` +
-      `${result.changes.length} champion changes; ${result.report.uniqueUnclassifiedCount} unclassified.`
+      `${changes.length} champion changes; ${result.report.uniqueUnclassifiedCount} unclassified.`
   ];
-  if (!dryRun) return lines;
+  lines.push(dryRun
+    ? "Dry run: live candidates calculated against the published snapshot; no snapshot files written."
+    : "Weekly refresh: validated live feeds and wrote the snapshot; unchanged picks do not mean unchanged data.");
+  if (result.validation) lines.push(result.validation);
+  lines.push(`Scores combine copies, hearts, stars, views, freshness and verification, with sparse engagement dampened. Both places retain eligible incumbents unless a challenger scores strictly more than ${METHODOLOGY.hysteresis * 100}% higher; runner-up selection excludes the champion.`);
+  if (!changes.length) lines.push("No champion identities changed: the per-type decisions below explain which incumbents still lead and which were retained by the stability rule.");
+  for (const change of changes) lines.push(`  Champion ${change.typeName}: ${formatPickName(change.previous)} -> ${formatPickName(change.current)}`);
+  if (result.changes.length !== changes.length) lines.push(`Weekly changelog retains ${result.changes.length} events, including earlier runs; this calculation has ${changes.length} champion changes.`);
 
   lines.push(
     `${formatCountDelta("Catalog", result.deltas.catalog)}; ${formatCountDelta("unclassified", result.deltas.unclassified)}.`
@@ -244,7 +268,7 @@ export function formatRefreshLog(result, { dryRun = false } = {}) {
   const runnerUpChanges = result.runnerUpChanges ?? [];
   const invertedRaces = result.invertedRaces ?? [];
   const invertedClause = invertedRaces.length
-    ? `${plural(invertedRaces.length, "type")} where the raw-score leader is not champion (held by 10% hysteresis)`
+    ? `${plural(invertedRaces.length, "type")} where the raw-score leader is not champion (held by ${METHODOLOGY.hysteresis * 100}% hysteresis)`
     : `${plural(0, "type")} where the raw-score leader is not champion`;
   lines.push(`${plural(runnerUpChanges.length, "runner-up change")}; ${invertedClause}.`);
 
@@ -255,6 +279,9 @@ export function formatRefreshLog(result, { dryRun = false } = {}) {
     lines.push(
       `  ${race.typeName}: ${race.leader.name} ${race.leader.score} leads champion ${race.champion.name} ${race.champion.score} by ${race.gapPercent.toFixed(1)}%.`
     );
+  }
+  for (const decision of result.decisions ?? []) {
+    lines.push(`  ${decision.typeName} (${decision.eligibleCount} eligible): Champion: ${decision.champion} Runner-up: ${decision.runnerUp}`);
   }
   return lines;
 }
@@ -325,7 +352,7 @@ export async function refresh({
     }
   };
 
-  const { rankings, report } = rankPlugins({
+  const { rankings, report, decisions } = rankPlugins({
     catalog: catalogResult.body.plugins,
     stats: statsResult.body.plugins,
     taxonomy,
@@ -344,6 +371,9 @@ export async function refresh({
     rankings,
     report,
     changes,
+    computedChanges,
+    decisions,
+    validation: formatValidation(source, previous, catalogResult.body.plugins, statsResult.body.plugins, report),
     runnerUpChanges: runnerUpChangesBetween(previous, rankings),
     invertedRaces: invertedRawScoreRaces(rankings),
     deltas: {
@@ -377,12 +407,13 @@ export async function refresh({
 async function main() {
   const dryRun = process.argv.includes("--dry-run");
   const result = await refresh({ dryRun });
-  if (!result.changed) {
-    console.log(`OmaPicks ${result.week}: no refresh needed (${result.reason}).`);
-    return;
+  const lines = formatRefreshLog(result, { dryRun });
+  for (const line of lines) console.log(line);
+  for (const warning of result.imageWarnings ?? []) console.warn(`Image warning: ${warning}`);
+  if (process.env.GITHUB_STEP_SUMMARY) {
+    const escape = (line) => line.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+    await appendFile(process.env.GITHUB_STEP_SUMMARY, `<pre>${lines.map(escape).join("\n")}</pre>\n`);
   }
-  for (const line of formatRefreshLog(result, { dryRun })) console.log(line);
-  for (const warning of result.imageWarnings) console.warn(`Image warning: ${warning}`);
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

@@ -63,3 +63,5 @@ A refresh rejects engagement feeds covering fewer than 50% of catalog IDs or con
 Social images are regenerated from each category and its current picks during `npm run build`. Email links work without JavaScript; copying links and native sharing progressively enhance them where supported. No third-party sharing script is loaded.
 
 Browser tests launch their own local server. To use a system Chromium locally, set `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` to its executable path; CI installs Playwright’s pinned Chromium.
+
+Both the midweek pre-check (`--dry-run`) and the weekly refresh explain their outcome in the Actions log and job summary: feed validation and checksum changes, catalog coverage, champion and runner-up changes, and the candidate scores behind each selection. A challenger must beat an available incumbent by strictly more than 10%; runner-up selection excludes the champion. Dry runs do not publish. A same-week refresh with unchanged taxonomy explicitly reports that it skipped fetching and recalculation because the weekly snapshot is frozen. Current-run changes are distinguished from earlier events retained in the weekly changelog.
