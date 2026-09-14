@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-11T19:34:20.058Z",
-  "catalogCount": 3000,
-  "eligibleClassifiedCount": 1349,
-  "classificationAssignments": 1651,
-  "uniqueUnclassifiedCount": 1193,
+  "generatedAt": "2026-09-14T06:11:24.116Z",
+  "catalogCount": 3124,
+  "eligibleClassifiedCount": 1415,
+  "classificationAssignments": 1739,
+  "uniqueUnclassifiedCount": 1244,
   "excluded": {
-    "not-installable": 458
+    "not-installable": 465
   },
   "unclassified": [
     {
@@ -4185,11 +4185,6 @@
       "category": "Productivity"
     },
     {
-      "id": "io.github.wbuf81.idle-screencounter",
-      "name": "Idle Screen Counter",
-      "category": "System"
-    },
-    {
       "id": "jacob.npu",
       "name": "NPU Waveform",
       "category": "Hardware"
@@ -5065,11 +5060,6 @@
       "category": "Productivity"
     },
     {
-      "id": "bronder.metronome",
-      "name": "Metronome",
-      "category": "Widgets"
-    },
-    {
       "id": "io.github.larrywcox.gods-eye-view",
       "name": "God's Eye View",
       "category": "Productivity"
@@ -5158,6 +5148,11 @@
       "id": "thatpikaga.aurabind",
       "name": "AuraBind",
       "category": "System"
+    },
+    {
+      "id": "clouddown.cobalt",
+      "name": "Cobalt Download",
+      "category": "Productivity"
     },
     {
       "id": "io.github.0bsolescence.lifeos-glance",
@@ -5961,7 +5956,7 @@
     },
     {
       "id": "reidenxerx.keyboard-layout-per-app",
-      "name": "Keyboard layout per app",
+      "name": "Omalang",
       "category": "Desktop"
     },
     {
@@ -5973,6 +5968,266 @@
       "id": "io.github.keegan-sucks.rss-feeder",
       "name": "RSS-Feeder",
       "category": "Productivity"
+    },
+    {
+      "id": "szalikdev.plugin-updates",
+      "name": "Plugin updates",
+      "category": "System"
+    },
+    {
+      "id": "io.github.jamesd7788.omatype",
+      "name": "Omatype",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.steveclarke.kopia",
+      "name": "Kopia Backups",
+      "category": "System"
+    },
+    {
+      "id": "komagata.screen-lens",
+      "name": "Screen Lens",
+      "category": "Productivity"
+    },
+    {
+      "id": "cyber.sentry",
+      "name": "Cyber Sentry",
+      "category": "Widgets"
+    },
+    {
+      "id": "safta.goodreads",
+      "name": "Goodreads",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.3eye3y3.departures",
+      "name": "Departures",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.b0d3ll.omarchy-unraid",
+      "name": "Unraid Companion",
+      "category": "System"
+    },
+    {
+      "id": "io.github.labrat-0.omacircuit",
+      "name": "Omacircuit",
+      "category": "Desktop"
+    },
+    {
+      "id": "vivobook.s14-copilot",
+      "name": "Vivobook S14 Copilot+",
+      "category": "Hardware"
+    },
+    {
+      "id": "io.github.dreed47.my-plugins",
+      "name": "My Plugins",
+      "category": "Productivity"
+    },
+    {
+      "id": "shl.ipsumbar",
+      "name": "Ipsumbar",
+      "category": "Widgets"
+    },
+    {
+      "id": "oliverlukschander.vnc-mac",
+      "name": "VNC Mac",
+      "category": "System"
+    },
+    {
+      "id": "io.github.mittai17.gesture-cheatsheet",
+      "name": "Gesture Cheatsheet",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.tuxclaw.familiar",
+      "name": "Familiar",
+      "category": "Desktop"
+    },
+    {
+      "id": "io.github.linar46.aether-opacity",
+      "name": "Aether Opacity",
+      "category": "Appearance"
+    },
+    {
+      "id": "io.github.dmatthan.omairplay",
+      "name": "OmairPlay",
+      "category": "Hardware"
+    },
+    {
+      "id": "xoox.aero-x16-rgb",
+      "name": "Gigabyte Aero X16: Keyboard RGB",
+      "category": "Hardware"
+    },
+    {
+      "id": "danexpo.crt",
+      "name": "CRT Filter",
+      "category": "Appearance"
+    },
+    {
+      "id": "no.koka.uptime-monitor",
+      "name": "Uptime Monitor",
+      "category": "System"
+    },
+    {
+      "id": "woganmay.nature-mood",
+      "name": "Nature Mood",
+      "category": "Widgets"
+    },
+    {
+      "id": "dorneles.alcalc",
+      "name": "alcalc",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.zaka53.mawaqit-times",
+      "name": "Mawaqit Prayer Times",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.aonatsky.zen-sync",
+      "name": "Zen Theme Sync",
+      "category": "Appearance"
+    },
+    {
+      "id": "io.github.rubenmeza.crashes",
+      "name": "Crashes",
+      "category": "System"
+    },
+    {
+      "id": "io.github.rdoupe.clanky",
+      "name": "Clanky",
+      "category": "Desktop"
+    },
+    {
+      "id": "lonefox.ferret",
+      "name": "Ferret",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.jondkinney.barscreens",
+      "name": "Bar Screens",
+      "category": "Desktop"
+    },
+    {
+      "id": "io.github.siygle.omarchy-rss-client",
+      "name": "Omarchy RSS Client",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.ryankv.omarchy-maestral",
+      "name": "Dropbox via Maestral",
+      "category": "Productivity"
+    },
+    {
+      "id": "omarchykids.math",
+      "name": "Kids Math",
+      "category": "Kids"
+    },
+    {
+      "id": "io.github.codemonkey76.batch",
+      "name": "Batch",
+      "category": "System"
+    },
+    {
+      "id": "io.github.keegan-sucks.lookup",
+      "name": "Look Up",
+      "category": "Productivity"
+    },
+    {
+      "id": "impaler.stocks",
+      "name": "Stocks",
+      "category": "Widgets"
+    },
+    {
+      "id": "pdaether.ploi",
+      "name": "Ploi Panel",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "io.github.layolayo.eternal-moment",
+      "name": "The Eternal Moment: Process #4",
+      "category": "Productivity"
+    },
+    {
+      "id": "scoop.uptime-kuma",
+      "name": "Uptime Kuma",
+      "category": "System"
+    },
+    {
+      "id": "ozdil.security-sentinel",
+      "name": "Security Sentinel",
+      "category": "System"
+    },
+    {
+      "id": "io.github.romills.omarkeys",
+      "name": "OmarKEYS",
+      "category": "Productivity"
+    },
+    {
+      "id": "oliverlukschander.vi-resize",
+      "name": "Vi Resize",
+      "category": "System"
+    },
+    {
+      "id": "io.github.chachizr.srt-replay",
+      "name": "SRT Replay",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.mbvlabs.omniscope",
+      "name": "OmniScope",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.ef-code.desktop-modes",
+      "name": "Desktop Modes",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.bvisagie.what-changed",
+      "name": "What Changed",
+      "category": "System"
+    },
+    {
+      "id": "kosta.apple-tv",
+      "name": "Apple TV Remote",
+      "category": "Hardware"
+    },
+    {
+      "id": "io.github.stackingturtles.t480fingerprint",
+      "name": "T480 Fingerprint",
+      "category": "Hardware"
+    },
+    {
+      "id": "com.github.marvreichmann.omanina",
+      "name": "Omanina",
+      "category": "Widgets"
+    },
+    {
+      "id": "asdfsnlr.omantigravity",
+      "name": "Omantigravity",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "warexpor.idle",
+      "name": "43PR Idle",
+      "category": "System"
+    },
+    {
+      "id": "jeffrey.icons",
+      "name": "Icons",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.r4y-br.quran-motivation",
+      "name": "Quran Motivation",
+      "category": "Appearance"
+    },
+    {
+      "id": "io.github.aniakea.zhipu-coding-usage",
+      "name": "Zhipu Coding Usage",
+      "category": "Developer Tools"
     }
   ]
 }
