@@ -29,7 +29,9 @@ jobs:
           check-latest: true
           package-manager-cache: false
       - name: Test discovery safeguards
-        run: node --test test/category-discovery.test.mjs
+        # Integration tests exercise the report writer. Keep fixture reports out
+        # of the real job summary so it contains only the live-catalog result.
+        run: env -u GITHUB_STEP_SUMMARY node --test test/category-discovery.test.mjs
       - name: Restore last successful main-branch observation
         env:
           GH_TOKEN: ${{ github.token }}

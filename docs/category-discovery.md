@@ -11,6 +11,8 @@ Open **Weekly category discovery → Summary**. The same explanation is printed 
 - `inputs.json`: exact catalog and stats responses, taxonomy, configuration, previous observations, analysis time, and workflow commit. The report records its SHA-256 hash.
 - `state.json`: observations used for subsequent runs.
 
+The Summary contains only the live-catalog report; integration-test fixtures explicitly suppress summary output. History text states how many comparable observations exist, how many satisfy the 6–21-day window, and the earliest eligibility time when the baseline is still too recent. Displayed listings put prominent unclassified evidence first and label already-classified overlap or additional lexical matches separately.
+
 Artifacts are retained for 90 days, subject to repository retention policy. They are evidence, not permanent published site data. The separate `category-discovery-state` artifact lets the next run retrieve history without downloading the entire catalog. Only successful main-branch workflow runs supply history. API/download failures fail visibly; a downloaded artifact is searched recursively for `state.json`, so flat and nested layouts both work. Missing files establish a baseline, while multiple matching files fail as ambiguous. Absent or expired history establishes a new baseline instead of claiming persistence.
 
 ## How the pilot finds leads

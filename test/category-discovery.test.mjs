@@ -20,9 +20,11 @@ test("discovery requires distinct repositories, owners and a separate weekly obs
   const rerun = analyze({ ...input, previous: first.state, now: new Date("2026-09-16T06:43:00Z") });
   assert.equal(rerun.suggestions.length, 0);
   assert.deepEqual(rerun.state, first.state);
+  assert.match(rerun.history, /1 comparable observation is available; none is old enough yet \(requires 6–21 days; earliest eligibility 2026-09-21T06:43:00\.000Z\)/);
   const next = analyze({ ...input, previous: rerun.state, now: laterDate });
   assert.equal(next.suggestions.length, 1);
   assert.equal(next.suggestions[0].id, "concept:translation");
+  assert.match(next.history, /1 comparable observation is available; 1 falls within the required 6–21-day comparison window/);
   assert.equal(analyze({ ...input, catalog: catalog.map((p) => ({ ...p, repo: "https://github.com/one/repo.git" })) }).watchlist.length, 0);
   assert.equal(analyze({ ...input, catalog: catalog.map((p) => ({ ...p, repo: `https://github.com/one/${p.id}` })) }).watchlist.length, 0);
 });
@@ -70,6 +72,17 @@ test("report escapes catalog markup and includes a bounded, explicit human hando
   assert.match(markdown, /not yet established/);
 });
 
+test("report prioritizes counted evidence and labels contextual matches", () => {
+  const incidental = plugin("aardvark", `${"Incidental wording. ".repeat(8)} Translate text`);
+  const covered = plugin("covered", "Translate music");
+  const result = analyze({ ...input, catalog: [incidental, covered, ...catalog] });
+  const markdown = renderReport(result);
+  assert.ok(markdown.indexOf("alpha") < markdown.indexOf("aardvark"));
+  assert.match(markdown, /prominent unclassified evidence/);
+  assert.match(markdown, /overlap context; currently classified as Music/);
+  assert.match(markdown, /additional lexical match; not counted as prominent evidence/);
+});
+
 test("repository identities normalize GitHub URLs and reject credentials or non-HTTPS", () => {
   assert.deepEqual(repositoryIdentity("https://GitHub.com/A/B.git/"), repositoryIdentity("https://github.com/a/b"));
   assert.equal(repositoryIdentity("https://user:pass@github.com/a/b"), null);
@@ -107,7 +120,17 @@ test("successful scan archives replayable evidence without changing published da
   for (const [name, value] of Object.entries({ "app-types": taxonomy, "category-discovery": config, rankings: ranking })) await writeFile(path.join(root, `data/${name}.json`), JSON.stringify(value));
   const feed = [...catalog, ...Array.from({ length: 997 }, (_, i) => ({ ...plugin(`filler${i}`, "Nothing related"), installAvailable: false }))];
   const metrics = Object.fromEntries(feed.map((p) => [p.id, { views: 1, copies: 0, hearts: 0 }]));
-  const report = await run({ root, now: firstDate, fetchImpl: async (url) => new Response(JSON.stringify(url.includes("/stats") ? { schemaVersion: 1, plugins: metrics } : { plugins: feed })) });
+  const defaultSummary = path.join(root, "fixture-summary.md");
+  const originalSummary = process.env.GITHUB_STEP_SUMMARY;
+  process.env.GITHUB_STEP_SUMMARY = defaultSummary;
+  let report;
+  try {
+    report = await run({ root, now: firstDate, summaryFile: null, fetchImpl: async (url) => new Response(JSON.stringify(url.includes("/stats") ? { schemaVersion: 1, plugins: metrics } : { plugins: feed })) });
+  } finally {
+    if (originalSummary === undefined) delete process.env.GITHUB_STEP_SUMMARY;
+    else process.env.GITHUB_STEP_SUMMARY = originalSummary;
+  }
+  await assert.rejects(readFile(defaultSummary), /ENOENT/);
   const archived = JSON.parse(await readFile(path.join(root, "tmp/category-discovery/inputs.json")));
   const replay = analyze({ catalog: archived.catalog.body.plugins, stats: archived.stats.body.plugins, taxonomy: archived.taxonomy, config: archived.config, previous: archived.previous, now: new Date(archived.now) });
   assert.equal(renderReport(report), renderReport(replay));
