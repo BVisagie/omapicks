@@ -17,6 +17,15 @@ const text = (value) => clean(value).toLowerCase().replace(/[^a-z0-9]+/g, " ").t
 const contains = (haystack, needle) => ` ${haystack} `.includes(` ${text(needle)} `);
 const escape = (value) => clean(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replace(/[\\`*_{}\[\]()#+.!|]/g, "\\$&");
 
+function describeHistory(observations, now) {
+  if (!observations.length) return "No comparable recent history: first run, expired history, or changed analysis settings/taxonomy";
+  const eligible = observations.filter((observation) => now - new Date(observation.at) >= 6 * DAY);
+  const observationLabel = `${observations.length} comparable observation${observations.length === 1 ? " is" : "s are"} available`;
+  if (eligible.length) return `${observationLabel}; ${eligible.length} ${eligible.length === 1 ? "falls" : "fall"} within the required 6–21-day comparison window`;
+  const earliest = new Date(Math.min(...observations.map((observation) => Date.parse(observation.at))) + 6 * DAY).toISOString();
+  return `${observationLabel}; none is old enough yet (requires 6–21 days; earliest eligibility ${earliest})`;
+}
+
 export function repositoryIdentity(repo) {
   try {
     const url = new URL(repo);
@@ -81,6 +90,7 @@ export function analyze({ catalog, stats, taxonomy, config, previous = null, now
     if (repositories.length < config.minimumRepositories || owners.size < config.minimumOwners) { counts.belowEvidence++; continue; }
     const unclassified = group.members.filter((p) => !p.types.length);
     const prominentMembers = unclassified.filter((p) => group.terms.some((term) => contains(prominent.get(p.id), term)));
+    const prominentIds = new Set(prominentMembers.map((p) => p.id));
     const uncoveredRepos = new Set(prominentMembers.map((p) => p.identity.repository));
     const overlap = prepared.types.map((type) => ({ id: type.id, name: type.name, count: group.members.filter((p) => p.types.includes(type.id)).length })).filter((t) => t.count).sort((a, b) => b.count - a.count || a.id.localeCompare(b.id));
     // Existing-category matching gaps remain actionable; fully covered groups do not create noise.
@@ -96,7 +106,16 @@ export function analyze({ catalog, stats, taxonomy, config, previous = null, now
     else if (!past) counts.awaitingHistory++;
     candidates.push({ id: group.id, label: group.label, origin: group.origin, terms: group.terms, route, status, repositories, evidenceRepositories: [...uncoveredRepos].sort(), owners: owners.size, unclassifiedCount: unclassified.length, prominentRepositoryCount: uncoveredRepos.size, overlap,
       evidenceSince: past?.at ?? null, decision: decision ?? null, newRepositories,
-      members: group.members.map((p) => ({ id: p.id, name: clean(p.name), description: clean(p.description), repository: p.repo, types: p.types, metrics: stats[p.id] ?? null })).sort((a, b) => a.id.localeCompare(b.id)) });
+      members: group.members.map((p) => ({
+        id: p.id,
+        name: clean(p.name),
+        description: clean(p.description),
+        repository: p.repo,
+        types: p.types,
+        typeNames: p.types.map((id) => prepared.types.find((type) => type.id === id)?.name ?? id),
+        prominentEvidence: prominentIds.has(p.id),
+        metrics: stats[p.id] ?? null
+      })).sort((a, b) => Number(b.prominentEvidence) - Number(a.prominentEvidence) || a.id.localeCompare(b.id)) });
   }
   candidates.sort((a, b) => b.prominentRepositoryCount - a.prominentRepositoryCount || a.id.localeCompare(b.id));
   const distinct = [];
@@ -120,7 +139,7 @@ export function analyze({ catalog, stats, taxonomy, config, previous = null, now
   return {
     schemaVersion: VERSION, generatedAt: now.toISOString(), settingsHash,
     outcome: suggestions.length ? "ready-for-probe" : watchlist.length ? "insufficient-history" : "no-worthwhile-proposals",
-    history: observations.length ? "Comparable recent observations available" : "No comparable recent history: first run, expired history, or changed analysis settings/taxonomy",
+    history: describeHistory(observations, now),
     coverage: { catalog: catalog.length, eligible: eligible.length, unclassified: eligible.filter((p) => !p.types.length).length },
     counts, suggestions, watchlist, candidates: distinct, collapsedGroups,
     state: { schemaVersion: VERSION, observations: [...priorWeeks, thisWeek ?? observation].slice(-4) }
@@ -139,7 +158,14 @@ export function renderReport(report) {
       lines.push(`### ${escape(group.label)}`, "", `ID: ${escape(group.id)}. ${group.route}. Evidence: ${group.repositories.length} repositories across ${group.owners} repository owners; ${group.unclassifiedCount} unclassified listings, ${group.prominentRepositoryCount} repositories with terms in the name or opening description. Source: ${group.origin}.`, "",
         `Existing-category overlap: ${group.overlap.map((t) => `${escape(t.name)} (${t.count})`).join(", ") || "none"}. Persistence: ${group.evidenceSince ?? "not yet established"}.`, "");
       if (group.decision) lines.push(`Previously ${escape(group.decision.status)}: ${escape(group.decision.reason)}. Reopened because ${group.newRepositories.length} new prominent unclassified repositories appeared.`, "");
-      for (const member of group.members.slice(0, 8)) lines.push(`- [${escape(member.name)}](https://plugins.omarchy.org/plugin.html?id=${encodeURIComponent(member.id)}) — ${escape(member.id)}: ${escape(member.description)}`);
+      for (const member of group.members.slice(0, 8)) {
+        const evidenceNote = member.prominentEvidence
+          ? "prominent unclassified evidence"
+          : member.typeNames.length
+            ? `overlap context; currently classified as ${member.typeNames.map(escape).join(", ")}`
+            : "additional lexical match; not counted as prominent evidence";
+        lines.push(`- [${escape(member.name)}](https://plugins.omarchy.org/plugin.html?id=${encodeURIComponent(member.id)}) — ${escape(evidenceNote)} — ${escape(member.id)}: ${escape(member.description)}`);
+      }
       if (group.members.length > 8) lines.push(`- ${group.members.length - 8} more listings in report.json.`);
       lines.push("");
     }
@@ -181,7 +207,7 @@ export async function boundedFetch(fetchImpl, url, options) {
   return new Response(Buffer.concat(chunks), { status: response.status, headers });
 }
 
-export async function run({ root = ROOT, output = path.join(root, "tmp/category-discovery"), previous = null, now = new Date(), fetchImpl = fetch } = {}) {
+export async function run({ root = ROOT, output = path.join(root, "tmp/category-discovery"), previous = null, now = new Date(), fetchImpl = fetch, summaryFile = process.env.GITHUB_STEP_SUMMARY } = {}) {
   const read = async (name) => JSON.parse(await readFile(path.join(root, name), "utf8"));
   const [taxonomy, config, rankings] = await Promise.all([read("data/app-types.json"), read("data/category-discovery.json"), read("data/rankings.json")]);
   const [catalog, stats] = await Promise.all([
@@ -197,7 +223,7 @@ export async function run({ root = ROOT, output = path.join(root, "tmp/category-
   await mkdir(output, { recursive: true });
   for (const [name, value] of Object.entries({ "inputs.json": inputs, "report.json": report, "state.json": report.state })) await writeFile(path.join(output, name), `${JSON.stringify(value, null, 2)}\n`);
   await writeFile(path.join(output, "report.md"), markdown);
-  if (process.env.GITHUB_STEP_SUMMARY) await appendFile(process.env.GITHUB_STEP_SUMMARY, markdown);
+  if (summaryFile) await appendFile(summaryFile, markdown);
   // Prefix every line so upstream text cannot become an Actions workflow command.
   for (const line of markdown.split("\n")) console.log(`| ${line}`);
   console.log(`Category discovery: ${report.outcome}; ${report.suggestions.length} probes; ${report.watchlist.length} watchlist entries. Full explanation: ${output}/report.md`);
