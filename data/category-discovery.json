@@ -12,5 +12,84 @@
     { "id": "file-sync", "name": "File synchronization", "terms": ["syncthing", "file sync", "folder sync", "file synchronization"] },
     { "id": "keybindings", "name": "Keyboard shortcut management", "terms": ["keybind manager", "keybinding manager", "keybindings", "keyboard shortcuts", "shortcut editor"] }
   ],
-  "decisions": []
+  "decisions": [
+    {
+      "id": "concept:keybindings",
+      "status": "in-review",
+      "reason": "The evidence supports two focused categories: editing/managing keybindings and learning/looking up shortcuts. Draft taxonomy change awaits the next weekly observation.",
+      "repositories": ["github.com/alivault/omarchy-unified-launcher", "github.com/anothadev/omachord", "github.com/astrofoundry/omarchy-keybind-editor", "github.com/bagareal/omarchy-keybindings-lookup", "github.com/cyprusad/omakeez", "github.com/davedes83/mouse-keybind-plugin", "github.com/deoxizn/keybind-manager", "github.com/digitalbase/omarchy-hyper", "github.com/dimdoremy/omaflameshot", "github.com/herr-brandt/omarchy-tour", "github.com/huacnlee/omarchy-which-key", "github.com/jan-berberich/omarchy-grace-window", "github.com/jayosays/omacheatsheet", "github.com/maxmad75/omarchy-keycap", "github.com/meviusisback/keybinds-plugin", "github.com/ming-bao/omarchy-shortcut-visualizer", "github.com/modpunk/omarchy-help", "github.com/omashift/omashift", "github.com/pnkm0nk/omodoro", "github.com/sahzudin/omarchy-keymap", "github.com/seth-wood/keyarchy", "github.com/thatpikaga/aurabind", "github.com/twiking/omasettings", "github.com/younesdahdouh/hyprland-keybind-manager"]
+    },
+    {
+      "id": "concept:translation",
+      "status": "in-review",
+      "reason": "Draft taxonomy category Translation awaits the next weekly observation.",
+      "repositories": ["github.com/alfonsobries/fluent-omarchy", "github.com/arhamthedeveloper/mushaf", "github.com/b7s/omarchy-googletranslate", "github.com/cbayschm74/deepl-omarchy", "github.com/danglenoir/omarchy-deepl", "github.com/imargorsi/quranverse", "github.com/jankeesvw/omarchy-text-transform", "github.com/komagata/screen-lens", "github.com/kusumaindraputra/omarchy-daily-deen", "github.com/legibet/omarchy-popup-translator", "github.com/mattmangoni/omarchy-proofreader", "github.com/panadestein/omarchy-lexicon", "github.com/r4y-br/omarchy-quran-motivation", "github.com/ryuhzk/omarchy-translation", "github.com/seshna/quick-translate"]
+    },
+    {
+      "id": "concept:dictionary",
+      "status": "in-review",
+      "reason": "Draft taxonomy category Dictionary & Thesaurus awaits the next weekly observation.",
+      "repositories": ["github.com/cbullard/defthis", "github.com/dlpwaters/omarchy-dictionary-thesaurus", "github.com/keegan-sucks/omarchy-lookup", "github.com/panadestein/omarchy-lexicon", "github.com/slowburnaz/omaslang", "github.com/tristonarmstrong/omarchy-dictionary"]
+    },
+    {
+      "id": "concept:prayer-times",
+      "status": "in-review",
+      "reason": "Draft taxonomy category Prayer Times awaits the next weekly observation.",
+      "repositories": ["github.com/abdalrohman/omarchy-athan", "github.com/ah410/omarchy-islamic-prayer-times", "github.com/cryptobredda/openathan", "github.com/durak1frt-cyber/omarchy-salah", "github.com/husamemadh/omarchy-quattro-prayer-times", "github.com/idr4n/omarchy-prayer-times", "github.com/ronald2wing/omarchy-quran", "github.com/salemsayed/omaprayers", "github.com/salted-sorbet/salted.adhan", "github.com/zaka53/omarchy-mawaqit-times"]
+    },
+    {
+      "id": "phrase:keyboard-backlight",
+      "status": "in-review",
+      "reason": "Draft taxonomy category Keyboard Lighting awaits the next weekly observation.",
+      "repositories": ["github.com/abhishek-adhikari-1/asus-kbd-backlight", "github.com/adibains/omarchy-manual-backlight-lock", "github.com/alexanderpuschkinberlin/omarchy-keyboard-backlight", "github.com/andrewf403/omarchy-keyboard-idle", "github.com/anes-03/keyboard-brightness-plugin", "github.com/dataknox/omarchy-keyboard-backlight", "github.com/grnqrtr/omarchy-keyboard-nightlight", "github.com/joaovicentebaptista/omarchy-samsung-keyboard-backlight", "github.com/majesticio/omarchy-keyboard-backlight-plugin", "github.com/odessa2/omakeyboard-brightness", "github.com/paulogeyer/omarchy-vivobook-s14-copilot", "github.com/samara-hub-ro/samara-tuf-keyboard-light"]
+    },
+    {
+      "id": "phrase:keyboard-layout",
+      "status": "in-review",
+      "reason": "Draft taxonomy category Keyboard Layouts awaits the next weekly observation.",
+      "repositories": ["github.com/0x1ocean/omarchy-keyglow", "github.com/aloglu/qwitch", "github.com/arazgray/omalang", "github.com/glafeara/omalang", "github.com/madmatt341/omarchy-keyboard-settings", "github.com/nenas1ya/omarchy-latin-input", "github.com/olivoil/omarchy-keyboard-switcher", "github.com/omarchy-qol/omarchy-keyboard-layout", "github.com/reidenxerx/omarchy-keyboard-layout-per-app", "github.com/somnius/keyboard-layout-for-omarchy"]
+    },
+    {
+      "id": "phrase:file-search",
+      "status": "in-review",
+      "reason": "Draft taxonomy category File Search awaits the next weekly observation.",
+      "repositories": ["github.com/corck/omarchy-filesearch", "github.com/dovydasv0/omafile", "github.com/jesseburlamaque/omarchy-find", "github.com/l0ne-f0x/omarchy-ferret", "github.com/maiosx/overview"]
+    },
+    {
+      "id": "phrase:atom-reader",
+      "status": "in-review",
+      "reason": "Draft taxonomy category RSS & News Readers awaits the next weekly observation.",
+      "repositories": ["github.com/keegan-sucks/rss-feeder", "github.com/sanjyay/rss-reeder", "github.com/siygle/omarchy-rss-client"]
+    },
+    {
+      "id": "phrase:rss-news",
+      "status": "in-review",
+      "reason": "Draft taxonomy category RSS & News Readers awaits the next weekly observation.",
+      "repositories": ["github.com/joisephdev/omarchy-news-feed", "github.com/mariusghizdavet/omarchy-rss", "github.com/ranjithrajv/news-reader"]
+    },
+    {
+      "id": "phrase:news-feed",
+      "status": "in-review",
+      "reason": "Draft taxonomy category RSS & News Readers awaits the next weekly observation.",
+      "repositories": ["github.com/bussdeeai/at.familienfabrik_omarchy", "github.com/joisephdev/omarchy-news-feed", "github.com/renerocksai/omapress", "github.com/thelost77/omarchy-courier"]
+    },
+    {
+      "id": "phrase:premier-league",
+      "status": "in-review",
+      "reason": "Draft taxonomy category Sports Scores awaits the next weekly observation.",
+      "repositories": ["github.com/marty-schneider/sports-tracker", "github.com/nag3sy/fpl-tracker-omarchy-plugin", "github.com/niraj-envision/football", "github.com/weedwhitesandwine/fpl-gaffer"]
+    },
+    {
+      "id": "phrase:nfl-nba",
+      "status": "in-review",
+      "reason": "Draft taxonomy category Sports Scores awaits the next weekly observation.",
+      "repositories": ["github.com/exquisiteskink/sportmarchy", "github.com/marty-schneider/sports-tracker", "github.com/slowburnaz/omascore"]
+    },
+    {
+      "id": "phrase:uptime-kuma",
+      "status": "in-review",
+      "reason": "Draft taxonomy category Uptime Monitoring awaits the next weekly observation.",
+      "repositories": ["github.com/daanlenaerts/omakuma", "github.com/p145085/omarchy-uptime-kuma", "github.com/scoop/omarchy-plugin-uptime-kuma"]
+    }
+  ]
 }
