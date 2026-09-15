@@ -84,7 +84,7 @@
       "id": "display-monitors",
       "name": "Display & Monitors",
       "description": "Monitor layouts, display profiles, and output controls",
-      "include": ["\\b(display outputs?|monitor layouts?|display profiles?|display toggles?|display arrangement|refresh rate controls?)\\b", "\\b(display|monitor) (manager|configuration|config|settings|profiles?|layouts?|switcher|controls?)\\b", "\\b(manager|configure|configuration|switcher|controls?) (?:your )?(display|monitors?)\\b"],
+      "include": ["\\b(display outputs?|monitor layouts?|display profiles?|display toggles?|display arrangement|refresh rate controls?)\\b", "\\brefresh rates?\\b", "\\b(display|monitor) (manager|configuration|config|settings|profiles?|layouts?|switcher|controls?)\\b", "\\b(manager|configure|configuration|switcher|controls?) (?:your )?(display|monitors?)\\b"],
       "exclude": ["\\b(system|resource|hardware|traffic|temperature) monitor\\b", "\\b(screen time|wallpaper|backgrounds?)\\b"]
     },
     {
@@ -150,7 +150,8 @@
       "id": "window-management",
       "name": "Window Management",
       "description": "Window switchers, layouts, tiling, and window rules",
-      "include": ["\\b(window switcher|window management|window manager|window rules?|tiling|layout switcher|alt[+-]?tab|exposé)\\b", "\\b(workspace|window) overview\\b"]
+      "include": ["\\b(window switcher|window management|window manager|window rules?|tiling|layout switcher|alt[+-]?tab|exposé)\\b", "\\b(workspace|window) overview\\b"],
+      "exclude": ["\\bkeyboard layouts?\\b"]
     },
     {
       "id": "screenshots",
@@ -233,6 +234,110 @@
       ]
     },
     {
+      "id": "keybinding-managers",
+      "name": "Keybinding Managers",
+      "description": "Create, edit, and manage keyboard shortcuts and keybindings",
+      "include": [
+        "\\bkeybind(?:ing)? (?:manager|editor)\\b",
+        "\\binteractive rebinding\\b",
+        "\\bkeybind maps?\\b",
+        "\\b(?:add|assign|create|disable|edit|manage|modify|override|rebind|remove)(?:s|d|ing)?[^.]{0,55}\\b(?:keybind(?:ing)?s?|keyboard shortcuts?)\\b",
+        "\\b(?:keybind(?:ing)?s?|keyboard shortcuts?)[^.]{0,55}\\b(?:add|assign|create|disable|edit|manage|modify|override|rebind|remove)(?:s|d|ing)?\\b"
+      ],
+      "exclude": ["\\brebind (?:the )?toggle keybind\\b"]
+    },
+    {
+      "id": "shortcut-guides",
+      "name": "Shortcut Guides",
+      "description": "Look up, learn, and visualize keyboard shortcuts",
+      "include": [
+        "\\b(?:keybind(?:ing)?|keyboard shortcut) (?:lookup|reference|guide|visuali[sz]er|cheat ?sheet|helper|viewer)\\b",
+        "\\b(?:lookup|learn|teach|practice|display|show|visuali[sz]e)(?:s|d|ing)?[^.]{0,50}\\b(?:keybind(?:ing)?s?|keyboard shortcuts?)\\b",
+        "\\bcheat ?sheet[^.]{0,45}\\b(?:keybind(?:ing)?s?|keyboard shortcuts?)\\b"
+      ]
+    },
+    {
+      "id": "translation",
+      "name": "Translation",
+      "description": "Translate selected, clipboard, and on-screen text",
+      "include": [
+        "\\b(google translate|deepl|quick translate|popup translator|screen translator|screen lens)\\b",
+        "\\btranslat(?:e|es|ed|ing|ion|or)[^.]{0,55}\\b(text|screen|clipboard|messages?|locali[sz]ation|selected|highlighted)\\b",
+        "\\b(text|screen|clipboard|messages?|locali[sz]ation|selected|highlighted)[^.]{0,55}\\btranslat(?:e|es|ed|ing|ion|or)\\b"
+      ],
+      "exclude": ["\\b(qur'?an|ayah|hadith|mushaf)\\b"]
+    },
+    {
+      "id": "dictionary",
+      "name": "Dictionary & Thesaurus",
+      "description": "Definitions, synonyms, thesaurus, and word lookup tools",
+      "include": ["\\b(dictionary|thesaurus|wiktionary)\\b", "\\b(word definitions?|define selected words?|synonyms?)\\b"]
+    },
+    {
+      "id": "prayer-times",
+      "name": "Prayer Times",
+      "description": "Islamic prayer schedules, countdowns, and Adhan notifications",
+      "include": ["\\b(prayer times?|prayer countdown|adhan|athan|salah times?|mawaqit)\\b"]
+    },
+    {
+      "id": "keyboard-lighting",
+      "name": "Keyboard Lighting",
+      "description": "Keyboard backlight, brightness, night-light, and RGB controls",
+      "include": [
+        "\\b(keyboard|kbd|key)[ -](backlight|brightness|lighting|night[- ]?light|rgb)\\b",
+        "\\b(backlight|brightness|lighting)[^.]{0,35}\\bkeyboard\\b"
+      ]
+    },
+    {
+      "id": "keyboard-layouts",
+      "name": "Keyboard Layouts",
+      "description": "Switch, configure, and indicate keyboard input layouts",
+      "include": [
+        "\\bkeyboard (?:language|layout(?:s)?)(?: manager| switcher| picker| indicator| pulse| per[- ]app)?\\b",
+        "\\b(?:switch|manage|configure|display|show|remember)(?:s|ed|ing)?[^.]{0,45}\\bkeyboard layouts?\\b",
+        "\\binput (?:language|layout)(?: manager| switcher| indicator)?\\b"
+      ]
+    },
+    {
+      "id": "file-search",
+      "name": "File Search",
+      "description": "Find files with fast filename, fuzzy, and full-text search",
+      "include": ["\\b(file search|search files?|find files?|file finder|full[- ]text file search|fuzzy[- ]find files?)\\b"]
+    },
+    {
+      "id": "feed-readers",
+      "name": "RSS & News Readers",
+      "description": "Read RSS, Atom, news feeds, and headlines",
+      "include": [
+        "\\b(rss|atom) (?:feed )?(?:reader|client|feeds?|headlines?)\\b",
+        "\\b(?:reader|client)[^.]{0,35}\\b(?:rss|atom)\\b",
+        "\\b(news reader|news feed|news headlines|read headlines)\\b"
+      ],
+      "exclude": ["\\b(game launcher|itch\\.io|epic games)\\b"]
+    },
+    {
+      "id": "sports-scores",
+      "name": "Sports Scores",
+      "description": "Live scores, fixtures, standings, and sports schedules",
+      "include": [
+        "\\b(live sports scores?|sports scores?|sports tracker)\\b",
+        "\\b(nfl|mlb|nba|nhl|premier league|fantasy (?:football|premier)|fpl|football|soccer)[^.]{0,50}\\b(scores?|fixtures?|standings?|gameweek|schedule|teams?)\\b",
+        "\\b(scores?|fixtures?|standings?|gameweek|schedule)[^.]{0,50}\\b(nfl|mlb|nba|nhl|premier league|fantasy (?:football|premier)|fpl|football|soccer)\\b"
+      ],
+      "exclude": ["\\b(mini-?game|video game|tennis game)\\b"]
+    },
+    {
+      "id": "uptime-monitoring",
+      "name": "Uptime Monitoring",
+      "description": "Monitor website, service, and endpoint availability",
+      "include": [
+        "\\b(uptime kuma|statuscake|better stack status|site health|uptime monitor)\\b",
+        "\\b(?:website|service|endpoint) monitor(?:ing)?\\b",
+        "\\b(?:monitor|watch)(?:s|ed|ing)?[^.]{0,45}\\b(?:sites?|websites?|endpoints?|status pages?)\\b"
+      ],
+      "exclude": ["\\b(system uptime|process monitor|system monitor|health[- ]check and repair)\\b"]
+    },
+    {
       "id": "system-updates",
       "name": "System Updates",
       "description": "Arch package updates and update notifications",
@@ -307,7 +412,11 @@
       "primo.dock": ["power-menu"],
       "perfektnacht.omatower-defense": ["screensavers"],
       "rookepoole.oligarchy-tax-department": ["screensavers"],
-      "modoterra.omabench": ["dev-ports"]
+      "modoterra.omabench": ["dev-ports"],
+      "io.github.adibains.manual-backlight-lock": ["keyboard-lighting"],
+      "io.github.weedwhitesandwine.omazone": ["keybinding-managers"],
+      "dimdoremy.omaflameshot": ["shortcut-guides"],
+      "io.github.herr-brandt.tour": ["shortcut-guides"]
     }
   }
 }

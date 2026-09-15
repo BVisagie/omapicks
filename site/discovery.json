@@ -40,7 +40,18 @@
     "power-menu": ["shutdown", "restart", "logout"],
     "plugin-manager": ["install plugins", "marketplace", "plugin store"],
     "firewall": ["ufw", "outbound connections", "nftables"],
-    "dev-ports": ["localhost", "listening ports", "dev servers"]
+    "dev-ports": ["localhost", "listening ports", "dev servers"],
+    "keybinding-managers": ["keybindings", "keyboard shortcuts", "shortcut editor", "hotkeys"],
+    "shortcut-guides": ["keybinding reference", "keyboard shortcuts", "cheat sheet", "which key"],
+    "translation": ["translate", "translator", "deepl", "google translate"],
+    "dictionary": ["definitions", "thesaurus", "wiktionary", "word lookup"],
+    "prayer-times": ["adhan", "athan", "salah", "mawaqit"],
+    "keyboard-lighting": ["keyboard backlight", "keyboard brightness", "keyboard rgb"],
+    "keyboard-layouts": ["keyboard language", "input layout", "xkb", "layout switcher"],
+    "file-search": ["find files", "file finder", "full text search"],
+    "feed-readers": ["rss", "atom", "news reader", "feeds"],
+    "sports-scores": ["sports", "scores", "fixtures", "standings", "nfl", "premier league"],
+    "uptime-monitoring": ["uptime kuma", "website status", "endpoint health", "status page"]
   },
   "collections": [
     {
@@ -60,13 +71,13 @@
     }
   ],
   "relatedGroups": [
-    ["weather", "clock-timer", "calendar", "brightness", "battery"],
-    ["notes", "calendar", "clipboard", "focus", "mail", "clock-timer", "screen-time", "notifications"],
+    ["weather", "clock-timer", "calendar", "brightness", "battery", "feed-readers", "sports-scores", "prayer-times"],
+    ["notes", "calendar", "clipboard", "focus", "mail", "clock-timer", "screen-time", "notifications", "translation", "dictionary", "ai-assistant"],
     ["themes-appearance", "wallpaper", "color-picker", "screensavers", "smart-home"],
-    ["workspaces", "window-management", "launcher", "display-monitors", "screenshots"],
-    ["battery", "brightness", "lock-idle", "power-menu", "system-monitor", "system-updates"],
+    ["workspaces", "window-management", "launcher", "display-monitors", "screenshots", "keybinding-managers", "shortcut-guides", "keyboard-layouts", "file-search"],
+    ["battery", "brightness", "keyboard-lighting", "lock-idle", "power-menu", "system-monitor", "system-updates", "display-monitors"],
     ["network", "vpn", "firewall", "password-manager", "bluetooth"],
     ["audio", "bluetooth", "music", "radio", "gaming", "mini-games"],
-    ["dev-ports", "containers", "github", "ai-assistant", "ai-api-usage", "plugin-manager"]
+    ["dev-ports", "containers", "github", "ai-assistant", "ai-api-usage", "plugin-manager", "uptime-monitoring"]
   ]
 }
