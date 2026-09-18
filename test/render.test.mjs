@@ -638,10 +638,11 @@ test("weekly summary compares snapshots and handles unchanged and vacant picks",
   assert.match(renderFixtureHome(current, [previous]), /the champion spot is vacant/);
 });
 
-test("discovery metadata uses real categories and related navigation stays compact", async () => {
+test("discovery metadata uses taxonomy categories and related navigation stays compact", async () => {
   const discovery = JSON.parse(await readFile(new URL("../site/discovery.json", import.meta.url)));
+  const taxonomy = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
   const rankings = JSON.parse(await readFile(new URL("../data/rankings.json", import.meta.url)));
-  const ids = new Set(rankings.types.map((type) => type.id));
+  const ids = new Set(taxonomy.types.map((type) => type.id));
   for (const id of [...Object.keys(discovery.aliases), ...discovery.relatedGroups.flat(), ...discovery.collections.flatMap((c) => c.types)]) {
     assert.ok(ids.has(id), `Unknown discovery category: ${id}`);
   }

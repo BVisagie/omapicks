@@ -44,7 +44,7 @@ function plugin(id, values = {}) {
 test("the production taxonomy is valid and intentionally broad", async () => {
   const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
   const prepared = prepareTaxonomy(source);
-  assert.equal(prepared.types.length, 41);
+  assert.equal(prepared.types.length, 52);
   assert.equal(new Set(prepared.types.map((type) => type.id)).size, prepared.types.length);
 });
 
@@ -106,6 +106,107 @@ test("production taxonomy keeps real overlap and rejects accidental keyword hits
       name: "Stay Awake Indicators",
       description: "A Stay Awake cup that shows steam when another program is holding idle or sleep."
     }).includes("gaming")
+  );
+});
+
+test("new discovery-backed categories classify representative primary-purpose listings", async () => {
+  const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
+  const prepared = prepareTaxonomy(source);
+  const cases = [
+    ["keybinding-managers", { id: "keybind-manager", name: "Keybind Manager", description: "Add, override, and disable Hyprland keybindings from the bar." }],
+    ["shortcut-guides", { id: "huacnlee.which-key", name: "Which Key", description: "A LazyVim which-key-style shortcut guide that automatically reads Omarchy live keybindings and appears when you hold Super" }],
+    ["shortcut-guides", { id: "io.github.cyprusad.omakeez", name: "Omakeez", description: "A local-first visual guide for Omarchy keyboard shortcuts." }],
+    ["translation", { id: "google-translate", name: "Google Translate", description: "Translate selected text from the bar." }],
+    ["translation", { id: "io.github.tcballard.bartranslate", name: "BarTranslate", description: "A native, theme-aware translation panel for the Omarchy bar." }],
+    ["dictionary", { id: "dictionary", name: "Dictionary", description: "Look up word definitions and synonyms." }],
+    ["prayer-times", { id: "prayer-times", name: "Prayer Times", description: "Daily prayer times with a next-prayer countdown." }],
+    ["keyboard-lighting", { id: "keyboard-backlight", name: "Keyboard Backlight", description: "Adjust laptop keyboard brightness from the bar." }],
+    ["keyboard-layouts", { id: "keyboard-layout", name: "Keyboard Layout Pulse", description: "Keyboard layout picker with a per-window indicator." }],
+    ["file-search", { id: "file-search", name: "File Search", description: "Full-text file search with a keyboard-driven overlay." }],
+    ["feed-readers", { id: "rss-reader", name: "RSS Reader", description: "RSS and Atom reader with OPML and unread tracking." }],
+    ["sports-scores", { id: "sports-scores", name: "Sports Scores", description: "Live sports scores, fixtures, and standings." }],
+    ["uptime-monitoring", { id: "uptime-kuma", name: "Uptime Kuma", description: "Show the status of every Uptime Kuma monitor." }]
+  ];
+
+  for (const [expected, values] of cases) {
+    assert.ok(classifyPlugin(plugin(values.id, values), prepared).includes(expected), `${values.name} should match ${expected}`);
+  }
+});
+
+test("new categories preserve useful overlap without recurring false positives", async () => {
+  const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
+  const prepared = prepareTaxonomy(source);
+  const typesOf = (values) => classifyPlugin(plugin(values.id, values), prepared);
+
+  assert.deepEqual(
+    typesOf({
+      id: "panadestein.lexicon",
+      name: "Lexicon",
+      description: "A Kindle-style English translation and dictionary popup for selected text."
+    }),
+    ["translation", "dictionary"]
+  );
+  assert.ok(
+    !typesOf({
+      id: "quran-translation",
+      name: "Quran Translation",
+      description: "Read the Qur'an with translated ayah text and Hadith references."
+    }).includes("translation")
+  );
+  assert.ok(
+    !typesOf({
+      id: "salted.atom",
+      name: "Atom",
+      description: "A game launcher for itch.io and Epic Games."
+    }).includes("feed-readers")
+  );
+  assert.ok(
+    !typesOf({
+      id: "io.github.adibains.manual-backlight-lock",
+      name: "Manual Backlight Lock",
+      description: "The stock Omarchy lock screen, but the keyboard backlight stays under your control."
+    }).includes("keyboard-lighting")
+  );
+  assert.ok(
+    !typesOf({
+      id: "on-screen-keyboard",
+      name: "On-screen keyboard",
+      description: "An xkb-layout-driven keyboard overlay for tablets."
+    }).includes("keyboard-layouts")
+  );
+  assert.ok(
+    !typesOf({
+      id: "io.github.aashbury.voxhud",
+      name: "Voxhud",
+      description: "A minimalist, theme-aware HUD for Voxtype dictation, with your dictionary one click away."
+    }).includes("dictionary")
+  );
+  for (const values of [
+    { id: "gaius-codius.unifi", name: "UniFi", description: "Read-only UniFi Network site health on the Omarchy bar" },
+    { id: "io.github.duketopceo.numbat", name: "Numbat", description: "AI-agent activity radar: live findings and per-agent visibility from Perplexity's numbat endpoint monitor" }
+  ]) {
+    assert.ok(!typesOf(values).includes("uptime-monitoring"), `${values.name} should not match uptime-monitoring`);
+  }
+  const sports = typesOf({
+    id: "mlb-booth",
+    name: "MLB Booth",
+    description: "Live MLB scores, schedule, and standings for your chosen club."
+  });
+  assert.ok(sports.includes("sports-scores"));
+  assert.ok(!sports.includes("mini-games"));
+  const layout = typesOf({
+    id: "layout-switcher",
+    name: "Keyboard Layout Switcher",
+    description: "Switch keyboard layouts per application."
+  });
+  assert.ok(layout.includes("keyboard-layouts"));
+  assert.ok(!layout.includes("window-management"));
+  assert.ok(
+    typesOf({
+      id: "refresh-rate",
+      name: "Refresh Rate",
+      description: "Switch between 60 Hz and 120 Hz refresh rates."
+    }).includes("display-monitors")
   );
 });
 
