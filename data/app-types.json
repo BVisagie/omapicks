@@ -253,7 +253,9 @@
       "include": [
         "\\b(?:keybind(?:ing)?|keyboard shortcut) (?:lookup|reference|guide|visuali[sz]er|cheat ?sheet|helper|viewer)\\b",
         "\\b(?:lookup|learn|teach|practice|display|show|visuali[sz]e)(?:s|d|ing)?[^.]{0,50}\\b(?:keybind(?:ing)?s?|keyboard shortcuts?)\\b",
-        "\\bcheat ?sheet[^.]{0,45}\\b(?:keybind(?:ing)?s?|keyboard shortcuts?)\\b"
+        "\\bcheat ?sheet[^.]{0,45}\\b(?:keybind(?:ing)?s?|keyboard shortcuts?)\\b",
+        "\\bshortcut guide\\b",
+        "\\bguide (?:for|to)[^.]{0,30}\\b(?:keybind(?:ing)?s?|keyboard shortcuts?)\\b"
       ]
     },
     {
@@ -261,7 +263,7 @@
       "name": "Translation",
       "description": "Translate selected, clipboard, and on-screen text",
       "include": [
-        "\\b(google translate|deepl|quick translate|popup translator|screen translator|screen lens)\\b",
+        "\\b(google translate|deepl|quick translate|popup translator|screen translator|screen lens|translation (?:panel|popup|overlay))\\b",
         "\\btranslat(?:e|es|ed|ing|ion|or)[^.]{0,55}\\b(text|screen|clipboard|messages?|locali[sz]ation|selected|highlighted)\\b",
         "\\b(text|screen|clipboard|messages?|locali[sz]ation|selected|highlighted)[^.]{0,55}\\btranslat(?:e|es|ed|ing|ion|or)\\b"
       ],
@@ -271,7 +273,8 @@
       "id": "dictionary",
       "name": "Dictionary & Thesaurus",
       "description": "Definitions, synonyms, thesaurus, and word lookup tools",
-      "include": ["\\b(dictionary|thesaurus|wiktionary)\\b", "\\b(word definitions?|define selected words?|synonyms?)\\b"]
+      "include": ["\\b(dictionary|thesaurus|wiktionary)\\b", "\\b(word definitions?|define selected words?|synonyms?)\\b"],
+      "exclude": ["\\b(dictation|voxtype|speech[- ]to[- ]text)\\b"]
     },
     {
       "id": "prayer-times",
@@ -416,7 +419,9 @@
       "io.github.adibains.manual-backlight-lock": ["keyboard-lighting"],
       "io.github.weedwhitesandwine.omazone": ["keybinding-managers"],
       "dimdoremy.omaflameshot": ["shortcut-guides"],
-      "io.github.herr-brandt.tour": ["shortcut-guides"]
+      "io.github.herr-brandt.tour": ["shortcut-guides"],
+      "gaius-codius.unifi": ["uptime-monitoring"],
+      "io.github.duketopceo.numbat": ["uptime-monitoring"]
     }
   }
 }

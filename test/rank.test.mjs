@@ -114,8 +114,10 @@ test("new discovery-backed categories classify representative primary-purpose li
   const prepared = prepareTaxonomy(source);
   const cases = [
     ["keybinding-managers", { id: "keybind-manager", name: "Keybind Manager", description: "Add, override, and disable Hyprland keybindings from the bar." }],
-    ["shortcut-guides", { id: "which-key", name: "Which Key", description: "Searchable Omarchy keybinding reference popup." }],
+    ["shortcut-guides", { id: "huacnlee.which-key", name: "Which Key", description: "A LazyVim which-key-style shortcut guide that automatically reads Omarchy live keybindings and appears when you hold Super" }],
+    ["shortcut-guides", { id: "io.github.cyprusad.omakeez", name: "Omakeez", description: "A local-first visual guide for Omarchy keyboard shortcuts." }],
     ["translation", { id: "google-translate", name: "Google Translate", description: "Translate selected text from the bar." }],
+    ["translation", { id: "io.github.tcballard.bartranslate", name: "BarTranslate", description: "A native, theme-aware translation panel for the Omarchy bar." }],
     ["dictionary", { id: "dictionary", name: "Dictionary", description: "Look up word definitions and synonyms." }],
     ["prayer-times", { id: "prayer-times", name: "Prayer Times", description: "Daily prayer times with a next-prayer countdown." }],
     ["keyboard-lighting", { id: "keyboard-backlight", name: "Keyboard Backlight", description: "Adjust laptop keyboard brightness from the bar." }],
@@ -172,6 +174,19 @@ test("new categories preserve useful overlap without recurring false positives",
       description: "An xkb-layout-driven keyboard overlay for tablets."
     }).includes("keyboard-layouts")
   );
+  assert.ok(
+    !typesOf({
+      id: "io.github.aashbury.voxhud",
+      name: "Voxhud",
+      description: "A minimalist, theme-aware HUD for Voxtype dictation, with your dictionary one click away."
+    }).includes("dictionary")
+  );
+  for (const values of [
+    { id: "gaius-codius.unifi", name: "UniFi", description: "Read-only UniFi Network site health on the Omarchy bar" },
+    { id: "io.github.duketopceo.numbat", name: "Numbat", description: "AI-agent activity radar: live findings and per-agent visibility from Perplexity's numbat endpoint monitor" }
+  ]) {
+    assert.ok(!typesOf(values).includes("uptime-monitoring"), `${values.name} should not match uptime-monitoring`);
+  }
   const sports = typesOf({
     id: "mlb-booth",
     name: "MLB Booth",
