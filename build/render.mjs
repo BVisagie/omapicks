@@ -405,7 +405,7 @@ function shell({ title, description, pathname, image, body, structuredData = nul
     <main id="main">${body}</main>
     <footer>
       <p>Plugin metadata, engagement signals, and previews come from <a href="https://plugins.omarchy.org/?sort=copies">Omarchy Plugins</a>. OmaPicks calculates the rankings independently and is not affiliated with Omarchy, 37signals, or omarchyplugins.com.</p>
-      <p><a href="/methodology/#data-sources">Data and methodology</a> · <a href="/privacy/">Privacy</a> · ${outboundLink("https://github.com/BVisagie/omapicks", "Open-source code")}</p>
+      <p><a href="/methodology/#data-sources">Data and methodology</a> · <a href="/privacy/">Privacy</a> · ${outboundLink("https://github.com/BVisagie/omapicks", "Open-source code")} · ${outboundLink("https://github.com/sponsors/BVisagie", "Sponsor on GitHub")}</p>
     </footer>
   </div>
 </body>
@@ -877,7 +877,7 @@ function privacyPage() {
     <p class="eyebrow">Privacy</p>
     <h1>How OmaPicks treats visitors</h1>
     <p class="page-lede">OmaPicks has no accounts, comments, advertising, or marketing trackers. The published pages are static files. Your browser does not receive an analytics script, analytics cookie, or analytics storage from this site.</p>
-    <p>Optional share links open X in a new tab after you leave OmaPicks; this site does not load an X script.</p>
+    <p>Optional share links open X in a new tab after you leave OmaPicks; this site does not load an X script. The Sponsor on GitHub link likewise opens GitHub in a new tab; this site does not load GitHub scripts.</p>
     <h2>Theme preference</h2>
     <p>If you use the theme toggle, OmaPicks stores <code>light</code> or <code>dark</code> in your browser's <code>localStorage</code> so the choice can persist. That value is not sent to the server and is not used to measure traffic.</p>
     <h2>Traffic measurement</h2>

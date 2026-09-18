@@ -43,6 +43,10 @@ Preview images under `data/assets/plugins/` remain attributable to their authors
 
 OmaPicks is not affiliated with Omarchy, 37signals, or omarchyplugins.com.
 
+## Support
+
+OmaPicks is free, with no ads or monetization. If it helps you, you can support its upkeep through [GitHub Sponsors](https://github.com/sponsors/BVisagie).
+
 ## Licensing
 
 OmaPicks uses split licensing so publishing the source does not claim ownership of upstream material:
