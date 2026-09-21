@@ -443,6 +443,8 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.match(home, /Plugin metadata, engagement signals, and previews come from/);
   assert.match(home, /target="_blank" rel="noopener noreferrer">Open-source code<\/a>/);
   assert.match(feedXsl, /target="_blank" rel="noopener noreferrer">Open-source code<\/a>/);
+  assert.match(home, /href="https:\/\/github\.com\/sponsors\/BVisagie" target="_blank" rel="noopener noreferrer">Sponsor on GitHub<\/a>/);
+  assert.match(feedXsl, /href="https:\/\/github\.com\/sponsors\/BVisagie" target="_blank" rel="noopener noreferrer">Sponsor on GitHub<\/a>/);
   assert.match(home, /href="\/privacy\/"/);
   assert.match(methodology, /class="page-section prose"/);
   assert.match(methodology, /aria-current="page">Method/);
