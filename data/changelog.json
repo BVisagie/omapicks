@@ -1,6 +1,143 @@
 {
   "schemaVersion": 1,
-  "week": "2026-W38",
-  "generatedAt": "2026-09-14T06:11:24.116Z",
-  "changes": []
+  "week": "2026-W39",
+  "generatedAt": "2026-09-21T06:44:18.055Z",
+  "changes": [
+    {
+      "typeId": "brightness",
+      "typeName": "Brightness",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.jeremylanger.nightlight",
+        "name": "Night Light"
+      },
+      "current": {
+        "id": "angeeeld.omaltbar",
+        "name": "Omaltbar"
+      }
+    },
+    {
+      "typeId": "keybinding-managers",
+      "typeName": "Keybinding Managers",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "meviusisback.keybinds",
+        "name": "Keybindings"
+      }
+    },
+    {
+      "typeId": "shortcut-guides",
+      "typeName": "Shortcut Guides",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "huacnlee.which-key",
+        "name": "Which Key"
+      }
+    },
+    {
+      "typeId": "translation",
+      "typeName": "Translation",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "b7s.googletranslate",
+        "name": "Google Translate"
+      }
+    },
+    {
+      "typeId": "dictionary",
+      "typeName": "Dictionary & Thesaurus",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "tristonarmstrong.dictionary",
+        "name": "Dictionary"
+      }
+    },
+    {
+      "typeId": "prayer-times",
+      "typeName": "Prayer Times",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "local.prayer-times",
+        "name": "Prayer times"
+      }
+    },
+    {
+      "typeId": "keyboard-lighting",
+      "typeName": "Keyboard Lighting",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.anes-03.keyboard-brightness",
+        "name": "Keyboard Brightness"
+      }
+    },
+    {
+      "typeId": "keyboard-layouts",
+      "typeName": "Keyboard Layouts",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.ilyazar.keyboard-layout",
+        "name": "Keyboard Layout Pulse"
+      }
+    },
+    {
+      "typeId": "file-search",
+      "typeName": "File Search",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "jesseburlamaque.omarchy-find",
+        "name": "Omarchy Find"
+      }
+    },
+    {
+      "typeId": "feed-readers",
+      "typeName": "RSS & News Readers",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.sanjyay.rss-reeder",
+        "name": "RSS-Reeder"
+      }
+    },
+    {
+      "typeId": "sports-scores",
+      "typeName": "Sports Scores",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "devbook.futbar",
+        "name": "FutBar"
+      }
+    },
+    {
+      "typeId": "uptime-monitoring",
+      "typeName": "Uptime Monitoring",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.dupontbertrand.omastatus",
+        "name": "Omastatus"
+      }
+    },
+    {
+      "typeId": "screensavers",
+      "typeName": "Screensavers",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.fabiopauli.oligarchy-screensaver",
+        "name": "Oligarchy Screensaver"
+      },
+      "current": {
+        "id": "io.github.deunnis.lacquer",
+        "name": "Omarchy Lacquer"
+      }
+    }
+  ]
 }

@@ -1,23 +1,18 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-14T06:11:24.116Z",
-  "catalogCount": 3124,
-  "eligibleClassifiedCount": 1415,
-  "classificationAssignments": 1739,
-  "uniqueUnclassifiedCount": 1244,
+  "generatedAt": "2026-09-21T06:44:18.055Z",
+  "catalogCount": 3696,
+  "eligibleClassifiedCount": 1837,
+  "classificationAssignments": 2288,
+  "uniqueUnclassifiedCount": 1332,
   "excluded": {
-    "not-installable": 465
+    "not-installable": 527
   },
   "unclassified": [
     {
       "id": "ericvrp.bar-autohide",
       "name": "Bar Autohide",
       "category": "Appearance"
-    },
-    {
-      "id": "local.prayer-times",
-      "name": "Prayer times",
-      "category": "Widgets"
     },
     {
       "id": "io.github.elynch303.security-scan",
@@ -100,18 +95,8 @@
       "category": "System"
     },
     {
-      "id": "next-key",
-      "name": "NextKey",
-      "category": "Productivity"
-    },
-    {
       "id": "marcuspelo.omarqui",
       "name": "Omarqui",
-      "category": "Widgets"
-    },
-    {
-      "id": "io.github.ilyazar.keyboard-layout",
-      "name": "Keyboard Layout Pulse",
       "category": "Widgets"
     },
     {
@@ -127,16 +112,6 @@
     {
       "id": "markbusai.git-pulse",
       "name": "Git Pulse",
-      "category": "Widgets"
-    },
-    {
-      "id": "dev.deoxizn.keybind-manager",
-      "name": "Keybind Manager",
-      "category": "System"
-    },
-    {
-      "id": "glafeara.languages",
-      "name": "Omalang",
       "category": "Widgets"
     },
     {
@@ -260,19 +235,9 @@
       "category": "Hardware"
     },
     {
-      "id": "io.github.keithnyc.omanetwatch",
-      "name": "OmaNetWatch",
-      "category": "Widgets"
-    },
-    {
       "id": "vt.sun",
       "name": "Solar Times",
       "category": "Widgets"
-    },
-    {
-      "id": "monorkin.voyager-disco",
-      "name": "Voyager Disco",
-      "category": "Hardware"
     },
     {
       "id": "stappmus.lyrics",
@@ -308,11 +273,6 @@
       "id": "recurring-reminders",
       "name": "Recurring Reminders",
       "category": "Widgets"
-    },
-    {
-      "id": "daan.uptime-kuma",
-      "name": "Uptime Kuma",
-      "category": "Developer Tools"
     },
     {
       "id": "rosakodu.dock",
@@ -365,11 +325,6 @@
       "category": "Widgets"
     },
     {
-      "id": "tristonarmstrong.dictionary",
-      "name": "Dictionary",
-      "category": "Productivity"
-    },
-    {
       "id": "ryanyogan.fizzy",
       "name": "Fizzy",
       "category": "Productivity"
@@ -393,11 +348,6 @@
       "id": "io.github.ancelik.omarchy-temporal",
       "name": "Temporal",
       "category": "Developer Tools"
-    },
-    {
-      "id": "io.github.balazsorban44.keybinding-coach",
-      "name": "Keybinding coach",
-      "category": "Productivity"
     },
     {
       "id": "avila.cameras",
@@ -468,11 +418,6 @@
       "id": "cdhananjay.menu-auto-open",
       "name": "Menu auto-open",
       "category": "Desktop"
-    },
-    {
-      "id": "mka.asusrgb",
-      "name": "Asus RGB",
-      "category": "Hardware"
     },
     {
       "id": "io.github.promaaa.omamoney",
@@ -620,11 +565,6 @@
       "category": "Widgets"
     },
     {
-      "id": "io.github.rafaelvzago.rss",
-      "name": "RSS",
-      "category": "Widgets"
-    },
-    {
       "id": "io.github.brandc87.omamox",
       "name": "Omamox",
       "category": "Hardware"
@@ -643,11 +583,6 @@
       "id": "alvarosaavedra.sofle-layer",
       "name": "Sofle Layer",
       "category": "Hardware"
-    },
-    {
-      "id": "sportsbar",
-      "name": "Sportsbar",
-      "category": "Widgets"
     },
     {
       "id": "ldng.satellite-radar",
@@ -690,11 +625,6 @@
       "category": "Developer Tools"
     },
     {
-      "id": "b7s.googletranslate",
-      "name": "Google Translate",
-      "category": "Productivity"
-    },
-    {
       "id": "ussego.okata",
       "name": "Okata",
       "category": "Productivity"
@@ -708,11 +638,6 @@
       "id": "co.klair.controller-control",
       "name": "Controller Control",
       "category": "Hardware"
-    },
-    {
-      "id": "meirdick.scores",
-      "name": "Scores",
-      "category": "Widgets"
     },
     {
       "id": "dorneles.omabot",
@@ -750,16 +675,6 @@
       "category": "Widgets"
     },
     {
-      "id": "dlpwaters.thesaurus",
-      "name": "Dictionary & Thesaurus",
-      "category": "Widgets"
-    },
-    {
-      "id": "nenas1ya.latin-input",
-      "name": "Auto Latin in menu and terminal",
-      "category": "Productivity"
-    },
-    {
       "id": "miseriae.gitarchy",
       "name": "Gitarchy",
       "category": "Developer Tools"
@@ -772,11 +687,6 @@
     {
       "id": "io.github.5d0tal1gat0r.stocks",
       "name": "Stocks",
-      "category": "Widgets"
-    },
-    {
-      "id": "ah410.islamic-prayer-times",
-      "name": "Islamic Prayer Times",
       "category": "Widgets"
     },
     {
@@ -803,11 +713,6 @@
       "id": "io.github.gardnmi.window-shelf",
       "name": "Minimize",
       "category": "Desktop"
-    },
-    {
-      "id": "imagineit.klm",
-      "name": "imagineit KLM",
-      "category": "System"
     },
     {
       "id": "zezenta.vimoji",
@@ -845,11 +750,6 @@
       "category": "Hardware"
     },
     {
-      "id": "shaun.quick-translate",
-      "name": "Quick Translate",
-      "category": "Other"
-    },
-    {
       "id": "io.github.gpatkinson.trading-view",
       "name": "TradingView Watchlist",
       "category": "Widgets"
@@ -885,19 +785,9 @@
       "category": "System"
     },
     {
-      "id": "io.github.sanjyay.rss-reeder",
-      "name": "RSS-Reeder",
-      "category": "Productivity"
-    },
-    {
       "id": "dki.quran-verse-of-the-day",
       "name": "Daily Islamic Reminder",
       "category": "Widgets"
-    },
-    {
-      "id": "mttmng.proofreader",
-      "name": "Proofreader",
-      "category": "Productivity"
     },
     {
       "id": "parado.idle",
@@ -960,11 +850,6 @@
       "category": "Widgets"
     },
     {
-      "id": "danglenoir.deepl",
-      "name": "DeepL Translate",
-      "category": "Productivity"
-    },
-    {
       "id": "jason-watts.rclone-onedrive",
       "name": "rclone OneDrive",
       "category": "Widgets"
@@ -983,11 +868,6 @@
       "id": "jobo.desktop-ambience",
       "name": "Desktop Ambience",
       "category": "Appearance"
-    },
-    {
-      "id": "omakey",
-      "name": "omakey",
-      "category": "Productivity"
     },
     {
       "id": "dorneles.omapod",
@@ -1053,11 +933,6 @@
       "id": "angus.fault",
       "name": "Fault",
       "category": "System"
-    },
-    {
-      "id": "arh.file-picker",
-      "name": "File Picker",
-      "category": "Productivity"
     },
     {
       "id": "io.github.bvisagie.kernel-spirit",
@@ -1180,11 +1055,6 @@
       "category": "Productivity"
     },
     {
-      "id": "ryuhzk.translation",
-      "name": "Translation",
-      "category": "Productivity"
-    },
-    {
       "id": "danglenoir.hanzi",
       "name": "Daily Hanzi",
       "category": "Other"
@@ -1270,11 +1140,6 @@
       "category": "Developer Tools"
     },
     {
-      "id": "io.github.chris.quicklook",
-      "name": "QuickLook",
-      "category": "Productivity"
-    },
-    {
       "id": "omapets",
       "name": "OmaPets",
       "category": "Widgets"
@@ -1288,11 +1153,6 @@
       "id": "io.github.vonsensey.omargb",
       "name": "OmaRGB",
       "category": "Hardware"
-    },
-    {
-      "id": "slowburnaz.omaslang",
-      "name": "OmaSlang",
-      "category": "Widgets"
     },
     {
       "id": "jankeesvw.tesla",
@@ -1405,11 +1265,6 @@
       "category": "Appearance"
     },
     {
-      "id": "io.github.popidge.omasoccer",
-      "name": "OmaSoccer",
-      "category": "Widgets"
-    },
-    {
       "id": "jesperlugner.wallsmith",
       "name": "Wallsmith",
       "category": "Appearance"
@@ -1440,11 +1295,6 @@
       "category": "Widgets"
     },
     {
-      "id": "io.github.maiosx.preview",
-      "name": "Preview",
-      "category": "Desktop"
-    },
-    {
       "id": "io.github.omar-sv88.vlans",
       "name": "VLANs",
       "category": "Hardware"
@@ -1472,11 +1322,6 @@
     {
       "id": "io.github.eshayat102.hide-icons",
       "name": "Hide Icons",
-      "category": "Appearance"
-    },
-    {
-      "id": "salted.adhan",
-      "name": "Salted Adhan",
       "category": "Appearance"
     },
     {
@@ -1530,11 +1375,6 @@
       "category": "Desktop"
     },
     {
-      "id": "io.github.jeremylongshore.mlb-booth",
-      "name": "MLB Booth",
-      "category": "Widgets"
-    },
-    {
       "id": "atagulalan.omapanel",
       "name": "OmaPanel",
       "category": "Widgets"
@@ -1558,11 +1398,6 @@
       "id": "community.fnos-sync",
       "name": "FN sync",
       "category": "Productivity"
-    },
-    {
-      "id": "io.github.sahzudin.keymap",
-      "name": "Keyboard Shortcuts",
-      "category": "System"
     },
     {
       "id": "kzagoris.codex-router-tray",
@@ -1640,19 +1475,9 @@
       "category": "Developer Tools"
     },
     {
-      "id": "omakeyboard.brightness",
-      "name": "OmaKeyboard-Brightness",
-      "category": "Hardware"
-    },
-    {
       "id": "ogarza.binaural-noise",
       "name": "Binaural noise",
       "category": "Other"
-    },
-    {
-      "id": "io.github.bhanuprassad.cricket",
-      "name": "Cricket",
-      "category": "Widgets"
     },
     {
       "id": "gurvindersingh-web.system-stats",
@@ -1720,11 +1545,6 @@
       "category": "Widgets"
     },
     {
-      "id": "io.github.alejandro-llanes.news",
-      "name": "News",
-      "category": "Widgets"
-    },
-    {
       "id": "io.github.dupontbertrand.omasync",
       "name": "Omasync",
       "category": "System"
@@ -1740,11 +1560,6 @@
       "category": "Other"
     },
     {
-      "id": "io.github.overview",
-      "name": "Overview",
-      "category": "Desktop"
-    },
-    {
       "id": "io.github.glitzypanic.runpod-monitor",
       "name": "RunPod Monitor",
       "category": "Widgets"
@@ -1755,19 +1570,9 @@
       "category": "System"
     },
     {
-      "id": "com.flaviomedeiros.rss.headlines",
-      "name": "RSS Headlines",
-      "category": "Widgets"
-    },
-    {
       "id": "io.github.devbrsa.crypto-marquee",
       "name": "Crypto Marquee",
       "category": "Widgets"
-    },
-    {
-      "id": "meviusisback.keybinds",
-      "name": "Keybindings",
-      "category": "Desktop"
     },
     {
       "id": "app.vaultez",
@@ -1813,11 +1618,6 @@
       "id": "carmelo.autohide-bar",
       "name": "Autohide Bar",
       "category": "Appearance"
-    },
-    {
-      "id": "bottelet.is-it-down",
-      "name": "Is It Down?",
-      "category": "Developer Tools"
     },
     {
       "id": "bottelet.quickdocs",
@@ -1935,11 +1735,6 @@
       "category": "Productivity"
     },
     {
-      "id": "jmaeder.frenchdict-cnrtl",
-      "name": "French Dictionnary",
-      "category": "Widgets"
-    },
-    {
       "id": "salted.bartoggle",
       "name": "Bartoggle",
       "category": "Appearance"
@@ -1970,11 +1765,6 @@
       "category": "Widgets"
     },
     {
-      "id": "andrewf.keyboard-idle",
-      "name": "Keyboard Backlight Idle Auto-Off",
-      "category": "Hardware"
-    },
-    {
       "id": "wyatt.oloopsy",
       "name": "Oloopsy",
       "category": "Widgets"
@@ -1993,11 +1783,6 @@
       "id": "lef.messaging",
       "name": "Messaging",
       "category": "Productivity"
-    },
-    {
-      "id": "lef.keyboard-layout",
-      "name": "Keyboard Layout",
-      "category": "Desktop"
     },
     {
       "id": "brianstarke.ometronorth",
@@ -2035,11 +1820,6 @@
       "category": "Developer Tools"
     },
     {
-      "id": "io.github.joega.sportray",
-      "name": "Sportray",
-      "category": "Widgets"
-    },
-    {
       "id": "gigor.folder",
       "name": "Folder",
       "category": "Productivity"
@@ -2047,11 +1827,6 @@
     {
       "id": "io.github.ef-code.access-profiles",
       "name": "Access Profiles",
-      "category": "System"
-    },
-    {
-      "id": "shafayet.finder",
-      "name": "File Finder",
       "category": "System"
     },
     {
@@ -2120,11 +1895,6 @@
       "category": "Productivity"
     },
     {
-      "id": "hancore.keyboard-center",
-      "name": "Keyboard Indicator",
-      "category": "Desktop"
-    },
-    {
       "id": "wico216.tcg-player",
       "name": "TCG Player Search",
       "category": "Widgets"
@@ -2133,11 +1903,6 @@
       "id": "io.github.mutahir.omavault",
       "name": "OmaVault",
       "category": "System"
-    },
-    {
-      "id": "panadestein.lexicon",
-      "name": "Lexicon",
-      "category": "Productivity"
     },
     {
       "id": "io.github.prudhviy99.omalive",
@@ -2183,11 +1948,6 @@
       "id": "io.github.poctek.hyprland-submap",
       "name": "Hyprland Submap Indicator",
       "category": "Widgets"
-    },
-    {
-      "id": "io.github.cbullard.defthis",
-      "name": "DefThis",
-      "category": "Productivity"
     },
     {
       "id": "shokupan.dpms-guard",
@@ -2295,16 +2055,6 @@
       "category": "System"
     },
     {
-      "id": "io.github.kitsunesemcalda.feader-rss",
-      "name": "Feader RSS",
-      "category": "Widgets"
-    },
-    {
-      "id": "mush.cricket",
-      "name": "Live Cricket Scores",
-      "category": "Widgets"
-    },
-    {
       "id": "skvggor.omavault",
       "name": "Omavault",
       "category": "System"
@@ -2335,24 +2085,9 @@
       "category": "Productivity"
     },
     {
-      "id": "jesseburlamaque.omarchy-find",
-      "name": "Omarchy Find",
-      "category": "Productivity"
-    },
-    {
-      "id": "devbook.futbar",
-      "name": "FutBar",
-      "category": "Widgets"
-    },
-    {
       "id": "io.github.sspaeti.goatcounter",
       "name": "GoatCounter",
       "category": "Widgets"
-    },
-    {
-      "id": "io.github.aryagorjipour.nitro-keyboard",
-      "name": "Nitro Keyboard",
-      "category": "Hardware"
     },
     {
       "id": "io.github.dominicboettger.prompter",
@@ -2490,11 +2225,6 @@
       "category": "Hardware"
     },
     {
-      "id": "robinvanderknaap.statuscake",
-      "name": "StatusCake",
-      "category": "Widgets"
-    },
-    {
       "id": "io.github.andresochoas.zonitor",
       "name": "Zonitor",
       "category": "Widgets"
@@ -2502,11 +2232,6 @@
     {
       "id": "io.github.antoniowav.departures",
       "name": "Departures",
-      "category": "Widgets"
-    },
-    {
-      "id": "io.github.nag3sy.fpl-tracker",
-      "name": "Omarchy FPL Tracker",
       "category": "Widgets"
     },
     {
@@ -2585,11 +2310,6 @@
       "category": "Developer Tools"
     },
     {
-      "id": "edbron.monitor-arrange",
-      "name": "Monitor Placement & Refresh Rate",
-      "category": "System"
-    },
-    {
       "id": "io.github.endijs.pulse-for-revenuecat",
       "name": "Pulse for RevenueCat",
       "category": "Widgets"
@@ -2630,11 +2350,6 @@
       "category": "Other"
     },
     {
-      "id": "io.github.jeremylongshore.listening-post",
-      "name": "Listening Post",
-      "category": "Widgets"
-    },
-    {
       "id": "io.github.elevate08.ynab-glance",
       "name": "YNAB Pulse",
       "category": "Widgets"
@@ -2673,11 +2388,6 @@
       "id": "kairos.night-sky",
       "name": "Night Sky",
       "category": "Widgets"
-    },
-    {
-      "id": "io.github.legibet.popup-translator",
-      "name": "Popup Translator",
-      "category": "Productivity"
     },
     {
       "id": "com.mirashif.omarest",
@@ -2760,11 +2470,6 @@
       "category": "Widgets"
     },
     {
-      "id": "jnodavid.omarkey",
-      "name": "Omarkey",
-      "category": "Productivity"
-    },
-    {
       "id": "io.github.oqullcan.albus.dev",
       "name": "Albus DPI",
       "category": "System"
@@ -2800,11 +2505,6 @@
       "category": "Productivity"
     },
     {
-      "id": "huacnlee.which-key",
-      "name": "Which Key",
-      "category": "Productivity"
-    },
-    {
       "id": "remco.bar-toggle",
       "name": "Bar Widgets",
       "category": "System"
@@ -2817,11 +2517,6 @@
     {
       "id": "bert.dropdeck",
       "name": "Dropdeck",
-      "category": "Widgets"
-    },
-    {
-      "id": "narbs.betterstack",
-      "name": "Better Stack Status",
       "category": "Widgets"
     },
     {
@@ -2880,11 +2575,6 @@
       "category": "Developer Tools"
     },
     {
-      "id": "io.github.majkelll.omarchy-keymaps",
-      "name": "Keyboard layouts",
-      "category": "System"
-    },
-    {
       "id": "oliwier.opencode-configs",
       "name": "OpenCode Config Manager",
       "category": "Developer Tools"
@@ -2915,11 +2605,6 @@
       "category": "Widgets"
     },
     {
-      "id": "bagareal.keybindings",
-      "name": "Keybindings Lookup",
-      "category": "Productivity"
-    },
-    {
       "id": "taufderl.octoprint",
       "name": "OctoPrint",
       "category": "Hardware"
@@ -2940,24 +2625,9 @@
       "category": "Widgets"
     },
     {
-      "id": "io.github.weedwhitesandwine.gaffer",
-      "name": "FPL Gaffer",
-      "category": "Widgets"
-    },
-    {
-      "id": "io.github.0x1ocean.keyglow",
-      "name": "Keyglow",
-      "category": "Widgets"
-    },
-    {
       "id": "mokkabonna.plugin-settings",
       "name": "Plugin Settings",
       "category": "System"
-    },
-    {
-      "id": "io.github.bruno-g-soares.omarchy-keyboard-rgb",
-      "name": "Keyboard RGB",
-      "category": "Hardware"
     },
     {
       "id": "yamz8.npichy",
@@ -3080,11 +2750,6 @@
       "category": "Widgets"
     },
     {
-      "id": "harbefas.keybinds",
-      "name": "Keybinds",
-      "category": "Productivity"
-    },
-    {
       "id": "cbayschm.openclash",
       "name": "OpenClash",
       "category": "Widgets"
@@ -3113,11 +2778,6 @@
       "id": "io.github.avillagran.omarchy-x-panel",
       "name": "X Panel",
       "category": "Widgets"
-    },
-    {
-      "id": "io.github.maxmad75.keycap",
-      "name": "Keycap",
-      "category": "Productivity"
     },
     {
       "id": "io.github.edwardcaf.sky-map",
@@ -3158,11 +2818,6 @@
       "id": "leonrlr4.rdt",
       "name": "rdt",
       "category": "Widgets"
-    },
-    {
-      "id": "sinannar.omarchy.plugin.msftdevblogs",
-      "name": "Microsoft Dev Blogs",
-      "category": "Other"
     },
     {
       "id": "io.github.henksys.ask",
@@ -3235,11 +2890,6 @@
       "category": "Productivity"
     },
     {
-      "id": "ranjithraj.news-reader",
-      "name": "News Reader",
-      "category": "Productivity"
-    },
-    {
       "id": "io.github.szentesg.clamav-monitor",
       "name": "ClamAV Monitor",
       "category": "System"
@@ -3268,11 +2918,6 @@
       "id": "abdul.hotcorners",
       "name": "Hot Corners",
       "category": "Desktop"
-    },
-    {
-      "id": "io.github.omashift.omashift",
-      "name": "Omashift",
-      "category": "Productivity"
     },
     {
       "id": "io.github.xgborgeso.gta6-countdown",
@@ -3345,11 +2990,6 @@
       "category": "Productivity"
     },
     {
-      "id": "themo.nfl",
-      "name": "NFL",
-      "category": "Widgets"
-    },
-    {
       "id": "io.github.harisb2012.selfcontrol",
       "name": "Self Control",
       "category": "Productivity"
@@ -3397,11 +3037,6 @@
     {
       "id": "sophie.time-tracker",
       "name": "TimeTracker",
-      "category": "Productivity"
-    },
-    {
-      "id": "sgruendel.fzf",
-      "name": "fzf",
       "category": "Productivity"
     },
     {
@@ -3485,11 +3120,6 @@
       "category": "System"
     },
     {
-      "id": "io.github.majesticio.keyboard-backlight",
-      "name": "Keyboard Backlight",
-      "category": "Hardware"
-    },
-    {
       "id": "io.github.joshferrara.quick-emoji",
       "name": "Quick Emoji",
       "category": "Productivity"
@@ -3555,11 +3185,6 @@
       "category": "Productivity"
     },
     {
-      "id": "jankeesvw.text-transform",
-      "name": "Text Transform",
-      "category": "Productivity"
-    },
-    {
       "id": "veepee.twingate",
       "name": "Twingate",
       "category": "Widgets"
@@ -3607,11 +3232,6 @@
     {
       "id": "paisen.omo-anitrack",
       "name": "Omo Anitrack",
-      "category": "Widgets"
-    },
-    {
-      "id": "slowburnaz.omascore",
-      "name": "OmaScore",
       "category": "Widgets"
     },
     {
@@ -3720,11 +3340,6 @@
       "category": "System"
     },
     {
-      "id": "yarikov.omatips",
-      "name": "OmaTips",
-      "category": "Productivity"
-    },
-    {
       "id": "io.github.cozidian.dnd",
       "name": "SRD Lookup",
       "category": "Widgets"
@@ -3805,29 +3420,14 @@
       "category": "Productivity"
     },
     {
-      "id": "io.github.idr4n.prayer-times",
-      "name": "Prayer Times",
-      "category": "Widgets"
-    },
-    {
       "id": "io.github.brukb.omarchy-zerotier",
       "name": "ZeroTier",
       "category": "Widgets"
     },
     {
-      "id": "tngyema.refresh-rate",
-      "name": "Refresh Rate",
-      "category": "System"
-    },
-    {
       "id": "max.scene",
       "name": "Scene Switcher",
       "category": "Productivity"
-    },
-    {
-      "id": "io.github.danielsuhett.vivobook-rgb",
-      "name": "Vivobook RGB",
-      "category": "Hardware"
     },
     {
       "id": "omarchy-wvkbd",
@@ -3915,11 +3515,6 @@
       "category": "Developer Tools"
     },
     {
-      "id": "astrofoundry.keybind-editor",
-      "name": "Astro Keybind Editor",
-      "category": "System"
-    },
-    {
       "id": "io.github.tslove923.howdy-face-unlock",
       "name": "Howdy Face Unlock",
       "category": "System"
@@ -3963,11 +3558,6 @@
       "id": "vip32.repo.hub",
       "name": "Repo Hub",
       "category": "Developer Tools"
-    },
-    {
-      "id": "keybind-manager",
-      "name": "Keybind Manager",
-      "category": "Appearance"
     },
     {
       "id": "io.github.dannymcc.veracrypt-vaults",
@@ -4025,11 +3615,6 @@
       "category": "Productivity"
     },
     {
-      "id": "io.github.p145085.uptime-kuma",
-      "name": "Uptime Kuma",
-      "category": "Widgets"
-    },
-    {
       "id": "mohpydev.downlodarchy",
       "name": "Downlodarchy",
       "category": "Productivity"
@@ -4053,11 +3638,6 @@
       "id": "wkuehler.amateur-exam-quiz",
       "name": "Amateur Radio Exam Quiz",
       "category": "Other"
-    },
-    {
-      "id": "io.github.cyprusad.omakeez",
-      "name": "Omakeez",
-      "category": "Productivity"
     },
     {
       "id": "shilai_li.eye-break",
@@ -4103,11 +3683,6 @@
       "id": "cschaba.omaipsum",
       "name": "OmaIpsum",
       "category": "Widgets"
-    },
-    {
-      "id": "joao.kbd-backlight",
-      "name": "Samsung Book Keyboard Backlight",
-      "category": "System"
     },
     {
       "id": "chaz.bar-autohide",
@@ -4380,11 +3955,6 @@
       "category": "Desktop"
     },
     {
-      "id": "synapsync.news-feed",
-      "name": "News Feed",
-      "category": "Widgets"
-    },
-    {
       "id": "com.leafbox.f1",
       "name": "Formula 1",
       "category": "Widgets"
@@ -4415,19 +3985,9 @@
       "category": "Widgets"
     },
     {
-      "id": "io.github.renerocksai.omapress",
-      "name": "Omapress",
-      "category": "Widgets"
-    },
-    {
       "id": "io.github.iryzhkov.glide-menus",
       "name": "Glide menus",
       "category": "Desktop"
-    },
-    {
-      "id": "io.github.niraj-envision.football",
-      "name": "Football",
-      "category": "Widgets"
     },
     {
       "id": "shilai_li.recent-paths",
@@ -4490,11 +4050,6 @@
       "category": "Widgets"
     },
     {
-      "id": "io.github.studioxvii.fantasy-feed",
-      "name": "Fantasy Feed",
-      "category": "Widgets"
-    },
-    {
       "id": "io.github.iainfreestone.control-tower",
       "name": "Control Tower",
       "category": "Other"
@@ -4528,11 +4083,6 @@
       "id": "io.github.knivfjell.super-button",
       "name": "Super Button",
       "category": "System"
-    },
-    {
-      "id": "io.github.dataknox.keyboard-backlight",
-      "name": "Keyboard Backlight",
-      "category": "Hardware"
     },
     {
       "id": "costafot.markets",
@@ -4585,16 +4135,6 @@
       "category": "Widgets"
     },
     {
-      "id": "io.github.expl0sive.soccer",
-      "name": "Soccer Scores",
-      "category": "Widgets"
-    },
-    {
-      "id": "samara-hub-ro.keyboard-light",
-      "name": "Asus TUF/ROG Keyboard Light",
-      "category": "Hardware"
-    },
-    {
       "id": "io.github.tomfaulkner.recall",
       "name": "Recall",
       "category": "System"
@@ -4607,11 +4147,6 @@
     {
       "id": "raulonastool.clickwheel",
       "name": "Click Wheel",
-      "category": "Productivity"
-    },
-    {
-      "id": "digitalbase.hyper",
-      "name": "Hyper",
       "category": "Productivity"
     },
     {
@@ -4655,11 +4190,6 @@
       "category": "Developer Tools"
     },
     {
-      "id": "io.github.arazgray.omalang",
-      "name": "Omalang",
-      "category": "Widgets"
-    },
-    {
       "id": "io.github.kristijanw.password-generator",
       "name": "Password Generator",
       "category": "Productivity"
@@ -4670,23 +4200,8 @@
       "category": "System"
     },
     {
-      "id": "io.github.paulohenrique000.team-matches",
-      "name": "Omarchy Follow Your Team",
-      "category": "Appearance"
-    },
-    {
       "id": "io.github.adg-ub.bay-transit-board",
       "name": "Bay Transit Board",
-      "category": "Widgets"
-    },
-    {
-      "id": "tsubaie.next-match",
-      "name": "Next Match",
-      "category": "Widgets"
-    },
-    {
-      "id": "quran",
-      "name": "Quran",
       "category": "Widgets"
     },
     {
@@ -4727,11 +4242,6 @@
     {
       "id": "io.github.cytracon.shortcuts",
       "name": "Shortcut Helper",
-      "category": "System"
-    },
-    {
-      "id": "jo.omacheatsheet",
-      "name": "OmaCheatSheet",
       "category": "System"
     },
     {
@@ -4865,16 +4375,6 @@
       "category": "Developer Tools"
     },
     {
-      "id": "io.github.chrisroundhill.omathlete",
-      "name": "Omathlete",
-      "category": "Widgets"
-    },
-    {
-      "id": "io.github.alexanderpuschkinberlin.keyboard-backlight",
-      "name": "ThinkPad Keyboard Backlight",
-      "category": "Hardware"
-    },
-    {
       "id": "solfredag.changing-lines",
       "name": "Changing Lines",
       "category": "Widgets"
@@ -4888,11 +4388,6 @@
       "id": "io.github.e1i3or-commits.scrim",
       "name": "Scrim",
       "category": "Productivity"
-    },
-    {
-      "id": "firstpick.keybindings",
-      "name": "Keybinding editor",
-      "category": "System"
     },
     {
       "id": "io.github.bert0424.sigil",
@@ -4920,11 +4415,6 @@
       "category": "Hardware"
     },
     {
-      "id": "io.github.anes-03.keyboard-brightness",
-      "name": "Keyboard Brightness",
-      "category": "Hardware"
-    },
-    {
       "id": "io.github.kkoontz.omarchy-news-rss",
       "name": "Omarchy News",
       "category": "Widgets"
@@ -4937,16 +4427,6 @@
     {
       "id": "io.github.kusumaindraputra.daily-deen",
       "name": "Daily Ayah & Hadith",
-      "category": "Widgets"
-    },
-    {
-      "id": "io.github.thelost77.omacourier",
-      "name": "OmaCourier",
-      "category": "Widgets"
-    },
-    {
-      "id": "io.github.ollieedgeley.ai-frontier-status",
-      "name": "Frontier Status",
       "category": "Widgets"
     },
     {
@@ -4963,11 +4443,6 @@
       "id": "io.github.elgevan.kids-menu",
       "name": "Kids Menu",
       "category": "Kids"
-    },
-    {
-      "id": "slw.keyarchy",
-      "name": "Keyarchy",
-      "category": "Productivity"
     },
     {
       "id": "karamble.demarchy",
@@ -5091,7 +4566,7 @@
     },
     {
       "id": "axel.window-close-buttons",
-      "name": "Window close buttons",
+      "name": "Window Close Buttons",
       "category": "Appearance"
     },
     {
@@ -5143,11 +4618,6 @@
       "id": "digitalbase.openrouter-plus-improved",
       "name": "OpenRouter Plus Improved",
       "category": "Widgets"
-    },
-    {
-      "id": "thatpikaga.aurabind",
-      "name": "AuraBind",
-      "category": "System"
     },
     {
       "id": "clouddown.cobalt",
@@ -5221,7 +4691,7 @@
     },
     {
       "id": "szaidi.scoring-matrix",
-      "name": "Scoring Matrix",
+      "name": "Omarchy Hardware Score",
       "category": "Hardware"
     },
     {
@@ -5273,11 +4743,6 @@
       "id": "io.github.matheusmedrado.jsonarchy",
       "name": "JSONarchy",
       "category": "Developer Tools"
-    },
-    {
-      "id": "io.github.corck.filesearch",
-      "name": "File search",
-      "category": "Productivity"
     },
     {
       "id": "io.github.tngyema.usb-doctor",
@@ -5395,11 +4860,6 @@
       "category": "Appearance"
     },
     {
-      "id": "mghizdavet.rss",
-      "name": "RSS news",
-      "category": "Widgets"
-    },
-    {
       "id": "io.github.mfilm77.keypad",
       "name": "Keypad",
       "category": "Hardware"
@@ -5413,11 +4873,6 @@
       "id": "guy.pico-8-widget",
       "name": "PICO-8 Widget",
       "category": "Widgets"
-    },
-    {
-      "id": "io.github.fluffet.display",
-      "name": "Advanced Displays",
-      "category": "Desktop"
     },
     {
       "id": "io.github.kszx11.grammarchy",
@@ -5610,11 +5065,6 @@
       "category": "Productivity"
     },
     {
-      "id": "io.github.exquisiteskink.sportmarchy",
-      "name": "Sportmarchy",
-      "category": "Widgets"
-    },
-    {
       "id": "at.familienfabrik.omarchy",
       "name": "Familienfabrik.at",
       "category": "Other"
@@ -5637,11 +5087,6 @@
     {
       "id": "io.github.layolayo.iching-oracle",
       "name": "I-Ching: Stalks & Sacred Marbles",
-      "category": "Widgets"
-    },
-    {
-      "id": "io.github.marty-schneider.sports-tracker",
-      "name": "Sports Tracker",
       "category": "Widgets"
     },
     {
@@ -5690,11 +5135,6 @@
       "category": "System"
     },
     {
-      "id": "grnqrtr.keyboard-nightlight",
-      "name": "Keyboard Nightlight Sync",
-      "category": "Hardware"
-    },
-    {
       "id": "io.github.therealasclepius.touchpad-comfortable",
       "name": "Touchpad Comfortable",
       "category": "Hardware"
@@ -5723,11 +5163,6 @@
       "id": "io.github.dgoran.webapp-browser",
       "name": "WebApp Browser",
       "category": "Desktop"
-    },
-    {
-      "id": "ming.keybindings",
-      "name": "Keybindings Visualizer",
-      "category": "Widgets"
     },
     {
       "id": "io.github.agusherrera99.bookflow",
@@ -5875,11 +5310,6 @@
       "category": "Hardware"
     },
     {
-      "id": "io.github.rickcaleg.keyboard-lang",
-      "name": "Keyboard Lang",
-      "category": "System"
-    },
-    {
       "id": "io.github.ukkit.universal-font-sizer",
       "name": "Universal Font Sizer",
       "category": "Appearance"
@@ -5935,11 +5365,6 @@
       "category": "Productivity"
     },
     {
-      "id": "asus-kbd-backlight",
-      "name": "ASUS Keyboard Backlight Idle",
-      "category": "Hardware"
-    },
-    {
       "id": "io.github.brhellman.browser-select",
       "name": "Browser select",
       "category": "Productivity"
@@ -5955,18 +5380,8 @@
       "category": "Hardware"
     },
     {
-      "id": "reidenxerx.keyboard-layout-per-app",
-      "name": "Omalang",
-      "category": "Desktop"
-    },
-    {
       "id": "reidenxerx.emoji-picker",
       "name": "Emoji picker",
-      "category": "Productivity"
-    },
-    {
-      "id": "io.github.keegan-sucks.rss-feeder",
-      "name": "RSS-Feeder",
       "category": "Productivity"
     },
     {
@@ -5983,11 +5398,6 @@
       "id": "io.github.steveclarke.kopia",
       "name": "Kopia Backups",
       "category": "System"
-    },
-    {
-      "id": "komagata.screen-lens",
-      "name": "Screen Lens",
-      "category": "Productivity"
     },
     {
       "id": "cyber.sentry",
@@ -6013,11 +5423,6 @@
       "id": "io.github.labrat-0.omacircuit",
       "name": "Omacircuit",
       "category": "Desktop"
-    },
-    {
-      "id": "vivobook.s14-copilot",
-      "name": "Vivobook S14 Copilot+",
-      "category": "Hardware"
     },
     {
       "id": "io.github.dreed47.my-plugins",
@@ -6055,19 +5460,9 @@
       "category": "Hardware"
     },
     {
-      "id": "xoox.aero-x16-rgb",
-      "name": "Gigabyte Aero X16: Keyboard RGB",
-      "category": "Hardware"
-    },
-    {
       "id": "danexpo.crt",
       "name": "CRT Filter",
       "category": "Appearance"
-    },
-    {
-      "id": "no.koka.uptime-monitor",
-      "name": "Uptime Monitor",
-      "category": "System"
     },
     {
       "id": "woganmay.nature-mood",
@@ -6078,11 +5473,6 @@
       "id": "dorneles.alcalc",
       "name": "alcalc",
       "category": "Productivity"
-    },
-    {
-      "id": "io.github.zaka53.mawaqit-times",
-      "name": "Mawaqit Prayer Times",
-      "category": "Widgets"
     },
     {
       "id": "io.github.aonatsky.zen-sync",
@@ -6100,19 +5490,9 @@
       "category": "Desktop"
     },
     {
-      "id": "lonefox.ferret",
-      "name": "Ferret",
-      "category": "Productivity"
-    },
-    {
       "id": "io.github.jondkinney.barscreens",
       "name": "Bar Screens",
       "category": "Desktop"
-    },
-    {
-      "id": "io.github.siygle.omarchy-rss-client",
-      "name": "Omarchy RSS Client",
-      "category": "Widgets"
     },
     {
       "id": "io.github.ryankv.omarchy-maestral",
@@ -6130,11 +5510,6 @@
       "category": "System"
     },
     {
-      "id": "io.github.keegan-sucks.lookup",
-      "name": "Look Up",
-      "category": "Productivity"
-    },
-    {
       "id": "impaler.stocks",
       "name": "Stocks",
       "category": "Widgets"
@@ -6148,11 +5523,6 @@
       "id": "io.github.layolayo.eternal-moment",
       "name": "The Eternal Moment: Process #4",
       "category": "Productivity"
-    },
-    {
-      "id": "scoop.uptime-kuma",
-      "name": "Uptime Kuma",
-      "category": "System"
     },
     {
       "id": "ozdil.security-sentinel",
@@ -6228,6 +5598,1076 @@
       "id": "io.github.aniakea.zhipu-coding-usage",
       "name": "Zhipu Coding Usage",
       "category": "Developer Tools"
+    },
+    {
+      "id": "asdfsnlr.omabricktetris",
+      "name": "OmaBrickTetris",
+      "category": "Other"
+    },
+    {
+      "id": "asdfsnlr.omabrickbird",
+      "name": "OmaBrickBird",
+      "category": "Other"
+    },
+    {
+      "id": "io.weirdware.omasnow",
+      "name": "Omasnow",
+      "category": "Appearance"
+    },
+    {
+      "id": "io.github.jramiresbrito.bar-zoom",
+      "name": "Bar Zoom",
+      "category": "Appearance"
+    },
+    {
+      "id": "bennethon.launchboard",
+      "name": "LaunchBoard",
+      "category": "Desktop"
+    },
+    {
+      "id": "lukedaduke.ticker",
+      "name": "Market Watchlist",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.decadentsavant.baton",
+      "name": "Baton",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.jasasonc.claude-swap-panel",
+      "name": "Claude Swap Panel",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "io.github.u64a.project-launcher",
+      "name": "Project Launcher",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "jkr.omajump",
+      "name": "Omajump",
+      "category": "Other"
+    },
+    {
+      "id": "kenhara.sparklekeys",
+      "name": "Sparklekeys",
+      "category": "Kids"
+    },
+    {
+      "id": "omdesky.remote",
+      "name": "Omdesky",
+      "category": "Widgets"
+    },
+    {
+      "id": "dutchbase.webapps",
+      "name": "Web Apps",
+      "category": "Desktop"
+    },
+    {
+      "id": "tiho.omagemba",
+      "name": "OmaGemba",
+      "category": "Productivity"
+    },
+    {
+      "id": "fstander.omartillery",
+      "name": "Omartillery",
+      "category": "Widgets"
+    },
+    {
+      "id": "roozeec.omarchy-converter",
+      "name": "Converter",
+      "category": "Productivity"
+    },
+    {
+      "id": "finna.herdr-hud",
+      "name": "Herdr HUD",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "data-goblin.fileblade",
+      "name": "FileBlade",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "mkelk.keepass-picker",
+      "name": "KeePass Picker",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.adam-lagerhausen.kidtimer",
+      "name": "Kidtimer",
+      "category": "Kids"
+    },
+    {
+      "id": "entroit.omaflow",
+      "name": "OmaFlow",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.pantherdev2024.quartermaster",
+      "name": "Quartermaster",
+      "category": "Appearance"
+    },
+    {
+      "id": "madddtone.gomysql-peek",
+      "name": "GoMySQL Peek",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "hl.freelo",
+      "name": "Freelo",
+      "category": "Productivity"
+    },
+    {
+      "id": "ber.omacoins",
+      "name": "Omacoins",
+      "category": "Widgets"
+    },
+    {
+      "id": "m0sthatedman.quickfile",
+      "name": "QuickFile",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.bruce-forte.mcp-server",
+      "name": "MCP Server",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "archy.studio",
+      "name": "Archy Architecture Studio",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "io.github.benryanx.mote",
+      "name": "Mote",
+      "category": "Productivity"
+    },
+    {
+      "id": "fraction12.codex-micro",
+      "name": "Codex Micro",
+      "category": "Hardware"
+    },
+    {
+      "id": "marchybar.touchbar",
+      "name": "MarchyBar",
+      "category": "Hardware"
+    },
+    {
+      "id": "io.github.tymurbogach.sleepwalker",
+      "name": "Sleepwalker",
+      "category": "System"
+    },
+    {
+      "id": "tbassss.breadcrumb",
+      "name": "Breadcrumb",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.pablousx.omadocs",
+      "name": "omadocs",
+      "category": "Productivity"
+    },
+    {
+      "id": "dorneles.omafly",
+      "name": "Omafly",
+      "category": "Appearance"
+    },
+    {
+      "id": "io.github.terrifiedbug.omayap",
+      "name": "OmaYap",
+      "category": "Productivity"
+    },
+    {
+      "id": "digital.1001.gopro",
+      "name": "GoPro",
+      "category": "Hardware"
+    },
+    {
+      "id": "io.github.grupertal.biometric-hud",
+      "name": "Biometric HUD",
+      "category": "System"
+    },
+    {
+      "id": "io.github.cfaulkingham.omasnapshot",
+      "name": "OmaSnapshot",
+      "category": "System"
+    },
+    {
+      "id": "io.github.shabdar.omask",
+      "name": "omAsk",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.pelukonline.input-freeze",
+      "name": "Input Freeze",
+      "category": "System"
+    },
+    {
+      "id": "joecastro.lastpass",
+      "name": "LastPass Quick Access for Omarchy",
+      "category": "System"
+    },
+    {
+      "id": "jkarmel.history-search",
+      "name": "Terminal History",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "io.github.4a616d6573.pangolin",
+      "name": "Pangolin",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.edgracia.respice",
+      "name": "Respice",
+      "category": "Widgets"
+    },
+    {
+      "id": "alanroman.choo-choo-chompers",
+      "name": "Choo-Choo Chompers",
+      "category": "Kids"
+    },
+    {
+      "id": "io.github.fredimachado.omakeycast",
+      "name": "Omakeycast",
+      "category": "Widgets"
+    },
+    {
+      "id": "matteodevenuto.corsair-cooling",
+      "name": "Corsair Cooling",
+      "category": "Hardware"
+    },
+    {
+      "id": "axelfontaine.logitech-unifying",
+      "name": "Logitech Unifying",
+      "category": "Hardware"
+    },
+    {
+      "id": "axelfontaine.logitech-bolt",
+      "name": "Logitech Bolt",
+      "category": "Hardware"
+    },
+    {
+      "id": "ronholt.youtube-background",
+      "name": "YouTube Background",
+      "category": "Appearance"
+    },
+    {
+      "id": "io.github.hmarquez-solutions.ora",
+      "name": "Ora",
+      "category": "Productivity"
+    },
+    {
+      "id": "luneth90.omamigrate",
+      "name": "OmaMigrate",
+      "category": "System"
+    },
+    {
+      "id": "thefreshoffice.speaker-calibrator",
+      "name": "Speaker Calibrator",
+      "category": "Hardware"
+    },
+    {
+      "id": "com.omastorm.radar",
+      "name": "Omastorm",
+      "category": "Widgets"
+    },
+    {
+      "id": "fans.omarchy.omacalc-84",
+      "name": "OmaCalc-84",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.pablousx.omastart",
+      "name": "omastart",
+      "category": "System"
+    },
+    {
+      "id": "io.github.irhop.github-monitor",
+      "name": "GitHub Release Monitor",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "nosignal.omafont",
+      "name": "omafont",
+      "category": "Productivity"
+    },
+    {
+      "id": "marcho78.lockbox",
+      "name": "Lockbox",
+      "category": "System"
+    },
+    {
+      "id": "marcho78.magnify-dock",
+      "name": "Magnify Dock",
+      "category": "Desktop"
+    },
+    {
+      "id": "wakanda4ever",
+      "name": "Wakanda4Ever",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "kb2uka.dock-doctor",
+      "name": "Dock Doctor",
+      "category": "Hardware"
+    },
+    {
+      "id": "io.github.adamya-gupta.virtual-display",
+      "name": "Virtual Display",
+      "category": "Desktop"
+    },
+    {
+      "id": "jkarmel.plugin-search",
+      "name": "Plugin Search",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.tcballard.tidyup",
+      "name": "Omarchy TidyUp",
+      "category": "System"
+    },
+    {
+      "id": "ryuhzk.muqun",
+      "name": "Muqun",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "io.github.3eye3y3.fretboard",
+      "name": "Fretboard",
+      "category": "Productivity"
+    },
+    {
+      "id": "jankeesvw.clippy",
+      "name": "Clippy",
+      "category": "Desktop"
+    },
+    {
+      "id": "io.github.crumble21.notch-bar",
+      "name": "Notch Bar",
+      "category": "Appearance"
+    },
+    {
+      "id": "io.github.enovara.teach-voxtype",
+      "name": "Teach Voxtype",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.nobledoodle.omarchroma",
+      "name": "Omarchroma",
+      "category": "Appearance"
+    },
+    {
+      "id": "nosignal.omaquarium",
+      "name": "Omaquarium",
+      "category": "Appearance"
+    },
+    {
+      "id": "reidenxerx.tactile",
+      "name": "Tactile",
+      "category": "Hardware"
+    },
+    {
+      "id": "terrizoaguimor.hydropunk",
+      "name": "Hydropunk Atmosphere",
+      "category": "Appearance"
+    },
+    {
+      "id": "io.github.adamritter.surface-studio",
+      "name": "Surface Studio Bar",
+      "category": "Appearance"
+    },
+    {
+      "id": "io.github.leofle.cleanlock",
+      "name": "Clean Lock",
+      "category": "Hardware"
+    },
+    {
+      "id": "skal.bar",
+      "name": "Skål Bar",
+      "category": "Desktop"
+    },
+    {
+      "id": "dorneles.telestream",
+      "name": "TeleStream",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.ruegen.video-to-dvd",
+      "name": "Video to DVD",
+      "category": "Hardware"
+    },
+    {
+      "id": "spuder.protondrive",
+      "name": "Proton Drives",
+      "category": "System"
+    },
+    {
+      "id": "oma.spectra",
+      "name": "Spectra",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "io.github.elberacasa.omalogi",
+      "name": "Omalogi",
+      "category": "Hardware"
+    },
+    {
+      "id": "nonmirror.open-url",
+      "name": "Open URL",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.artmoreno.trackpoint",
+      "name": "TrackPoint",
+      "category": "Hardware"
+    },
+    {
+      "id": "com.statable.now",
+      "name": "Statable visitors",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.olivgrau.shotline",
+      "name": "Shotline",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "io.github.alebak.touchpad-auto",
+      "name": "Touchpad Auto",
+      "category": "Hardware"
+    },
+    {
+      "id": "oma.razer",
+      "name": "Oma Razer",
+      "category": "Hardware"
+    },
+    {
+      "id": "drives",
+      "name": "Drives",
+      "category": "Widgets"
+    },
+    {
+      "id": "ipkalid.flatpak-store",
+      "name": "Flatpak Store",
+      "category": "System"
+    },
+    {
+      "id": "mero.caps-indicator",
+      "name": "Caps lock indicator",
+      "category": "Widgets"
+    },
+    {
+      "id": "panda-dl",
+      "name": "Panda Downloader",
+      "category": "Widgets"
+    },
+    {
+      "id": "davedes.omcontrol",
+      "name": "OmControl",
+      "category": "System"
+    },
+    {
+      "id": "jmthomas00.uplink",
+      "name": "Uplink",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.sergiudanstan.hardware",
+      "name": "Hardware",
+      "category": "Hardware"
+    },
+    {
+      "id": "io.github.heitorm50.omapkdex",
+      "name": "OmaPkDex",
+      "category": "Widgets"
+    },
+    {
+      "id": "mero.sync-keyboards",
+      "name": "Sync Keyboards",
+      "category": "Hardware"
+    },
+    {
+      "id": "karamble.omagihu",
+      "name": "Omagihu",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "io.github.javihuh.schedule",
+      "name": "Recurring Schedule",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.brunoomoniz.duo-hinge",
+      "name": "Duo Hinge",
+      "category": "Appearance"
+    },
+    {
+      "id": "io.github.arikisonfire.bar-folder",
+      "name": "Bar Folder",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.whitehades.topbar-peek",
+      "name": "Omarchy Top Bar Peek",
+      "category": "Desktop"
+    },
+    {
+      "id": "io.github.aashbury.voxhud",
+      "name": "Voxhud",
+      "category": "Productivity"
+    },
+    {
+      "id": "simoz.vessel",
+      "name": "Vessel",
+      "category": "Widgets"
+    },
+    {
+      "id": "grantabell.three-state-bar",
+      "name": "Three-State Bar",
+      "category": "Appearance"
+    },
+    {
+      "id": "jayosays.omablinker",
+      "name": "OmaBlinker",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.thinklinux.omacursorshake",
+      "name": "Shake to find",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.aholbreich.systemd-user-services",
+      "name": "Systemd User Services",
+      "category": "System"
+    },
+    {
+      "id": "io.github.gskrt.expanding-top-bar",
+      "name": "Expanding Top Bar",
+      "category": "Appearance"
+    },
+    {
+      "id": "espadat.tagwerk",
+      "name": "tagwerk",
+      "category": "Widgets"
+    },
+    {
+      "id": "ghrepo.tracker",
+      "name": "GitHub Repo Tracker",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "io.github.silkvain.dockseid",
+      "name": "Dockseid",
+      "category": "Appearance"
+    },
+    {
+      "id": "io.github.duketopceo.bumblebee",
+      "name": "Bumblebee",
+      "category": "System"
+    },
+    {
+      "id": "io.github.duketopceo.numbat",
+      "name": "Numbat",
+      "category": "System"
+    },
+    {
+      "id": "io.github.duketopceo.pplx",
+      "name": "pplx",
+      "category": "Productivity"
+    },
+    {
+      "id": "ianm.aegis",
+      "name": "omarchy-aegis",
+      "category": "Productivity"
+    },
+    {
+      "id": "brownfamilysports.crt",
+      "name": "Terminal CRT",
+      "category": "Appearance"
+    },
+    {
+      "id": "xyzlab.omafile",
+      "name": "Omafile",
+      "category": "System"
+    },
+    {
+      "id": "joelgaff.hatchbox",
+      "name": "Hatchbox",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "io.github.cylon58.codex-crash-model-picker",
+      "name": "Codex Crash Diagnostic Model Picker",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "ninepointlabs.wow-reset",
+      "name": "WoW Weekly Reset",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.bit-casper.duck",
+      "name": "Duck",
+      "category": "Desktop"
+    },
+    {
+      "id": "chyld.pindeck",
+      "name": "PinDeck",
+      "category": "Productivity"
+    },
+    {
+      "id": "duro.phoneshot",
+      "name": "Phoneshot",
+      "category": "Widgets"
+    },
+    {
+      "id": "zed.omahold",
+      "name": "Omahold",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.ejuro.theme-favorites",
+      "name": "Theme Favorites",
+      "category": "Appearance"
+    },
+    {
+      "id": "jao.nightlight",
+      "name": "Blue-light-blocker",
+      "category": "System"
+    },
+    {
+      "id": "jeffmtb.moon-phase",
+      "name": "Moon Phase",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.johnjkerr.astronoma",
+      "name": "Astronoma",
+      "category": "System"
+    },
+    {
+      "id": "jason.chess",
+      "name": "Chess.com",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.carcuevas.public-ip",
+      "name": "Public IP",
+      "category": "Productivity"
+    },
+    {
+      "id": "user.duolingo",
+      "name": "Duolingo",
+      "category": "Widgets"
+    },
+    {
+      "id": "omasusuwatari",
+      "name": "Susuwatari",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.jesse-chelin.emoji-picker",
+      "name": "Emoji Picker",
+      "category": "Productivity"
+    },
+    {
+      "id": "harshith.agent-shield",
+      "name": "Agent Quota Shield",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.hominluo.google-drive",
+      "name": "Google Drive",
+      "category": "Productivity"
+    },
+    {
+      "id": "omarchy-cryptomator-plugin",
+      "name": "Omarchy Cryptomator Plugin",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.punkscience.omarchy-scrobble",
+      "name": "Scrobble",
+      "category": "Widgets"
+    },
+    {
+      "id": "nonmirror.codec",
+      "name": "Codec",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "vincentritter.tinytray",
+      "name": "Tinytray",
+      "category": "Widgets"
+    },
+    {
+      "id": "cavacuz.tablet",
+      "name": "Tablet Companion",
+      "category": "Hardware"
+    },
+    {
+      "id": "io.github.komagata.omatext",
+      "name": "OmaText",
+      "category": "Productivity"
+    },
+    {
+      "id": "greyforge.hotbar",
+      "name": "Hotbar",
+      "category": "Desktop"
+    },
+    {
+      "id": "omarchy-wireless-display",
+      "name": "Wireless Display",
+      "category": "System"
+    },
+    {
+      "id": "dneighbors.tinkerer-club",
+      "name": "Tinkerer Club",
+      "category": "Widgets"
+    },
+    {
+      "id": "netmojo.omdrop",
+      "name": "omdrop",
+      "category": "System"
+    },
+    {
+      "id": "onelegdave.omachat",
+      "name": "OmaChat",
+      "category": "Productivity"
+    },
+    {
+      "id": "ozz1ee.bardock",
+      "name": "Bar dock",
+      "category": "Appearance"
+    },
+    {
+      "id": "funcoder.devops-board",
+      "name": "DevOps Board",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "xero.omatint",
+      "name": "Omatint",
+      "category": "Appearance"
+    },
+    {
+      "id": "syaifulmain.omashowkeys",
+      "name": "OmaShowKeys",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.ferc10110.fresh-tube",
+      "name": "Fresh Tube",
+      "category": "Widgets"
+    },
+    {
+      "id": "talleman.frogger",
+      "name": "Frogger",
+      "category": "Other"
+    },
+    {
+      "id": "ozz1ee.rakabot",
+      "name": "Rakabot",
+      "category": "Widgets"
+    },
+    {
+      "id": "pablousx.omabinds",
+      "name": "omabinds",
+      "category": "System"
+    },
+    {
+      "id": "io.github.sumanthmukkala.hot-corners",
+      "name": "Hot Corners",
+      "category": "Desktop"
+    },
+    {
+      "id": "graph",
+      "name": "Graph",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.joeyvigil.pawsense",
+      "name": "PawSense",
+      "category": "System"
+    },
+    {
+      "id": "danman.drudge",
+      "name": "Drudge",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.mirzap.hyprknit",
+      "name": "Hyprknit",
+      "category": "Appearance"
+    },
+    {
+      "id": "lkzwieder.servings",
+      "name": "Servings",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "cabral.commnav",
+      "name": "CommNav",
+      "category": "Widgets"
+    },
+    {
+      "id": "cgranier.crashdesk",
+      "name": "Crash Desk",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "io.github.ricardofriba.predatorsense",
+      "name": "PredatorSense PH315-52",
+      "category": "Hardware"
+    },
+    {
+      "id": "community.octopus-energy",
+      "name": "Octopus Energy",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.swey-l1.bar-term",
+      "name": "Bar Terminal",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "io.github.smoothpixels.cursor-accent",
+      "name": "Cursor Accent",
+      "category": "Appearance"
+    },
+    {
+      "id": "io.github.jburchel.jarvis",
+      "name": "Jarvis",
+      "category": "System"
+    },
+    {
+      "id": "ozz1ee.hermbot",
+      "name": "Hermbot",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.cylon58.omarchy-knowledge",
+      "name": "Community Knowledge",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "io.github.schmunk42.shortkeyz",
+      "name": "Shortkeyz",
+      "category": "Productivity"
+    },
+    {
+      "id": "sterre.keyboard-hud",
+      "name": "Keyboard HUD",
+      "category": "Desktop"
+    },
+    {
+      "id": "fabuseless.ssh-tunnel-manager",
+      "name": "SSH Tunnel Manager",
+      "category": "System"
+    },
+    {
+      "id": "khephri.jackal",
+      "name": "JACKAL + THOTH",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "io.github.boricuatec.dexcomg7",
+      "name": "Dexcom G7",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.katla50.barebitcoin",
+      "name": "Bare Bitcoin Price",
+      "category": "Widgets"
+    },
+    {
+      "id": "animated.dock",
+      "name": "Animated Dock",
+      "category": "Desktop"
+    },
+    {
+      "id": "jdelgadillo.relaxy",
+      "name": "Relaxy",
+      "category": "Widgets"
+    },
+    {
+      "id": "donnie.homelab-mesh",
+      "name": "Lanarchy",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.bramvera.haptic-touchpad",
+      "name": "ASUS ExpertBook Ultra Haptic Touchpad",
+      "category": "Hardware"
+    },
+    {
+      "id": "hermes.companion",
+      "name": "Hermes Companion",
+      "category": "Productivity"
+    },
+    {
+      "id": "com.mwhuss.omarchy-hermes-api",
+      "name": "Hermes Agent",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.roddygithub.omapip",
+      "name": "OmaPiP",
+      "category": "Desktop"
+    },
+    {
+      "id": "jacob.omaspeak",
+      "name": "Omaspeak",
+      "category": "Widgets"
+    },
+    {
+      "id": "jacob.omawake",
+      "name": "Omawake",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.arikisonfire.rsync",
+      "name": "omaRSYNC",
+      "category": "System"
+    },
+    {
+      "id": "io.github.jxsparrou.spokenshelf",
+      "name": "SpokenShelf",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.peterholko.pawberry",
+      "name": "Pawberry Pet Hotel",
+      "category": "Kids"
+    },
+    {
+      "id": "io.github.peterholko.number-grove",
+      "name": "Number Grove",
+      "category": "Kids"
+    },
+    {
+      "id": "io.github.peterholko.paw-post",
+      "name": "Paw Post Typing",
+      "category": "Kids"
+    },
+    {
+      "id": "mickul.sweater-kit",
+      "name": "Sweater Kit",
+      "category": "Appearance"
+    },
+    {
+      "id": "io.github.inxeo.isles",
+      "name": "Isles",
+      "category": "Appearance"
+    },
+    {
+      "id": "io.github.vichong.eliza",
+      "name": "ELIZA",
+      "category": "Widgets"
+    },
+    {
+      "id": "justarieldotcom.hotkey-hints",
+      "name": "Hotkey Hints",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.wouldja.mouse",
+      "name": "Mouse",
+      "category": "System"
+    },
+    {
+      "id": "io.github.tcballard.kamal",
+      "name": "Kamal",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "reidenxerx.varta",
+      "name": "Varta",
+      "category": "System"
+    },
+    {
+      "id": "m44f4.omatouch",
+      "name": "OmaTouch",
+      "category": "Productivity"
+    },
+    {
+      "id": "telep.muse",
+      "name": "Omusey",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.nobledoodle.omlibria",
+      "name": "Omlibria",
+      "category": "Desktop"
+    },
+    {
+      "id": "stbeck11.zonebar",
+      "name": "Zonebar",
+      "category": "Widgets"
+    },
+    {
+      "id": "rodrigopim.gitname",
+      "name": "Git Name",
+      "category": "Widgets"
+    },
+    {
+      "id": "informedsage.omapulse-monitor",
+      "name": "OmaPulse Monitor",
+      "category": "System"
+    },
+    {
+      "id": "io.github.rektyrowdyy.whatsapp",
+      "name": "WhatsApp",
+      "category": "Productivity"
+    },
+    {
+      "id": "slowburnaz.omanomad",
+      "name": "OmaNomad",
+      "category": "System"
+    },
+    {
+      "id": "io.github.rmcdavid.iptv",
+      "name": "IPTV",
+      "category": "Desktop"
+    },
+    {
+      "id": "io.github.steezy-code.mousemap",
+      "name": "MouseMap",
+      "category": "Hardware"
+    },
+    {
+      "id": "io.github.nventatech.dockplus",
+      "name": "DockPlus",
+      "category": "Desktop"
+    },
+    {
+      "id": "today.schumann.monitor",
+      "name": "Schumann Resonance",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.artemisa81.lookaway",
+      "name": "LookAway",
+      "category": "Hardware"
+    },
+    {
+      "id": "touchtype",
+      "name": "Touch Typing Trainer",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.ejuro.extended-theme-picker",
+      "name": "Extended Theme Picker",
+      "category": "Appearance"
+    },
+    {
+      "id": "azterisk.boot",
+      "name": "Boot & Secure Boot Manager",
+      "category": "System"
     }
   ]
 }
