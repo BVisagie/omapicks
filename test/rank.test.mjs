@@ -44,7 +44,7 @@ function plugin(id, values = {}) {
 test("the production taxonomy is valid and intentionally broad", async () => {
   const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
   const prepared = prepareTaxonomy(source);
-  assert.equal(prepared.types.length, 41);
+  assert.equal(prepared.types.length, 52);
   assert.equal(new Set(prepared.types.map((type) => type.id)).size, prepared.types.length);
 });
 
@@ -106,6 +106,156 @@ test("production taxonomy keeps real overlap and rejects accidental keyword hits
       name: "Stay Awake Indicators",
       description: "A Stay Awake cup that shows steam when another program is holding idle or sleep."
     }).includes("gaming")
+  );
+});
+
+test("new discovery-backed categories classify representative primary-purpose listings", async () => {
+  const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
+  const prepared = prepareTaxonomy(source);
+  const cases = [
+    ["keybinding-managers", { id: "keybind-manager", name: "Keybind Manager", description: "Add, override, and disable Hyprland keybindings from the bar." }],
+    ["shortcut-guides", { id: "huacnlee.which-key", name: "Which Key", description: "A LazyVim which-key-style shortcut guide that automatically reads Omarchy live keybindings and appears when you hold Super" }],
+    ["shortcut-guides", { id: "io.github.cyprusad.omakeez", name: "Omakeez", description: "A local-first visual guide for Omarchy keyboard shortcuts." }],
+    ["translation", { id: "google-translate", name: "Google Translate", description: "Translate selected text from the bar." }],
+    ["translation", { id: "io.github.tcballard.bartranslate", name: "BarTranslate", description: "A native, theme-aware translation panel for the Omarchy bar." }],
+    ["dictionary", { id: "dictionary", name: "Dictionary", description: "Look up word definitions and synonyms." }],
+    ["prayer-times", { id: "prayer-times", name: "Prayer Times", description: "Daily prayer times with a next-prayer countdown." }],
+    ["keyboard-lighting", { id: "keyboard-backlight", name: "Keyboard Backlight", description: "Adjust laptop keyboard brightness from the bar." }],
+    ["keyboard-layouts", { id: "keyboard-layout", name: "Keyboard Layout Pulse", description: "Keyboard layout picker with a per-window indicator." }],
+    ["file-search", { id: "file-search", name: "File Search", description: "Full-text file search with a keyboard-driven overlay." }],
+    ["feed-readers", { id: "rss-reader", name: "RSS Reader", description: "RSS and Atom reader with OPML and unread tracking." }],
+    ["sports-scores", { id: "sports-scores", name: "Sports Scores", description: "Live sports scores, fixtures, and standings." }],
+    ["uptime-monitoring", { id: "uptime-kuma", name: "Uptime Kuma", description: "Show the status of every Uptime Kuma monitor." }]
+  ];
+
+  for (const [expected, values] of cases) {
+    assert.ok(classifyPlugin(plugin(values.id, values), prepared).includes(expected), `${values.name} should match ${expected}`);
+  }
+});
+
+test("new categories preserve useful overlap without recurring false positives", async () => {
+  const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
+  const prepared = prepareTaxonomy(source);
+  const typesOf = (values) => classifyPlugin(plugin(values.id, values), prepared);
+
+  assert.deepEqual(
+    typesOf({
+      id: "panadestein.lexicon",
+      name: "Lexicon",
+      description: "A Kindle-style English translation and dictionary popup for selected text."
+    }),
+    ["translation", "dictionary"]
+  );
+  assert.ok(
+    !typesOf({
+      id: "quran-translation",
+      name: "Quran Translation",
+      description: "Read the Qur'an with translated ayah text and Hadith references."
+    }).includes("translation")
+  );
+  assert.ok(
+    !typesOf({
+      id: "salted.atom",
+      name: "Atom",
+      description: "A game launcher for itch.io and Epic Games."
+    }).includes("feed-readers")
+  );
+  assert.ok(
+    !typesOf({
+      id: "io.github.adibains.manual-backlight-lock",
+      name: "Manual Backlight Lock",
+      description: "The stock Omarchy lock screen, but the keyboard backlight stays under your control."
+    }).includes("keyboard-lighting")
+  );
+  assert.ok(
+    !typesOf({
+      id: "on-screen-keyboard",
+      name: "On-screen keyboard",
+      description: "An xkb-layout-driven keyboard overlay for tablets."
+    }).includes("keyboard-layouts")
+  );
+  assert.ok(
+    !typesOf({
+      id: "io.github.aashbury.voxhud",
+      name: "Voxhud",
+      description: "A minimalist, theme-aware HUD for Voxtype dictation, with your dictionary one click away."
+    }).includes("dictionary")
+  );
+  for (const values of [
+    { id: "gaius-codius.unifi", name: "UniFi", description: "Read-only UniFi Network site health on the Omarchy bar" },
+    { id: "io.github.duketopceo.numbat", name: "Numbat", description: "AI-agent activity radar: live findings and per-agent visibility from Perplexity's numbat endpoint monitor" }
+  ]) {
+    assert.ok(!typesOf(values).includes("uptime-monitoring"), `${values.name} should not match uptime-monitoring`);
+  }
+  const sports = typesOf({
+    id: "mlb-booth",
+    name: "MLB Booth",
+    description: "Live MLB scores, schedule, and standings for your chosen club."
+  });
+  assert.ok(sports.includes("sports-scores"));
+  assert.ok(!sports.includes("mini-games"));
+  const layout = typesOf({
+    id: "layout-switcher",
+    name: "Keyboard Layout Switcher",
+    description: "Switch keyboard layouts per application."
+  });
+  assert.ok(layout.includes("keyboard-layouts"));
+  assert.ok(!layout.includes("window-management"));
+  assert.ok(
+    typesOf({
+      id: "refresh-rate",
+      name: "Refresh Rate",
+      description: "Switch between 60 Hz and 120 Hz refresh rates."
+    }).includes("display-monitors")
+  );
+});
+
+test("new categories hold against the 3,691-listing catalog", async () => {
+  const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
+  const prepared = prepareTaxonomy(source);
+  const typesOf = (values) => classifyPlugin(plugin(values.id, values), prepared);
+
+  // Real listing text: each of these matched a new category by lexical accident.
+  for (const [unexpected, values] of [
+    ["keyboard-layouts", { id: "sterre.keyboard-hud", name: "Keyboard HUD", description: "On screen key strip and keyboard map for screencasts, stacked in either order and labelled from your actual keyboard layout." }],
+    ["shortcut-guides", { id: "io.github.poctek.hyprland-submap", name: "Hyprland Submap Indicator", description: "Shows the active Hyprland keybinding submap in the Omarchy bar." }],
+    ["uptime-monitoring", { id: "pdaether.ploi", name: "Ploi Panel", description: "ploi.io servers in the Omarchy bar: server health at a glance, a dashboard popup with monitoring sparklines, sites and certificates, and quick actions." }]
+  ]) {
+    assert.ok(!typesOf(values).includes(unexpected), `${values.name} should not match ${unexpected}`);
+  }
+
+  // Real listing text: primary-purpose listings the first rules missed.
+  for (const [expected, values] of [
+    ["shortcut-guides", { id: "io.github.balazsorban44.keybinding-coach", name: "Keybinding coach", description: "Rotates one Hyprland keybinding at a time through the bar, so the ones you never reach for stay in front of you until you know them." }],
+    ["shortcut-guides", { id: "yarikov.omatips", name: "OmaTips", description: "Learn 229 Omarchy hotkey lessons with Anki-style spaced repetition" }],
+    ["shortcut-guides", { id: "jnodavid.omarkey", name: "Omarkey", description: "Notices when you open an app through the Omarchy menu instead of its dedicated keybind, and reminds you of the shortcut for next time." }],
+    ["shortcut-guides", { id: "io.github.omashift.omashift", name: "Omashift", description: "A rally game that drills your Omarchy keybindings. The bar widget opens it, and retires a stage that is still holding your keyboard." }],
+    ["keyboard-lighting", { id: "mka.asusrgb", name: "Asus RGB", description: "RGB Keyboard controller widget" }],
+    ["keyboard-lighting", { id: "io.github.aryagorjipour.nitro-keyboard", name: "Nitro Keyboard", description: "Four-zone RGB keyboard control for Acer Nitro 5: NitroSense modes, color picker, palettes, and time windows." }],
+    ["keyboard-layouts", { id: "io.github.rickcaleg.keyboard-lang", name: "Keyboard Lang", description: "Detects and remembers every physical keyboard connected to your system, lets you assign an XKB language/layout to each one, and switches automatically as you move between them." }],
+    ["keyboard-layouts", { id: "mero.layout-label", name: "Layout label", description: "Current xkb layout with per-layout labels, click cycles" }],
+    ["file-search", { id: "io.github.chris.quicklook", name: "QuickLook", description: "Fuzzy-find any file and preview it instantly: images, code, PDFs, CSVs — Space to pin, Enter to open." }],
+    ["file-search", { id: "arh.file-picker", name: "File Picker", description: "Fuzzy file selector and launcher for documents, media, markdown notes, and code" }],
+    ["feed-readers", { id: "io.github.rafaelvzago.rss", name: "RSS", description: "Recent posts from RSS 2.0 feeds, with an unread count on the Omarchy bar." }],
+    ["sports-scores", { id: "sportsbar", name: "Sportsbar", description: "Favorite team score & upcoming game pill with detail popup" }],
+    ["sports-scores", { id: "io.github.joega.sportray", name: "Sportray", description: "Follow favorite teams with live scores, daily schedules, and alerts in the Omarchy bar." }],
+    ["sports-scores", { id: "mush.cricket", name: "Live Cricket Scores", description: "Live cricket scores ticker and popup match overview" }],
+    ["sports-scores", { id: "io.github.bhanuprassad.cricket", name: "Cricket", description: "Live cricket in the Omarchy bar. Follow teams, glance at the pill, open the panel for the rest of the card." }],
+    ["sports-scores", { id: "tsubaie.next-match", name: "Next Match", description: "Your team's next fixture in the bar: crest, v, crest and the day, with live scores while it plays." }],
+    ["sports-scores", { id: "io.github.studioxvii.fantasy-feed", name: "Fantasy Feed", description: "Live NFL plays, fantasy scoring, weekly leaders, and favorite-player alerts." }],
+    ["sports-scores", { id: "io.github.weedwhitesandwine.gaffer", name: "FPL Gaffer", description: "The ultimate dashboard for Premier League fans — FPL mode for players and Fan mode for everyone else" }],
+    ["uptime-monitoring", { id: "io.github.ollieedgeley.ai-frontier-status", name: "Frontier Status", description: "Polls official status pages for frontier AI companies and lists their current health in an Omarchy panel." }]
+  ]) {
+    assert.ok(typesOf(values).includes(expected), `${values.name} should match ${expected}`);
+  }
+
+  // The on-screen key display stays out even though it mentions shortcuts-adjacent wording.
+  assert.ok(
+    !typesOf({
+      id: "felixzsh.key-visualizer",
+      name: "Key Visualizer",
+      description: "Shows the keys you press on screen. Great for keybinding tutorials, demos, and screencasts."
+    }).includes("shortcut-guides")
   );
 });
 
