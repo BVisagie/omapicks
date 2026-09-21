@@ -44,7 +44,7 @@ function plugin(id, values = {}) {
 test("the production taxonomy is valid and intentionally broad", async () => {
   const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
   const prepared = prepareTaxonomy(source);
-  assert.equal(prepared.types.length, 52);
+  assert.equal(prepared.types.length, 54);
   assert.equal(new Set(prepared.types.map((type) => type.id)).size, prepared.types.length);
 });
 
@@ -60,7 +60,7 @@ test("production taxonomy keeps real overlap and rejects accidental keyword hits
       description:
         "Nothing earbuds and headphones in the Omarchy bar: battery, noise control, codec selection, and low-latency mode."
     }),
-    ["battery", "audio"]
+    ["audio", "peripheral-battery"]
   );
   assert.deepEqual(
     typesOf({

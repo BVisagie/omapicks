@@ -2,7 +2,8 @@ import { createHash } from "node:crypto";
 import { access, appendFile, mkdir, readFile, readdir, rename, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { METHODOLOGY, changesBetween, invertedRawScoreRaces, isoWeek, rankPlugins, runnerUpChangesBetween } from "./rank.mjs";
+import { CLASSIFICATION_VERSION, METHODOLOGY, changesBetween, invertedRawScoreRaces, isoWeek, rankPlugins, runnerUpChangesBetween } from "./rank.mjs";
+import { auditClassifications, renderClassificationAudit } from "./classification-audit.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CATALOG_URL = "https://plugins.omarchy.org/catalog.json";
@@ -319,7 +320,7 @@ export async function refresh({
   const taxonomy = await readJson(taxonomyFile);
   const taxonomySha = checksum(taxonomy);
   const week = isoWeek(now);
-  if (!dryRun && previous?.week === week && previous.source?.taxonomy?.sha256 === taxonomySha) {
+  if (!dryRun && previous?.week === week && previous.source?.taxonomy?.sha256 === taxonomySha && previous.source?.taxonomy?.classificationVersion === CLASSIFICATION_VERSION) {
     return { changed: false, week, reason: "already-refreshed" };
   }
 
@@ -348,6 +349,7 @@ export async function refresh({
     },
     taxonomy: {
       sha256: taxonomySha,
+      classificationVersion: CLASSIFICATION_VERSION,
       typeCount: Array.isArray(taxonomy?.types) ? taxonomy.types.length : 0
     }
   };
@@ -365,6 +367,10 @@ export async function refresh({
   const computedChanges = changesBetween(previous, rankings);
   const changes = weekChangeLog(previous, week, existingHistory, computedChanges);
   const previousReport = await readJson(path.join(root, "data", "unclassified-report.json"), null);
+  const previousState = await readJson(path.join(root, "data", "classification-state.json"), null);
+  const auditInputs = { schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, now: now.toISOString(), catalog: catalogResult, stats: statsResult, taxonomy, previous, previousState };
+  const classificationAudit = auditClassifications({ catalog: catalogResult.body.plugins, stats: statsResult.body.plugins, taxonomy, previous, previousState, now });
+  classificationAudit.inputsHash = checksum(auditInputs);
   const summary = {
     changed: true,
     week,
@@ -373,6 +379,8 @@ export async function refresh({
     changes,
     computedChanges,
     decisions,
+    classificationAudit,
+    auditInputs,
     validation: formatValidation(source, previous, catalogResult.body.plugins, statsResult.body.plugins, report),
     runnerUpChanges: runnerUpChangesBetween(previous, rankings),
     invertedRaces: invertedRawScoreRaces(rankings),
@@ -398,6 +406,7 @@ export async function refresh({
     changes
   });
   await writeJsonAtomic(path.join(root, "data", "unclassified-report.json"), report);
+  await writeJsonAtomic(path.join(root, "data", "classification-state.json"), classificationAudit.state);
   await writeJsonAtomic(rankingsFile, rankings);
   await removeStaleImages(rankings, root);
 
@@ -410,6 +419,15 @@ async function main() {
   const lines = formatRefreshLog(result, { dryRun });
   for (const line of lines) console.log(line);
   for (const warning of result.imageWarnings ?? []) console.warn(`Image warning: ${warning}`);
+  if (result.classificationAudit) {
+    const output = path.join(ROOT, "tmp", "classification-audit");
+    await writeJsonAtomic(path.join(output, "inputs.json"), result.auditInputs);
+    await writeJsonAtomic(path.join(output, "report.json"), result.classificationAudit);
+    await writeFile(path.join(output, "report.md"), renderClassificationAudit(result.classificationAudit));
+    const { changed, unresolved, assignments } = result.classificationAudit.counts;
+    lines.push(`Classification: ${assignments} task-fit assignments; ${changed} changed listings; ${unresolved} held assignments. Full evidence: tmp/classification-audit/report.json`);
+    console.log(lines.at(-1));
+  }
   if (process.env.GITHUB_STEP_SUMMARY) {
     const escape = (line) => line.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
     await appendFile(process.env.GITHUB_STEP_SUMMARY, `<pre>${lines.map(escape).join("\n")}</pre>\n`);

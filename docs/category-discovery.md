@@ -76,3 +76,7 @@ JS
 ## Four-week evaluation
 
 Review the pilot after four scheduled observations. Record which probes led to a useful category or matching fix, which were irrelevant, and how much review time they required. Success means defensible discoveries with little review effort, not a growing category count. Tighten or disable the workflow if it repeatedly proposes generic groupings. A report-only baseline can later support an LLM-assisted analysis stage, but automatic category publication is outside its scope.
+
+## Existing assignments
+
+The report also lists broad overlaps (three or more categories) and assignments explicitly held in `overrides.review`, with the same evidence used by ranking. This is a research queue, not a rule that rejects multipurpose plugins. Check direct task fit before proposing new categories; follow [category eligibility and audit](classification.md). Algorithm version 3 resets discovery observations so old keyword-only assignments are not treated as comparable evidence.

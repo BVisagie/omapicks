@@ -2,12 +2,12 @@ import { createHash } from "node:crypto";
 import { appendFile, mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { classifyPlugin, eligibilityReason, isoWeek, prepareTaxonomy } from "../build/rank.mjs";
+import { classifyPlugin, eligibilityReason, explainClassification, isoWeek, prepareTaxonomy } from "../build/rank.mjs";
 import { fetchJson, validateFeeds } from "../build/refresh.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const VERSION = 1;
-const ALGORITHM_VERSION = 2; // Bump when evidence or clustering rules change.
+const ALGORITHM_VERSION = 3; // Bump when evidence or clustering rules change.
 const DAY = 86400000;
 const MAX_FEED_BYTES = 20 * 1024 * 1024;
 const STOP = new Set(`a an the and or for from with without your you in on to of by at is it its this that as into over per via all any new old own one two more not no can using use uses used plugin omarchy bar shell widget panel native quick simple small local live show shows showing open opens opening add adds status control controls manage manager support supports supported default current directly desktop system app application tools tool button click built based theme themed aware only style first driven api key across every full real time them which rather than see start stop between after how many far are what off selected active running super ctrl shift config hypr hyprland`.split(" "));
@@ -64,6 +64,11 @@ export function analyze({ catalog, stats, taxonomy, config, previous = null, now
   if (previous && (previous.schemaVersion !== VERSION || !Array.isArray(previous.observations) || previous.observations.some((o) => !Number.isFinite(Date.parse(o.at)) || !Array.isArray(o.groups) || o.groups.some((g) => typeof g.id !== "string" || !Array.isArray(g.repositories) || !g.repositories.every((r) => typeof r === "string"))))) throw new Error("Invalid prior discovery state");
   const observations = (previous?.observations ?? []).filter((o) => o.settingsHash === settingsHash && now - new Date(o.at) >= 0 && now - new Date(o.at) <= 21 * DAY);
   const eligible = catalog.filter((p) => !eligibilityReason(p)).map((p) => ({ ...p, identity: repositoryIdentity(p.repo), types: classifyPlugin(p, prepared) })).filter((p) => p.identity);
+  const classificationReview = eligible.filter((p) => p.types.length >= 3 || prepared.overrides.review[p.id]?.length).map((p) => ({
+    id: p.id, name: p.name, description: p.description, repository: p.repo, types: p.types,
+    reason: prepared.overrides.review[p.id]?.length ? "Assignments held for editorial review" : "Check that each of three or more category assignments directly performs its task",
+    evidence: explainClassification(p, prepared).filter((e) => e.accepted || e.decision === "review")
+  })).sort((a, b) => a.id.localeCompare(b.id));
   const prominent = new Map(eligible.map((p) => [p.id, text(`${p.name} ${clean(p.description).slice(0, 100)}`)]));
   const searchable = new Map(eligible.map((p) => [p.id, text(`${p.name} ${p.description}`)]));
   const groups = config.concepts.map((c) => ({ id: `concept:${c.id}`, label: c.name, terms: c.terms, origin: "curated probe", members: eligible.filter((p) => c.terms.some((term) => contains(searchable.get(p.id), term))) }));
@@ -141,7 +146,7 @@ export function analyze({ catalog, stats, taxonomy, config, previous = null, now
     outcome: suggestions.length ? "ready-for-probe" : watchlist.length ? "insufficient-history" : "no-worthwhile-proposals",
     history: describeHistory(observations, now),
     coverage: { catalog: catalog.length, eligible: eligible.length, unclassified: eligible.filter((p) => !p.types.length).length },
-    counts, suggestions, watchlist, candidates: distinct, collapsedGroups,
+    counts, suggestions, watchlist, candidates: distinct, collapsedGroups, classificationReview,
     state: { schemaVersion: VERSION, observations: [...priorWeeks, thisWeek ?? observation].slice(-4) }
   };
 }
@@ -151,6 +156,9 @@ export function renderReport(report) {
     `Scanned ${report.coverage.catalog} listings; ${report.coverage.eligible} eligible with usable repository identities; ${report.coverage.unclassified} unclassified.`, "",
     "This is a deterministic research prompt, not semantic validation or a recommendation to publish a category. Repeated phrases can describe incidental features; prominence in a name or opening description is only a lexical filter, not proof of primary purpose. No LLM was called, no categories changed, and no PR was opened.", "",
     `Screening counts (not mutually exclusive): ${Object.entries(report.counts).map(([key, value]) => `${key}=${value}`).join(", ")}. At most three probes are highlighted; full evidence is in report.json.`, ""];
+  lines.push("## Existing-category eligibility checks", "", `${report.classificationReview?.length ?? 0} listings warrant an overlap or held-assignment check. Multiple categories can be valid; this is a research prompt, not automatic rejection. Full task evidence is in report.json.`, "");
+  for (const p of (report.classificationReview ?? []).slice(0, 8)) lines.push(`- ${escape(p.name)} (${escape(p.id)}): ${escape(p.types.join(", "))}. ${escape(p.reason)}.`);
+  lines.push("");
   for (const [label, groups] of [["Ready for an LLM probe", report.suggestions], ["Watchlist — needs another weekly observation", report.watchlist]]) {
     lines.push(`## ${label}`, "");
     if (!groups.length) lines.push("None. This is an analysis outcome, not a fetch or execution failure.", "");

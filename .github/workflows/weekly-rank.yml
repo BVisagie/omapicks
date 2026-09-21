@@ -30,12 +30,19 @@ jobs:
         run: npm ci
       - name: Refresh validated snapshot
         run: node build/refresh.mjs
+      - name: Archive classification evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: classification-audit
+          path: tmp/classification-audit/
+          if-no-files-found: ignore
+          retention-days: 90
       - name: Test refreshed data and render
         run: npm run check
       - name: Commit snapshot when changed
         shell: bash
         run: |
-          git add data/rankings.json data/changelog.json data/unclassified-report.json data/history data/assets
+          git add data/rankings.json data/changelog.json data/unclassified-report.json data/classification-state.json data/history data/assets
           if git diff --cached --quiet; then
             echo "No validated ranking changes to commit."
             exit 0

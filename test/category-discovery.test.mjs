@@ -200,3 +200,14 @@ test("bounded response strips stale transport headers and preserves source metad
   assert.ok(response.headers.get("last-modified"));
   assert.deepEqual(await response.json(), { ok: true });
 });
+
+test("discovery surfaces broad overlap and held assignments without publishing them", () => {
+  const types = ["music", "weather", "clock"].map((id) => ({ id, name: id, include: [id] }));
+  const t = { schemaVersion: 1, types, overrides: { review: { held: ["music"] }, reasons: { held: { music: "Verify actual playback controls" } } } };
+  const report = analyze({ ...input, taxonomy: t, catalog: [plugin("multi", "music weather clock"), plugin("held", "music")] });
+  assert.equal(report.classificationReview.length, 2);
+  const held = report.classificationReview.find((p) => p.id === "held");
+  assert.deepEqual(held.types, []);
+  assert.equal(held.evidence[0].decision, "review");
+  assert.match(renderReport(report), /Existing-category eligibility checks/);
+});

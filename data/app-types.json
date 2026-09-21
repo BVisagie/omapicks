@@ -5,218 +5,521 @@
       "id": "system-monitor",
       "name": "System Monitor",
       "description": "CPU, memory, temperature, and resource monitoring",
-      "include": ["\\b(system|resource|hardware) monitor\\b", "\\b(cpu|processor|ram|memory|temperature|thermals?)\\b", "\\b(btop|htop|nvtop)\\b", "\\b(disk(?: space| usage)|storage (?:space |usage )?monitor|storage (?:analyzer|horizon)|nvme health|disk smart)\\b"],
-      "exclude": ["\\bkeyboard\\b", "\\bkeybind", "\\b(color|night[- ]light|ferment) temperature\\b", "\\bcloud storage\\b"]
+      "include": [
+        "\\b(system|resource|hardware|process|activity)[ -]monitor\\b",
+        "\\b(?:cpu|gpu|ram|temperature|thermal|disk)[^.]{0,45}\\b(?:stats|usage|load|monitor|readouts?|graphs?|health|consumers|temperatures?|temps|panel)\\b",
+        "\\b(disk(?: space| usage)|storage (?:space |usage )?monitor|storage (?:analyzer|horizon)|nvme health|disk smart|system vitals)\\b",
+        "\\b(?:memory (?:usage|pressure|composition|breakdown)|ram usage|vram usage)\\b",
+        "\\b(?:cpu|gpu|ram|processor)[^.;]{0,65}\\b(?:memory|ram|disk|thermal|metrics|telemetry|gauges|analytics|sensors|temperature|readings)\\b",
+        "\\b(?:live|glanceable|monitor|shows|read-only|hardware)[^.;]{0,70}\\b(?:cpu|ram|thermal|fan.speed|temperature)\\b",
+        "\\b(?:system statistics|hardware inspection|pressure stalls|btop popup|thermal readings|hwmon|lm_sensors)\\b"
+      ],
+      "exclude": [
+        "\\b(keyboard|keybind|color temperature|night[- ]light|ferment|cloud storage|smart mug|smart sock)\\b",
+        "\\b(?:nextcloud|google drive|proton drive|soliDB|security posture)\\b",
+        "\\b(?:voxtype|dictation|load.{0,15}asr model|zero-cpu|megabytes|~26 mb ram|screen temperature|colour temperature|color controls|weather pill)\\b"
+      ],
+      "nameInclude": [
+        "\\b(btop|htop|nvtop|system (?:stats|health|monitor))\\b",
+        "\\b(?:hw monitor|system metrics|ram manager)\\b"
+      ],
+      "task": "CPU, memory, temperature, and resource monitoring. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "vpn",
       "name": "VPN",
       "description": "VPN status, connection, and privacy controls",
-      "include": ["vpn\\b", "\\b(wireguard|tailscale|mullvad|windscribe|cloudflare warp)\\b"]
+      "include": [
+        "\\b(?:vpn|wireguard|tailscale|mullvad|windscribe|cloudflare warp|openvpn)\\b[^.]{0,65}\\b(?:status|state|connect|disconnect|toggle|switch|control|panel|manager|tunnels?|profiles?)",
+        "\\b(?:connect|toggle|switch|control|manage|monitor)\\w*[^.]{0,40}\\b(?:vpn|wireguard|tailscale|openvpn)\\b",
+        "\\b(?:vpn client|vpn gateway|vpn controller)\\b",
+        "\\bvpn\\b[^.]{0,65}\\b(?:on/off|one-click locations|country picker|server selection)\\b"
+      ],
+      "nameInclude": [
+        "vpn\\b",
+        "\\b(wireguard|mullvad|windscribe|tailscale plus|cloudflare warp)\\b"
+      ],
+      "exclude": [
+        "\\b(kde connect|taildrop|clipboard bridge|vpn-leak alert)\\b"
+      ],
+      "task": "VPN status, connection, and privacy controls. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "mail",
       "name": "Mail",
       "description": "Unread mail, inbox, and email shortcuts",
-      "include": ["\\b(e-?mail|mailbox|gmail|imap|thunderbird|fastmail)\\b", "\\boutlook mail\\b"],
-      "exclude": ["\\bminimap\\b"]
+      "include": [
+        "\\b(e-?mail|mailbox|gmail|imap|thunderbird|fastmail|outlook mail)\\b"
+      ],
+      "exclude": [
+        "\\b(minimap|email (?:address|templates?|signature))\\b"
+      ],
+      "task": "Unread mail, inbox, and email shortcuts. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "music",
       "name": "Music",
       "description": "Music playback and now-playing controls",
-      "include": ["\\b(spotify|music|mpris|playerctl|now[- ]playing|media player)\\b", "\\bidentify the song\\b"],
-      "exclude": ["\\bvideo wall\\b"]
+      "include": [
+        "\\b(music (?:player|playback|library|controls?)|mpris|playerctl|now[- ]playing|media (?:player|playback|controls?)|identify the song)\\b",
+        "\\b(?:play|control|browse|manage)\\w*[^.]{0,40}\\b(?:music|spotify|songs?|tracks?|playlists?)\\b"
+      ],
+      "exclude": [
+        "\\bvideo wall\\b",
+        "\\b(?:through|via) (?:omarchy.s |the )?(?:media controls|music player)\\b"
+      ],
+      "nameInclude": [
+        "\\b(music|spotify|media controls|now[- ]playing)\\b"
+      ],
+      "task": "Music playback and now-playing controls. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "weather",
       "name": "Weather",
       "description": "Forecasts and current conditions",
-      "include": ["\\b(weather|forecast|temperature outside|meteo|precipitation)\\b", "\\b(counts? down to rain|rain (starts|begins|expected)|chance of rain|rainfall|rain radar)\\b"]
+      "include": [
+        "\\b(weather|forecast|temperature outside|meteo|precipitation)\\b",
+        "\\b(counts? down to rain|rain (starts|begins|expected)|chance of rain|rainfall|rain radar)\\b"
+      ],
+      "exclude": [
+        "\\b(flight radar|space weather|weathered)\\b",
+        "\\b(?:cash forecast|balance forecast|accounting|fullscreen weather overlays|rain and snow that fall over your windows|independent toggles|shader wallpaper)\\b"
+      ],
+      "task": "Forecasts and current conditions. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "battery",
       "name": "Battery",
-      "description": "Battery level, charging, and power health",
-      "include": ["\\b(battery|charging|charge limit|power profile|upower)\\b"],
-      "exclude": ["\\bcar battery\\b"]
+      "description": "Computer battery level, charging, power draw, and battery health",
+      "include": [
+        "\\b(battery (?:status|stats|health|care|charge|level|widget|panel|warnings?|alerts?|diagnostics|draw|limit|protection|readouts?)|charge[- ](?:limit|threshold)|charging profiles?|power[- ]profile (?:switcher|settings|picker)|upower.{0,25}charge limit|pack watts|multi-battery|battery.{0,50}system (?:stats|panel))\\b",
+        "\\bbattery[^.]{0,55}\\b(?:stats|readouts|monitor|panel)\\b"
+      ],
+      "exclude": [
+        "\\b(phone|iphone|kde connect|earbuds?|headphones?|headsets?|airpods|buds|mouse|mice|trackpad|keyboard|peripheral|controller|garmin|rivian|vehicle|smart mug|smart sock|dualsense|jabra|shokz|cetra|blackshark|sennheiser|bose|sony)\\b",
+        "\\b(?:wireless (?:devices|peripherals)|device battery)\\b"
+      ],
+      "nameInclude": [
+        "\\b(batter(?:y|ies)|charge (?:cap|limit)|power profiles?)\\b"
+      ],
+      "task": "Computer battery level, charging, power draw, and battery health. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "clipboard",
       "name": "Clipboard",
-      "description": "Clipboard history and quick paste tools",
-      "include": ["\\b(clipboard|cliphist|copy history|paste history)\\b", "\\bcopy (tracker|action)\\b", "\\bre-copy\\b"]
+      "description": "Clipboard history, reusable snippets, and paste management",
+      "include": [
+        "\\b(clipboard (?:history|manager|picker|collector|shelf)|cliphist|copy history|paste history|clip shelf|clipboard snippets)\\b",
+        "\\bcopy (tracker|action)\\b",
+        "\\bre-copy\\b"
+      ],
+      "task": "Clipboard history, reusable snippets, and paste management. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "launcher",
       "name": "Launcher",
       "description": "Application launchers, command palettes, and quick search",
-      "include": ["\\b(app|application|command|program|web) launcher\\b", "\\b(rofi|wofi|fuzzel|walker)\\b", "\\bcommand palette\\b", "\\blaunching applications\\b", "\\btheme-aware(?: omarchy)? launcher\\b", "\\bomarchy launcher\\b[^.]{0,60}\\b(apps?|applications?|programs?|commands?|search)\\b"]
+      "include": [
+        "\\b(app|application|command|program|web|unified|spotlight) launcher\\b",
+        "\\bcommand palette\\b",
+        "\\blaunching applications\\b",
+        "\\btheme-aware(?: omarchy)? launcher\\b",
+        "\\bomarchy launcher\\b[^.]{0,60}\\b(apps?|applications?|programs?|commands?|search)\\b",
+        "\\b(?:rofi|wofi|fuzzel|walker) (?:launcher|replacement|app search)\\b",
+        "\\b(?:unified )?spotlight search for apps\\b"
+      ],
+      "task": "Application launchers, command palettes, and quick search. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "network",
       "name": "Network",
       "description": "Network status, traffic, Wi-Fi, and connectivity",
-      "include": ["\\b(network|wifi|wi-fi|ethernet|bandwidth|internet speed|traffic monitor|network latency|internet latency|latency test(?:ing)?|ping)\\b"],
-      "exclude": ["\\bsocial network\\b", "\\bneural network\\b", "\\blow[- ]latency\\b"]
+      "include": [
+        "\\b(network|wi-?fi|ethernet|bandwidth) (?:status|traffic|monitor|rate|speed|connection|manager|hub|interfaces?|controls?|settings|throughput)\\b",
+        "\\b(internet speed|traffic monitor|network latency|internet latency|latency test(?:ing)?|packet loss|public ip|wan link|wi-fi clients|throughput|network[^.]{0,40}(?:stats|monitor|readouts?))\\b",
+        "\\b(?:scan|connect|switch|toggle|manage|monitor)\\w*[^.]{0,35}\\b(?:network|wi-fi|wifi|ethernet|subnet)\\b",
+        "\\bnetwork (?:download|discovery|health|telemetry|info|tools|topology)\\b",
+        "\\b(?:share your ethernet|wi-fi radar|lock wi-fi|captive portal|wired lan vlan|starlink latency)\\b",
+        "\\b(?:see|watch|scan|monitor|manage|shows?|live|reactive)[^.;]{0,75}\\b(?:network|wi-fi|bandwidth)\\b",
+        "\\bnetwork[^.;]{0,65}\\b(?:usage|status|chart|panel|gauges)\\b",
+        "\\b(?:system (?:monitor|vitals)|cpu)[^.;]{0,100}\\bnetwork\\b"
+      ],
+      "exclude": [
+        "\\b(social network|neural network|low[- ]latency|kde connect)\\b",
+        "\\b(?:no network|no shared network|never.{0,20}network|no.{0,40}network requests|bitcoin network|network ups tools|ram read and write bandwidth|works on.{0,25}network)\\b"
+      ],
+      "nameInclude": [
+        "\\b(network|wi-?fi|bandwidth|internet latency|ping)\\b"
+      ],
+      "task": "Network status, traffic, Wi-Fi, and connectivity. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "bluetooth",
       "name": "Bluetooth",
-      "description": "Bluetooth devices, status, and controls",
-      "include": ["\\b(bluetooth|bluez|blueman)\\b"]
+      "description": "Bluetooth device discovery, pairing, connections, and adapter controls",
+      "include": [
+        "\\bbluetooth (?:device (?:list|details|manager|connections?)|quick connect|controls?|connection|manager|pairing)\\b",
+        "\\b(?:connect|disconnect|pair|scan|discover)(?:s|ing)?\\b[^.]{0,45}\\bbluetooth\\b",
+        "\\bbluetooth[^.]{0,65}\\b(?:connect/disconnect|conectar/desconectar|pairing|discovery|toggle controls)\\b"
+      ],
+      "exclude": [
+        "\\bbluetooth (?:proximity|control session)\\b",
+        "\\b(lamps?|light bulbs?|proximity|touchpad)\\b"
+      ],
+      "task": "Bluetooth device discovery, pairing, connections, and adapter controls. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "audio",
       "name": "Audio",
-      "description": "Volume, microphones, sinks, and audio routing",
-      "include": ["\\b(volume|audio|microphone|pipewire|pulseaudio|sound output|audio sink)\\b", "\\b(headphones?|earbuds)\\b"],
-      "exclude": ["\\baudiobook\\b", "\\b(price, volume|volume, velocity|trading volume)\\b"]
+      "description": "System volume, microphones, audio routing, and headset sound controls",
+      "include": [
+        "\\b(?:audio (?:mixer|controls?|routing|devices?|profiles?|sink|panel|modes?|output)|volume (?:controls?|mixer|sliders?)|microphone (?:controls?|mute|gain|privacy|effects)|noise[- ](?:control|cancell?ing|cancell?ation|suppression)|(?:bluetooth|headset|audio) codecs?|sound output|anc controls?|virtual microphone|stereo (?:reversal|balance)|per-channel volume)\\b",
+        "\\b(?:control|adjust|switch|route|mute|manage)\\w*[^.]{0,40}\\b(?:system volume|audio profiles|microphone|headphones?)\\b",
+        "\\b(?:pipewire|pulseaudio) (?:equalizer|patchbay|audio clock|mixer)\\b",
+        "\\b(?:same audio on two|mutes background browser music)\\b",
+        "\\b(?:headphones? manager|codec selection|audio policies)\\b"
+      ],
+      "exclude": [
+        "\\b(audiobook|trading volume|price, volume|volume, velocity)\\b",
+        "\\b(?:typing sound effects|metronome|ambient (?:sound|focus) mixer|radio station|kodi|camera footage|meeting recorder|records meetings|plays lofi|audio-reactive)\\b"
+      ],
+      "nameInclude": [
+        "^(?:Audio|Volume|Microphone|Equalizer)$",
+        "\\b(?:audio|volume|microphone) (?:controls?|mixer|switcher|panel|priority|gain|effects|master|patchbay)\\b",
+        "\\bheadphones? (?:manager|volume|controls?)\\b"
+      ],
+      "task": "System volume, microphones, audio routing, and headset sound controls. A player or sound generator with its own volume slider does not qualify; neither does a visualizer or recorder merely using PipeWire."
     },
     {
       "id": "brightness",
       "name": "Brightness",
       "description": "Display brightness and night-light controls",
-      "include": ["\\b(brightness|backlight|night light|blue light|gammastep|hyprsunset)\\b"],
-      "exclude": ["\\b(display|monitor) (manager|configuration|config|profiles?|layouts?)\\b", "\\b(monitor layout|refresh rate|display arrangement)\\b", "\\b(keyboard|key light|smart lights?|rgb|openrgb|wled|govee|wiz lights?|hue lights?|peripherals?)\\b"]
+      "include": [
+        "\\b(brightness|backlight|night light|blue light|gammastep|hyprsunset)\\b"
+      ],
+      "exclude": [
+        "\\b(display|monitor) (manager|configuration|config|profiles?|layouts?)\\b",
+        "\\b(monitor layout|refresh rate|display arrangement)\\b",
+        "\\b(keyboard|key light|smart lights?|rgb|openrgb|wled|govee|wiz lights?|hue lights?|peripherals?)\\b",
+        "\\b(?:lamps?|smart bulbs?)\\b"
+      ],
+      "task": "Display brightness and night-light controls. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "display-monitors",
       "name": "Display & Monitors",
       "description": "Monitor layouts, display profiles, and output controls",
-      "include": ["\\b(display outputs?|monitor layouts?|display profiles?|display toggles?|display arrangement|refresh rate controls?)\\b", "\\brefresh rates?\\b", "\\b(display|monitor) (manager|configuration|config|settings|profiles?|layouts?|switcher|controls?)\\b", "\\b(manager|configure|configuration|switcher|controls?) (?:your )?(display|monitors?)\\b"],
-      "exclude": ["\\b(system|resource|hardware|traffic|temperature) monitor\\b", "\\b(screen time|wallpaper|backgrounds?)\\b"]
+      "include": [
+        "\\b(display outputs?|monitor layouts?|display profiles?|display toggles?|display arrangement|refresh rate controls?)\\b",
+        "\\brefresh rates?\\b",
+        "\\b(display|monitor) (manager|configuration|config|settings|profiles?|layouts?|switcher|controls?)\\b",
+        "\\b(manager|configure|configuration|switcher|controls?) (?:your )?(display|monitors?)\\b"
+      ],
+      "exclude": [
+        "\\b(system|resource|hardware|traffic|temperature) monitor\\b",
+        "\\b(screen time|wallpaper|backgrounds?)\\b"
+      ],
+      "task": "Monitor layouts, display profiles, and output controls. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "notifications",
       "name": "Notifications",
       "description": "Notification centers, history, and do-not-disturb",
-      "include": ["\\b(notification|notifications|do not disturb|dnd mode|mako)\\b"]
+      "include": [
+        "\\bnotification(?:s)? (?:cent(?:er|re)|history|manager|management|daemon|service|inbox|panel|grouping|replacement)\\b",
+        "\\b(do[- ]not[- ]disturb|dnd mode|mako)\\b",
+        "\\b(?:snooze|dismiss|group|mute|manage)(?:s|d|ing)?[^.]{0,25}\\bnotifications?\\b"
+      ],
+      "nameInclude": [
+        "\\bnotification (?:cent(?:er|re)|history|manager|slideover)\\b"
+      ],
+      "exclude": [
+        "\\b(kde connect|does not touch the normal notification)\\b"
+      ],
+      "task": "Notification centers, history, and do-not-disturb. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "lock-idle",
       "name": "Lock & Idle",
       "description": "Screen locking, idle behavior, and sleep prevention",
-      "include": ["\\b(lock screen|screen lock(?:er|ing)?|idle inhibit(?:or|ion)?|idle manager|idle timeout)\\b", "\\b(prevent|disable|inhibit) (?:system )?(sleep|suspend|idle)\\b", "\\b(stay awake|keep awake|no sleep|caffeine|hypridle|hyprlock)\\b", "\\bsession lock\\b", "\\blid[- ](close|action|switch)\\b", "\\bhibernat\\w+", "\\bauto[- ]suspend\\b", "\\b(idle|lock|screensaver)[^.]{0,25}\\btimeouts?\\b", "\\bsleep[- ]after[- ]idle\\b"],
-      "exclude": ["\\bpassword manager\\b", "\\b(caps lock|rotation lock|screen auto-rotate)\\b", "\\bkeyboard backlight\\b"]
+      "include": [
+        "\\b(lock screen|screen lock(?:er|ing)?|idle inhibit(?:or|ion)?|idle manager|idle timeout)\\b",
+        "\\b(prevent|disable|inhibit) (?:system )?(sleep|suspend|idle)\\b",
+        "\\b(stay awake|keep awake|no sleep|caffeine|hypridle|hyprlock)\\b",
+        "\\bsession lock\\b",
+        "\\blid[- ](close|action|switch)\\b",
+        "\\bhibernat\\w+",
+        "\\bauto[- ]suspend\\b",
+        "\\b(idle|lock|screensaver)[^.]{0,25}\\btimeouts?\\b",
+        "\\bsleep[- ]after[- ]idle\\b"
+      ],
+      "exclude": [
+        "\\bpassword manager\\b",
+        "\\b(caps lock|rotation lock|screen auto-rotate)\\b",
+        "\\bkeyboard backlight\\b"
+      ],
+      "task": "Screen locking, idle behavior, and sleep prevention. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "password-manager",
       "name": "Password Manager",
       "description": "Password vaults, TOTP codes, and credential managers",
-      "include": ["\\b(bitwarden|vaultwarden|proton pass|totp|two-factor|2fa|authenticator|password manager|password vault|firefox passwords|saved logins)\\b"],
-      "exclude": ["\\b(compliance|workstation checks?)\\b", "vpn"]
+      "include": [
+        "\\b(bitwarden|vaultwarden|proton pass|totp|two-factor|2fa|authenticator|password manager|password vault|firefox passwords|saved logins)\\b"
+      ],
+      "exclude": [
+        "\\b(compliance|workstation checks?)\\b",
+        "vpn"
+      ],
+      "task": "Password vaults, TOTP codes, and credential managers. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "calendar",
       "name": "Calendar",
       "description": "Calendars, events, and agenda widgets",
-      "include": ["\\b(calendar|agenda|caldav|google calendar|events? widget)\\b"]
+      "include": [
+        "\\b(calendar|agenda|caldav|google calendar|events? widget)\\b"
+      ],
+      "task": "Calendars, events, and agenda widgets. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "clock-timer",
       "name": "Clock & Timer",
       "description": "Clocks, timers, stopwatches, and alarms",
-      "include": ["\\b(clock|timer|stopwatch|alarm|world time|time zone)\\b"],
-      "exclude": ["\\bclock[- ]speed\\b", "\\bon a(?: [\\w-]+)? timer\\b"]
+      "include": [
+        "\\b(clock|stopwatch|world time|time zones?|countdown timer|focus timer|pomodoro timer|alarm clock|alarm manager|timer widget)\\b",
+        "\\b(?:set|start|manage|create)\\w*[^.]{0,30}\\b(?:timers?|alarms?)\\b"
+      ],
+      "exclude": [
+        "\\b(clock[- ]speed|on a(?: [\\w-]+)? timer)\\b"
+      ],
+      "nameInclude": [
+        "\\b(timers?|alarms?|pomodoro|omodoro)\\b"
+      ],
+      "task": "Clocks, timers, stopwatches, and alarms. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "focus",
       "name": "Focus",
       "description": "Pomodoro, habits, tasks, and focus sessions",
-      "include": ["\\b(pomodoro|focus timer|focus session|habit tracker|todo|to-do|todoist|ticktick|microsoft to do|task list)\\b"]
+      "include": [
+        "\\b(pomodoro|focus timer|focus session|habit tracker|todo|to-do|todoist|ticktick|microsoft to do|task list)\\b"
+      ],
+      "task": "Pomodoro, habits, tasks, and focus sessions. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "notes",
       "name": "Notes",
       "description": "Note-taking, scratchpads, and quick capture tools",
-      "include": ["\\bnotes\\b", "\\bobsidian\\b", "\\b(scratch ?pad|scratch note|quick note|sticky note|note-?taking|bullet journal|daily notes?|note capture|quick capture)\\b"],
-      "exclude": ["\\b(systemd journal|journal errors|four-note|meal plan)\\b", "\\b(scratchpad occupancy|scratchpad apps?)\\b", "\\b(file selector|file picker|fuzzy app search|keyboard launcher)\\b"]
+      "include": [
+        "\\b(scratch note|quick[- ]note|sticky notes?|note-?taking|bullet journal|daily notes?|note capture|notepad|note pad|markdown scratchpad|text scratchpad)\\b",
+        "\\b(?:write|capture|create|edit|browse|search|manage)\\w*[^.]{0,35}\\bnotes\\b",
+        "\\bquick[- ]?capture[^.]{0,35}\\b(?:markdown|note|thought)\\b",
+        "\\bquick[- ]?capture[^.]{0,80}\\b(?:obsidian|vault|notes?|markdown|thought)\\b"
+      ],
+      "exclude": [
+        "\\b(systemd journal|journal errors|four-note|meal plan)\\b",
+        "\\b(scratchpad occupancy|scratchpad apps?)\\b",
+        "\\b(file selector|file picker|fuzzy app search|keyboard launcher)\\b",
+        "\\b(release notes|patch notes)\\b",
+        "\\b(?:scratchpad (?:dock|support|switcher|contains)|scratchpads|to the scratchpad|into the scratchpad|scratchpad workspace)\\b"
+      ],
+      "nameInclude": [
+        "\\b(notes|obsidian)\\b"
+      ],
+      "task": "Note-taking, scratchpads, and quick capture tools. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "screen-time",
       "name": "Screen Time",
       "description": "Screen-time tracking and digital wellbeing",
-      "include": ["\\b(screen time|digital well[- ]?being|desktop usage tracker|application usage tracker|app usage tracker)\\b"]
+      "include": [
+        "\\b(screen time|digital well[- ]?being|desktop usage tracker|application usage tracker|app usage tracker)\\b"
+      ],
+      "task": "Screen-time tracking and digital wellbeing. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "workspaces",
       "name": "Workspaces",
       "description": "Hyprland workspace indicators and navigation",
-      "include": ["\\b(workspace|workspaces|virtual desktop)\\b"],
-      "exclude": ["\\b(display outputs?|monitor layouts?|display profiles?)\\b", "\\b(display|monitor) (manager|configuration|config|settings|profiles?|layouts?|switcher|controls?)\\b"]
+      "include": [
+        "\\bworkspace (?:indicators?|switcher|overview|names?|navigation|manager|banks|tags|slots|number|icons|switching)\\b",
+        "\\b(?:overview|indicators?) (?:of |for )?(?:hyprland )?workspaces\\b",
+        "\\b(?:switch|navigate|rename|name|jump to|manage)\\w*[^.]{0,25}\\bworkspaces\\b",
+        "\\b(?:per-monitor|independent|virtual desktop) workspaces\\b"
+      ],
+      "exclude": [
+        "\\b(display outputs?|monitor layouts?|display profiles?)\\b",
+        "\\b(display|monitor) (manager|configuration|config|settings|profiles?|layouts?|switcher|controls?)\\b",
+        "\\b(?:git|coding|boomux) workspace\\b"
+      ],
+      "nameInclude": [
+        "\\bworkspaces?\\b"
+      ],
+      "task": "Hyprland workspace indicators and navigation. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "window-management",
       "name": "Window Management",
       "description": "Window switchers, layouts, tiling, and window rules",
-      "include": ["\\b(window switcher|window management|window manager|window rules?|tiling|layout switcher|alt[+-]?tab|exposé)\\b", "\\b(workspace|window) overview\\b"],
-      "exclude": ["\\bkeyboard layouts?\\b"]
+      "include": [
+        "\\b(window switcher|window management|window rules?|layout switcher|alt[+-]?tab)\\b",
+        "\\b(workspace|window) overview\\b",
+        "\\bexpos[eé](?!\\w)",
+        "\\boverview of (?:every |all )?(?:open )?windows\\b",
+        "\\b(?:tiling (?:layouts?|area)|window tiling|float every newly opened window|tiling, right-click closes)\\b"
+      ],
+      "exclude": [
+        "\\bkeyboard layouts?\\b",
+        "\\b(?:tutorial|tiling trainer|learn omarchy|raycaster|setup: after installing|tiling terminal)\\b"
+      ],
+      "task": "Window switchers, layouts, tiling, and window rules. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "screenshots",
       "name": "Screenshots & Recording",
       "description": "Screenshots, screen recording, and OCR capture",
-      "include": ["\\b(screenshot|screen capture|screen record|screen recorder|ocr|grimblast|slurp)\\b", "\\brecord (?:your |the )?(?:screen|desktop)\\b", "\\bscreen[- ]?recording\\b"],
-      "exclude": ["\\bprivacy (indicators?|alerts?)\\b"]
+      "include": [
+        "\\b(screenshot|screen capture|screen record|screen recorder|ocr|grimblast|slurp)\\b",
+        "\\brecord (?:your |the )?(?:screen|desktop)\\b",
+        "\\bscreen[- ]?recording\\b",
+        "\\b(?:capture|take|one-click)[^.]{0,25}\\bscreenshots?\\b"
+      ],
+      "exclude": [
+        "\\bprivacy (indicators?|alerts?)\\b"
+      ],
+      "task": "Screenshots, screen recording, and OCR capture. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "wallpaper",
       "name": "Wallpaper",
       "description": "Wallpaper browsing, switching, and automation",
-      "include": ["\\b(wallpaper|background image|hyprpaper|swww)\\b"]
+      "include": [
+        "\\b(wallpaper|background image|hyprpaper|swww)\\b",
+        "\\b(?:rotate|browse|switch|set|change)\\w*[^.]{0,30}\\b(?:desktop )?backgrounds?\\b"
+      ],
+      "task": "Wallpaper browsing, switching, and automation. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "themes-appearance",
       "name": "Themes & Appearance",
       "description": "Theme browsing, switching, scheduling, and visual customization",
-      "include": ["\\bthemes? (browser|gallery|manager|scheduler|selector|switcher|installer|roulette|generator|drift|modes?)\\b", "\\b(cursor|icon) theme (picker|manager|switcher)\\b", "\\b(browse|install|manage|switch|schedule|rotate|generate|create|apply|preview|pick|select|cycle|set|author|export|save it as)(?:s|d|ing)? [^.]{0,50}\\bthemes?\\b", "\\b(cursor style|appearance manager|visual customization|themebook|omagen)\\b"],
-      "exclude": ["\\b(color theme support|theme integration|theme sync|theme follower|follows? (?:the )?(?:current )?theme|theme[- ]aware|matches? (?:every|the) theme)\\b"]
+      "include": [
+        "\\bthemes? (browser|gallery|manager|scheduler|selector|switcher|installer|roulette|generator|drift|modes?)\\b",
+        "\\b(cursor|icon) theme (picker|manager|switcher)\\b",
+        "\\b(browse|install|manage|switch|schedule|rotate|generate|create|apply|preview|pick|select|cycle|set|author|export|save it as)(?:s|d|ing)? [^.]{0,50}\\bthemes?\\b",
+        "\\b(cursor style|appearance manager|visual customization|themebook|omagen)\\b"
+      ],
+      "exclude": [
+        "\\b(color theme support|theme integration|theme sync|theme follower|follows? (?:the )?(?:current )?theme|theme[- ]aware|matches? (?:every|the) theme)\\b"
+      ],
+      "task": "Theme browsing, switching, scheduling, and visual customization. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "color-picker",
       "name": "Color Picker",
       "description": "On-screen color picking and palette tools",
-      "include": ["\\b(color picker|colour picker|eyedropper|hyprpicker)\\b"]
+      "include": [
+        "\\b(color picker|colour picker|eyedropper|hyprpicker)\\b"
+      ],
+      "task": "On-screen color picking and palette tools. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "ai-assistant",
       "name": "AI Assistant",
-      "description": "AI chat, local models, and model launchers",
-      "include": ["\\b(ai assistant|artificial intelligence|chatgpt|claude|gemini|ollama|llm|language model)\\b"],
-      "exclude": ["\\b(usage tracker|usage monitor|usage bar|model usage|token usage|api usage|usage limits?|quota|rate limits?|credits? remaining)\\b"]
+      "description": "AI chat, model controls, and launching or managing agent sessions",
+      "include": [
+        "\\b(ai assistant|ai chat|chat with an? (?:llm|ai)|ollama (?:service|server|api|status)|(?:resume|launch|browse|manage|orchestrat)\\w*[^.]{0,65}(?:ai coding|agent|claude|codex)[^.]{0,30}(?:sessions?|threads?|conversations?))\\b",
+        "\\b(?:ai coding|agent) (?:sessions?|threads?|orchestrat\\w*)\\b",
+        "\\b(?:provider and model|default-agent switching|model launchers?)\\b",
+        "\\b(?:browse|resume|launch|manage)\\w*[^.]{0,30}\\bsessions?[^.]{0,40}\\b(?:ai|agent|claude|codex)\\b"
+      ],
+      "exclude": [
+        "\\b(usage tracker|usage monitor|usage bar|quota|rate limits?|credits? remaining)\\b",
+        "\\bollama cloud usage\\b",
+        "\\b(?:memory for|feed notes to)\\b"
+      ],
+      "nameInclude": [
+        "\\b(agent (?:threads|orchestrator)|ollama status|ai assistant)\\b"
+      ],
+      "task": "AI chat, model controls, and launching or managing agent sessions. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "ai-api-usage",
       "name": "AI & API Usage",
       "description": "AI model quotas, token usage, and API spending",
-      "include": ["\\b(ai|model|token|llm) (usage|quota|limits?|spend|costs?|credits?)\\b", "\\b(claude|cursor|codex|opencode|openrouter|gemini|cline|copilot|grok) (usage|quota|limits?|spend|costs?|credits?)\\b", "\\b(codexbar|usagebar)\\b", "\\b(agent|subscription|api) usage\\b", "\\busage (hub|collectors?|stats)\\b", "\\bquota (records?|balances?)\\b", "\\btoken history\\b"]
+      "include": [
+        "\\b(ai|model|token|llm) (usage|quota|limits?|spend|costs?|credits?)\\b",
+        "\\b(claude|cursor|codex|opencode|openrouter|gemini|cline|copilot|grok) (usage|quota|limits?|spend|costs?|credits?)\\b",
+        "\\b(codexbar|usagebar)\\b",
+        "\\b(agent|subscription|api) usage\\b",
+        "\\busage (hub|collectors?|stats)\\b",
+        "\\bquota (records?|balances?)\\b",
+        "\\btoken history\\b",
+        "\\b(?:ollama cloud|claude code|codex|fireworks|hermes|ai agents?) usage\\b"
+      ],
+      "task": "AI model quotas, token usage, and API spending. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify.",
+      "exclude": [
+        "\\bnot token usage\\b"
+      ]
     },
     {
       "id": "smart-home",
       "name": "Smart Home",
       "description": "Home automation, lighting, and connected-device controls",
-      "include": ["\\b(home assistant|home automation|smart home|homekit|smartthings)\\b", "\\b(philips hue|hue lights?|smart lights?|mqtt devices?)\\b", "\\b(wled|key lights?|litra)\\b"]
+      "include": [
+        "\\b(home assistant|home automation|smart home|homekit|smartthings)\\b",
+        "\\b(philips hue|hue lights?|smart lights?|mqtt devices?)\\b",
+        "\\b(wled|key lights?|litra)\\b",
+        "\\b(?:eglo|awox|luxafor)\\b"
+      ],
+      "exclude": [
+        "\\bturns your monitor into a key light\\b"
+      ],
+      "task": "Home automation, lighting, and connected-device controls. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "github",
       "name": "GitHub",
       "description": "GitHub activity, pull requests, issues, and shortcuts",
-      "include": ["\\bgithub (inbox|notifications?|pull(?:[/ ]merge)? requests?|issues?|actions?|repos(?:itories)?|repo search|status|stats|contributions?)\\b", "\\bpull(?:[/ ]merge)? requests?\\b", "\\breview requests?\\b", "\\b(github|gitlab|forgejo|gitea).{0,80}\\b(ci|actions?) status\\b"]
+      "include": [
+        "\\bgithub (inbox|notifications?|pull(?:[/ ]merge)? requests?|issues?|actions?|repos(?:itories)?|repo search|status|stats|contributions?)\\b",
+        "\\bpull(?:[/ ]merge)? requests?\\b",
+        "\\breview requests?\\b",
+        "\\b(github|gitlab|forgejo|gitea).{0,80}\\b(ci|actions?) status\\b"
+      ],
+      "task": "GitHub activity, pull requests, issues, and shortcuts. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "containers",
       "name": "Containers",
       "description": "Docker, Podman, and container management",
-      "include": ["\\b(docker|podman|container|containers|kubernetes|k8s)\\b"],
-      "exclude": ["\\b(named|plugin) containers?\\b"]
+      "include": [
+        "\\b(?:docker|podman|container|containers|kubernetes|k8s)\\b[^.]{0,55}\\b(?:status|manage|control|monitor|start|stop|restart|logs|dashboard|panel|projects|stats)\\b",
+        "\\b(?:docker|podman) in the omarchy bar\\b",
+        "\\b(?:monitor|manage|watch)[^.;]{0,100}\\b(?:docker containers|kubernetes resources|lxc containers)\\b"
+      ],
+      "exclude": [
+        "\\b(named|plugin) containers?\\b"
+      ],
+      "nameInclude": [
+        "\\b(docker|podman|container|containers|kubernetes|k8s)\\b"
+      ],
+      "task": "Docker, Podman, and container management. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "gaming",
       "name": "Gaming",
       "description": "Game launchers, performance, and gaming status",
-      "include": ["\\b(gaming|games? launcher|steam|lutris|protondb|game mode|gamemode)\\b"],
-      "exclude": ["\\bshows steam\\b"]
+      "include": [
+        "\\b(?:gaming (?:dashboard|mode|hud)|games? launchers?|game mode|gamemode|protondb|steam friends|steam guard|steam trends|steam game launcher|steam(?:os)? (?:host|games)|recently played steam|game sessions)\\b",
+        "\\b(?:launch|play|detect|track|gate)\\w*[^.]{0,40}\\b(?:steam|lutris|gaming|games)\\b"
+      ],
+      "exclude": [
+        "\\bshows steam\\b",
+        "\\b(?:wallpaper engine|gaming mouse|gaming mice|themed tray|ollama service|workspace indicators)\\b"
+      ],
+      "task": "Game launchers, performance, and gaming status. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "mini-games",
@@ -231,7 +534,8 @@
         "\\b(nfl|mlb|nba|nhl|premier league|fantasy (football|premier)|esports|sportsbook|scoreboard|match stats|match schedule|skill training|exam quiz|typing test|sourdough)\\b",
         "\\b(game controller|shortcut recall|trains the shortcuts)\\b",
         "\\b(chess\\.com|lichess|rating pill|stats panel)\\b"
-      ]
+      ],
+      "task": "Playable arcade, puzzle, and mini-games in the bar or on the desktop. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "keybinding-managers",
@@ -244,7 +548,10 @@
         "\\b(?:add|assign|create|disable|edit|manage|modify|override|rebind|remove)(?:s|d|ing)?[^.]{0,55}\\b(?:keybind(?:ing)?s?|keyboard shortcuts?)\\b",
         "\\b(?:keybind(?:ing)?s?|keyboard shortcuts?)[^.]{0,55}\\b(?:add|assign|create|disable|edit|manage|modify|override|rebind|remove)(?:s|d|ing)?\\b"
       ],
-      "exclude": ["\\brebind (?:the )?toggle keybind\\b"]
+      "exclude": [
+        "\\brebind (?:the )?toggle keybind\\b"
+      ],
+      "task": "Create, edit, and manage keyboard shortcuts and keybindings. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "shortcut-guides",
@@ -258,7 +565,8 @@
         "\\bcheat ?sheet[^.]{0,45}\\b(?:keybind(?:ing)?s?|keyboard shortcuts?)\\b",
         "\\bshortcut guide\\b",
         "\\bguide (?:for|to)[^.]{0,30}\\b(?:keybind(?:ing)?s?|keyboard shortcuts?)\\b"
-      ]
+      ],
+      "task": "Look up, learn, and visualize keyboard shortcuts. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "translation",
@@ -269,20 +577,32 @@
         "\\btranslat(?:e|es|ed|ing|ion|or)[^.]{0,55}\\b(text|screen|clipboard|messages?|locali[sz]ation|selected|highlighted)\\b",
         "\\b(text|screen|clipboard|messages?|locali[sz]ation|selected|highlighted)[^.]{0,55}\\btranslat(?:e|es|ed|ing|ion|or)\\b"
       ],
-      "exclude": ["\\b(qur'?an|ayah|hadith|mushaf)\\b"]
+      "exclude": [
+        "\\b(qur'?an|ayah|hadith|mushaf)\\b"
+      ],
+      "task": "Translate selected, clipboard, and on-screen text. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "dictionary",
       "name": "Dictionary & Thesaurus",
       "description": "Definitions, synonyms, thesaurus, and word lookup tools",
-      "include": ["\\b(dictionary|thesaurus|wiktionary)\\b", "\\b(word definitions?|define selected words?|synonyms?)\\b"],
-      "exclude": ["\\b(dictation|voxtype|speech[- ]to[- ]text)\\b"]
+      "include": [
+        "\\b(dictionary|thesaurus|wiktionary)\\b",
+        "\\b(word definitions?|define selected words?|synonyms?)\\b"
+      ],
+      "exclude": [
+        "\\b(dictation|voxtype|speech[- ]to[- ]text)\\b"
+      ],
+      "task": "Definitions, synonyms, thesaurus, and word lookup tools. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "prayer-times",
       "name": "Prayer Times",
       "description": "Islamic prayer schedules, countdowns, and Adhan notifications",
-      "include": ["\\b(prayer times?|prayer countdown|adhan|athan|salah times?|mawaqit)\\b"]
+      "include": [
+        "\\b(prayer times?|prayer countdown|adhan|athan|salah times?|mawaqit)\\b"
+      ],
+      "task": "Islamic prayer schedules, countdowns, and Adhan notifications. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "keyboard-lighting",
@@ -292,7 +612,8 @@
         "\\b(keyboard|kbd|key)[ -](backlight|brightness|lighting|night[- ]?light|rgb)\\b",
         "\\b(backlight|brightness|lighting)[^.]{0,35}\\bkeyboard\\b",
         "\\brgb keyboard\\b"
-      ]
+      ],
+      "task": "Keyboard backlight, brightness, night-light, and RGB controls. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "keyboard-layouts",
@@ -303,13 +624,17 @@
         "\\b(?:switch|manage|configure|display|show|remember)(?:s|ed|ing)?[^.]{0,45}\\bkeyboard layouts?\\b",
         "\\binput (?:language|layout)(?: manager| switcher| indicator)?\\b",
         "\\bxkb (?:language\\/)?layouts?\\b"
-      ]
+      ],
+      "task": "Switch, configure, and indicate keyboard input layouts. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "file-search",
       "name": "File Search",
       "description": "Find files with fast filename, fuzzy, and full-text search",
-      "include": ["\\b(file search|search files?|find files?|file finder|full[- ]text file search|fuzzy[- ]find (?:any |your )?files?|fuzzy file (?:selector|picker))\\b"]
+      "include": [
+        "\\b(file search|search files?|find files?|file finder|full[- ]text file search|fuzzy[- ]find (?:any |your )?files?|fuzzy file (?:selector|picker))\\b"
+      ],
+      "task": "Find files with fast filename, fuzzy, and full-text search. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "feed-readers",
@@ -320,7 +645,10 @@
         "\\b(?:reader|client)[^.]{0,35}\\b(?:rss|atom)\\b",
         "\\b(news reader|news feed|news headlines|read headlines)\\b"
       ],
-      "exclude": ["\\b(game launcher|itch\\.io|epic games)\\b"]
+      "exclude": [
+        "\\b(game launcher|itch\\.io|epic games)\\b"
+      ],
+      "task": "Read RSS, Atom, news feeds, and headlines. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "sports-scores",
@@ -334,7 +662,10 @@
         "\\b(nfl|mlb|nba|nhl|premier league|fantasy (?:football|premier)|fpl|football|soccer)[^.]{0,50}\\b(scores?|fixtures?|standings?|gameweek|schedule|teams?)\\b",
         "\\b(scores?|fixtures?|standings?|gameweek|schedule)[^.]{0,50}\\b(nfl|mlb|nba|nhl|premier league|fantasy (?:football|premier)|fpl|football|soccer)\\b"
       ],
-      "exclude": ["\\b(mini-?game|video game|tennis game)\\b"]
+      "exclude": [
+        "\\b(mini-?game|video game|tennis game)\\b"
+      ],
+      "task": "Live scores, fixtures, standings, and sports schedules. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "uptime-monitoring",
@@ -345,54 +676,104 @@
         "\\b(?:website|service|endpoint) monitor(?:ing)?\\b",
         "\\b(?:monitor|watch|poll)(?:s|ed|ing)?[^.]{0,45}\\b(?:sites?|websites?|endpoints?|status pages?)\\b"
       ],
-      "exclude": ["\\b(system uptime|process monitor|system monitor|health[- ]check and repair)\\b"]
+      "exclude": [
+        "\\b(system uptime|process monitor|system monitor|health[- ]check and repair)\\b"
+      ],
+      "task": "Monitor website, service, and endpoint availability. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "system-updates",
       "name": "System Updates",
       "description": "Arch package updates and update notifications",
-      "include": ["\\b(system|package|arch|aur|flatpak) updates?\\b", "\\b(pacman|yay|paru) updates?\\b", "\\bupdate (?:checker|center)\\b", "\\bpending.{0,60}updates?\\b"]
+      "include": [
+        "\\b(system|package|arch|aur|flatpak) updates?\\b",
+        "\\b(pacman|yay|paru) updates?\\b",
+        "\\bupdate (?:checker|center)\\b",
+        "\\bpending.{0,60}updates?\\b"
+      ],
+      "task": "Arch package updates and update notifications. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "radio",
       "name": "Radio",
       "description": "Internet and streaming radio players",
-      "include": ["\\bradio\\b"],
-      "exclude": ["\\b(amateur|ham) radio\\b", "\\bcallsigns?\\b", "\\bband conditions\\b", "\\bradio (exam|quiz|licen[cs]e)\\b", "\\bradio auto-advance\\b", "\\bradio broadcast\\b"]
+      "include": [
+        "\\bradio\\b"
+      ],
+      "exclude": [
+        "\\b(amateur|ham) radio\\b",
+        "\\bcallsigns?\\b",
+        "\\bband conditions\\b",
+        "\\bradio (exam|quiz|licen[cs]e)\\b",
+        "\\bradio auto-advance\\b",
+        "\\bradio broadcast\\b"
+      ],
+      "task": "Internet and streaming radio players. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "screensavers",
       "name": "Screensavers",
       "description": "Screensavers and idle-screen visuals",
-      "include": ["\\bscreensavers?\\b"],
+      "include": [
+        "\\bscreensavers?\\b"
+      ],
       "exclude": [
         "\\b(keeps?|prevent\\w*|block\\w*|inhibit\\w*|suppress\\w*|disable\\w*|pause\\w*)[^.]{0,45}screensaver",
         "\\bscreensaver[^.]{0,30}(off and on|away)\\b",
         "\\b(timeouts?|timing control|idle cycle|idle service|wake locks?)\\b",
         "\\b(suspend|hibernate|sleep)\\b",
         "\\bcountdown before\\b"
-      ]
+      ],
+      "task": "Screensavers and idle-screen visuals. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "power-menu",
       "name": "Power & Session",
       "description": "Power menus, session actions, and shutdown controls",
-      "include": ["\\bpower (menu|button|glyph|actions?)\\b", "\\bsession menu\\b", "\\b(timed|scheduled?) shutdown\\b"],
-      "exclude": ["\\bpower (management|manager|profiles?)\\b"]
+      "include": [
+        "\\bpower (menu|button|glyph|actions?)\\b",
+        "\\bsession menu\\b",
+        "\\b(timed|scheduled?) shutdown\\b"
+      ],
+      "exclude": [
+        "\\bpower (management|manager|profiles?)\\b"
+      ],
+      "task": "Power menus, session actions, and shutdown controls. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "plugin-manager",
       "name": "Plugin Manager",
       "description": "Browsing, installing, and managing Omarchy plugins",
-      "include": ["\\bplugin (manager|marketplace|store|storefront|control center|directory)\\b", "\\b(browse|install|manage|update|remove|enable|disable)\\b[^.]{0,40}\\bplugins\\b"],
-      "exclude": ["\\bplugin containers?\\b", "\\bdotfiles\\b", "\\b(security (review|scanner|scan)|capability scan|behavior analysis|source drift)\\b", "\\bback ?up\\b"]
+      "include": [
+        "\\bplugin (manager|marketplace|store|storefront|control center|directory)\\b",
+        "\\b(browse|install|manage|update|remove|enable|disable)\\b[^.]{0,40}\\bplugins\\b"
+      ],
+      "exclude": [
+        "\\bplugin containers?\\b",
+        "\\bdotfiles\\b",
+        "\\b(security (review|scanner|scan)|capability scan|behavior analysis|source drift)\\b",
+        "\\bback ?up\\b"
+      ],
+      "task": "Browsing, installing, and managing Omarchy plugins. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "firewall",
       "name": "Firewall",
       "description": "Firewall rules and outbound connection control",
-      "include": ["\\b(firewall|ufw|iptables|nftables)\\b", "\\boutbound connections?\\b"],
-      "exclude": ["vpn", "\\bwindscribe\\b", "\\bsystem services\\b"]
+      "include": [
+        "\\b(firewall|ufw|iptables|nftables)\\b[^.]{0,45}\\b(?:rules?|controls?|manager|toggle|status|panel|allow|block|counters)\\b",
+        "\\boutbound connections?\\b",
+        "\\b(?:view|manage|control|toggle|configure)\\w*[^.]{0,45}\\b(?:firewall|ufw|nftables|iptables)\\b"
+      ],
+      "exclude": [
+        "vpn",
+        "\\bwindscribe\\b",
+        "\\bsystem services\\b"
+      ],
+      "nameInclude": [
+        "\\b(firewall|ufw|iptables|nftables)\\b"
+      ],
+      "task": "Firewall rules and outbound connection control. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     },
     {
       "id": "dev-ports",
@@ -406,32 +787,355 @@
         "\\beaddrinuse\\b",
         "\\bfree port\\b"
       ],
-      "exclude": ["\\b(subnet|mdns|mac vendor|icmp)\\b", "\\b(wayland|hyprland|linux) port\\b", "\\bdpi presets?\\b"]
+      "exclude": [
+        "\\b(subnet|mdns|mac vendor|icmp)\\b",
+        "\\b(wayland|hyprland|linux) port\\b",
+        "\\bdpi presets?\\b"
+      ],
+      "task": "Local development ports and listening servers. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+    },
+    {
+      "id": "phone-integration",
+      "name": "Phone Integration",
+      "description": "Pair phones, view phone status, and exchange messages, clipboard content, or files",
+      "include": [
+        "\\b(kde[- ]?connect|phone integration|phone connect|iphone clipboard|iphone on the bar|phone notifications)\\b",
+        "\\b(?:mirror and control|clipboard sharing)[^.]{0,45}\\bandroid phone\\b"
+      ],
+      "task": "Pair phones, view phone status, and exchange messages, clipboard content, or files. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+    },
+    {
+      "id": "peripheral-battery",
+      "name": "Peripheral Batteries",
+      "description": "Battery and charging status for mice, keyboards, headsets, and other peripherals",
+      "include": [
+        "\\b(?:mouse|keyboard|headset|earbud|peripheral|device|trackpad|airpods)[ -]batter(?:y|ies)\\b",
+        "\\b(?:batter(?:y|ies)|charging)[^.]{0,160}\\b(?:wireless (?:devices|mouse|mice)|mice|headphones|earbuds|headset|keyboard|peripheral|trackpad|controller|galaxy buds|freebuds|sony|shokz|sennheiser|jabra|razer|bose|cetra|bowers|hsk|dualsense)\\b",
+        "\\b(?:mouse|mice|earbud|headset|keyboard|peripheral|trackpad|airpods|shokz|jabra|jabridge|blackshark|buds|bose|headphones|dualsense)[^.]{0,160}\\bbatter(?:y|ies)\\b"
+      ],
+      "exclude": [
+        "\\b(phone|iphone|kde connect|smart mug|garmin|rivian)\\b"
+      ],
+      "task": "Battery and charging status for mice, keyboards, headsets, and other peripherals. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
     }
   ],
   "overrides": {
     "include": {
-      "codefriendly.nightman": ["themes-appearance"],
-      "io.github.geoochi.theme-sync": ["themes-appearance"],
-      "io.github.adibains.manual-backlight-lock": ["lock-idle"]
+      "codefriendly.nightman": [
+        "themes-appearance"
+      ],
+      "io.github.geoochi.theme-sync": [
+        "themes-appearance"
+      ],
+      "io.github.adibains.manual-backlight-lock": [
+        "lock-idle"
+      ],
+      "io.github.randazraik.xray": [
+        "system-monitor",
+        "containers"
+      ],
+      "io.github.jhaney3.bluetooth-modes": [
+        "bluetooth"
+      ],
+      "angeeeld.omaltbar": [
+        "audio",
+        "bluetooth",
+        "network",
+        "notifications"
+      ],
+      "marco.omarchy-info": [
+        "system-monitor",
+        "audio",
+        "battery",
+        "network",
+        "containers",
+        "music"
+      ],
+      "io.github.grechman.dynamic-bar": [
+        "battery",
+        "audio",
+        "network",
+        "bluetooth",
+        "ai-api-usage"
+      ],
+      "io.github.codemonkey76.micfx": [
+        "audio"
+      ],
+      "io.github.koyphish.audio-visualizer": [
+        "audio"
+      ],
+      "pym.volta": [
+        "audio"
+      ],
+      "io.github.ejuro.blow-off-some-steam": [
+        "mini-games"
+      ],
+      "iaeluk.omastatus": [
+        "system-monitor"
+      ],
+      "robertlindomar.omarchy-ptbr.network": [
+        "network"
+      ],
+      "robertlindomar.omarchy-ptbr.audio": [
+        "audio"
+      ],
+      "io.github.deunnis.lacquer": [
+        "themes-appearance",
+        "wallpaper",
+        "brightness",
+        "lock-idle"
+      ]
     },
     "exclude": {
-      "monorkin.voyager-disco": ["color-picker"],
-      "network-speed": ["color-picker"],
-      "io.github.aryagorjipour.nitro-keyboard": ["color-picker"],
-      "primo.dock": ["power-menu"],
-      "perfektnacht.omatower-defense": ["screensavers"],
-      "rookepoole.oligarchy-tax-department": ["screensavers"],
-      "modoterra.omabench": ["dev-ports"],
-      "io.github.adibains.manual-backlight-lock": ["keyboard-lighting"],
-      "io.github.weedwhitesandwine.omazone": ["keybinding-managers"],
-      "dimdoremy.omaflameshot": ["shortcut-guides"],
-      "io.github.herr-brandt.tour": ["shortcut-guides"],
-      "gaius-codius.unifi": ["uptime-monitoring"],
-      "io.github.duketopceo.numbat": ["uptime-monitoring"],
-      "pdaether.ploi": ["uptime-monitoring"],
-      "sterre.keyboard-hud": ["keyboard-layouts"],
-      "io.github.poctek.hyprland-submap": ["shortcut-guides"]
-    }
+      "monorkin.voyager-disco": [
+        "color-picker"
+      ],
+      "network-speed": [
+        "color-picker"
+      ],
+      "io.github.aryagorjipour.nitro-keyboard": [
+        "color-picker"
+      ],
+      "primo.dock": [
+        "power-menu"
+      ],
+      "perfektnacht.omatower-defense": [
+        "screensavers"
+      ],
+      "rookepoole.oligarchy-tax-department": [
+        "screensavers"
+      ],
+      "modoterra.omabench": [
+        "dev-ports"
+      ],
+      "io.github.adibains.manual-backlight-lock": [
+        "keyboard-lighting"
+      ],
+      "io.github.weedwhitesandwine.omazone": [
+        "keybinding-managers"
+      ],
+      "dimdoremy.omaflameshot": [
+        "shortcut-guides"
+      ],
+      "io.github.herr-brandt.tour": [
+        "shortcut-guides"
+      ],
+      "gaius-codius.unifi": [
+        "uptime-monitoring"
+      ],
+      "io.github.duketopceo.numbat": [
+        "uptime-monitoring"
+      ],
+      "pdaether.ploi": [
+        "uptime-monitoring"
+      ],
+      "sterre.keyboard-hud": [
+        "keyboard-layouts"
+      ],
+      "io.github.poctek.hyprland-submap": [
+        "shortcut-guides"
+      ],
+      "bottelet.slack": [
+        "notifications"
+      ],
+      "halmylyseas.github-status": [
+        "notifications"
+      ],
+      "omaconnect": [
+        "battery",
+        "clipboard",
+        "vpn"
+      ],
+      "ssupt.audio-control": [
+        "bluetooth"
+      ],
+      "bt.codecs": [
+        "bluetooth"
+      ],
+      "jonasbove.devices": [
+        "bluetooth"
+      ],
+      "io.github.lateralcoders.workspace-thumbs": [
+        "screenshots"
+      ],
+      "dizziee.auto-wallpaper": [
+        "themes-appearance"
+      ],
+      "omapaper": [
+        "themes-appearance"
+      ],
+      "io.github.ef-code.wallpaper-explorer": [
+        "themes-appearance"
+      ],
+      "emkcloud.wallpaper-manager": [
+        "themes-appearance"
+      ],
+      "io.weirdware.themestyles": [
+        "themes-appearance"
+      ],
+      "io.github.rizmi.services": [
+        "containers"
+      ],
+      "io.github.gardnmi.boomux": [
+        "workspaces"
+      ]
+    },
+    "reasons": {
+      "io.github.randazraik.xray": {
+        "system-monitor": "README documents process CPU/memory/I/O inspection and Docker/Podman container inspection and restart controls: https://github.com/RandaZraik/omarchy-xray#features (reviewed 2026-09-21).",
+        "containers": "README documents process CPU/memory/I/O inspection and Docker/Podman container inspection and restart controls: https://github.com/RandaZraik/omarchy-xray#features (reviewed 2026-09-21)."
+      },
+      "io.github.jhaney3.bluetooth-modes": {
+        "bluetooth": "README documents manual scanning, pairing, forget and disconnect controls, in addition to audio modes: https://github.com/jhaney3/omarchy-bluetooth-modes#features (reviewed 2026-09-21)."
+      },
+      "angeeeld.omaltbar": {
+        "audio": "README runtime dependency table documents native sink selection, Bluetooth toggle/connect, Wi-Fi lists and notification history/DND, beyond merely hosting widgets: https://github.com/AngeeelD/omaltbar (reviewed 2026-09-21).",
+        "bluetooth": "README runtime dependency table documents native sink selection, Bluetooth toggle/connect, Wi-Fi lists and notification history/DND, beyond merely hosting widgets: https://github.com/AngeeelD/omaltbar (reviewed 2026-09-21).",
+        "network": "README runtime dependency table documents native sink selection, Bluetooth toggle/connect, Wi-Fi lists and notification history/DND, beyond merely hosting widgets: https://github.com/AngeeelD/omaltbar (reviewed 2026-09-21).",
+        "notifications": "README runtime dependency table documents native sink selection, Bluetooth toggle/connect, Wi-Fi lists and notification history/DND, beyond merely hosting widgets: https://github.com/AngeeelD/omaltbar (reviewed 2026-09-21)."
+      },
+      "marco.omarchy-info": {
+        "system-monitor": "README Cards table documents CPU/RAM/disk bars, live PipeWire volume/mute, UPower battery, network status, docker ps and play/pause: https://github.com/Comm4nd0/omarchy-info#cards (reviewed 2026-09-21).",
+        "audio": "README Cards table documents CPU/RAM/disk bars, live PipeWire volume/mute, UPower battery, network status, docker ps and play/pause: https://github.com/Comm4nd0/omarchy-info#cards (reviewed 2026-09-21).",
+        "battery": "README Cards table documents CPU/RAM/disk bars, live PipeWire volume/mute, UPower battery, network status, docker ps and play/pause: https://github.com/Comm4nd0/omarchy-info#cards (reviewed 2026-09-21).",
+        "network": "README Cards table documents CPU/RAM/disk bars, live PipeWire volume/mute, UPower battery, network status, docker ps and play/pause: https://github.com/Comm4nd0/omarchy-info#cards (reviewed 2026-09-21).",
+        "containers": "README Cards table documents CPU/RAM/disk bars, live PipeWire volume/mute, UPower battery, network status, docker ps and play/pause: https://github.com/Comm4nd0/omarchy-info#cards (reviewed 2026-09-21).",
+        "music": "README Cards table documents CPU/RAM/disk bars, live PipeWire volume/mute, UPower battery, network status, docker ps and play/pause: https://github.com/Comm4nd0/omarchy-info#cards (reviewed 2026-09-21)."
+      },
+      "bottelet.slack": {
+        "notifications": "The catalog describes Slack-specific Do Not Disturb, not desktop notification management."
+      },
+      "halmylyseas.github-status": {
+        "notifications": "The catalog explicitly says this is not a notification inbox; it is a GitHub repository dashboard."
+      },
+      "omaconnect": {
+        "battery": "Phone battery, clipboard transport and peer discovery do not provide computer battery monitoring, clipboard history or VPN controls: https://github.com/jitendradara12/omaconnect#features (reviewed 2026-09-21).",
+        "clipboard": "Phone battery, clipboard transport and peer discovery do not provide computer battery monitoring, clipboard history or VPN controls: https://github.com/jitendradara12/omaconnect#features (reviewed 2026-09-21).",
+        "vpn": "Phone battery, clipboard transport and peer discovery do not provide computer battery monitoring, clipboard history or VPN controls: https://github.com/jitendradara12/omaconnect#features (reviewed 2026-09-21)."
+      },
+      "ssupt.audio-control": {
+        "bluetooth": "Audio profiles and codecs belong in Audio; pairing and connections are provided by its separate Bluetooth companion: https://github.com/ssupt/omarchy-audio-control#features (reviewed 2026-09-21)."
+      },
+      "bt.codecs": {
+        "bluetooth": "The catalog describes codec/profile selection for already connected headsets; no discovery, pairing or connection controls."
+      },
+      "jonasbove.devices": {
+        "bluetooth": "The catalog describes a read-only inventory of connected USB/Bluetooth devices, not discovery, pairing or connection controls."
+      },
+      "codefriendly.nightman": {
+        "themes-appearance": "Retained editorial include exception. Catalog evidence: Control light and dark mode independently of your Omarchy theme. Switch manually, follow the theme, use sunrise and sunset, or set a fixed schedule."
+      },
+      "io.github.geoochi.theme-sync": {
+        "themes-appearance": "Retained editorial include exception. Catalog evidence: Switch between a light and a dark Omarchy theme on a local-time schedule."
+      },
+      "io.github.adibains.manual-backlight-lock": {
+        "lock-idle": "Retained editorial include exception. Catalog evidence: The stock Omarchy lock screen, but the keyboard backlight stays under your control: toggles stick while locked.",
+        "keyboard-lighting": "Retained editorial exclude exception. Catalog evidence: The stock Omarchy lock screen, but the keyboard backlight stays under your control: toggles stick while locked."
+      },
+      "monorkin.voyager-disco": {
+        "color-picker": "Retained editorial exclude exception. Catalog evidence: Color picker for ZSA keyboard RGB LEDs, powered by the voyager-disco CLI."
+      },
+      "network-speed": {
+        "color-picker": "Retained editorial exclude exception. Catalog evidence: Live upload/download rate with an interface, icon, and color picker"
+      },
+      "io.github.aryagorjipour.nitro-keyboard": {
+        "color-picker": "Retained editorial exclude exception. Catalog evidence: Four-zone RGB keyboard control for Acer Nitro 5: NitroSense modes, color picker, palettes, and time windows."
+      },
+      "primo.dock": {
+        "power-menu": "Retained editorial exclude exception. Catalog evidence: Application dock for Omarchy. Tracks Hyprland windows across workspaces with smart launch, focus and cycling behavior, per-window minimize-to-dock and restore, drag & drop reordering, and a rich right-click action card featuring .desktop quick actions. Touch-friendly long-press gestures mirror every mouse interaction, a Super-held System menu handles pinning and custom icon overrides, and Chromium webapps launch reliably alongside seamless Omarchy theme integration."
+      },
+      "perfektnacht.omatower-defense": {
+        "screensavers": "Retained editorial exclude exception. Catalog evidence: Tower defense on real Grand Prix circuits. Park Quattros, shoot down the takes about Omarchy with the screensaver's own effects."
+      },
+      "rookepoole.oligarchy-tax-department": {
+        "screensavers": "Retained editorial exclude exception. Catalog evidence: A six-desk Oligarch Operating System with treasury collection, live holdings and terminal annual report, executive controls and confirmed session motions, native workspace acquisitions, launcher integration, a bar-integrated focus clock, institutional branding, and animated screensavers."
+      },
+      "modoterra.omabench": {
+        "dev-ports": "Retained editorial exclude exception. Catalog evidence: A live overview of every git project under ~/Work: branch, dirty state, ahead/behind, and listening ports."
+      },
+      "io.github.weedwhitesandwine.omazone": {
+        "keybinding-managers": "Retained editorial exclude exception. Catalog evidence: A multi-timezone clock that drops down from the bar. Track any number of cities with custom labels and icons, drag the Time Travel slider to preview a future moment across all of them at once, and rebind the toggle keybind from the settings view. Summon with: omarchy-shell shell toggle io.github.weedwhitesandwine.omazone"
+      },
+      "dimdoremy.omaflameshot": {
+        "shortcut-guides": "Retained editorial exclude exception. Catalog evidence: Flameshot as the capture / annotate / pin tool: keeps every Flameshot window floating and pinned so screenshots pin on top of all workspaces like Snipaste, with omarchy-shell IPC actions ready for the menu or your own keybindings."
+      },
+      "io.github.herr-brandt.tour": {
+        "shortcut-guides": "Retained editorial exclude exception. Catalog evidence: Interactive desktop tour for Omarchy. Learn and understand the keyboard, keybindings, shortcuts, tiling windows, workspaces, menu, and bar. Optional window playground to practice tiling with demo windows. Getting-started tutorial and onboarding guide for beginners. Start it by clicking the button \"Tour\" in the bar."
+      },
+      "gaius-codius.unifi": {
+        "uptime-monitoring": "Retained editorial exclude exception. Catalog evidence: Read-only UniFi Network site health on the Omarchy bar"
+      },
+      "io.github.duketopceo.numbat": {
+        "uptime-monitoring": "Retained editorial exclude exception. Catalog evidence: AI-agent activity radar: live findings and per-agent visibility from Perplexity's numbat endpoint monitor"
+      },
+      "pdaether.ploi": {
+        "uptime-monitoring": "Retained editorial exclude exception. Catalog evidence: ploi.io servers in the Omarchy bar: server health at a glance, a dashboard popup with monitoring sparklines, sites and certificates, and quick actions."
+      },
+      "sterre.keyboard-hud": {
+        "keyboard-layouts": "Retained editorial exclude exception. Catalog evidence: On screen key strip and keyboard map for screencasts, stacked in either order and labelled from your actual keyboard layout."
+      },
+      "io.github.poctek.hyprland-submap": {
+        "shortcut-guides": "Retained editorial exclude exception. Catalog evidence: Shows the active Hyprland keybinding submap in the Omarchy bar."
+      },
+      "io.github.grechman.dynamic-bar": {
+        "battery": "README System pill documents battery/power profiles, volume, Wi-Fi password entry and Bluetooth scanning; limits panel shows AI subscription usage: https://github.com/grechman/dynamic-bar (reviewed 2026-09-21).",
+        "audio": "README System pill documents battery/power profiles, volume, Wi-Fi password entry and Bluetooth scanning; limits panel shows AI subscription usage: https://github.com/grechman/dynamic-bar (reviewed 2026-09-21).",
+        "network": "README System pill documents battery/power profiles, volume, Wi-Fi password entry and Bluetooth scanning; limits panel shows AI subscription usage: https://github.com/grechman/dynamic-bar (reviewed 2026-09-21).",
+        "bluetooth": "README System pill documents battery/power profiles, volume, Wi-Fi password entry and Bluetooth scanning; limits panel shows AI subscription usage: https://github.com/grechman/dynamic-bar (reviewed 2026-09-21).",
+        "ai-api-usage": "README System pill documents battery/power profiles, volume, Wi-Fi password entry and Bluetooth scanning; limits panel shows AI subscription usage: https://github.com/grechman/dynamic-bar (reviewed 2026-09-21)."
+      },
+      "io.github.lateralcoders.workspace-thumbs": {
+        "screenshots": "Catalog evidence: Screenshot thumbnails are workspace previews, not a screen capture tool."
+      },
+      "dizziee.auto-wallpaper": {
+        "themes-appearance": "Catalog evidence: Cycles wallpapers within the active theme; does not browse, create or switch themes."
+      },
+      "omapaper": {
+        "themes-appearance": "Catalog evidence: Selects backgrounds across themes, not theme colors or appearance settings."
+      },
+      "io.github.ef-code.wallpaper-explorer": {
+        "themes-appearance": "Catalog evidence: Explicitly applies wallpapers without changing theme colors."
+      },
+      "emkcloud.wallpaper-manager": {
+        "themes-appearance": "Catalog evidence: Installs and selects wallpapers within a theme; does not manage themes."
+      },
+      "io.weirdware.themestyles": {
+        "themes-appearance": "Catalog evidence: Generates wallpaper styles for a theme, not themes."
+      },
+      "io.github.rizmi.services": {
+        "containers": "Catalog evidence: Starts the Docker daemon as a system service; does not inspect or manage containers."
+      },
+      "io.github.gardnmi.boomux": {
+        "workspaces": "Catalog evidence: Opens a Boomux development workspace pane, not Hyprland virtual desktops."
+      },
+      "io.github.codemonkey76.micfx": {
+        "audio": "Catalog evidence: Noise suppression, gate, tone EQ, compressor and limiter for the microphone in every app."
+      },
+      "io.github.koyphish.audio-visualizer": {
+        "audio": "Catalog evidence: Replaces the audio widget and provides a full audio panel with system volume, output picker and per-app mixer, beyond visualization."
+      },
+      "pym.volta": {
+        "audio": "Catalog evidence: Per-channel volume and stereo balance controls."
+      },
+      "io.github.ejuro.blow-off-some-steam": {
+        "mini-games": "Catalog evidence: Playable desktop destruction toy: choose a cartoon weapon and interact with a frozen desktop snapshot. Not a Steam launcher."
+      },
+      "iaeluk.omastatus": {
+        "system-monitor": "Catalog evidence: Portuguese description: system monitor showing temperature, CPU, memory, network, disk, battery and GPU."
+      },
+      "robertlindomar.omarchy-ptbr.network": {
+        "network": "Catalog evidence: Portuguese description: Wi-Fi list and connection status."
+      },
+      "robertlindomar.omarchy-ptbr.audio": {
+        "audio": "Catalog evidence: Portuguese description: volume, output and per-application mixer controls."
+      },
+      "io.github.deunnis.lacquer": {
+        "themes-appearance": "README documents theme previews, switching, scheduled theme shuffle and appearance controls. Source: https://github.com/Deunnis/omarchy-lacquer (reviewed 2026-09-21).",
+        "wallpaper": "README Theme & wallpaper section documents browsing and applying installed theme wallpapers. Source: https://github.com/Deunnis/omarchy-lacquer (reviewed 2026-09-21).",
+        "brightness": "README Desktop section documents nightlight configuration and scheduling through hyprsunset. Source: https://github.com/Deunnis/omarchy-lacquer (reviewed 2026-09-21).",
+        "lock-idle": "README Screens section documents native screensaver and lock idle timing controls, plus lock-explorer integration. Source: https://github.com/Deunnis/omarchy-lacquer (reviewed 2026-09-21)."
+      }
+    },
+    "review": {}
   }
 }

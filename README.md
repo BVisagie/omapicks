@@ -13,16 +13,17 @@ npm ci                # install build dependencies
 npm test              # unit and rendering tests
 npm run build         # offline render into dist/
 npm run refresh       # fetch public feeds and write a new weekly snapshot
+npm run audit:classification # capture feeds and explain every classification
 npm run check         # tests followed by a production render
 npx playwright install chromium
 npm run test:e2e       # browser interactions, mobile layouts, contrast
 ```
 
-`npm run build` reads committed files under `data/` and never accesses the network. `npm run refresh` is the only networked step.
+`npm run build` reads committed files under `data/` and never accesses the network. `npm run refresh` and the audit/discovery research commands fetch public feeds; rendering stays offline.
 
 ## Ranking method
 
-Plugins must be installable and point to an HTTPS repository. Only plugins matching at least one focused app type compete; unmatched listings intentionally remain unranked instead of being forced into a catch-all category. The curated taxonomy can place one plugin in more than one app type when it genuinely belongs in both. A ranking is not an endorsement or a safety review of the plugin.
+Plugins must be installable and point to an HTTPS repository. Only plugins matching at least one focused app type compete; unmatched listings intentionally remain unranked instead of being forced into a catch-all category. The curated taxonomy requires direct task evidence in the name or description. Tags and upstream categories cannot independently qualify a plugin. One plugin can compete in several app types when it directly performs each task. Explicit, documented exceptions preserve capabilities verified in upstream documentation; assignments held for review do not compete. See [classification and audit](docs/classification.md). A ranking is not an endorsement or a safety review of the plugin.
 
 Copies, hearts, stars, and views are transformed with `log1p`. Each signal blends a 70% within-type percentile with a 30% scale capped at the cohort's 95th percentile, then is damped toward the cohort midpoint when evidence is sparse. Repository freshness uses a 180-day half-life; registry verification contributes a small bonus. An eligible incumbent remains champion or runner-up until a challenger scores more than 10% higher.
 
