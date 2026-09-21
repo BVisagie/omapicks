@@ -40,8 +40,9 @@ export function auditClassifications({ catalog, taxonomy, previousState = null, 
   const eligible = records.filter((p) => !p.ineligible);
   const unresolved = records.flatMap((p) => p.evidence.filter((e) => e.decision === "review").map((e) => ({ id: p.id, typeId: e.typeId, reason: e.reason })));
   const changes = records.filter((p) => p.changed).map((p) => ({ id: p.id, name: p.name, added: p.types.filter((t) => !p.before.includes(t)), removed: p.before.filter((t) => !p.types.includes(t)) }));
-  const removed = [...prior.values()].filter((p) => !records.some((r) => r.id === p.id)).map((p) => ({ id: p.id, name: p.name, added: [], removed: p.types }));
-  const newListings = previousState ? records.filter((p) => !prior.has(p.id)).map((p) => p.id) : [];
+  // A baseline replay classifies one catalog twice, so feed departures and arrivals are not taxonomy effects.
+  const removed = baseline ? [] : [...prior.values()].filter((p) => !records.some((r) => r.id === p.id)).map((p) => ({ id: p.id, name: p.name, added: [], removed: p.types }));
+  const newListings = previousState && !baseline ? records.filter((p) => !prior.has(p.id)).map((p) => p.id) : [];
   let rankingComparison = null;
   let picks = [];
   if (stats) {

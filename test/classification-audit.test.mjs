@@ -85,6 +85,15 @@ test("audit exposes removed categories and new listings", () => {
   assert.match(renderClassificationAudit(report), /## New listings\n\n- new/);
 });
 
+test("baseline replay ignores feed changes against the published state", () => {
+  const previousState = { plugins: [{ id: "gone", name: "Gone", metadataHash: "x", types: ["battery"] }] };
+  const report = auditClassifications({ catalog: [eligible("new")], taxonomy, previousState, baselineTaxonomy: taxonomy, baselineVersion: 1, now });
+  assert.equal(report.comparison, "same-input-taxonomy-replay");
+  assert.deepEqual(report.changes, []);
+  assert.deepEqual(report.newListings, []);
+  assert.equal(report.counts.changed, 0);
+});
+
 test("audit markdown escapes catalog text", () => {
   const report = auditClassifications({ catalog: [eligible("x", { name: "<script>\n::error::[link](bad)", tags: ["battery health"], description: "unrelated" })], taxonomy, baselineTaxonomy: taxonomy, baselineVersion: 1, now });
   const text = renderClassificationAudit(report);
