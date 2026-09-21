@@ -495,7 +495,9 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.doesNotMatch(home, /widgets\.js/);
   assert.match(pick, /How they compare/);
   assert.match(pick, /These bars are raw public counts/);
-  assert.match(pick, /It won mainly because/);
+  // The live Weather race may be a clear win, a close race, or a champion held by the
+  // stability rule; each sentence has its own fixture test above.
+  assert.ok(pick.includes(`<p class="why-won">${escapeHtml(winningReason(weather.winner, weather.runnerUp, weather.topScorer))}</p>`));
   assert.match(pick, /How we pick/);
   assert.match(pick, /01 Champion/);
   assert.match(pick, /target="_blank" rel="noopener noreferrer">Original listing<\/a>/);
