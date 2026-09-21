@@ -10,7 +10,9 @@
     { "id": "prayer-times", "name": "Prayer times", "terms": ["prayer times", "prayer countdown", "adhan"] },
     { "id": "security-scanning", "name": "Security scanning", "terms": ["security scan", "security scanner", "security posture", "security auditor", "dependency audit", "code health scanner"] },
     { "id": "file-sync", "name": "File synchronization", "terms": ["syncthing", "file sync", "folder sync", "file synchronization"] },
-    { "id": "keybindings", "name": "Keyboard shortcut management", "terms": ["keybind manager", "keybinding manager", "keybindings", "keyboard shortcuts", "shortcut editor"] }
+    { "id": "keybindings", "name": "Keyboard shortcut management", "terms": ["keybind manager", "keybinding manager", "keybindings", "keyboard shortcuts", "shortcut editor"] },
+    { "id": "phone-integration", "name": "Phone integration", "terms": ["kde connect", "phone integration", "phone connect"] },
+    { "id": "peripheral-battery", "name": "Peripheral batteries", "terms": ["peripheral battery", "mouse battery", "headset battery", "keyboard battery"] }
   ],
   "decisions": [
     {
@@ -90,6 +92,18 @@
       "status": "accepted",
       "reason": "Accepted as Uptime Monitoring. The 2026-09-21 observation (https://github.com/BVisagie/omapicks/actions/runs/35568256005) confirmed the cluster against the 2026-09-14 baseline.",
       "repositories": ["github.com/daanlenaerts/omakuma", "github.com/p145085/omarchy-uptime-kuma", "github.com/scoop/omarchy-plugin-uptime-kuma"]
+    },
+    {
+      "id": "concept:phone-integration",
+      "status": "accepted",
+      "reason": "Phone pairing/status, messaging and file/clipboard exchange form a distinct task. Four upstream READMEs checked on 2026-09-21; phone battery is not computer battery health. Explicit editorial addition during the catalog task-fit audit; not automatic discovery promotion. See docs/classification.md.",
+      "repositories": ["github.com/jitendradara12/omaconnect", "github.com/krongggggg/omarchy-phone", "github.com/mintisan/omakdeconnect", "github.com/ekollof/omaconnect"]
+    },
+    {
+      "id": "concept:peripheral-battery",
+      "status": "accepted",
+      "reason": "Wireless peripheral battery monitoring is distinct from computer battery health and Bluetooth connection management. Three upstream READMEs checked on 2026-09-21. Explicit editorial addition during the catalog task-fit audit; not automatic discovery promotion. See docs/classification.md.",
+      "repositories": ["github.com/deoxizn/devicebattstats", "github.com/hlasensky/omarchy-peripheral-battery", "github.com/r-witz/omarchy-nothing-ear"]
     }
   ]
 }

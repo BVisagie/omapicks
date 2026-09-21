@@ -6,11 +6,11 @@
     "mail": ["email", "gmail", "outlook", "inbox"],
     "music": ["spotify", "mpris", "playerctl", "now playing"],
     "weather": ["forecast", "rain", "temperature"],
-    "battery": ["charging", "power profile"],
+    "battery": ["laptop battery", "charging", "power profile", "battery health"],
     "clipboard": ["copy paste", "paste history"],
     "launcher": ["app search", "open apps"],
-    "bluetooth": ["headphones", "earbuds", "pairing"],
-    "audio": ["volume", "microphone", "sound", "pipewire"],
+    "bluetooth": ["pairing", "connect devices", "adapter"],
+    "audio": ["volume", "microphone", "sound", "pipewire", "headphones", "earbuds", "bluetooth codecs"],
     "brightness": ["backlight", "night light", "blue light"],
     "display-monitors": ["external monitor", "multi monitor", "screen layout"],
     "notifications": ["do not disturb", "dnd", "mako"],
@@ -51,7 +51,9 @@
     "file-search": ["find files", "file finder", "full text search"],
     "feed-readers": ["rss", "atom", "news reader", "feeds"],
     "sports-scores": ["sports", "scores", "fixtures", "standings", "nfl", "premier league"],
-    "uptime-monitoring": ["uptime kuma", "website status", "endpoint health", "status page"]
+    "uptime-monitoring": ["uptime kuma", "website status", "endpoint health", "status page"],
+    "phone-integration": ["phone", "kde connect", "android", "iphone", "phone sync"],
+    "peripheral-battery": ["mouse battery", "keyboard battery", "headset battery", "earbud battery"]
   },
   "collections": [
     {
@@ -76,8 +78,8 @@
     ["themes-appearance", "wallpaper", "color-picker", "screensavers", "smart-home"],
     ["workspaces", "window-management", "launcher", "display-monitors", "screenshots", "keybinding-managers", "shortcut-guides", "keyboard-layouts", "file-search"],
     ["battery", "brightness", "keyboard-lighting", "lock-idle", "power-menu", "system-monitor", "system-updates", "display-monitors"],
-    ["network", "vpn", "firewall", "password-manager", "bluetooth"],
-    ["audio", "bluetooth", "music", "radio", "gaming", "mini-games"],
+    ["network", "vpn", "firewall", "password-manager", "bluetooth", "phone-integration"],
+    ["audio", "bluetooth", "music", "radio", "gaming", "mini-games", "peripheral-battery"],
     ["dev-ports", "containers", "github", "ai-assistant", "ai-api-usage", "plugin-manager", "uptime-monitoring"]
   ]
 }

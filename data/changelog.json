@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "week": "2026-W39",
-  "generatedAt": "2026-09-21T06:44:18.055Z",
+  "generatedAt": "2026-09-21T12:33:38.452Z",
   "changes": [
     {
       "typeId": "brightness",
@@ -137,6 +137,91 @@
       "current": {
         "id": "io.github.deunnis.lacquer",
         "name": "Omarchy Lacquer"
+      }
+    },
+    {
+      "typeId": "battery",
+      "typeName": "Battery",
+      "kind": "displaced",
+      "previous": {
+        "id": "omaconnect",
+        "name": "OmaConnect"
+      },
+      "current": {
+        "id": "crmne.omastats",
+        "name": "OmaStats"
+      }
+    },
+    {
+      "typeId": "clipboard",
+      "typeName": "Clipboard",
+      "kind": "displaced",
+      "previous": {
+        "id": "omaconnect",
+        "name": "OmaConnect"
+      },
+      "current": {
+        "id": "io.github.vuhuy.clipboard-manager",
+        "name": "Clipboard Manager"
+      }
+    },
+    {
+      "typeId": "bluetooth",
+      "typeName": "Bluetooth",
+      "kind": "displaced",
+      "previous": {
+        "id": "ssupt.audio-control",
+        "name": "Advanced Audio Control"
+      },
+      "current": {
+        "id": "ssupt.bluetooth-audio",
+        "name": "Advanced Bluetooth Audio"
+      }
+    },
+    {
+      "typeId": "brightness",
+      "typeName": "Brightness",
+      "kind": "displaced",
+      "previous": {
+        "id": "angeeeld.omaltbar",
+        "name": "Omaltbar"
+      },
+      "current": {
+        "id": "io.github.deunnis.lacquer",
+        "name": "Omarchy Lacquer"
+      }
+    },
+    {
+      "typeId": "workspaces",
+      "typeName": "Workspaces",
+      "kind": "displaced",
+      "previous": {
+        "id": "expose.window-overview",
+        "name": "Exposé"
+      },
+      "current": {
+        "id": "mirador",
+        "name": "Mirador"
+      }
+    },
+    {
+      "typeId": "phone-integration",
+      "typeName": "Phone Integration",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "omaconnect",
+        "name": "OmaConnect"
+      }
+    },
+    {
+      "typeId": "peripheral-battery",
+      "typeName": "Peripheral Batteries",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.r-witz.nothing-ear",
+        "name": "Nothing Audio"
       }
     }
   ]

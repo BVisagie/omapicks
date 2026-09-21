@@ -1,0 +1,1479 @@
+[
+  {
+    "plugin": {
+      "id": "omaconnect",
+      "name": "OmaConnect",
+      "description": "Seamless KDE Connect integration for Omarchy: Tailscale discovery, pairing, SMS, battery stats, clipboard sync, file sharing, remote commands, and media controls.",
+      "category": "Productivity",
+      "tags": [
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "phone-integration"
+    ],
+    "rejected": [
+      "battery",
+      "clipboard",
+      "vpn",
+      "bluetooth"
+    ],
+    "source": "https://github.com/jitendradara12/omaconnect"
+  },
+  {
+    "plugin": {
+      "id": "ssupt.audio-control",
+      "name": "Advanced Audio Control",
+      "description": "Advanced PipeWire and WirePlumber audio mixer for Omarchy: devices, multi-output groups, Bluetooth codecs, safety policies, microphone privacy, audio scenes, persistent routing rules, graph and service diagnostics, channel tests, support reports, and guarded recovery",
+      "category": "Hardware",
+      "tags": [
+        "bar",
+        "media",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "audio"
+    ],
+    "rejected": [
+      "bluetooth"
+    ],
+    "source": "https://github.com/ssupt/omarchy-audio-control"
+  },
+  {
+    "plugin": {
+      "id": "ssupt.bluetooth-audio",
+      "name": "Advanced Bluetooth Audio",
+      "description": "Adds Bluetooth device details, reliable controls, codec selection, and per-device connect-time audio policies",
+      "category": "Hardware",
+      "tags": [
+        "media",
+        "bar",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "bluetooth",
+      "audio"
+    ],
+    "rejected": [],
+    "source": "https://github.com/ssupt/omarchy-bluetooth-audio"
+  },
+  {
+    "plugin": {
+      "id": "bt.codecs",
+      "name": "Bluetooth codec",
+      "description": "Shift Bluetooth audio fidelity: pick the A2DP codec or headset profile for each connected Bluetooth audio device.",
+      "category": "Hardware",
+      "tags": [
+        "bar",
+        "media"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "audio"
+    ],
+    "rejected": [
+      "bluetooth"
+    ],
+    "source": "https://github.com/nightdevil00/bt.codecs"
+  },
+  {
+    "plugin": {
+      "id": "io.github.jhaney3.bluetooth-modes",
+      "name": "Bluetooth Audio Modes",
+      "description": "Switch Bluetooth music and microphone modes, choose headset codecs, and scan only when requested.",
+      "category": "Hardware",
+      "tags": [
+        "bar",
+        "media",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "bluetooth",
+      "audio"
+    ],
+    "rejected": [],
+    "source": "https://github.com/jhaney3/omarchy-bluetooth-modes"
+  },
+  {
+    "plugin": {
+      "id": "dev.deoxizn.devicebattstats",
+      "name": "Device Battery Stats",
+      "description": "Battery and charging status for Bluetooth and 2.4GHz wireless devices.",
+      "category": "System",
+      "tags": [
+        "bar"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "peripheral-battery"
+    ],
+    "rejected": [
+      "battery",
+      "bluetooth"
+    ],
+    "source": "https://github.com/Deoxizn/devicebattstats"
+  },
+  {
+    "plugin": {
+      "id": "hl.peripheral_battery",
+      "name": "Peripheral Battery Indicator",
+      "description": "Battery levels for wireless mouse, keyboard, headset & controllers in the bar, with a click-through popup and low-battery notifications.",
+      "category": "Hardware",
+      "tags": [
+        "power-management"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "peripheral-battery"
+    ],
+    "rejected": [
+      "battery",
+      "notifications"
+    ],
+    "source": "https://github.com/hlasensky/omarchy-peripheral-battery"
+  },
+  {
+    "plugin": {
+      "id": "io.github.r-witz.nothing-ear",
+      "name": "Nothing Audio",
+      "description": "Nothing earbuds and headphones in the Omarchy bar: battery, noise control, codec selection, and low-latency mode.",
+      "category": "Hardware",
+      "tags": [
+        "bar",
+        "media",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "audio",
+      "peripheral-battery"
+    ],
+    "rejected": [
+      "battery",
+      "network"
+    ],
+    "source": "https://github.com/r-witz/omarchy-nothing-ear"
+  },
+  {
+    "plugin": {
+      "id": "patcastle.power",
+      "name": "Power + Battery Health",
+      "description": "The Omarchy power widget with battery charge protection.",
+      "category": "Hardware",
+      "tags": [
+        "power-management",
+        "quickshell",
+        "bar"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "battery"
+    ],
+    "rejected": [],
+    "source": "https://github.com/patcastle/omarchy-battery-health"
+  },
+  {
+    "plugin": {
+      "id": "io.github.diegopluna.argus",
+      "name": "Argus",
+      "description": "CPU, RAM, GPU, disk, network, battery, power, and temperature stats in the bar, with a full system panel: 2m/1h/24h history that survives restarts (the flight recorder), per-metric opt-in alerts with context snapshots, a filterable sortable process table, per-process GPU usage, drive SMART health, an alert hook for automation, and a GAME tab that configures your MangoHud in-game overlay live.",
+      "category": "System",
+      "tags": [
+        "bar",
+        "quickshell",
+        "system"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "battery",
+      "network",
+      "system-monitor"
+    ],
+    "rejected": [],
+    "source": "https://github.com/diegopluna/omarchy-argus"
+  },
+  {
+    "plugin": {
+      "id": "markbusking.pomodoro",
+      "name": "Pomodoro",
+      "description": "Pomodoro focus timer with work/break phases, progress, and desktop notifications",
+      "category": "Productivity",
+      "tags": [
+        "bar",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "clock-timer",
+      "focus"
+    ],
+    "rejected": [
+      "notifications"
+    ],
+    "source": "https://github.com/markbus-ai/omarchy-pomodoro"
+  },
+  {
+    "plugin": {
+      "id": "jankeesvw.notification-center",
+      "name": "Notification Center",
+      "description": "Every notification you were sent, kept, and readable again",
+      "category": "Desktop",
+      "tags": [
+        "bar",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "notifications"
+    ],
+    "rejected": [],
+    "source": "https://github.com/jankeesvw/omarchy-notification-center"
+  },
+  {
+    "plugin": {
+      "id": "bottelet.slack",
+      "name": "Omarchy Slack",
+      "description": "Slack as a fast, themed Omarchy app: sign in with your browser, read and reply to DMs and channels, toggle presence and Do Not Disturb — with a mention badge in your bar. No Chromium, no half-gigabyte client.",
+      "category": "Productivity",
+      "tags": [
+        "bar",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [],
+    "rejected": [
+      "notifications"
+    ],
+    "source": "https://github.com/Bottelet/omarchy-slack"
+  },
+  {
+    "plugin": {
+      "id": "halmylyseas.github-status",
+      "name": "GitHub Status",
+      "description": "Not a notification inbox -- a status-bar dashboard for a solo maintainer's own repos: repository status, own open PRs with CI/review state, review requests, alongside notifications. Powered entirely by your authenticated gh CLI.",
+      "category": "Developer Tools",
+      "tags": [
+        "bar",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "github"
+    ],
+    "rejected": [
+      "notifications"
+    ],
+    "source": "https://github.com/HalmyLyseas/omarchy-github-status"
+  },
+  {
+    "plugin": {
+      "id": "omakdeconnect",
+      "name": "OmaKDEConnect",
+      "description": "KDE Connect beyond the LAN with Tailscale peer discovery, stable-address pairing, clipboard sharing, and file transfer in the Omarchy bar.",
+      "category": "System",
+      "tags": [
+        "bar",
+        "quickshell",
+        "system"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "phone-integration"
+    ],
+    "rejected": [
+      "vpn",
+      "clipboard",
+      "battery"
+    ],
+    "source": "https://github.com/mintisan/OmaKDEConnect"
+  },
+  {
+    "plugin": {
+      "id": "io.github.vuhuy.clipboard-manager",
+      "name": "Clipboard Manager",
+      "description": "A native Omarchy bar panel for browsing and reusing clipboard history.",
+      "category": "Productivity",
+      "tags": [
+        "bar",
+        "workspaces"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "clipboard"
+    ],
+    "rejected": [
+      "workspaces"
+    ],
+    "source": "https://github.com/huyhuyvu01/omarchy-clipboard"
+  },
+  {
+    "plugin": {
+      "id": "io.github.rawritude.aria2",
+      "name": "Downloads",
+      "description": "aria2 download queue in the Omarchy bar: live speed, active and waiting transfers, pause/resume, and quick-add from the clipboard. Optionally starts the daemon on demand and lets it stop again once the queue drains.",
+      "category": "Productivity",
+      "tags": [
+        "bar",
+        "quickshell",
+        "system"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [],
+    "rejected": [
+      "clipboard"
+    ],
+    "source": "https://github.com/rawritude/omarchy-aria2"
+  },
+  {
+    "plugin": {
+      "id": "vandaimer.text-polish",
+      "name": "Text Polish",
+      "description": "Correct and refine clipboard text with Omarchy's default agent",
+      "category": "Productivity",
+      "tags": [
+        "ai"
+      ],
+      "kind": "Overlay"
+    },
+    "accepted": [],
+    "rejected": [
+      "clipboard"
+    ],
+    "source": "https://github.com/vandaimer/omarchy-text-polish"
+  },
+  {
+    "plugin": {
+      "id": "io.github.majesticio.clipboard-button",
+      "name": "Clipboard Button",
+      "description": "Open Omarchy's built-in clipboard history from a theme-aware bar button.",
+      "category": "Widgets",
+      "tags": [
+        "bar",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "clipboard"
+    ],
+    "rejected": [],
+    "source": "https://github.com/majesticio/omarchy-clipboard-button"
+  },
+  {
+    "plugin": {
+      "id": "io.github.shirak-semonian.myip",
+      "name": "MyIP",
+      "description": "Your public IP at a glance: shows the live public IPv4 with its country flag in the Omarchy bar, with a calm offline state and a details panel with location, ISP/AS, address history and copy. Quietly warns once when your public IP changes (VPN-leak alert). Quiet, configurable polling (default 60 s), no key, no account.",
+      "category": "System",
+      "tags": [
+        "bar",
+        "security",
+        "system"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "network"
+    ],
+    "rejected": [
+      "vpn"
+    ],
+    "source": "https://github.com/Shirak-Semonian/myip-omarchy-plugin"
+  },
+  {
+    "plugin": {
+      "id": "nosignal.network-scan",
+      "name": "My Network",
+      "description": "Scans the local subnet and identifies every device on it: name, vendor, model and role inferred from mDNS, MAC vendor and open ports, plus a Tailscale peer list. Summon with: omarchy-shell shell toggle nosignal.network-scan",
+      "category": "System",
+      "tags": [
+        "bar"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "network"
+    ],
+    "rejected": [
+      "vpn"
+    ],
+    "source": "https://github.com/28allday/omarchy-network-scan"
+  },
+  {
+    "plugin": {
+      "id": "glafeara.wireguard",
+      "name": "Omawire",
+      "description": "Tunnel status, transactional switching, import, rename, QR export, live traffic and drop notifications in the Omarchy bar. Unofficial third-party widget for WireGuard tunnels; not affiliated with the WireGuard project.",
+      "category": "System",
+      "tags": [
+        "system",
+        "bar",
+        "security"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "vpn"
+    ],
+    "rejected": [
+      "notifications"
+    ],
+    "source": "https://github.com/glafeara/omarchy-wireguard"
+  },
+  {
+    "plugin": {
+      "id": "meviusisback.agent-orchestr",
+      "name": "Agent Orchestrator",
+      "description": "Live monitor and workspace orchestrator for AI coding agents (Herdr, OMP, Hermes, Claude, Codex, Grok) in the Omarchy bar.",
+      "category": "Widgets",
+      "tags": [
+        "ai",
+        "bar",
+        "workspaces"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "ai-assistant"
+    ],
+    "rejected": [],
+    "source": "https://github.com/meviusisback/agent-orchestr"
+  },
+  {
+    "plugin": {
+      "id": "sid.sessions",
+      "name": "Session Browser",
+      "description": "Browse previous sessions from every AI coding agent on this machine (Claude Code, Codex, opencode, Copilot, Pi, Gemini, Grok) and resume any of them in a terminal.",
+      "category": "Developer Tools",
+      "tags": [
+        "ai",
+        "bar",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "ai-assistant"
+    ],
+    "rejected": [],
+    "source": "https://github.com/Sudhanshugtm/omarchy-session-browser"
+  },
+  {
+    "plugin": {
+      "id": "robzolkos.agent-usage",
+      "name": "Agent Usage",
+      "description": "Weekly Claude and Codex usage, reset countdowns, and prorated pace in the Omarchy bar.",
+      "category": "Widgets",
+      "tags": [
+        "ai",
+        "bar",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "ai-api-usage"
+    ],
+    "rejected": [
+      "ai-assistant"
+    ],
+    "source": "https://github.com/robzolkos/omarchy-agent-usage"
+  },
+  {
+    "plugin": {
+      "id": "data-goblin.fileblade-memory",
+      "name": "FileBlade Agent Memory",
+      "description": "Browse the instructions, rules, and durable auto-memory that coding agents load, and link a file to more agents, in the FileBlade blades.",
+      "category": "Developer Tools",
+      "tags": [
+        "ai",
+        "hyprland",
+        "quickshell"
+      ],
+      "kind": "Service"
+    },
+    "accepted": [],
+    "rejected": [
+      "system-monitor"
+    ],
+    "source": "https://github.com/data-goblin/fileblade-memory"
+  },
+  {
+    "plugin": {
+      "id": "org.hyphaeresearch.memory",
+      "name": "Hyphae Memory",
+      "description": "A local memory panel using a dedicated, restricted Hyphae service connection.",
+      "category": "Developer Tools",
+      "tags": [
+        "ai",
+        "bar",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [],
+    "rejected": [
+      "system-monitor"
+    ],
+    "source": "https://github.com/Hyphae-Research-Foundation/hyphae-omarchy"
+  },
+  {
+    "plugin": {
+      "id": "runway.forecast",
+      "name": "Runway",
+      "description": "Checking-account cash forecast for the Omarchy desktop.",
+      "category": "Productivity",
+      "tags": [
+        "bar"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [],
+    "rejected": [
+      "weather"
+    ],
+    "source": "https://github.com/maiosx/Runway"
+  },
+  {
+    "plugin": {
+      "id": "com.github.linuxgameruk.omafinsight",
+      "name": "OmaFinSight",
+      "description": "OmaFinSight — your FinSight balance forecast as a native Omarchy bar widget + desktop app: expected balance today, month-end and year-end across your accounts, per-account list, low-balance warnings, privacy-eye quick hide, and a full native charts app window. Reads from your self-hosted FinSight instance.",
+      "category": "System",
+      "tags": [
+        "bar",
+        "quickshell",
+        "system"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [],
+    "rejected": [
+      "weather"
+    ],
+    "source": "https://github.com/LinuxGamerUK/omafinsight"
+  },
+  {
+    "plugin": {
+      "id": "nipe.shader-wallpaper",
+      "name": "Shader Wallpaper",
+      "description": "Animated, theme-colored and music-reactive GLSL wallpaper: aurora, thunderstorm, embers, nebula, ink and live weather, built around an icon of your choice. Replaces the stock background.",
+      "category": "Appearance",
+      "tags": [
+        "quickshell"
+      ],
+      "kind": "Service"
+    },
+    "accepted": [
+      "wallpaper"
+    ],
+    "rejected": [
+      "weather",
+      "music"
+    ],
+    "source": "https://github.com/Nipeb/omarchy-shader-wallpaper"
+  },
+  {
+    "plugin": {
+      "id": "io.github.huligabuliga.omasticky",
+      "name": "Omasticky",
+      "description": "Markdown sticky notes pinned to the desktop.",
+      "category": "Productivity",
+      "tags": [
+        "bar",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "notes"
+    ],
+    "rejected": [],
+    "source": "https://github.com/huligabuliga/Omasticky"
+  },
+  {
+    "plugin": {
+      "id": "io.github.weedwhitesandwine.omascratch",
+      "name": "Omascratch",
+      "description": "A quick-note scratchpad that docks to a screen corner. Toggle with a keybind or the bar icon; font size, corner, and the keybind itself are all configurable from an in-panel settings view. Summon with: omarchy-shell shell toggle io.github.weedwhitesandwine.omascratch",
+      "category": "Productivity",
+      "tags": [
+        "bar",
+        "hyprland",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "notes"
+    ],
+    "rejected": [],
+    "source": "https://github.com/weedwhitesandwine/omascratch"
+  },
+  {
+    "plugin": {
+      "id": "tiertek.scratchpad-deck",
+      "name": "Scratchpad Deck",
+      "description": "A visual scratchpad switcher for the Omarchy bar. Shows live previews of the windows hiding in your scratchpads and gives each one its own hotkey.",
+      "category": "Desktop",
+      "tags": [
+        "hyprland",
+        "bar",
+        "workspaces"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [],
+    "rejected": [
+      "notes"
+    ],
+    "source": "https://github.com/TIerTek/omarchy-scratchpad-deck"
+  },
+  {
+    "plugin": {
+      "id": "io.github.jondkinney.hyprpin",
+      "name": "Hyprpin",
+      "description": "Keeps chosen windows visible when you switch away from their workspace: moved onto a display of their own, parked in a corner, or tucked into the scratchpad. Compositor-level picture-in-picture for video calls.",
+      "category": "Desktop",
+      "tags": [
+        "hyprland",
+        "quickshell",
+        "workspaces"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [],
+    "rejected": [
+      "notes"
+    ],
+    "source": "https://github.com/jondkinney/hyprpin"
+  },
+  {
+    "plugin": {
+      "id": "reidenxerx.barber",
+      "name": "Barber",
+      "description": "Edit the Omarchy bar right on the bar: take widgets off, add them, move them and set them up where they are, with undo. Save layouts, and let the bar change them by itself when you dock, run on battery, go fullscreen or switch apps.",
+      "category": "Appearance",
+      "tags": [
+        "bar",
+        "quickshell",
+        "hyprland"
+      ],
+      "kind": "Overlay"
+    },
+    "accepted": [],
+    "rejected": [
+      "battery"
+    ],
+    "source": "https://github.com/ReidenXerx/omarchy-barber"
+  },
+  {
+    "plugin": {
+      "id": "io.github.n1byn1kt.garmin",
+      "name": "Garmin",
+      "description": "Your Garmin day in the bar: a configurable metric chip (Body Battery, steps, sleep, or readiness) and a panel of customizable cards — day curve, sleep, steps, readiness, HRV, and more.",
+      "category": "Widgets",
+      "tags": [
+        "bar",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [],
+    "rejected": [
+      "battery"
+    ],
+    "source": "https://github.com/n1byn1kt/omarchy-garmin"
+  },
+  {
+    "plugin": {
+      "id": "angeeeld.omaltbar",
+      "name": "Omaltbar",
+      "description": "Notch-shaped replacement for the Omarchy bar: it hosts your bar widgets and routes their clicks into Dynamic Island views for media, notifications, volume, brightness, weather, screen recording, and quick settings",
+      "category": "Appearance",
+      "tags": [
+        "bar"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "brightness",
+      "audio",
+      "bluetooth",
+      "network",
+      "notifications"
+    ],
+    "rejected": [],
+    "source": "https://github.com/AngeeelD/omaltbar"
+  },
+  {
+    "plugin": {
+      "id": "anothadev.eglo-light",
+      "name": "Eglo Light",
+      "description": "Unofficial plugin to control Eglo Connect / AwoX Bluetooth-mesh lamps from the bar: power, brightness, white warmth and colours. No app, no cloud, no hub.",
+      "category": "Hardware",
+      "tags": [
+        "bar",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "smart-home"
+    ],
+    "rejected": [
+      "brightness",
+      "bluetooth"
+    ],
+    "source": "https://github.com/anothaDev/omarchy-eglo-light"
+  },
+  {
+    "plugin": {
+      "id": "io.github.edmooredop.omakeylight",
+      "name": "omakeylight",
+      "description": "Turns your monitor into a key light for video calls. Paints a warm-white layer above the wallpaper but below every window, so browsers and terminals stay usable on top of it. Adjustable colour temperature, brightness, and screen coverage, plus a directional falloff that fades the light across the screen to shape your face the way a real light source does.",
+      "category": "Widgets",
+      "tags": [
+        "quickshell",
+        "bar",
+        "hyprland"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [],
+    "rejected": [
+      "smart-home"
+    ],
+    "source": "https://github.com/edmooredop/omakeylight"
+  },
+  {
+    "plugin": {
+      "id": "io.github.randazraik.xray",
+      "name": "Omarchy X-Ray",
+      "description": "Trace any window, process, service, container, port, file, or device to the process behind it, how it started, and what it is using.",
+      "category": "System",
+      "tags": [
+        "bar",
+        "system",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "system-monitor",
+      "containers"
+    ],
+    "rejected": [],
+    "source": "https://github.com/RandaZraik/omarchy-xray"
+  },
+  {
+    "plugin": {
+      "id": "io.github.rizmi.services",
+      "name": "Services Manager",
+      "description": "Manage and toggle background system services (Docker, PostgreSQL, UFW) on demand from the Omarchy status bar.",
+      "category": "Widgets",
+      "tags": [
+        "system"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [],
+    "rejected": [
+      "containers",
+      "firewall"
+    ],
+    "source": "https://github.com/Rizmi/omarchy-services-plugin"
+  },
+  {
+    "plugin": {
+      "id": "expose.window-overview",
+      "name": "Exposé",
+      "description": "macOS-style Exposé for Omarchy: one key or a hot corner shows every open window as a live preview. Type to search, press Space to Quick Look, press Enter to launch.",
+      "category": "Desktop",
+      "tags": [
+        "hyprland",
+        "quickshell",
+        "workspaces"
+      ],
+      "kind": "Overlay"
+    },
+    "accepted": [
+      "window-management"
+    ],
+    "rejected": [
+      "workspaces"
+    ],
+    "source": "https://github.com/kristofferR/omarchy-expose"
+  },
+  {
+    "plugin": {
+      "id": "lobo.omaspaces",
+      "name": "Omaspaces",
+      "description": "Configurable Hyprland workspace indicators with per-app window icons, adjustable layout, and an in-widget editor for your own icon rules.",
+      "category": "Widgets",
+      "tags": [
+        "workspaces",
+        "hyprland"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "workspaces"
+    ],
+    "rejected": [],
+    "source": "https://github.com/DanielLob-o/Omaspaces"
+  },
+  {
+    "plugin": {
+      "id": "io.github.gardnmi.boomux",
+      "name": "Boomux",
+      "description": "Open a sliding Boomux Workspace, Agent, and Node pane from the Omarchy bar.",
+      "category": "Developer Tools",
+      "tags": [
+        "ai",
+        "bar",
+        "workspaces"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [],
+    "rejected": [
+      "workspaces"
+    ],
+    "source": "https://github.com/gardnmi/omarchy-boomux"
+  },
+  {
+    "plugin": {
+      "id": "io.github.lateralcoders.workspace-thumbs",
+      "name": "Workspace Thumbs",
+      "description": "Bar workspace switcher: screenshot thumbs with number badges, optional app icons, and a hover preview.",
+      "category": "Widgets",
+      "tags": [
+        "bar",
+        "hyprland",
+        "workspaces"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "workspaces"
+    ],
+    "rejected": [
+      "screenshots"
+    ],
+    "source": "https://github.com/lateralcoders/omarchy-workspace-thumbs"
+  },
+  {
+    "plugin": {
+      "id": "quakattro",
+      "name": "Quakattro",
+      "description": "A raycaster for Omarchy Quattro. The walls are tiled with your window manager's dwindle layout, the enemies are merchants of complexity, and the holy grail is Linux on the desktop.",
+      "category": "Other",
+      "tags": [
+        "games"
+      ],
+      "kind": "Overlay"
+    },
+    "accepted": [],
+    "rejected": [
+      "window-management"
+    ],
+    "source": "https://github.com/mic-kul/quakattro"
+  },
+  {
+    "plugin": {
+      "id": "io.github.herr-brandt.tour",
+      "name": "Tour",
+      "description": "Interactive desktop tour for Omarchy. Learn and understand the keyboard, keybindings, shortcuts, tiling windows, workspaces, menu, and bar. Optional window playground to practice tiling with demo windows. Getting-started tutorial and onboarding guide for beginners. Start it by clicking the button \"Tour\" in the bar.",
+      "category": "Desktop",
+      "tags": [
+        "bar",
+        "hyprland",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [],
+    "rejected": [
+      "window-management"
+    ],
+    "source": "https://github.com/herr-brandt/omarchy-tour"
+  },
+  {
+    "plugin": {
+      "id": "dizziee.auto-wallpaper",
+      "name": "Auto Wallpaper",
+      "description": "Preview the active theme's wallpapers and automatically cycle or shuffle them on a schedule.",
+      "category": "Appearance",
+      "tags": [
+        "hyprland",
+        "launcher",
+        "bar"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "wallpaper"
+    ],
+    "rejected": [
+      "themes-appearance"
+    ],
+    "source": "https://github.com/JJDizz1L/dizziee.auto-wallpaper"
+  },
+  {
+    "plugin": {
+      "id": "io.github.ef-code.wallpaper-explorer",
+      "name": "Wallpaper Explorer",
+      "description": "Browse and apply wallpapers from any installed Omarchy theme without changing theme colors.",
+      "category": "Appearance",
+      "tags": [
+        "quickshell",
+        "bar"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "wallpaper"
+    ],
+    "rejected": [
+      "themes-appearance"
+    ],
+    "source": "https://github.com/EF-Code/omarchy-wallpaper-explorer"
+  },
+  {
+    "plugin": {
+      "id": "io.github.dkgamer02ai.wallpaper-engine",
+      "name": "Wallpaper Engine",
+      "description": "Use Steam Wallpaper Engine wallpapers as live Omarchy wallpapers. Adds menu > Style > Wallpaper Engine, which opens the thumbnail picker.",
+      "category": "Appearance",
+      "tags": [
+        "media"
+      ],
+      "kind": "Overlay"
+    },
+    "accepted": [
+      "wallpaper"
+    ],
+    "rejected": [
+      "gaming"
+    ],
+    "source": "https://github.com/dkgamer02ai/omarchy-wallpaper-engine"
+  },
+  {
+    "plugin": {
+      "id": "themed-tray",
+      "name": "Themed Tray",
+      "description": "Recolors every system tray icon to match the active Omarchy theme, including apps (like Steam) that ship a fixed-color icon instead of a proper freedesktop \"-symbolic\" one.",
+      "category": "Appearance",
+      "tags": [
+        "bar",
+        "system"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [],
+    "rejected": [
+      "gaming"
+    ],
+    "source": "https://github.com/lnewhart/themed_tray_omarchy"
+  },
+  {
+    "plugin": {
+      "id": "silvaio.gamemode",
+      "name": "Game Mode Switcher",
+      "description": "One-click Game Mode for Omarchy: lock compositor shortcuts, optimize Hyprland, silence the desktop, and optionally launch Steam in Gamescope / Big Picture.",
+      "category": "Desktop",
+      "tags": [
+        "bar",
+        "hyprland",
+        "power-management"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "gaming"
+    ],
+    "rejected": [],
+    "source": "https://github.com/silvaio/gamemode-switcher"
+  },
+  {
+    "plugin": {
+      "id": "bjcatar.garden",
+      "name": "Garden",
+      "description": "A private year of coding on this Omarchy machine. Squares are half-hours in folders you watch — not GitHub.com, not token usage.",
+      "category": "Widgets",
+      "tags": [
+        "bar",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [],
+    "rejected": [
+      "ai-api-usage"
+    ],
+    "source": "https://github.com/bjcatar/garden"
+  },
+  {
+    "plugin": {
+      "id": "io.github.linuxgameruk.ollama-cloud-api",
+      "name": "Ollama Cloud Usage (API)",
+      "description": "Adds Ollama Cloud to the stock AI toolbar widget using your personal Ollama API key — no browser session needed.",
+      "category": "Developer Tools",
+      "tags": [
+        "ai",
+        "quickshell"
+      ],
+      "kind": "Service"
+    },
+    "accepted": [
+      "ai-api-usage"
+    ],
+    "rejected": [
+      "ai-assistant"
+    ],
+    "source": "https://github.com/LinuxGamerUK/omarchy-ollama-cloud-api"
+  },
+  {
+    "plugin": {
+      "id": "io.github.mshareef-git.omavibes",
+      "name": "OmaVibes",
+      "description": "Cozy typing sound effects with over 40+ sounds, gamified typing stats with ranks, detailed analytics, random playback, and volume control for the Omarchy bar.",
+      "category": "Desktop",
+      "tags": [
+        "bar",
+        "quickshell",
+        "media"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [],
+    "rejected": [
+      "audio"
+    ],
+    "source": "https://github.com/mshareef-git/omavibes"
+  },
+  {
+    "plugin": {
+      "id": "archer-nemo.screen-sharing",
+      "name": "Screen Sharing Indicator",
+      "description": "Pulsing red dot in the bar when the screen is being shared via PipeWire (Zoom, Teams, Discord, browser tabs, etc.).",
+      "category": "Widgets",
+      "tags": [
+        "bar",
+        "media"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [],
+    "rejected": [
+      "audio"
+    ],
+    "source": "https://github.com/Nirmal314/omarchy-screen-sharing-indicator"
+  },
+  {
+    "plugin": {
+      "id": "quazix.audio-resolver",
+      "name": "Audio Resolver",
+      "description": "Prepare camera footage for DaVinci Resolve on Linux by converting AAC audio to PCM in Resolve-ready .mov files without re-encoding video.",
+      "category": "Productivity",
+      "tags": [
+        "media",
+        "quickshell",
+        "system"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [],
+    "rejected": [
+      "audio"
+    ],
+    "source": "https://github.com/techwhispers/omarchy-audio-resolver"
+  },
+  {
+    "plugin": {
+      "id": "abdullahmansoor.omapodman",
+      "name": "OmaPodman",
+      "description": "Podman in the Omarchy bar: containers, images, volumes and networks on four tabs. Live CPU and memory, start/stop/restart, logs and a shell without a terminal, and one keystroke to reclaim whatever nothing is using.",
+      "category": "Developer Tools",
+      "tags": [
+        "bar",
+        "system"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "containers",
+      "system-monitor"
+    ],
+    "rejected": [],
+    "source": "https://github.com/i228808/omapodman"
+  },
+  {
+    "plugin": {
+      "id": "analytics-omarchy",
+      "name": "Analytics",
+      "description": "CPU and RAM analytics widget for the Omarchy bar",
+      "category": "Developer Tools",
+      "tags": [
+        "bar",
+        "system"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "system-monitor"
+    ],
+    "rejected": [],
+    "source": "https://github.com/Liran-shternberg/analytics-omarchy"
+  },
+  {
+    "plugin": {
+      "id": "gigasolo.omavoice",
+      "name": "Omavoice",
+      "description": "A virtual microphone for Zoom, Meet, and OBS. Meeting / Podcast / Clean, Voice looks, and an RNNoise or DeepFilterNet picker.",
+      "category": "Hardware",
+      "tags": [
+        "bar",
+        "quickshell",
+        "media"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "audio"
+    ],
+    "rejected": [],
+    "source": "https://github.com/gigasolo/omavoice"
+  },
+  {
+    "plugin": {
+      "id": "io.github.codemonkey76.micfx",
+      "name": "Mic FX",
+      "description": "Noise suppression, gate, tone EQ, compressor and limiter for your microphone, in every app",
+      "category": "Widgets",
+      "tags": [
+        "bar",
+        "quickshell",
+        "media"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "audio"
+    ],
+    "rejected": [],
+    "source": "https://github.com/codemonkey76/omarchy-micfx"
+  },
+  {
+    "plugin": {
+      "id": "omarchy-multi-output",
+      "name": "Multi-output",
+      "description": "Play the same audio on two or more outputs at once, such as two AirPods.",
+      "category": "Hardware",
+      "tags": [
+        "bar",
+        "media",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "audio"
+    ],
+    "rejected": [],
+    "source": "https://github.com/MADS0LADEN/omarchy-multi-output"
+  },
+  {
+    "plugin": {
+      "id": "io.github.imargorsi.hotspot",
+      "name": "Internet Hotspot",
+      "description": "Share your Ethernet internet over Wi-Fi with one click. Editable SSID/password and a live connected-devices list.",
+      "category": "Desktop",
+      "tags": [
+        "bar",
+        "system",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "network"
+    ],
+    "rejected": [],
+    "source": "https://github.com/imargorsi/omarchy-hotspot"
+  },
+  {
+    "plugin": {
+      "id": "io.github.i12bp8.netneighbors",
+      "name": "NetNeighbors",
+      "description": "Fing-style Wi-Fi radar for the bar: one click shows every device on your network — vendor, hostname, MAC — and flags new ones that appear.",
+      "category": "Developer Tools",
+      "tags": [
+        "bar",
+        "security"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "network"
+    ],
+    "rejected": [],
+    "source": "https://github.com/i12bp8/omarchy-netneighbours"
+  },
+  {
+    "plugin": {
+      "id": "io.github.dupontbertrand.omajabra",
+      "name": "Omajabra",
+      "description": "Jabra battery, connection, and audio controls in the Omarchy bar.",
+      "category": "Hardware",
+      "tags": [
+        "bar",
+        "quickshell",
+        "media"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "audio",
+      "peripheral-battery"
+    ],
+    "rejected": [],
+    "source": "https://github.com/dupontbertrand/omajabra"
+  },
+  {
+    "plugin": {
+      "id": "robertlindomar.omarchy-ptbr.audio",
+      "name": "Áudio",
+      "description": "Controle de volume, saída e mixer por aplicativo",
+      "category": "Hardware",
+      "tags": [
+        "media",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "audio"
+    ],
+    "rejected": [],
+    "source": "https://github.com/robertlindomar/omarchy-ptbr-audio"
+  },
+  {
+    "plugin": {
+      "id": "robertlindomar.omarchy-ptbr.network",
+      "name": "Minha rede",
+      "description": "Lista Wi-Fi e estado da conexão",
+      "category": "System",
+      "tags": [
+        "system",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "network"
+    ],
+    "rejected": [],
+    "source": "https://github.com/robertlindomar/omarchy-ptbr-network"
+  },
+  {
+    "plugin": {
+      "id": "nenadjokic.surfshark",
+      "name": "Surfshark",
+      "description": "Surfshark VPN in the Omarchy bar: on/off, fastest, nearest, same country, a pinned US exit, a random country, recents and a search across every location. Drives the official client's own daemon, so the app and the bar never disagree.",
+      "category": "System",
+      "tags": [
+        "bar",
+        "security",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "vpn"
+    ],
+    "rejected": [],
+    "source": "https://github.com/nenadjokic/omarchy-surfshark"
+  },
+  {
+    "plugin": {
+      "id": "io.github.nimbleaininja.aegis",
+      "name": "Aegis",
+      "description": "AdGuard VPN in the Omarchy bar: one-click locations on a dot-matrix world map, with a live arc to your exit city.",
+      "category": "System",
+      "tags": [
+        "bar",
+        "quickshell",
+        "security"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "vpn"
+    ],
+    "rejected": [],
+    "source": "https://github.com/NimbleAINinja/omarchy-aegis"
+  },
+  {
+    "plugin": {
+      "id": "omalogimouse",
+      "name": "Omalogimouse",
+      "description": "Omalogimouse: battery, DPI, MagSpeed, acceleration, and button actions for Logitech MX Master mice on the Omarchy bar.",
+      "category": "Hardware",
+      "tags": [
+        "bar",
+        "hyprland",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "peripheral-battery"
+    ],
+    "rejected": [
+      "battery"
+    ],
+    "source": "https://github.com/Ormus-Solutions/omalogimouse"
+  },
+  {
+    "plugin": {
+      "id": "io.github.davidkim-sometimes-davekim.capture",
+      "name": "Capture",
+      "description": "Clipboard-aware quick capture into an Obsidian vault — one analysis-ready note per capture, with YAML frontmatter and a reused tag vocabulary",
+      "category": "Productivity",
+      "tags": [
+        "quickshell",
+        "hyprland"
+      ],
+      "kind": "Overlay"
+    },
+    "accepted": [
+      "notes"
+    ],
+    "rejected": [
+      "clipboard"
+    ],
+    "source": "https://github.com/davidkim-sometimes-davekim/omarchy-capture"
+  },
+  {
+    "plugin": {
+      "id": "io.github.3eye3y3.capture-board",
+      "name": "Capture Board",
+      "description": "One-click region screenshots with secondary capture and clipboard tools.",
+      "category": "Productivity",
+      "tags": [
+        "bar",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "screenshots"
+    ],
+    "rejected": [],
+    "source": "https://github.com/3EYE3Y3/omarchy-capture-board"
+  },
+  {
+    "plugin": {
+      "id": "io.github.depodra.omarchy-immich-background",
+      "name": "Immich Background",
+      "description": "Rotates the desktop background through photos from your Immich server: albums, favourites, loose photos and shared links, narrowed by people, tags, rating, date or orientation. Crossfade, slide, wipe or zoom between them, one photo per screen if you like, with an optional photo-details overlay, a laptop-friendly power profile and an offline cache.",
+      "category": "Appearance",
+      "tags": [
+        "hyprland"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "wallpaper"
+    ],
+    "rejected": [
+      "battery"
+    ],
+    "source": "https://github.com/Depodra/omarchy-immich-background"
+  },
+  {
+    "plugin": {
+      "id": "io.github.maajix.spotlight",
+      "name": "Spotlight",
+      "description": "Unified Spotlight search for apps, windows, files, actions, clipboard, natural-language tools and the web",
+      "category": "Productivity",
+      "tags": [
+        "launcher",
+        "quickshell",
+        "hyprland"
+      ],
+      "kind": "Overlay"
+    },
+    "accepted": [
+      "launcher"
+    ],
+    "rejected": [],
+    "source": "https://github.com/maajix/omarchy-spotlight"
+  },
+  {
+    "plugin": {
+      "id": "io.github.krongggggg.phone",
+      "name": "Phone",
+      "description": "KDE Connect phone status: battery, pairing, and file share.",
+      "category": "Hardware",
+      "tags": [
+        "bar",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "phone-integration"
+    ],
+    "rejected": [
+      "battery"
+    ],
+    "source": "https://github.com/krongggggg/omarchy-phone"
+  },
+  {
+    "plugin": {
+      "id": "io.github.deunnis.lacquer",
+      "name": "Omarchy Lacquer",
+      "description": "One app for how your Omarchy desktop looks: themes, wallpapers, theme shuffle and aether generation; fonts, GTK, icons, cursor and nightlight; windows, animations and curves; shell style, bar and menu look; lock, boot and screensaver; terminals, btop and prompt; and every plugin's settings. Live, through the tools that already own each setting.",
+      "category": "Appearance",
+      "tags": [
+        "hyprland",
+        "quickshell"
+      ],
+      "kind": "Panel"
+    },
+    "accepted": [
+      "screensavers",
+      "themes-appearance",
+      "wallpaper",
+      "brightness",
+      "lock-idle"
+    ],
+    "rejected": [
+      "system-monitor"
+    ],
+    "source": "https://github.com/Deunnis/omarchy-lacquer"
+  }
+]

@@ -1,4 +1,5 @@
 const DAY_MS = 86_400_000;
+export const CLASSIFICATION_VERSION = 2;
 
 export const METHODOLOGY = Object.freeze({
   version: "1.0.0",
@@ -49,52 +50,71 @@ export function prepareTaxonomy(taxonomy) {
     return {
       ...type,
       includePatterns: compilePatterns(type.include, `${label}.include`),
-      excludePatterns: (type.exclude ?? []).map((pattern, patternIndex) => {
-        try {
-          return new RegExp(pattern, "iu");
-        } catch (error) {
-          throw new Error(`${label}.exclude[${patternIndex}] is invalid: ${error.message}`);
-        }
-      })
+      namePatterns: type.nameInclude == null ? [] : compilePatterns(type.nameInclude, `${label}.nameInclude`),
+      excludePatterns: type.exclude == null || (Array.isArray(type.exclude) && type.exclude.length === 0)
+        ? [] : compilePatterns(type.exclude, `${label}.exclude`)
     };
   });
 
   const overrides = taxonomy.overrides ?? {};
-  for (const group of ["include", "exclude"]) {
-    assert(overrides[group] == null || typeof overrides[group] === "object", `overrides.${group} must be an object`);
+  for (const group of ["include", "exclude", "review"]) {
+    assert(overrides[group] == null || (typeof overrides[group] === "object" && !Array.isArray(overrides[group])), `overrides.${group} must be an object`);
     for (const [pluginId, typeIds] of Object.entries(overrides[group] ?? {})) {
       assert(pluginId.length > 0 && Array.isArray(typeIds), `Invalid overrides.${group} entry`);
       for (const typeId of typeIds) assert(ids.has(typeId), `Unknown override type: ${typeId}`);
     }
   }
-  return { types, overrides: { include: overrides.include ?? {}, exclude: overrides.exclude ?? {} } };
+  for (const [pluginId, reasons] of Object.entries(overrides.reasons ?? {})) {
+    assert(reasons && typeof reasons === "object" && !Array.isArray(reasons), `Invalid reasons for ${pluginId}`);
+    for (const [typeId, reason] of Object.entries(reasons)) {
+      assert(ids.has(typeId), `Unknown reason type: ${typeId}`);
+      assert(typeof reason === "string" && reason.trim().length > 0, `Missing reason for ${pluginId}/${typeId}`);
+    }
+  }
+  return { types, overrides: { include: overrides.include ?? {}, exclude: overrides.exclude ?? {}, review: overrides.review ?? {}, reasons: overrides.reasons ?? {} } };
 }
 
-function searchableText(plugin) {
-  return [
-    plugin.name,
-    plugin.description,
-    plugin.category,
-    plugin.kind,
-    ...(Array.isArray(plugin.tags) ? plugin.tags : [])
-  ]
-    .filter((value) => typeof value === "string")
-    .join(" ");
+function matchedEvidence(patterns, fields, rule) {
+  const evidence = [];
+  for (const [field, value] of Object.entries(fields)) {
+    if (typeof value !== "string") continue;
+    for (const pattern of patterns) {
+      const match = pattern.exec(value);
+      if (match) evidence.push({ rule, pattern: pattern.source, field, match: match[0] });
+    }
+  }
+  return evidence;
+}
+
+// Match fields separately: concatenation can manufacture phrases across field boundaries.
+// Tags, kind and upstream category are context for reviewers, never eligibility evidence.
+export function explainClassification(plugin, preparedTaxonomy) {
+  const fields = { name: plugin.name, description: plugin.description };
+  const forced = new Set(preparedTaxonomy.overrides.include[plugin.id] ?? []);
+  const blocked = new Set(preparedTaxonomy.overrides.exclude[plugin.id] ?? []);
+  const review = new Set(preparedTaxonomy.overrides.review[plugin.id] ?? []);
+  return preparedTaxonomy.types.map((type) => {
+    const evidence = [
+      ...matchedEvidence(type.includePatterns, fields, "include"),
+      ...matchedEvidence(type.namePatterns, { name: plugin.name }, "nameInclude")
+    ];
+    const exclusions = matchedEvidence(type.excludePatterns, fields, "exclude");
+    const decision = review.has(type.id) ? "review" : blocked.has(type.id) ? "override-exclude"
+      : forced.has(type.id) ? "override-include" : exclusions.length ? "excluded"
+        : evidence.length ? "task-match" : "no-task-evidence";
+    return {
+      typeId: type.id,
+      accepted: decision === "override-include" || decision === "task-match",
+      decision,
+      evidence,
+      exclusions,
+      reason: preparedTaxonomy.overrides.reasons[plugin.id]?.[type.id] ?? null
+    };
+  });
 }
 
 export function classifyPlugin(plugin, preparedTaxonomy) {
-  const text = searchableText(plugin);
-  const forced = new Set(preparedTaxonomy.overrides.include[plugin.id] ?? []);
-  const blocked = new Set(preparedTaxonomy.overrides.exclude[plugin.id] ?? []);
-  const matches = [];
-
-  for (const type of preparedTaxonomy.types) {
-    if (blocked.has(type.id)) continue;
-    const included = forced.has(type.id) || type.includePatterns.some((pattern) => pattern.test(text));
-    const excluded = !forced.has(type.id) && type.excludePatterns.some((pattern) => pattern.test(text));
-    if (included && !excluded) matches.push(type.id);
-  }
-  return matches;
+  return explainClassification(plugin, preparedTaxonomy).filter((match) => match.accepted).map((match) => match.typeId);
 }
 
 export function eligibilityReason(plugin) {

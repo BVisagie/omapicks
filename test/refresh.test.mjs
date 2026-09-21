@@ -438,3 +438,35 @@ test("a rejected stats refresh leaves all published snapshot files untouched", a
   for (const [file, content] of Object.entries(files)) assert.equal(await readFile(path.join(root, "data", file), "utf8"), content);
   await assert.rejects(readFile(path.join(root, "data", "history", "2026-W38.json")), { code: "ENOENT" });
 });
+
+test("classification state publishes with refresh, dry runs are read-only, and classifier upgrades rerun the week", async (context) => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "omapicks-classification-state-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  await mkdir(path.join(root, "data"), { recursive: true });
+  const taxonomy = { schemaVersion: 1, types: [{ id: "battery", name: "Battery", include: ["battery health"] }] };
+  await writeFile(path.join(root, "data", "app-types.json"), JSON.stringify(taxonomy));
+  const catalog = { plugins: [{ id: "real", name: "Power", description: "Computer battery health", repo: "https://github.com/a/power", installAvailable: true, installCommand: "install" }] };
+  const stats = { schemaVersion: 1, plugins: { real: { views: 1, copies: 1, hearts: 1 } } };
+  const options = { root, now: new Date("2026-09-21T12:00:00Z"), minimumCatalogSize: 1, fetchImpl: async (url) => jsonResponse(url.endsWith("/stats") ? stats : catalog) };
+  const first = await refresh(options);
+  const stateFile = path.join(root, "data", "classification-state.json");
+  const original = await readFile(stateFile, "utf8");
+  assert.deepEqual(JSON.parse(original).plugins[0].types, ["battery"]);
+  assert.equal(first.classificationAudit.picks[0].eligibility.accepted, true);
+  assert.deepEqual(first.auditInputs.catalog.body, catalog);
+  assert.equal((await refresh(options)).changed, false);
+  const rankingFile = path.join(root, "data", "rankings.json");
+  const ranking = JSON.parse(await readFile(rankingFile, "utf8"));
+  ranking.source.taxonomy.classificationVersion = 1;
+  await writeFile(rankingFile, JSON.stringify(ranking));
+  assert.equal((await refresh(options)).changed, true);
+  taxonomy.overrides = { review: { real: ["battery"] }, reasons: { real: { battery: "Verify computer battery capability" } } };
+  await writeFile(path.join(root, "data", "app-types.json"), JSON.stringify(taxonomy));
+  const dry = await refresh({ ...options, dryRun: true });
+  assert.equal(dry.rankings.types[0].winner, null);
+  assert.equal(dry.classificationAudit.counts.unresolved, 1);
+  assert.equal(await readFile(stateFile, "utf8"), original);
+  const changed = await refresh(options);
+  assert.equal(changed.rankings.types[0].winner, null);
+  assert.deepEqual(JSON.parse(await readFile(stateFile, "utf8")).plugins[0].types, []);
+});
