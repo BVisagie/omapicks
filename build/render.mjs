@@ -670,7 +670,7 @@ function weeklySummary(rankings, history) {
     <div><p class="kicker">${escapeHtml(rankings.week ?? "Latest snapshot")}</p>
       <h2 id="weekly-summary-heading">What changed this week</h2><p>${summary}</p></div>
     <div>${count ? `<ul>${changes.slice(0, 3).map((change) => `<li><a href="/picks/${encodeURIComponent(change.typeId)}/">${escapeHtml(change.typeName)}</a>: ${change.current ? `${escapeHtml(change.current.name)} ${change.previous ? `replaces ${escapeHtml(change.previous.name)}` : "is the first champion"}` : "the champion spot is vacant"}.</li>`).join("")}</ul>` : ""}
-      <p><a href="/changelog/">See all weekly changes</a> · <a href="/feed.xml">Subscribe with RSS</a></p></div>
+      <p><a href="/changelog/">See all weekly changes</a> · <a href="/feed/">Subscribe with RSS</a></p></div>
   </section>`;
 }
 
@@ -938,7 +938,7 @@ function changelogPage(history) {
       <p class="kicker">Follow the ranking</p>
       <h2>Get champion changes in your reader</h2>
       <p>The RSS feed only publishes meaningful changes, so quiet weeks stay quiet.</p>
-      <a class="text-link" href="/feed.xml">Subscribe via RSS</a>
+      <a class="text-link" href="/feed/">Subscribe via RSS</a>
     </aside>
   </section>`;
   return shell({
@@ -1001,18 +1001,24 @@ function feedEntries(history) {
       }))
     )
     .slice(0, 50)
-    .map((entry) => ({
-      title: entry.current
-        ? `${entry.current.name} is the ${entry.typeName} champion`
-        : `${entry.typeName} champion spot is vacant`,
-      description: entry.previous
-        ? `${entry.current?.name ?? "No plugin"} replaced ${entry.previous.name}.`
-        : `${entry.current?.name ?? "No plugin"} became the first champion.`,
-      path: `/picks/${encodeURIComponent(entry.typeId)}/`,
-      guid: `${entry.week}:${entry.typeId}:${entry.current?.id ?? "vacant"}`,
-      publishedAt: entry.generatedAt,
-      published: new Date(entry.generatedAt).toUTCString()
-    }));
+    .map((entry) => {
+      const date = new Date(entry.generatedAt ?? NaN);
+      const dated = !Number.isNaN(date.getTime());
+      return {
+        title: entry.current
+          ? `${entry.current.name} is the ${entry.typeName} champion`
+          : `${entry.typeName} champion spot is vacant`,
+        description: !entry.current
+          ? `${entry.typeName} has no champion this week.`
+          : entry.previous
+            ? `${entry.current.name} replaced ${entry.previous.name}.`
+            : `${entry.current.name} became the first champion.`,
+        path: `/picks/${encodeURIComponent(entry.typeId)}/`,
+        guid: `${entry.week}:${entry.typeId}:${entry.current?.id ?? "vacant"}`,
+        publishedAt: dated ? date.toISOString() : "",
+        published: dated ? date.toUTCString() : ""
+      };
+    });
 }
 
 function feedPage(entries) {
@@ -1023,7 +1029,7 @@ function feedPage(entries) {
     <p class="feed-subscribe"><strong>Subscribe:</strong> copy <a href="/feed.xml">${ORIGIN}/feed.xml</a> into your feed reader.</p>
     <section class="feed-entries" aria-label="Recent changes">
       ${entries.length ? entries.map((entry) => `<article>
-        <time datetime="${escapeHtml(entry.publishedAt)}">${escapeHtml(entry.published)}</time>
+        ${entry.published ? `<time datetime="${escapeHtml(entry.publishedAt)}">${escapeHtml(entry.published)}</time>` : "<span></span>"}
         <div><h2><a href="${escapeHtml(entry.path)}">${escapeHtml(entry.title)}</a></h2>
         <p>${escapeHtml(entry.description)}</p></div>
       </article>`).join("") : "<p class=\"feed-empty\">No champion changes have been published yet.</p>"}
@@ -1046,7 +1052,7 @@ function rss(entries) {
   <description>Champion changes in the weekly OmaPicks rankings.</description>
   <language>en</language>
   ${entries
-    .map((entry) => `<item><title>${xml(entry.title)}</title><link>${ORIGIN}${xml(entry.path)}</link><guid isPermaLink="false">${xml(entry.guid)}</guid><pubDate>${xml(entry.published)}</pubDate><description>${xml(entry.description)}</description></item>`)
+    .map((entry) => `<item><title>${xml(entry.title)}</title><link>${ORIGIN}${xml(entry.path)}</link><guid isPermaLink="false">${xml(entry.guid)}</guid>${entry.published ? `<pubDate>${xml(entry.published)}</pubDate>` : ""}<description>${xml(entry.description)}</description></item>`)
     .join("")}
 </channel></rss>
 `;
@@ -1169,6 +1175,11 @@ export async function render({ root = ROOT } = {}) {
 
 export function renderFixtureHome(rankings, history = []) {
   return homePage(rankings, history);
+}
+
+export function renderFixtureFeed(history) {
+  const entries = feedEntries(history);
+  return { page: feedPage(entries), rss: rss(entries) };
 }
 
 export function renderFixtureType(type, rankings) {

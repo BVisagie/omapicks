@@ -7,6 +7,7 @@ import {
   featuredDayIndex,
   featuredTypes,
   render,
+  renderFixtureFeed,
   renderFixtureHome,
   renderFixtureType,
   weekLabel,
@@ -459,7 +460,7 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.match(changelog, /class="page-section"/);
   assert.match(changelog, /aria-current="page">Changes/);
   assert.match(changelog, /first-champions/);
-  assert.match(changelog, /Subscribe via RSS/);
+  assert.match(changelog, /href="\/feed\/">Subscribe via RSS/);
   assert.doesNotMatch(home, /aria-current="page"/);
   assert.match(privacy, /How OmaPicks treats visitors/);
   assert.match(privacy, /does not receive an analytics script/);
@@ -525,10 +526,12 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   const rssTitles = [...feed.matchAll(/<item><title>(.*?)<\/title>/g)].map((match) => match[1]);
   const pageTitles = [...feedPage.matchAll(/<article>\s*<time[^>]*>.*?<\/time>\s*<div><h2><a[^>]*>(.*?)<\/a><\/h2>/g)].map((match) => match[1]);
   assert.deepEqual(pageTitles, rssTitles);
-  assert.ok(rssTitles.length <= 50);
+  assert.ok(rssTitles.length > 0);
   assert.match(home, /href="\/feed\/">RSS<\/a>/);
+  assert.doesNotMatch(home, /href="\/feed\.xml">Subscribe/);
   assert.match(sitemap, /https:\/\/omapicks\.com\/feed\//);
   assert.doesNotMatch(headers, /\/feed\.xsl/);
+  assert.match(headers, /^\/\*\.xml\n  Content-Type: application\/xml; charset=utf-8$/m);
   assert.match(headers, /immutable/);
 
   // Cache busting: styles.css and app.js ship under content-hashed names so they can be
@@ -641,6 +644,24 @@ test("weekly summary compares snapshots and handles unchanged and vacant picks",
   assert.match(unchanged, /No champion changes/);
   current.types[0].winner = null;
   assert.match(renderFixtureHome(current, [previous]), /the champion spot is vacant/);
+});
+
+test("feed keeps the newest 50 changes, words vacancies plainly, and skips bad dates", () => {
+  const change = (i) => ({ typeId: `type-${i}`, typeName: `Type ${i}`, current: { id: `p${i}`, name: `Plugin ${i}` }, previous: null });
+  const history = [
+    { week: "2026-W30", generatedAt: "2026-07-20T06:00:00Z", changes: Array.from({ length: 30 }, (_, i) => change(i)) },
+    { week: "2026-W31", changes: [{ typeId: "music", typeName: "Music", current: null, previous: { id: "old", name: "Old Player" } }] },
+    { week: "2026-W32", generatedAt: "2026-08-03T06:00:00Z", changes: Array.from({ length: 30 }, (_, i) => change(i + 30)) }
+  ];
+  const { page, rss } = renderFixtureFeed(history);
+  assert.equal([...rss.matchAll(/<item>/g)].length, 50);
+  assert.equal([...page.matchAll(/<article>/g)].length, 50);
+  assert.match(rss, /<title>Plugin 30 is the Type 30 champion<\/title>/);
+  assert.match(rss, /<description>Music has no champion this week\.<\/description>/);
+  assert.match(page, /Music has no champion this week\./);
+  assert.doesNotMatch(page, /No plugin/);
+  assert.doesNotMatch(page + rss, /Invalid Date/);
+  assert.equal([...rss.matchAll(/<pubDate>/g)].length, 49);
 });
 
 test("discovery metadata uses taxonomy categories and related navigation stays compact", async () => {
