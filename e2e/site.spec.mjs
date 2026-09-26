@@ -13,6 +13,24 @@ async function searchMatches(page, query) {
   );
 }
 
+test("RSS navigation opens the HTML feed and keeps the XML subscription link", async ({ page, request }) => {
+  await page.goto("/");
+  await page.getByRole("navigation", { name: "Primary navigation" }).getByRole("link", { name: "RSS" }).click();
+  await expect(page).toHaveURL(/\/feed\/$/);
+  await expect(page.getByRole("heading", { name: "Weekly champion changes" })).toBeVisible();
+  await expect(page.getByRole("navigation", { name: "Primary navigation" }).getByRole("link", { name: "RSS", exact: true })).toHaveAttribute("aria-current", "page");
+  const firstEntry = page.locator(".feed-entries article").first().getByRole("link");
+  await expect(firstEntry).toHaveAttribute("href", /^\/picks\//);
+  const subscription = page.getByRole("link", { name: "https://omapicks.com/feed.xml" });
+  await expect(subscription).toHaveAttribute("href", "/feed.xml");
+  const response = await request.get("/feed.xml");
+  expect(response.ok()).toBe(true);
+  expect(response.headers()["content-type"]).toContain("application/xml");
+  expect(await response.text()).not.toContain("xml-stylesheet");
+  await firstEntry.click();
+  await expect(page).toHaveURL(/\/picks\/[^/]+\/$/);
+});
+
 test("advertised searches filter both lists and Enter opens the first match", async ({ page }) => {
   await page.goto("/");
   for (const [query, id] of [["spotify", "music"], ["weather", "weather"], ["clipboard", "clipboard"]]) {

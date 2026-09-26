@@ -6,7 +6,7 @@ The site is static. Visitors never call the source APIs, and there are no accoun
 
 ## Develop
 
-Node.js 24.20.0 or newer. Run `npm ci` to install the pinned development dependencies. Category social preview PNGs are rendered offline using `@resvg/resvg-js` and a bundled Liberation Mono font; no browser or system fonts are needed.
+Node.js 24.21.0 or newer. Run `npm ci` to install the pinned development dependencies. Category social preview PNGs are rendered offline using `@resvg/resvg-js` and a bundled Liberation Mono font; no browser or system fonts are needed.
 
 ```sh
 npm ci                # install build dependencies

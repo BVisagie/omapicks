@@ -34,6 +34,8 @@ test("HTML category paths are normalized and unknown paths are dropped", () => {
   assert.equal(normalizePath("/picks/network/"), "/picks/network/");
   assert.equal(normalizePath("/"), "/");
   assert.equal(normalizePath("/privacy/"), "/privacy/");
+  assert.equal(normalizePath("/feed/"), "/feed/");
+  assert.equal(normalizePath("/feed.xml"), null);
   assert.equal(normalizePath("/assets/styles.css"), null);
   assert.equal(normalizePath("/picks/../network/"), null);
   assert.equal(normalizePath("/picks/NETWORK/"), null);

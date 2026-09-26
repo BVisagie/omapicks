@@ -19,7 +19,6 @@ const FUNCTION_ROUTES = {
     "/og/*",
     "/badges/*",
     "/feed.xml",
-    "/feed.xsl",
     "/sitemap.xml",
     "/rankings.json",
     "/robots.txt",
@@ -353,7 +352,7 @@ function nav(pathname = "/") {
     <nav aria-label="Primary navigation">
       ${navLink("/methodology/", "Method", pathname)}
       ${navLink("/changelog/", "Changes", pathname)}
-      ${navLink("/feed.xml", "RSS", pathname)}
+      ${navLink("/feed/", "RSS", pathname)}
       <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme" aria-pressed="true">
         <span class="theme-label-dark" aria-hidden="true">Dark</span>
         <span class="theme-label-light" aria-hidden="true">Light</span>
@@ -992,8 +991,8 @@ async function readHistory() {
   }
 }
 
-function rss(history) {
-  const entries = historyChanges(history)
+function feedEntries(history) {
+  return historyChanges(history)
     .flatMap((snapshot) =>
       snapshot.changes.map((change) => ({
         ...change,
@@ -1001,25 +1000,53 @@ function rss(history) {
         generatedAt: snapshot.generatedAt
       }))
     )
-    .slice(0, 50);
+    .slice(0, 50)
+    .map((entry) => ({
+      title: entry.current
+        ? `${entry.current.name} is the ${entry.typeName} champion`
+        : `${entry.typeName} champion spot is vacant`,
+      description: entry.previous
+        ? `${entry.current?.name ?? "No plugin"} replaced ${entry.previous.name}.`
+        : `${entry.current?.name ?? "No plugin"} became the first champion.`,
+      path: `/picks/${encodeURIComponent(entry.typeId)}/`,
+      guid: `${entry.week}:${entry.typeId}:${entry.current?.id ?? "vacant"}`,
+      publishedAt: entry.generatedAt,
+      published: new Date(entry.generatedAt).toUTCString()
+    }));
+}
+
+function feedPage(entries) {
+  const body = `<section class="page-section">
+    <p class="eyebrow">RSS feed</p>
+    <h1>Weekly champion changes</h1>
+    <p class="page-lede">Champion changes in the weekly OmaPicks rankings. Feed readers receive the same RSS 2.0 entries.</p>
+    <p class="feed-subscribe"><strong>Subscribe:</strong> copy <a href="/feed.xml">${ORIGIN}/feed.xml</a> into your feed reader.</p>
+    <section class="feed-entries" aria-label="Recent changes">
+      ${entries.length ? entries.map((entry) => `<article>
+        <time datetime="${escapeHtml(entry.publishedAt)}">${escapeHtml(entry.published)}</time>
+        <div><h2><a href="${escapeHtml(entry.path)}">${escapeHtml(entry.title)}</a></h2>
+        <p>${escapeHtml(entry.description)}</p></div>
+      </article>`).join("") : "<p class=\"feed-empty\">No champion changes have been published yet.</p>"}
+    </section>
+  </section>`;
+  return shell({
+    title: "Weekly champion changes",
+    description: "Champion changes in the weekly OmaPicks rankings.",
+    pathname: "/feed/",
+    image: socialImage(),
+    body
+  });
+}
+
+function rss(entries) {
   return `<?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="/feed.xsl"?>
 <rss version="2.0"><channel>
   <title>OmaPicks weekly changes</title>
   <link>${ORIGIN}/changelog/</link>
   <description>Champion changes in the weekly OmaPicks rankings.</description>
   <language>en</language>
   ${entries
-    .map((entry) => {
-      const title = entry.current
-        ? `${entry.current.name} is the ${entry.typeName} champion`
-        : `${entry.typeName} champion spot is vacant`;
-      const description = entry.previous
-        ? `${entry.current?.name ?? "No plugin"} replaced ${entry.previous.name}.`
-        : `${entry.current?.name ?? "No plugin"} became the first champion.`;
-      const guid = `${entry.week}:${entry.typeId}:${entry.current?.id ?? "vacant"}`;
-      return `<item><title>${xml(title)}</title><link>${ORIGIN}/picks/${encodeURIComponent(entry.typeId)}/</link><guid isPermaLink="false">${xml(guid)}</guid><pubDate>${new Date(entry.generatedAt).toUTCString()}</pubDate><description>${xml(description)}</description></item>`;
-    })
+    .map((entry) => `<item><title>${xml(entry.title)}</title><link>${ORIGIN}${xml(entry.path)}</link><guid isPermaLink="false">${xml(entry.guid)}</guid><pubDate>${xml(entry.published)}</pubDate><description>${xml(entry.description)}</description></item>`)
     .join("")}
 </channel></rss>
 `;
@@ -1061,19 +1088,14 @@ export async function render({ root = ROOT } = {}) {
   await cp(path.join(ROOT, "site", "placeholder.svg"), path.join(DIST, "assets", "placeholder.svg"));
   await cp(path.join(ROOT, "site", "og-home.jpg"), path.join(DIST, "og", "home.jpg"));
   await cp(path.join(ROOT, "site", "og-home.jpg"), path.join(DIST, "og", "terminal.jpg"));
-  const feedStylesheet = await readFile(path.join(ROOT, "site", "feed.xsl"), "utf8");
-  await writeFile(
-    path.join(DIST, "feed.xsl"),
-    feedStylesheet
-      .replaceAll("/assets/styles.css", assetUrls().styles)
-      .replaceAll("/assets/app.js", assetUrls().app)
-  );
   await copyOptionalDirectory(path.join(ROOT, "data", "assets", "plugins"), path.join(DIST, "assets", "plugins"));
 
+  const entries = feedEntries(history);
   await write("index.html", homePage(rankings, history));
   await write("methodology/index.html", methodologyPage(rankings));
   await write("privacy/index.html", privacyPage());
   await write("changelog/index.html", changelogPage(history));
+  await write("feed/index.html", feedPage(entries));
   for (const type of rankings.types) {
     await write(`picks/${encodeURIComponent(type.id)}/index.html`, typePage(type, rankings));
     await write(categoryImagePath(type, rankings.week), renderSocialImage(type, rankings.week));
@@ -1098,7 +1120,7 @@ export async function render({ root = ROOT } = {}) {
     }
   }
 
-  const urls = ["/", "/methodology/", "/privacy/", "/changelog/", ...rankings.types.map((type) => `/picks/${type.id}/`)];
+  const urls = ["/", "/methodology/", "/privacy/", "/changelog/", "/feed/", ...rankings.types.map((type) => `/picks/${type.id}/`)];
   await write(
     "sitemap.xml",
     `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls
@@ -1106,7 +1128,7 @@ export async function render({ root = ROOT } = {}) {
       .join("")}</urlset>\n`
   );
   await write("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${ORIGIN}/sitemap.xml\n`);
-  await write("feed.xml", rss(history));
+  await write("feed.xml", rss(entries));
   await write("rankings.json", `${JSON.stringify(rankings, null, 2)}\n`);
   await write(
     "site.webmanifest",
@@ -1129,7 +1151,7 @@ export async function render({ root = ROOT } = {}) {
     // Cloudflare merges the headers of every matching rule rather than picking the most
     // specific one, so these patterns must not overlap: a broad /assets/* rule here would
     // attach a second Cache-Control to the immutable fingerprinted files.
-    `/assets/styles-*.css\n  Cache-Control: public, max-age=31536000, immutable\n/assets/app-*.js\n  Cache-Control: public, max-age=31536000, immutable\n/assets/plugins/*\n  Cache-Control: public, max-age=604800\n/assets/icon.svg\n  Cache-Control: public, max-age=604800\n/assets/icon-*.png\n  Cache-Control: public, max-age=604800\n/assets/placeholder.svg\n  Cache-Control: public, max-age=604800\n/favicon.ico\n  Cache-Control: public, max-age=604800\n/apple-touch-icon.png\n  Cache-Control: public, max-age=604800\n/og/*\n  Cache-Control: public, max-age=86400\n/badges/*\n  Cache-Control: public, max-age=31536000, immutable\n/feed.xsl\n  Content-Type: text/xsl; charset=utf-8\n  Cache-Control: public, max-age=604800\n/*.xml\n  Content-Type: application/xml; charset=utf-8\n`
+    `/assets/styles-*.css\n  Cache-Control: public, max-age=31536000, immutable\n/assets/app-*.js\n  Cache-Control: public, max-age=31536000, immutable\n/assets/plugins/*\n  Cache-Control: public, max-age=604800\n/assets/icon.svg\n  Cache-Control: public, max-age=604800\n/assets/icon-*.png\n  Cache-Control: public, max-age=604800\n/assets/placeholder.svg\n  Cache-Control: public, max-age=604800\n/favicon.ico\n  Cache-Control: public, max-age=604800\n/apple-touch-icon.png\n  Cache-Control: public, max-age=604800\n/og/*\n  Cache-Control: public, max-age=86400\n/badges/*\n  Cache-Control: public, max-age=31536000, immutable\n/*.xml\n  Content-Type: application/xml; charset=utf-8\n`
   );
   await write("_routes.json", `${JSON.stringify(FUNCTION_ROUTES, null, 2)}\n`);
   await write(
