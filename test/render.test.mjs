@@ -7,6 +7,7 @@ import {
   featuredDayIndex,
   featuredTypes,
   render,
+  renderFixtureFeed,
   renderFixtureHome,
   renderFixtureType,
   weekLabel,
@@ -375,15 +376,15 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   const result = await render();
   assert.equal(result.typeCount, rankings.types.length);
   const weather = rankings.types.find((type) => type.id === "weather");
-  const [home, methodology, changelog, privacy, pick, sitemap, feed, feedXsl, headers, routes, manifestSource, badge] = await Promise.all([
+  const [home, methodology, changelog, feedPage, privacy, pick, sitemap, feed, headers, routes, manifestSource, badge] = await Promise.all([
     readFile(new URL("../dist/index.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/methodology/index.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/changelog/index.html", import.meta.url), "utf8"),
+    readFile(new URL("../dist/feed/index.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/privacy/index.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/picks/weather/index.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/sitemap.xml", import.meta.url), "utf8"),
     readFile(new URL("../dist/feed.xml", import.meta.url), "utf8"),
-    readFile(new URL("../dist/feed.xsl", import.meta.url), "utf8"),
     readFile(new URL("../dist/_headers", import.meta.url), "utf8"),
     readFile(new URL("../dist/_routes.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/site.webmanifest", import.meta.url), "utf8"),
@@ -395,9 +396,9 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.match(home, /rel="icon" href="\/assets\/icon-192\.png" type="image\/png" sizes="192x192"/);
   assert.match(home, /rel="icon" href="\/favicon\.ico" sizes="48x48"/);
   assert.match(home, /rel="apple-touch-icon" href="\/apple-touch-icon\.png" sizes="180x180"/);
-  assert.match(feedXsl, /rel="icon" href="\/assets\/icon-192\.png" type="image\/png" sizes="192x192"/);
-  assert.match(feedXsl, /rel="icon" href="\/favicon\.ico" sizes="48x48"/);
-  assert.match(feedXsl, /rel="apple-touch-icon" href="\/apple-touch-icon\.png" sizes="180x180"/);
+  assert.match(feedPage, /rel="icon" href="\/assets\/icon-192\.png" type="image\/png" sizes="192x192"/);
+  assert.match(feedPage, /rel="icon" href="\/favicon\.ico" sizes="48x48"/);
+  assert.match(feedPage, /rel="apple-touch-icon" href="\/apple-touch-icon\.png" sizes="180x180"/);
   assert.match(home, /Find the best Omarchy plugin for the job/);
   assert.match(home, /Find a category/);
   assert.match(home, new RegExp(`Browse ${typeCount} categories`));
@@ -442,9 +443,9 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   await stat(new URL(`../dist/og/${rankings.week}/weather.png`, import.meta.url));
   assert.match(home, /Plugin metadata, engagement signals, and previews come from/);
   assert.match(home, /target="_blank" rel="noopener noreferrer">Open-source code<\/a>/);
-  assert.match(feedXsl, /target="_blank" rel="noopener noreferrer">Open-source code<\/a>/);
+  assert.match(feedPage, /target="_blank" rel="noopener noreferrer">Open-source code<\/a>/);
   assert.match(home, /href="https:\/\/github\.com\/sponsors\/BVisagie" target="_blank" rel="noopener noreferrer">Sponsor on GitHub<\/a>/);
-  assert.match(feedXsl, /href="https:\/\/github\.com\/sponsors\/BVisagie" target="_blank" rel="noopener noreferrer">Sponsor on GitHub<\/a>/);
+  assert.match(feedPage, /href="https:\/\/github\.com\/sponsors\/BVisagie" target="_blank" rel="noopener noreferrer">Sponsor on GitHub<\/a>/);
   assert.match(home, /href="\/privacy\/"/);
   assert.match(methodology, /class="page-section prose"/);
   assert.match(methodology, /aria-current="page">Method/);
@@ -459,7 +460,7 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.match(changelog, /class="page-section"/);
   assert.match(changelog, /aria-current="page">Changes/);
   assert.match(changelog, /first-champions/);
-  assert.match(changelog, /Subscribe via RSS/);
+  assert.match(changelog, /href="\/feed\/">Subscribe via RSS/);
   assert.doesNotMatch(home, /aria-current="page"/);
   assert.match(privacy, /How OmaPicks treats visitors/);
   assert.match(privacy, /does not receive an analytics script/);
@@ -510,23 +511,27 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.match(pick, /og:image:type" content="image\/png"/);
   assert.match(pick, /A ranking is not an endorsement or a safety review/);
   assert.match(sitemap, /https:\/\/omapicks\.com\/privacy\//);
-  assert.match(feed, /<\?xml-stylesheet type="text\/xsl" href="\/feed\.xsl"\?>/);
+  assert.doesNotMatch(feed, /<\?xml-stylesheet/);
   assert.match(feed, /<rss version="2.0">/);
   assert.match(feed, /<\/channel><\/rss>/);
-  assert.match(feedXsl, /<xsl:stylesheet/);
-  assert.match(feedXsl, /Weekly champion changes/);
-  assert.match(feedXsl, /class="page-section"/);
-  assert.match(feedXsl, /class="page-lede"/);
-  assert.match(feedXsl, /class="page-wrap"/);
-  assert.match(feedXsl, /href="\/assets\/styles-[a-f0-9]{10}\.css"/);
-  assert.match(feedXsl, /href="\/feed\.xml" aria-current="page">RSS/);
-  assert.match(feedXsl, /data-theme-toggle/);
-  assert.match(feedXsl, /xsl:attribute name="href"/);
-  assert.match(feedXsl, /substring-after\(\$item-link, ':\/\/omapicks\.com'\)/);
-  assert.match(feedXsl, /local-name\(\)='link'/);
-  assert.doesNotMatch(feedXsl, /href="\{link\}"/);
-  assert.doesNotMatch(feedXsl, /min\(760px/);
-  assert.match(headers, /\/feed\.xsl\n  Content-Type: text\/xsl; charset=utf-8/);
+  assert.match(feedPage, /Weekly champion changes/);
+  assert.match(feedPage, /class="page-section"/);
+  assert.match(feedPage, /class="page-lede"/);
+  assert.match(feedPage, /class="page-wrap"/);
+  assert.match(feedPage, /href="\/assets\/styles-[a-f0-9]{10}\.css"/);
+  assert.match(feedPage, /href="\/feed\/" aria-current="page">RSS/);
+  assert.match(feedPage, /href="\/feed\.xml">https:\/\/omapicks\.com\/feed\.xml<\/a>/);
+  assert.match(feedPage, /data-theme-toggle/);
+  assert.match(feedPage, /<article>/);
+  const rssTitles = [...feed.matchAll(/<item><title>(.*?)<\/title>/g)].map((match) => match[1]);
+  const pageTitles = [...feedPage.matchAll(/<article>\s*<time[^>]*>.*?<\/time>\s*<div><h2><a[^>]*>(.*?)<\/a><\/h2>/g)].map((match) => match[1]);
+  assert.deepEqual(pageTitles, rssTitles);
+  assert.ok(rssTitles.length > 0);
+  assert.match(home, /href="\/feed\/">RSS<\/a>/);
+  assert.doesNotMatch(home, /href="\/feed\.xml">Subscribe/);
+  assert.match(sitemap, /https:\/\/omapicks\.com\/feed\//);
+  assert.doesNotMatch(headers, /\/feed\.xsl/);
+  assert.match(headers, /^\/\*\.xml\n  Content-Type: application\/xml; charset=utf-8$/m);
   assert.match(headers, /immutable/);
 
   // Cache busting: styles.css and app.js ship under content-hashed names so they can be
@@ -551,10 +556,9 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   await assert.rejects(() => stat(new URL("../dist/assets/styles.css", import.meta.url)));
   await assert.rejects(() => stat(new URL("../dist/assets/app.js", import.meta.url)));
 
-  // The RSS stylesheet is templated too, so it cannot drift from the markup.
-  assert.ok(feedXsl.includes(stylesHref));
-  assert.ok(feedXsl.includes(appSrc));
-  assert.doesNotMatch(feedXsl, /\/assets\/(styles\.css|app\.js)/);
+  assert.ok(feedPage.includes(stylesHref));
+  assert.ok(feedPage.includes(appSrc));
+  assert.doesNotMatch(feedPage, /\/assets\/(styles\.css|app\.js)/);
 
   assert.match(headers, /\/assets\/styles-\*\.css\n  Cache-Control: public, max-age=31536000, immutable/);
   assert.match(headers, /\/assets\/app-\*\.js\n  Cache-Control: public, max-age=31536000, immutable/);
@@ -580,17 +584,17 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.match(badge, /height="20"/);
   await stat(new URL("../dist/og/home.jpg", import.meta.url));
   await stat(new URL("../dist/og/terminal.jpg", import.meta.url));
-  await stat(new URL("../dist/feed.xsl", import.meta.url));
+  await assert.rejects(() => stat(new URL("../dist/feed.xsl", import.meta.url)));
   await stat(new URL("../dist/favicon.ico", import.meta.url));
   await stat(new URL("../dist/apple-touch-icon.png", import.meta.url));
   await stat(new URL("../dist/assets/icon-192.png", import.meta.url));
   await stat(new URL("../dist/assets/icon-512.png", import.meta.url));
   await stat(new URL("../dist/assets/icon-maskable-512.png", import.meta.url));
-  for (const output of [home, methodology, changelog, privacy, pick, sitemap, feed, feedXsl, badge]) {
+  for (const output of [home, methodology, changelog, feedPage, privacy, pick, sitemap, feed, badge]) {
     assert.ok(!output.includes("undefined"));
   }
 
-  const pages = [home, methodology, changelog, privacy, pick];
+  const pages = [home, methodology, changelog, feedPage, privacy, pick];
   for (const html of pages) {
     const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
     assert.equal(new Set(ids).size, ids.length, "Generated page contains duplicate IDs");
@@ -640,6 +644,24 @@ test("weekly summary compares snapshots and handles unchanged and vacant picks",
   assert.match(unchanged, /No champion changes/);
   current.types[0].winner = null;
   assert.match(renderFixtureHome(current, [previous]), /the champion spot is vacant/);
+});
+
+test("feed keeps the newest 50 changes, words vacancies plainly, and skips bad dates", () => {
+  const change = (i) => ({ typeId: `type-${i}`, typeName: `Type ${i}`, current: { id: `p${i}`, name: `Plugin ${i}` }, previous: null });
+  const history = [
+    { week: "2026-W30", generatedAt: "2026-07-20T06:00:00Z", changes: Array.from({ length: 30 }, (_, i) => change(i)) },
+    { week: "2026-W31", changes: [{ typeId: "music", typeName: "Music", current: null, previous: { id: "old", name: "Old Player" } }] },
+    { week: "2026-W32", generatedAt: "2026-08-03T06:00:00Z", changes: Array.from({ length: 30 }, (_, i) => change(i + 30)) }
+  ];
+  const { page, rss } = renderFixtureFeed(history);
+  assert.equal([...rss.matchAll(/<item>/g)].length, 50);
+  assert.equal([...page.matchAll(/<article>/g)].length, 50);
+  assert.match(rss, /<title>Plugin 30 is the Type 30 champion<\/title>/);
+  assert.match(rss, /<description>Music has no champion this week\.<\/description>/);
+  assert.match(page, /Music has no champion this week\./);
+  assert.doesNotMatch(page, /No plugin/);
+  assert.doesNotMatch(page + rss, /Invalid Date/);
+  assert.equal([...rss.matchAll(/<pubDate>/g)].length, 49);
 });
 
 test("discovery metadata uses taxonomy categories and related navigation stays compact", async () => {

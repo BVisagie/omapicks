@@ -1,5 +1,5 @@
 const encoder = new TextEncoder();
-const HTML_PATH = new Set(["/", "/methodology/", "/changelog/", "/privacy/"]);
+const HTML_PATH = new Set(["/", "/methodology/", "/changelog/", "/feed/", "/privacy/"]);
 const PICKS_PATH = /^\/picks\/[a-z0-9]+(?:-[a-z0-9]+)*\/$/;
 const BOT_UA =
   /bot|crawler|spider|crawling|preview|headless|wget|curl|slurp|facebookexternal|pingdom|monitor|python-requests|go-http-client|httpclient|scrapy|semrush|ahrefs|bingpreview|bytespider/i;
