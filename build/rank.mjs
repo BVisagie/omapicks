@@ -17,6 +17,61 @@ function finiteCount(value) {
   return Number.isFinite(number) && number > 0 ? number : 0;
 }
 
+// Coverage relates a verified snapshot to the upstream commit the marketplace last observed.
+const COVERAGE_STATES = new Set(["snapshot-verified", "update-unverified", "unverified"]);
+
+// Shared by scoring, snapshots and rendering so a plugin's credit and badge always agree. Older
+// feeds and snapshots carry only verificationStatus; unknown explicit values earn nothing.
+export function verificationCoverage(plugin) {
+  const explicit = plugin?.verificationCoverage;
+  if (explicit != null) return COVERAGE_STATES.has(explicit) ? explicit : "unverified";
+  return plugin?.verificationStatus === "verified" ? "snapshot-verified" : "unverified";
+}
+
+export function verificationCredit(plugin, methodology = METHODOLOGY) {
+  if (methodology.verification.rule === "status") return plugin?.verificationStatus === "verified" ? 1 : 0;
+  const coverage = verificationCoverage(plugin);
+  if (coverage === "snapshot-verified") return 1;
+  return coverage === "update-unverified" ? methodology.verification.updateUnverifiedCredit : 0;
+}
+
+// Mirrors engagementCount in the marketplace's site/assets/js/shared.js (commit fec33e6b).
+function engagementCount(value) {
+  const count = Math.trunc(Number(value));
+  return Number.isSafeInteger(count) && count >= 0 ? count : 0;
+}
+
+// Install-command copies per detail view, capped at 100%: copies can also come from cards
+// without a detail view. An engagement proxy, not a measured installation rate.
+export function copyViewRatio(copies, views) {
+  const viewCount = engagementCount(views);
+  return viewCount ? Math.min(engagementCount(copies), viewCount) / viewCount : null;
+}
+
+// Lower bound of the 95% Wilson interval for the capped ratio, matching the rated values of the
+// marketplace's installRateScore (fec33e6b). Unrated observations are null rather than -1.
+export function installRateLowerBound(copies, views, { minimumViews = 20, z = 1.96 } = {}) {
+  const viewCount = engagementCount(views);
+  if (viewCount < Math.max(1, minimumViews)) return null;
+  const copyCount = Math.min(engagementCount(copies), viewCount);
+  if (!copyCount) return 0;
+  const rate = copyCount / viewCount;
+  const center = rate + (z * z) / (2 * viewCount);
+  const margin = z * Math.sqrt((rate * (1 - rate) + (z * z) / (4 * viewCount)) / viewCount);
+  return (center - margin) / (1 + (z * z) / viewCount);
+}
+
+function timestamp(value) {
+  return typeof value === "string" ? Date.parse(value) : Number.NaN;
+}
+
+// The latest observation that something shipped: a manifest version change seen by the catalog
+// refresh, or a dated repository release (which may cover other plugins in a shared repository).
+export function shippedAt(plugin) {
+  const times = [plugin?.versionUpdatedAt, plugin?.repositoryRelease?.publishedAt].map(timestamp).filter(Number.isFinite);
+  return times.length ? new Date(Math.max(...times)).toISOString() : null;
+}
+
 function compilePatterns(patterns, label) {
   assert(Array.isArray(patterns) && patterns.length > 0, `${label} must be a non-empty array`);
   return patterns.map((pattern, index) => {
@@ -164,11 +219,24 @@ function normalizedSignalMap(valuesById, methodology) {
   );
 }
 
-function freshnessScore(updatedAt, now, methodology) {
-  const timestamp = Date.parse(updatedAt);
-  if (!Number.isFinite(timestamp)) return 0;
-  const ageDays = Math.max(0, (now.getTime() - timestamp) / DAY_MS);
-  return Math.exp((-Math.log(2) * ageDays) / methodology.freshness.halfLifeDays);
+function decay(time, now, halfLifeDays) {
+  const ageDays = Math.max(0, (now.getTime() - time) / DAY_MS);
+  return Math.exp((-Math.log(2) * ageDays) / halfLifeDays);
+}
+
+export function freshnessDetail(plugin, now, methodology = METHODOLOGY) {
+  const { halfLifeDays, shippingBonus } = methodology.freshness;
+  const pushed = timestamp(plugin?.repositoryUpdatedAt);
+  if (!shippingBonus) {
+    const value = Number.isFinite(pushed) ? decay(pushed, now, halfLifeDays) : 0;
+    return { base: value, bonus: 0, uncapped: value, value };
+  }
+  const shipped = timestamp(shippedAt(plugin));
+  const latest = Math.max(...[pushed, shipped].filter(Number.isFinite));
+  const base = Number.isFinite(latest) ? decay(latest, now, halfLifeDays) : 0;
+  const withinWindow = Number.isFinite(shipped) && Math.max(0, (now.getTime() - shipped) / DAY_MS) <= shippingBonus.windowDays;
+  const bonus = withinWindow ? shippingBonus.amount * decay(shipped, now, shippingBonus.halfLifeDays) : 0;
+  return { base, bonus, uncapped: base + bonus, value: Math.min(1, base + bonus) };
 }
 
 function evidenceCount(metrics, methodology) {
@@ -179,6 +247,11 @@ function evidenceCount(metrics, methodology) {
 function round(value, places = 6) {
   const scale = 10 ** places;
   return Math.round(value * scale) / scale;
+}
+
+function isoOrNull(value) {
+  const time = timestamp(value);
+  return Number.isFinite(time) ? new Date(time).toISOString() : null;
 }
 
 function publicCandidate(plugin, metrics, score, normalized, contributions, now, methodology) {
@@ -196,7 +269,13 @@ function publicCandidate(plugin, metrics, score, normalized, contributions, now,
     detailUrl: `https://plugins.omarchy.org/plugin.html?id=${encodeURIComponent(plugin.id)}`,
     installCommand: plugin.installCommand.trim(),
     verificationStatus: String(plugin.verificationStatus || "unverified"),
+    verificationCoverage: verificationCoverage(plugin),
+    verificationMethod: typeof plugin.verificationMethod === "string" ? plugin.verificationMethod : null,
     upstreamCheckStatus: typeof plugin.upstreamCheckStatus === "string" ? plugin.upstreamCheckStatus : null,
+    version: typeof plugin.version === "string" && plugin.version.trim() ? plugin.version.trim() : null,
+    releaseTag: typeof plugin.repositoryRelease?.tag === "string" && plugin.repositoryRelease.tag.trim() ? plugin.repositoryRelease.tag.trim() : null,
+    shippedAt: shippedAt(plugin),
+    listedAt: isoOrNull(plugin.listedAt),
     license: String(plugin.license || "Unknown"),
     repositoryUpdatedAt: Number.isFinite(Date.parse(plugin.repositoryUpdatedAt))
       ? new Date(plugin.repositoryUpdatedAt).toISOString()
@@ -205,7 +284,11 @@ function publicCandidate(plugin, metrics, score, normalized, contributions, now,
     previewWidth: finiteCount(plugin.previewThumbnailWidth || plugin.previewWidth) || null,
     previewHeight: finiteCount(plugin.previewThumbnailHeight || plugin.previewHeight) || null,
     localImage: null,
-    metrics,
+    metrics: {
+      ...metrics,
+      copyViewRatio: metrics.copyViewRatio == null ? null : round(metrics.copyViewRatio, 4),
+      installRateLowerBound: metrics.installRateLowerBound == null ? null : round(metrics.installRateLowerBound, 4)
+    },
     normalized,
     contributions,
     evidence: round(evidenceCount(metrics, methodology) / (evidenceCount(metrics, methodology) + methodology.priorStrength)),
@@ -216,6 +299,20 @@ function publicCandidate(plugin, metrics, score, normalized, contributions, now,
   };
 }
 
+// Rates are already on [0, 1], so no log1p. Only rated observations enter the percentile and scale
+// maps; unrated candidates sit at the neutral midpoint before reliability damping.
+function rateSignalMap(valuesById, methodology) {
+  const rated = new Map([...valuesById].filter(([, value]) => value !== null));
+  const { percentileShare, scaleQuantile } = methodology.normalization;
+  const percentiles = percentileMap(rated);
+  const scale = quantile([...rated.values()].sort((a, b) => a - b), scaleQuantile);
+  return new Map([...valuesById].map(([id, value]) => {
+    if (value === null) return [id, 0.5];
+    const robustScale = scale > 0 ? Math.min(1, value / scale) : 0.5;
+    return [id, percentileShare * percentiles.get(id) + (1 - percentileShare) * robustScale];
+  }));
+}
+
 function scoreCohort(plugins, stats, now, methodology) {
   const raw = new Map();
   for (const plugin of plugins) {
@@ -224,7 +321,9 @@ function scoreCohort(plugins, stats, now, methodology) {
       copies: finiteCount(engagement.copies),
       hearts: finiteCount(engagement.hearts),
       stars: finiteCount(plugin.stars),
-      views: finiteCount(engagement.views)
+      views: finiteCount(engagement.views),
+      copyViewRatio: copyViewRatio(engagement.copies, engagement.views),
+      installRateLowerBound: installRateLowerBound(engagement.copies, engagement.views, methodology.installRate ?? undefined)
     });
   }
 
@@ -232,6 +331,9 @@ function scoreCohort(plugins, stats, now, methodology) {
   for (const metric of ["copies", "hearts", "stars", "views"]) {
     percentiles[metric] = normalizedSignalMap(new Map([...raw].map(([id, metrics]) => [id, metrics[metric]])), methodology);
   }
+  const scoredRates = methodology.installRate
+    ? rateSignalMap(new Map([...raw].map(([id, metrics]) => [id, metrics.installRateLowerBound])), methodology)
+    : null;
 
   return plugins
     .map((plugin) => {
@@ -242,8 +344,9 @@ function scoreCohort(plugins, stats, now, methodology) {
       for (const metric of ["copies", "hearts", "stars", "views"]) {
         normalized[metric] = round(0.5 + reliability * (percentiles[metric].get(plugin.id) - 0.5));
       }
-      normalized.freshness = round(freshnessScore(plugin.repositoryUpdatedAt, now, methodology));
-      normalized.verified = plugin.verificationStatus === "verified" ? 1 : 0;
+      if (scoredRates) normalized.installRateLowerBound = round(0.5 + reliability * (scoredRates.get(plugin.id) - 0.5));
+      normalized.freshness = round(freshnessDetail(plugin, now, methodology).value);
+      normalized.verified = verificationCredit(plugin, methodology);
 
       const contributions = {};
       let score = 0;

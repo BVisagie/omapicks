@@ -2,21 +2,36 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { checksum } from "../build/classification-audit.mjs";
-import { CURRENT_METHODOLOGY_VERSION, LEGACY_METHODOLOGY_VERSION, methodologyFor } from "../build/methodology.mjs";
-import { rankPlugins } from "../build/rank.mjs";
+import { CURRENT_METHODOLOGY_VERSION, LEGACY_METHODOLOGY_VERSION, deriveMethodology, methodologyFor } from "../build/methodology.mjs";
+import { freshnessDetail, rankPlugins } from "../build/rank.mjs";
 import { codeRevision, validateFeeds } from "../build/refresh.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 export const REPORT_VERSION = 1;
+
+// Scoring proposals from docs/marketplace-alignment-plan.md, each applied alone to the published rules
+// plus health eligibility (their immediate baseline) before the combined current methodology.
+export const PROPOSALS = Object.freeze([
+  ["verification-0", "Graded verification, update-unverified credit 0", { verification: { rule: "coverage", updateUnverifiedCredit: 0 } }],
+  ["verification-0.6", "Graded verification, update-unverified credit 0.6", { verification: { rule: "coverage", updateUnverifiedCredit: 0.6 } }],
+  ["verification-1", "Graded verification, update-unverified credit 1", { verification: { rule: "coverage", updateUnverifiedCredit: 1 } }],
+  ["install-rate-0.05", "Copy/view lower bound 5%, views 3%", { installRate: { minimumViews: 20, z: 1.96 }, weights: { views: 0.03, installRateLowerBound: 0.05 } }],
+  ["freshness-bonus", "Shipping bonus 0.15, 90-day half-life and window", { freshness: { shippingBonus: { amount: 0.15, halfLifeDays: 90, windowDays: 90 } } }]
+]);
 
 // Each variant names its immediate baseline so a proposal is judged alone before the combination.
 // Research variants are never registered methodologies and can never appear in a snapshot.
 export function defaultVariants() {
   const legacy = methodologyFor(LEGACY_METHODOLOGY_VERSION);
   const current = methodologyFor(CURRENT_METHODOLOGY_VERSION);
-  const variants = [{ id: legacy.version, label: `Published ${legacy.version} rules`, methodology: legacy, baselines: [] }];
+  const health = deriveMethodology(legacy, { eligibility: { upstreamHealth: true } }, "health");
+  const variants = [
+    { id: legacy.version, label: `Published ${legacy.version} rules`, methodology: legacy, baselines: [] },
+    { id: "health", label: "Published rules plus health eligibility", methodology: health, baselines: [legacy.version] },
+    ...PROPOSALS.map(([id, label, overrides]) => ({ id, label, methodology: deriveMethodology(health, overrides, id), baselines: ["health"] }))
+  ];
   if (current.version !== legacy.version) {
-    variants.push({ id: current.version, label: `Current ${current.version} rules (combined)`, methodology: current, baselines: [legacy.version] });
+    variants.push({ id: current.version, label: `Current ${current.version} rules (combined)`, methodology: current, baselines: [legacy.version, "health"] });
   }
   return variants;
 }
@@ -89,20 +104,40 @@ function compareRuns(before, after) {
   };
 }
 
+function tally(values) {
+  const counts = {};
+  for (const value of values) counts[String(value)] = (counts[String(value)] ?? 0) + 1;
+  return Object.fromEntries(Object.entries(counts).sort(([a], [b]) => a.localeCompare(b)));
+}
+
 // Facts about one variant's scored cohorts that parameter decisions depend on.
-function diagnostics(result) {
+function diagnostics(result, methodology, pluginsById, now) {
   const unique = new Map();
   for (const cohort of Object.values(result.cohorts)) for (const candidate of cohort) unique.set(candidate.id, candidate);
   const candidates = [...unique.values()];
   const count = (predicate) => candidates.filter(predicate).length;
+  const rated = (candidate) => candidate.metrics.installRateLowerBound !== null;
+  const freshness = candidates.map((candidate) => freshnessDetail(pluginsById.get(candidate.id), now, methodology));
   return {
     uniqueCandidates: candidates.length,
     assignments: Object.values(result.cohorts).reduce((sum, cohort) => sum + cohort.length, 0),
     excluded: result.report.excluded,
-    fullFreshness: count((candidate) => candidate.normalized.freshness === 1),
-    verifiedCredit: Object.fromEntries(
-      [...new Set(candidates.map((candidate) => String(candidate.normalized.verified)))].sort().map((credit) => [credit, count((candidate) => String(candidate.normalized.verified) === credit)])
-    )
+    coverage: tally(candidates.map((candidate) => candidate.verificationCoverage)),
+    verifiedCredit: tally(candidates.map((candidate) => candidate.normalized.verified)),
+    installRate: methodology.installRate ? {
+      rated: count(rated),
+      unrated: count((candidate) => !rated(candidate)),
+      nineteenViews: count((candidate) => candidate.metrics.views === 19),
+      twentyViews: count((candidate) => candidate.metrics.views === 20),
+      ratedBelowNeutralPrior: count((candidate) => rated(candidate) && candidate.normalized.installRateLowerBound < 0.5),
+      categoriesWithFewerThanThreeRated: Object.values(result.cohorts).filter((cohort) => cohort.length && cohort.filter(rated).length < 3).length
+    } : null,
+    freshness: {
+      withBonus: freshness.filter((detail) => detail.bonus > 0).length,
+      saturatedByBonus: freshness.filter((detail) => detail.bonus > 0 && detail.uncapped > 1).length,
+      alreadyFullBeforeBonus: freshness.filter((detail) => detail.bonus > 0 && detail.base >= 0.999).length,
+      meanBonusApplied: freshness.length ? round(freshness.reduce((sum, detail) => sum + detail.value - detail.base, 0) / freshness.length) : null
+    }
   };
 }
 
@@ -116,6 +151,7 @@ export function compareMethodologies(inputs, { variants = defaultVariants(), rev
     ids.add(variant.id);
     for (const baseline of variant.baselines) if (!ids.has(baseline)) throw new Error(`Variant ${variant.id} compares against unknown or later baseline ${baseline}`);
   }
+  const pluginsById = new Map(inputs.catalog.body.plugins.map((plugin) => [plugin.id, plugin]));
   const runs = new Map(variants.map((variant) => [variant.id, rankPlugins({
     catalog: inputs.catalog.body.plugins,
     stats: inputs.stats.body.plugins,
@@ -143,7 +179,7 @@ export function compareMethodologies(inputs, { variants = defaultVariants(), rev
       label: variant.label,
       methodologyVersion: variant.methodology.version,
       methodology: variant.methodology,
-      diagnostics: diagnostics(runs.get(variant.id))
+      diagnostics: diagnostics(runs.get(variant.id), variant.methodology, pluginsById, now)
     })),
     comparisons: variants.flatMap((variant) => variant.baselines.map((baseline) => ({
       baseline,
@@ -165,9 +201,19 @@ export function renderComparison(report) {
     "",
     "## Variants",
     "",
-    "| Variant | Methodology | Candidates | Assignments | Full freshness | Verification credit |",
+    "| Variant | Methodology | Candidates | Verification credit | Copy/view rating | Shipping bonus |",
     "| --- | --- | --- | --- | --- | --- |",
-    ...report.variants.map((variant) => `| ${cell(variant.label)} | ${cell(variant.methodologyVersion)} | ${variant.diagnostics.uniqueCandidates} | ${variant.diagnostics.assignments} | ${variant.diagnostics.fullFreshness} | ${cell(Object.entries(variant.diagnostics.verifiedCredit).map(([credit, count]) => `${credit}: ${count}`).join(", "))} |`),
+    ...report.variants.map((variant) => {
+      const d = variant.diagnostics;
+      const credit = Object.entries(d.verifiedCredit).map(([value, count]) => `${value}: ${count}`).join(", ");
+      const rate = d.installRate
+        ? `${d.installRate.rated} rated, ${d.installRate.unrated} unrated (${d.installRate.nineteenViews} at 19 views, ${d.installRate.twentyViews} at 20); ${d.installRate.ratedBelowNeutralPrior} rated below the unrated prior; ${d.installRate.categoriesWithFewerThanThreeRated} categories with fewer than 3 rated`
+        : "not scored";
+      const bonus = d.freshness.withBonus
+        ? `${d.freshness.withBonus} receive it; ${d.freshness.saturatedByBonus} capped at 1; ${d.freshness.alreadyFullBeforeBonus} already full; mean +${d.freshness.meanBonusApplied}`
+        : "none";
+      return `| ${cell(variant.label)} | ${cell(variant.methodologyVersion)} | ${d.uniqueCandidates} (${d.assignments} assignments) | ${cell(credit)} | ${cell(rate)} | ${cell(bonus)} |`;
+    }),
     ""
   ];
   for (const comparison of report.comparisons) {

@@ -32,18 +32,22 @@ const DEFINITIONS = [
     weights: { copies: 0.36, hearts: 0.2, stars: 0.18, views: 0.08, freshness: 0.13, verified: 0.05 }
   },
   {
+    // Parameters chosen from the fixed-input comparison in docs/methodology-1.1.0.md.
     version: "1.1.0",
     hysteresis: 0.1,
     priorStrength: 12,
     evidence: { viewWeight: 0.05, viewCap: 50 },
     normalization: { percentileShare: 0.7, scaleQuantile: 0.95 },
+    // The proposed shipping bonus was evaluated and deferred; freshness stays push-based.
     freshness: { halfLifeDays: 180, shippingBonus: null },
-    verification: { rule: "status" },
-    installRate: null,
+    // "coverage": snapshot-verified 1, update-unverified partial credit, anything else 0.
+    verification: { rule: "coverage", updateUnverifiedCredit: 0.6 },
+    // Wilson 95% lower bound of copies per detail view; unrated below 20 views.
+    installRate: { minimumViews: 20, z: 1.96 },
     // Also excluded immediately: listings whose latest marketplace check failed or could not reach
     // the repository. Absent check results (older feeds) are not treated as failures.
     eligibility: { upstreamHealth: true },
-    weights: { copies: 0.36, hearts: 0.2, stars: 0.18, views: 0.08, freshness: 0.13, verified: 0.05 }
+    weights: { copies: 0.36, hearts: 0.2, stars: 0.18, views: 0.03, installRateLowerBound: 0.05, freshness: 0.13, verified: 0.05 }
   }
 ];
 

@@ -3,14 +3,15 @@ import { readFileSync } from "node:fs";
 import { cp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { METHODOLOGY, changesBetween, scoreLeader, snapshotMethodology } from "./rank.mjs";
+import { METHODOLOGY, changesBetween, scoreLeader, snapshotMethodology, verificationCoverage, verificationCredit } from "./rank.mjs";
 import { renderSocialImage } from "./social.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DIST = path.join(ROOT, "dist");
 const ORIGIN = "https://omapicks.com";
 const DISCOVERY = JSON.parse(readFileSync(new URL("../site/discovery.json", import.meta.url), "utf8"));
-const SIGNAL_METRICS = ["copies", "hearts", "stars", "views", "freshness"];
+const SIGNAL_METRICS = ["copies", "hearts", "stars", "views", "copyViewRatio", "freshness"];
+const VERIFICATION_POLICY_URL = "https://github.com/omacom/omarchy-plugin-marketplace/blob/main/VERIFICATION.md";
 const FUNCTION_ROUTES = {
   version: 1,
   include: ["/*"],
@@ -137,6 +138,8 @@ function metricLabel(metric) {
     ["hearts", "Hearts"],
     ["stars", "Stars"],
     ["views", "Views"],
+    ["copyViewRatio", "Copies per detail view (capped)"],
+    ["installRateLowerBound", "Copy/view lower-bound score"],
     ["freshness", "Freshness"],
     ["verified", "Verified"]
   ]).get(metric) ?? metric;
@@ -188,21 +191,39 @@ function percentLabel(fraction) {
 // Explanations describe the methodology the snapshot was calculated with, never newer code.
 function methodologyCopy(method) {
   const stability = percentLabel(method.hysteresis);
+  const graded = method.verification.rule === "coverage";
+  const rate = method.installRate;
+  const viewsClause = rate
+    ? "Listing views barely count, and a small share rewards plugins whose detail-page visitors often copy the install command."
+    : "Listing views barely count.";
+  const verifiedClause = graded
+    ? "A verified snapshot is a small bonus, not a win condition; a verified snapshot whose upstream has since moved on earns part of it."
+    : "A verified listing is a small bonus, not a win condition.";
   return {
     stability,
-    lede: `In plain terms: we rank plugins by public evidence of use and upkeep, not votes. Copying the install command counts most, then hearts and GitHub stars. Listing views barely count. Abandoned repositories sink. A verified listing is a small bonus, not a win condition. A champion keeps the title until someone beats their score by more than ${stability}.`,
-    note: `This is not a vote. Install-command copies count most, then hearts and GitHub stars. Listing views barely count. Recently updated repositories rank higher than abandoned ones, and a verified listing is only a small bonus. Plugins with little public evidence are pulled toward the middle, so a brand-new listing cannot win on three copies. A champion stays until a challenger is more than ${stability} ahead on the combined score.`,
+    lede: `In plain terms: we rank plugins by public evidence of use and upkeep, not votes. Copying the install command counts most, then hearts and GitHub stars. ${viewsClause} Abandoned repositories sink. ${verifiedClause} A champion keeps the title until someone beats their score by more than ${stability}.`,
+    note: `This is not a vote. Install-command copies count most, then hearts and GitHub stars. ${viewsClause} Recently updated repositories rank higher than abandoned ones, and ${graded ? "a verified snapshot" : "a verified listing"} is only a small bonus. Plugins with little public evidence are pulled toward the middle, so a brand-new listing cannot win on three copies. A champion stays until a challenger is more than ${stability} ahead on the combined score.`,
+    comparison: rate
+      ? `Copies per detail view divides two anonymous counters and is capped at 100%, because copies can also come from listing cards; it is not a measured install rate. Plugins with fewer than ${rate.minimumViews} detail views are not rated.`
+      : "",
     eligibility: method.eligibility.upstreamHealth
       ? "A plugin needs an install command and an HTTPS repository. Retired and delisted listings are out, and so is any listing whose latest daily marketplace check could not reach its repository or found an invalid manifest or preview; it competes again once a later check passes. Omarchy built-ins are listed upstream but never ranked."
       : "A plugin needs an install command and an HTTPS repository. Retired and delisted listings are out.",
     score: `Raw counts are logged with <code>log1p</code>. Each signal is ${percentLabel(method.normalization.percentileShare)} a within-type percentile and ${percentLabel(1 - method.normalization.percentileShare)} a scale capped at the ${Math.round(method.normalization.scaleQuantile * 100)}th percentile. Sparse evidence pulls that result toward 50%.`,
     afterWeights: [
-      `Repository freshness decays with a ${method.freshness.halfLifeDays}-day half-life. Missing timestamps receive no freshness points.`,
-      "Verification is a small bonus, not a requirement."
+      `Repository freshness decays with a ${method.freshness.halfLifeDays}-day half-life from the latest push to any branch. Missing timestamps receive no freshness points.${method.freshness.shippingBonus ? "" : " Version changes and releases are shown with each pick but do not change the score."}`,
+      ...(rate ? [
+        `Copies per detail view compares install-command copies with detail-page views, capped at 100% because copies can also happen on listing cards. The score uses the lower bound of its 95% Wilson interval, the same formula the marketplace uses for its install rate, so a handful of lucky copies on a few views cannot outrank a well-measured plugin. Plugins with fewer than ${rate.minimumViews} views are not rated and sit at the neutral midpoint; evidence damping then applies as for every other signal. Both counters are anonymous: nothing measures actual installations or individual visitors, and the view-count adjustment is a ranking heuristic, not a measured conversion probability. Count signals use <code>log1p</code>; this ratio does not.`
+      ] : []),
+      graded
+        ? `Verification is a small bonus, not a requirement. The marketplace verifies an exact listed commit. A snapshot verified at the commit upstream still points to earns full credit; a verified snapshot whose repository has since moved to unverified code earns ${percentLabel(method.verification.updateUnverifiedCredit)} of it; anything else earns none. Maintainer review and automated baseline checks describe the same exact-commit fact and earn the same credit. <a href="${VERIFICATION_POLICY_URL}">How marketplace verification works</a>.`
+        : "Verification is a small bonus, not a requirement."
     ],
     stabilityRule: `An eligible incumbent remains in place until a challenger scores more than ${stability} higher. If an incumbent becomes unavailable, the highest-scoring eligible plugin takes its place immediately. Ties fall back to copies, hearts, stars, then plugin ID.`,
-    verifiedTipped: "The two were close on public activity; a verified listing tipped this week's score.",
-    verifiedBonus: "plus a small verified-listing bonus"
+    verifiedTipped: graded
+      ? "The two were close on public activity; stronger verification evidence tipped this week's score."
+      : "The two were close on public activity; a verified listing tipped this week's score.",
+    verifiedBonus: graded ? "plus stronger verification evidence" : "plus a small verified-listing bonus"
   };
 }
 
@@ -219,20 +240,21 @@ const WINNING_SIGNALS = Object.freeze({
   copies: "more people copied the install command",
   hearts: "it received more marketplace hearts",
   stars: "it had more GitHub stars",
+  installRateLowerBound: "it had stronger copy-per-view evidence",
   freshness: "its repository was updated more recently"
 });
 
-// Snapshots record contributions; the fallback reconstructs a signal with the snapshot's own rules.
-function verificationFallback(candidate) {
-  return candidate?.verificationStatus === "verified" ? 1 : 0;
-}
-
-function signalDelta(winner, runnerUp, metric) {
+// Snapshots record contributions; the fallback reconstructs a signal with the snapshot's own rules,
+// never today's credit, so an old binary-verification score is not reinterpreted.
+function signalDelta(winner, runnerUp, metric, method) {
   if (winner?.contributions && runnerUp?.contributions) {
     return Number(winner.contributions[metric] ?? 0) - Number(runnerUp.contributions[metric] ?? 0);
   }
   if (metric === "verified") {
-    return verificationFallback(winner) - verificationFallback(runnerUp);
+    return verificationCredit(winner, method) - verificationCredit(runnerUp, method);
+  }
+  if (metric === "installRateLowerBound") {
+    return Number(winner?.metrics?.installRateLowerBound ?? 0) - Number(runnerUp?.metrics?.installRateLowerBound ?? 0);
   }
   if (metric === "freshness") {
     return Number(winner?.normalized?.freshness ?? 0) - Number(runnerUp?.normalized?.freshness ?? 0);
@@ -243,7 +265,7 @@ function signalDelta(winner, runnerUp, metric) {
 function meaningfulLead(delta, metric, usedContributions) {
   if (usedContributions) return delta > 0.003;
   if (metric === "verified") return delta > 0;
-  if (metric === "freshness") return delta > 0.05;
+  if (metric === "freshness" || metric === "installRateLowerBound") return delta > 0.05;
   return delta >= 1;
 }
 
@@ -259,10 +281,11 @@ export function winningReason(winner, runnerUp, topScorer = null, method = METHO
   }
   const usedContributions = Boolean(winner.contributions && runnerUp.contributions);
   const leads = Object.keys(WINNING_SIGNALS)
-    .map((metric) => ({ metric, delta: signalDelta(winner, runnerUp, metric) }))
+    .filter((metric) => metric in method.weights)
+    .map((metric) => ({ metric, delta: signalDelta(winner, runnerUp, metric, method) }))
     .filter((entry) => meaningfulLead(entry.delta, entry.metric, usedContributions))
     .sort((a, b) => b.delta - a.delta);
-  const verifiedLead = meaningfulLead(signalDelta(winner, runnerUp, "verified"), "verified", usedContributions);
+  const verifiedLead = meaningfulLead(signalDelta(winner, runnerUp, "verified", method), "verified", usedContributions);
   if (!leads.length) {
     return verifiedLead ? copy.verifiedTipped : "It led this week's combined public-registry score in a close race.";
   }
@@ -440,9 +463,13 @@ function shell({ title, description, pathname, image, body, structuredData = nul
 `;
 }
 
+// Badges describe the verification evidence, not the score, so they use the shared resolver for
+// every snapshot. The visible text carries the distinction; nothing relies on a title attribute.
 function statusPill(candidate) {
-  const verified = candidate.verificationStatus === "verified";
-  return `<span class="status ${verified ? "verified" : ""}">${verified ? "Verified" : "Community"}</span>`;
+  const coverage = candidate.verificationCoverage ?? verificationCoverage(candidate);
+  if (coverage === "snapshot-verified") return `<span class="status verified">Snapshot verified</span>`;
+  if (coverage === "update-unverified") return `<span class="status verified-stale">Verified snapshot; update unverified</span>`;
+  return `<span class="status">Community</span>`;
 }
 
 function mediaImage(candidate, { decorative = false } = {}) {
@@ -453,27 +480,44 @@ function mediaImage(candidate, { decorative = false } = {}) {
   return `<img src="${src}" alt="${escapeHtml(alt)}" width="${escapeHtml(width)}" height="${escapeHtml(height)}" loading="lazy">`;
 }
 
-function metricValue(candidate, metric) {
+function ratedViews(candidate, method) {
+  return Number(candidate?.metrics?.views ?? 0) >= (method.installRate?.minimumViews ?? 20);
+}
+
+function metricValue(candidate, metric, method = METHODOLOGY) {
   if (metric === "freshness") return clamp01(candidate?.normalized?.freshness);
+  if (metric === "copyViewRatio") return ratedViews(candidate, method) ? clamp01(candidate?.metrics?.copyViewRatio) : 0;
   const value = Number(candidate?.metrics?.[metric] ?? 0);
   return Number.isFinite(value) ? Math.max(0, value) : 0;
 }
 
-function metricDisplay(candidate, metric) {
-  const value = metricValue(candidate, metric);
+function metricDisplay(candidate, metric, method = METHODOLOGY) {
+  if (metric === "copyViewRatio") {
+    const views = Number(candidate?.metrics?.views ?? 0);
+    if (!(views > 0) || candidate?.metrics?.copyViewRatio == null) return "No detail views";
+    if (!ratedViews(candidate, method)) return `Not rated (under ${method.installRate?.minimumViews ?? 20} views)`;
+    const ratio = clamp01(candidate.metrics.copyViewRatio);
+    return ratio === 0 ? "0%" : `${(ratio * 100).toFixed(1)}%`;
+  }
+  const value = metricValue(candidate, metric, method);
   if (value === 0) return "—";
   return metric === "freshness"
     ? `${Math.round(value * 100)}%`
     : value.toLocaleString("en-US");
 }
 
-function comparisonBar(candidate, metric, max) {
-  const value = metricValue(candidate, metric);
+function comparisonBar(candidate, metric, max, method) {
+  const value = metricValue(candidate, metric, method);
   const width = value === 0 ? 0 : Math.round((value / max) * 100);
   return `<span class="comparison-value">
     <span class="signal-bar" aria-hidden="true"><span style="width:${width}%"></span></span>
-    <span>${escapeHtml(metricDisplay(candidate, metric))}</span>
+    <span>${escapeHtml(metricDisplay(candidate, metric, method))}</span>
   </span>`;
+}
+
+// Historical snapshots without a signal keep no invented row.
+function recordedMetric(candidates, metric) {
+  return metric !== "copyViewRatio" || candidates.some((candidate) => candidate?.metrics && "copyViewRatio" in candidate.metrics);
 }
 
 function scoreComparison(type, method) {
@@ -494,7 +538,7 @@ function scoreComparison(type, method) {
         <p class="kicker">Marketplace counts</p>
         <h2 id="comparison-heading">How they compare</h2>
       </div>
-      <p>These bars are raw public counts for these two plugins, not the ranking itself. Install-command copies count most. Freshness is how recently the repository was updated. ${scores}${hiddenNote} <a href="/methodology/">How the ranking is calculated</a></p>
+      <p>These bars are raw public counts for these two plugins, not the ranking itself. Install-command copies count most. Freshness is how recently the repository was updated.${recordedMetric(candidates, "copyViewRatio") && methodologyCopy(method).comparison ? ` ${escapeHtml(methodologyCopy(method).comparison)}` : ""} ${scores}${hiddenNote} <a href="/methodology/">How the ranking is calculated</a></p>
     </div>
     <table class="comparison-table">
       <caption class="visually-hidden">Marketplace signals by plugin</caption>
@@ -504,18 +548,34 @@ function scoreComparison(type, method) {
         ${runnerUp ? `<th scope="col">${escapeHtml(runnerUp.name)}</th>` : ""}
       </tr></thead>
       <tbody>
-      ${SIGNAL_METRICS.map((metric) => {
-        const values = candidates.map((candidate) => metricValue(candidate, metric));
-        const max = Math.max(...values, metric === "freshness" ? 0.01 : 1);
+      ${SIGNAL_METRICS.filter((metric) => recordedMetric(candidates, metric)).map((metric) => {
+        const values = candidates.map((candidate) => metricValue(candidate, metric, method));
+        const max = Math.max(...values, ["freshness", "copyViewRatio"].includes(metric) ? 0.01 : 1);
         return `<tr class="comparison-row">
           <th scope="row" class="comparison-metric">${metricLabel(metric)}</th>
-          <td>${comparisonBar(winner, metric, max)}</td>
-          ${runnerUp ? `<td>${comparisonBar(runnerUp, metric, max)}</td>` : ""}
+          <td>${comparisonBar(winner, metric, max, method)}</td>
+          ${runnerUp ? `<td>${comparisonBar(runnerUp, metric, max, method)}</td>` : ""}
         </tr>`;
       }).join("")}
       </tbody>
     </table>
   </section>`;
+}
+
+function releaseLabels(candidate) {
+  const bare = (value) => String(value).replace(/^v(?=\d)/i, "");
+  const labels = [];
+  if (candidate.version) labels.push(`v${bare(candidate.version)}`);
+  if (candidate.releaseTag && (!candidate.version || bare(candidate.releaseTag) !== bare(candidate.version))) {
+    labels.push(`release ${candidate.releaseTag}`);
+  }
+  return labels;
+}
+
+function byline(candidate) {
+  return [candidate.author || "Unknown author", ...releaseLabels(candidate), candidate.license || "license unknown"]
+    .map(escapeHtml)
+    .join(" · ");
 }
 
 function previewFrame(candidate) {
@@ -534,7 +594,7 @@ function candidateCard(candidate, place, type, week, { runnerUp = null, topScore
     ${previewFrame(candidate)}
     <div class="card-body">
       <h3>${outboundLink(candidate.detailUrl, escapeHtml(candidate.name))}</h3>
-      <p class="byline">${escapeHtml(candidate.author || "Unknown author")} · ${escapeHtml(candidate.license || "license unknown")}</p>
+      <p class="byline">${byline(candidate)}</p>
       ${reason ? `<p class="why-won">${escapeHtml(reason)}</p>` : ""}
       <p>${escapeHtml(candidate.description)}</p>
       <div class="command-row">
@@ -545,7 +605,7 @@ function candidateCard(candidate, place, type, week, { runnerUp = null, topScore
         ${outboundLink(candidate.detailUrl, "Original listing")}
         ${outboundLink(candidate.repository, "Repository")}
       </div>
-      <p class="install-disclaimer">A ranking is not an endorsement or a safety review. Inspect the plugin yourself and install it at your own risk. <a href="/methodology/#safety">Read the full note</a></p>
+      <p class="install-disclaimer">A ranking is not an endorsement or a safety review. The command installs the repository's current code, not a verified snapshot. Inspect the plugin yourself and install it at your own risk. <a href="/methodology/#safety">Read the full note</a></p>
       ${place === "winner" ? `<div class="badge-embed">
         <p class="kicker">For plugin authors</p>
         <p>Copy this markdown into your README to show that you won this category this week.</p>
@@ -867,7 +927,7 @@ function methodologyPage(rankings) {
     <h2>The score</h2>
     <p>${copy.score}</p>
     <ul class="weight-list">${weights}</ul>
-    <p>${copy.afterWeights.map(escapeHtml).join(" ")}</p>
+    ${copy.afterWeights.map((paragraph) => `<p>${paragraph}</p>`).join("\n    ")}
     <h2>Stability</h2>
     <p>${escapeHtml(copy.stabilityRule)}</p>
     <h2 id="data-sources">Data sources</h2>
@@ -881,6 +941,7 @@ function methodologyPage(rankings) {
     <h2 id="safety">Safety and responsibility</h2>
     <p>OmaPicks ranks public evidence of use and upkeep. It does not audit plugin source code, maintainers, or install behavior, and it does not certify that a plugin is safe, high quality, compatible, licensed for your use, or still maintained.</p>
     <p>A champion or runner-up listing is not an endorsement, recommendation, or warranty. Before you install anything, inspect the repository, permissions, and marketplace listing yourself. You are responsible for what you run on your machine.</p>
+    <p>Install commands fetch the repository's current code at the moment you run them. They are not bound to the commit the marketplace verified, even when that commit matched the latest upstream check, so a verification badge describes a past snapshot rather than what you will install. <a href="${VERIFICATION_POLICY_URL}">Marketplace verification policy</a>.</p>
   </section>`;
   return shell({
     title: "How the rankings work",

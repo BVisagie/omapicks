@@ -951,6 +951,12 @@ button {
   letter-spacing: 0.04em;
 }
 
+/* A verified snapshot whose upstream has moved on: same evidence, visibly weaker. */
+.status.verified-stale {
+  color: var(--muted);
+  border-style: dashed;
+}
+
 .preview-frame {
   aspect-ratio: 16 / 9;
   border-bottom: 1px solid var(--line);

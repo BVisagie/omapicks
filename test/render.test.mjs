@@ -9,10 +9,12 @@ import {
   render,
   renderFixtureFeed,
   renderFixtureHome,
+  renderFixtureMethodology,
   renderFixtureType,
   weekLabel,
   winningReason
 } from "../build/render.mjs";
+import { methodologyFor } from "../build/methodology.mjs";
 
 function fixtureCandidate(values = {}) {
   return {
@@ -267,8 +269,12 @@ test("winning reasons describe the score gap in plain language", () => {
     contributions: { copies: 0.2, hearts: 0.2, stars: 0.1, views: 0.05, freshness: 0.1, verified: 0 }
   });
   assert.equal(
-    winningReason(close, closeRunner),
+    winningReason(close, closeRunner, null, methodologyFor("1.0.0")),
     "The two were close on public activity; a verified listing tipped this week's score."
+  );
+  assert.equal(
+    winningReason(close, closeRunner, null, methodologyFor("1.1.0")),
+    "The two were close on public activity; stronger verification evidence tipped this week's score."
   );
 });
 
@@ -679,4 +685,57 @@ test("discovery metadata uses taxonomy categories and related navigation stays c
   assert.match(directory, /\/picks\/audio\//);
   assert.match(directory, /\/picks\/radio\//);
   assert.match(html, /href="\/#catalog">Browse all categories/);
+});
+
+test("copy/view rows show capped ratios, distinguish unrated and missing data, and skip historical snapshots", () => {
+  const row = (html) => html.match(/<th scope="row" class="comparison-metric">Copies per detail view \(capped\)<\/th>([\s\S]*?)<\/tr>/)?.[1] ?? null;
+  const values = (html) => [...row(html).matchAll(/<\/span>\s*<span>([^<]*)<\/span>/g)].map((match) => match[1]);
+  const rankings = fixtureRankings(fixtureCandidate({ metrics: { copies: 17, hearts: 4, stars: 3, views: 64, copyViewRatio: 0.2656, installRateLowerBound: 0.173 } }));
+  rankings.methodologyVersion = "1.1.0";
+  const type = rankings.types[0];
+  type.runnerUp = fixtureCandidate({ id: "runner", name: "Runner", score: 0.5, metrics: { copies: 0, hearts: 1, stars: 1, views: 25, copyViewRatio: 0, installRateLowerBound: 0 } });
+  let html = renderFixtureType(type, rankings);
+  assert.deepEqual(values(html), ["26.6%", "0%"]);
+  assert.match(html, /not a measured install rate/);
+  assert.doesNotMatch(html, /Copy\/view lower-bound score/);
+  type.runnerUp.metrics = { copies: 5, hearts: 1, stars: 1, views: 5, copyViewRatio: 1, installRateLowerBound: null };
+  html = renderFixtureType(type, rankings);
+  assert.deepEqual(values(html), ["26.6%", "Not rated (under 20 views)"]);
+  type.runnerUp.metrics = { copies: 5, hearts: 1, stars: 1, views: 0, copyViewRatio: null, installRateLowerBound: null };
+  assert.deepEqual(values(renderFixtureType(type, rankings)), ["26.6%", "No detail views"]);
+  // Snapshots from before the signal existed show no invented row or explanation.
+  const historical = fixtureRankings();
+  historical.types[0].runnerUp = fixtureCandidate({ id: "runner", name: "Runner", score: 0.5 });
+  const old = renderFixtureType(historical.types[0], historical);
+  assert.equal(row(old), null);
+  assert.doesNotMatch(old, /not a measured install rate/);
+  assert.match(old, /<th scope="row" class="comparison-metric">Views<\/th>/);
+});
+
+test("the byline shows version and a distinct release tag when present", () => {
+  const html = (values) => renderFixtureType(fixtureRankings(fixtureCandidate(values)).types[0], fixtureRankings(fixtureCandidate(values))).match(/<p class="byline">([^<]*)<\/p>/)[1];
+  assert.equal(html({ license: "MIT" }), "Author · MIT");
+  assert.equal(html({ license: "MIT", version: "1.2.2", releaseTag: "v1.2.2" }), "Author · v1.2.2 · MIT");
+  assert.equal(html({ license: "MIT", version: "1.2.2", releaseTag: "nightly" }), "Author · v1.2.2 · release nightly · MIT");
+  assert.equal(html({ license: "MIT", releaseTag: "v0.3.0" }), "Author · release v0.3.0 · MIT");
+  assert.equal(html({ name: "X", author: "<b>", version: "<1>" }), "&lt;b&gt; · v&lt;1&gt; · license unknown");
+});
+
+test("methodology 1.1.0 explains graded verification, copy/view scoring and deferred shipping bonus", () => {
+  const rankings = { ...fixtureRankings(), methodologyVersion: "1.1.0" };
+  const page = renderFixtureMethodology(rankings);
+  assert.match(page, /Methodology v1\.1\.0/);
+  assert.match(page, /<span>Views<\/span>.*?<span class="pct">3%<\/span>/s);
+  assert.match(page, /<span>Copy\/view lower-bound score<\/span>.*?<span class="pct">5%<\/span>/s);
+  assert.match(page, /earns 60% of it/);
+  assert.match(page, /exact listed commit/);
+  assert.match(page, /omarchy-plugin-marketplace\/blob\/main\/VERIFICATION\.md/);
+  assert.match(page, /Wilson interval/);
+  assert.match(page, /fewer than 20 views are not rated/);
+  assert.match(page, /nothing measures actual installations/);
+  assert.match(page, /do not change the score/);
+  assert.match(page, /could not reach its repository/);
+  assert.match(page, /not bound to the commit the marketplace verified/);
+  const legacy = renderFixtureMethodology(fixtureRankings());
+  assert.doesNotMatch(legacy, /Wilson|earns 60%|could not reach its repository/);
 });
