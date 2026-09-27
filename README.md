@@ -44,6 +44,7 @@ OmaPicks ranks two public feeds operated by Omarchy Plugins:
 - [`plugins.omarchy.org/catalog.json`](https://plugins.omarchy.org/catalog.json) — plugin metadata, repositories, licenses, maintenance dates, verification status, install availability, GitHub stars, and preview locations
 - [`api.omarchyplugins.com/v1/stats`](https://api.omarchyplugins.com/v1/stats) — install-command copies, hearts, and views by plugin ID
 - [`omarchy-plugin-marketplace/registry.json`](https://github.com/omacom/omarchy-plugin-marketplace/blob/main/registry.json) — retired plugin IDs from the MIT-licensed marketplace source, used only to label why a previous pick left the catalog; a failed fetch never blocks a refresh
+- [`plugins.omarchy.org/explorer-data.json`](https://plugins.omarchy.org/explorer-data.json) — keyword clusters and TF-IDF neighbours, used only by the report-only category discovery pilot
 - [Omarchy](https://github.com/omacom/omarchy) — built-in plugins, read from their catalog listings and shown beside matching categories (`builtIns` in `data/app-types.json`); never ranked
 
 The corresponding listings are on the [Omarchy Plugins marketplace](https://plugins.omarchy.org/?sort=copies). OmaPicks classifies and ranks this evidence independently; the source services do not select or sponsor winners.
@@ -83,4 +84,4 @@ Both the midweek pre-check (`--dry-run`) and the weekly refresh explain their ou
 
 ## Category discovery pilot
 
-The report-only **Weekly category discovery** workflow runs Tuesdays at 06:43 UTC and can be started manually. It scans for possible taxonomy gaps, requires repository diversity and observations at least six days apart, and provides an Actions summary plus a downloadable evidence bundle and LLM follow-up prompt. It uses no model API key and never changes categories or opens PRs. See [the pilot guide](docs/category-discovery.md) for limitations, review decisions, replay instructions, and the four-week evaluation.
+The report-only **Weekly category discovery** workflow runs Tuesdays at 06:43 UTC and can be started manually. It scans for possible taxonomy gaps, requires repository diversity and observations at least six days apart, and provides an Actions summary plus a downloadable evidence bundle and LLM follow-up prompt. It also reports neighbour near-misses and cluster gaps from the marketplace's [explorer data](https://plugins.omarchy.org/explorer-data.json) as lexical leads only, and `node scripts/category-discovery.mjs --input <inputs.json>` replays a run offline. It uses no model API key and never changes categories or opens PRs. See [the pilot guide](docs/category-discovery.md) for limitations, review decisions, replay instructions, and the four-week evaluation.
