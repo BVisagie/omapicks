@@ -2,8 +2,9 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { auditClassifications, checksum, renderClassificationAudit } from "../build/classification-audit.mjs";
-import { CLASSIFICATION_VERSION } from "../build/rank.mjs";
-import { fetchJson, validateFeeds } from "../build/refresh.mjs";
+import { LEGACY_METHODOLOGY_VERSION, methodologyVersions, methodologyFor } from "../build/methodology.mjs";
+import { CLASSIFICATION_VERSION, METHODOLOGY } from "../build/rank.mjs";
+import { codeRevision, fetchJson, validateFeeds } from "../build/refresh.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 async function json(file, fallback) {
@@ -16,6 +17,11 @@ export async function runAudit({ root = ROOT, inputFile, baselineFile, baselineV
   if (inputFile) {
     inputs = await json(inputFile);
     if (inputs.classificationVersion !== CLASSIFICATION_VERSION) throw new Error("Replay requires the classifier version recorded in inputs.json");
+    // Inputs captured before methodology versions were recorded came from the 1.0.0 rules.
+    const recorded = inputs.methodologyVersion ?? LEGACY_METHODOLOGY_VERSION;
+    if (!methodologyVersions().includes(recorded)) {
+      throw new Error(`Replay requires methodology ${JSON.stringify(recorded)} recorded in inputs.json, which this revision does not define; check out revision ${inputs.codeRevision ?? "that captured the inputs"}`);
+    }
   } else {
     const [catalog, stats, taxonomy, previous, previousState] = await Promise.all([
       fetchJson("https://plugins.omarchy.org/catalog.json", { fetchImpl }),
@@ -24,11 +30,12 @@ export async function runAudit({ root = ROOT, inputFile, baselineFile, baselineV
       json(path.join(root, "data", "rankings.json")),
       json(path.join(root, "data", "classification-state.json"), null)
     ]);
-    inputs = { schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, now: new Date().toISOString(), catalog, stats, taxonomy, previous, previousState,
+    inputs = { schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, methodologyVersion: METHODOLOGY.version, codeRevision: codeRevision(root), now: new Date().toISOString(), catalog, stats, taxonomy, previous, previousState,
       baselineTaxonomy: baselineFile ? await json(baselineFile) : null, baselineVersion };
   }
   validateFeeds(inputs.catalog.body, inputs.stats.body, 1000, inputs.previous);
-  const report = auditClassifications({ ...inputs, catalog: inputs.catalog.body.plugins, stats: inputs.stats.body.plugins, now: new Date(inputs.now) });
+  const methodology = methodologyFor(inputs.methodologyVersion ?? LEGACY_METHODOLOGY_VERSION);
+  const report = auditClassifications({ ...inputs, catalog: inputs.catalog.body.plugins, stats: inputs.stats.body.plugins, now: new Date(inputs.now), methodology });
   report.inputsHash = checksum(inputs);
   await mkdir(output, { recursive: true });
   for (const [name, value] of Object.entries({ "inputs.json": inputs, "report.json": report, "state.json": report.state })) await writeFile(path.join(output, name), JSON.stringify(value, null, 2) + "\n");

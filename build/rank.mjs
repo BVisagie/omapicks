@@ -1,20 +1,12 @@
+import { CURRENT_METHODOLOGY_VERSION, methodologyFor } from "./methodology.mjs";
+
+export { methodologyFor, snapshotMethodology } from "./methodology.mjs";
+
 const DAY_MS = 86_400_000;
 export const CLASSIFICATION_VERSION = 2;
 
-export const METHODOLOGY = Object.freeze({
-  version: "1.0.0",
-  hysteresis: 0.1,
-  priorStrength: 12,
-  freshnessHalfLifeDays: 180,
-  weights: Object.freeze({
-    copies: 0.36,
-    hearts: 0.2,
-    stars: 0.18,
-    views: 0.08,
-    freshness: 0.13,
-    verified: 0.05
-  })
-});
+// The rules new snapshots are calculated with. Rendering uses the snapshot's own definition.
+export const METHODOLOGY = methodologyFor(CURRENT_METHODOLOGY_VERSION);
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -23,6 +15,61 @@ function assert(condition, message) {
 function finiteCount(value) {
   const number = Number(value);
   return Number.isFinite(number) && number > 0 ? number : 0;
+}
+
+// Coverage relates a verified snapshot to the upstream commit the marketplace last observed.
+const COVERAGE_STATES = new Set(["snapshot-verified", "update-unverified", "unverified"]);
+
+// Shared by scoring, snapshots and rendering so a plugin's credit and badge always agree. Older
+// feeds and snapshots carry only verificationStatus; unknown explicit values earn nothing.
+export function verificationCoverage(plugin) {
+  const explicit = plugin?.verificationCoverage;
+  if (explicit != null) return COVERAGE_STATES.has(explicit) ? explicit : "unverified";
+  return plugin?.verificationStatus === "verified" ? "snapshot-verified" : "unverified";
+}
+
+export function verificationCredit(plugin, methodology = METHODOLOGY) {
+  if (methodology.verification.rule === "status") return plugin?.verificationStatus === "verified" ? 1 : 0;
+  const coverage = verificationCoverage(plugin);
+  if (coverage === "snapshot-verified") return 1;
+  return coverage === "update-unverified" ? methodology.verification.updateUnverifiedCredit : 0;
+}
+
+// Mirrors engagementCount in the marketplace's site/assets/js/shared.js (commit fec33e6b).
+function engagementCount(value) {
+  const count = Math.trunc(Number(value));
+  return Number.isSafeInteger(count) && count >= 0 ? count : 0;
+}
+
+// Install-command copies per detail view, capped at 100%: copies can also come from cards
+// without a detail view. An engagement proxy, not a measured installation rate.
+export function copyViewRatio(copies, views) {
+  const viewCount = engagementCount(views);
+  return viewCount ? Math.min(engagementCount(copies), viewCount) / viewCount : null;
+}
+
+// Lower bound of the 95% Wilson interval for the capped ratio, matching the rated values of the
+// marketplace's installRateScore (fec33e6b). Unrated observations are null rather than -1.
+export function installRateLowerBound(copies, views, { minimumViews = 20, z = 1.96 } = {}) {
+  const viewCount = engagementCount(views);
+  if (viewCount < Math.max(1, minimumViews)) return null;
+  const copyCount = Math.min(engagementCount(copies), viewCount);
+  if (!copyCount) return 0;
+  const rate = copyCount / viewCount;
+  const center = rate + (z * z) / (2 * viewCount);
+  const margin = z * Math.sqrt((rate * (1 - rate) + (z * z) / (4 * viewCount)) / viewCount);
+  return (center - margin) / (1 + (z * z) / viewCount);
+}
+
+function timestamp(value) {
+  return typeof value === "string" ? Date.parse(value) : Number.NaN;
+}
+
+// The latest observation that something shipped: a manifest version change seen by the catalog
+// refresh, or a dated repository release (which may cover other plugins in a shared repository).
+export function shippedAt(plugin) {
+  const times = [plugin?.versionUpdatedAt, plugin?.repositoryRelease?.publishedAt].map(timestamp).filter(Number.isFinite);
+  return times.length ? new Date(Math.max(...times)).toISOString() : null;
 }
 
 function compilePatterns(patterns, label) {
@@ -47,6 +94,9 @@ export function prepareTaxonomy(taxonomy) {
     assert(!ids.has(type.id), `Duplicate taxonomy id: ${type.id}`);
     ids.add(type.id);
     assert(typeof type.name === "string" && type.name.length > 0, `${label}.name is required`);
+    // Omarchy built-ins shown beside a category's picks. Display only: never classified or ranked.
+    assert(type.builtIns == null || (Array.isArray(type.builtIns) &&
+      type.builtIns.every((id) => typeof id === "string" && id.length > 0)), `${label}.builtIns must be an array of plugin IDs`);
     return {
       ...type,
       includePatterns: compilePatterns(type.include, `${label}.include`),
@@ -117,12 +167,20 @@ export function classifyPlugin(plugin, preparedTaxonomy) {
   return explainClassification(plugin, preparedTaxonomy).filter((match) => match.accepted).map((match) => match.typeId);
 }
 
-export function eligibilityReason(plugin) {
+// Health and built-in checks precede installability: failed listings also lose their install
+// command upstream, and built-ins never had one, so "not-installable" would hide the real reason.
+export function eligibilityReason(plugin, methodology = METHODOLOGY) {
   if (!plugin || typeof plugin.id !== "string" || !plugin.id) return "invalid-id";
+  if (plugin.sourceType === "builtin" || plugin.builtIn === true) return "built-in";
+  if (methodology.eligibility.upstreamHealth) {
+    // A missing check result (older feeds) is not evidence of a problem, nor of a passed check.
+    if (plugin.upstreamCheckStatus === "failed") return "compatibility-failed";
+    if (plugin.upstreamCheckStatus === "unreachable") return "repository-unreachable";
+  }
+  if (["retired", "delisted"].includes(String(plugin.status).toLowerCase())) return "retired";
   if (plugin.installAvailable !== true || typeof plugin.installCommand !== "string" || !plugin.installCommand.trim()) {
     return "not-installable";
   }
-  if (["retired", "delisted"].includes(String(plugin.status).toLowerCase())) return "retired";
   if (typeof plugin.repo !== "string" || !plugin.repo.startsWith("https://")) return "invalid-repository";
   return null;
 }
@@ -151,23 +209,42 @@ function quantile(sortedValues, percentile) {
   return sortedValues[lower] + (sortedValues[Math.min(lower + 1, sortedValues.length - 1)] - sortedValues[lower]) * fraction;
 }
 
-function normalizedSignalMap(valuesById) {
+function normalizedSignalMap(valuesById, methodology) {
   const logged = new Map([...valuesById].map(([id, value]) => [id, Math.log1p(value)]));
+  const { percentileShare, scaleQuantile } = methodology.normalization;
   const percentiles = percentileMap(logged);
-  const scale = quantile([...logged.values()].sort((a, b) => a - b), 0.95);
+  const scale = quantile([...logged.values()].sort((a, b) => a - b), scaleQuantile);
   return new Map(
     [...logged].map(([id, value]) => {
       const robustScale = scale > 0 ? Math.min(1, value / scale) : 0.5;
-      return [id, 0.7 * percentiles.get(id) + 0.3 * robustScale];
+      return [id, percentileShare * percentiles.get(id) + (1 - percentileShare) * robustScale];
     })
   );
 }
 
-function freshnessScore(updatedAt, now) {
-  const timestamp = Date.parse(updatedAt);
-  if (!Number.isFinite(timestamp)) return 0;
-  const ageDays = Math.max(0, (now.getTime() - timestamp) / DAY_MS);
-  return Math.exp((-Math.log(2) * ageDays) / METHODOLOGY.freshnessHalfLifeDays);
+function decay(time, now, halfLifeDays) {
+  const ageDays = Math.max(0, (now.getTime() - time) / DAY_MS);
+  return Math.exp((-Math.log(2) * ageDays) / halfLifeDays);
+}
+
+export function freshnessDetail(plugin, now, methodology = METHODOLOGY) {
+  const { halfLifeDays, shippingBonus } = methodology.freshness;
+  const pushed = timestamp(plugin?.repositoryUpdatedAt);
+  if (!shippingBonus) {
+    const value = Number.isFinite(pushed) ? decay(pushed, now, halfLifeDays) : 0;
+    return { base: value, bonus: 0, uncapped: value, value };
+  }
+  const shipped = timestamp(shippedAt(plugin));
+  const latest = Math.max(...[pushed, shipped].filter(Number.isFinite));
+  const base = Number.isFinite(latest) ? decay(latest, now, halfLifeDays) : 0;
+  const withinWindow = Number.isFinite(shipped) && Math.max(0, (now.getTime() - shipped) / DAY_MS) <= shippingBonus.windowDays;
+  const bonus = withinWindow ? shippingBonus.amount * decay(shipped, now, shippingBonus.halfLifeDays) : 0;
+  return { base, bonus, uncapped: base + bonus, value: Math.min(1, base + bonus) };
+}
+
+function evidenceCount(metrics, methodology) {
+  const { viewWeight, viewCap } = methodology.evidence;
+  return metrics.copies + metrics.hearts + Math.min(metrics.views * viewWeight, viewCap);
 }
 
 function round(value, places = 6) {
@@ -175,7 +252,12 @@ function round(value, places = 6) {
   return Math.round(value * scale) / scale;
 }
 
-function publicCandidate(plugin, metrics, score, normalized, contributions, now) {
+function isoOrNull(value) {
+  const time = timestamp(value);
+  return Number.isFinite(time) ? new Date(time).toISOString() : null;
+}
+
+function publicCandidate(plugin, metrics, score, normalized, contributions, now, methodology) {
   const preview = typeof plugin.previewThumbnail === "string" ? plugin.previewThumbnail : plugin.previewImage;
   const previewSource = preview
     ? new URL(preview, "https://plugins.omarchy.org/").href
@@ -190,6 +272,13 @@ function publicCandidate(plugin, metrics, score, normalized, contributions, now)
     detailUrl: `https://plugins.omarchy.org/plugin.html?id=${encodeURIComponent(plugin.id)}`,
     installCommand: plugin.installCommand.trim(),
     verificationStatus: String(plugin.verificationStatus || "unverified"),
+    verificationCoverage: verificationCoverage(plugin),
+    verificationMethod: typeof plugin.verificationMethod === "string" ? plugin.verificationMethod : null,
+    upstreamCheckStatus: typeof plugin.upstreamCheckStatus === "string" ? plugin.upstreamCheckStatus : null,
+    version: typeof plugin.version === "string" && plugin.version.trim() ? plugin.version.trim() : null,
+    releaseTag: typeof plugin.repositoryRelease?.tag === "string" && plugin.repositoryRelease.tag.trim() ? plugin.repositoryRelease.tag.trim() : null,
+    shippedAt: shippedAt(plugin),
+    listedAt: isoOrNull(plugin.listedAt),
     license: String(plugin.license || "Unknown"),
     repositoryUpdatedAt: Number.isFinite(Date.parse(plugin.repositoryUpdatedAt))
       ? new Date(plugin.repositoryUpdatedAt).toISOString()
@@ -198,13 +287,14 @@ function publicCandidate(plugin, metrics, score, normalized, contributions, now)
     previewWidth: finiteCount(plugin.previewThumbnailWidth || plugin.previewWidth) || null,
     previewHeight: finiteCount(plugin.previewThumbnailHeight || plugin.previewHeight) || null,
     localImage: null,
-    metrics,
+    metrics: {
+      ...metrics,
+      copyViewRatio: metrics.copyViewRatio == null ? null : round(metrics.copyViewRatio, 4),
+      installRateLowerBound: metrics.installRateLowerBound == null ? null : round(metrics.installRateLowerBound, 4)
+    },
     normalized,
     contributions,
-    evidence: round(
-      (metrics.copies + metrics.hearts + Math.min(metrics.views * 0.05, 50)) /
-        (metrics.copies + metrics.hearts + Math.min(metrics.views * 0.05, 50) + METHODOLOGY.priorStrength)
-    ),
+    evidence: round(evidenceCount(metrics, methodology) / (evidenceCount(metrics, methodology) + methodology.priorStrength)),
     freshnessDays: Number.isFinite(Date.parse(plugin.repositoryUpdatedAt))
       ? Math.max(0, Math.floor((now.getTime() - Date.parse(plugin.repositoryUpdatedAt)) / DAY_MS))
       : null,
@@ -212,7 +302,21 @@ function publicCandidate(plugin, metrics, score, normalized, contributions, now)
   };
 }
 
-function scoreCohort(plugins, stats, now) {
+// Rates are already on [0, 1], so no log1p. Only rated observations enter the percentile and scale
+// maps; unrated candidates sit at the neutral midpoint before reliability damping.
+function rateSignalMap(valuesById, methodology) {
+  const rated = new Map([...valuesById].filter(([, value]) => value !== null));
+  const { percentileShare, scaleQuantile } = methodology.normalization;
+  const percentiles = percentileMap(rated);
+  const scale = quantile([...rated.values()].sort((a, b) => a - b), scaleQuantile);
+  return new Map([...valuesById].map(([id, value]) => {
+    if (value === null) return [id, 0.5];
+    const robustScale = scale > 0 ? Math.min(1, value / scale) : 0.5;
+    return [id, percentileShare * percentiles.get(id) + (1 - percentileShare) * robustScale];
+  }));
+}
+
+function scoreCohort(plugins, stats, now, methodology) {
   const raw = new Map();
   for (const plugin of plugins) {
     const engagement = stats[plugin.id] ?? {};
@@ -220,34 +324,40 @@ function scoreCohort(plugins, stats, now) {
       copies: finiteCount(engagement.copies),
       hearts: finiteCount(engagement.hearts),
       stars: finiteCount(plugin.stars),
-      views: finiteCount(engagement.views)
+      views: finiteCount(engagement.views),
+      copyViewRatio: copyViewRatio(engagement.copies, engagement.views),
+      installRateLowerBound: installRateLowerBound(engagement.copies, engagement.views, methodology.installRate ?? undefined)
     });
   }
 
   const percentiles = {};
   for (const metric of ["copies", "hearts", "stars", "views"]) {
-    percentiles[metric] = normalizedSignalMap(new Map([...raw].map(([id, metrics]) => [id, metrics[metric]])));
+    percentiles[metric] = normalizedSignalMap(new Map([...raw].map(([id, metrics]) => [id, metrics[metric]])), methodology);
   }
+  const scoredRates = methodology.installRate
+    ? rateSignalMap(new Map([...raw].map(([id, metrics]) => [id, metrics.installRateLowerBound])), methodology)
+    : null;
 
   return plugins
     .map((plugin) => {
       const metrics = raw.get(plugin.id);
-      const evidenceCount = metrics.copies + metrics.hearts + Math.min(metrics.views * 0.05, 50);
-      const reliability = evidenceCount / (evidenceCount + METHODOLOGY.priorStrength);
+      const evidence = evidenceCount(metrics, methodology);
+      const reliability = evidence / (evidence + methodology.priorStrength);
       const normalized = {};
       for (const metric of ["copies", "hearts", "stars", "views"]) {
         normalized[metric] = round(0.5 + reliability * (percentiles[metric].get(plugin.id) - 0.5));
       }
-      normalized.freshness = round(freshnessScore(plugin.repositoryUpdatedAt, now));
-      normalized.verified = plugin.verificationStatus === "verified" ? 1 : 0;
+      if (scoredRates) normalized.installRateLowerBound = round(0.5 + reliability * (scoredRates.get(plugin.id) - 0.5));
+      normalized.freshness = round(freshnessDetail(plugin, now, methodology).value);
+      normalized.verified = verificationCredit(plugin, methodology);
 
       const contributions = {};
       let score = 0;
-      for (const [metric, weight] of Object.entries(METHODOLOGY.weights)) {
+      for (const [metric, weight] of Object.entries(methodology.weights)) {
         contributions[metric] = round(normalized[metric] * weight);
         score += contributions[metric];
       }
-      return publicCandidate(plugin, metrics, score, normalized, contributions, now);
+      return publicCandidate(plugin, metrics, score, normalized, contributions, now, methodology);
     })
     .sort(
       (a, b) =>
@@ -259,23 +369,23 @@ function scoreCohort(plugins, stats, now) {
     );
 }
 
-export function pickWithHysteresis(candidates, incumbentId, excludedIds = new Set()) {
+export function pickWithHysteresis(candidates, incumbentId, excludedIds = new Set(), methodology = METHODOLOGY) {
   const available = candidates.filter((candidate) => !excludedIds.has(candidate.id));
   const challenger = available[0] ?? null;
   const incumbent = available.find((candidate) => candidate.id === incumbentId);
   if (!incumbent || !challenger || incumbent.id === challenger.id) return challenger;
-  return challenger.score > incumbent.score * (1 + METHODOLOGY.hysteresis) ? challenger : incumbent;
+  return challenger.score > incumbent.score * (1 + methodology.hysteresis) ? challenger : incumbent;
 }
 
-export function explainPick(candidates, incumbentId, selected, excludedIds = new Set()) {
+export function explainPick(candidates, incumbentId, selected, excludedIds = new Set(), methodology = METHODOLOGY) {
   const available = candidates.filter((candidate) => !excludedIds.has(candidate.id));
   const incumbent = available.find((candidate) => candidate.id === incumbentId);
   const challenger = available[0];
-  const threshold = METHODOLOGY.hysteresis * 100;
+  const threshold = methodology.hysteresis * 100;
   if (!selected) return "No eligible candidates remain for this place.";
   if (!incumbent) return `${selected.name} (${selected.score}) is the highest-ranked available candidate; ${incumbentId ? "the previous pick is no longer available for this place" : "there was no previous pick"}.`;
   if (incumbent.id === challenger.id) return `${selected.name} (${selected.score}) remains highest-ranked${available.length === 1 ? " and is the only available candidate" : "; score ties use copies, hearts, stars, then ID"}.`;
-  const comparison = `${challenger.name} (${challenger.score}) versus incumbent ${incumbent.name} (${incumbent.score}); replacement requires a score strictly above ${incumbent.score * (1 + METHODOLOGY.hysteresis)} (+${threshold}%)`;
+  const comparison = `${challenger.name} (${challenger.score}) versus incumbent ${incumbent.name} (${incumbent.score}); replacement requires a score strictly above ${incumbent.score * (1 + methodology.hysteresis)} (+${threshold}%)`;
   return `${selected.id === incumbent.id ? "Incumbent retained" : "Challenger replaces incumbent"}: ${comparison}.`;
 }
 
@@ -288,7 +398,21 @@ export function isoWeek(date) {
   return `${target.getUTCFullYear()}-W${String(week).padStart(2, "0")}`;
 }
 
-export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = new Date(), source = null }) {
+function builtInRef(plugin) {
+  const sourceUrl = typeof plugin.sourceUrl === "string" && plugin.sourceUrl.startsWith("https://") ? plugin.sourceUrl : null;
+  return {
+    id: plugin.id,
+    name: String(plugin.name || plugin.id),
+    description: String(plugin.description || ""),
+    officialCommand: typeof plugin.officialCommand === "string" && plugin.officialCommand.trim() ? plugin.officialCommand.trim() : null,
+    sourceUrl
+  };
+}
+
+// `methodology` defaults to the current rules; offline comparisons pass alternatives. `detail`
+// additionally returns every scored cohort for research reports; snapshots never contain it.
+// `newListingsBaseline` is the latest snapshot from an earlier ISO week ({ week, generatedAt }).
+export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = new Date(), source = null, methodology = METHODOLOGY, detail = false, newListingsBaseline = null }) {
   assert(Array.isArray(catalog), "Catalog must be an array");
   assert(stats && typeof stats === "object" && !Array.isArray(stats), "Stats must be an object");
   assert(now instanceof Date && Number.isFinite(now.getTime()), "now must be a valid Date");
@@ -297,58 +421,103 @@ export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = n
   const classifiedIds = new Set();
   const unclassified = [];
   const excluded = {};
+  const exclusions = new Map();
+  const typeIdsById = new Map();
+  const repositories = new Map();
+  const builtInsById = new Map(catalog
+    .filter((plugin) => plugin && typeof plugin.id === "string" && (plugin.sourceType === "builtin" || plugin.builtIn === true))
+    .map((plugin) => [plugin.id, plugin]));
 
   for (const plugin of catalog) {
-    const reason = eligibilityReason(plugin);
+    const reason = eligibilityReason(plugin, methodology);
     if (reason) {
       excluded[reason] = (excluded[reason] ?? 0) + 1;
+      if (typeof plugin?.id === "string") exclusions.set(plugin.id, reason);
       continue;
     }
+    // Stars and push dates are repository-level, so plugins in one repository share them.
+    const repository = plugin.repo.toLowerCase().replace(/\.git$/, "").replace(/\/+$/, "");
+    repositories.set(repository, [...(repositories.get(repository) ?? []), plugin.id]);
     const typeIds = classifyPlugin(plugin, prepared);
     if (typeIds.length === 0) {
       unclassified.push({ id: plugin.id, name: String(plugin.name || plugin.id), category: plugin.category ?? null });
       continue;
     }
     classifiedIds.add(plugin.id);
+    typeIdsById.set(plugin.id, typeIds);
     for (const typeId of typeIds) cohorts.get(typeId).push(plugin);
   }
 
   const previousByType = new Map((previous?.types ?? []).map((type) => [type.id, type]));
   const decisions = [];
+  const builtInWarnings = [];
+  const scoredCohorts = {};
   const types = prepared.types.map((type) => {
-    const candidates = scoreCohort(cohorts.get(type.id), stats, now);
+    const candidates = scoreCohort(cohorts.get(type.id), stats, now, methodology);
+    if (detail) scoredCohorts[type.id] = candidates;
     const prior = previousByType.get(type.id);
-    const winner = pickWithHysteresis(candidates, prior?.winner?.id);
+    const winner = pickWithHysteresis(candidates, prior?.winner?.id, new Set(), methodology);
     const winnerIds = new Set(winner ? [winner.id] : []);
-    const runnerUp = pickWithHysteresis(candidates, prior?.runnerUp?.id, winnerIds);
+    const runnerUp = pickWithHysteresis(candidates, prior?.runnerUp?.id, winnerIds, methodology);
     decisions.push({
+      typeId: type.id,
       typeName: type.name,
       eligibleCount: candidates.length,
-      champion: explainPick(candidates, prior?.winner?.id, winner),
-      runnerUp: explainPick(candidates, prior?.runnerUp?.id, runnerUp, winnerIds)
+      champion: explainPick(candidates, prior?.winner?.id, winner, new Set(), methodology),
+      runnerUp: explainPick(candidates, prior?.runnerUp?.id, runnerUp, winnerIds, methodology)
     });
     // Both slots are sticky; the raw-score leader may occupy neither place.
     const top = candidates[0];
+    const builtIns = [];
+    for (const id of type.builtIns ?? []) {
+      if (builtInsById.has(id)) builtIns.push(builtInRef(builtInsById.get(id)));
+      else builtInWarnings.push(`${type.id}: ${id} is not a built-in listing in this catalog`);
+    }
     return {
       id: type.id,
       name: type.name,
       description: type.description ?? "",
       eligibleCount: candidates.length,
+      builtIns,
       winner,
       runnerUp,
       topScorer: top ? { id: top.id, name: top.name, score: top.score } : null
     };
   });
 
+  // Previous picks that are still listed but no longer eligible, for logs and change reasons.
+  const excludedIncumbents = (previous?.types ?? []).flatMap((type) => [["winner", "champion"], ["runnerUp", "runner-up"]]
+    .filter(([slot]) => type[slot]?.id && exclusions.has(type[slot].id))
+    .map(([slot, place]) => ({ typeId: type.id, typeName: type.name ?? type.id, place, id: type[slot].id, name: type[slot].name ?? type[slot].id, reason: exclusions.get(type[slot].id) })));
+
+  // Eligible, classified plugins listed after the previous week's snapshot. A same-week
+  // republish keeps the earlier week as its baseline, so the interval never shrinks.
+  const since = Date.parse(newListingsBaseline?.generatedAt);
+  const newListings = Number.isFinite(since)
+    ? catalog
+      .filter((plugin) => typeIdsById.has(plugin.id))
+      .map((plugin) => ({ plugin, listed: Date.parse(plugin.listedAt) }))
+      .filter(({ listed }) => Number.isFinite(listed) && listed > since && listed <= now.getTime())
+      .sort((a, b) => a.listed - b.listed || a.plugin.id.localeCompare(b.plugin.id))
+      .map(({ plugin }) => ({ id: plugin.id, name: String(plugin.name || plugin.id), typeIds: typeIdsById.get(plugin.id) }))
+    : null;
+
   return {
     decisions,
+    exclusions,
+    typeIdsById,
+    ...(detail ? { cohorts: scoredCohorts } : {}),
     rankings: {
       schemaVersion: 1,
-      methodologyVersion: METHODOLOGY.version,
+      methodologyVersion: methodology.version,
       site: "https://omapicks.com",
       week: isoWeek(now),
       generatedAt: now.toISOString(),
       source,
+      newListings,
+      newListingsInterval: newListings
+        ? { since: new Date(since).toISOString(), until: now.toISOString(), baselineWeek: newListingsBaseline.week ?? null }
+        : null,
       types
     },
     report: {
@@ -359,6 +528,12 @@ export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = n
       classificationAssignments: [...cohorts.values()].reduce((sum, cohort) => sum + cohort.length, 0),
       uniqueUnclassifiedCount: unclassified.length,
       excluded,
+      excludedIncumbents,
+      builtInWarnings,
+      sharedRepositories: [...repositories]
+        .filter(([, ids]) => ids.length > 1)
+        .map(([repository, ids]) => ({ repository, pluginIds: [...ids].sort() }))
+        .sort((a, b) => a.repository.localeCompare(b.repository)),
       unclassified
     }
   };
@@ -368,7 +543,41 @@ function pickRef(pick) {
   return pick ? { id: pick.id, name: pick.name } : null;
 }
 
-function leadershipChanges(previous, current, slot) {
+// Why a previous pick left its place, phrased to follow the plugin's name.
+export const REMOVAL_REASONS = Object.freeze({
+  retired: "was retired by the marketplace",
+  delisted: "was delisted from the marketplace",
+  "missing-from-catalog": "is no longer in the marketplace catalog",
+  "repository-unreachable": "could not be reached in the latest marketplace check",
+  "compatibility-failed": "failed the latest marketplace compatibility check",
+  "built-in": "is now listed as an Omarchy built-in",
+  "not-installable": "no longer has a marketplace install command",
+  "invalid-repository": "no longer has a valid HTTPS repository",
+  "invalid-id": "has an invalid catalog ID",
+  "no-longer-in-category": "no longer matches this category"
+});
+
+export function removalSentence(change) {
+  const phrase = REMOVAL_REASONS[change?.reason];
+  return phrase && change.previous ? `${change.previous.name} ${phrase}.` : "";
+}
+
+// `context` explains removals: { catalogIds, retirement: { available, ids }, exclusions, typeIdsById }.
+// Without it (older call sites and rendering), changes carry no reason.
+function removalReason(oldId, typeId, context) {
+  if (!context) return null;
+  if (!context.catalogIds.has(oldId)) {
+    // Only a successfully fetched registry can distinguish retirement from delisting.
+    if (!context.retirement?.available) return "missing-from-catalog";
+    return context.retirement.ids.has(oldId) ? "retired" : "delisted";
+  }
+  // A live listing is judged by the current catalog even if the registry also lists it as retired.
+  if (context.exclusions?.has(oldId)) return context.exclusions.get(oldId);
+  if (context.typeIdsById && !(context.typeIdsById.get(oldId) ?? []).includes(typeId)) return "no-longer-in-category";
+  return null;
+}
+
+function leadershipChanges(previous, current, slot, context) {
   const prior = new Map((previous?.types ?? []).map((type) => [type.id, type]));
   const changes = [];
   for (const type of current.types) {
@@ -378,23 +587,26 @@ function leadershipChanges(previous, current, slot) {
     const oldId = oldPick?.id ?? null;
     const newId = newPick?.id ?? null;
     if (oldId === newId) continue;
-    changes.push({
+    const change = {
       typeId: type.id,
       typeName: type.name,
       kind: oldId ? (newId ? "displaced" : "vacated") : slot === "winner" ? "new-champion" : "new-runner-up",
       previous: pickRef(oldPick),
       current: pickRef(newPick)
-    });
+    };
+    const reason = oldId ? removalReason(oldId, type.id, context) : null;
+    if (reason) change.reason = reason;
+    changes.push(change);
   }
   return changes;
 }
 
-export function changesBetween(previous, current) {
-  return leadershipChanges(previous, current, "winner");
+export function changesBetween(previous, current, context = null) {
+  return leadershipChanges(previous, current, "winner", context);
 }
 
-export function runnerUpChangesBetween(previous, current) {
-  return leadershipChanges(previous, current, "runnerUp");
+export function runnerUpChangesBetween(previous, current, context = null) {
+  return leadershipChanges(previous, current, "runnerUp", context);
 }
 
 // The plugin that outscored a retained champion this week, if any. Snapshots written before

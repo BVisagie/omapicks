@@ -42,7 +42,10 @@
       "exclude": [
         "\\b(kde connect|taildrop|clipboard bridge|vpn-leak alert)\\b"
       ],
-      "task": "VPN status, connection, and privacy controls. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "VPN status, connection, and privacy controls. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify.",
+      "builtIns": [
+        "omarchy.tailscale"
+      ]
     },
     {
       "id": "mail",
@@ -71,7 +74,10 @@
       "nameInclude": [
         "\\b(music|spotify|media controls|now[- ]playing)\\b"
       ],
-      "task": "Music playback and now-playing controls. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Music playback and now-playing controls. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify.",
+      "builtIns": [
+        "omarchy.media"
+      ]
     },
     {
       "id": "weather",
@@ -85,7 +91,10 @@
         "\\b(flight radar|space weather|weathered)\\b",
         "\\b(?:cash forecast|balance forecast|accounting|fullscreen weather overlays|rain and snow that fall over your windows|independent toggles|shader wallpaper)\\b"
       ],
-      "task": "Forecasts and current conditions. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Forecasts and current conditions. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify.",
+      "builtIns": [
+        "omarchy.weather"
+      ]
     },
     {
       "id": "battery",
@@ -102,7 +111,11 @@
       "nameInclude": [
         "\\b(batter(?:y|ies)|charge (?:cap|limit)|power profiles?)\\b"
       ],
-      "task": "Computer battery level, charging, power draw, and battery health. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Computer battery level, charging, power draw, and battery health. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify.",
+      "builtIns": [
+        "omarchy.battery",
+        "omarchy.power"
+      ]
     },
     {
       "id": "clipboard",
@@ -113,7 +126,10 @@
         "\\bcopy (tracker|action)\\b",
         "\\bre-copy\\b"
       ],
-      "task": "Clipboard history, reusable snippets, and paste management. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Clipboard history, reusable snippets, and paste management. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify.",
+      "builtIns": [
+        "omarchy.clipboard"
+      ]
     },
     {
       "id": "launcher",
@@ -151,7 +167,10 @@
       "nameInclude": [
         "\\b(network|wi-?fi|bandwidth|internet latency|ping)\\b"
       ],
-      "task": "Network status, traffic, Wi-Fi, and connectivity. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Network status, traffic, Wi-Fi, and connectivity. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify.",
+      "builtIns": [
+        "omarchy.network"
+      ]
     },
     {
       "id": "bluetooth",
@@ -166,7 +185,10 @@
         "\\bbluetooth (?:proximity|control session)\\b",
         "\\b(lamps?|light bulbs?|proximity|touchpad)\\b"
       ],
-      "task": "Bluetooth device discovery, pairing, connections, and adapter controls. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Bluetooth device discovery, pairing, connections, and adapter controls. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify.",
+      "builtIns": [
+        "omarchy.bluetooth"
+      ]
     },
     {
       "id": "audio",
@@ -188,7 +210,10 @@
         "\\b(?:audio|volume|microphone) (?:controls?|mixer|switcher|panel|priority|gain|effects|master|patchbay)\\b",
         "\\bheadphones? (?:manager|volume|controls?)\\b"
       ],
-      "task": "System volume, microphones, audio routing, and headset sound controls. A player or sound generator with its own volume slider does not qualify; neither does a visualizer or recorder merely using PipeWire."
+      "task": "System volume, microphones, audio routing, and headset sound controls. A player or sound generator with its own volume slider does not qualify; neither does a visualizer or recorder merely using PipeWire.",
+      "builtIns": [
+        "omarchy.audio"
+      ]
     },
     {
       "id": "brightness",
@@ -236,7 +261,10 @@
       "exclude": [
         "\\b(kde connect|does not touch the normal notification)\\b"
       ],
-      "task": "Notification centers, history, and do-not-disturb. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Notification centers, history, and do-not-disturb. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify.",
+      "builtIns": [
+        "omarchy.notifications"
+      ]
     },
     {
       "id": "lock-idle",
@@ -258,7 +286,11 @@
         "\\b(caps lock|rotation lock|screen auto-rotate)\\b",
         "\\bkeyboard backlight\\b"
       ],
-      "task": "Screen locking, idle behavior, and sleep prevention. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Screen locking, idle behavior, and sleep prevention. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify.",
+      "builtIns": [
+        "omarchy.lock",
+        "omarchy.idle"
+      ]
     },
     {
       "id": "password-manager",
@@ -356,7 +388,10 @@
       "nameInclude": [
         "\\bworkspaces?\\b"
       ],
-      "task": "Hyprland workspace indicators and navigation. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Hyprland workspace indicators and navigation. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify.",
+      "builtIns": [
+        "omarchy.workspaces"
+      ]
     },
     {
       "id": "window-management",
@@ -625,7 +660,10 @@
         "\\binput (?:language|layout)(?: manager| switcher| indicator)?\\b",
         "\\bxkb (?:language\\/)?layouts?\\b"
       ],
-      "task": "Switch, configure, and indicate keyboard input layouts. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Switch, configure, and indicate keyboard input layouts. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify.",
+      "builtIns": [
+        "omarchy.keyboard-layout"
+      ]
     },
     {
       "id": "file-search",
@@ -691,7 +729,10 @@
         "\\bupdate (?:checker|center)\\b",
         "\\bpending.{0,60}updates?\\b"
       ],
-      "task": "Arch package updates and update notifications. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Arch package updates and update notifications. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify.",
+      "builtIns": [
+        "omarchy.system-update"
+      ]
     },
     {
       "id": "radio",

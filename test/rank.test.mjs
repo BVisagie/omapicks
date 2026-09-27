@@ -7,9 +7,11 @@ import {
   eligibilityReason,
   invertedRawScoreRaces,
   isoWeek,
+  methodologyFor,
   pickWithHysteresis,
   prepareTaxonomy,
   rankPlugins,
+  removalSentence,
   runnerUpChangesBetween,
   scoreLeader
 } from "../build/rank.mjs";
@@ -1006,6 +1008,84 @@ test("eligibility fails closed for unavailable plugins and unsafe repositories",
   assert.equal(eligibilityReason(plugin("retired", { status: "retired" })), "retired");
 });
 
+// Shapes copied from the 2026-09-27 schema-2 catalog.
+const builtIn = {
+  id: "omarchy.weather", name: "Weather", description: "Weather forecast", repo: "https://github.com/omacom/omarchy",
+  sourceType: "builtin", builtIn: true, installCommand: "", officialCommand: "omarchy bar plugin add omarchy.weather", status: "Built in"
+};
+const failed = plugin("failed", {
+  installAvailable: false, installCommand: "", status: "Compatibility failed", upstreamCheckStatus: "failed", upstreamCheckError: "manifest-invalid"
+});
+const unreachable = plugin("unreachable", {
+  status: "Status unknown", upstreamCheckStatus: "unreachable", upstreamCheckError: "repository-unreachable"
+});
+const legacy = plugin("legacy");
+
+test("upstream health and built-ins give precise exclusion reasons under 1.1.0", () => {
+  const current = methodologyFor("1.1.0");
+  assert.equal(eligibilityReason(builtIn, current), "built-in");
+  assert.equal(eligibilityReason(failed, current), "compatibility-failed");
+  assert.equal(eligibilityReason(unreachable, current), "repository-unreachable");
+  assert.equal(eligibilityReason(legacy, current), null);
+  assert.equal(eligibilityReason(plugin("passed", { upstreamCheckStatus: "passed" }), current), null);
+  // The published 1.0.0 rules never looked at upstream health.
+  const published = methodologyFor("1.0.0");
+  assert.equal(eligibilityReason(unreachable, published), null);
+  assert.equal(eligibilityReason(failed, published), "not-installable");
+  assert.equal(eligibilityReason(builtIn, published), "built-in");
+});
+
+test("failed and unreachable incumbents leave both places immediately and recover later", () => {
+  const now = new Date("2026-09-28T06:17:00Z");
+  const stats = {
+    champ: { copies: 200, hearts: 40, views: 900 },
+    runner: { copies: 150, hearts: 30, views: 700 },
+    third: { copies: 20, hearts: 3, views: 90 }
+  };
+  const healthy = [plugin("champ", { stars: 50 }), plugin("runner", { stars: 40 }), plugin("third", { stars: 2 })];
+  const previous = rankPlugins({ catalog: healthy, stats, taxonomy, now }).rankings;
+  const weather = (rankings) => rankings.types.find((type) => type.id === "weather");
+  assert.deepEqual([weather(previous).winner.id, weather(previous).runnerUp.id], ["champ", "runner"]);
+
+  const sick = [
+    plugin("champ", { stars: 50, upstreamCheckStatus: "unreachable", status: "Status unknown" }),
+    plugin("runner", { stars: 40, upstreamCheckStatus: "failed", installAvailable: false, installCommand: "" }),
+    plugin("third", { stars: 2, upstreamCheckStatus: "passed" })
+  ];
+  const result = rankPlugins({ catalog: sick, stats, taxonomy, previous, now });
+  assert.equal(weather(result.rankings).winner.id, "third");
+  assert.equal(weather(result.rankings).runnerUp, null);
+  assert.equal(weather(result.rankings).winner.upstreamCheckStatus, "passed");
+  assert.deepEqual(result.report.excluded, { "repository-unreachable": 1, "compatibility-failed": 1 });
+  assert.deepEqual(result.report.excludedIncumbents.map(({ typeId, place, id, reason }) => [typeId, place, id, reason]), [
+    ["weather", "champion", "champ", "repository-unreachable"],
+    ["weather", "runner-up", "runner", "compatibility-failed"]
+  ]);
+  assert.equal(result.exclusions.get("champ"), "repository-unreachable");
+  const champion = changesBetween(previous, result.rankings).find((change) => change.typeId === "weather");
+  const runnerUp = runnerUpChangesBetween(previous, result.rankings).find((change) => change.typeId === "weather");
+  assert.equal(champion.kind, "displaced");
+  assert.equal(runnerUp.kind, "vacated");
+
+  // Once a later check passes, the plugin competes normally again.
+  const recovered = rankPlugins({ catalog: healthy, stats, taxonomy, previous: result.rankings, now }).rankings;
+  assert.equal(weather(recovered).winner.id, "champ");
+  assert.equal(weather(recovered).runnerUp.id, "runner");
+
+  // Under the published 1.0.0 rules the unreachable champion would have stayed.
+  const legacyRules = rankPlugins({ catalog: sick, stats, taxonomy, previous, now, methodology: methodologyFor("1.0.0") }).rankings;
+  assert.equal(weather(legacyRules).winner.id, "champ");
+  assert.equal(legacyRules.methodologyVersion, "1.0.0");
+});
+
+test("candidates round-trip upstream health through JSON and legacy snapshots lack it", () => {
+  const now = new Date("2026-09-28T06:17:00Z");
+  const { rankings } = rankPlugins({ catalog: [plugin("a", { upstreamCheckStatus: "passed" }), legacy], stats: {}, taxonomy, now });
+  const parsed = JSON.parse(JSON.stringify(rankings));
+  const winner = parsed.types.find((type) => type.id === "weather");
+  assert.deepEqual([winner.winner.upstreamCheckStatus, winner.runnerUp.upstreamCheckStatus].sort(), [null, "passed"].sort());
+});
+
 test("ISO weeks handle year boundaries", () => {
   assert.equal(isoWeek(new Date("2026-01-01T00:00:00Z")), "2026-W01");
   assert.equal(isoWeek(new Date("2027-01-01T00:00:00Z")), "2026-W53");
@@ -1138,4 +1218,123 @@ test("pick explanations distinguish stable, held, replaced, unavailable and vaca
   assert.match(explainPick([old], null, old), /no previous pick/);
   assert.match(explainPick([old], "missing", old), /no longer available/);
   assert.match(explainPick([old], "old", null, new Set(["old"])), /No eligible candidates/);
+});
+
+test("taxonomy built-ins are validated, resolved from the catalog and never ranked", () => {
+  const withBuiltIns = { ...taxonomy, types: [{ ...taxonomy.types[0], builtIns: ["omarchy.weather", "omarchy.missing"] }, taxonomy.types[1]] };
+  assert.doesNotThrow(() => prepareTaxonomy(withBuiltIns));
+  for (const builtIns of [["omarchy.weather", 3], "omarchy.weather", [""]]) {
+    assert.throws(() => prepareTaxonomy({ ...taxonomy, types: [{ ...taxonomy.types[0], builtIns }] }), /builtIns must be an array of plugin IDs/);
+  }
+  const catalog = [builtIn, plugin("community")];
+  const { rankings, report } = rankPlugins({ catalog, stats: {}, taxonomy: withBuiltIns, now: new Date("2026-09-28T06:17:00Z") });
+  const weather = rankings.types.find((type) => type.id === "weather");
+  assert.deepEqual(weather.builtIns, [{
+    id: "omarchy.weather", name: "Weather", description: "Weather forecast",
+    officialCommand: "omarchy bar plugin add omarchy.weather", sourceUrl: null
+  }]);
+  assert.deepEqual(rankings.types.find((type) => type.id === "clock").builtIns, []);
+  assert.equal(weather.eligibleCount, 1);
+  assert.equal(weather.winner.id, "community");
+  assert.equal(report.excluded["built-in"], 1);
+  assert.ok(!report.unclassified.some((entry) => entry.id === "omarchy.weather"));
+  assert.deepEqual(report.builtInWarnings, ["weather: omarchy.missing is not a built-in listing in this catalog"]);
+});
+
+test("the production taxonomy names only built-in IDs", async () => {
+  const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
+  const ids = source.types.flatMap((type) => type.builtIns ?? []);
+  assert.ok(ids.length >= 14);
+  for (const id of ids) assert.match(id, /^omarchy\.[a-z-]+$/);
+  assert.deepEqual(source.types.find((type) => type.id === "weather").builtIns, ["omarchy.weather"]);
+});
+
+test("new listings count eligible classified plugins after the earlier week's snapshot", () => {
+  const now = new Date("2026-09-28T06:17:00Z");
+  const catalog = [
+    plugin("old", { listedAt: "2026-09-10T00:00:00Z" }),
+    plugin("fresh", { listedAt: "2026-09-25T00:00:00Z" }),
+    plugin("unclassified", { description: "Something else", listedAt: "2026-09-26T00:00:00Z" }),
+    plugin("broken", { listedAt: "2026-09-26T00:00:00Z", upstreamCheckStatus: "failed" }),
+    plugin("future", { listedAt: "2026-09-29T00:00:00Z" }),
+    plugin("undated")
+  ];
+  const baseline = { week: "2026-W39", generatedAt: "2026-09-21T06:42:56Z" };
+  const { rankings } = rankPlugins({ catalog, stats: {}, taxonomy, now, newListingsBaseline: baseline });
+  assert.deepEqual(rankings.newListings, [{ id: "fresh", name: "fresh", typeIds: ["weather"] }]);
+  assert.deepEqual(rankings.newListingsInterval, { since: "2026-09-21T06:42:56.000Z", until: "2026-09-28T06:17:00.000Z", baselineWeek: "2026-W39" });
+  assert.equal(rankings.types[0].winner.listedAt === null || typeof rankings.types[0].winner.listedAt === "string", true);
+  const none = rankPlugins({ catalog, stats: {}, taxonomy, now }).rankings;
+  assert.equal(none.newListings, null);
+  assert.equal(none.newListingsInterval, null);
+});
+
+test("pick changes explain retirement, delisting and exclusions, but not score replacements", () => {
+  const previous = {
+    types: ["gone", "delisted", "excluded", "moved", "beaten", "vacant"].map((id) => ({ id, name: id, winner: { id: `old-${id}`, name: `Old ${id}` }, runnerUp: { id: `runner-${id}`, name: `Runner ${id}` } }))
+  };
+  const current = {
+    types: previous.types.map((type) => ({ ...type, winner: type.id === "vacant" ? null : { id: `new-${type.id}`, name: `New ${type.id}` }, runnerUp: null }))
+  };
+  const catalogIds = new Set(["old-excluded", "old-moved", "old-beaten", "old-vacant", "runner-gone", "runner-delisted", "runner-excluded", "runner-moved", "runner-beaten", "runner-vacant", "live-and-retired"]);
+  const context = {
+    catalogIds,
+    retirement: { available: true, ids: new Set(["old-gone", "live-and-retired"]) },
+    exclusions: new Map([["old-excluded", "repository-unreachable"], ["old-vacant", "compatibility-failed"]]),
+    typeIdsById: new Map([["old-beaten", ["beaten"]], ["old-moved", ["other"]], ["runner-gone", ["gone"]], ["runner-delisted", ["delisted"]], ["runner-excluded", ["excluded"]], ["runner-moved", ["moved"]], ["runner-beaten", ["beaten"]], ["runner-vacant", ["vacant"]]])
+  };
+  const reasons = (changes) => Object.fromEntries(changes.map((change) => [change.typeId, [change.kind, change.reason ?? null]]));
+  assert.deepEqual(reasons(changesBetween(previous, current, context)), {
+    gone: ["displaced", "retired"],
+    delisted: ["displaced", "delisted"],
+    excluded: ["displaced", "repository-unreachable"],
+    moved: ["displaced", "no-longer-in-category"],
+    beaten: ["displaced", null],
+    vacant: ["vacated", "compatibility-failed"]
+  });
+  for (const [kind, reason] of Object.values(reasons(runnerUpChangesBetween(previous, current, context)))) {
+    assert.equal(kind, "vacated");
+    assert.equal(reason, null);
+  }
+  // Without registry evidence, absence is described neutrally.
+  const unavailable = { ...context, retirement: { available: false, ids: new Set() } };
+  assert.equal(changesBetween(previous, current, unavailable).find((change) => change.typeId === "gone").reason, "missing-from-catalog");
+  // A live listing that the registry also calls retired is judged by current eligibility.
+  const conflict = { types: [{ id: "c", name: "C", winner: { id: "live-and-retired", name: "Live" } }] };
+  assert.equal(changesBetween(conflict, { types: [{ id: "c", name: "C", winner: { id: "x", name: "X" } }] }, { ...context, typeIdsById: new Map([["live-and-retired", ["c"]]]) })[0].reason, undefined);
+  // Existing call sites without context keep reason-free changes.
+  assert.ok(changesBetween(previous, current).every((change) => !("reason" in change)));
+  assert.equal(removalSentence({ reason: "retired", previous: { name: "Old" } }), "Old was retired by the marketplace.");
+  assert.equal(removalSentence({ reason: "unknown", previous: { name: "Old" } }), "");
+});
+
+test("repositories shared by several eligible plugins are reported", () => {
+  const catalog = [
+    plugin("one", { repo: "https://github.com/example/Monorepo" }),
+    plugin("two", { repo: "https://github.com/example/monorepo.git" }),
+    plugin("three", { repo: "https://github.com/example/monorepo/", description: "Unrelated" }),
+    plugin("solo"),
+    plugin("offline", { repo: "https://github.com/example/monorepo", installAvailable: false })
+  ];
+  const { report } = rankPlugins({ catalog, stats: {}, taxonomy, now: new Date("2026-09-28T06:17:00Z") });
+  assert.deepEqual(report.sharedRepositories, [{ repository: "https://github.com/example/monorepo", pluginIds: ["one", "three", "two"] }]);
+});
+
+// Marketplace VPN identity terms (site/assets/js/taxonomy.js at fec33e6b). The expected gaps are an
+// editorial record, not a target: update them deliberately when the VPN rules change.
+test("marketplace VPN provider names are checked against the VPN task rules", async (context) => {
+  const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
+  const prepared = prepareTaxonomy(source);
+  const providers = {
+    airvpn: "AirVPN", eduvpn: "eduVPN", expressvpn: "ExpressVPN", fortivpn: "FortiVPN", ivpn: "IVPN", mullvad: "Mullvad",
+    multivpn: "MultiVPN", netbird: "NetBird", nordvpn: "NordVPN", nymvpn: "NymVPN", openvpn: "OpenVPN", protonvpn: "ProtonVPN",
+    surfshark: "Surfshark", tailscale: "Tailscale", twingate: "Twingate", windscribe: "Windscribe", wireguard: "WireGuard", zerotier: "ZeroTier"
+  };
+  const missing = Object.entries(providers)
+    .filter(([id, name]) => !classifyPlugin(plugin(id, { name, description: `Connect and disconnect ${name} from the bar` }), prepared).includes("vpn"))
+    .map(([id]) => id);
+  context.diagnostic(`VPN provider names without a VPN match: ${missing.join(", ") || "none"}`);
+  assert.deepEqual(missing, ["netbird", "surfshark", "twingate", "zerotier"]);
+  // Tailscale device discovery is not a VPN control (docs/classification.md).
+  assert.ok(!classifyPlugin(plugin("peers", { name: "Tailscale Peers", description: "Discover reachable Tailscale devices on your tailnet" }), prepared).includes("vpn"));
 });

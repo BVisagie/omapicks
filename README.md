@@ -13,7 +13,9 @@ npm ci                # install build dependencies
 npm test              # unit and rendering tests
 npm run build         # offline render into dist/
 npm run refresh       # fetch public feeds and write a new weekly snapshot
+npm run refresh -- --republish # deliberately recalculate this week's existing snapshot
 npm run audit:classification # capture feeds and explain every classification
+npm run compare:methodology -- --input tmp/classification-audit/inputs.json # offline scoring comparison
 npm run check         # tests followed by a production render
 npx playwright install chromium
 npm run test:e2e       # browser interactions, mobile layouts, contrast
@@ -23,11 +25,17 @@ npm run test:e2e       # browser interactions, mobile layouts, contrast
 
 ## Ranking method
 
-Plugins must be installable and point to an HTTPS repository. Only plugins matching at least one focused app type compete; unmatched listings intentionally remain unranked instead of being forced into a catch-all category. The curated taxonomy requires direct task evidence in the name or description. Tags and upstream categories cannot independently qualify a plugin. One plugin can compete in several app types when it directly performs each task. Explicit, documented exceptions preserve capabilities verified in upstream documentation; assignments held for review do not compete. See [classification and audit](docs/classification.md). A ranking is not an endorsement or a safety review of the plugin.
+Plugins must be installable and point to an HTTPS repository. Listings whose latest marketplace check failed or could not reach the repository are excluded immediately and compete again once a check passes; Omarchy built-ins are never ranked. Only plugins matching at least one focused app type compete; unmatched listings intentionally remain unranked instead of being forced into a catch-all category. The curated taxonomy requires direct task evidence in the name or description. Tags and upstream categories cannot independently qualify a plugin. One plugin can compete in several app types when it directly performs each task. Explicit, documented exceptions preserve capabilities verified in upstream documentation; assignments held for review do not compete. See [classification and audit](docs/classification.md). A ranking is not an endorsement or a safety review of the plugin.
 
-Copies, hearts, stars, and views are transformed with `log1p`. Each signal blends a 70% within-type percentile with a 30% scale capped at the cohort's 95th percentile, then is damped toward the cohort midpoint when evidence is sparse. Repository freshness uses a 180-day half-life; registry verification contributes a small bonus. An eligible incumbent remains champion or runner-up until a challenger scores more than 10% higher.
+Copies, hearts, stars, and views are transformed with `log1p`. Each signal blends a 70% within-type percentile with a 30% scale capped at the cohort's 95th percentile, then is damped toward the cohort midpoint when evidence is sparse. Since methodology 1.1.0, a small share scores copies per detail view: the capped ratio of two anonymous counters, ranked by the lower bound of its 95% Wilson interval (the marketplace's install-rate formula) and unrated below 20 views. It is an engagement proxy, not a measured installation or conversion rate. Repository freshness uses a 180-day half-life from the latest push; version changes and releases are recorded and shown but do not change the score. Registry verification contributes a small bonus: full credit for a verified snapshot that still matches upstream, 60% when upstream has since moved to unverified code, none otherwise. An eligible incumbent remains champion or runner-up until a challenger scores more than 10% higher. [Methodology 1.1.0 decision record](docs/methodology-1.1.0.md).
 
-The exact weights and tie-breaks live in `build/rank.mjs` and are published on the [methodology page](https://omapicks.com/methodology/) with each snapshot.
+The exact weights and tie-breaks live in `build/methodology.mjs` and are published on the [methodology page](https://omapicks.com/methodology/) with each snapshot.
+
+### Methodology versions
+
+Every snapshot records `methodologyVersion`. `build/methodology.mjs` keeps an immutable definition for each published version (weights, decay, evidence damping, eligibility and incumbent selection), and the site always explains the published snapshot with its own definition, so merged ranking changes cannot misdescribe the current week. Rendering fails on an unknown version. A new eligibility, scoring or selection rule needs a new version; it takes effect when the Monday refresh publishes the next snapshot. A methodology change alone does not lift the same-week freeze: run `npm run refresh -- --republish` (or dispatch the weekly workflow with *republish*) for a deliberate midweek publication. Republishing still validates the feeds and keeps the week's earlier changelog events; `--dry-run` never writes.
+
+Before a scoring proposal is activated, `npm run compare:methodology -- --input <inputs.json>` ranks one captured refresh input (the `tmp/classification-audit/inputs.json` written by every refresh and dry run) under the published rules, each proposal on its own and the combined result. It reports changed champions and runner-ups, raw-score leaders, score deltas and hysteresis decisions without network access or changes to published data.
 
 ## Data sources and attribution
 
@@ -35,6 +43,9 @@ OmaPicks ranks two public feeds operated by Omarchy Plugins:
 
 - [`plugins.omarchy.org/catalog.json`](https://plugins.omarchy.org/catalog.json) — plugin metadata, repositories, licenses, maintenance dates, verification status, install availability, GitHub stars, and preview locations
 - [`api.omarchyplugins.com/v1/stats`](https://api.omarchyplugins.com/v1/stats) — install-command copies, hearts, and views by plugin ID
+- [`omarchy-plugin-marketplace/registry.json`](https://github.com/omacom/omarchy-plugin-marketplace/blob/main/registry.json) — retired plugin IDs from the MIT-licensed marketplace source, used only to label why a previous pick left the catalog; a failed fetch never blocks a refresh
+- [`plugins.omarchy.org/explorer-data.json`](https://plugins.omarchy.org/explorer-data.json) — keyword clusters and TF-IDF neighbours, used only by the report-only category discovery pilot
+- [Omarchy](https://github.com/omacom/omarchy) — built-in plugins, read from their catalog listings and shown beside matching categories (`builtIns` in `data/app-types.json`); never ranked
 
 The corresponding listings are on the [Omarchy Plugins marketplace](https://plugins.omarchy.org/?sort=copies). OmaPicks classifies and ranks this evidence independently; the source services do not select or sponsor winners.
 
@@ -73,4 +84,4 @@ Both the midweek pre-check (`--dry-run`) and the weekly refresh explain their ou
 
 ## Category discovery pilot
 
-The report-only **Weekly category discovery** workflow runs Tuesdays at 06:43 UTC and can be started manually. It scans for possible taxonomy gaps, requires repository diversity and observations at least six days apart, and provides an Actions summary plus a downloadable evidence bundle and LLM follow-up prompt. It uses no model API key and never changes categories or opens PRs. See [the pilot guide](docs/category-discovery.md) for limitations, review decisions, replay instructions, and the four-week evaluation.
+The report-only **Weekly category discovery** workflow runs Tuesdays at 06:43 UTC and can be started manually. It scans for possible taxonomy gaps, requires repository diversity and observations at least six days apart, and provides an Actions summary plus a downloadable evidence bundle and LLM follow-up prompt. It also reports neighbour near-misses and cluster gaps from the marketplace's [explorer data](https://plugins.omarchy.org/explorer-data.json) as lexical leads only, and `node scripts/category-discovery.mjs --input <inputs.json>` replays a run offline. It uses no model API key and never changes categories or opens PRs. See [the pilot guide](docs/category-discovery.md) for limitations, review decisions, replay instructions, and the four-week evaluation.

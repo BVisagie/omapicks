@@ -8,7 +8,7 @@ Open **Weekly category discovery → Summary**. The same explanation is printed 
 
 - `report.md`: up to three ready probes, a short watchlist, and a copyable LLM prompt.
 - `report.json`: full candidate evidence, IDs, repository lists, descriptions, engagement, current category overlaps, suppression decisions, and history.
-- `inputs.json`: exact catalog and stats responses, taxonomy, configuration, previous observations, analysis time, and workflow commit. The report records its SHA-256 hash.
+- `inputs.json`: exact catalog, stats and explorer responses (explorer with URL, checksum, `generatedAt`, `method` and availability or warning), taxonomy, configuration, feed-validation baseline, previous observations, analysis time, and workflow commit. The report records its SHA-256 hash.
 - `state.json`: observations used for subsequent runs.
 
 The Summary contains only the live-catalog report; integration-test fixtures explicitly suppress summary output. History text states how many comparable observations exist, how many satisfy the 6–21-day window, and the earliest eligibility time when the baseline is still too recent. Displayed listings put prominent unclassified evidence first and label already-classified overlap or additional lexical matches separately.
@@ -26,6 +26,17 @@ For every lead the report includes all matching eligible listings, even those al
 A lead becomes ready only after at least three of its prominent, unclassified repositories recur in an observation 6–21 days old. First runs show a watchlist. Only the first observation in each ISO week is retained, so repeated manual runs cannot accelerate promotion. Changed taxonomy/configuration, analysis version, or an expired baseline resets persistence. Bump `ALGORITHM_VERSION` when changing clustering or evidence rules. Decisions do not reset history. Suggestions are ordered by the number of prominent unclassified repositories, then stable ID; engagement is supporting evidence, not a popularity gate. Maximum three ready probes and three preliminary watchlist entries are displayed. The JSON contains remaining candidates.
 
 Possible successful outcomes are `ready-for-probe`, `insufficient-history`, and `no-worthwhile-proposals`. The last can mean insufficient evidence, existing coverage, duplicate clusters, or suppressed proposals; counts explain the exclusions. A failed run is explicitly different and does not publish new state.
+
+## Explorer neighbours and clusters
+
+The run also reads the marketplace's [explorer data](https://plugins.omarchy.org/explorer-data.json) (about 4 MB, within the same 20 MiB streamed budget): keyword clusters and TF-IDF nearest neighbours for every community plugin. Two report-only sections use it:
+
+- **Neighbour near-misses.** For each category, the eligible plugins that current members list as neighbours with similarity of at least 0.25 but which the category does not include, ranked by summed similarity (plugin ID breaks ties; each member–neighbour pair counts once). The top ten per category are in `report.json`; the summary shows the strongest few.
+- **Explorer cluster gaps.** Clusters in which more than half of the members that join to eligible plugins are unclassified, with upstream and joined sizes and five samples sorted by ID.
+
+Neighbour indices are resolved against the original, unfiltered node array before joining to the current catalog by plugin ID. Only eligible community plugins can seed or become leads, so built-ins, failed or unreachable listings and plugins missing from the catalog are skipped and counted; a different catalog and graph timestamp is reported. Names and descriptions come from the current catalog. Neighbours come from related catalog text, so they are **lexical leads, never eligibility evidence** or independent proof of task fit, and a cluster label is not a task definition. Both sections leave taxonomy, rankings and the persistence rules above untouched; a cluster such as Kids & Education still needs three repositories across two owners, a separate weekly observation and an editorial decision before it can become a category.
+
+The graph is optional. A failed or oversized download, or a graph with duplicate IDs, misplaced indices, out-of-range neighbours, non-finite similarities or unknown clusters, is rejected whole with a warning in the report; the rest of the discovery report is unchanged and the report says the explorer analysis was unavailable rather than that it found nothing.
 
 ## Engage an LLM
 
@@ -59,19 +70,13 @@ DISCOVERY_PREVIOUS=/path/to/state.json node scripts/category-discovery.mjs
 
 The live command writes only `tmp/category-discovery/`. It uses the existing feed validator plus a 75% catalog preservation check, limits each response to 20 MiB, caps catalog/stats entry counts, and uses bounded retries and request timeouts. The workflow has a 10-minute timeout.
 
-For an offline replay, check out the workflow commit recorded in `inputs.json`, then run this from that checkout (adjust the artifact path):
+For an offline replay, check out the workflow commit recorded in `inputs.json`, then run from that checkout (adjust the artifact path):
 
 ```sh
-node --input-type=module <<'JS'
-import { readFileSync } from 'node:fs';
-import { analyze, renderReport } from './scripts/category-discovery.mjs';
-const i = JSON.parse(readFileSync('/path/to/inputs.json', 'utf8'));
-console.log(renderReport(analyze({
-  catalog: i.catalog.body.plugins, stats: i.stats.body.plugins,
-  taxonomy: i.taxonomy, config: i.config, previous: i.previous, now: new Date(i.now)
-})));
-JS
+node scripts/category-discovery.mjs --input /path/to/inputs.json --output tmp/category-discovery-replay
 ```
+
+Replay uses only the captured inputs, including the explorer response and feed-validation baseline: it makes no network requests, does not read `data/`, and reproduces `report.json`, `report.md` and `state.json` byte for byte. Timestamps and a checksum alone could not replay an evolving graph, which is why the full response is kept. `ALGORITHM_VERSION` 4 marks the first analysis with explorer probes and health-aware eligibility, so earlier observations are not reused as persistence evidence.
 
 ## Four-week evaluation
 

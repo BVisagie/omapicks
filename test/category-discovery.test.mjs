@@ -132,7 +132,7 @@ test("successful scan archives replayable evidence without changing published da
   }
   await assert.rejects(readFile(defaultSummary), /ENOENT/);
   const archived = JSON.parse(await readFile(path.join(root, "tmp/category-discovery/inputs.json")));
-  const replay = analyze({ catalog: archived.catalog.body.plugins, stats: archived.stats.body.plugins, taxonomy: archived.taxonomy, config: archived.config, previous: archived.previous, now: new Date(archived.now) });
+  const replay = analyze({ catalog: archived.catalog.body.plugins, stats: archived.stats.body.plugins, taxonomy: archived.taxonomy, config: archived.config, previous: archived.previous, now: new Date(archived.now), explorer: archived.explorer });
   assert.equal(renderReport(report), renderReport(replay));
   assert.deepEqual(JSON.parse(await readFile(path.join(root, "data/rankings.json"))), ranking);
   assert.deepEqual(JSON.parse(await readFile(path.join(root, "tmp/category-discovery/state.json"))), report.state);
@@ -210,4 +210,123 @@ test("discovery surfaces broad overlap and held assignments without publishing t
   assert.deepEqual(held.types, []);
   assert.equal(held.evidence[0].decision, "review");
   assert.match(renderReport(report), /Existing-category eligibility checks/);
+});
+
+// A tiny explorer graph shaped like https://plugins.omarchy.org/explorer-data.json.
+function graph(overrides = {}) {
+  const node = (index, id, cluster, neighbors = []) => ({ index, id, name: id, cluster, neighbors });
+  return {
+    generatedAt: "2026-09-27T00:37:45.351Z",
+    method: "Local TF-IDF similarity",
+    clusters: [{ id: "media", label: "Media & Audio" }, { id: "kids", label: "Kids & Education" }, { id: "empty", label: "Empty" }],
+    nodes: [
+      node(0, "player", "media", [{ index: 2, similarity: 0.6 }, { index: 3, similarity: 0.3 }, { index: 2, similarity: 0.6 }, { index: 4, similarity: 0.9 }]),
+      node(1, "radio", "media", [{ index: 2, similarity: 0.5 }, { index: 3, similarity: 0.2 }, { index: 5, similarity: 0.9 }]),
+      node(2, "tuner", "media", [{ index: 0, similarity: 0.6 }]),
+      node(3, "lyrics", "media"),
+      node(4, "gone", "media"),
+      node(5, "broken", "media"),
+      node(6, "abc", "kids"),
+      node(7, "math", "kids"),
+      node(8, "spelling", "kids"),
+      node(9, "stale", "empty")
+    ],
+    ...overrides
+  };
+}
+
+function explorerInput(body, extra = {}) {
+  const musicTaxonomy = { schemaVersion: 1, types: [{ id: "music", name: "Music", include: ["\\bmusic\\b"] }] };
+  const entries = [
+    plugin("player", "Music player"), plugin("radio", "Internet music radio"), plugin("tuner", "Station tuner"),
+    plugin("lyrics", "Song lyrics"), { ...plugin("broken", "Station tuner"), upstreamCheckStatus: "failed" },
+    plugin("abc", "Alphabet game"), plugin("math", "Arithmetic drills"), plugin("spelling", "Spelling practice")
+  ];
+  return { ...input, taxonomy: musicTaxonomy, catalog: entries, catalogGeneratedAt: "2026-09-27T00:37:45.351Z",
+    explorer: { status: "fetched", url: "https://plugins.omarchy.org/explorer-data.json", sha256: "fixture", body }, ...extra };
+}
+
+test("explorer neighbours give deterministic near-misses from eligible plugins only", () => {
+  const first = analyze(explorerInput(graph()));
+  assert.deepEqual(first, analyze(explorerInput(graph())));
+  const explorer = first.explorer;
+  assert.equal(explorer.status, "available");
+  const music = explorer.nearMisses.find((type) => type.typeId === "music");
+  // Duplicate pairs count once; the 0.2 and 0.3 neighbours fall on either side of the threshold;
+  // gone is missing from the catalog and broken fails upstream health, so neither can be a lead.
+  assert.deepEqual(music.leads.map(({ id, summedSimilarity, sources }) => ({ id, summedSimilarity, sources })), [
+    { id: "tuner", summedSimilarity: 1.1, sources: ["player", "radio"] },
+    { id: "lyrics", summedSimilarity: 0.3, sources: ["player"] }
+  ]);
+  assert.equal(music.seedsInGraph, 2);
+  assert.deepEqual(explorer.skipped, { notInCatalog: 2, ineligible: 1, eligibleMissingFromGraph: 0 });
+  assert.equal(explorer.timestampMismatch, false);
+  const kids = explorer.clusters.find((cluster) => cluster.id === "kids");
+  assert.deepEqual({ upstream: kids.upstreamMembers, joined: kids.eligibleJoined, share: kids.unclassifiedShare }, { upstream: 3, joined: 3, share: 1 });
+  assert.deepEqual(kids.samples.map((p) => p.id), ["abc", "math", "spelling"]);
+  assert.equal(explorer.clusters.find((cluster) => cluster.id === "empty").unclassifiedShare, null);
+  // Media joins four eligible members (gone and broken are skipped), two unclassified: not more than half.
+  const media = explorer.clusters.find((cluster) => cluster.id === "media");
+  assert.deepEqual({ upstream: media.upstreamMembers, joined: media.eligibleJoined, share: media.unclassifiedShare }, { upstream: 6, joined: 4, share: 0.5 });
+  assert.deepEqual(explorer.clusterGaps.map((cluster) => cluster.id), ["kids"]);
+  const markdown = renderReport(first);
+  assert.match(markdown, /## Neighbour near-misses/);
+  assert.match(markdown, /Lexical leads, never eligibility evidence/);
+  assert.match(markdown, /\[tuner\]\(https:\/\/plugins\.omarchy\.org\/plugin\.html\?id=tuner\) — summed similarity 1\.1 from 2 members; unclassified/);
+  assert.match(markdown, /## Explorer cluster gaps/);
+  assert.match(markdown, /\| Kids &amp; Education \| 3 \| 3 \| 3 \| 100\.0% \|/);
+  const shifted = analyze(explorerInput(graph({ generatedAt: "2026-09-26T00:00:00Z" })));
+  assert.equal(shifted.explorer.timestampMismatch, true);
+  assert.match(renderReport(shifted), /graph and catalog timestamps differ/);
+});
+
+test("malformed, missing or oversized explorer data leaves the existing discovery report intact", async () => {
+  const baseline = analyze(explorerInput(null, { explorer: null }));
+  const invalid = [
+    graph({ nodes: graph().nodes.map((node, i) => (i === 1 ? { ...node, index: 7 } : node)) }),
+    graph({ nodes: graph().nodes.map((node, i) => (i === 0 ? { ...node, neighbors: [{ index: 99, similarity: 0.5 }] } : node)) }),
+    graph({ nodes: graph().nodes.map((node, i) => (i === 0 ? { ...node, neighbors: [{ index: 1.5, similarity: 0.5 }] } : node)) }),
+    graph({ nodes: graph().nodes.map((node, i) => (i === 0 ? { ...node, neighbors: [{ index: 1, similarity: Number.NaN }] } : node)) }),
+    graph({ nodes: graph().nodes.map((node, i) => (i === 0 ? { ...node, neighbors: [{ index: 1, similarity: 1.5 }] } : node)) }),
+    graph({ nodes: graph().nodes.map((node, i) => (i === 1 ? { ...node, id: "player" } : node)) }),
+    graph({ nodes: graph().nodes.map((node, i) => (i === 1 ? { ...node, cluster: "nowhere" } : node)) }),
+    graph({ clusters: [{ id: "media" }, { id: "media" }] }),
+    { nodes: "none" }
+  ];
+  for (const body of invalid) {
+    const report = analyze(explorerInput(body));
+    assert.equal(report.explorer.status, "unavailable");
+    assert.match(report.explorer.warning, /rejected/);
+    for (const key of ["outcome", "coverage", "counts", "suggestions", "watchlist", "candidates", "classificationReview", "state"]) assert.deepEqual(report[key], baseline[key]);
+    assert.match(renderReport(report), /Explorer analysis was unavailable: Explorer data was rejected/);
+  }
+  const missing = analyze(explorerInput(null, { explorer: { status: "unavailable", warning: "Explorer data could not be fetched: Feed exceeds 20 MiB budget" } }));
+  assert.match(renderReport(missing), /could not be fetched: Feed exceeds 20 MiB budget/);
+  assert.match(renderReport(missing), /this is not a finding of no near-misses/);
+});
+
+test("offline replay of captured inputs reproduces the report byte for byte without fetching", async (context) => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "omapicks-discovery-replay-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  await mkdir(path.join(root, "data"));
+  const ranking = { source: { catalog: { count: 1000 }, stats: { count: 1000 } } };
+  for (const [name, value] of Object.entries({ "app-types": taxonomy, "category-discovery": config, rankings: ranking })) await writeFile(path.join(root, `data/${name}.json`), JSON.stringify(value));
+  const feed = [...catalog, ...Array.from({ length: 997 }, (_, i) => ({ ...plugin(`filler${i}`, "Nothing related"), installAvailable: false }))];
+  const metrics = Object.fromEntries(feed.map((p) => [p.id, { views: 1, copies: 0, hearts: 0 }]));
+  const explorer = graph({ nodes: [{ index: 0, id: "alpha", cluster: "media", neighbors: [{ index: 1, similarity: 0.4 }] }, { index: 1, id: "beta", cluster: "media", neighbors: [] }] });
+  const fetchImpl = async (url) => new Response(JSON.stringify(url.includes("/stats") ? { schemaVersion: 1, plugins: metrics } : url.includes("explorer-data") ? explorer : { generatedAt: "2026-09-27T00:37:45.351Z", plugins: feed }));
+  const live = await run({ root, now: firstDate, summaryFile: null, fetchImpl, output: path.join(root, "live") });
+  assert.equal(live.explorer.status, "available");
+  const inputs = JSON.parse(await readFile(path.join(root, "live/inputs.json"), "utf8"));
+  assert.equal(inputs.explorer.url, "https://plugins.omarchy.org/explorer-data.json");
+  assert.equal(inputs.explorer.generatedAt, "2026-09-27T00:37:45.351Z");
+  assert.equal(inputs.explorer.method, "Local TF-IDF similarity");
+  assert.equal(inputs.explorer.sha256.length, 64);
+  assert.deepEqual(inputs.explorer.body, explorer);
+  // Replay must not touch the network or the repository's data files.
+  await rm(path.join(root, "data"), { recursive: true });
+  await run({ inputFile: path.join(root, "live/inputs.json"), root, summaryFile: null, output: path.join(root, "replay"), fetchImpl: () => { throw new Error("replay fetched"); } });
+  for (const file of ["report.json", "report.md", "state.json", "inputs.json"]) {
+    assert.equal(await readFile(path.join(root, "replay", file), "utf8"), await readFile(path.join(root, "live", file), "utf8"), file);
+  }
 });

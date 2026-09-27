@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { CLASSIFICATION_VERSION, classifyPlugin, eligibilityReason, explainClassification, prepareTaxonomy, rankPlugins } from "./rank.mjs";
+import { CLASSIFICATION_VERSION, METHODOLOGY, classifyPlugin, eligibilityReason, explainClassification, prepareTaxonomy, rankPlugins } from "./rank.mjs";
 
 export const checksum = (value) => createHash("sha256").update(JSON.stringify(value)).digest("hex");
 const compare = (a, b) => a.id.localeCompare(b.id);
@@ -16,12 +16,14 @@ function legacyTypes(plugin, prepared) {
   }).map((type) => type.id);
 }
 
-export function auditClassifications({ catalog, taxonomy, previousState = null, baselineTaxonomy = null, baselineVersion = CLASSIFICATION_VERSION, stats = null, previous = null, now = new Date() }) {
+// `methodology` decides eligibility and ranking. Replays pass the one recorded with their inputs so
+// captured evidence is never silently reinterpreted under newer rules.
+export function auditClassifications({ catalog, taxonomy, previousState = null, baselineTaxonomy = null, baselineVersion = CLASSIFICATION_VERSION, stats = null, previous = null, now = new Date(), methodology = METHODOLOGY }) {
   const prepared = prepareTaxonomy(taxonomy);
   const baseline = baselineTaxonomy ? prepareTaxonomy(baselineTaxonomy) : null;
   const prior = new Map((previousState?.plugins ?? []).map((p) => [p.id, p]));
   const records = [...catalog].sort(compare).map((plugin) => {
-    const ineligible = eligibilityReason(plugin);
+    const ineligible = eligibilityReason(plugin, methodology);
     const explanations = ineligible ? [] : explainClassification(plugin, prepared);
     const types = explanations.filter((e) => e.accepted).map((e) => e.typeId);
     const before = baseline ? (ineligible ? [] : baselineVersion === 1 ? legacyTypes(plugin, baseline) : classifyPlugin(plugin, baseline)) : prior.get(plugin.id)?.types ?? null;
@@ -46,7 +48,7 @@ export function auditClassifications({ catalog, taxonomy, previousState = null, 
   let rankingComparison = null;
   let picks = [];
   if (stats) {
-    const after = rankPlugins({ catalog, stats, taxonomy, previous, now }).rankings;
+    const after = rankPlugins({ catalog, stats, taxonomy, previous, now, methodology }).rankings;
     const byId = new Map(records.map((p) => [p.id, p]));
     picks = after.types.flatMap((type) => ["winner", "runnerUp"].filter((slot) => type[slot]).map((slot) => ({ typeId: type.id, slot, id: type[slot].id, name: type[slot].name, eligibility: byId.get(type[slot].id).evidence.find((e) => e.typeId === type.id) })));
     if (baseline) {
@@ -56,12 +58,12 @@ export function auditClassifications({ catalog, taxonomy, previousState = null, 
         types: baselineTaxonomy.types.map((type) => ({ ...type, include: ["(?!)"], nameInclude: undefined, exclude: [] })),
         overrides: { include: Object.fromEntries(records.filter((p) => !p.ineligible).map((p) => [p.id, p.before])) }
       };
-      const before = rankPlugins({ catalog, stats, taxonomy: fixedTaxonomy, previous, now }).rankings;
+      const before = rankPlugins({ catalog, stats, taxonomy: fixedTaxonomy, previous, now, methodology }).rankings;
       rankingComparison = compareRankings(before, after);
     } else if (previous) rankingComparison = compareRankings(previous, after);
   }
   return {
-    schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, generatedAt: now.toISOString(),
+    schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, methodologyVersion: methodology.version, generatedAt: now.toISOString(),
     hashes: { catalog: checksum(catalog), taxonomy: checksum(taxonomy), baselineTaxonomy: baselineTaxonomy ? checksum(baselineTaxonomy) : null },
     comparison: baseline ? "same-input-taxonomy-replay" : previousState ? "previous-published-memberships" : "baseline-established",
     counts: { catalog: records.length, eligible: eligible.length, classified: eligible.filter((p) => p.types.length).length, unranked: eligible.filter((p) => !p.types.length).length, assignments: eligible.reduce((n, p) => n + p.types.length, 0), changed: changes.length + removed.length, unresolved: unresolved.length },
@@ -84,7 +86,7 @@ function compareRankings(before, after) {
 const escape = (s) => String(s ?? "").replace(/[\u0000-\u001f\u007f]/g, " ").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replace(/[\\`*_{}\[\]()#+.!|]/g, "\\$&");
 export function renderClassificationAudit(report) {
   const c = report.counts;
-  const lines = ["# Category eligibility audit", "", `${c.catalog} listings; ${c.eligible} eligible; ${c.classified} classified; ${c.unranked} unranked; ${c.assignments} assignments.`, "",
+  const lines = ["# Category eligibility audit", "", `${c.catalog} listings; ${c.eligible} eligible; ${c.classified} classified; ${c.unranked} unranked; ${c.assignments} assignments. Eligibility and picks use methodology ${escape(report.methodologyVersion ?? "1.0.0")}.`, "",
     `${c.changed} changed listings; ${c.unresolved} assignments held for review. Comparison: ${report.comparison}.`, "",
     "Decisions are reproducible rule evaluations, not a claim of manual review of every repository. report.json contains each listing's accepted and rejected evidence, every published pick, and all membership changes. Unresolved assignments do not compete.", ""];
   if (report.rankingComparison) {

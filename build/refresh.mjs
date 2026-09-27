@@ -1,14 +1,19 @@
+import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { access, appendFile, mkdir, readFile, readdir, rename, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { CLASSIFICATION_VERSION, METHODOLOGY, changesBetween, invertedRawScoreRaces, isoWeek, rankPlugins, runnerUpChangesBetween } from "./rank.mjs";
+import { CLASSIFICATION_VERSION, METHODOLOGY, REMOVAL_REASONS, changesBetween, invertedRawScoreRaces, isoWeek, rankPlugins, runnerUpChangesBetween } from "./rank.mjs";
+import { LEGACY_METHODOLOGY_VERSION, methodologyFor } from "./methodology.mjs";
 import { auditClassifications, renderClassificationAudit } from "./classification-audit.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CATALOG_URL = "https://plugins.omarchy.org/catalog.json";
 const STATS_URL = "https://api.omarchyplugins.com/v1/stats";
+// The marketplace source registry (MIT); only retiredPluginIds is consumed. Not served on the website.
+export const REGISTRY_URL = "https://raw.githubusercontent.com/omacom/omarchy-plugin-marketplace/main/registry.json";
 const MAX_IMAGE_BYTES = 2 * 1024 * 1024;
+const MAX_FEED_BYTES = 20 * 1024 * 1024;
 
 function delay(milliseconds) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -45,8 +50,115 @@ function checksum(value) {
   return createHash("sha256").update(JSON.stringify(value)).digest("hex");
 }
 
+// Bound actual streamed bytes, not just an optional Content-Length header.
+export async function boundedFetch(fetchImpl, url, options, maxBytes = MAX_FEED_BYTES) {
+  const response = await fetchImpl(url, options);
+  if (!response.ok) return response;
+  const budget = `Feed exceeds ${Math.round(maxBytes / 1024 / 1024)} MiB budget`;
+  if (Number(response.headers.get("content-length")) > maxBytes) {
+    await response.body?.cancel();
+    throw new Error(budget);
+  }
+  const reader = response.body?.getReader();
+  if (!reader) throw new Error("Feed has no response body");
+  const chunks = [];
+  let size = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      size += value.byteLength;
+      if (size > maxBytes) throw new Error(budget);
+      chunks.push(value);
+    }
+  } finally { await reader.cancel(); }
+  const headers = new Headers(response.headers);
+  headers.delete("content-encoding");
+  headers.delete("content-length");
+  return new Response(Buffer.concat(chunks), { status: response.status, headers });
+}
+
+// Retirement evidence only labels changes; a failed or malformed fetch never blocks a refresh and is
+// recorded as unavailable rather than as an empty list.
+export async function fetchRetirements(fetchImpl = fetch) {
+  try {
+    const result = await fetchJson(REGISTRY_URL, { fetchImpl: (url, options) => boundedFetch(fetchImpl, url, options) });
+    const ids = result.body?.retiredPluginIds;
+    if (!Array.isArray(ids) || ids.some((id) => typeof id !== "string")) {
+      throw new Error("registry.json retiredPluginIds must be an array of strings");
+    }
+    return { status: "available", url: REGISTRY_URL, etag: result.etag, lastModified: result.lastModified, retiredPluginIds: [...new Set(ids)].sort(), error: null };
+  } catch (error) {
+    return { status: "unavailable", url: REGISTRY_URL, etag: null, lastModified: null, retiredPluginIds: null, error: error.message };
+  }
+}
+
+function registrySource(registry) {
+  const available = registry?.status === "available";
+  return {
+    url: registry?.url ?? REGISTRY_URL,
+    status: available ? "available" : "unavailable",
+    etag: registry?.etag ?? null,
+    lastModified: registry?.lastModified ?? null,
+    sha256: available ? checksum(registry.retiredPluginIds) : null,
+    count: available ? registry.retiredPluginIds.length : null,
+    ...(available ? {} : { error: registry?.error ?? "not fetched" })
+  };
+}
+
+export function changeContext({ catalog, registry, exclusions, typeIdsById }) {
+  const available = registry?.status === "available";
+  return {
+    catalogIds: new Set(catalog.map((plugin) => plugin?.id)),
+    retirement: { available, ids: new Set(available ? registry.retiredPluginIds : []) },
+    exclusions,
+    typeIdsById
+  };
+}
+
+// Recompute this run's pick changes and their reasons from captured refresh inputs, offline.
+export function replayChanges(inputs) {
+  const catalog = inputs.catalog.body.plugins;
+  const ranked = rankPlugins({
+    catalog,
+    stats: inputs.stats.body.plugins,
+    taxonomy: inputs.taxonomy,
+    previous: inputs.previous,
+    now: new Date(inputs.now),
+    methodology: methodologyFor(inputs.methodologyVersion ?? LEGACY_METHODOLOGY_VERSION)
+  });
+  const context = changeContext({ catalog, registry: inputs.registry, exclusions: ranked.exclusions, typeIdsById: ranked.typeIdsById });
+  return {
+    changes: changesBetween(inputs.previous, ranked.rankings, context),
+    runnerUpChanges: runnerUpChangesBetween(inputs.previous, ranked.rankings, context)
+  };
+}
+
+// Identifies the code that produced replay inputs or research reports. Never used for ranking.
+export function codeRevision(root = ROOT) {
+  if (process.env.GITHUB_SHA) return process.env.GITHUB_SHA;
+  try {
+    const head = execFileSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim();
+    const dirty = execFileSync("git", ["status", "--porcelain", "--untracked-files=no"], { cwd: root, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim();
+    return dirty ? `${head}-dirty` : head;
+  } catch {
+    return null;
+  }
+}
+
+// Catalog state schema 2 added graded verification and upstream health fields. Older fixtures and
+// feeds carry no version; anything newer must be reviewed before it can silently change eligibility.
+const SUPPORTED_CATALOG_SCHEMAS = new Set([undefined, 2]);
+
 export function validateFeeds(catalogFeed, statsFeed, minimumCatalogSize, previous = null) {
   if (!catalogFeed || !Array.isArray(catalogFeed.plugins)) throw new Error("Catalog feed is missing plugins[]");
+  if (!SUPPORTED_CATALOG_SCHEMAS.has(catalogFeed.stateSchemaVersion)) {
+    throw new Error(`Unsupported catalog stateSchemaVersion: ${JSON.stringify(catalogFeed.stateSchemaVersion)}`);
+  }
+  if (catalogFeed.warnings !== undefined &&
+      (!Array.isArray(catalogFeed.warnings) || catalogFeed.warnings.some((warning) => typeof warning !== "string"))) {
+    throw new Error("Catalog warnings must be an array of strings");
+  }
   if (catalogFeed.plugins.length < minimumCatalogSize) {
     throw new Error(`Catalog contains ${catalogFeed.plugins.length} plugins; expected at least ${minimumCatalogSize}`);
   }
@@ -90,6 +202,23 @@ async function readJson(file, fallback = null) {
     if (error.code === "ENOENT") return fallback;
     throw error;
   }
+}
+
+// The latest published snapshot from an earlier ISO week. Same-week republishes therefore keep the
+// interval that the week's first run used.
+async function priorWeekBaseline(root, week) {
+  const directory = path.join(root, "data", "history");
+  let files;
+  try {
+    files = await readdir(directory);
+  } catch (error) {
+    if (error.code === "ENOENT") return null;
+    throw error;
+  }
+  const latest = files.filter((file) => /^\d{4}-W\d{2}\.json$/.test(file) && file.slice(0, -5) < week).sort().at(-1);
+  if (!latest) return null;
+  const snapshot = await readJson(path.join(directory, latest));
+  return Number.isFinite(Date.parse(snapshot?.generatedAt)) ? { week: snapshot.week ?? latest.slice(0, -5), generatedAt: snapshot.generatedAt } : null;
 }
 
 async function writeJsonAtomic(file, value) {
@@ -199,8 +328,10 @@ function withoutLocalImages(snapshot) {
   return copy;
 }
 
-function weekChangeLog(previous, week, existingHistory, computedChanges) {
-  const prior = existingHistory?.changes;
+// Same-week reruns append to the week's recorded events for that slot ("changes" for champions,
+// "runnerUpChanges" for runner-ups) instead of replacing them.
+function weekChangeLog(previous, week, existingHistory, computedChanges, key = "changes") {
+  const prior = existingHistory?.[key];
   if (previous?.week !== week || !Array.isArray(prior) || prior.length === 0) return computedChanges;
   if (computedChanges.length === 0) return prior;
   return [...prior, ...computedChanges];
@@ -227,8 +358,29 @@ function formatPickName(pick) {
   return pick?.name ?? "none";
 }
 
+function formatReason(change) {
+  return change.reason && REMOVAL_REASONS[change.reason] ? ` (${change.previous?.name ?? "previous pick"} ${REMOVAL_REASONS[change.reason]})` : "";
+}
+
 function plural(count, singular, pluralForm = `${singular}s`) {
   return `${count} ${count === 1 ? singular : pluralForm}`;
+}
+
+// Upstream writes "<repository>: <code>"; repository URLs never contain ": ".
+export function upstreamWarningCodes(warnings = []) {
+  const codes = {};
+  for (const warning of warnings) {
+    const separator = warning.lastIndexOf(": ");
+    const code = separator >= 0 ? warning.slice(separator + 2).trim() : "unspecified";
+    codes[code || "unspecified"] = (codes[code || "unspecified"] ?? 0) + 1;
+  }
+  return Object.fromEntries(Object.entries(codes).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])));
+}
+
+function formatCatalogShape(catalog) {
+  const schema = catalog.stateSchemaVersion == null ? "unversioned" : catalog.stateSchemaVersion;
+  return `Catalog schema ${schema}; ${plural(catalog.warningCount ?? 0, "upstream warning")}; ` +
+    `${plural(catalog.builtInCount ?? 0, "built-in listing")} excluded.`;
 }
 
 function formatValidation(source, previous, catalog, stats, report) {
@@ -237,17 +389,50 @@ function formatValidation(source, previous, catalog, stats, report) {
     return prior ? (prior === source[feed].sha256 ? "unchanged" : "changed") : "has no prior checksum";
   };
   const overlap = catalog.filter((plugin) => Object.hasOwn(stats, plugin.id)).length;
+  const catalogIds = new Set(catalog.map((plugin) => plugin.id));
+  // Stats for retired listings linger upstream; a jump in orphans suggests the feeds have diverged.
+  const orphans = Object.keys(stats).filter((id) => !catalogIds.has(id)).length;
   const excluded = Object.values(report.excluded).reduce((total, count) => total + count, 0);
-  return `Live feeds passed validation: ${source.catalog.count} catalog plugins; ${source.stats.count} stats entries; ${overlap} catalog IDs have stats. ` +
+  return `Live feeds passed validation: ${source.catalog.count} catalog plugins; ${source.stats.count} stats entries; ${overlap} catalog IDs have stats; ${plural(orphans, "stats ID")} absent from the catalog. ` +
     `Catalog content ${contentChange("catalog")}; stats content ${contentChange("stats")}. ` +
+    `${formatCatalogShape(source.catalog)} ` +
     `${report.eligibleClassifiedCount} unique plugins classified; ${excluded} excluded; ${report.uniqueUnclassifiedCount} eligible but unclassified.`;
 }
 
+const SIGNAL_NAMES = Object.freeze({
+  copies: "copies",
+  hearts: "hearts",
+  stars: "stars",
+  views: "views",
+  freshness: "freshness",
+  verified: "verification",
+  installRateLowerBound: "copy/view lower bound"
+});
+
+function signalList(methodology) {
+  const names = Object.keys(methodology.weights).map((metric) => SIGNAL_NAMES[metric] ?? metric);
+  return names.length > 1 ? `${names.slice(0, -1).join(", ")} and ${names.at(-1)}` : names.join("");
+}
+
+function formatMethodology(result) {
+  const current = result.rankings?.methodologyVersion ?? METHODOLOGY.version;
+  const published = result.publishedMethodologyVersion;
+  if (!published || published === current) return `Methodology ${current}, unchanged from the published snapshot.`;
+  return `Methodology ${current} replaces published methodology ${published}.`;
+}
+
 export function formatRefreshLog(result, { dryRun = false } = {}) {
-  if (result.reason === "already-refreshed") return [
-    `OmaPicks ${result.week}: skipped recalculation because this week's snapshot already exists and the taxonomy is unchanged.`,
-    "Live feeds were not fetched or validated. This is the intentional weekly freeze, not a fresh finding of no leadership changes. Use --dry-run to check live candidates without publishing."
-  ];
+  if (result.reason === "already-refreshed") {
+    const published = result.publishedMethodologyVersion ?? LEGACY_METHODOLOGY_VERSION;
+    const pending = result.currentMethodologyVersion && result.currentMethodologyVersion !== published
+      ? ` Code now defines methodology ${result.currentMethodologyVersion}; it takes effect at the next weekly refresh, or earlier through a deliberate --republish.`
+      : "";
+    return [
+      `OmaPicks ${result.week}: skipped recalculation because this week's snapshot already exists and the taxonomy is unchanged.`,
+      "Live feeds were not fetched or validated. This is the intentional weekly freeze, not a fresh finding of no leadership changes. Use --dry-run to check live candidates without publishing.",
+      `The published snapshot keeps methodology ${published}.${pending}`
+    ];
+  }
   const changes = result.computedChanges ?? result.changes;
   const lines = [
     `OmaPicks ${result.week}: ranked ${result.rankings.types.length} app types; ` +
@@ -256,10 +441,38 @@ export function formatRefreshLog(result, { dryRun = false } = {}) {
   lines.push(dryRun
     ? "Dry run: live candidates calculated against the published snapshot; no snapshot files written."
     : "Weekly refresh: validated live feeds and wrote the snapshot; unchanged picks do not mean unchanged data.");
+  if (result.republished) {
+    lines.push(dryRun
+      ? "Republish requested: recalculated despite the weekly freeze, but this dry run still writes nothing."
+      : "Deliberate republish: recalculated this week's snapshot despite the weekly freeze; earlier events this week are retained.");
+  }
+  lines.push(formatMethodology(result));
   if (result.validation) lines.push(result.validation);
-  lines.push(`Scores combine copies, hearts, stars, views, freshness and verification, with sparse engagement dampened. Both places retain eligible incumbents unless a challenger scores strictly more than ${METHODOLOGY.hysteresis * 100}% higher; runner-up selection excludes the champion.`);
+  const exclusions = Object.entries(result.report?.excluded ?? {}).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  if (exclusions.length) lines.push(`Excluded listings by reason: ${exclusions.map(([reason, count]) => `${reason} ${count}`).join("; ")}.`);
+  for (const warning of result.report?.builtInWarnings ?? []) lines.push(`  Built-in warning: ${warning}.`);
+  if (result.rankings?.newListings) {
+    const interval = result.rankings.newListingsInterval;
+    lines.push(`${plural(result.rankings.newListings.length, "new listing")} in ranked categories since the ${interval.baselineWeek ?? "previous"} snapshot (${interval.since} to ${interval.until}).`);
+  }
+  for (const incumbent of result.report?.excludedIncumbents ?? []) {
+    lines.push(`  Excluded incumbent: ${incumbent.typeName} ${incumbent.place} ${incumbent.name} (${incumbent.id}): ${incumbent.reason}.`);
+  }
+  const registry = result.rankings?.source?.registry;
+  if (registry && registry.status !== "available") {
+    lines.push(`Retirement registry unavailable (${registry.error}); removed picks are described neutrally as no longer in the catalog.`);
+  }
+  for (const id of result.retirementConflicts ?? []) {
+    lines.push(`  Retirement conflict: ${id} is listed in the catalog and also retired in the registry; current catalog eligibility applies.`);
+  }
+  const warningCodes = Object.entries(result.upstreamWarnings ?? {});
+  if (warningCodes.length) {
+    lines.push(`Upstream catalog warnings: ${warningCodes.map(([code, count]) => `${code} ${count}`).join("; ")}.`);
+  }
+  const methodology = result.methodology ?? METHODOLOGY;
+  lines.push(`Scores combine ${signalList(methodology)}, with sparse engagement dampened. Both places retain eligible incumbents unless a challenger scores strictly more than ${methodology.hysteresis * 100}% higher; runner-up selection excludes the champion.`);
   if (!changes.length) lines.push("No champion identities changed: the per-type decisions below explain which incumbents still lead and which were retained by the stability rule.");
-  for (const change of changes) lines.push(`  Champion ${change.typeName}: ${formatPickName(change.previous)} -> ${formatPickName(change.current)}`);
+  for (const change of changes) lines.push(`  Champion ${change.typeName}: ${formatPickName(change.previous)} -> ${formatPickName(change.current)}${formatReason(change)}`);
   if (result.changes.length !== changes.length) lines.push(`Weekly changelog retains ${result.changes.length} events, including earlier runs; this calculation has ${changes.length} champion changes.`);
 
   lines.push(
@@ -269,12 +482,16 @@ export function formatRefreshLog(result, { dryRun = false } = {}) {
   const runnerUpChanges = result.runnerUpChanges ?? [];
   const invertedRaces = result.invertedRaces ?? [];
   const invertedClause = invertedRaces.length
-    ? `${plural(invertedRaces.length, "type")} where the raw-score leader is not champion (held by ${METHODOLOGY.hysteresis * 100}% hysteresis)`
+    ? `${plural(invertedRaces.length, "type")} where the raw-score leader is not champion (held by ${methodology.hysteresis * 100}% hysteresis)`
     : `${plural(0, "type")} where the raw-score leader is not champion`;
   lines.push(`${plural(runnerUpChanges.length, "runner-up change")}; ${invertedClause}.`);
 
   for (const change of runnerUpChanges) {
-    lines.push(`  Runner-up ${change.typeName}: ${formatPickName(change.previous)} -> ${formatPickName(change.current)}`);
+    lines.push(`  Runner-up ${change.typeName}: ${formatPickName(change.previous)} -> ${formatPickName(change.current)}${formatReason(change)}`);
+  }
+  const weeklyRunnerUps = result.weeklyRunnerUpChanges ?? runnerUpChanges;
+  if (weeklyRunnerUps.length !== runnerUpChanges.length) {
+    lines.push(`Weekly changelog retains ${plural(weeklyRunnerUps.length, "runner-up event")}, including earlier runs.`);
   }
   for (const race of invertedRaces) {
     lines.push(
@@ -307,12 +524,16 @@ async function removeStaleImages(rankings, root) {
   }
 }
 
+// `republish` deliberately recalculates a week that already has a snapshot (for example after a
+// methodology change). It still validates feeds and keeps the week's earlier changelog events.
 export async function refresh({
   now = new Date(),
   dryRun = false,
+  republish = false,
   minimumCatalogSize = 1_000,
   fetchImpl = fetch,
-  root = ROOT
+  root = ROOT,
+  revision = null
 } = {}) {
   const taxonomyFile = path.join(root, "data", "app-types.json");
   const rankingsFile = path.join(root, "data", "rankings.json");
@@ -320,13 +541,21 @@ export async function refresh({
   const taxonomy = await readJson(taxonomyFile);
   const taxonomySha = checksum(taxonomy);
   const week = isoWeek(now);
-  if (!dryRun && previous?.week === week && previous.source?.taxonomy?.sha256 === taxonomySha && previous.source?.taxonomy?.classificationVersion === CLASSIFICATION_VERSION) {
-    return { changed: false, week, reason: "already-refreshed" };
+  const publishedMethodologyVersion = previous?.week ? previous.methodologyVersion ?? LEGACY_METHODOLOGY_VERSION : null;
+  if (!dryRun && !republish && previous?.week === week && previous.source?.taxonomy?.sha256 === taxonomySha && previous.source?.taxonomy?.classificationVersion === CLASSIFICATION_VERSION) {
+    return {
+      changed: false,
+      week,
+      reason: "already-refreshed",
+      publishedMethodologyVersion,
+      currentMethodologyVersion: METHODOLOGY.version
+    };
   }
 
-  const [catalogResult, statsResult] = await Promise.all([
+  const [catalogResult, statsResult, registry] = await Promise.all([
     fetchJson(CATALOG_URL, { fetchImpl }),
-    fetchJson(STATS_URL, { fetchImpl })
+    fetchJson(STATS_URL, { fetchImpl }),
+    fetchRetirements(fetchImpl)
   ]);
   validateFeeds(catalogResult.body, statsResult.body, minimumCatalogSize, previous);
 
@@ -337,7 +566,11 @@ export async function refresh({
       etag: catalogResult.etag,
       lastModified: catalogResult.lastModified,
       sha256: checksum(catalogResult.body),
-      count: catalogResult.body.plugins.length
+      count: catalogResult.body.plugins.length,
+      stateSchemaVersion: catalogResult.body.stateSchemaVersion ?? null,
+      mode: typeof catalogResult.body.mode === "string" ? catalogResult.body.mode : null,
+      warningCount: catalogResult.body.warnings?.length ?? 0,
+      builtInCount: catalogResult.body.plugins.filter((plugin) => plugin.sourceType === "builtin").length
     },
     stats: {
       url: STATS_URL,
@@ -351,29 +584,37 @@ export async function refresh({
       sha256: taxonomySha,
       classificationVersion: CLASSIFICATION_VERSION,
       typeCount: Array.isArray(taxonomy?.types) ? taxonomy.types.length : 0
-    }
+    },
+    registry: registrySource(registry)
   };
 
-  const { rankings, report, decisions } = rankPlugins({
+  const { rankings, report, decisions, exclusions, typeIdsById } = rankPlugins({
     catalog: catalogResult.body.plugins,
     stats: statsResult.body.plugins,
     taxonomy,
     previous,
     now,
-    source
+    source,
+    newListingsBaseline: await priorWeekBaseline(root, week)
   });
   const historyFile = path.join(root, "data", "history", `${week}.json`);
   const existingHistory = await readJson(historyFile, null);
-  const computedChanges = changesBetween(previous, rankings);
+  const context = changeContext({ catalog: catalogResult.body.plugins, registry, exclusions, typeIdsById });
+  const computedChanges = changesBetween(previous, rankings, context);
   const changes = weekChangeLog(previous, week, existingHistory, computedChanges);
+  const runnerUpChanges = runnerUpChangesBetween(previous, rankings, context);
+  const weeklyRunnerUpChanges = weekChangeLog(previous, week, existingHistory, runnerUpChanges, "runnerUpChanges");
   const previousReport = await readJson(path.join(root, "data", "unclassified-report.json"), null);
   const previousState = await readJson(path.join(root, "data", "classification-state.json"), null);
-  const auditInputs = { schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, now: now.toISOString(), catalog: catalogResult, stats: statsResult, taxonomy, previous, previousState };
-  const classificationAudit = auditClassifications({ catalog: catalogResult.body.plugins, stats: statsResult.body.plugins, taxonomy, previous, previousState, now });
+  const auditInputs = { schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, methodologyVersion: METHODOLOGY.version, codeRevision: revision, now: now.toISOString(), catalog: catalogResult, stats: statsResult, registry, taxonomy, previous, previousState };
+  const classificationAudit = auditClassifications({ catalog: catalogResult.body.plugins, stats: statsResult.body.plugins, taxonomy, previous, previousState, now, methodology: METHODOLOGY });
   classificationAudit.inputsHash = checksum(auditInputs);
   const summary = {
     changed: true,
     week,
+    republished: republish && previous?.week === week,
+    methodology: METHODOLOGY,
+    publishedMethodologyVersion,
     rankings,
     report,
     changes,
@@ -382,7 +623,10 @@ export async function refresh({
     classificationAudit,
     auditInputs,
     validation: formatValidation(source, previous, catalogResult.body.plugins, statsResult.body.plugins, report),
-    runnerUpChanges: runnerUpChangesBetween(previous, rankings),
+    upstreamWarnings: upstreamWarningCodes(catalogResult.body.warnings),
+    runnerUpChanges,
+    weeklyRunnerUpChanges,
+    retirementConflicts: registry.status === "available" ? registry.retiredPluginIds.filter((id) => context.catalogIds.has(id)) : [],
     invertedRaces: invertedRawScoreRaces(rankings),
     deltas: {
       catalog: countDelta(previous?.source?.catalog?.count, source.catalog.count),
@@ -396,14 +640,16 @@ export async function refresh({
   const imageWarnings = await attachImages(rankings, { fetchImpl, previous, root });
   const history = {
     ...withoutLocalImages(rankings),
-    changes
+    changes,
+    runnerUpChanges: weeklyRunnerUpChanges
   };
   await writeJsonAtomic(historyFile, history);
   await writeJsonAtomic(path.join(root, "data", "changelog.json"), {
     schemaVersion: 1,
     week,
     generatedAt: rankings.generatedAt,
-    changes
+    changes,
+    runnerUpChanges: weeklyRunnerUpChanges
   });
   await writeJsonAtomic(path.join(root, "data", "unclassified-report.json"), report);
   await writeJsonAtomic(path.join(root, "data", "classification-state.json"), classificationAudit.state);
@@ -414,8 +660,12 @@ export async function refresh({
 }
 
 async function main() {
-  const dryRun = process.argv.includes("--dry-run");
-  const result = await refresh({ dryRun });
+  const args = process.argv.slice(2);
+  const unknown = args.filter((arg) => !["--dry-run", "--republish"].includes(arg));
+  if (unknown.length) throw new Error(`Unknown option: ${unknown.join(" ")}`);
+  const dryRun = args.includes("--dry-run");
+  const republish = args.includes("--republish");
+  const result = await refresh({ dryRun, republish, revision: codeRevision() });
   const lines = formatRefreshLog(result, { dryRun });
   for (const line of lines) console.log(line);
   for (const warning of result.imageWarnings ?? []) console.warn(`Image warning: ${warning}`);

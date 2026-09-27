@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: "17 6 * * 1"
   workflow_dispatch:
+    inputs:
+      republish:
+        description: "Deliberately recalculate this week's existing snapshot (for example after a methodology change)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -29,7 +34,16 @@ jobs:
       - name: Install build dependencies
         run: npm ci
       - name: Refresh validated snapshot
-        run: node build/refresh.mjs
+        # Scheduled runs and default dispatches keep the same-week freeze; republishing is opt-in.
+        env:
+          REPUBLISH: ${{ inputs.republish == true }}
+        shell: bash
+        run: |
+          if [[ "$REPUBLISH" == "true" ]]; then
+            node build/refresh.mjs --republish
+          else
+            node build/refresh.mjs
+          fi
       - name: Archive classification evidence
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:

@@ -7,12 +7,15 @@ import {
   featuredDayIndex,
   featuredTypes,
   render,
+  renderFixtureChangelog,
   renderFixtureFeed,
   renderFixtureHome,
+  renderFixtureMethodology,
   renderFixtureType,
   weekLabel,
   winningReason
 } from "../build/render.mjs";
+import { methodologyFor } from "../build/methodology.mjs";
 
 function fixtureCandidate(values = {}) {
   return {
@@ -267,8 +270,12 @@ test("winning reasons describe the score gap in plain language", () => {
     contributions: { copies: 0.2, hearts: 0.2, stars: 0.1, views: 0.05, freshness: 0.1, verified: 0 }
   });
   assert.equal(
-    winningReason(close, closeRunner),
+    winningReason(close, closeRunner, null, methodologyFor("1.0.0")),
     "The two were close on public activity; a verified listing tipped this week's score."
+  );
+  assert.equal(
+    winningReason(close, closeRunner, null, methodologyFor("1.1.0")),
+    "The two were close on public activity; stronger verification evidence tipped this week's score."
   );
 });
 
@@ -679,4 +686,125 @@ test("discovery metadata uses taxonomy categories and related navigation stays c
   assert.match(directory, /\/picks\/audio\//);
   assert.match(directory, /\/picks\/radio\//);
   assert.match(html, /href="\/#catalog">Browse all categories/);
+});
+
+test("copy/view rows show capped ratios, distinguish unrated and missing data, and skip historical snapshots", () => {
+  const row = (html) => html.match(/<th scope="row" class="comparison-metric">Copies per detail view \(capped\)<\/th>([\s\S]*?)<\/tr>/)?.[1] ?? null;
+  const values = (html) => [...row(html).matchAll(/<\/span>\s*<span>([^<]*)<\/span>/g)].map((match) => match[1]);
+  const rankings = fixtureRankings(fixtureCandidate({ metrics: { copies: 17, hearts: 4, stars: 3, views: 64, copyViewRatio: 0.2656, installRateLowerBound: 0.173 } }));
+  rankings.methodologyVersion = "1.1.0";
+  const type = rankings.types[0];
+  type.runnerUp = fixtureCandidate({ id: "runner", name: "Runner", score: 0.5, metrics: { copies: 0, hearts: 1, stars: 1, views: 25, copyViewRatio: 0, installRateLowerBound: 0 } });
+  let html = renderFixtureType(type, rankings);
+  assert.deepEqual(values(html), ["26.6%", "0%"]);
+  assert.match(html, /not a measured install rate/);
+  assert.doesNotMatch(html, /Copy\/view lower-bound score/);
+  type.runnerUp.metrics = { copies: 5, hearts: 1, stars: 1, views: 5, copyViewRatio: 1, installRateLowerBound: null };
+  html = renderFixtureType(type, rankings);
+  assert.deepEqual(values(html), ["26.6%", "Not rated (under 20 views)"]);
+  type.runnerUp.metrics = { copies: 5, hearts: 1, stars: 1, views: 0, copyViewRatio: null, installRateLowerBound: null };
+  assert.deepEqual(values(renderFixtureType(type, rankings)), ["26.6%", "No detail views"]);
+  // Snapshots from before the signal existed show no invented row or explanation.
+  const historical = fixtureRankings();
+  historical.types[0].runnerUp = fixtureCandidate({ id: "runner", name: "Runner", score: 0.5 });
+  const old = renderFixtureType(historical.types[0], historical);
+  assert.equal(row(old), null);
+  assert.doesNotMatch(old, /not a measured install rate/);
+  assert.match(old, /<th scope="row" class="comparison-metric">Views<\/th>/);
+});
+
+test("the byline shows version and a distinct release tag when present", () => {
+  const html = (values) => renderFixtureType(fixtureRankings(fixtureCandidate(values)).types[0], fixtureRankings(fixtureCandidate(values))).match(/<p class="byline">([^<]*)<\/p>/)[1];
+  assert.equal(html({ license: "MIT" }), "Author · MIT");
+  assert.equal(html({ license: "MIT", version: "1.2.2", releaseTag: "v1.2.2" }), "Author · v1.2.2 · MIT");
+  assert.equal(html({ license: "MIT", version: "1.2.2", releaseTag: "nightly" }), "Author · v1.2.2 · release nightly · MIT");
+  assert.equal(html({ license: "MIT", releaseTag: "v0.3.0" }), "Author · release v0.3.0 · MIT");
+  assert.equal(html({ name: "X", author: "<b>", version: "<1>" }), "&lt;b&gt; · v&lt;1&gt; · license unknown");
+});
+
+test("methodology 1.1.0 explains graded verification, copy/view scoring and deferred shipping bonus", () => {
+  const rankings = { ...fixtureRankings(), methodologyVersion: "1.1.0" };
+  const page = renderFixtureMethodology(rankings);
+  assert.match(page, /Methodology v1\.1\.0/);
+  assert.match(page, /<span>Views<\/span>.*?<span class="pct">3%<\/span>/s);
+  assert.match(page, /<span>Copy\/view lower-bound score<\/span>.*?<span class="pct">5%<\/span>/s);
+  assert.match(page, /earns 60% of it/);
+  assert.match(page, /exact listed commit/);
+  assert.match(page, /omarchy-plugin-marketplace\/blob\/main\/VERIFICATION\.md/);
+  assert.match(page, /Wilson interval/);
+  assert.match(page, /rewards stronger install-command-copy evidence relative to detail views/);
+  assert.doesNotMatch(page, /visitors often copy/);
+  assert.match(page, /fewer than 20 views are not rated/);
+  assert.match(page, /nothing measures actual installations/);
+  assert.match(page, /Releases and version changes do not affect freshness/);
+  assert.match(page, /could not reach its repository/);
+  assert.match(page, /not bound to the commit the marketplace verified/);
+  // The published 1.0.0 explanation (lede through stability rule) describes none of the new rules.
+  const legacy = renderFixtureMethodology(fixtureRankings());
+  const explanation = legacy.slice(legacy.indexOf('class="page-lede"'), legacy.indexOf('id="data-sources"'));
+  assert.ok(explanation.length > 1000);
+  assert.doesNotMatch(explanation, /Wilson|copy-per-view|earns 60%|could not reach its repository|built-ins/);
+  assert.match(explanation, /A verified listing is a small bonus/);
+});
+
+test("category pages show built-ins and snapshot-relative listing age", () => {
+  const rankings = fixtureRankings(fixtureCandidate({ listedAt: "2026-08-20T09:00:00Z" }));
+  rankings.types[0].builtIns = [{ id: "omarchy.weather", name: "Weather", description: "Weather pill <b>", officialCommand: "omarchy bar plugin add omarchy.weather", sourceUrl: "https://github.com/omacom/omarchy/tree/main" }];
+  const html = renderFixtureType(rankings.types[0], rankings);
+  assert.match(html, /<h2 id="builtin-heading">Included with Omarchy<\/h2>/);
+  assert.match(html, /Built into Omarchy Quattro; not ranked\./);
+  assert.match(html, /<code>omarchy bar plugin add omarchy\.weather<\/code>/);
+  assert.match(html, /Weather pill &lt;b&gt;/);
+  assert.ok(html.indexOf("builtin-heading") < html.indexOf('class="podium"'));
+  assert.match(html, /Listed 12 days before this snapshot/);
+  const older = fixtureRankings(fixtureCandidate({ listedAt: "2026-06-01T00:00:00Z" }));
+  const plain = renderFixtureType(older.types[0], older);
+  assert.doesNotMatch(plain, /listing-age|Included with Omarchy/);
+  const sameDay = fixtureRankings(fixtureCandidate({ listedAt: "2026-09-01T01:00:00Z" }));
+  assert.match(renderFixtureType(sameDay.types[0], sameDay), /Listed less than a day before this snapshot/);
+});
+
+test("weekly highlights show new listings with their interval and omit the claim without a baseline", () => {
+  const rankings = fixtureRankings();
+  // Neither ranked slot: the fixture's picks are safe.plugin and nobody.
+  rankings.newListings = [{ id: "fresh.plugin/x", name: "Fresh <Plugin>", typeIds: ["weather", "unknown-type"] }];
+  rankings.newListingsInterval = { since: "2026-08-25T06:17:00Z", until: "2026-09-01T09:00:00Z", baselineWeek: "2026-W35" };
+  const html = renderFixtureHome(rankings, [{ ...fixtureRankings(), week: "2026-W35" }]);
+  assert.match(html, /New listings in ranked categories since the previous snapshot: <strong>1<\/strong>/);
+  assert.match(html, /August 25, 2026<\/time> to <time datetime="2026-09-01T09:00:00Z">September 1, 2026/);
+  assert.match(html, /<li><a href="https:\/\/plugins\.omarchy\.org\/plugin\.html\?id=fresh\.plugin%2Fx" target="_blank" rel="noopener noreferrer">Fresh &lt;Plugin&gt;<\/a> \(<a href="\/picks\/weather\/">Weather<\/a>\)<\/li>/);
+  assert.doesNotMatch(html, /<a href="\/picks\/weather\/">Fresh/);
+  assert.doesNotMatch(renderFixtureHome(fixtureRankings()), /New listings in ranked categories/);
+});
+
+test("the changelog words removal reasons plainly and keeps older entries unchanged", () => {
+  const html = renderFixtureChangelog([{
+    week: "2026-W40",
+    generatedAt: "2026-09-28T06:17:00Z",
+    changes: [
+      { typeId: "weather", typeName: "Weather", kind: "displaced", reason: "retired", previous: { id: "old", name: "Old <One>" }, current: { id: "new", name: "New" } },
+      { typeId: "music", typeName: "Music", kind: "vacated", reason: "repository-unreachable", previous: { id: "yt", name: "YouTube Music" }, current: null },
+      { typeId: "clock", typeName: "Clock", kind: "displaced", previous: { id: "a", name: "A" }, current: { id: "b", name: "B" } }
+    ]
+  }]);
+  assert.match(html, /<strong>New<\/strong> replaced Old &lt;One&gt; in Weather\. Old &lt;One&gt; was retired by the marketplace\./);
+  assert.match(html, /Music has no champion this week\. YouTube Music could not be reached in the latest marketplace check\./);
+  assert.match(html, /<strong>B<\/strong> replaced A in Clock\.<\/li>/);
+});
+
+test("the changelog lists runner-up events separately and older weeks without them stay unchanged", () => {
+  const html = renderFixtureChangelog([
+    { week: "2026-W40", generatedAt: "2026-09-28T06:17:00Z", changes: [], runnerUpChanges: [
+      { typeId: "music", typeName: "Music", kind: "vacated", reason: "repository-unreachable", previous: { id: "yt", name: "YouTube <Music>" }, current: null },
+      { typeId: "clock", typeName: "Clock", kind: "new-runner-up", previous: null, current: { id: "b", name: "B" } }
+    ] },
+    { week: "2026-W39", generatedAt: "2026-09-21T06:17:00Z", changes: [{ typeId: "clock", typeName: "Clock", kind: "displaced", previous: { id: "a", name: "A" }, current: { id: "c", name: "C" } }] }
+  ]);
+  const [w40, w39] = html.split('<section>').slice(-2);
+  assert.match(w40, /No champion changes\./);
+  assert.match(w40, /<h3 class="timeline-subhead">Runner-up changes<\/h3>/);
+  assert.match(w40, /Music has no runner-up this week\. YouTube &lt;Music&gt; could not be reached in the latest marketplace check\./);
+  assert.match(w40, /<strong>B<\/strong> became the Clock runner-up\./);
+  assert.doesNotMatch(w39, /Runner-up changes/);
+  assert.match(w39, /<strong>C<\/strong> replaced A in Clock\./);
 });

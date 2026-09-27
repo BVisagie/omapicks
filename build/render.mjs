@@ -3,14 +3,15 @@ import { readFileSync } from "node:fs";
 import { cp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { METHODOLOGY, changesBetween, scoreLeader } from "./rank.mjs";
+import { METHODOLOGY, changesBetween, removalSentence, scoreLeader, snapshotMethodology, verificationCoverage, verificationCredit } from "./rank.mjs";
 import { renderSocialImage } from "./social.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DIST = path.join(ROOT, "dist");
 const ORIGIN = "https://omapicks.com";
 const DISCOVERY = JSON.parse(readFileSync(new URL("../site/discovery.json", import.meta.url), "utf8"));
-const SIGNAL_METRICS = ["copies", "hearts", "stars", "views", "freshness"];
+const SIGNAL_METRICS = ["copies", "hearts", "stars", "views", "copyViewRatio", "freshness"];
+const VERIFICATION_POLICY_URL = "https://github.com/omacom/omarchy-plugin-marketplace/blob/main/VERIFICATION.md";
 const FUNCTION_ROUTES = {
   version: 1,
   include: ["/*"],
@@ -137,6 +138,8 @@ function metricLabel(metric) {
     ["hearts", "Hearts"],
     ["stars", "Stars"],
     ["views", "Views"],
+    ["copyViewRatio", "Copies per detail view (capped)"],
+    ["installRateLowerBound", "Copy/view lower-bound score"],
     ["freshness", "Freshness"],
     ["verified", "Verified"]
   ]).get(metric) ?? metric;
@@ -181,6 +184,49 @@ function hiddenLeader(type) {
   return leader && leader.id !== type.runnerUp?.id ? leader : null;
 }
 
+function percentLabel(fraction) {
+  return `${Math.round(fraction * 1000) / 10}%`;
+}
+
+// Explanations describe the methodology the snapshot was calculated with, never newer code.
+function methodologyCopy(method) {
+  const stability = percentLabel(method.hysteresis);
+  const graded = method.verification.rule === "coverage";
+  const rate = method.installRate;
+  const viewsClause = rate
+    ? "Listing views barely count, and a small share rewards stronger install-command-copy evidence relative to detail views."
+    : "Listing views barely count.";
+  const verifiedClause = graded
+    ? "A verified snapshot is a small bonus, not a win condition; a verified snapshot whose upstream has since moved on earns part of it."
+    : "A verified listing is a small bonus, not a win condition.";
+  return {
+    stability,
+    lede: `In plain terms: we rank plugins by public evidence of use and upkeep, not votes. Copying the install command counts most, then hearts and GitHub stars. ${viewsClause} Abandoned repositories sink. ${verifiedClause} A champion keeps the title until someone beats their score by more than ${stability}.`,
+    note: `This is not a vote. Install-command copies count most, then hearts and GitHub stars. ${viewsClause} Recently updated repositories rank higher than abandoned ones, and ${graded ? "a verified snapshot" : "a verified listing"} is only a small bonus. Plugins with little public evidence are pulled toward the middle, so a brand-new listing cannot win on three copies. A champion stays until a challenger is more than ${stability} ahead on the combined score.`,
+    comparison: rate
+      ? `Copies per detail view divides two anonymous counters and is capped at 100%, because copies can also come from listing cards; it is not a measured install rate. Plugins with fewer than ${rate.minimumViews} detail views are not rated.`
+      : "",
+    eligibility: method.eligibility.upstreamHealth
+      ? "A plugin needs an install command and an HTTPS repository. Retired and delisted listings are out, and so is any listing whose latest daily marketplace check could not reach its repository or found an invalid manifest or preview; it competes again once a later check passes. Omarchy built-ins are listed upstream but never ranked."
+      : "A plugin needs an install command and an HTTPS repository. Retired and delisted listings are out.",
+    score: `Raw counts are logged with <code>log1p</code>. Each signal is ${percentLabel(method.normalization.percentileShare)} a within-type percentile and ${percentLabel(1 - method.normalization.percentileShare)} a scale capped at the ${Math.round(method.normalization.scaleQuantile * 100)}th percentile. Sparse evidence pulls that result toward 50%.`,
+    afterWeights: [
+      `Repository freshness decays with a ${method.freshness.halfLifeDays}-day half-life from the latest push to any branch. Missing timestamps receive no freshness points.${method.freshness.shippingBonus ? "" : " Releases and version changes do not affect freshness."} GitHub stars and push dates belong to a repository, so plugins published from one repository share them.`,
+      ...(rate ? [
+        `Copies per detail view compares install-command copies with detail-page views, capped at 100% because copies can also happen on listing cards. The score uses the lower bound of its 95% Wilson interval, the same formula the marketplace uses for its install rate, so a handful of lucky copies on a few views cannot outrank a well-measured plugin. Plugins with fewer than ${rate.minimumViews} views are not rated and sit at the neutral midpoint; evidence damping then applies as for every other signal. Both counters are anonymous: nothing measures actual installations or individual visitors, and the view-count adjustment is a ranking heuristic, not a measured conversion probability. Count signals use <code>log1p</code>; this ratio does not.`
+      ] : []),
+      graded
+        ? `Verification is a small bonus, not a requirement. The marketplace verifies an exact listed commit. A snapshot verified at the commit upstream still points to earns full credit; a verified snapshot whose repository has since moved to unverified code earns ${percentLabel(method.verification.updateUnverifiedCredit)} of it; anything else earns none. Maintainer review and automated baseline checks describe the same exact-commit fact and earn the same credit. <a href="${VERIFICATION_POLICY_URL}">How marketplace verification works</a>.`
+        : "Verification is a small bonus, not a requirement."
+    ],
+    stabilityRule: `An eligible incumbent remains in place until a challenger scores more than ${stability} higher. If an incumbent becomes unavailable, the highest-scoring eligible plugin takes its place immediately. Ties fall back to copies, hearts, stars, then plugin ID.`,
+    verifiedTipped: graded
+      ? "The two were close on public activity; stronger verification evidence tipped this week's score."
+      : "The two were close on public activity; a verified listing tipped this week's score.",
+    verifiedBonus: graded ? "plus stronger verification evidence" : "plus a small verified-listing bonus"
+  };
+}
+
 function scoreGapLabel(type) {
   const hidden = hiddenLeader(type);
   const lead = scoreLead(type.winner, hidden ?? type.runnerUp);
@@ -194,16 +240,21 @@ const WINNING_SIGNALS = Object.freeze({
   copies: "more people copied the install command",
   hearts: "it received more marketplace hearts",
   stars: "it had more GitHub stars",
+  installRateLowerBound: "it had stronger copy-per-view evidence",
   freshness: "its repository was updated more recently"
 });
 
-function signalDelta(winner, runnerUp, metric) {
+// Snapshots record contributions; the fallback reconstructs a signal with the snapshot's own rules,
+// never today's credit, so an old binary-verification score is not reinterpreted.
+function signalDelta(winner, runnerUp, metric, method) {
   if (winner?.contributions && runnerUp?.contributions) {
     return Number(winner.contributions[metric] ?? 0) - Number(runnerUp.contributions[metric] ?? 0);
   }
   if (metric === "verified") {
-    const flag = (candidate) => (candidate?.verificationStatus === "verified" ? 1 : 0);
-    return flag(winner) - flag(runnerUp);
+    return verificationCredit(winner, method) - verificationCredit(runnerUp, method);
+  }
+  if (metric === "installRateLowerBound") {
+    return Number(winner?.metrics?.installRateLowerBound ?? 0) - Number(runnerUp?.metrics?.installRateLowerBound ?? 0);
   }
   if (metric === "freshness") {
     return Number(winner?.normalized?.freshness ?? 0) - Number(runnerUp?.normalized?.freshness ?? 0);
@@ -214,36 +265,36 @@ function signalDelta(winner, runnerUp, metric) {
 function meaningfulLead(delta, metric, usedContributions) {
   if (usedContributions) return delta > 0.003;
   if (metric === "verified") return delta > 0;
-  if (metric === "freshness") return delta > 0.05;
+  if (metric === "freshness" || metric === "installRateLowerBound") return delta > 0.05;
   return delta >= 1;
 }
 
-export function winningReason(winner, runnerUp, topScorer = null) {
+export function winningReason(winner, runnerUp, topScorer = null, method = METHODOLOGY) {
   if (!winner) return "No champion this week.";
   if (!runnerUp) return "It was the only eligible plugin in this category this week.";
+  const copy = methodologyCopy(method);
   const leader = scoreLeader({ winner, runnerUp, topScorer });
   if (leader) {
     const lead = scoreLead(winner, leader);
     const gap = lead === null ? "a higher score" : `${scorePercent(lead)} more`;
-    return `It keeps the title under the stability rule: ${leader.name} scored ${gap}, but a challenger must score more than 10% above the champion to replace it.`;
+    return `It keeps the title under the stability rule: ${leader.name} scored ${gap}, but a challenger must score more than ${copy.stability} above the champion to replace it.`;
   }
   const usedContributions = Boolean(winner.contributions && runnerUp.contributions);
   const leads = Object.keys(WINNING_SIGNALS)
-    .map((metric) => ({ metric, delta: signalDelta(winner, runnerUp, metric) }))
+    .filter((metric) => metric in method.weights)
+    .map((metric) => ({ metric, delta: signalDelta(winner, runnerUp, metric, method) }))
     .filter((entry) => meaningfulLead(entry.delta, entry.metric, usedContributions))
     .sort((a, b) => b.delta - a.delta);
-  const verifiedLead = meaningfulLead(signalDelta(winner, runnerUp, "verified"), "verified", usedContributions);
+  const verifiedLead = meaningfulLead(signalDelta(winner, runnerUp, "verified", method), "verified", usedContributions);
   if (!leads.length) {
-    return verifiedLead
-      ? "The two were close on public activity; a verified listing tipped this week's score."
-      : "It led this week's combined public-registry score in a close race.";
+    return verifiedLead ? copy.verifiedTipped : "It led this week's combined public-registry score in a close race.";
   }
   const copiesLead = leads.find((entry) => entry.metric === "copies");
   const primary = copiesLead ?? leads[0];
   const secondary = leads.find((entry) => entry.metric !== primary.metric);
   if (!secondary) {
     return verifiedLead
-      ? `It won mainly because ${WINNING_SIGNALS[primary.metric]}, plus a small verified-listing bonus.`
+      ? `It won mainly because ${WINNING_SIGNALS[primary.metric]}, ${copy.verifiedBonus}.`
       : `It won mainly because ${WINNING_SIGNALS[primary.metric]}.`;
   }
   return `It won mainly because ${WINNING_SIGNALS[primary.metric]}, and ${WINNING_SIGNALS[secondary.metric]}.`;
@@ -412,9 +463,13 @@ function shell({ title, description, pathname, image, body, structuredData = nul
 `;
 }
 
+// Badges describe the verification evidence, not the score, so they use the shared resolver for
+// every snapshot. The visible text carries the distinction; nothing relies on a title attribute.
 function statusPill(candidate) {
-  const verified = candidate.verificationStatus === "verified";
-  return `<span class="status ${verified ? "verified" : ""}">${verified ? "Verified" : "Community"}</span>`;
+  const coverage = candidate.verificationCoverage ?? verificationCoverage(candidate);
+  if (coverage === "snapshot-verified") return `<span class="status verified">Snapshot verified</span>`;
+  if (coverage === "update-unverified") return `<span class="status verified-stale">Verified snapshot; update unverified</span>`;
+  return `<span class="status">Community</span>`;
 }
 
 function mediaImage(candidate, { decorative = false } = {}) {
@@ -425,30 +480,47 @@ function mediaImage(candidate, { decorative = false } = {}) {
   return `<img src="${src}" alt="${escapeHtml(alt)}" width="${escapeHtml(width)}" height="${escapeHtml(height)}" loading="lazy">`;
 }
 
-function metricValue(candidate, metric) {
+function ratedViews(candidate, method) {
+  return Number(candidate?.metrics?.views ?? 0) >= (method.installRate?.minimumViews ?? 20);
+}
+
+function metricValue(candidate, metric, method = METHODOLOGY) {
   if (metric === "freshness") return clamp01(candidate?.normalized?.freshness);
+  if (metric === "copyViewRatio") return ratedViews(candidate, method) ? clamp01(candidate?.metrics?.copyViewRatio) : 0;
   const value = Number(candidate?.metrics?.[metric] ?? 0);
   return Number.isFinite(value) ? Math.max(0, value) : 0;
 }
 
-function metricDisplay(candidate, metric) {
-  const value = metricValue(candidate, metric);
+function metricDisplay(candidate, metric, method = METHODOLOGY) {
+  if (metric === "copyViewRatio") {
+    const views = Number(candidate?.metrics?.views ?? 0);
+    if (!(views > 0) || candidate?.metrics?.copyViewRatio == null) return "No detail views";
+    if (!ratedViews(candidate, method)) return `Not rated (under ${method.installRate?.minimumViews ?? 20} views)`;
+    const ratio = clamp01(candidate.metrics.copyViewRatio);
+    return ratio === 0 ? "0%" : `${(ratio * 100).toFixed(1)}%`;
+  }
+  const value = metricValue(candidate, metric, method);
   if (value === 0) return "—";
   return metric === "freshness"
     ? `${Math.round(value * 100)}%`
     : value.toLocaleString("en-US");
 }
 
-function comparisonBar(candidate, metric, max) {
-  const value = metricValue(candidate, metric);
+function comparisonBar(candidate, metric, max, method) {
+  const value = metricValue(candidate, metric, method);
   const width = value === 0 ? 0 : Math.round((value / max) * 100);
   return `<span class="comparison-value">
     <span class="signal-bar" aria-hidden="true"><span style="width:${width}%"></span></span>
-    <span>${escapeHtml(metricDisplay(candidate, metric))}</span>
+    <span>${escapeHtml(metricDisplay(candidate, metric, method))}</span>
   </span>`;
 }
 
-function scoreComparison(type) {
+// Historical snapshots without a signal keep no invented row.
+function recordedMetric(candidates, metric) {
+  return metric !== "copyViewRatio" || candidates.some((candidate) => candidate?.metrics && "copyViewRatio" in candidate.metrics);
+}
+
+function scoreComparison(type, method) {
   const { winner, runnerUp } = type;
   if (!winner) return "";
   const candidates = [winner, runnerUp].filter(Boolean);
@@ -458,7 +530,7 @@ function scoreComparison(type) {
     ? `Combined scores in this category: ${escapeHtml(winner.name)} ${winner.score.toFixed(3)}, ${escapeHtml(runnerUp.name)} ${runnerUp.score.toFixed(3)}${lead != null ? ` (${scorePercent(lead)} apart)` : ""}.`
     : `Combined score in this category: ${winner.score.toFixed(3)} of 1.00.`;
   const hiddenNote = hidden
-    ? ` The top score this week was ${escapeHtml(hidden.name)} at ${hidden.score.toFixed(3)}; it is not shown because both places stay with their holders until beaten by more than 10%.`
+    ? ` The top score this week was ${escapeHtml(hidden.name)} at ${hidden.score.toFixed(3)}; it is not shown because both places stay with their holders until beaten by more than ${methodologyCopy(method).stability}.`
     : "";
   return `<section class="score-comparison" aria-labelledby="comparison-heading">
     <div class="comparison-heading">
@@ -466,7 +538,7 @@ function scoreComparison(type) {
         <p class="kicker">Marketplace counts</p>
         <h2 id="comparison-heading">How they compare</h2>
       </div>
-      <p>These bars are raw public counts for these two plugins, not the ranking itself. Install-command copies count most. Freshness is how recently the repository was updated. ${scores}${hiddenNote} <a href="/methodology/">How the ranking is calculated</a></p>
+      <p>These bars are raw public counts for these two plugins, not the ranking itself. Install-command copies count most. Freshness is how recently the repository was updated.${recordedMetric(candidates, "copyViewRatio") && methodologyCopy(method).comparison ? ` ${escapeHtml(methodologyCopy(method).comparison)}` : ""} ${scores}${hiddenNote} <a href="/methodology/">How the ranking is calculated</a></p>
     </div>
     <table class="comparison-table">
       <caption class="visually-hidden">Marketplace signals by plugin</caption>
@@ -476,13 +548,13 @@ function scoreComparison(type) {
         ${runnerUp ? `<th scope="col">${escapeHtml(runnerUp.name)}</th>` : ""}
       </tr></thead>
       <tbody>
-      ${SIGNAL_METRICS.map((metric) => {
-        const values = candidates.map((candidate) => metricValue(candidate, metric));
-        const max = Math.max(...values, metric === "freshness" ? 0.01 : 1);
+      ${SIGNAL_METRICS.filter((metric) => recordedMetric(candidates, metric)).map((metric) => {
+        const values = candidates.map((candidate) => metricValue(candidate, metric, method));
+        const max = Math.max(...values, ["freshness", "copyViewRatio"].includes(metric) ? 0.01 : 1);
         return `<tr class="comparison-row">
           <th scope="row" class="comparison-metric">${metricLabel(metric)}</th>
-          <td>${comparisonBar(winner, metric, max)}</td>
-          ${runnerUp ? `<td>${comparisonBar(runnerUp, metric, max)}</td>` : ""}
+          <td>${comparisonBar(winner, metric, max, method)}</td>
+          ${runnerUp ? `<td>${comparisonBar(runnerUp, metric, max, method)}</td>` : ""}
         </tr>`;
       }).join("")}
       </tbody>
@@ -490,23 +562,70 @@ function scoreComparison(type) {
   </section>`;
 }
 
+function releaseLabels(candidate) {
+  const bare = (value) => String(value).replace(/^v(?=\d)/i, "");
+  const labels = [];
+  if (candidate.version) labels.push(`v${bare(candidate.version)}`);
+  if (candidate.releaseTag && (!candidate.version || bare(candidate.releaseTag) !== bare(candidate.version))) {
+    labels.push(`release ${candidate.releaseTag}`);
+  }
+  return labels;
+}
+
+function byline(candidate) {
+  return [candidate.author || "Unknown author", ...releaseLabels(candidate), candidate.license || "license unknown"]
+    .map(escapeHtml)
+    .join(" · ");
+}
+
+// Relative to the snapshot, not the build, so rebuilds and archived weeks stay reproducible.
+function listingAge(candidate, generatedAt) {
+  const listed = Date.parse(candidate?.listedAt);
+  const snapshot = Date.parse(generatedAt);
+  if (!Number.isFinite(listed) || !Number.isFinite(snapshot) || listed > snapshot) return "";
+  const days = Math.floor((snapshot - listed) / 86_400_000);
+  if (days >= 60) return "";
+  const age = days === 0 ? "less than a day" : `${days} ${days === 1 ? "day" : "days"}`;
+  return `<p class="listing-age">Listed ${age} before this snapshot</p>`;
+}
+
+function builtInNote(type) {
+  const builtIns = (type.builtIns ?? []).filter((entry) => entry?.id);
+  if (!builtIns.length) return "";
+  return `<aside class="builtin-note" aria-labelledby="builtin-heading">
+      <h2 id="builtin-heading">Included with Omarchy</h2>
+      <div>
+        <p>Built into Omarchy Quattro; not ranked. Try ${builtIns.length === 1 ? "it" : "them"} before installing a plugin.</p>
+        <ul>${builtIns.map((entry) => `<li>
+          <strong>${entry.sourceUrl ? outboundLink(entry.sourceUrl, escapeHtml(entry.name)) : escapeHtml(entry.name)}</strong>
+          ${entry.description ? `<p>${escapeHtml(entry.description)}</p>` : ""}
+          ${entry.officialCommand ? `<div class="command-row">
+            <code>${escapeHtml(entry.officialCommand)}</code>
+            <button type="button" data-copy-command data-copy-label="Omarchy command">Copy</button>
+          </div>` : ""}
+        </li>`).join("")}</ul>
+      </div>
+    </aside>`;
+}
+
 function previewFrame(candidate) {
   return `<div class="preview-frame">${mediaImage(candidate)}</div>`;
 }
 
-function candidateCard(candidate, place, type, week, { runnerUp = null, topScorer = null } = {}) {
+function candidateCard(candidate, place, type, week, { runnerUp = null, topScorer = null, method = METHODOLOGY, generatedAt = null } = {}) {
   if (!candidate) return `<article class="pick-card empty"><p>No eligible plugin this week.</p></article>`;
   const badgePath = `/badges/${encodeURIComponent(week)}/${encodeURIComponent(type.id)}/${encodeURIComponent(candidate.id)}.svg`;
   const rank = place === "winner" ? "01 Champion" : "02 Runner-up";
   const extras = [statusPill(candidate)];
   const badgeMarkdown = `[![OmaPicks ${type.name} champion](${ORIGIN}${badgePath})](${ORIGIN}/picks/${type.id}/)`;
-  const reason = place === "winner" ? winningReason(candidate, runnerUp, topScorer) : "";
+  const reason = place === "winner" ? winningReason(candidate, runnerUp, topScorer, method) : "";
   return `<article class="pick-card ${place === "winner" ? "champion" : ""}">
     <div class="card-label"><span>${rank}</span><span class="card-flags">${extras.join("")}</span></div>
     ${previewFrame(candidate)}
     <div class="card-body">
       <h3>${outboundLink(candidate.detailUrl, escapeHtml(candidate.name))}</h3>
-      <p class="byline">${escapeHtml(candidate.author || "Unknown author")} · ${escapeHtml(candidate.license || "license unknown")}</p>
+      <p class="byline">${byline(candidate)}</p>
+      ${listingAge(candidate, generatedAt)}
       ${reason ? `<p class="why-won">${escapeHtml(reason)}</p>` : ""}
       <p>${escapeHtml(candidate.description)}</p>
       <div class="command-row">
@@ -517,7 +636,7 @@ function candidateCard(candidate, place, type, week, { runnerUp = null, topScore
         ${outboundLink(candidate.detailUrl, "Original listing")}
         ${outboundLink(candidate.repository, "Repository")}
       </div>
-      <p class="install-disclaimer">A ranking is not an endorsement or a safety review. Inspect the plugin yourself and install it at your own risk. <a href="/methodology/#safety">Read the full note</a></p>
+      <p class="install-disclaimer">A ranking is not an endorsement or a safety review. The command installs the repository's current code, not a verified snapshot. Inspect the plugin yourself and install it at your own risk. <a href="/methodology/#safety">Read the full note</a></p>
       ${place === "winner" ? `<div class="badge-embed">
         <p class="kicker">For plugin authors</p>
         <p>Copy this markdown into your README to show that you won this category this week.</p>
@@ -656,6 +775,27 @@ function starterCollections(rankings) {
   </section>`;
 }
 
+function newListingsNote(rankings) {
+  const listings = rankings.newListings;
+  const interval = rankings.newListingsInterval;
+  if (!Array.isArray(listings) || !interval) return "";
+  const since = dateLabel(interval.since);
+  const until = dateLabel(interval.until);
+  if (!since || !until) return "";
+  const known = new Map((rankings.types ?? []).map((type) => [type.id, type]));
+  // A new listing is rarely one of its category's two picks, so its name opens the marketplace
+  // listing and the category link is separate.
+  const shown = listings.slice(0, 5).map((listing) => {
+    const types = (listing.typeIds ?? []).map((id) => known.get(id)).filter(Boolean);
+    const categories = types.map((type) => `<a href="/picks/${encodeURIComponent(type.id)}/">${escapeHtml(type.name)}</a>`).join(", ");
+    const name = outboundLink(`https://plugins.omarchy.org/plugin.html?id=${encodeURIComponent(listing.id)}`, escapeHtml(listing.name));
+    return `<li>${name}${categories ? ` (${categories})` : ""}</li>`;
+  });
+  return `<p class="new-listings">New listings in ranked categories since the previous snapshot: <strong>${listings.length.toLocaleString("en-US")}</strong>
+      (<time datetime="${escapeHtml(interval.since)}">${escapeHtml(since)}</time> to <time datetime="${escapeHtml(interval.until)}">${escapeHtml(until)}</time>).</p>
+      ${shown.length ? `<ul>${shown.join("")}</ul>` : ""}`;
+}
+
 function weeklySummary(rankings, history) {
   const previous = history.filter((snapshot) => snapshot.week < rankings.week)
     .sort((a, b) => b.week.localeCompare(a.week))[0];
@@ -670,6 +810,7 @@ function weeklySummary(rankings, history) {
     <div><p class="kicker">${escapeHtml(rankings.week ?? "Latest snapshot")}</p>
       <h2 id="weekly-summary-heading">What changed this week</h2><p>${summary}</p></div>
     <div>${count ? `<ul>${changes.slice(0, 3).map((change) => `<li><a href="/picks/${encodeURIComponent(change.typeId)}/">${escapeHtml(change.typeName)}</a>: ${change.current ? `${escapeHtml(change.current.name)} ${change.previous ? `replaces ${escapeHtml(change.previous.name)}` : "is the first champion"}` : "the champion spot is vacant"}.</li>`).join("")}</ul>` : ""}
+      ${newListingsNote(rankings)}
       <p><a href="/changelog/">See all weekly changes</a> · <a href="/feed/">Subscribe with RSS</a></p></div>
   </section>`;
 }
@@ -765,6 +906,7 @@ function homePage(rankings, history = []) {
 }
 
 function typePage(type, rankings) {
+  const method = snapshotMethodology(rankings);
   const description = `${type.winner ? type.winner.name : "No champion yet"} leads this week's ${type.name.toLowerCase()} ranking for Omarchy.`;
   const itemList = [type.winner, type.runnerUp].filter(Boolean).map((candidate, index) => ({
     "@type": "ListItem",
@@ -791,14 +933,15 @@ function typePage(type, rankings) {
         }
       </div>
     </section>
+    ${builtInNote(type)}
     <div class="podium">
-      ${candidateCard(type.winner, "winner", type, rankings.week, { runnerUp: type.runnerUp, topScorer: type.topScorer })}
-      ${candidateCard(type.runnerUp, "runner-up", type, rankings.week)}
+      ${candidateCard(type.winner, "winner", type, rankings.week, { runnerUp: type.runnerUp, topScorer: type.topScorer, method, generatedAt: rankings.generatedAt })}
+      ${candidateCard(type.runnerUp, "runner-up", type, rankings.week, { method, generatedAt: rankings.generatedAt })}
     </div>
-    ${scoreComparison(type)}
+    ${scoreComparison(type, method)}
     <aside class="method-note">
       <h2>How we pick</h2>
-      <p>This is not a vote. Install-command copies count most, then hearts and GitHub stars. Listing views barely count. Recently updated repositories rank higher than abandoned ones, and a verified listing is only a small bonus. Plugins with little public evidence are pulled toward the middle, so a brand-new listing cannot win on three copies. A champion stays until a challenger is more than 10% ahead on the combined score. <a href="/methodology/">Full scoring notes</a></p>
+      <p>${escapeHtml(methodologyCopy(method).note)} <a href="/methodology/">Full scoring notes</a></p>
     </aside>
     ${categoryNavigation(type, rankings)}`;
   return shell({
@@ -819,7 +962,9 @@ function typePage(type, rankings) {
 }
 
 function methodologyPage(rankings) {
-  const weights = Object.entries(METHODOLOGY.weights)
+  const method = snapshotMethodology(rankings);
+  const copy = methodologyCopy(method);
+  const weights = Object.entries(method.weights)
     .map(
       ([metric, weight]) =>
         `<li><span>${escapeHtml(metricLabel(metric))}</span><span class="weight-track" aria-hidden="true"><span style="width:${Math.round(weight * 100)}%"></span></span><span class="pct">${Math.round(weight * 100)}%</span></li>`
@@ -828,28 +973,33 @@ function methodologyPage(rankings) {
   const body = `<section class="page-section prose">
     <p class="eyebrow">Methodology v${escapeHtml(rankings.methodologyVersion)}</p>
     <h1>How the rankings work</h1>
-    <p class="page-lede">In plain terms: we rank plugins by public evidence of use and upkeep, not votes. Copying the install command counts most, then hearts and GitHub stars. Listing views barely count. Abandoned repositories sink. A verified listing is a small bonus, not a win condition. A champion keeps the title until someone beats their score by more than 10%.</p>
+    <p class="page-lede">${escapeHtml(copy.lede)}</p>
     <p>OmaPicks refreshes once per ISO week. Your browser never calls the source APIs. Each page is built from that week's published snapshot.</p>
     <p class="pullout">A plugin can win on evidence, not on being first to the registry.</p>
     <h2>Who can compete</h2>
-    <p>A plugin needs an install command and an HTTPS repository. Retired and delisted listings are out. Only plugins matching at least one focused app type compete; unmatched listings remain unranked instead of being forced into a catch-all category. Category eligibility requires evidence that the plugin directly performs the stated task. Names and descriptions supply that evidence; tags, supporting technologies, and incidental alerts do not qualify on their own. A plugin can appear in several app types when it directly performs each task. Computer batteries, peripheral batteries, and phone integration have separate categories; Bluetooth means device discovery, pairing, connections, or adapter controls. Audio codecs belong under Audio. Assignments awaiting review remain unranked.</p>
+    <p>${escapeHtml(copy.eligibility)} Only plugins matching at least one focused app type compete; unmatched listings remain unranked instead of being forced into a catch-all category. Category eligibility requires evidence that the plugin directly performs the stated task. Names and descriptions supply that evidence; tags, supporting technologies, and incidental alerts do not qualify on their own. A plugin can appear in several app types when it directly performs each task. Computer batteries, peripheral batteries, and phone integration have separate categories; Bluetooth means device discovery, pairing, connections, or adapter controls. Audio codecs belong under Audio. Assignments awaiting review remain unranked.</p>
     <h2>The score</h2>
-    <p>Raw counts are logged with <code>log1p</code>. Each signal is 70% a within-type percentile and 30% a scale capped at the 95th percentile. Sparse evidence pulls that result toward 50%.</p>
+    <p>${copy.score}</p>
     <ul class="weight-list">${weights}</ul>
-    <p>Repository freshness decays with a 180-day half-life. Missing timestamps receive no freshness points. Verification is a small bonus, not a requirement.</p>
+    ${copy.afterWeights.map((paragraph) => `<p>${paragraph}</p>`).join("\n    ")}
     <h2>Stability</h2>
-    <p>An eligible incumbent remains in place until a challenger scores more than 10% higher. If an incumbent becomes unavailable, the highest-scoring eligible plugin takes its place immediately. Ties fall back to copies, hearts, stars, then plugin ID.</p>
+    <p>${escapeHtml(copy.stabilityRule)}</p>
     <h2 id="data-sources">Data sources</h2>
     <p>OmaPicks calculates its rankings from two public feeds operated by Omarchy Plugins. The source services do not select, approve, or sponsor OmaPicks winners.</p>
     <ul class="source-list">
       <li><strong><a href="https://plugins.omarchy.org/catalog.json">Plugin catalog</a></strong> — names, descriptions, authors, repositories, licenses, GitHub stars, maintenance dates, verification status, install availability, and preview locations.</li>
       <li><strong><a href="https://api.omarchyplugins.com/v1/stats">Engagement statistics</a></strong> — install-command copies, hearts, and views by plugin ID.</li>
       <li><strong><a href="https://plugins.omarchy.org/?sort=copies">Browsable marketplace</a></strong> — the human-readable original listings behind the catalog data.</li>
+      <li><strong><a href="https://github.com/omacom/omarchy-plugin-marketplace/blob/main/registry.json">Marketplace registry</a></strong> — the list of retired plugin IDs from the MIT-licensed marketplace source, used only to explain why a previous pick left the catalog. If it cannot be fetched, the change log says neutrally that the plugin is no longer listed.</li>
+      <li><strong><a href="https://plugins.omarchy.org/explorer-data.json">Explorer data</a></strong> — keyword clusters and nearest neighbours, read only by the report-only category discovery research; never used for eligibility or scores.</li>
+      <li><strong><a href="https://github.com/omacom/omarchy">Omarchy</a></strong> — the built-in plugins named beside some categories, as listed in the catalog with their official commands. Built-ins are shown for context and never ranked.</li>
     </ul>
     <p>The feeds are fetched once during the weekly refresh; visitors never call them. Source timestamps, response metadata, SHA-256 checksums, metric contributions, and methodology version are included in the published <a href="/rankings.json">ranking snapshot</a>. Preview images remain attributable to their plugin authors and source marketplace. A failed or suspiciously small feed cannot replace the previous week.</p>
+    <p>Each pick in the snapshot records its raw <code>metrics</code>, <code>normalized</code> signals, weighted <code>contributions</code>, <code>score</code>, <code>evidence</code> weight and <code>freshnessDays</code> (days since the last repository push). Newer snapshots also record <code>upstreamCheckStatus</code> (the latest marketplace check), <code>verificationCoverage</code> and <code>verificationMethod</code>, <code>metrics.copyViewRatio</code> (copies per detail view, capped at 100%) and <code>metrics.installRateLowerBound</code> (its Wilson lower bound, <code>null</code> below 20 views), <code>version</code>, <code>releaseTag</code>, <code>shippedAt</code> (the latest version-change or release observation, which is not the push date) and <code>listedAt</code>. Categories list Omarchy <code>builtIns</code>; <code>newListings</code> and <code>newListingsInterval</code> count eligible, classified listings added since the previous week's snapshot; and <code>source</code> records the catalog schema, upstream warning and built-in counts, and the retirement registry's status, count and checksum.</p>
     <h2 id="safety">Safety and responsibility</h2>
     <p>OmaPicks ranks public evidence of use and upkeep. It does not audit plugin source code, maintainers, or install behavior, and it does not certify that a plugin is safe, high quality, compatible, licensed for your use, or still maintained.</p>
     <p>A champion or runner-up listing is not an endorsement, recommendation, or warranty. Before you install anything, inspect the repository, permissions, and marketplace listing yourself. You are responsible for what you run on your machine.</p>
+    <p>Install commands fetch the repository's current code at the moment you run them. They are not bound to the commit the marketplace verified, even when that commit matched the latest upstream check, so a verification badge describes a past snapshot rather than what you will install. <a href="${VERIFICATION_POLICY_URL}">Marketplace verification policy</a>.</p>
   </section>`;
   return shell({
     title: "How the rankings work",
@@ -867,7 +1017,9 @@ function historyChanges(history) {
     .map((snapshot) => ({
       week: snapshot.week,
       generatedAt: snapshot.generatedAt,
-      changes: snapshot.changes ?? []
+      changes: snapshot.changes ?? [],
+      // Snapshots before runner-up events were persisted have none recorded, not "no changes".
+      runnerUpChanges: snapshot.runnerUpChanges ?? []
     }));
 }
 
@@ -907,14 +1059,31 @@ function changelogPage(history) {
         <dd><strong>${escapeHtml(change.current.name)}</strong></dd>
       </div>`).join("")}</dl>` : ""}
       ${updates.length ? `<ul class="change-list">${updates.map((change) => {
+        const why = removalSentence(change);
+        const reason = why ? ` ${escapeHtml(why)}` : "";
         if (change.kind === "displaced") {
-          return `<li><strong>${escapeHtml(change.current.name)}</strong> replaced ${escapeHtml(change.previous.name)} in ${escapeHtml(change.typeName)}.</li>`;
+          return `<li><strong>${escapeHtml(change.current.name)}</strong> replaced ${escapeHtml(change.previous.name)} in ${escapeHtml(change.typeName)}.${reason}</li>`;
         }
         if (change.current) {
-          return `<li><strong>${escapeHtml(change.current.name)}</strong> became the ${escapeHtml(change.typeName)} champion.</li>`;
+          return `<li><strong>${escapeHtml(change.current.name)}</strong> became the ${escapeHtml(change.typeName)} champion.${reason}</li>`;
         }
-        return `<li>${escapeHtml(change.typeName)} has no champion this week.</li>`;
+        return `<li>${escapeHtml(change.typeName)} has no champion this week.${reason}</li>`;
       }).join("")}</ul>` : ""}`;
+  };
+  const runnerUpList = (entry) => {
+    if (!entry.runnerUpChanges.length) return "";
+    return `<h3 class="timeline-subhead">Runner-up changes</h3>
+      <ul class="change-list">${entry.runnerUpChanges.map((change) => {
+        const why = removalSentence(change);
+        const reason = why ? ` ${escapeHtml(why)}` : "";
+        if (change.kind === "displaced") {
+          return `<li><strong>${escapeHtml(change.current.name)}</strong> replaced ${escapeHtml(change.previous.name)} as the ${escapeHtml(change.typeName)} runner-up.${reason}</li>`;
+        }
+        if (change.current) {
+          return `<li><strong>${escapeHtml(change.current.name)}</strong> became the ${escapeHtml(change.typeName)} runner-up.${reason}</li>`;
+        }
+        return `<li>${escapeHtml(change.typeName)} has no runner-up this week.${reason}</li>`;
+      }).join("")}</ul>`;
   };
   const body = `<section class="page-section">
     <p class="eyebrow">Change log</p>
@@ -928,6 +1097,7 @@ function changelogPage(history) {
                 (entry) => `<section>
                   <h2>${weekLabel(entry.week, entry.generatedAt)}</h2>
                   ${changeList(entry)}
+                  ${runnerUpList(entry)}
                 </section>`
               )
               .join("")
@@ -1070,6 +1240,7 @@ export async function render({ root = ROOT } = {}) {
   if (root !== ROOT) throw new Error("Custom render roots are not supported; pass fixture data to exported helpers instead");
   const rankings = JSON.parse(await readFile(path.join(ROOT, "data", "rankings.json"), "utf8"));
   if (!Array.isArray(rankings.types)) throw new Error("data/rankings.json has no types array");
+  snapshotMethodology(rankings);
   if (rankings.week !== null && !/^\d{4}-W\d{2}$/.test(rankings.week)) throw new Error(`Unsafe week: ${rankings.week}`);
   for (const type of rankings.types) {
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(type.id)) throw new Error(`Unsafe app type id: ${type.id}`);
@@ -1080,6 +1251,7 @@ export async function render({ root = ROOT } = {}) {
     }
   }
   const history = await readHistory();
+  for (const snapshot of history) snapshotMethodology(snapshot);
   await rm(DIST, { recursive: true, force: true });
   await mkdir(path.join(DIST, "assets"), { recursive: true });
   await mkdir(path.join(DIST, "og"), { recursive: true });
@@ -1177,9 +1349,17 @@ export function renderFixtureHome(rankings, history = []) {
   return homePage(rankings, history);
 }
 
+export function renderFixtureChangelog(history) {
+  return changelogPage(history);
+}
+
 export function renderFixtureFeed(history) {
   const entries = feedEntries(history);
   return { page: feedPage(entries), rss: rss(entries) };
+}
+
+export function renderFixtureMethodology(rankings) {
+  return methodologyPage(rankings);
 }
 
 export function renderFixtureType(type, rankings) {

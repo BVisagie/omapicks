@@ -3,7 +3,8 @@ import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { fetchJson, formatRefreshLog, refresh, validateFeeds } from "../build/refresh.mjs";
+import { fetchJson, formatRefreshLog, refresh, replayChanges, upstreamWarningCodes, validateFeeds } from "../build/refresh.mjs";
+import { renderFixtureChangelog } from "../build/render.mjs";
 
 function jsonResponse(value, status = 200) {
   return new Response(JSON.stringify(value), {
@@ -23,6 +24,28 @@ test("feed validation rejects suspicious truncation, duplicates, and malformed s
     () => validateFeeds({ plugins: [plugin] }, { schemaVersion: 1, plugins: { example: { views: -1, copies: 0, hearts: 0 } } }, 1),
     /non-negative/
   );
+});
+
+test("feed validation accepts catalog state schema 2 and rejects unknown shapes", () => {
+  const stats = { schemaVersion: 1, plugins: { example: { views: 1, copies: 0, hearts: 0 } } };
+  const catalog = (values) => ({ plugins: [{ id: "example" }], ...values });
+  assert.doesNotThrow(() => validateFeeds(catalog({}), stats, 1));
+  assert.doesNotThrow(() => validateFeeds(catalog({ stateSchemaVersion: 2, warnings: [] }), stats, 1));
+  assert.doesNotThrow(() => validateFeeds(catalog({ stateSchemaVersion: 2, warnings: ["https://github.com/a/b: repository-unreachable"] }), stats, 1));
+  assert.throws(() => validateFeeds(catalog({ stateSchemaVersion: 3 }), stats, 1), /stateSchemaVersion: 3/);
+  assert.throws(() => validateFeeds(catalog({ stateSchemaVersion: "2" }), stats, 1), /stateSchemaVersion: "2"/);
+  assert.throws(() => validateFeeds(catalog({ warnings: "repository-unreachable" }), stats, 1), /warnings must be an array/);
+  assert.throws(() => validateFeeds(catalog({ warnings: [{ code: "x" }] }), stats, 1), /warnings must be an array/);
+});
+
+test("upstream warning codes are counted by the text after the last separator", () => {
+  assert.deepEqual(upstreamWarningCodes([
+    "https://github.com/a/one: repository-unreachable",
+    "https://github.com/a/two: manifest-invalid",
+    "https://github.com/a/three: repository-unreachable",
+    "no separator"
+  ]), { "repository-unreachable": 2, "manifest-invalid": 1, unspecified: 1 });
+  assert.deepEqual(upstreamWarningCodes(undefined), {});
 });
 
 test("fetchJson retries transient responses and preserves response metadata", async () => {
@@ -96,7 +119,7 @@ test("refresh appends weekly history and leaves prior weeks intact", async (cont
     fetchImpl
   });
   assert.equal(noChange.changed, false);
-  assert.equal(fetchCalls, 2);
+  assert.equal(fetchCalls, 3); // catalog, stats and retirement registry, once
 
   await mkdir(path.join(root, "data", "assets", "plugins"), { recursive: true });
   await writeFile(path.join(root, "data", "assets", "plugins", "stale.webp"), "stale");
@@ -222,18 +245,18 @@ test("same-week refresh stays frozen unless the taxonomy checksum changes", asyn
   assert.equal(first.changed, true);
   assert.equal(typeof first.rankings.source.taxonomy.sha256, "string");
   assert.equal(first.rankings.source.taxonomy.typeCount, 1);
-  assert.equal(fetchCalls, 2);
+  assert.equal(fetchCalls, 3); // catalog, stats and retirement registry
 
   const frozen = await refresh({ root, now, minimumCatalogSize: 1, fetchImpl });
   assert.equal(frozen.changed, false);
   assert.equal(frozen.reason, "already-refreshed");
-  assert.equal(fetchCalls, 2);
+  assert.equal(fetchCalls, 3);
 
   taxonomy.types[0].include = ["\\b(weather|forecast)\\b"];
   await writeFile(path.join(root, "data", "app-types.json"), JSON.stringify(taxonomy));
   const reranked = await refresh({ root, now, minimumCatalogSize: 1, fetchImpl });
   assert.equal(reranked.changed, true);
-  assert.equal(fetchCalls, 4);
+  assert.equal(fetchCalls, 6);
   assert.notEqual(reranked.rankings.source.taxonomy.sha256, first.rankings.source.taxonomy.sha256);
   assert.deepEqual(reranked.changes, first.changes);
   assert.ok(reranked.changes.length > 0);
@@ -322,7 +345,25 @@ test("dry-run reports catalog deltas and runner-up changes without writing snaps
 
   const catalog = {
     generatedAt: "2026-09-10T00:00:00Z",
+    stateSchemaVersion: 2,
+    mode: "production",
+    warnings: [
+      "https://github.com/example/gone: repository-unreachable",
+      "https://github.com/example/broken: manifest-invalid",
+      "https://github.com/example/other: repository-unreachable"
+    ],
     plugins: [
+      {
+        id: "omarchy.weather",
+        name: "Weather",
+        description: "Weather forecast",
+        repo: "https://github.com/omacom/omarchy",
+        sourceType: "builtin",
+        builtIn: true,
+        installCommand: "",
+        officialCommand: "omarchy bar plugin add omarchy.weather",
+        status: "Built in"
+      },
       {
         id: "champ",
         name: "Champ",
@@ -363,7 +404,8 @@ test("dry-run reports catalog deltas and runner-up changes without writing snaps
     plugins: {
       champ: { views: 50, copies: 20, hearts: 5 },
       challenger: { views: 40, copies: 10, hearts: 2 },
-      notes: { views: 3, copies: 1, hearts: 0 }
+      notes: { views: 3, copies: 1, hearts: 0 },
+      "retired.plugin": { views: 3, copies: 1, hearts: 0 }
     }
   };
   const fetchImpl = async (url) => (url.includes("/stats") ? jsonResponse(stats) : jsonResponse(catalog));
@@ -385,8 +427,12 @@ test("dry-run reports catalog deltas and runner-up changes without writing snaps
     [{ typeId: "weather", from: "old-runner", to: "challenger" }]
   );
   assert.equal(result.deltas.catalog.previous, 2);
-  assert.equal(result.deltas.catalog.current, 3);
-  assert.equal(result.deltas.catalog.delta, 1);
+  assert.equal(result.deltas.catalog.current, 4);
+  assert.equal(result.deltas.catalog.delta, 2);
+  assert.deepEqual(
+    (({ stateSchemaVersion, mode, warningCount, builtInCount }) => ({ stateSchemaVersion, mode, warningCount, builtInCount }))(result.rankings.source.catalog),
+    { stateSchemaVersion: 2, mode: "production", warningCount: 3, builtInCount: 1 }
+  );
   assert.equal(result.deltas.unclassified.previous, 4);
   assert.equal(result.deltas.unclassified.current, 1);
   assert.equal(result.deltas.unclassified.delta, -3);
@@ -397,7 +443,10 @@ test("dry-run reports catalog deltas and runner-up changes without writing snaps
 
   const lines = formatRefreshLog(result, { dryRun: true });
   assert.match(lines[0], /0 champion changes; 1 unclassified/);
-  assert.match(lines.join("\n"), /Catalog 3 \(was 2, \+1\); unclassified 1 \(was 4, -3\)/);
+  assert.match(lines.join("\n"), /Catalog 4 \(was 2, \+2\); unclassified 1 \(was 4, -3\)/);
+  assert.match(lines.join("\n"), /Catalog schema 2; 3 upstream warnings; 1 built-in listing excluded\./);
+  assert.match(lines.join("\n"), /1 stats ID absent from the catalog/);
+  assert.match(lines.join("\n"), /Upstream catalog warnings: repository-unreachable 2; manifest-invalid 1\./);
   assert.match(lines.join("\n"), /1 runner-up change/);
   assert.match(lines.join("\n"), /Runner-up Weather: Old Runner -> Challenger/);
 });
@@ -469,4 +518,207 @@ test("classification state publishes with refresh, dry runs are read-only, and c
   const changed = await refresh(options);
   assert.equal(changed.rankings.types[0].winner, null);
   assert.deepEqual(JSON.parse(await readFile(stateFile, "utf8")).plugins[0].types, []);
+});
+
+test("a methodology-only change keeps the weekly freeze; --republish recalculates with validation and keeps weekly events", async (context) => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "omapicks-republish-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  await mkdir(path.join(root, "data"), { recursive: true });
+  const taxonomy = { schemaVersion: 1, types: [{ id: "weather", name: "Weather", description: "Forecasts", include: ["\\bweather\\b"] }] };
+  await writeFile(path.join(root, "data", "app-types.json"), JSON.stringify(taxonomy));
+  await writeFile(path.join(root, "data", "rankings.json"), JSON.stringify({ schemaVersion: 1, week: null, types: [] }));
+  const entry = (id, stars) => ({
+    id, name: id, description: "Weather forecast", installAvailable: true,
+    installCommand: `omarchy plugin add https://github.com/example/${id}.git`, repo: `https://github.com/example/${id}`,
+    repositoryUpdatedAt: "2026-08-31T00:00:00Z", stars
+  });
+  let catalog = { plugins: [entry("first", 10)] };
+  let stats = { schemaVersion: 1, plugins: { first: { views: 20, copies: 5, hearts: 2 } } };
+  let fetchCalls = 0;
+  const fetchImpl = async (url) => {
+    fetchCalls += 1;
+    return url.includes("/stats") ? jsonResponse(stats) : jsonResponse(catalog);
+  };
+  const options = { root, now: new Date("2026-09-01T09:00:00Z"), minimumCatalogSize: 1, fetchImpl };
+  const first = await refresh(options);
+  assert.equal(first.changes.length, 1);
+  assert.equal(first.republished, false);
+
+  // Simulate code that moved to a newer methodology after this week's snapshot was published.
+  const rankingsFile = path.join(root, "data", "rankings.json");
+  const published = JSON.parse(await readFile(rankingsFile, "utf8"));
+  published.methodologyVersion = "0.9.0";
+  await writeFile(rankingsFile, JSON.stringify(published));
+  const frozen = await refresh(options);
+  assert.equal(frozen.changed, false);
+  assert.equal(fetchCalls, 3);
+  const frozenLog = formatRefreshLog(frozen).join("\n");
+  assert.match(frozenLog, /keeps methodology 0\.9\.0/);
+  assert.match(frozenLog, /Code now defines methodology 1\.\d+\.\d+; it takes effect at the next weekly refresh, or earlier through a deliberate --republish/);
+
+  // Republishing still validates: a broken stats feed cannot replace the snapshot.
+  stats = { schemaVersion: 1, plugins: {} };
+  await assert.rejects(refresh({ ...options, republish: true }), /Stats overlap/);
+  assert.equal(JSON.parse(await readFile(rankingsFile, "utf8")).methodologyVersion, "0.9.0");
+
+  // A dry run combined with republish calculates but never writes.
+  stats = { schemaVersion: 1, plugins: { first: { views: 20, copies: 5, hearts: 2 }, second: { views: 900, copies: 400, hearts: 90 } } };
+  catalog = { plugins: [entry("first", 10), entry("second", 500)] };
+  const dry = await refresh({ ...options, dryRun: true, republish: true });
+  assert.equal(dry.rankings.types[0].winner.id, "second");
+  assert.match(formatRefreshLog(dry, { dryRun: true }).join("\n"), /this dry run still writes nothing/);
+  assert.equal(JSON.parse(await readFile(rankingsFile, "utf8")).methodologyVersion, "0.9.0");
+
+  const republished = await refresh({ ...options, republish: true });
+  assert.equal(republished.changed, true);
+  assert.equal(republished.republished, true);
+  assert.equal(republished.rankings.types[0].winner.id, "second");
+  const log = formatRefreshLog(republished).join("\n");
+  assert.match(log, /Deliberate republish/);
+  assert.match(log, /Methodology 1\.\d+\.\d+ replaces published methodology 0\.9\.0/);
+  const history = JSON.parse(await readFile(path.join(root, "data", "history", "2026-W36.json"), "utf8"));
+  assert.deepEqual(history.changes.map((change) => change.kind), ["new-champion", "displaced"]);
+  assert.equal(JSON.parse(await readFile(rankingsFile, "utf8")).methodologyVersion, republished.rankings.methodologyVersion);
+});
+
+test("refresh logs exclusion reasons and names the incumbents they removed", async (context) => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "omapicks-health-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  await mkdir(path.join(root, "data"), { recursive: true });
+  await writeFile(path.join(root, "data", "app-types.json"), JSON.stringify({ schemaVersion: 1, types: [{ id: "music", name: "Music", include: ["\\bmusic\\b"] }] }));
+  await writeFile(path.join(root, "data", "rankings.json"), JSON.stringify({
+    schemaVersion: 1, methodologyVersion: "1.0.0", week: "2026-W39", source: { taxonomy: { sha256: "old" } },
+    types: [{ id: "music", name: "Music", winner: { id: "player", name: "Player" }, runnerUp: { id: "quickshell.ytmusic", name: "Omarchy YouTube Music" } }]
+  }));
+  const entry = (id, values = {}) => ({ id, name: id, description: "Music player", installAvailable: true, installCommand: `install ${id}`, repo: `https://github.com/example/${id}`, ...values });
+  const catalog = { stateSchemaVersion: 2, plugins: [
+    entry("player"), entry("flow"),
+    entry("quickshell.ytmusic", { name: "Omarchy YouTube Music", status: "Status unknown", upstreamCheckStatus: "unreachable", upstreamCheckError: "repository-unreachable" })
+  ] };
+  const stats = { schemaVersion: 1, plugins: { player: { views: 50, copies: 20, hearts: 5 }, flow: { views: 40, copies: 10, hearts: 2 }, "quickshell.ytmusic": { views: 400, copies: 100, hearts: 30 } } };
+  const result = await refresh({ root, dryRun: true, now: new Date("2026-09-28T06:17:00Z"), minimumCatalogSize: 1,
+    fetchImpl: async (url) => jsonResponse(url.includes("/stats") ? stats : catalog) });
+  assert.equal(result.rankings.types[0].runnerUp.id, "flow");
+  const log = formatRefreshLog(result, { dryRun: true }).join("\n");
+  assert.match(log, /Excluded listings by reason: repository-unreachable 1\./);
+  assert.match(log, /Excluded incumbent: Music runner-up Omarchy YouTube Music \(quickshell\.ytmusic\): repository-unreachable\./);
+  assert.match(log, /Methodology 1\.1\.0 replaces published methodology 1\.0\.0/);
+});
+
+test("new-listing intervals start at the earlier week's snapshot and survive same-week republishes", async (context) => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "omapicks-new-listings-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  await mkdir(path.join(root, "data", "history"), { recursive: true });
+  await writeFile(path.join(root, "data", "app-types.json"), JSON.stringify({ schemaVersion: 1, types: [{ id: "weather", name: "Weather", include: ["\\bweather\\b"] }] }));
+  await writeFile(path.join(root, "data", "rankings.json"), JSON.stringify({ schemaVersion: 1, week: null, types: [] }));
+  const entry = (id, listedAt) => ({ id, name: id, description: "Weather forecast", installAvailable: true, installCommand: `install ${id}`, repo: `https://github.com/example/${id}`, listedAt });
+  const catalog = { plugins: [entry("old", "2026-08-01T00:00:00Z"), entry("fresh", "2026-09-03T00:00:00Z")] };
+  const stats = { schemaVersion: 1, plugins: { old: { views: 1, copies: 1, hearts: 0 }, fresh: { views: 1, copies: 1, hearts: 0 } } };
+  const fetchImpl = async (url) => jsonResponse(url.includes("/stats") ? stats : catalog);
+
+  const first = await refresh({ root, now: new Date("2026-09-01T09:00:00Z"), minimumCatalogSize: 1, fetchImpl });
+  assert.equal(first.rankings.newListings, null);
+  assert.equal(first.rankings.newListingsInterval, null);
+
+  const next = { root, now: new Date("2026-09-08T09:00:00Z"), minimumCatalogSize: 1, fetchImpl };
+  const weekly = await refresh(next);
+  assert.deepEqual(weekly.rankings.newListings.map((listing) => listing.id), ["fresh"]);
+  assert.deepEqual(weekly.rankings.newListingsInterval, { since: "2026-09-01T09:00:00.000Z", until: "2026-09-08T09:00:00.000Z", baselineWeek: "2026-W36" });
+  assert.match(formatRefreshLog(weekly).join("\n"), /1 new listing in ranked categories since the 2026-W36 snapshot/);
+
+  const rerun = await refresh({ ...next, now: new Date("2026-09-10T09:00:00Z"), republish: true });
+  assert.equal(rerun.rankings.newListingsInterval.since, "2026-09-01T09:00:00.000Z");
+  assert.equal(rerun.rankings.newListingsInterval.until, "2026-09-10T09:00:00.000Z");
+});
+
+async function retirementFixture(context, registryResponse) {
+  const root = await mkdtemp(path.join(os.tmpdir(), "omapicks-retired-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  await mkdir(path.join(root, "data"), { recursive: true });
+  await writeFile(path.join(root, "data", "app-types.json"), JSON.stringify({ schemaVersion: 1, types: [{ id: "weather", name: "Weather", include: ["\\bweather\\b"] }] }));
+  await writeFile(path.join(root, "data", "rankings.json"), JSON.stringify({
+    schemaVersion: 1, methodologyVersion: "1.0.0", week: "2026-W39", source: { taxonomy: { sha256: "old" } },
+    types: [{ id: "weather", name: "Weather", winner: { id: "old.weather", name: "Old Weather" }, runnerUp: null }]
+  }));
+  const entry = (id) => ({ id, name: id, description: "Weather forecast", installAvailable: true, installCommand: `install ${id}`, repo: `https://github.com/example/${id}` });
+  const catalog = { plugins: [entry("new.weather"), entry("still.listed")] };
+  const stats = { schemaVersion: 1, plugins: { "new.weather": { views: 50, copies: 20, hearts: 5 }, "still.listed": { views: 5, copies: 1, hearts: 0 } } };
+  const fetchImpl = async (url) => {
+    if (url.includes("registry.json")) return registryResponse();
+    return jsonResponse(url.includes("/stats") ? stats : catalog);
+  };
+  return { root, fetchImpl };
+}
+
+test("a retired champion is labelled from the registry and replays from captured inputs", async (context) => {
+  const { root, fetchImpl } = await retirementFixture(context, () => jsonResponse({ retiredPluginIds: ["old.weather", "still.listed", "old.weather"], plugins: [] }));
+  const result = await refresh({ root, dryRun: true, now: new Date("2026-09-28T06:17:00Z"), minimumCatalogSize: 1, fetchImpl });
+  assert.deepEqual(result.computedChanges.map(({ kind, reason }) => [kind, reason]), [["displaced", "retired"]]);
+  const log = formatRefreshLog(result, { dryRun: true }).join("\n");
+  assert.match(log, /Champion Weather: Old Weather -> new\.weather \(Old Weather was retired by the marketplace\)/);
+  assert.match(log, /Retirement conflict: still\.listed is listed in the catalog and also retired/);
+  assert.deepEqual(result.rankings.source.registry.status, "available");
+  assert.equal(result.rankings.source.registry.count, 2);
+  assert.equal(result.rankings.source.registry.sha256.length, 64);
+  assert.deepEqual(result.auditInputs.registry.retiredPluginIds, ["old.weather", "still.listed"]);
+  const replay = replayChanges(JSON.parse(JSON.stringify(result.auditInputs)));
+  assert.deepEqual(replay.changes, result.computedChanges);
+  assert.deepEqual(replay.runnerUpChanges, result.runnerUpChanges);
+});
+
+test("refresh continues with neutral wording when the registry fails or is malformed", async (context) => {
+  for (const registryResponse of [() => jsonResponse({ error: true }, 500), () => jsonResponse({ retiredPluginIds: "old.weather" })]) {
+    const { root, fetchImpl } = await retirementFixture(context, registryResponse);
+    const result = await refresh({ root, dryRun: true, now: new Date("2026-09-28T06:17:00Z"), minimumCatalogSize: 1, fetchImpl });
+    assert.equal(result.computedChanges[0].reason, "missing-from-catalog");
+    assert.equal(result.rankings.source.registry.status, "unavailable");
+    assert.equal(result.rankings.source.registry.sha256, null);
+    assert.equal(result.auditInputs.registry.retiredPluginIds, null);
+    const log = formatRefreshLog(result, { dryRun: true }).join("\n");
+    assert.match(log, /Retirement registry unavailable/);
+    assert.match(log, /Old Weather is no longer in the marketplace catalog/);
+    assert.deepEqual(replayChanges(result.auditInputs).changes, result.computedChanges);
+  }
+});
+
+test("runner-up events and their reasons persist to history and the changelog across same-week republishes", async (context) => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "omapicks-runner-up-history-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  await mkdir(path.join(root, "data", "history"), { recursive: true });
+  await writeFile(path.join(root, "data", "app-types.json"), JSON.stringify({ schemaVersion: 1, types: [{ id: "weather", name: "Weather", include: ["\\bweather\\b"] }] }));
+  const published = {
+    schemaVersion: 1, methodologyVersion: "1.0.0", week: "2026-W39", generatedAt: "2026-09-21T06:17:00Z", source: { taxonomy: { sha256: "old" } },
+    types: [{ id: "weather", name: "Weather", winner: { id: "champ", name: "Champ" }, runnerUp: { id: "old.runner", name: "Old Runner" } }]
+  };
+  await writeFile(path.join(root, "data", "rankings.json"), JSON.stringify(published));
+  await writeFile(path.join(root, "data", "history", "2026-W39.json"), JSON.stringify({ ...published, changes: [] }));
+  const entry = (id) => ({ id, name: id, description: "Weather forecast", installAvailable: true, installCommand: `install ${id}`, repo: `https://github.com/example/${id}` });
+  const catalog = { plugins: [entry("champ"), entry("new.runner")] };
+  const stats = { schemaVersion: 1, plugins: { champ: { views: 90, copies: 40, hearts: 9 }, "new.runner": { views: 50, copies: 10, hearts: 2 } } };
+  const fetchImpl = async (url) => {
+    if (url.includes("registry.json")) return jsonResponse({ retiredPluginIds: ["old.runner"] });
+    return jsonResponse(url.includes("/stats") ? stats : catalog);
+  };
+  const options = { root, now: new Date("2026-09-28T06:17:00Z"), minimumCatalogSize: 1, fetchImpl };
+  const result = await refresh(options);
+  assert.deepEqual(result.changes, []);
+  const expected = [{ typeId: "weather", typeName: "Weather", kind: "displaced", previous: { id: "old.runner", name: "Old Runner" }, current: { id: "new.runner", name: "new.runner" }, reason: "retired" }];
+  const history = JSON.parse(await readFile(path.join(root, "data", "history", "2026-W40.json"), "utf8"));
+  const changelog = JSON.parse(await readFile(path.join(root, "data", "changelog.json"), "utf8"));
+  assert.deepEqual(history.changes, []);
+  assert.deepEqual(history.runnerUpChanges, expected);
+  assert.deepEqual(changelog.runnerUpChanges, expected);
+
+  // A same-week republish keeps the week's earlier runner-up event.
+  const rerun = await refresh({ ...options, now: new Date("2026-09-29T06:17:00Z"), republish: true });
+  assert.deepEqual(rerun.runnerUpChanges, []);
+  assert.deepEqual(rerun.weeklyRunnerUpChanges, expected);
+  assert.match(formatRefreshLog(rerun).join("\n"), /Weekly changelog retains 1 runner-up event, including earlier runs\./);
+  const rewritten = JSON.parse(await readFile(path.join(root, "data", "history", "2026-W40.json"), "utf8"));
+  assert.deepEqual(rewritten.runnerUpChanges, expected);
+
+  const html = renderFixtureChangelog([rewritten]);
+  assert.match(html, /No champion changes\./);
+  assert.match(html, /Runner-up changes/);
+  assert.match(html, /<strong>new\.runner<\/strong> replaced Old Runner as the Weather runner-up\. Old Runner was retired by the marketplace\./);
 });
