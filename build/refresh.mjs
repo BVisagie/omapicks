@@ -607,7 +607,7 @@ export async function refresh({
   const previousReport = await readJson(path.join(root, "data", "unclassified-report.json"), null);
   const previousState = await readJson(path.join(root, "data", "classification-state.json"), null);
   const auditInputs = { schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, methodologyVersion: METHODOLOGY.version, codeRevision: revision, now: now.toISOString(), catalog: catalogResult, stats: statsResult, registry, taxonomy, previous, previousState };
-  const classificationAudit = auditClassifications({ catalog: catalogResult.body.plugins, stats: statsResult.body.plugins, taxonomy, previous, previousState, now });
+  const classificationAudit = auditClassifications({ catalog: catalogResult.body.plugins, stats: statsResult.body.plugins, taxonomy, previous, previousState, now, methodology: METHODOLOGY });
   classificationAudit.inputsHash = checksum(auditInputs);
   const summary = {
     changed: true,
