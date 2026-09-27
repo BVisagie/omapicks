@@ -192,7 +192,9 @@ function methodologyCopy(method) {
     stability,
     lede: `In plain terms: we rank plugins by public evidence of use and upkeep, not votes. Copying the install command counts most, then hearts and GitHub stars. Listing views barely count. Abandoned repositories sink. A verified listing is a small bonus, not a win condition. A champion keeps the title until someone beats their score by more than ${stability}.`,
     note: `This is not a vote. Install-command copies count most, then hearts and GitHub stars. Listing views barely count. Recently updated repositories rank higher than abandoned ones, and a verified listing is only a small bonus. Plugins with little public evidence are pulled toward the middle, so a brand-new listing cannot win on three copies. A champion stays until a challenger is more than ${stability} ahead on the combined score.`,
-    eligibility: "A plugin needs an install command and an HTTPS repository. Retired and delisted listings are out.",
+    eligibility: method.eligibility.upstreamHealth
+      ? "A plugin needs an install command and an HTTPS repository. Retired and delisted listings are out, and so is any listing whose latest daily marketplace check could not reach its repository or found an invalid manifest or preview; it competes again once a later check passes. Omarchy built-ins are listed upstream but never ranked."
+      : "A plugin needs an install command and an HTTPS repository. Retired and delisted listings are out.",
     score: `Raw counts are logged with <code>log1p</code>. Each signal is ${percentLabel(method.normalization.percentileShare)} a within-type percentile and ${percentLabel(1 - method.normalization.percentileShare)} a scale capped at the ${Math.round(method.normalization.scaleQuantile * 100)}th percentile. Sparse evidence pulls that result toward 50%.`,
     afterWeights: [
       `Repository freshness decays with a ${method.freshness.halfLifeDays}-day half-life. Missing timestamps receive no freshness points.`,

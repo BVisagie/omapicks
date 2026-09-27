@@ -116,3 +116,27 @@ test("every production type has a task contract and every editorial override has
   for (const type of production.types) assert.ok(type.task?.length > 20, type.id);
   for (const group of ["include", "exclude", "review"]) for (const [id, types] of Object.entries(production.overrides[group] ?? {})) for (const type of types) assert.ok(production.overrides.reasons[id]?.[type]?.length > 20, `${id}/${type}`);
 });
+
+test("ranker and audit agree on health exclusions, cohorts and pick evidence", () => {
+  const catalog = [
+    eligible("healthy", { upstreamCheckStatus: "passed", stars: 5 }),
+    eligible("gone", { upstreamCheckStatus: "unreachable", stars: 500 }),
+    eligible("broken", { upstreamCheckStatus: "failed", installAvailable: false, installCommand: "", stars: 400 }),
+    eligible("legacy", { stars: 1 }),
+    { id: "omarchy.battery", name: "Battery", description: "battery health", sourceType: "builtin", builtIn: true, installCommand: "", repo: "https://github.com/omacom/omarchy" }
+  ];
+  const stats = { gone: { copies: 900, hearts: 90, views: 9000 }, broken: { copies: 800, hearts: 80, views: 8000 } };
+  const ranked = rankPlugins({ catalog, taxonomy, stats, now });
+  const audit = auditClassifications({ catalog, taxonomy, stats, now });
+  const reasons = Object.fromEntries(audit.records.map((record) => [record.id, record.ineligible]));
+  assert.deepEqual(reasons, { broken: "compatibility-failed", gone: "repository-unreachable", healthy: null, legacy: null, "omarchy.battery": "built-in" });
+  assert.deepEqual(Object.fromEntries(ranked.exclusions), { gone: "repository-unreachable", broken: "compatibility-failed", "omarchy.battery": "built-in" });
+  assert.equal(audit.counts.eligible, 2);
+  assert.equal(audit.counts.assignments, ranked.report.classificationAssignments);
+  assert.equal(ranked.rankings.types[0].eligibleCount, 2);
+  assert.deepEqual(audit.picks.map((pick) => pick.id).sort(), ["healthy", "legacy"]);
+  for (const pick of audit.picks) assert.equal(pick.eligibility.accepted, true);
+  for (const id of ["gone", "broken", "omarchy.battery"]) {
+    assert.deepEqual(audit.records.find((record) => record.id === id).evidence, []);
+  }
+});

@@ -7,6 +7,7 @@ import {
   eligibilityReason,
   invertedRawScoreRaces,
   isoWeek,
+  methodologyFor,
   pickWithHysteresis,
   prepareTaxonomy,
   rankPlugins,
@@ -1004,6 +1005,84 @@ test("eligibility fails closed for unavailable plugins and unsafe repositories",
   assert.equal(eligibilityReason(plugin("missing", { installAvailable: false })), "not-installable");
   assert.equal(eligibilityReason(plugin("unsafe", { repo: "http://example.test/plugin" })), "invalid-repository");
   assert.equal(eligibilityReason(plugin("retired", { status: "retired" })), "retired");
+});
+
+// Shapes copied from the 2026-09-27 schema-2 catalog.
+const builtIn = {
+  id: "omarchy.weather", name: "Weather", description: "Weather forecast", repo: "https://github.com/omacom/omarchy",
+  sourceType: "builtin", builtIn: true, installCommand: "", officialCommand: "omarchy bar plugin add omarchy.weather", status: "Built in"
+};
+const failed = plugin("failed", {
+  installAvailable: false, installCommand: "", status: "Compatibility failed", upstreamCheckStatus: "failed", upstreamCheckError: "manifest-invalid"
+});
+const unreachable = plugin("unreachable", {
+  status: "Status unknown", upstreamCheckStatus: "unreachable", upstreamCheckError: "repository-unreachable"
+});
+const legacy = plugin("legacy");
+
+test("upstream health and built-ins give precise exclusion reasons under 1.1.0", () => {
+  const current = methodologyFor("1.1.0");
+  assert.equal(eligibilityReason(builtIn, current), "built-in");
+  assert.equal(eligibilityReason(failed, current), "compatibility-failed");
+  assert.equal(eligibilityReason(unreachable, current), "repository-unreachable");
+  assert.equal(eligibilityReason(legacy, current), null);
+  assert.equal(eligibilityReason(plugin("passed", { upstreamCheckStatus: "passed" }), current), null);
+  // The published 1.0.0 rules never looked at upstream health.
+  const published = methodologyFor("1.0.0");
+  assert.equal(eligibilityReason(unreachable, published), null);
+  assert.equal(eligibilityReason(failed, published), "not-installable");
+  assert.equal(eligibilityReason(builtIn, published), "built-in");
+});
+
+test("failed and unreachable incumbents leave both places immediately and recover later", () => {
+  const now = new Date("2026-09-28T06:17:00Z");
+  const stats = {
+    champ: { copies: 200, hearts: 40, views: 900 },
+    runner: { copies: 150, hearts: 30, views: 700 },
+    third: { copies: 20, hearts: 3, views: 90 }
+  };
+  const healthy = [plugin("champ", { stars: 50 }), plugin("runner", { stars: 40 }), plugin("third", { stars: 2 })];
+  const previous = rankPlugins({ catalog: healthy, stats, taxonomy, now }).rankings;
+  const weather = (rankings) => rankings.types.find((type) => type.id === "weather");
+  assert.deepEqual([weather(previous).winner.id, weather(previous).runnerUp.id], ["champ", "runner"]);
+
+  const sick = [
+    plugin("champ", { stars: 50, upstreamCheckStatus: "unreachable", status: "Status unknown" }),
+    plugin("runner", { stars: 40, upstreamCheckStatus: "failed", installAvailable: false, installCommand: "" }),
+    plugin("third", { stars: 2, upstreamCheckStatus: "passed" })
+  ];
+  const result = rankPlugins({ catalog: sick, stats, taxonomy, previous, now });
+  assert.equal(weather(result.rankings).winner.id, "third");
+  assert.equal(weather(result.rankings).runnerUp, null);
+  assert.equal(weather(result.rankings).winner.upstreamCheckStatus, "passed");
+  assert.deepEqual(result.report.excluded, { "repository-unreachable": 1, "compatibility-failed": 1 });
+  assert.deepEqual(result.report.excludedIncumbents.map(({ typeId, place, id, reason }) => [typeId, place, id, reason]), [
+    ["weather", "champion", "champ", "repository-unreachable"],
+    ["weather", "runner-up", "runner", "compatibility-failed"]
+  ]);
+  assert.equal(result.exclusions.get("champ"), "repository-unreachable");
+  const champion = changesBetween(previous, result.rankings).find((change) => change.typeId === "weather");
+  const runnerUp = runnerUpChangesBetween(previous, result.rankings).find((change) => change.typeId === "weather");
+  assert.equal(champion.kind, "displaced");
+  assert.equal(runnerUp.kind, "vacated");
+
+  // Once a later check passes, the plugin competes normally again.
+  const recovered = rankPlugins({ catalog: healthy, stats, taxonomy, previous: result.rankings, now }).rankings;
+  assert.equal(weather(recovered).winner.id, "champ");
+  assert.equal(weather(recovered).runnerUp.id, "runner");
+
+  // Under the published 1.0.0 rules the unreachable champion would have stayed.
+  const legacyRules = rankPlugins({ catalog: sick, stats, taxonomy, previous, now, methodology: methodologyFor("1.0.0") }).rankings;
+  assert.equal(weather(legacyRules).winner.id, "champ");
+  assert.equal(legacyRules.methodologyVersion, "1.0.0");
+});
+
+test("candidates round-trip upstream health through JSON and legacy snapshots lack it", () => {
+  const now = new Date("2026-09-28T06:17:00Z");
+  const { rankings } = rankPlugins({ catalog: [plugin("a", { upstreamCheckStatus: "passed" }), legacy], stats: {}, taxonomy, now });
+  const parsed = JSON.parse(JSON.stringify(rankings));
+  const winner = parsed.types.find((type) => type.id === "weather");
+  assert.deepEqual([winner.winner.upstreamCheckStatus, winner.runnerUp.upstreamCheckStatus].sort(), [null, "passed"].sort());
 });
 
 test("ISO weeks handle year boundaries", () => {

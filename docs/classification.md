@@ -25,6 +25,14 @@ Some important distinctions:
 
 The other categories use their stated task contracts and regression fixtures. In particular, a plugin hosting another plugin's popup does not automatically inherit its categories. Native controls implemented inside a multipurpose plugin can qualify: Omaltbar's README documents real brightness, audio, Wi-Fi, Bluetooth and notification controls. X-Ray's README documents actual container inspection/restart and process resource inspection.
 
+## Marketplace health and built-ins
+
+Category eligibility is decided only for listings that can compete at all. Since methodology 1.1.0, a listing whose latest daily marketplace check reports `upstreamCheckStatus: "failed"` (invalid manifest or preview) or `"unreachable"` (repository could not be fetched) is excluded immediately, with the reason `compatibility-failed` or `repository-unreachable`. The catalog keeps the previous install command for unreachable repositories, so installability alone would not catch them. An incumbent in either state leaves its place at once and the next eligible plugin takes it; the listing competes normally again once a later check passes. Feeds without a check result are not treated as failures.
+
+Omarchy built-ins (`sourceType: "builtin"`) have no marketplace install command and are never ranked; they are recorded as `built-in`. The ranker, the classification audit and category discovery share one eligibility function, so an excluded listing has no task evidence and cannot appear among picks or accepted assignments.
+
+An unreachable check is not proof that a repository is permanently gone. A grace period for short outages is deliberately deferred: it would need its own methodology version deciding between guaranteed retention and temporary eligibility, how the first affected week is tracked, and how installation copy explains the exception.
+
 ## Editorial decisions
 
 `overrides.include` preserves verified capabilities that compact catalog descriptions omit. `overrides.exclude` rejects misleading matches. `overrides.review` holds an uncertain assignment out of rankings until evidence resolves it. Each production override must have a reason in `overrides.reasons`, with an upstream URL when documentation was needed.

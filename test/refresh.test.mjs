@@ -579,3 +579,27 @@ test("a methodology-only change keeps the weekly freeze; --republish recalculate
   assert.deepEqual(history.changes.map((change) => change.kind), ["new-champion", "displaced"]);
   assert.equal(JSON.parse(await readFile(rankingsFile, "utf8")).methodologyVersion, republished.rankings.methodologyVersion);
 });
+
+test("refresh logs exclusion reasons and names the incumbents they removed", async (context) => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "omapicks-health-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  await mkdir(path.join(root, "data"), { recursive: true });
+  await writeFile(path.join(root, "data", "app-types.json"), JSON.stringify({ schemaVersion: 1, types: [{ id: "music", name: "Music", include: ["\\bmusic\\b"] }] }));
+  await writeFile(path.join(root, "data", "rankings.json"), JSON.stringify({
+    schemaVersion: 1, methodologyVersion: "1.0.0", week: "2026-W39", source: { taxonomy: { sha256: "old" } },
+    types: [{ id: "music", name: "Music", winner: { id: "player", name: "Player" }, runnerUp: { id: "quickshell.ytmusic", name: "Omarchy YouTube Music" } }]
+  }));
+  const entry = (id, values = {}) => ({ id, name: id, description: "Music player", installAvailable: true, installCommand: `install ${id}`, repo: `https://github.com/example/${id}`, ...values });
+  const catalog = { stateSchemaVersion: 2, plugins: [
+    entry("player"), entry("flow"),
+    entry("quickshell.ytmusic", { name: "Omarchy YouTube Music", status: "Status unknown", upstreamCheckStatus: "unreachable", upstreamCheckError: "repository-unreachable" })
+  ] };
+  const stats = { schemaVersion: 1, plugins: { player: { views: 50, copies: 20, hearts: 5 }, flow: { views: 40, copies: 10, hearts: 2 }, "quickshell.ytmusic": { views: 400, copies: 100, hearts: 30 } } };
+  const result = await refresh({ root, dryRun: true, now: new Date("2026-09-28T06:17:00Z"), minimumCatalogSize: 1,
+    fetchImpl: async (url) => jsonResponse(url.includes("/stats") ? stats : catalog) });
+  assert.equal(result.rankings.types[0].runnerUp.id, "flow");
+  const log = formatRefreshLog(result, { dryRun: true }).join("\n");
+  assert.match(log, /Excluded listings by reason: repository-unreachable 1\./);
+  assert.match(log, /Excluded incumbent: Music runner-up Omarchy YouTube Music \(quickshell\.ytmusic\): repository-unreachable\./);
+  assert.match(log, /Methodology 1\.1\.0 replaces published methodology 1\.0\.0/);
+});

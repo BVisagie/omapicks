@@ -338,6 +338,11 @@ export function formatRefreshLog(result, { dryRun = false } = {}) {
   }
   lines.push(formatMethodology(result));
   if (result.validation) lines.push(result.validation);
+  const exclusions = Object.entries(result.report?.excluded ?? {}).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  if (exclusions.length) lines.push(`Excluded listings by reason: ${exclusions.map(([reason, count]) => `${reason} ${count}`).join("; ")}.`);
+  for (const incumbent of result.report?.excludedIncumbents ?? []) {
+    lines.push(`  Excluded incumbent: ${incumbent.typeName} ${incumbent.place} ${incumbent.name} (${incumbent.id}): ${incumbent.reason}.`);
+  }
   const warningCodes = Object.entries(result.upstreamWarnings ?? {});
   if (warningCodes.length) {
     lines.push(`Upstream catalog warnings: ${warningCodes.map(([code, count]) => `${code} ${count}`).join("; ")}.`);

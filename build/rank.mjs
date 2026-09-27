@@ -109,12 +109,20 @@ export function classifyPlugin(plugin, preparedTaxonomy) {
   return explainClassification(plugin, preparedTaxonomy).filter((match) => match.accepted).map((match) => match.typeId);
 }
 
-export function eligibilityReason(plugin) {
+// Health and built-in checks precede installability: failed listings also lose their install
+// command upstream, and built-ins never had one, so "not-installable" would hide the real reason.
+export function eligibilityReason(plugin, methodology = METHODOLOGY) {
   if (!plugin || typeof plugin.id !== "string" || !plugin.id) return "invalid-id";
+  if (plugin.sourceType === "builtin" || plugin.builtIn === true) return "built-in";
+  if (methodology.eligibility.upstreamHealth) {
+    // A missing check result (older feeds) is not evidence of a problem, nor of a passed check.
+    if (plugin.upstreamCheckStatus === "failed") return "compatibility-failed";
+    if (plugin.upstreamCheckStatus === "unreachable") return "repository-unreachable";
+  }
+  if (["retired", "delisted"].includes(String(plugin.status).toLowerCase())) return "retired";
   if (plugin.installAvailable !== true || typeof plugin.installCommand !== "string" || !plugin.installCommand.trim()) {
     return "not-installable";
   }
-  if (["retired", "delisted"].includes(String(plugin.status).toLowerCase())) return "retired";
   if (typeof plugin.repo !== "string" || !plugin.repo.startsWith("https://")) return "invalid-repository";
   return null;
 }
@@ -188,6 +196,7 @@ function publicCandidate(plugin, metrics, score, normalized, contributions, now,
     detailUrl: `https://plugins.omarchy.org/plugin.html?id=${encodeURIComponent(plugin.id)}`,
     installCommand: plugin.installCommand.trim(),
     verificationStatus: String(plugin.verificationStatus || "unverified"),
+    upstreamCheckStatus: typeof plugin.upstreamCheckStatus === "string" ? plugin.upstreamCheckStatus : null,
     license: String(plugin.license || "Unknown"),
     repositoryUpdatedAt: Number.isFinite(Date.parse(plugin.repositoryUpdatedAt))
       ? new Date(plugin.repositoryUpdatedAt).toISOString()
@@ -294,11 +303,13 @@ export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = n
   const classifiedIds = new Set();
   const unclassified = [];
   const excluded = {};
+  const exclusions = new Map();
 
   for (const plugin of catalog) {
-    const reason = eligibilityReason(plugin);
+    const reason = eligibilityReason(plugin, methodology);
     if (reason) {
       excluded[reason] = (excluded[reason] ?? 0) + 1;
+      if (typeof plugin?.id === "string") exclusions.set(plugin.id, reason);
       continue;
     }
     const typeIds = classifyPlugin(plugin, prepared);
@@ -340,8 +351,14 @@ export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = n
     };
   });
 
+  // Previous picks that are still listed but no longer eligible, for logs and change reasons.
+  const excludedIncumbents = (previous?.types ?? []).flatMap((type) => [["winner", "champion"], ["runnerUp", "runner-up"]]
+    .filter(([slot]) => type[slot]?.id && exclusions.has(type[slot].id))
+    .map(([slot, place]) => ({ typeId: type.id, typeName: type.name ?? type.id, place, id: type[slot].id, name: type[slot].name ?? type[slot].id, reason: exclusions.get(type[slot].id) })));
+
   return {
     decisions,
+    exclusions,
     ...(detail ? { cohorts: scoredCohorts } : {}),
     rankings: {
       schemaVersion: 1,
@@ -360,6 +377,7 @@ export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = n
       classificationAssignments: [...cohorts.values()].reduce((sum, cohort) => sum + cohort.length, 0),
       uniqueUnclassifiedCount: unclassified.length,
       excluded,
+      excludedIncumbents,
       unclassified
     }
   };
