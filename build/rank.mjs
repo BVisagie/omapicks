@@ -535,7 +535,41 @@ function pickRef(pick) {
   return pick ? { id: pick.id, name: pick.name } : null;
 }
 
-function leadershipChanges(previous, current, slot) {
+// Why a previous pick left its place, phrased to follow the plugin's name.
+export const REMOVAL_REASONS = Object.freeze({
+  retired: "was retired by the marketplace",
+  delisted: "was delisted from the marketplace",
+  "missing-from-catalog": "is no longer in the marketplace catalog",
+  "repository-unreachable": "could not be reached in the latest marketplace check",
+  "compatibility-failed": "failed the latest marketplace compatibility check",
+  "built-in": "is now listed as an Omarchy built-in",
+  "not-installable": "no longer has a marketplace install command",
+  "invalid-repository": "no longer has a valid HTTPS repository",
+  "invalid-id": "has an invalid catalog ID",
+  "no-longer-in-category": "no longer matches this category"
+});
+
+export function removalSentence(change) {
+  const phrase = REMOVAL_REASONS[change?.reason];
+  return phrase && change.previous ? `${change.previous.name} ${phrase}.` : "";
+}
+
+// `context` explains removals: { catalogIds, retirement: { available, ids }, exclusions, typeIdsById }.
+// Without it (older call sites and rendering), changes carry no reason.
+function removalReason(oldId, typeId, context) {
+  if (!context) return null;
+  if (!context.catalogIds.has(oldId)) {
+    // Only a successfully fetched registry can distinguish retirement from delisting.
+    if (!context.retirement?.available) return "missing-from-catalog";
+    return context.retirement.ids.has(oldId) ? "retired" : "delisted";
+  }
+  // A live listing is judged by the current catalog even if the registry also lists it as retired.
+  if (context.exclusions?.has(oldId)) return context.exclusions.get(oldId);
+  if (context.typeIdsById && !(context.typeIdsById.get(oldId) ?? []).includes(typeId)) return "no-longer-in-category";
+  return null;
+}
+
+function leadershipChanges(previous, current, slot, context) {
   const prior = new Map((previous?.types ?? []).map((type) => [type.id, type]));
   const changes = [];
   for (const type of current.types) {
@@ -545,23 +579,26 @@ function leadershipChanges(previous, current, slot) {
     const oldId = oldPick?.id ?? null;
     const newId = newPick?.id ?? null;
     if (oldId === newId) continue;
-    changes.push({
+    const change = {
       typeId: type.id,
       typeName: type.name,
       kind: oldId ? (newId ? "displaced" : "vacated") : slot === "winner" ? "new-champion" : "new-runner-up",
       previous: pickRef(oldPick),
       current: pickRef(newPick)
-    });
+    };
+    const reason = oldId ? removalReason(oldId, type.id, context) : null;
+    if (reason) change.reason = reason;
+    changes.push(change);
   }
   return changes;
 }
 
-export function changesBetween(previous, current) {
-  return leadershipChanges(previous, current, "winner");
+export function changesBetween(previous, current, context = null) {
+  return leadershipChanges(previous, current, "winner", context);
 }
 
-export function runnerUpChangesBetween(previous, current) {
-  return leadershipChanges(previous, current, "runnerUp");
+export function runnerUpChangesBetween(previous, current, context = null) {
+  return leadershipChanges(previous, current, "runnerUp", context);
 }
 
 // The plugin that outscored a retained champion this week, if any. Snapshots written before

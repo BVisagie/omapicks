@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { cp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { METHODOLOGY, changesBetween, scoreLeader, snapshotMethodology, verificationCoverage, verificationCredit } from "./rank.mjs";
+import { METHODOLOGY, changesBetween, removalSentence, scoreLeader, snapshotMethodology, verificationCoverage, verificationCredit } from "./rank.mjs";
 import { renderSocialImage } from "./social.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -986,6 +986,7 @@ function methodologyPage(rankings) {
       <li><strong><a href="https://plugins.omarchy.org/catalog.json">Plugin catalog</a></strong> — names, descriptions, authors, repositories, licenses, GitHub stars, maintenance dates, verification status, install availability, and preview locations.</li>
       <li><strong><a href="https://api.omarchyplugins.com/v1/stats">Engagement statistics</a></strong> — install-command copies, hearts, and views by plugin ID.</li>
       <li><strong><a href="https://plugins.omarchy.org/?sort=copies">Browsable marketplace</a></strong> — the human-readable original listings behind the catalog data.</li>
+      <li><strong><a href="https://github.com/omacom/omarchy-plugin-marketplace/blob/main/registry.json">Marketplace registry</a></strong> — the list of retired plugin IDs from the MIT-licensed marketplace source, used only to explain why a previous pick left the catalog. If it cannot be fetched, the change log says neutrally that the plugin is no longer listed.</li>
       <li><strong><a href="https://github.com/omacom/omarchy">Omarchy</a></strong> — the built-in plugins named beside some categories, as listed in the catalog with their official commands. Built-ins are shown for context and never ranked.</li>
     </ul>
     <p>The feeds are fetched once during the weekly refresh; visitors never call them. Source timestamps, response metadata, SHA-256 checksums, metric contributions, and methodology version are included in the published <a href="/rankings.json">ranking snapshot</a>. Preview images remain attributable to their plugin authors and source marketplace. A failed or suspiciously small feed cannot replace the previous week.</p>
@@ -1050,13 +1051,15 @@ function changelogPage(history) {
         <dd><strong>${escapeHtml(change.current.name)}</strong></dd>
       </div>`).join("")}</dl>` : ""}
       ${updates.length ? `<ul class="change-list">${updates.map((change) => {
+        const why = removalSentence(change);
+        const reason = why ? ` ${escapeHtml(why)}` : "";
         if (change.kind === "displaced") {
-          return `<li><strong>${escapeHtml(change.current.name)}</strong> replaced ${escapeHtml(change.previous.name)} in ${escapeHtml(change.typeName)}.</li>`;
+          return `<li><strong>${escapeHtml(change.current.name)}</strong> replaced ${escapeHtml(change.previous.name)} in ${escapeHtml(change.typeName)}.${reason}</li>`;
         }
         if (change.current) {
-          return `<li><strong>${escapeHtml(change.current.name)}</strong> became the ${escapeHtml(change.typeName)} champion.</li>`;
+          return `<li><strong>${escapeHtml(change.current.name)}</strong> became the ${escapeHtml(change.typeName)} champion.${reason}</li>`;
         }
-        return `<li>${escapeHtml(change.typeName)} has no champion this week.</li>`;
+        return `<li>${escapeHtml(change.typeName)} has no champion this week.${reason}</li>`;
       }).join("")}</ul>` : ""}`;
   };
   const body = `<section class="page-section">
@@ -1320,6 +1323,10 @@ export async function render({ root = ROOT } = {}) {
 
 export function renderFixtureHome(rankings, history = []) {
   return homePage(rankings, history);
+}
+
+export function renderFixtureChangelog(history) {
+  return changelogPage(history);
 }
 
 export function renderFixtureFeed(history) {

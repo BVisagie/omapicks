@@ -11,6 +11,7 @@ import {
   pickWithHysteresis,
   prepareTaxonomy,
   rankPlugins,
+  removalSentence,
   runnerUpChangesBetween,
   scoreLeader
 } from "../build/rank.mjs";
@@ -1266,4 +1267,43 @@ test("new listings count eligible classified plugins after the earlier week's sn
   const none = rankPlugins({ catalog, stats: {}, taxonomy, now }).rankings;
   assert.equal(none.newListings, null);
   assert.equal(none.newListingsInterval, null);
+});
+
+test("pick changes explain retirement, delisting and exclusions, but not score replacements", () => {
+  const previous = {
+    types: ["gone", "delisted", "excluded", "moved", "beaten", "vacant"].map((id) => ({ id, name: id, winner: { id: `old-${id}`, name: `Old ${id}` }, runnerUp: { id: `runner-${id}`, name: `Runner ${id}` } }))
+  };
+  const current = {
+    types: previous.types.map((type) => ({ ...type, winner: type.id === "vacant" ? null : { id: `new-${type.id}`, name: `New ${type.id}` }, runnerUp: null }))
+  };
+  const catalogIds = new Set(["old-excluded", "old-moved", "old-beaten", "old-vacant", "runner-gone", "runner-delisted", "runner-excluded", "runner-moved", "runner-beaten", "runner-vacant", "live-and-retired"]);
+  const context = {
+    catalogIds,
+    retirement: { available: true, ids: new Set(["old-gone", "live-and-retired"]) },
+    exclusions: new Map([["old-excluded", "repository-unreachable"], ["old-vacant", "compatibility-failed"]]),
+    typeIdsById: new Map([["old-beaten", ["beaten"]], ["old-moved", ["other"]], ["runner-gone", ["gone"]], ["runner-delisted", ["delisted"]], ["runner-excluded", ["excluded"]], ["runner-moved", ["moved"]], ["runner-beaten", ["beaten"]], ["runner-vacant", ["vacant"]]])
+  };
+  const reasons = (changes) => Object.fromEntries(changes.map((change) => [change.typeId, [change.kind, change.reason ?? null]]));
+  assert.deepEqual(reasons(changesBetween(previous, current, context)), {
+    gone: ["displaced", "retired"],
+    delisted: ["displaced", "delisted"],
+    excluded: ["displaced", "repository-unreachable"],
+    moved: ["displaced", "no-longer-in-category"],
+    beaten: ["displaced", null],
+    vacant: ["vacated", "compatibility-failed"]
+  });
+  for (const [kind, reason] of Object.values(reasons(runnerUpChangesBetween(previous, current, context)))) {
+    assert.equal(kind, "vacated");
+    assert.equal(reason, null);
+  }
+  // Without registry evidence, absence is described neutrally.
+  const unavailable = { ...context, retirement: { available: false, ids: new Set() } };
+  assert.equal(changesBetween(previous, current, unavailable).find((change) => change.typeId === "gone").reason, "missing-from-catalog");
+  // A live listing that the registry also calls retired is judged by current eligibility.
+  const conflict = { types: [{ id: "c", name: "C", winner: { id: "live-and-retired", name: "Live" } }] };
+  assert.equal(changesBetween(conflict, { types: [{ id: "c", name: "C", winner: { id: "x", name: "X" } }] }, { ...context, typeIdsById: new Map([["live-and-retired", ["c"]]]) })[0].reason, undefined);
+  // Existing call sites without context keep reason-free changes.
+  assert.ok(changesBetween(previous, current).every((change) => !("reason" in change)));
+  assert.equal(removalSentence({ reason: "retired", previous: { name: "Old" } }), "Old was retired by the marketplace.");
+  assert.equal(removalSentence({ reason: "unknown", previous: { name: "Old" } }), "");
 });

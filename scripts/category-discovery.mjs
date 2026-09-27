@@ -3,13 +3,14 @@ import { appendFile, mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { classifyPlugin, eligibilityReason, explainClassification, isoWeek, prepareTaxonomy } from "../build/rank.mjs";
-import { fetchJson, validateFeeds } from "../build/refresh.mjs";
+import { boundedFetch, fetchJson, validateFeeds } from "../build/refresh.mjs";
+
+export { boundedFetch };
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const VERSION = 1;
 const ALGORITHM_VERSION = 3; // Bump when evidence or clustering rules change.
 const DAY = 86400000;
-const MAX_FEED_BYTES = 20 * 1024 * 1024;
 const STOP = new Set(`a an the and or for from with without your you in on to of by at is it its this that as into over per via all any new old own one two more not no can using use uses used plugin omarchy bar shell widget panel native quick simple small local live show shows showing open opens opening add adds status control controls manage manager support supports supported default current directly desktop system app application tools tool button click built based theme themed aware only style first driven api key across every full real time them which rather than see start stop between after how many far are what off selected active running super ctrl shift config hypr hyprland`.split(" "));
 const hash = (value) => createHash("sha256").update(JSON.stringify(value)).digest("hex");
 const clean = (value) => String(value ?? "").replace(/[\u0000-\u001f\u007f]/g, " ").slice(0, 2000);
@@ -186,33 +187,6 @@ export function renderReport(report) {
     "Add regression tests for positive, negative, and overlapping examples. Update taxonomy and relevant discovery navigation. Run npm run check. Open a reviewable PR only if the evidence supports the change; otherwise explain rejection.",
     "Record the decision in data/category-discovery.json using the probe ID and repositories from report.json, with status accepted, dismissed, or in-review and a reason. Do not merge automatically.", "```", "");
   return lines.join("\n");
-}
-
-// Bound actual streamed bytes, not just an optional Content-Length header.
-export async function boundedFetch(fetchImpl, url, options) {
-  const response = await fetchImpl(url, options);
-  if (!response.ok) return response;
-  if (Number(response.headers.get("content-length")) > MAX_FEED_BYTES) {
-    await response.body?.cancel();
-    throw new Error("Feed exceeds 20 MiB budget");
-  }
-  const reader = response.body?.getReader();
-  if (!reader) throw new Error("Feed has no response body");
-  const chunks = [];
-  let size = 0;
-  try {
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      size += value.byteLength;
-      if (size > MAX_FEED_BYTES) throw new Error("Feed exceeds 20 MiB budget");
-      chunks.push(value);
-    }
-  } finally { await reader.cancel(); }
-  const headers = new Headers(response.headers);
-  headers.delete("content-encoding");
-  headers.delete("content-length");
-  return new Response(Buffer.concat(chunks), { status: response.status, headers });
 }
 
 export async function run({ root = ROOT, output = path.join(root, "tmp/category-discovery"), previous = null, now = new Date(), fetchImpl = fetch, summaryFile = process.env.GITHUB_STEP_SUMMARY } = {}) {

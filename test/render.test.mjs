@@ -7,6 +7,7 @@ import {
   featuredDayIndex,
   featuredTypes,
   render,
+  renderFixtureChangelog,
   renderFixtureFeed,
   renderFixtureHome,
   renderFixtureMethodology,
@@ -766,4 +767,19 @@ test("weekly highlights show new listings with their interval and omit the claim
   assert.match(html, /August 25, 2026<\/time> to <time datetime="2026-09-01T09:00:00Z">September 1, 2026/);
   assert.match(html, /<a href="\/picks\/weather\/">Fresh &lt;Plugin&gt;<\/a> \(Weather\)/);
   assert.doesNotMatch(renderFixtureHome(fixtureRankings()), /New listings in ranked categories/);
+});
+
+test("the changelog words removal reasons plainly and keeps older entries unchanged", () => {
+  const html = renderFixtureChangelog([{
+    week: "2026-W40",
+    generatedAt: "2026-09-28T06:17:00Z",
+    changes: [
+      { typeId: "weather", typeName: "Weather", kind: "displaced", reason: "retired", previous: { id: "old", name: "Old <One>" }, current: { id: "new", name: "New" } },
+      { typeId: "music", typeName: "Music", kind: "vacated", reason: "repository-unreachable", previous: { id: "yt", name: "YouTube Music" }, current: null },
+      { typeId: "clock", typeName: "Clock", kind: "displaced", previous: { id: "a", name: "A" }, current: { id: "b", name: "B" } }
+    ]
+  }]);
+  assert.match(html, /<strong>New<\/strong> replaced Old &lt;One&gt; in Weather\. Old &lt;One&gt; was retired by the marketplace\./);
+  assert.match(html, /Music has no champion this week\. YouTube Music could not be reached in the latest marketplace check\./);
+  assert.match(html, /<strong>B<\/strong> replaced A in Clock\.<\/li>/);
 });

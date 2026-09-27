@@ -3,7 +3,7 @@ import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { fetchJson, formatRefreshLog, refresh, upstreamWarningCodes, validateFeeds } from "../build/refresh.mjs";
+import { fetchJson, formatRefreshLog, refresh, replayChanges, upstreamWarningCodes, validateFeeds } from "../build/refresh.mjs";
 
 function jsonResponse(value, status = 200) {
   return new Response(JSON.stringify(value), {
@@ -118,7 +118,7 @@ test("refresh appends weekly history and leaves prior weeks intact", async (cont
     fetchImpl
   });
   assert.equal(noChange.changed, false);
-  assert.equal(fetchCalls, 2);
+  assert.equal(fetchCalls, 3); // catalog, stats and retirement registry, once
 
   await mkdir(path.join(root, "data", "assets", "plugins"), { recursive: true });
   await writeFile(path.join(root, "data", "assets", "plugins", "stale.webp"), "stale");
@@ -244,18 +244,18 @@ test("same-week refresh stays frozen unless the taxonomy checksum changes", asyn
   assert.equal(first.changed, true);
   assert.equal(typeof first.rankings.source.taxonomy.sha256, "string");
   assert.equal(first.rankings.source.taxonomy.typeCount, 1);
-  assert.equal(fetchCalls, 2);
+  assert.equal(fetchCalls, 3); // catalog, stats and retirement registry
 
   const frozen = await refresh({ root, now, minimumCatalogSize: 1, fetchImpl });
   assert.equal(frozen.changed, false);
   assert.equal(frozen.reason, "already-refreshed");
-  assert.equal(fetchCalls, 2);
+  assert.equal(fetchCalls, 3);
 
   taxonomy.types[0].include = ["\\b(weather|forecast)\\b"];
   await writeFile(path.join(root, "data", "app-types.json"), JSON.stringify(taxonomy));
   const reranked = await refresh({ root, now, minimumCatalogSize: 1, fetchImpl });
   assert.equal(reranked.changed, true);
-  assert.equal(fetchCalls, 4);
+  assert.equal(fetchCalls, 6);
   assert.notEqual(reranked.rankings.source.taxonomy.sha256, first.rankings.source.taxonomy.sha256);
   assert.deepEqual(reranked.changes, first.changes);
   assert.ok(reranked.changes.length > 0);
@@ -550,7 +550,7 @@ test("a methodology-only change keeps the weekly freeze; --republish recalculate
   await writeFile(rankingsFile, JSON.stringify(published));
   const frozen = await refresh(options);
   assert.equal(frozen.changed, false);
-  assert.equal(fetchCalls, 2);
+  assert.equal(fetchCalls, 3);
   const frozenLog = formatRefreshLog(frozen).join("\n");
   assert.match(frozenLog, /keeps methodology 0\.9\.0/);
   assert.match(frozenLog, /Code now defines methodology 1\.\d+\.\d+; it takes effect at the next weekly refresh, or earlier through a deliberate --republish/);
@@ -628,4 +628,54 @@ test("new-listing intervals start at the earlier week's snapshot and survive sam
   const rerun = await refresh({ ...next, now: new Date("2026-09-10T09:00:00Z"), republish: true });
   assert.equal(rerun.rankings.newListingsInterval.since, "2026-09-01T09:00:00.000Z");
   assert.equal(rerun.rankings.newListingsInterval.until, "2026-09-10T09:00:00.000Z");
+});
+
+async function retirementFixture(context, registryResponse) {
+  const root = await mkdtemp(path.join(os.tmpdir(), "omapicks-retired-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  await mkdir(path.join(root, "data"), { recursive: true });
+  await writeFile(path.join(root, "data", "app-types.json"), JSON.stringify({ schemaVersion: 1, types: [{ id: "weather", name: "Weather", include: ["\\bweather\\b"] }] }));
+  await writeFile(path.join(root, "data", "rankings.json"), JSON.stringify({
+    schemaVersion: 1, methodologyVersion: "1.0.0", week: "2026-W39", source: { taxonomy: { sha256: "old" } },
+    types: [{ id: "weather", name: "Weather", winner: { id: "old.weather", name: "Old Weather" }, runnerUp: null }]
+  }));
+  const entry = (id) => ({ id, name: id, description: "Weather forecast", installAvailable: true, installCommand: `install ${id}`, repo: `https://github.com/example/${id}` });
+  const catalog = { plugins: [entry("new.weather"), entry("still.listed")] };
+  const stats = { schemaVersion: 1, plugins: { "new.weather": { views: 50, copies: 20, hearts: 5 }, "still.listed": { views: 5, copies: 1, hearts: 0 } } };
+  const fetchImpl = async (url) => {
+    if (url.includes("registry.json")) return registryResponse();
+    return jsonResponse(url.includes("/stats") ? stats : catalog);
+  };
+  return { root, fetchImpl };
+}
+
+test("a retired champion is labelled from the registry and replays from captured inputs", async (context) => {
+  const { root, fetchImpl } = await retirementFixture(context, () => jsonResponse({ retiredPluginIds: ["old.weather", "still.listed", "old.weather"], plugins: [] }));
+  const result = await refresh({ root, dryRun: true, now: new Date("2026-09-28T06:17:00Z"), minimumCatalogSize: 1, fetchImpl });
+  assert.deepEqual(result.computedChanges.map(({ kind, reason }) => [kind, reason]), [["displaced", "retired"]]);
+  const log = formatRefreshLog(result, { dryRun: true }).join("\n");
+  assert.match(log, /Champion Weather: Old Weather -> new\.weather \(Old Weather was retired by the marketplace\)/);
+  assert.match(log, /Retirement conflict: still\.listed is listed in the catalog and also retired/);
+  assert.deepEqual(result.rankings.source.registry.status, "available");
+  assert.equal(result.rankings.source.registry.count, 2);
+  assert.equal(result.rankings.source.registry.sha256.length, 64);
+  assert.deepEqual(result.auditInputs.registry.retiredPluginIds, ["old.weather", "still.listed"]);
+  const replay = replayChanges(JSON.parse(JSON.stringify(result.auditInputs)));
+  assert.deepEqual(replay.changes, result.computedChanges);
+  assert.deepEqual(replay.runnerUpChanges, result.runnerUpChanges);
+});
+
+test("refresh continues with neutral wording when the registry fails or is malformed", async (context) => {
+  for (const registryResponse of [() => jsonResponse({ error: true }, 500), () => jsonResponse({ retiredPluginIds: "old.weather" })]) {
+    const { root, fetchImpl } = await retirementFixture(context, registryResponse);
+    const result = await refresh({ root, dryRun: true, now: new Date("2026-09-28T06:17:00Z"), minimumCatalogSize: 1, fetchImpl });
+    assert.equal(result.computedChanges[0].reason, "missing-from-catalog");
+    assert.equal(result.rankings.source.registry.status, "unavailable");
+    assert.equal(result.rankings.source.registry.sha256, null);
+    assert.equal(result.auditInputs.registry.retiredPluginIds, null);
+    const log = formatRefreshLog(result, { dryRun: true }).join("\n");
+    assert.match(log, /Retirement registry unavailable/);
+    assert.match(log, /Old Weather is no longer in the marketplace catalog/);
+    assert.deepEqual(replayChanges(result.auditInputs).changes, result.computedChanges);
+  }
 });

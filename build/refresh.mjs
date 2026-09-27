@@ -3,14 +3,17 @@ import { createHash } from "node:crypto";
 import { access, appendFile, mkdir, readFile, readdir, rename, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { CLASSIFICATION_VERSION, METHODOLOGY, changesBetween, invertedRawScoreRaces, isoWeek, rankPlugins, runnerUpChangesBetween } from "./rank.mjs";
-import { LEGACY_METHODOLOGY_VERSION } from "./methodology.mjs";
+import { CLASSIFICATION_VERSION, METHODOLOGY, REMOVAL_REASONS, changesBetween, invertedRawScoreRaces, isoWeek, rankPlugins, runnerUpChangesBetween } from "./rank.mjs";
+import { LEGACY_METHODOLOGY_VERSION, methodologyFor } from "./methodology.mjs";
 import { auditClassifications, renderClassificationAudit } from "./classification-audit.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CATALOG_URL = "https://plugins.omarchy.org/catalog.json";
 const STATS_URL = "https://api.omarchyplugins.com/v1/stats";
+// The marketplace source registry (MIT); only retiredPluginIds is consumed. Not served on the website.
+export const REGISTRY_URL = "https://raw.githubusercontent.com/omacom/omarchy-plugin-marketplace/main/registry.json";
 const MAX_IMAGE_BYTES = 2 * 1024 * 1024;
+const MAX_FEED_BYTES = 20 * 1024 * 1024;
 
 function delay(milliseconds) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -45,6 +48,90 @@ export async function fetchJson(url, { attempts = 3, timeoutMs = 15_000, fetchIm
 
 function checksum(value) {
   return createHash("sha256").update(JSON.stringify(value)).digest("hex");
+}
+
+// Bound actual streamed bytes, not just an optional Content-Length header.
+export async function boundedFetch(fetchImpl, url, options, maxBytes = MAX_FEED_BYTES) {
+  const response = await fetchImpl(url, options);
+  if (!response.ok) return response;
+  const budget = `Feed exceeds ${Math.round(maxBytes / 1024 / 1024)} MiB budget`;
+  if (Number(response.headers.get("content-length")) > maxBytes) {
+    await response.body?.cancel();
+    throw new Error(budget);
+  }
+  const reader = response.body?.getReader();
+  if (!reader) throw new Error("Feed has no response body");
+  const chunks = [];
+  let size = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      size += value.byteLength;
+      if (size > maxBytes) throw new Error(budget);
+      chunks.push(value);
+    }
+  } finally { await reader.cancel(); }
+  const headers = new Headers(response.headers);
+  headers.delete("content-encoding");
+  headers.delete("content-length");
+  return new Response(Buffer.concat(chunks), { status: response.status, headers });
+}
+
+// Retirement evidence only labels changes; a failed or malformed fetch never blocks a refresh and is
+// recorded as unavailable rather than as an empty list.
+export async function fetchRetirements(fetchImpl = fetch) {
+  try {
+    const result = await fetchJson(REGISTRY_URL, { fetchImpl: (url, options) => boundedFetch(fetchImpl, url, options) });
+    const ids = result.body?.retiredPluginIds;
+    if (!Array.isArray(ids) || ids.some((id) => typeof id !== "string")) {
+      throw new Error("registry.json retiredPluginIds must be an array of strings");
+    }
+    return { status: "available", url: REGISTRY_URL, etag: result.etag, lastModified: result.lastModified, retiredPluginIds: [...new Set(ids)].sort(), error: null };
+  } catch (error) {
+    return { status: "unavailable", url: REGISTRY_URL, etag: null, lastModified: null, retiredPluginIds: null, error: error.message };
+  }
+}
+
+function registrySource(registry) {
+  const available = registry?.status === "available";
+  return {
+    url: registry?.url ?? REGISTRY_URL,
+    status: available ? "available" : "unavailable",
+    etag: registry?.etag ?? null,
+    lastModified: registry?.lastModified ?? null,
+    sha256: available ? checksum(registry.retiredPluginIds) : null,
+    count: available ? registry.retiredPluginIds.length : null,
+    ...(available ? {} : { error: registry?.error ?? "not fetched" })
+  };
+}
+
+export function changeContext({ catalog, registry, exclusions, typeIdsById }) {
+  const available = registry?.status === "available";
+  return {
+    catalogIds: new Set(catalog.map((plugin) => plugin?.id)),
+    retirement: { available, ids: new Set(available ? registry.retiredPluginIds : []) },
+    exclusions,
+    typeIdsById
+  };
+}
+
+// Recompute this run's pick changes and their reasons from captured refresh inputs, offline.
+export function replayChanges(inputs) {
+  const catalog = inputs.catalog.body.plugins;
+  const ranked = rankPlugins({
+    catalog,
+    stats: inputs.stats.body.plugins,
+    taxonomy: inputs.taxonomy,
+    previous: inputs.previous,
+    now: new Date(inputs.now),
+    methodology: methodologyFor(inputs.methodologyVersion ?? LEGACY_METHODOLOGY_VERSION)
+  });
+  const context = changeContext({ catalog, registry: inputs.registry, exclusions: ranked.exclusions, typeIdsById: ranked.typeIdsById });
+  return {
+    changes: changesBetween(inputs.previous, ranked.rankings, context),
+    runnerUpChanges: runnerUpChangesBetween(inputs.previous, ranked.rankings, context)
+  };
 }
 
 // Identifies the code that produced replay inputs or research reports. Never used for ranking.
@@ -269,6 +356,10 @@ function formatPickName(pick) {
   return pick?.name ?? "none";
 }
 
+function formatReason(change) {
+  return change.reason && REMOVAL_REASONS[change.reason] ? ` (${change.previous?.name ?? "previous pick"} ${REMOVAL_REASONS[change.reason]})` : "";
+}
+
 function plural(count, singular, pluralForm = `${singular}s`) {
   return `${count} ${count === 1 ? singular : pluralForm}`;
 }
@@ -365,6 +456,13 @@ export function formatRefreshLog(result, { dryRun = false } = {}) {
   for (const incumbent of result.report?.excludedIncumbents ?? []) {
     lines.push(`  Excluded incumbent: ${incumbent.typeName} ${incumbent.place} ${incumbent.name} (${incumbent.id}): ${incumbent.reason}.`);
   }
+  const registry = result.rankings?.source?.registry;
+  if (registry && registry.status !== "available") {
+    lines.push(`Retirement registry unavailable (${registry.error}); removed picks are described neutrally as no longer in the catalog.`);
+  }
+  for (const id of result.retirementConflicts ?? []) {
+    lines.push(`  Retirement conflict: ${id} is listed in the catalog and also retired in the registry; current catalog eligibility applies.`);
+  }
   const warningCodes = Object.entries(result.upstreamWarnings ?? {});
   if (warningCodes.length) {
     lines.push(`Upstream catalog warnings: ${warningCodes.map(([code, count]) => `${code} ${count}`).join("; ")}.`);
@@ -372,7 +470,7 @@ export function formatRefreshLog(result, { dryRun = false } = {}) {
   const methodology = result.methodology ?? METHODOLOGY;
   lines.push(`Scores combine ${signalList(methodology)}, with sparse engagement dampened. Both places retain eligible incumbents unless a challenger scores strictly more than ${methodology.hysteresis * 100}% higher; runner-up selection excludes the champion.`);
   if (!changes.length) lines.push("No champion identities changed: the per-type decisions below explain which incumbents still lead and which were retained by the stability rule.");
-  for (const change of changes) lines.push(`  Champion ${change.typeName}: ${formatPickName(change.previous)} -> ${formatPickName(change.current)}`);
+  for (const change of changes) lines.push(`  Champion ${change.typeName}: ${formatPickName(change.previous)} -> ${formatPickName(change.current)}${formatReason(change)}`);
   if (result.changes.length !== changes.length) lines.push(`Weekly changelog retains ${result.changes.length} events, including earlier runs; this calculation has ${changes.length} champion changes.`);
 
   lines.push(
@@ -387,7 +485,7 @@ export function formatRefreshLog(result, { dryRun = false } = {}) {
   lines.push(`${plural(runnerUpChanges.length, "runner-up change")}; ${invertedClause}.`);
 
   for (const change of runnerUpChanges) {
-    lines.push(`  Runner-up ${change.typeName}: ${formatPickName(change.previous)} -> ${formatPickName(change.current)}`);
+    lines.push(`  Runner-up ${change.typeName}: ${formatPickName(change.previous)} -> ${formatPickName(change.current)}${formatReason(change)}`);
   }
   for (const race of invertedRaces) {
     lines.push(
@@ -448,9 +546,10 @@ export async function refresh({
     };
   }
 
-  const [catalogResult, statsResult] = await Promise.all([
+  const [catalogResult, statsResult, registry] = await Promise.all([
     fetchJson(CATALOG_URL, { fetchImpl }),
-    fetchJson(STATS_URL, { fetchImpl })
+    fetchJson(STATS_URL, { fetchImpl }),
+    fetchRetirements(fetchImpl)
   ]);
   validateFeeds(catalogResult.body, statsResult.body, minimumCatalogSize, previous);
 
@@ -479,10 +578,11 @@ export async function refresh({
       sha256: taxonomySha,
       classificationVersion: CLASSIFICATION_VERSION,
       typeCount: Array.isArray(taxonomy?.types) ? taxonomy.types.length : 0
-    }
+    },
+    registry: registrySource(registry)
   };
 
-  const { rankings, report, decisions } = rankPlugins({
+  const { rankings, report, decisions, exclusions, typeIdsById } = rankPlugins({
     catalog: catalogResult.body.plugins,
     stats: statsResult.body.plugins,
     taxonomy,
@@ -493,11 +593,12 @@ export async function refresh({
   });
   const historyFile = path.join(root, "data", "history", `${week}.json`);
   const existingHistory = await readJson(historyFile, null);
-  const computedChanges = changesBetween(previous, rankings);
+  const context = changeContext({ catalog: catalogResult.body.plugins, registry, exclusions, typeIdsById });
+  const computedChanges = changesBetween(previous, rankings, context);
   const changes = weekChangeLog(previous, week, existingHistory, computedChanges);
   const previousReport = await readJson(path.join(root, "data", "unclassified-report.json"), null);
   const previousState = await readJson(path.join(root, "data", "classification-state.json"), null);
-  const auditInputs = { schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, codeRevision: revision, now: now.toISOString(), catalog: catalogResult, stats: statsResult, taxonomy, previous, previousState };
+  const auditInputs = { schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, methodologyVersion: METHODOLOGY.version, codeRevision: revision, now: now.toISOString(), catalog: catalogResult, stats: statsResult, registry, taxonomy, previous, previousState };
   const classificationAudit = auditClassifications({ catalog: catalogResult.body.plugins, stats: statsResult.body.plugins, taxonomy, previous, previousState, now });
   classificationAudit.inputsHash = checksum(auditInputs);
   const summary = {
@@ -515,7 +616,8 @@ export async function refresh({
     auditInputs,
     validation: formatValidation(source, previous, catalogResult.body.plugins, statsResult.body.plugins, report),
     upstreamWarnings: upstreamWarningCodes(catalogResult.body.warnings),
-    runnerUpChanges: runnerUpChangesBetween(previous, rankings),
+    runnerUpChanges: runnerUpChangesBetween(previous, rankings, context),
+    retirementConflicts: registry.status === "available" ? registry.retiredPluginIds.filter((id) => context.catalogIds.has(id)) : [],
     invertedRaces: invertedRawScoreRaces(rankings),
     deltas: {
       catalog: countDelta(previous?.source?.catalog?.count, source.catalog.count),
