@@ -787,3 +787,20 @@ test("the changelog words removal reasons plainly and keeps older entries unchan
   assert.match(html, /Music has no champion this week\. YouTube Music could not be reached in the latest marketplace check\./);
   assert.match(html, /<strong>B<\/strong> replaced A in Clock\.<\/li>/);
 });
+
+test("the changelog lists runner-up events separately and older weeks without them stay unchanged", () => {
+  const html = renderFixtureChangelog([
+    { week: "2026-W40", generatedAt: "2026-09-28T06:17:00Z", changes: [], runnerUpChanges: [
+      { typeId: "music", typeName: "Music", kind: "vacated", reason: "repository-unreachable", previous: { id: "yt", name: "YouTube <Music>" }, current: null },
+      { typeId: "clock", typeName: "Clock", kind: "new-runner-up", previous: null, current: { id: "b", name: "B" } }
+    ] },
+    { week: "2026-W39", generatedAt: "2026-09-21T06:17:00Z", changes: [{ typeId: "clock", typeName: "Clock", kind: "displaced", previous: { id: "a", name: "A" }, current: { id: "c", name: "C" } }] }
+  ]);
+  const [w40, w39] = html.split('<section>').slice(-2);
+  assert.match(w40, /No champion changes\./);
+  assert.match(w40, /<h3 class="timeline-subhead">Runner-up changes<\/h3>/);
+  assert.match(w40, /Music has no runner-up this week\. YouTube &lt;Music&gt; could not be reached in the latest marketplace check\./);
+  assert.match(w40, /<strong>B<\/strong> became the Clock runner-up\./);
+  assert.doesNotMatch(w39, /Runner-up changes/);
+  assert.match(w39, /<strong>C<\/strong> replaced A in Clock\./);
+});

@@ -1510,6 +1510,16 @@ button {
   border-bottom: 1px solid var(--line);
 }
 
+.timeline-subhead {
+  margin: 1.2rem 0 0;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+}
+
 .rss-callout,
 .feed-subscribe {
   margin-top: 2rem;

@@ -4,6 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 import { fetchJson, formatRefreshLog, refresh, replayChanges, upstreamWarningCodes, validateFeeds } from "../build/refresh.mjs";
+import { renderFixtureChangelog } from "../build/render.mjs";
 
 function jsonResponse(value, status = 200) {
   return new Response(JSON.stringify(value), {
@@ -678,4 +679,46 @@ test("refresh continues with neutral wording when the registry fails or is malfo
     assert.match(log, /Old Weather is no longer in the marketplace catalog/);
     assert.deepEqual(replayChanges(result.auditInputs).changes, result.computedChanges);
   }
+});
+
+test("runner-up events and their reasons persist to history and the changelog across same-week republishes", async (context) => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "omapicks-runner-up-history-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  await mkdir(path.join(root, "data", "history"), { recursive: true });
+  await writeFile(path.join(root, "data", "app-types.json"), JSON.stringify({ schemaVersion: 1, types: [{ id: "weather", name: "Weather", include: ["\\bweather\\b"] }] }));
+  const published = {
+    schemaVersion: 1, methodologyVersion: "1.0.0", week: "2026-W39", generatedAt: "2026-09-21T06:17:00Z", source: { taxonomy: { sha256: "old" } },
+    types: [{ id: "weather", name: "Weather", winner: { id: "champ", name: "Champ" }, runnerUp: { id: "old.runner", name: "Old Runner" } }]
+  };
+  await writeFile(path.join(root, "data", "rankings.json"), JSON.stringify(published));
+  await writeFile(path.join(root, "data", "history", "2026-W39.json"), JSON.stringify({ ...published, changes: [] }));
+  const entry = (id) => ({ id, name: id, description: "Weather forecast", installAvailable: true, installCommand: `install ${id}`, repo: `https://github.com/example/${id}` });
+  const catalog = { plugins: [entry("champ"), entry("new.runner")] };
+  const stats = { schemaVersion: 1, plugins: { champ: { views: 90, copies: 40, hearts: 9 }, "new.runner": { views: 50, copies: 10, hearts: 2 } } };
+  const fetchImpl = async (url) => {
+    if (url.includes("registry.json")) return jsonResponse({ retiredPluginIds: ["old.runner"] });
+    return jsonResponse(url.includes("/stats") ? stats : catalog);
+  };
+  const options = { root, now: new Date("2026-09-28T06:17:00Z"), minimumCatalogSize: 1, fetchImpl };
+  const result = await refresh(options);
+  assert.deepEqual(result.changes, []);
+  const expected = [{ typeId: "weather", typeName: "Weather", kind: "displaced", previous: { id: "old.runner", name: "Old Runner" }, current: { id: "new.runner", name: "new.runner" }, reason: "retired" }];
+  const history = JSON.parse(await readFile(path.join(root, "data", "history", "2026-W40.json"), "utf8"));
+  const changelog = JSON.parse(await readFile(path.join(root, "data", "changelog.json"), "utf8"));
+  assert.deepEqual(history.changes, []);
+  assert.deepEqual(history.runnerUpChanges, expected);
+  assert.deepEqual(changelog.runnerUpChanges, expected);
+
+  // A same-week republish keeps the week's earlier runner-up event.
+  const rerun = await refresh({ ...options, now: new Date("2026-09-29T06:17:00Z"), republish: true });
+  assert.deepEqual(rerun.runnerUpChanges, []);
+  assert.deepEqual(rerun.weeklyRunnerUpChanges, expected);
+  assert.match(formatRefreshLog(rerun).join("\n"), /Weekly changelog retains 1 runner-up event, including earlier runs\./);
+  const rewritten = JSON.parse(await readFile(path.join(root, "data", "history", "2026-W40.json"), "utf8"));
+  assert.deepEqual(rewritten.runnerUpChanges, expected);
+
+  const html = renderFixtureChangelog([rewritten]);
+  assert.match(html, /No champion changes\./);
+  assert.match(html, /Runner-up changes/);
+  assert.match(html, /<strong>new\.runner<\/strong> replaced Old Runner as the Weather runner-up\. Old Runner was retired by the marketplace\./);
 });

@@ -328,8 +328,10 @@ function withoutLocalImages(snapshot) {
   return copy;
 }
 
-function weekChangeLog(previous, week, existingHistory, computedChanges) {
-  const prior = existingHistory?.changes;
+// Same-week reruns append to the week's recorded events for that slot ("changes" for champions,
+// "runnerUpChanges" for runner-ups) instead of replacing them.
+function weekChangeLog(previous, week, existingHistory, computedChanges, key = "changes") {
+  const prior = existingHistory?.[key];
   if (previous?.week !== week || !Array.isArray(prior) || prior.length === 0) return computedChanges;
   if (computedChanges.length === 0) return prior;
   return [...prior, ...computedChanges];
@@ -487,6 +489,10 @@ export function formatRefreshLog(result, { dryRun = false } = {}) {
   for (const change of runnerUpChanges) {
     lines.push(`  Runner-up ${change.typeName}: ${formatPickName(change.previous)} -> ${formatPickName(change.current)}${formatReason(change)}`);
   }
+  const weeklyRunnerUps = result.weeklyRunnerUpChanges ?? runnerUpChanges;
+  if (weeklyRunnerUps.length !== runnerUpChanges.length) {
+    lines.push(`Weekly changelog retains ${plural(weeklyRunnerUps.length, "runner-up event")}, including earlier runs.`);
+  }
   for (const race of invertedRaces) {
     lines.push(
       `  ${race.typeName}: ${race.leader.name} ${race.leader.score} leads champion ${race.champion.name} ${race.champion.score} by ${race.gapPercent.toFixed(1)}%.`
@@ -596,6 +602,8 @@ export async function refresh({
   const context = changeContext({ catalog: catalogResult.body.plugins, registry, exclusions, typeIdsById });
   const computedChanges = changesBetween(previous, rankings, context);
   const changes = weekChangeLog(previous, week, existingHistory, computedChanges);
+  const runnerUpChanges = runnerUpChangesBetween(previous, rankings, context);
+  const weeklyRunnerUpChanges = weekChangeLog(previous, week, existingHistory, runnerUpChanges, "runnerUpChanges");
   const previousReport = await readJson(path.join(root, "data", "unclassified-report.json"), null);
   const previousState = await readJson(path.join(root, "data", "classification-state.json"), null);
   const auditInputs = { schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, methodologyVersion: METHODOLOGY.version, codeRevision: revision, now: now.toISOString(), catalog: catalogResult, stats: statsResult, registry, taxonomy, previous, previousState };
@@ -616,7 +624,8 @@ export async function refresh({
     auditInputs,
     validation: formatValidation(source, previous, catalogResult.body.plugins, statsResult.body.plugins, report),
     upstreamWarnings: upstreamWarningCodes(catalogResult.body.warnings),
-    runnerUpChanges: runnerUpChangesBetween(previous, rankings, context),
+    runnerUpChanges,
+    weeklyRunnerUpChanges,
     retirementConflicts: registry.status === "available" ? registry.retiredPluginIds.filter((id) => context.catalogIds.has(id)) : [],
     invertedRaces: invertedRawScoreRaces(rankings),
     deltas: {
@@ -631,14 +640,16 @@ export async function refresh({
   const imageWarnings = await attachImages(rankings, { fetchImpl, previous, root });
   const history = {
     ...withoutLocalImages(rankings),
-    changes
+    changes,
+    runnerUpChanges: weeklyRunnerUpChanges
   };
   await writeJsonAtomic(historyFile, history);
   await writeJsonAtomic(path.join(root, "data", "changelog.json"), {
     schemaVersion: 1,
     week,
     generatedAt: rankings.generatedAt,
-    changes
+    changes,
+    runnerUpChanges: weeklyRunnerUpChanges
   });
   await writeJsonAtomic(path.join(root, "data", "unclassified-report.json"), report);
   await writeJsonAtomic(path.join(root, "data", "classification-state.json"), classificationAudit.state);

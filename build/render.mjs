@@ -1013,7 +1013,9 @@ function historyChanges(history) {
     .map((snapshot) => ({
       week: snapshot.week,
       generatedAt: snapshot.generatedAt,
-      changes: snapshot.changes ?? []
+      changes: snapshot.changes ?? [],
+      // Snapshots before runner-up events were persisted have none recorded, not "no changes".
+      runnerUpChanges: snapshot.runnerUpChanges ?? []
     }));
 }
 
@@ -1064,6 +1066,21 @@ function changelogPage(history) {
         return `<li>${escapeHtml(change.typeName)} has no champion this week.${reason}</li>`;
       }).join("")}</ul>` : ""}`;
   };
+  const runnerUpList = (entry) => {
+    if (!entry.runnerUpChanges.length) return "";
+    return `<h3 class="timeline-subhead">Runner-up changes</h3>
+      <ul class="change-list">${entry.runnerUpChanges.map((change) => {
+        const why = removalSentence(change);
+        const reason = why ? ` ${escapeHtml(why)}` : "";
+        if (change.kind === "displaced") {
+          return `<li><strong>${escapeHtml(change.current.name)}</strong> replaced ${escapeHtml(change.previous.name)} as the ${escapeHtml(change.typeName)} runner-up.${reason}</li>`;
+        }
+        if (change.current) {
+          return `<li><strong>${escapeHtml(change.current.name)}</strong> became the ${escapeHtml(change.typeName)} runner-up.${reason}</li>`;
+        }
+        return `<li>${escapeHtml(change.typeName)} has no runner-up this week.${reason}</li>`;
+      }).join("")}</ul>`;
+  };
   const body = `<section class="page-section">
     <p class="eyebrow">Change log</p>
     <h1>What changed</h1>
@@ -1076,6 +1093,7 @@ function changelogPage(history) {
                 (entry) => `<section>
                   <h2>${weekLabel(entry.week, entry.generatedAt)}</h2>
                   ${changeList(entry)}
+                  ${runnerUpList(entry)}
                 </section>`
               )
               .join("")
