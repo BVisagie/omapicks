@@ -732,6 +732,8 @@ test("methodology 1.1.0 explains graded verification, copy/view scoring and defe
   assert.match(page, /exact listed commit/);
   assert.match(page, /omarchy-plugin-marketplace\/blob\/main\/VERIFICATION\.md/);
   assert.match(page, /Wilson interval/);
+  assert.match(page, /rewards stronger install-command-copy evidence relative to detail views/);
+  assert.doesNotMatch(page, /visitors often copy/);
   assert.match(page, /fewer than 20 views are not rated/);
   assert.match(page, /nothing measures actual installations/);
   assert.match(page, /Releases and version changes do not affect freshness/);
@@ -764,12 +766,14 @@ test("category pages show built-ins and snapshot-relative listing age", () => {
 
 test("weekly highlights show new listings with their interval and omit the claim without a baseline", () => {
   const rankings = fixtureRankings();
-  rankings.newListings = [{ id: "fresh", name: "Fresh <Plugin>", typeIds: ["weather"] }];
+  // Neither ranked slot: the fixture's picks are safe.plugin and nobody.
+  rankings.newListings = [{ id: "fresh.plugin/x", name: "Fresh <Plugin>", typeIds: ["weather", "unknown-type"] }];
   rankings.newListingsInterval = { since: "2026-08-25T06:17:00Z", until: "2026-09-01T09:00:00Z", baselineWeek: "2026-W35" };
   const html = renderFixtureHome(rankings, [{ ...fixtureRankings(), week: "2026-W35" }]);
   assert.match(html, /New listings in ranked categories since the previous snapshot: <strong>1<\/strong>/);
   assert.match(html, /August 25, 2026<\/time> to <time datetime="2026-09-01T09:00:00Z">September 1, 2026/);
-  assert.match(html, /<a href="\/picks\/weather\/">Fresh &lt;Plugin&gt;<\/a> \(Weather\)/);
+  assert.match(html, /<li><a href="https:\/\/plugins\.omarchy\.org\/plugin\.html\?id=fresh\.plugin%2Fx" target="_blank" rel="noopener noreferrer">Fresh &lt;Plugin&gt;<\/a> \(<a href="\/picks\/weather\/">Weather<\/a>\)<\/li>/);
+  assert.doesNotMatch(html, /<a href="\/picks\/weather\/">Fresh/);
   assert.doesNotMatch(renderFixtureHome(fixtureRankings()), /New listings in ranked categories/);
 });
 

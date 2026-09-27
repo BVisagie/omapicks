@@ -194,7 +194,7 @@ function methodologyCopy(method) {
   const graded = method.verification.rule === "coverage";
   const rate = method.installRate;
   const viewsClause = rate
-    ? "Listing views barely count, and a small share rewards plugins whose detail-page visitors often copy the install command."
+    ? "Listing views barely count, and a small share rewards stronger install-command-copy evidence relative to detail views."
     : "Listing views barely count.";
   const verifiedClause = graded
     ? "A verified snapshot is a small bonus, not a win condition; a verified snapshot whose upstream has since moved on earns part of it."
@@ -783,9 +783,13 @@ function newListingsNote(rankings) {
   const until = dateLabel(interval.until);
   if (!since || !until) return "";
   const known = new Map((rankings.types ?? []).map((type) => [type.id, type]));
+  // A new listing is rarely one of its category's two picks, so its name opens the marketplace
+  // listing and the category link is separate.
   const shown = listings.slice(0, 5).map((listing) => {
-    const type = known.get(listing.typeIds?.[0]);
-    return type ? `<li><a href="/picks/${encodeURIComponent(type.id)}/">${escapeHtml(listing.name)}</a> (${escapeHtml(type.name)})</li>` : `<li>${escapeHtml(listing.name)}</li>`;
+    const types = (listing.typeIds ?? []).map((id) => known.get(id)).filter(Boolean);
+    const categories = types.map((type) => `<a href="/picks/${encodeURIComponent(type.id)}/">${escapeHtml(type.name)}</a>`).join(", ");
+    const name = outboundLink(`https://plugins.omarchy.org/plugin.html?id=${encodeURIComponent(listing.id)}`, escapeHtml(listing.name));
+    return `<li>${name}${categories ? ` (${categories})` : ""}</li>`;
   });
   return `<p class="new-listings">New listings in ranked categories since the previous snapshot: <strong>${listings.length.toLocaleString("en-US")}</strong>
       (<time datetime="${escapeHtml(interval.since)}">${escapeHtml(since)}</time> to <time datetime="${escapeHtml(interval.until)}">${escapeHtml(until)}</time>).</p>
