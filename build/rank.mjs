@@ -1,20 +1,12 @@
+import { CURRENT_METHODOLOGY_VERSION, methodologyFor } from "./methodology.mjs";
+
+export { methodologyFor, snapshotMethodology } from "./methodology.mjs";
+
 const DAY_MS = 86_400_000;
 export const CLASSIFICATION_VERSION = 2;
 
-export const METHODOLOGY = Object.freeze({
-  version: "1.0.0",
-  hysteresis: 0.1,
-  priorStrength: 12,
-  freshnessHalfLifeDays: 180,
-  weights: Object.freeze({
-    copies: 0.36,
-    hearts: 0.2,
-    stars: 0.18,
-    views: 0.08,
-    freshness: 0.13,
-    verified: 0.05
-  })
-});
+// The rules new snapshots are calculated with. Rendering uses the snapshot's own definition.
+export const METHODOLOGY = methodologyFor(CURRENT_METHODOLOGY_VERSION);
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -151,23 +143,29 @@ function quantile(sortedValues, percentile) {
   return sortedValues[lower] + (sortedValues[Math.min(lower + 1, sortedValues.length - 1)] - sortedValues[lower]) * fraction;
 }
 
-function normalizedSignalMap(valuesById) {
+function normalizedSignalMap(valuesById, methodology) {
   const logged = new Map([...valuesById].map(([id, value]) => [id, Math.log1p(value)]));
+  const { percentileShare, scaleQuantile } = methodology.normalization;
   const percentiles = percentileMap(logged);
-  const scale = quantile([...logged.values()].sort((a, b) => a - b), 0.95);
+  const scale = quantile([...logged.values()].sort((a, b) => a - b), scaleQuantile);
   return new Map(
     [...logged].map(([id, value]) => {
       const robustScale = scale > 0 ? Math.min(1, value / scale) : 0.5;
-      return [id, 0.7 * percentiles.get(id) + 0.3 * robustScale];
+      return [id, percentileShare * percentiles.get(id) + (1 - percentileShare) * robustScale];
     })
   );
 }
 
-function freshnessScore(updatedAt, now) {
+function freshnessScore(updatedAt, now, methodology) {
   const timestamp = Date.parse(updatedAt);
   if (!Number.isFinite(timestamp)) return 0;
   const ageDays = Math.max(0, (now.getTime() - timestamp) / DAY_MS);
-  return Math.exp((-Math.log(2) * ageDays) / METHODOLOGY.freshnessHalfLifeDays);
+  return Math.exp((-Math.log(2) * ageDays) / methodology.freshness.halfLifeDays);
+}
+
+function evidenceCount(metrics, methodology) {
+  const { viewWeight, viewCap } = methodology.evidence;
+  return metrics.copies + metrics.hearts + Math.min(metrics.views * viewWeight, viewCap);
 }
 
 function round(value, places = 6) {
@@ -175,7 +173,7 @@ function round(value, places = 6) {
   return Math.round(value * scale) / scale;
 }
 
-function publicCandidate(plugin, metrics, score, normalized, contributions, now) {
+function publicCandidate(plugin, metrics, score, normalized, contributions, now, methodology) {
   const preview = typeof plugin.previewThumbnail === "string" ? plugin.previewThumbnail : plugin.previewImage;
   const previewSource = preview
     ? new URL(preview, "https://plugins.omarchy.org/").href
@@ -201,10 +199,7 @@ function publicCandidate(plugin, metrics, score, normalized, contributions, now)
     metrics,
     normalized,
     contributions,
-    evidence: round(
-      (metrics.copies + metrics.hearts + Math.min(metrics.views * 0.05, 50)) /
-        (metrics.copies + metrics.hearts + Math.min(metrics.views * 0.05, 50) + METHODOLOGY.priorStrength)
-    ),
+    evidence: round(evidenceCount(metrics, methodology) / (evidenceCount(metrics, methodology) + methodology.priorStrength)),
     freshnessDays: Number.isFinite(Date.parse(plugin.repositoryUpdatedAt))
       ? Math.max(0, Math.floor((now.getTime() - Date.parse(plugin.repositoryUpdatedAt)) / DAY_MS))
       : null,
@@ -212,7 +207,7 @@ function publicCandidate(plugin, metrics, score, normalized, contributions, now)
   };
 }
 
-function scoreCohort(plugins, stats, now) {
+function scoreCohort(plugins, stats, now, methodology) {
   const raw = new Map();
   for (const plugin of plugins) {
     const engagement = stats[plugin.id] ?? {};
@@ -226,28 +221,28 @@ function scoreCohort(plugins, stats, now) {
 
   const percentiles = {};
   for (const metric of ["copies", "hearts", "stars", "views"]) {
-    percentiles[metric] = normalizedSignalMap(new Map([...raw].map(([id, metrics]) => [id, metrics[metric]])));
+    percentiles[metric] = normalizedSignalMap(new Map([...raw].map(([id, metrics]) => [id, metrics[metric]])), methodology);
   }
 
   return plugins
     .map((plugin) => {
       const metrics = raw.get(plugin.id);
-      const evidenceCount = metrics.copies + metrics.hearts + Math.min(metrics.views * 0.05, 50);
-      const reliability = evidenceCount / (evidenceCount + METHODOLOGY.priorStrength);
+      const evidence = evidenceCount(metrics, methodology);
+      const reliability = evidence / (evidence + methodology.priorStrength);
       const normalized = {};
       for (const metric of ["copies", "hearts", "stars", "views"]) {
         normalized[metric] = round(0.5 + reliability * (percentiles[metric].get(plugin.id) - 0.5));
       }
-      normalized.freshness = round(freshnessScore(plugin.repositoryUpdatedAt, now));
+      normalized.freshness = round(freshnessScore(plugin.repositoryUpdatedAt, now, methodology));
       normalized.verified = plugin.verificationStatus === "verified" ? 1 : 0;
 
       const contributions = {};
       let score = 0;
-      for (const [metric, weight] of Object.entries(METHODOLOGY.weights)) {
+      for (const [metric, weight] of Object.entries(methodology.weights)) {
         contributions[metric] = round(normalized[metric] * weight);
         score += contributions[metric];
       }
-      return publicCandidate(plugin, metrics, score, normalized, contributions, now);
+      return publicCandidate(plugin, metrics, score, normalized, contributions, now, methodology);
     })
     .sort(
       (a, b) =>
@@ -259,23 +254,23 @@ function scoreCohort(plugins, stats, now) {
     );
 }
 
-export function pickWithHysteresis(candidates, incumbentId, excludedIds = new Set()) {
+export function pickWithHysteresis(candidates, incumbentId, excludedIds = new Set(), methodology = METHODOLOGY) {
   const available = candidates.filter((candidate) => !excludedIds.has(candidate.id));
   const challenger = available[0] ?? null;
   const incumbent = available.find((candidate) => candidate.id === incumbentId);
   if (!incumbent || !challenger || incumbent.id === challenger.id) return challenger;
-  return challenger.score > incumbent.score * (1 + METHODOLOGY.hysteresis) ? challenger : incumbent;
+  return challenger.score > incumbent.score * (1 + methodology.hysteresis) ? challenger : incumbent;
 }
 
-export function explainPick(candidates, incumbentId, selected, excludedIds = new Set()) {
+export function explainPick(candidates, incumbentId, selected, excludedIds = new Set(), methodology = METHODOLOGY) {
   const available = candidates.filter((candidate) => !excludedIds.has(candidate.id));
   const incumbent = available.find((candidate) => candidate.id === incumbentId);
   const challenger = available[0];
-  const threshold = METHODOLOGY.hysteresis * 100;
+  const threshold = methodology.hysteresis * 100;
   if (!selected) return "No eligible candidates remain for this place.";
   if (!incumbent) return `${selected.name} (${selected.score}) is the highest-ranked available candidate; ${incumbentId ? "the previous pick is no longer available for this place" : "there was no previous pick"}.`;
   if (incumbent.id === challenger.id) return `${selected.name} (${selected.score}) remains highest-ranked${available.length === 1 ? " and is the only available candidate" : "; score ties use copies, hearts, stars, then ID"}.`;
-  const comparison = `${challenger.name} (${challenger.score}) versus incumbent ${incumbent.name} (${incumbent.score}); replacement requires a score strictly above ${incumbent.score * (1 + METHODOLOGY.hysteresis)} (+${threshold}%)`;
+  const comparison = `${challenger.name} (${challenger.score}) versus incumbent ${incumbent.name} (${incumbent.score}); replacement requires a score strictly above ${incumbent.score * (1 + methodology.hysteresis)} (+${threshold}%)`;
   return `${selected.id === incumbent.id ? "Incumbent retained" : "Challenger replaces incumbent"}: ${comparison}.`;
 }
 
@@ -288,7 +283,9 @@ export function isoWeek(date) {
   return `${target.getUTCFullYear()}-W${String(week).padStart(2, "0")}`;
 }
 
-export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = new Date(), source = null }) {
+// `methodology` defaults to the current rules; offline comparisons pass alternatives. `detail`
+// additionally returns every scored cohort for research reports; snapshots never contain it.
+export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = new Date(), source = null, methodology = METHODOLOGY, detail = false }) {
   assert(Array.isArray(catalog), "Catalog must be an array");
   assert(stats && typeof stats === "object" && !Array.isArray(stats), "Stats must be an object");
   assert(now instanceof Date && Number.isFinite(now.getTime()), "now must be a valid Date");
@@ -315,17 +312,20 @@ export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = n
 
   const previousByType = new Map((previous?.types ?? []).map((type) => [type.id, type]));
   const decisions = [];
+  const scoredCohorts = {};
   const types = prepared.types.map((type) => {
-    const candidates = scoreCohort(cohorts.get(type.id), stats, now);
+    const candidates = scoreCohort(cohorts.get(type.id), stats, now, methodology);
+    if (detail) scoredCohorts[type.id] = candidates;
     const prior = previousByType.get(type.id);
-    const winner = pickWithHysteresis(candidates, prior?.winner?.id);
+    const winner = pickWithHysteresis(candidates, prior?.winner?.id, new Set(), methodology);
     const winnerIds = new Set(winner ? [winner.id] : []);
-    const runnerUp = pickWithHysteresis(candidates, prior?.runnerUp?.id, winnerIds);
+    const runnerUp = pickWithHysteresis(candidates, prior?.runnerUp?.id, winnerIds, methodology);
     decisions.push({
+      typeId: type.id,
       typeName: type.name,
       eligibleCount: candidates.length,
-      champion: explainPick(candidates, prior?.winner?.id, winner),
-      runnerUp: explainPick(candidates, prior?.runnerUp?.id, runnerUp, winnerIds)
+      champion: explainPick(candidates, prior?.winner?.id, winner, new Set(), methodology),
+      runnerUp: explainPick(candidates, prior?.runnerUp?.id, runnerUp, winnerIds, methodology)
     });
     // Both slots are sticky; the raw-score leader may occupy neither place.
     const top = candidates[0];
@@ -342,9 +342,10 @@ export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = n
 
   return {
     decisions,
+    ...(detail ? { cohorts: scoredCohorts } : {}),
     rankings: {
       schemaVersion: 1,
-      methodologyVersion: METHODOLOGY.version,
+      methodologyVersion: methodology.version,
       site: "https://omapicks.com",
       week: isoWeek(now),
       generatedAt: now.toISOString(),

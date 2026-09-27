@@ -13,7 +13,9 @@ npm ci                # install build dependencies
 npm test              # unit and rendering tests
 npm run build         # offline render into dist/
 npm run refresh       # fetch public feeds and write a new weekly snapshot
+npm run refresh -- --republish # deliberately recalculate this week's existing snapshot
 npm run audit:classification # capture feeds and explain every classification
+npm run compare:methodology -- --input tmp/classification-audit/inputs.json # offline scoring comparison
 npm run check         # tests followed by a production render
 npx playwright install chromium
 npm run test:e2e       # browser interactions, mobile layouts, contrast
@@ -27,7 +29,13 @@ Plugins must be installable and point to an HTTPS repository. Only plugins match
 
 Copies, hearts, stars, and views are transformed with `log1p`. Each signal blends a 70% within-type percentile with a 30% scale capped at the cohort's 95th percentile, then is damped toward the cohort midpoint when evidence is sparse. Repository freshness uses a 180-day half-life; registry verification contributes a small bonus. An eligible incumbent remains champion or runner-up until a challenger scores more than 10% higher.
 
-The exact weights and tie-breaks live in `build/rank.mjs` and are published on the [methodology page](https://omapicks.com/methodology/) with each snapshot.
+The exact weights and tie-breaks live in `build/methodology.mjs` and are published on the [methodology page](https://omapicks.com/methodology/) with each snapshot.
+
+### Methodology versions
+
+Every snapshot records `methodologyVersion`. `build/methodology.mjs` keeps an immutable definition for each published version (weights, decay, evidence damping, eligibility and incumbent selection), and the site always explains the published snapshot with its own definition, so merged ranking changes cannot misdescribe the current week. Rendering fails on an unknown version. A new eligibility, scoring or selection rule needs a new version; it takes effect when the Monday refresh publishes the next snapshot. A methodology change alone does not lift the same-week freeze: run `npm run refresh -- --republish` (or dispatch the weekly workflow with *republish*) for a deliberate midweek publication. Republishing still validates the feeds and keeps the week's earlier changelog events; `--dry-run` never writes.
+
+Before a scoring proposal is activated, `npm run compare:methodology -- --input <inputs.json>` ranks one captured refresh input (the `tmp/classification-audit/inputs.json` written by every refresh and dry run) under the published rules, each proposal on its own and the combined result. It reports changed champions and runner-ups, raw-score leaders, score deltas and hysteresis decisions without network access or changes to published data.
 
 ## Data sources and attribution
 

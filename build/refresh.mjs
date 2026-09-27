@@ -1,8 +1,10 @@
+import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { access, appendFile, mkdir, readFile, readdir, rename, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { CLASSIFICATION_VERSION, METHODOLOGY, changesBetween, invertedRawScoreRaces, isoWeek, rankPlugins, runnerUpChangesBetween } from "./rank.mjs";
+import { LEGACY_METHODOLOGY_VERSION } from "./methodology.mjs";
 import { auditClassifications, renderClassificationAudit } from "./classification-audit.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -43,6 +45,18 @@ export async function fetchJson(url, { attempts = 3, timeoutMs = 15_000, fetchIm
 
 function checksum(value) {
   return createHash("sha256").update(JSON.stringify(value)).digest("hex");
+}
+
+// Identifies the code that produced replay inputs or research reports. Never used for ranking.
+export function codeRevision(root = ROOT) {
+  if (process.env.GITHUB_SHA) return process.env.GITHUB_SHA;
+  try {
+    const head = execFileSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim();
+    const dirty = execFileSync("git", ["status", "--porcelain", "--untracked-files=no"], { cwd: root, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim();
+    return dirty ? `${head}-dirty` : head;
+  } catch {
+    return null;
+  }
 }
 
 // Catalog state schema 2 added graded verification and upstream health fields. Older fixtures and
@@ -275,11 +289,40 @@ function formatValidation(source, previous, catalog, stats, report) {
     `${report.eligibleClassifiedCount} unique plugins classified; ${excluded} excluded; ${report.uniqueUnclassifiedCount} eligible but unclassified.`;
 }
 
+const SIGNAL_NAMES = Object.freeze({
+  copies: "copies",
+  hearts: "hearts",
+  stars: "stars",
+  views: "views",
+  freshness: "freshness",
+  verified: "verification",
+  installRateLowerBound: "copy/view lower bound"
+});
+
+function signalList(methodology) {
+  const names = Object.keys(methodology.weights).map((metric) => SIGNAL_NAMES[metric] ?? metric);
+  return names.length > 1 ? `${names.slice(0, -1).join(", ")} and ${names.at(-1)}` : names.join("");
+}
+
+function formatMethodology(result) {
+  const current = result.rankings?.methodologyVersion ?? METHODOLOGY.version;
+  const published = result.publishedMethodologyVersion;
+  if (!published || published === current) return `Methodology ${current}, unchanged from the published snapshot.`;
+  return `Methodology ${current} replaces published methodology ${published}.`;
+}
+
 export function formatRefreshLog(result, { dryRun = false } = {}) {
-  if (result.reason === "already-refreshed") return [
-    `OmaPicks ${result.week}: skipped recalculation because this week's snapshot already exists and the taxonomy is unchanged.`,
-    "Live feeds were not fetched or validated. This is the intentional weekly freeze, not a fresh finding of no leadership changes. Use --dry-run to check live candidates without publishing."
-  ];
+  if (result.reason === "already-refreshed") {
+    const published = result.publishedMethodologyVersion ?? LEGACY_METHODOLOGY_VERSION;
+    const pending = result.currentMethodologyVersion && result.currentMethodologyVersion !== published
+      ? ` Code now defines methodology ${result.currentMethodologyVersion}; it takes effect at the next weekly refresh, or earlier through a deliberate --republish.`
+      : "";
+    return [
+      `OmaPicks ${result.week}: skipped recalculation because this week's snapshot already exists and the taxonomy is unchanged.`,
+      "Live feeds were not fetched or validated. This is the intentional weekly freeze, not a fresh finding of no leadership changes. Use --dry-run to check live candidates without publishing.",
+      `The published snapshot keeps methodology ${published}.${pending}`
+    ];
+  }
   const changes = result.computedChanges ?? result.changes;
   const lines = [
     `OmaPicks ${result.week}: ranked ${result.rankings.types.length} app types; ` +
@@ -288,12 +331,19 @@ export function formatRefreshLog(result, { dryRun = false } = {}) {
   lines.push(dryRun
     ? "Dry run: live candidates calculated against the published snapshot; no snapshot files written."
     : "Weekly refresh: validated live feeds and wrote the snapshot; unchanged picks do not mean unchanged data.");
+  if (result.republished) {
+    lines.push(dryRun
+      ? "Republish requested: recalculated despite the weekly freeze, but this dry run still writes nothing."
+      : "Deliberate republish: recalculated this week's snapshot despite the weekly freeze; earlier events this week are retained.");
+  }
+  lines.push(formatMethodology(result));
   if (result.validation) lines.push(result.validation);
   const warningCodes = Object.entries(result.upstreamWarnings ?? {});
   if (warningCodes.length) {
     lines.push(`Upstream catalog warnings: ${warningCodes.map(([code, count]) => `${code} ${count}`).join("; ")}.`);
   }
-  lines.push(`Scores combine copies, hearts, stars, views, freshness and verification, with sparse engagement dampened. Both places retain eligible incumbents unless a challenger scores strictly more than ${METHODOLOGY.hysteresis * 100}% higher; runner-up selection excludes the champion.`);
+  const methodology = result.methodology ?? METHODOLOGY;
+  lines.push(`Scores combine ${signalList(methodology)}, with sparse engagement dampened. Both places retain eligible incumbents unless a challenger scores strictly more than ${methodology.hysteresis * 100}% higher; runner-up selection excludes the champion.`);
   if (!changes.length) lines.push("No champion identities changed: the per-type decisions below explain which incumbents still lead and which were retained by the stability rule.");
   for (const change of changes) lines.push(`  Champion ${change.typeName}: ${formatPickName(change.previous)} -> ${formatPickName(change.current)}`);
   if (result.changes.length !== changes.length) lines.push(`Weekly changelog retains ${result.changes.length} events, including earlier runs; this calculation has ${changes.length} champion changes.`);
@@ -305,7 +355,7 @@ export function formatRefreshLog(result, { dryRun = false } = {}) {
   const runnerUpChanges = result.runnerUpChanges ?? [];
   const invertedRaces = result.invertedRaces ?? [];
   const invertedClause = invertedRaces.length
-    ? `${plural(invertedRaces.length, "type")} where the raw-score leader is not champion (held by ${METHODOLOGY.hysteresis * 100}% hysteresis)`
+    ? `${plural(invertedRaces.length, "type")} where the raw-score leader is not champion (held by ${methodology.hysteresis * 100}% hysteresis)`
     : `${plural(0, "type")} where the raw-score leader is not champion`;
   lines.push(`${plural(runnerUpChanges.length, "runner-up change")}; ${invertedClause}.`);
 
@@ -343,12 +393,16 @@ async function removeStaleImages(rankings, root) {
   }
 }
 
+// `republish` deliberately recalculates a week that already has a snapshot (for example after a
+// methodology change). It still validates feeds and keeps the week's earlier changelog events.
 export async function refresh({
   now = new Date(),
   dryRun = false,
+  republish = false,
   minimumCatalogSize = 1_000,
   fetchImpl = fetch,
-  root = ROOT
+  root = ROOT,
+  revision = null
 } = {}) {
   const taxonomyFile = path.join(root, "data", "app-types.json");
   const rankingsFile = path.join(root, "data", "rankings.json");
@@ -356,8 +410,15 @@ export async function refresh({
   const taxonomy = await readJson(taxonomyFile);
   const taxonomySha = checksum(taxonomy);
   const week = isoWeek(now);
-  if (!dryRun && previous?.week === week && previous.source?.taxonomy?.sha256 === taxonomySha && previous.source?.taxonomy?.classificationVersion === CLASSIFICATION_VERSION) {
-    return { changed: false, week, reason: "already-refreshed" };
+  const publishedMethodologyVersion = previous?.week ? previous.methodologyVersion ?? LEGACY_METHODOLOGY_VERSION : null;
+  if (!dryRun && !republish && previous?.week === week && previous.source?.taxonomy?.sha256 === taxonomySha && previous.source?.taxonomy?.classificationVersion === CLASSIFICATION_VERSION) {
+    return {
+      changed: false,
+      week,
+      reason: "already-refreshed",
+      publishedMethodologyVersion,
+      currentMethodologyVersion: METHODOLOGY.version
+    };
   }
 
   const [catalogResult, statsResult] = await Promise.all([
@@ -408,12 +469,15 @@ export async function refresh({
   const changes = weekChangeLog(previous, week, existingHistory, computedChanges);
   const previousReport = await readJson(path.join(root, "data", "unclassified-report.json"), null);
   const previousState = await readJson(path.join(root, "data", "classification-state.json"), null);
-  const auditInputs = { schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, now: now.toISOString(), catalog: catalogResult, stats: statsResult, taxonomy, previous, previousState };
+  const auditInputs = { schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, codeRevision: revision, now: now.toISOString(), catalog: catalogResult, stats: statsResult, taxonomy, previous, previousState };
   const classificationAudit = auditClassifications({ catalog: catalogResult.body.plugins, stats: statsResult.body.plugins, taxonomy, previous, previousState, now });
   classificationAudit.inputsHash = checksum(auditInputs);
   const summary = {
     changed: true,
     week,
+    republished: republish && previous?.week === week,
+    methodology: METHODOLOGY,
+    publishedMethodologyVersion,
     rankings,
     report,
     changes,
@@ -455,8 +519,12 @@ export async function refresh({
 }
 
 async function main() {
-  const dryRun = process.argv.includes("--dry-run");
-  const result = await refresh({ dryRun });
+  const args = process.argv.slice(2);
+  const unknown = args.filter((arg) => !["--dry-run", "--republish"].includes(arg));
+  if (unknown.length) throw new Error(`Unknown option: ${unknown.join(" ")}`);
+  const dryRun = args.includes("--dry-run");
+  const republish = args.includes("--republish");
+  const result = await refresh({ dryRun, republish, revision: codeRevision() });
   const lines = formatRefreshLog(result, { dryRun });
   for (const line of lines) console.log(line);
   for (const warning of result.imageWarnings ?? []) console.warn(`Image warning: ${warning}`);

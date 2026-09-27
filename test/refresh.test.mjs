@@ -518,3 +518,64 @@ test("classification state publishes with refresh, dry runs are read-only, and c
   assert.equal(changed.rankings.types[0].winner, null);
   assert.deepEqual(JSON.parse(await readFile(stateFile, "utf8")).plugins[0].types, []);
 });
+
+test("a methodology-only change keeps the weekly freeze; --republish recalculates with validation and keeps weekly events", async (context) => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "omapicks-republish-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  await mkdir(path.join(root, "data"), { recursive: true });
+  const taxonomy = { schemaVersion: 1, types: [{ id: "weather", name: "Weather", description: "Forecasts", include: ["\\bweather\\b"] }] };
+  await writeFile(path.join(root, "data", "app-types.json"), JSON.stringify(taxonomy));
+  await writeFile(path.join(root, "data", "rankings.json"), JSON.stringify({ schemaVersion: 1, week: null, types: [] }));
+  const entry = (id, stars) => ({
+    id, name: id, description: "Weather forecast", installAvailable: true,
+    installCommand: `omarchy plugin add https://github.com/example/${id}.git`, repo: `https://github.com/example/${id}`,
+    repositoryUpdatedAt: "2026-08-31T00:00:00Z", stars
+  });
+  let catalog = { plugins: [entry("first", 10)] };
+  let stats = { schemaVersion: 1, plugins: { first: { views: 20, copies: 5, hearts: 2 } } };
+  let fetchCalls = 0;
+  const fetchImpl = async (url) => {
+    fetchCalls += 1;
+    return url.includes("/stats") ? jsonResponse(stats) : jsonResponse(catalog);
+  };
+  const options = { root, now: new Date("2026-09-01T09:00:00Z"), minimumCatalogSize: 1, fetchImpl };
+  const first = await refresh(options);
+  assert.equal(first.changes.length, 1);
+  assert.equal(first.republished, false);
+
+  // Simulate code that moved to a newer methodology after this week's snapshot was published.
+  const rankingsFile = path.join(root, "data", "rankings.json");
+  const published = JSON.parse(await readFile(rankingsFile, "utf8"));
+  published.methodologyVersion = "0.9.0";
+  await writeFile(rankingsFile, JSON.stringify(published));
+  const frozen = await refresh(options);
+  assert.equal(frozen.changed, false);
+  assert.equal(fetchCalls, 2);
+  const frozenLog = formatRefreshLog(frozen).join("\n");
+  assert.match(frozenLog, /keeps methodology 0\.9\.0/);
+  assert.match(frozenLog, /Code now defines methodology 1\.\d+\.\d+; it takes effect at the next weekly refresh, or earlier through a deliberate --republish/);
+
+  // Republishing still validates: a broken stats feed cannot replace the snapshot.
+  stats = { schemaVersion: 1, plugins: {} };
+  await assert.rejects(refresh({ ...options, republish: true }), /Stats overlap/);
+  assert.equal(JSON.parse(await readFile(rankingsFile, "utf8")).methodologyVersion, "0.9.0");
+
+  // A dry run combined with republish calculates but never writes.
+  stats = { schemaVersion: 1, plugins: { first: { views: 20, copies: 5, hearts: 2 }, second: { views: 900, copies: 400, hearts: 90 } } };
+  catalog = { plugins: [entry("first", 10), entry("second", 500)] };
+  const dry = await refresh({ ...options, dryRun: true, republish: true });
+  assert.equal(dry.rankings.types[0].winner.id, "second");
+  assert.match(formatRefreshLog(dry, { dryRun: true }).join("\n"), /this dry run still writes nothing/);
+  assert.equal(JSON.parse(await readFile(rankingsFile, "utf8")).methodologyVersion, "0.9.0");
+
+  const republished = await refresh({ ...options, republish: true });
+  assert.equal(republished.changed, true);
+  assert.equal(republished.republished, true);
+  assert.equal(republished.rankings.types[0].winner.id, "second");
+  const log = formatRefreshLog(republished).join("\n");
+  assert.match(log, /Deliberate republish/);
+  assert.match(log, /Methodology 1\.\d+\.\d+ replaces published methodology 0\.9\.0/);
+  const history = JSON.parse(await readFile(path.join(root, "data", "history", "2026-W36.json"), "utf8"));
+  assert.deepEqual(history.changes.map((change) => change.kind), ["new-champion", "displaced"]);
+  assert.equal(JSON.parse(await readFile(rankingsFile, "utf8")).methodologyVersion, republished.rankings.methodologyVersion);
+});
