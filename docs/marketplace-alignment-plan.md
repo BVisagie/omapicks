@@ -4,7 +4,7 @@ Status: proposed, not started. Written 2026-09-27 against catalog `generatedAt` 
 
 Revised after cross-checking PR head `6703e917`, the ranking/refresh/render code, the live feeds and marketplace commit `fec33e6b14b3ab01e2c31faf36ea8e083965c82e`. Implementation has not started. Decisions from review: exclude unreachable plugins immediately; make published explanations snapshot-versioned before changing ranking behaviour; treat verification credit, install-rate weights and the freshness bonus as proposals that require a fixed-input comparison before activation.
 
-This document is an implementation plan for an LLM or a human contributor. It records what changed upstream, what OmaPicks currently gets wrong because of it, and an ordered set of work packages with file-level instructions, tests and acceptance criteria. Complete the packages in order; each is independently shippable and each later package assumes the earlier ones are merged.
+This document is an implementation plan for an LLM or a human contributor. It records what changed upstream, what OmaPicks currently gets wrong because of it, and an ordered set of work packages with file-level instructions, tests and acceptance criteria. Complete the packages in order; each is independently shippable and each later package assumes the earlier ones are merged. The one exception is Package 1, which touches only feed validation and logging and may ship before Package 0.
 
 ## 1. Background
 
@@ -95,7 +95,7 @@ Changes:
 1. Preserve an immutable methodology definition for existing `1.0.0` snapshots, including weights, decay, evidence damping, eligibility and incumbent-selection rules. Add a resolver keyed by `rankings.methodologyVersion`; future definitions are added without changing old ones. Snapshot metadata may embed the definition as well, but older snapshots must resolve correctly without new fields. Unknown versions fail the build clearly rather than silently using current constants.
 2. Route the methodology page, home-page explanation, comparison explanations and any fallback contribution calculations through the saved snapshot's definition. Current scoring still uses the current methodology. Fresh calculation logs identify the methodology used; skipped-refresh logs explain that the published version is unchanged. Update `formatRefreshLog`'s hard-coded signal list when new signals are activated.
 3. Add an explicit `refresh({ republish: false })` / CLI `--republish` bypass of the same-week freeze. It must run normal feed validation and preserve the existing same-week changelog behaviour. `--dry-run` remains read-only even when combined with `--republish`; neither option bypasses validation. Do not change the scheduled workflow to republish automatically on a methodology-only change.
-4. Before activating Packages 3, 4 or 5, capture one catalog, stats feed, taxonomy, previous snapshot, analysis time and code revisions, with hashes. Run an offline comparison against these identical inputs. Report changed champions and runner-ups, raw-score leaders, score/contribution deltas and hysteresis decisions. Compare each proposed scoring change alone against its immediate baseline and then the combined result; never compare separately fetched live feeds or different clocks. Reports are research artifacts, not new weekly snapshots.
+4. Before activating Packages 3, 4 or 5, capture one catalog, stats feed, taxonomy, previous snapshot, analysis time and code revisions, with hashes. Reuse the existing capture rather than inventing a second format: every refresh and dry run already writes `tmp/classification-audit/inputs.json` (`auditInputs` in `build/refresh.mjs`: catalog and stats responses with headers, taxonomy, previous snapshot, previous classification state and `now`), and `scripts/classification-audit.mjs` already replays it through `--input`. Give the comparison command the same `--input` contract, add the code revision and methodology identifiers to its report, and extend the capture only if a comparison needs a field the audit inputs lack. Run the offline comparison against these identical inputs. Report changed champions and runner-ups, raw-score leaders, score/contribution deltas and hysteresis decisions. Compare each proposed scoring change alone against its immediate baseline and then the combined result; never compare separately fetched live feeds or different clocks. Reports are research artifacts, not new weekly snapshots.
 5. Compare the proposed `update-unverified` credit of `0.6` with `0` and `1`, the install-rate weight of `0.05` with the existing zero weight, and the proposed freshness bonus with existing push-only freshness. Include sparse cohorts, 19/20-view boundary cases and bonus saturation. Record the chosen parameters and rationale in the implementing PR before merge. Upstream supplies field semantics and a Wilson formula; it does not establish OmaPicks' weights as optimal.
 
 Tests:
@@ -304,14 +304,15 @@ Only if time permits. Each is small and independent.
 
 ## 4. Suggested PR split
 
-1. PR A: Package 0 (versioned publication, deliberate republish and offline scoring comparison) plus Package 1 (feed validation). No ranking-policy change yet.
-2. PR B: Package 2 (immediate health exclusion), with a mandatory methodology bump even though weights are unchanged.
-3. PR C: Package 3 (verification), including its fixed-input comparison and chosen credit, with one methodology bump.
-4. PR D: Package 4 (copy/view signal), including its isolated comparison and chosen weight, with one methodology bump if adopted.
-5. PR E: Package 5 (release metadata and evaluated freshness proposal), including an isolated and cumulative comparison. Bump methodology only if freshness scoring changes; metadata-only delivery is valid.
-6. PR F: Package 6 (built-ins, listing age).
-7. PR G: Package 7 (retirement).
-8. PR H: Package 8 (discovery research).
+1. PR A: Package 1 (feed validation). Small, no ranking-policy change, safe to merge first.
+2. PR B: Package 0 (versioned publication, deliberate republish and offline scoring comparison). This is the largest package and should be reviewed on its own. No ranking-policy change yet.
+3. PR C: Package 2 (immediate health exclusion), with a mandatory methodology bump even though weights are unchanged. Requires PR B.
+4. PR D: Package 3 (verification), including its fixed-input comparison and chosen credit, with one methodology bump.
+5. PR E: Package 4 (copy/view signal), including its isolated comparison and chosen weight, with one methodology bump if adopted.
+6. PR F: Package 5 (release metadata and evaluated freshness proposal), including an isolated and cumulative comparison. Bump methodology only if freshness scoring changes; metadata-only delivery is valid.
+7. PR G: Package 6 (built-ins, listing age).
+8. PR H: Package 7 (retirement).
+9. PR I: Package 8 (discovery research).
 
 Each implementation PR: run `npm run check` on the pinned Node runtime, and `npx playwright test` when rendered HTML changes. Update README and the corresponding versioned explanation in the same PR as the behaviour. Keep public wording about the currently published snapshot accurate until the next refresh. Do not combine verification, copy/view and freshness changes in one unanalysed score adjustment.
 
