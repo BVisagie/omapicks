@@ -1307,3 +1307,34 @@ test("pick changes explain retirement, delisting and exclusions, but not score r
   assert.equal(removalSentence({ reason: "retired", previous: { name: "Old" } }), "Old was retired by the marketplace.");
   assert.equal(removalSentence({ reason: "unknown", previous: { name: "Old" } }), "");
 });
+
+test("repositories shared by several eligible plugins are reported", () => {
+  const catalog = [
+    plugin("one", { repo: "https://github.com/example/Monorepo" }),
+    plugin("two", { repo: "https://github.com/example/monorepo.git" }),
+    plugin("three", { repo: "https://github.com/example/monorepo/", description: "Unrelated" }),
+    plugin("solo"),
+    plugin("offline", { repo: "https://github.com/example/monorepo", installAvailable: false })
+  ];
+  const { report } = rankPlugins({ catalog, stats: {}, taxonomy, now: new Date("2026-09-28T06:17:00Z") });
+  assert.deepEqual(report.sharedRepositories, [{ repository: "https://github.com/example/monorepo", pluginIds: ["one", "three", "two"] }]);
+});
+
+// Marketplace VPN identity terms (site/assets/js/taxonomy.js at fec33e6b). The expected gaps are an
+// editorial record, not a target: update them deliberately when the VPN rules change.
+test("marketplace VPN provider names are checked against the VPN task rules", async (context) => {
+  const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
+  const prepared = prepareTaxonomy(source);
+  const providers = {
+    airvpn: "AirVPN", eduvpn: "eduVPN", expressvpn: "ExpressVPN", fortivpn: "FortiVPN", ivpn: "IVPN", mullvad: "Mullvad",
+    multivpn: "MultiVPN", netbird: "NetBird", nordvpn: "NordVPN", nymvpn: "NymVPN", openvpn: "OpenVPN", protonvpn: "ProtonVPN",
+    surfshark: "Surfshark", tailscale: "Tailscale", twingate: "Twingate", windscribe: "Windscribe", wireguard: "WireGuard", zerotier: "ZeroTier"
+  };
+  const missing = Object.entries(providers)
+    .filter(([id, name]) => !classifyPlugin(plugin(id, { name, description: `Connect and disconnect ${name} from the bar` }), prepared).includes("vpn"))
+    .map(([id]) => id);
+  context.diagnostic(`VPN provider names without a VPN match: ${missing.join(", ") || "none"}`);
+  assert.deepEqual(missing, ["netbird", "surfshark", "twingate", "zerotier"]);
+  // Tailscale device discovery is not a VPN control (docs/classification.md).
+  assert.ok(!classifyPlugin(plugin("peers", { name: "Tailscale Peers", description: "Discover reachable Tailscale devices on your tailnet" }), prepared).includes("vpn"));
+});

@@ -423,6 +423,7 @@ export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = n
   const excluded = {};
   const exclusions = new Map();
   const typeIdsById = new Map();
+  const repositories = new Map();
   const builtInsById = new Map(catalog
     .filter((plugin) => plugin && typeof plugin.id === "string" && (plugin.sourceType === "builtin" || plugin.builtIn === true))
     .map((plugin) => [plugin.id, plugin]));
@@ -434,6 +435,9 @@ export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = n
       if (typeof plugin?.id === "string") exclusions.set(plugin.id, reason);
       continue;
     }
+    // Stars and push dates are repository-level, so plugins in one repository share them.
+    const repository = plugin.repo.toLowerCase().replace(/\.git$/, "").replace(/\/+$/, "");
+    repositories.set(repository, [...(repositories.get(repository) ?? []), plugin.id]);
     const typeIds = classifyPlugin(plugin, prepared);
     if (typeIds.length === 0) {
       unclassified.push({ id: plugin.id, name: String(plugin.name || plugin.id), category: plugin.category ?? null });
@@ -526,6 +530,10 @@ export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = n
       excluded,
       excludedIncumbents,
       builtInWarnings,
+      sharedRepositories: [...repositories]
+        .filter(([, ids]) => ids.length > 1)
+        .map(([repository, ids]) => ({ repository, pluginIds: [...ids].sort() }))
+        .sort((a, b) => a.repository.localeCompare(b.repository)),
       unclassified
     }
   };
