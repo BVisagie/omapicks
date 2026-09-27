@@ -1286,7 +1286,7 @@ button {
 /* Omarchy built-ins shown beside a category's ranking; never competitors. */
 .builtin-note {
   display: grid;
-  grid-template-columns: 10rem 1fr;
+  grid-template-columns: 10rem minmax(0, 1fr);
   gap: 1.5rem;
   margin: 0 0 2rem;
   padding: 1.1rem 0;
@@ -1307,6 +1307,7 @@ button {
 
 .builtin-note ul {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.9rem;
   margin: 0;
   padding: 0;
@@ -1763,9 +1764,14 @@ footer p a {
     text-align: left;
   }
 
-  .method-note,
-  .builtin-note {
+  .method-note {
     grid-template-columns: 1fr;
+    gap: 0.4rem;
+  }
+
+  /* minmax(0, …) lets the nowrap command shrink to an ellipsis instead of widening the page. */
+  .builtin-note {
+    grid-template-columns: minmax(0, 1fr);
     gap: 0.4rem;
   }
 

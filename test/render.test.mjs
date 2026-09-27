@@ -734,11 +734,15 @@ test("methodology 1.1.0 explains graded verification, copy/view scoring and defe
   assert.match(page, /Wilson interval/);
   assert.match(page, /fewer than 20 views are not rated/);
   assert.match(page, /nothing measures actual installations/);
-  assert.match(page, /do not change the score/);
+  assert.match(page, /Releases and version changes do not affect freshness/);
   assert.match(page, /could not reach its repository/);
   assert.match(page, /not bound to the commit the marketplace verified/);
+  // The published 1.0.0 explanation (lede through stability rule) describes none of the new rules.
   const legacy = renderFixtureMethodology(fixtureRankings());
-  assert.doesNotMatch(legacy, /Wilson|earns 60%|could not reach its repository/);
+  const explanation = legacy.slice(legacy.indexOf('class="page-lede"'), legacy.indexOf('id="data-sources"'));
+  assert.ok(explanation.length > 1000);
+  assert.doesNotMatch(explanation, /Wilson|copy-per-view|earns 60%|could not reach its repository|built-ins/);
+  assert.match(explanation, /A verified listing is a small bonus/);
 });
 
 test("category pages show built-ins and snapshot-relative listing age", () => {

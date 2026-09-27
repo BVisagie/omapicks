@@ -1,6 +1,15 @@
 # Marketplace alignment plan (catalog state schema 2)
 
-Status: proposed, not started. Written 2026-09-27 against catalog `generatedAt` 2026-09-27T00:37:45Z (4,250 listings, `stateSchemaVersion: 2`) and the marketplace repository at commit `fec33e6b`.
+Status: implemented on branch `claude/omapicks-pr-21-l3g4wh` (Packages 0–9), awaiting review. Written 2026-09-27 against catalog `generatedAt` 2026-09-27T00:37:45Z (4,250 listings, `stateSchemaVersion: 2`) and the marketplace repository at commit `fec33e6b`.
+
+Implementation notes:
+
+- All packages landed on one branch as separate commits, so the eligibility and scoring changes share a single methodology bump to `1.1.0` rather than one bump per PR. `1.0.0` stays immutable and still renders every existing snapshot.
+- Parameter decisions and the fixed-input comparison behind them are recorded in [`methodology-1.1.0.md`](methodology-1.1.0.md): `update-unverified` credit 0.6 and a 5% copy/view weight (views 8% → 3%) were adopted; the shipping freshness bonus was evaluated and deferred, so Package 5 ships metadata only.
+- Package 6: `omarchy.power` describes battery, power-profile and system stats, so it is listed under Battery rather than Power & Session, which has no built-in.
+- Package 7 adds one reason beyond the plan, `no-longer-in-category`, for a still-eligible pick that no longer matches the category.
+- Package 0 also gives the weekly workflow an opt-in `republish` dispatch input; scheduled runs and default dispatches keep the freeze.
+- Package 9: no eligible plugins currently share a repository, and NetBird, Surfshark, Twingate and ZeroTier are the marketplace VPN terms the VPN rules do not match; both are recorded for editorial follow-up.
 
 Revised after cross-checking PR head `6703e917`, the ranking/refresh/render code, the live feeds and marketplace commit `fec33e6b14b3ab01e2c31faf36ea8e083965c82e`. Implementation has not started. Decisions from review: exclude unreachable plugins immediately; make published explanations snapshot-versioned before changing ranking behaviour; treat verification credit, install-rate weights and the freshness bonus as proposals that require a fixed-input comparison before activation.
 
