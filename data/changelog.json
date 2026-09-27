@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "week": "2026-W39",
-  "generatedAt": "2026-09-21T12:33:38.452Z",
+  "generatedAt": "2026-09-27T07:50:17.036Z",
   "changes": [
     {
       "typeId": "brightness",
@@ -222,6 +222,48 @@
       "current": {
         "id": "io.github.r-witz.nothing-ear",
         "name": "Nothing Audio"
+      }
+    }
+  ],
+  "runnerUpChanges": [
+    {
+      "typeId": "music",
+      "typeName": "Music",
+      "kind": "displaced",
+      "previous": {
+        "id": "quickshell.ytmusic",
+        "name": "Omarchy YouTube Music"
+      },
+      "current": {
+        "id": "omaconnect",
+        "name": "OmaConnect"
+      },
+      "reason": "repository-unreachable"
+    },
+    {
+      "typeId": "clipboard",
+      "typeName": "Clipboard",
+      "kind": "displaced",
+      "previous": {
+        "id": "clipbasket.clipboard",
+        "name": "Clipbasket"
+      },
+      "current": {
+        "id": "io.github.maajix.spotlight",
+        "name": "Spotlight"
+      }
+    },
+    {
+      "typeId": "brightness",
+      "typeName": "Brightness",
+      "kind": "displaced",
+      "previous": {
+        "id": "angeeeld.omaltbar",
+        "name": "Omaltbar"
+      },
+      "current": {
+        "id": "io.github.maajix.spotlight",
+        "name": "Spotlight"
       }
     }
   ]
