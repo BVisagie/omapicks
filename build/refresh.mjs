@@ -45,8 +45,19 @@ function checksum(value) {
   return createHash("sha256").update(JSON.stringify(value)).digest("hex");
 }
 
+// Catalog state schema 2 added graded verification and upstream health fields. Older fixtures and
+// feeds carry no version; anything newer must be reviewed before it can silently change eligibility.
+const SUPPORTED_CATALOG_SCHEMAS = new Set([undefined, 2]);
+
 export function validateFeeds(catalogFeed, statsFeed, minimumCatalogSize, previous = null) {
   if (!catalogFeed || !Array.isArray(catalogFeed.plugins)) throw new Error("Catalog feed is missing plugins[]");
+  if (!SUPPORTED_CATALOG_SCHEMAS.has(catalogFeed.stateSchemaVersion)) {
+    throw new Error(`Unsupported catalog stateSchemaVersion: ${JSON.stringify(catalogFeed.stateSchemaVersion)}`);
+  }
+  if (catalogFeed.warnings !== undefined &&
+      (!Array.isArray(catalogFeed.warnings) || catalogFeed.warnings.some((warning) => typeof warning !== "string"))) {
+    throw new Error("Catalog warnings must be an array of strings");
+  }
   if (catalogFeed.plugins.length < minimumCatalogSize) {
     throw new Error(`Catalog contains ${catalogFeed.plugins.length} plugins; expected at least ${minimumCatalogSize}`);
   }
@@ -231,15 +242,36 @@ function plural(count, singular, pluralForm = `${singular}s`) {
   return `${count} ${count === 1 ? singular : pluralForm}`;
 }
 
+// Upstream writes "<repository>: <code>"; repository URLs never contain ": ".
+export function upstreamWarningCodes(warnings = []) {
+  const codes = {};
+  for (const warning of warnings) {
+    const separator = warning.lastIndexOf(": ");
+    const code = separator >= 0 ? warning.slice(separator + 2).trim() : "unspecified";
+    codes[code || "unspecified"] = (codes[code || "unspecified"] ?? 0) + 1;
+  }
+  return Object.fromEntries(Object.entries(codes).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])));
+}
+
+function formatCatalogShape(catalog) {
+  const schema = catalog.stateSchemaVersion == null ? "unversioned" : catalog.stateSchemaVersion;
+  return `Catalog schema ${schema}; ${plural(catalog.warningCount ?? 0, "upstream warning")}; ` +
+    `${plural(catalog.builtInCount ?? 0, "built-in listing")} excluded.`;
+}
+
 function formatValidation(source, previous, catalog, stats, report) {
   const contentChange = (feed) => {
     const prior = previous?.source?.[feed]?.sha256;
     return prior ? (prior === source[feed].sha256 ? "unchanged" : "changed") : "has no prior checksum";
   };
   const overlap = catalog.filter((plugin) => Object.hasOwn(stats, plugin.id)).length;
+  const catalogIds = new Set(catalog.map((plugin) => plugin.id));
+  // Stats for retired listings linger upstream; a jump in orphans suggests the feeds have diverged.
+  const orphans = Object.keys(stats).filter((id) => !catalogIds.has(id)).length;
   const excluded = Object.values(report.excluded).reduce((total, count) => total + count, 0);
-  return `Live feeds passed validation: ${source.catalog.count} catalog plugins; ${source.stats.count} stats entries; ${overlap} catalog IDs have stats. ` +
+  return `Live feeds passed validation: ${source.catalog.count} catalog plugins; ${source.stats.count} stats entries; ${overlap} catalog IDs have stats; ${plural(orphans, "stats ID")} absent from the catalog. ` +
     `Catalog content ${contentChange("catalog")}; stats content ${contentChange("stats")}. ` +
+    `${formatCatalogShape(source.catalog)} ` +
     `${report.eligibleClassifiedCount} unique plugins classified; ${excluded} excluded; ${report.uniqueUnclassifiedCount} eligible but unclassified.`;
 }
 
@@ -257,6 +289,10 @@ export function formatRefreshLog(result, { dryRun = false } = {}) {
     ? "Dry run: live candidates calculated against the published snapshot; no snapshot files written."
     : "Weekly refresh: validated live feeds and wrote the snapshot; unchanged picks do not mean unchanged data.");
   if (result.validation) lines.push(result.validation);
+  const warningCodes = Object.entries(result.upstreamWarnings ?? {});
+  if (warningCodes.length) {
+    lines.push(`Upstream catalog warnings: ${warningCodes.map(([code, count]) => `${code} ${count}`).join("; ")}.`);
+  }
   lines.push(`Scores combine copies, hearts, stars, views, freshness and verification, with sparse engagement dampened. Both places retain eligible incumbents unless a challenger scores strictly more than ${METHODOLOGY.hysteresis * 100}% higher; runner-up selection excludes the champion.`);
   if (!changes.length) lines.push("No champion identities changed: the per-type decisions below explain which incumbents still lead and which were retained by the stability rule.");
   for (const change of changes) lines.push(`  Champion ${change.typeName}: ${formatPickName(change.previous)} -> ${formatPickName(change.current)}`);
@@ -337,7 +373,11 @@ export async function refresh({
       etag: catalogResult.etag,
       lastModified: catalogResult.lastModified,
       sha256: checksum(catalogResult.body),
-      count: catalogResult.body.plugins.length
+      count: catalogResult.body.plugins.length,
+      stateSchemaVersion: catalogResult.body.stateSchemaVersion ?? null,
+      mode: typeof catalogResult.body.mode === "string" ? catalogResult.body.mode : null,
+      warningCount: catalogResult.body.warnings?.length ?? 0,
+      builtInCount: catalogResult.body.plugins.filter((plugin) => plugin.sourceType === "builtin").length
     },
     stats: {
       url: STATS_URL,
@@ -382,6 +422,7 @@ export async function refresh({
     classificationAudit,
     auditInputs,
     validation: formatValidation(source, previous, catalogResult.body.plugins, statsResult.body.plugins, report),
+    upstreamWarnings: upstreamWarningCodes(catalogResult.body.warnings),
     runnerUpChanges: runnerUpChangesBetween(previous, rankings),
     invertedRaces: invertedRawScoreRaces(rankings),
     deltas: {

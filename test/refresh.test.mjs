@@ -3,7 +3,7 @@ import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { fetchJson, formatRefreshLog, refresh, validateFeeds } from "../build/refresh.mjs";
+import { fetchJson, formatRefreshLog, refresh, upstreamWarningCodes, validateFeeds } from "../build/refresh.mjs";
 
 function jsonResponse(value, status = 200) {
   return new Response(JSON.stringify(value), {
@@ -23,6 +23,28 @@ test("feed validation rejects suspicious truncation, duplicates, and malformed s
     () => validateFeeds({ plugins: [plugin] }, { schemaVersion: 1, plugins: { example: { views: -1, copies: 0, hearts: 0 } } }, 1),
     /non-negative/
   );
+});
+
+test("feed validation accepts catalog state schema 2 and rejects unknown shapes", () => {
+  const stats = { schemaVersion: 1, plugins: { example: { views: 1, copies: 0, hearts: 0 } } };
+  const catalog = (values) => ({ plugins: [{ id: "example" }], ...values });
+  assert.doesNotThrow(() => validateFeeds(catalog({}), stats, 1));
+  assert.doesNotThrow(() => validateFeeds(catalog({ stateSchemaVersion: 2, warnings: [] }), stats, 1));
+  assert.doesNotThrow(() => validateFeeds(catalog({ stateSchemaVersion: 2, warnings: ["https://github.com/a/b: repository-unreachable"] }), stats, 1));
+  assert.throws(() => validateFeeds(catalog({ stateSchemaVersion: 3 }), stats, 1), /stateSchemaVersion: 3/);
+  assert.throws(() => validateFeeds(catalog({ stateSchemaVersion: "2" }), stats, 1), /stateSchemaVersion: "2"/);
+  assert.throws(() => validateFeeds(catalog({ warnings: "repository-unreachable" }), stats, 1), /warnings must be an array/);
+  assert.throws(() => validateFeeds(catalog({ warnings: [{ code: "x" }] }), stats, 1), /warnings must be an array/);
+});
+
+test("upstream warning codes are counted by the text after the last separator", () => {
+  assert.deepEqual(upstreamWarningCodes([
+    "https://github.com/a/one: repository-unreachable",
+    "https://github.com/a/two: manifest-invalid",
+    "https://github.com/a/three: repository-unreachable",
+    "no separator"
+  ]), { "repository-unreachable": 2, "manifest-invalid": 1, unspecified: 1 });
+  assert.deepEqual(upstreamWarningCodes(undefined), {});
 });
 
 test("fetchJson retries transient responses and preserves response metadata", async () => {
@@ -322,7 +344,25 @@ test("dry-run reports catalog deltas and runner-up changes without writing snaps
 
   const catalog = {
     generatedAt: "2026-09-10T00:00:00Z",
+    stateSchemaVersion: 2,
+    mode: "production",
+    warnings: [
+      "https://github.com/example/gone: repository-unreachable",
+      "https://github.com/example/broken: manifest-invalid",
+      "https://github.com/example/other: repository-unreachable"
+    ],
     plugins: [
+      {
+        id: "omarchy.weather",
+        name: "Weather",
+        description: "Weather forecast",
+        repo: "https://github.com/omacom/omarchy",
+        sourceType: "builtin",
+        builtIn: true,
+        installCommand: "",
+        officialCommand: "omarchy bar plugin add omarchy.weather",
+        status: "Built in"
+      },
       {
         id: "champ",
         name: "Champ",
@@ -363,7 +403,8 @@ test("dry-run reports catalog deltas and runner-up changes without writing snaps
     plugins: {
       champ: { views: 50, copies: 20, hearts: 5 },
       challenger: { views: 40, copies: 10, hearts: 2 },
-      notes: { views: 3, copies: 1, hearts: 0 }
+      notes: { views: 3, copies: 1, hearts: 0 },
+      "retired.plugin": { views: 3, copies: 1, hearts: 0 }
     }
   };
   const fetchImpl = async (url) => (url.includes("/stats") ? jsonResponse(stats) : jsonResponse(catalog));
@@ -385,8 +426,12 @@ test("dry-run reports catalog deltas and runner-up changes without writing snaps
     [{ typeId: "weather", from: "old-runner", to: "challenger" }]
   );
   assert.equal(result.deltas.catalog.previous, 2);
-  assert.equal(result.deltas.catalog.current, 3);
-  assert.equal(result.deltas.catalog.delta, 1);
+  assert.equal(result.deltas.catalog.current, 4);
+  assert.equal(result.deltas.catalog.delta, 2);
+  assert.deepEqual(
+    (({ stateSchemaVersion, mode, warningCount, builtInCount }) => ({ stateSchemaVersion, mode, warningCount, builtInCount }))(result.rankings.source.catalog),
+    { stateSchemaVersion: 2, mode: "production", warningCount: 3, builtInCount: 1 }
+  );
   assert.equal(result.deltas.unclassified.previous, 4);
   assert.equal(result.deltas.unclassified.current, 1);
   assert.equal(result.deltas.unclassified.delta, -3);
@@ -397,7 +442,10 @@ test("dry-run reports catalog deltas and runner-up changes without writing snaps
 
   const lines = formatRefreshLog(result, { dryRun: true });
   assert.match(lines[0], /0 champion changes; 1 unclassified/);
-  assert.match(lines.join("\n"), /Catalog 3 \(was 2, \+1\); unclassified 1 \(was 4, -3\)/);
+  assert.match(lines.join("\n"), /Catalog 4 \(was 2, \+2\); unclassified 1 \(was 4, -3\)/);
+  assert.match(lines.join("\n"), /Catalog schema 2; 3 upstream warnings; 1 built-in listing excluded\./);
+  assert.match(lines.join("\n"), /1 stats ID absent from the catalog/);
+  assert.match(lines.join("\n"), /Upstream catalog warnings: repository-unreachable 2; manifest-invalid 1\./);
   assert.match(lines.join("\n"), /1 runner-up change/);
   assert.match(lines.join("\n"), /Runner-up Weather: Old Runner -> Challenger/);
 });
