@@ -578,11 +578,41 @@ function byline(candidate) {
     .join(" · ");
 }
 
+// Relative to the snapshot, not the build, so rebuilds and archived weeks stay reproducible.
+function listingAge(candidate, generatedAt) {
+  const listed = Date.parse(candidate?.listedAt);
+  const snapshot = Date.parse(generatedAt);
+  if (!Number.isFinite(listed) || !Number.isFinite(snapshot) || listed > snapshot) return "";
+  const days = Math.floor((snapshot - listed) / 86_400_000);
+  if (days >= 60) return "";
+  const age = days === 0 ? "less than a day" : `${days} ${days === 1 ? "day" : "days"}`;
+  return `<p class="listing-age">Listed ${age} before this snapshot</p>`;
+}
+
+function builtInNote(type) {
+  const builtIns = (type.builtIns ?? []).filter((entry) => entry?.id);
+  if (!builtIns.length) return "";
+  return `<aside class="builtin-note" aria-labelledby="builtin-heading">
+      <h2 id="builtin-heading">Included with Omarchy</h2>
+      <div>
+        <p>Built into Omarchy Quattro; not ranked. Try ${builtIns.length === 1 ? "it" : "them"} before installing a plugin.</p>
+        <ul>${builtIns.map((entry) => `<li>
+          <strong>${entry.sourceUrl ? outboundLink(entry.sourceUrl, escapeHtml(entry.name)) : escapeHtml(entry.name)}</strong>
+          ${entry.description ? `<p>${escapeHtml(entry.description)}</p>` : ""}
+          ${entry.officialCommand ? `<div class="command-row">
+            <code>${escapeHtml(entry.officialCommand)}</code>
+            <button type="button" data-copy-command data-copy-label="Omarchy command">Copy</button>
+          </div>` : ""}
+        </li>`).join("")}</ul>
+      </div>
+    </aside>`;
+}
+
 function previewFrame(candidate) {
   return `<div class="preview-frame">${mediaImage(candidate)}</div>`;
 }
 
-function candidateCard(candidate, place, type, week, { runnerUp = null, topScorer = null, method = METHODOLOGY } = {}) {
+function candidateCard(candidate, place, type, week, { runnerUp = null, topScorer = null, method = METHODOLOGY, generatedAt = null } = {}) {
   if (!candidate) return `<article class="pick-card empty"><p>No eligible plugin this week.</p></article>`;
   const badgePath = `/badges/${encodeURIComponent(week)}/${encodeURIComponent(type.id)}/${encodeURIComponent(candidate.id)}.svg`;
   const rank = place === "winner" ? "01 Champion" : "02 Runner-up";
@@ -595,6 +625,7 @@ function candidateCard(candidate, place, type, week, { runnerUp = null, topScore
     <div class="card-body">
       <h3>${outboundLink(candidate.detailUrl, escapeHtml(candidate.name))}</h3>
       <p class="byline">${byline(candidate)}</p>
+      ${listingAge(candidate, generatedAt)}
       ${reason ? `<p class="why-won">${escapeHtml(reason)}</p>` : ""}
       <p>${escapeHtml(candidate.description)}</p>
       <div class="command-row">
@@ -744,6 +775,23 @@ function starterCollections(rankings) {
   </section>`;
 }
 
+function newListingsNote(rankings) {
+  const listings = rankings.newListings;
+  const interval = rankings.newListingsInterval;
+  if (!Array.isArray(listings) || !interval) return "";
+  const since = dateLabel(interval.since);
+  const until = dateLabel(interval.until);
+  if (!since || !until) return "";
+  const known = new Map((rankings.types ?? []).map((type) => [type.id, type]));
+  const shown = listings.slice(0, 5).map((listing) => {
+    const type = known.get(listing.typeIds?.[0]);
+    return type ? `<li><a href="/picks/${encodeURIComponent(type.id)}/">${escapeHtml(listing.name)}</a> (${escapeHtml(type.name)})</li>` : `<li>${escapeHtml(listing.name)}</li>`;
+  });
+  return `<p class="new-listings">New listings in ranked categories since the previous snapshot: <strong>${listings.length.toLocaleString("en-US")}</strong>
+      (<time datetime="${escapeHtml(interval.since)}">${escapeHtml(since)}</time> to <time datetime="${escapeHtml(interval.until)}">${escapeHtml(until)}</time>).</p>
+      ${shown.length ? `<ul>${shown.join("")}</ul>` : ""}`;
+}
+
 function weeklySummary(rankings, history) {
   const previous = history.filter((snapshot) => snapshot.week < rankings.week)
     .sort((a, b) => b.week.localeCompare(a.week))[0];
@@ -758,6 +806,7 @@ function weeklySummary(rankings, history) {
     <div><p class="kicker">${escapeHtml(rankings.week ?? "Latest snapshot")}</p>
       <h2 id="weekly-summary-heading">What changed this week</h2><p>${summary}</p></div>
     <div>${count ? `<ul>${changes.slice(0, 3).map((change) => `<li><a href="/picks/${encodeURIComponent(change.typeId)}/">${escapeHtml(change.typeName)}</a>: ${change.current ? `${escapeHtml(change.current.name)} ${change.previous ? `replaces ${escapeHtml(change.previous.name)}` : "is the first champion"}` : "the champion spot is vacant"}.</li>`).join("")}</ul>` : ""}
+      ${newListingsNote(rankings)}
       <p><a href="/changelog/">See all weekly changes</a> · <a href="/feed/">Subscribe with RSS</a></p></div>
   </section>`;
 }
@@ -880,9 +929,10 @@ function typePage(type, rankings) {
         }
       </div>
     </section>
+    ${builtInNote(type)}
     <div class="podium">
-      ${candidateCard(type.winner, "winner", type, rankings.week, { runnerUp: type.runnerUp, topScorer: type.topScorer, method })}
-      ${candidateCard(type.runnerUp, "runner-up", type, rankings.week, { method })}
+      ${candidateCard(type.winner, "winner", type, rankings.week, { runnerUp: type.runnerUp, topScorer: type.topScorer, method, generatedAt: rankings.generatedAt })}
+      ${candidateCard(type.runnerUp, "runner-up", type, rankings.week, { method, generatedAt: rankings.generatedAt })}
     </div>
     ${scoreComparison(type, method)}
     <aside class="method-note">
@@ -936,6 +986,7 @@ function methodologyPage(rankings) {
       <li><strong><a href="https://plugins.omarchy.org/catalog.json">Plugin catalog</a></strong> — names, descriptions, authors, repositories, licenses, GitHub stars, maintenance dates, verification status, install availability, and preview locations.</li>
       <li><strong><a href="https://api.omarchyplugins.com/v1/stats">Engagement statistics</a></strong> — install-command copies, hearts, and views by plugin ID.</li>
       <li><strong><a href="https://plugins.omarchy.org/?sort=copies">Browsable marketplace</a></strong> — the human-readable original listings behind the catalog data.</li>
+      <li><strong><a href="https://github.com/omacom/omarchy">Omarchy</a></strong> — the built-in plugins named beside some categories, as listed in the catalog with their official commands. Built-ins are shown for context and never ranked.</li>
     </ul>
     <p>The feeds are fetched once during the weekly refresh; visitors never call them. Source timestamps, response metadata, SHA-256 checksums, metric contributions, and methodology version are included in the published <a href="/rankings.json">ranking snapshot</a>. Preview images remain attributable to their plugin authors and source marketplace. A failed or suspiciously small feed cannot replace the previous week.</p>
     <h2 id="safety">Safety and responsibility</h2>

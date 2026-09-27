@@ -739,3 +739,31 @@ test("methodology 1.1.0 explains graded verification, copy/view scoring and defe
   const legacy = renderFixtureMethodology(fixtureRankings());
   assert.doesNotMatch(legacy, /Wilson|earns 60%|could not reach its repository/);
 });
+
+test("category pages show built-ins and snapshot-relative listing age", () => {
+  const rankings = fixtureRankings(fixtureCandidate({ listedAt: "2026-08-20T09:00:00Z" }));
+  rankings.types[0].builtIns = [{ id: "omarchy.weather", name: "Weather", description: "Weather pill <b>", officialCommand: "omarchy bar plugin add omarchy.weather", sourceUrl: "https://github.com/omacom/omarchy/tree/main" }];
+  const html = renderFixtureType(rankings.types[0], rankings);
+  assert.match(html, /<h2 id="builtin-heading">Included with Omarchy<\/h2>/);
+  assert.match(html, /Built into Omarchy Quattro; not ranked\./);
+  assert.match(html, /<code>omarchy bar plugin add omarchy\.weather<\/code>/);
+  assert.match(html, /Weather pill &lt;b&gt;/);
+  assert.ok(html.indexOf("builtin-heading") < html.indexOf('class="podium"'));
+  assert.match(html, /Listed 12 days before this snapshot/);
+  const older = fixtureRankings(fixtureCandidate({ listedAt: "2026-06-01T00:00:00Z" }));
+  const plain = renderFixtureType(older.types[0], older);
+  assert.doesNotMatch(plain, /listing-age|Included with Omarchy/);
+  const sameDay = fixtureRankings(fixtureCandidate({ listedAt: "2026-09-01T01:00:00Z" }));
+  assert.match(renderFixtureType(sameDay.types[0], sameDay), /Listed less than a day before this snapshot/);
+});
+
+test("weekly highlights show new listings with their interval and omit the claim without a baseline", () => {
+  const rankings = fixtureRankings();
+  rankings.newListings = [{ id: "fresh", name: "Fresh <Plugin>", typeIds: ["weather"] }];
+  rankings.newListingsInterval = { since: "2026-08-25T06:17:00Z", until: "2026-09-01T09:00:00Z", baselineWeek: "2026-W35" };
+  const html = renderFixtureHome(rankings, [{ ...fixtureRankings(), week: "2026-W35" }]);
+  assert.match(html, /New listings in ranked categories since the previous snapshot: <strong>1<\/strong>/);
+  assert.match(html, /August 25, 2026<\/time> to <time datetime="2026-09-01T09:00:00Z">September 1, 2026/);
+  assert.match(html, /<a href="\/picks\/weather\/">Fresh &lt;Plugin&gt;<\/a> \(Weather\)/);
+  assert.doesNotMatch(renderFixtureHome(fixtureRankings()), /New listings in ranked categories/);
+});

@@ -1218,3 +1218,52 @@ test("pick explanations distinguish stable, held, replaced, unavailable and vaca
   assert.match(explainPick([old], "missing", old), /no longer available/);
   assert.match(explainPick([old], "old", null, new Set(["old"])), /No eligible candidates/);
 });
+
+test("taxonomy built-ins are validated, resolved from the catalog and never ranked", () => {
+  const withBuiltIns = { ...taxonomy, types: [{ ...taxonomy.types[0], builtIns: ["omarchy.weather", "omarchy.missing"] }, taxonomy.types[1]] };
+  assert.doesNotThrow(() => prepareTaxonomy(withBuiltIns));
+  for (const builtIns of [["omarchy.weather", 3], "omarchy.weather", [""]]) {
+    assert.throws(() => prepareTaxonomy({ ...taxonomy, types: [{ ...taxonomy.types[0], builtIns }] }), /builtIns must be an array of plugin IDs/);
+  }
+  const catalog = [builtIn, plugin("community")];
+  const { rankings, report } = rankPlugins({ catalog, stats: {}, taxonomy: withBuiltIns, now: new Date("2026-09-28T06:17:00Z") });
+  const weather = rankings.types.find((type) => type.id === "weather");
+  assert.deepEqual(weather.builtIns, [{
+    id: "omarchy.weather", name: "Weather", description: "Weather forecast",
+    officialCommand: "omarchy bar plugin add omarchy.weather", sourceUrl: null
+  }]);
+  assert.deepEqual(rankings.types.find((type) => type.id === "clock").builtIns, []);
+  assert.equal(weather.eligibleCount, 1);
+  assert.equal(weather.winner.id, "community");
+  assert.equal(report.excluded["built-in"], 1);
+  assert.ok(!report.unclassified.some((entry) => entry.id === "omarchy.weather"));
+  assert.deepEqual(report.builtInWarnings, ["weather: omarchy.missing is not a built-in listing in this catalog"]);
+});
+
+test("the production taxonomy names only built-in IDs", async () => {
+  const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
+  const ids = source.types.flatMap((type) => type.builtIns ?? []);
+  assert.ok(ids.length >= 14);
+  for (const id of ids) assert.match(id, /^omarchy\.[a-z-]+$/);
+  assert.deepEqual(source.types.find((type) => type.id === "weather").builtIns, ["omarchy.weather"]);
+});
+
+test("new listings count eligible classified plugins after the earlier week's snapshot", () => {
+  const now = new Date("2026-09-28T06:17:00Z");
+  const catalog = [
+    plugin("old", { listedAt: "2026-09-10T00:00:00Z" }),
+    plugin("fresh", { listedAt: "2026-09-25T00:00:00Z" }),
+    plugin("unclassified", { description: "Something else", listedAt: "2026-09-26T00:00:00Z" }),
+    plugin("broken", { listedAt: "2026-09-26T00:00:00Z", upstreamCheckStatus: "failed" }),
+    plugin("future", { listedAt: "2026-09-29T00:00:00Z" }),
+    plugin("undated")
+  ];
+  const baseline = { week: "2026-W39", generatedAt: "2026-09-21T06:42:56Z" };
+  const { rankings } = rankPlugins({ catalog, stats: {}, taxonomy, now, newListingsBaseline: baseline });
+  assert.deepEqual(rankings.newListings, [{ id: "fresh", name: "fresh", typeIds: ["weather"] }]);
+  assert.deepEqual(rankings.newListingsInterval, { since: "2026-09-21T06:42:56.000Z", until: "2026-09-28T06:17:00.000Z", baselineWeek: "2026-W39" });
+  assert.equal(rankings.types[0].winner.listedAt === null || typeof rankings.types[0].winner.listedAt === "string", true);
+  const none = rankPlugins({ catalog, stats: {}, taxonomy, now }).rankings;
+  assert.equal(none.newListings, null);
+  assert.equal(none.newListingsInterval, null);
+});

@@ -43,6 +43,7 @@ OmaPicks ranks two public feeds operated by Omarchy Plugins:
 
 - [`plugins.omarchy.org/catalog.json`](https://plugins.omarchy.org/catalog.json) — plugin metadata, repositories, licenses, maintenance dates, verification status, install availability, GitHub stars, and preview locations
 - [`api.omarchyplugins.com/v1/stats`](https://api.omarchyplugins.com/v1/stats) — install-command copies, hearts, and views by plugin ID
+- [Omarchy](https://github.com/omacom/omarchy) — built-in plugins, read from their catalog listings and shown beside matching categories (`builtIns` in `data/app-types.json`); never ranked
 
 The corresponding listings are on the [Omarchy Plugins marketplace](https://plugins.omarchy.org/?sort=copies). OmaPicks classifies and ranks this evidence independently; the source services do not select or sponsor winners.
 

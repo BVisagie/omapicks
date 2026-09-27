@@ -64,7 +64,10 @@ test("comparison tables expose headers and related navigation is bounded", async
   const table = page.getByRole("table", { name: "Marketplace signals by plugin" });
   await expect(table.getByRole("columnheader")).toHaveCount(3);
   await expect(table.getByRole("rowheader", { name: "Copies" })).toBeVisible();
-  await expect(table.getByRole("cell")).toHaveCount(10);
+  // Snapshots from methodology 1.1.0 add a copies-per-view row; every row has one cell per pick.
+  const rows = await table.getByRole("rowheader").count();
+  expect(rows).toBeGreaterThanOrEqual(5);
+  await expect(table.getByRole("cell")).toHaveCount(rows * 2);
   expect(await page.locator('.category-grid a').count()).toBeLessThanOrEqual(6);
   await expect(page.getByRole("link", { name: "Browse all categories" })).toHaveAttribute("href", "/#catalog");
 });

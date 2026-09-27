@@ -117,6 +117,23 @@ async function readJson(file, fallback = null) {
   }
 }
 
+// The latest published snapshot from an earlier ISO week. Same-week republishes therefore keep the
+// interval that the week's first run used.
+async function priorWeekBaseline(root, week) {
+  const directory = path.join(root, "data", "history");
+  let files;
+  try {
+    files = await readdir(directory);
+  } catch (error) {
+    if (error.code === "ENOENT") return null;
+    throw error;
+  }
+  const latest = files.filter((file) => /^\d{4}-W\d{2}\.json$/.test(file) && file.slice(0, -5) < week).sort().at(-1);
+  if (!latest) return null;
+  const snapshot = await readJson(path.join(directory, latest));
+  return Number.isFinite(Date.parse(snapshot?.generatedAt)) ? { week: snapshot.week ?? latest.slice(0, -5), generatedAt: snapshot.generatedAt } : null;
+}
+
 async function writeJsonAtomic(file, value) {
   await mkdir(path.dirname(file), { recursive: true });
   const temporary = `${file}.${process.pid}.tmp`;
@@ -340,6 +357,11 @@ export function formatRefreshLog(result, { dryRun = false } = {}) {
   if (result.validation) lines.push(result.validation);
   const exclusions = Object.entries(result.report?.excluded ?? {}).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
   if (exclusions.length) lines.push(`Excluded listings by reason: ${exclusions.map(([reason, count]) => `${reason} ${count}`).join("; ")}.`);
+  for (const warning of result.report?.builtInWarnings ?? []) lines.push(`  Built-in warning: ${warning}.`);
+  if (result.rankings?.newListings) {
+    const interval = result.rankings.newListingsInterval;
+    lines.push(`${plural(result.rankings.newListings.length, "new listing")} in ranked categories since the ${interval.baselineWeek ?? "previous"} snapshot (${interval.since} to ${interval.until}).`);
+  }
   for (const incumbent of result.report?.excludedIncumbents ?? []) {
     lines.push(`  Excluded incumbent: ${incumbent.typeName} ${incumbent.place} ${incumbent.name} (${incumbent.id}): ${incumbent.reason}.`);
   }
@@ -466,7 +488,8 @@ export async function refresh({
     taxonomy,
     previous,
     now,
-    source
+    source,
+    newListingsBaseline: await priorWeekBaseline(root, week)
   });
   const historyFile = path.join(root, "data", "history", `${week}.json`);
   const existingHistory = await readJson(historyFile, null);

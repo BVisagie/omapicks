@@ -94,6 +94,9 @@ export function prepareTaxonomy(taxonomy) {
     assert(!ids.has(type.id), `Duplicate taxonomy id: ${type.id}`);
     ids.add(type.id);
     assert(typeof type.name === "string" && type.name.length > 0, `${label}.name is required`);
+    // Omarchy built-ins shown beside a category's picks. Display only: never classified or ranked.
+    assert(type.builtIns == null || (Array.isArray(type.builtIns) &&
+      type.builtIns.every((id) => typeof id === "string" && id.length > 0)), `${label}.builtIns must be an array of plugin IDs`);
     return {
       ...type,
       includePatterns: compilePatterns(type.include, `${label}.include`),
@@ -395,9 +398,21 @@ export function isoWeek(date) {
   return `${target.getUTCFullYear()}-W${String(week).padStart(2, "0")}`;
 }
 
+function builtInRef(plugin) {
+  const sourceUrl = typeof plugin.sourceUrl === "string" && plugin.sourceUrl.startsWith("https://") ? plugin.sourceUrl : null;
+  return {
+    id: plugin.id,
+    name: String(plugin.name || plugin.id),
+    description: String(plugin.description || ""),
+    officialCommand: typeof plugin.officialCommand === "string" && plugin.officialCommand.trim() ? plugin.officialCommand.trim() : null,
+    sourceUrl
+  };
+}
+
 // `methodology` defaults to the current rules; offline comparisons pass alternatives. `detail`
 // additionally returns every scored cohort for research reports; snapshots never contain it.
-export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = new Date(), source = null, methodology = METHODOLOGY, detail = false }) {
+// `newListingsBaseline` is the latest snapshot from an earlier ISO week ({ week, generatedAt }).
+export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = new Date(), source = null, methodology = METHODOLOGY, detail = false, newListingsBaseline = null }) {
   assert(Array.isArray(catalog), "Catalog must be an array");
   assert(stats && typeof stats === "object" && !Array.isArray(stats), "Stats must be an object");
   assert(now instanceof Date && Number.isFinite(now.getTime()), "now must be a valid Date");
@@ -407,6 +422,10 @@ export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = n
   const unclassified = [];
   const excluded = {};
   const exclusions = new Map();
+  const typeIdsById = new Map();
+  const builtInsById = new Map(catalog
+    .filter((plugin) => plugin && typeof plugin.id === "string" && (plugin.sourceType === "builtin" || plugin.builtIn === true))
+    .map((plugin) => [plugin.id, plugin]));
 
   for (const plugin of catalog) {
     const reason = eligibilityReason(plugin, methodology);
@@ -421,11 +440,13 @@ export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = n
       continue;
     }
     classifiedIds.add(plugin.id);
+    typeIdsById.set(plugin.id, typeIds);
     for (const typeId of typeIds) cohorts.get(typeId).push(plugin);
   }
 
   const previousByType = new Map((previous?.types ?? []).map((type) => [type.id, type]));
   const decisions = [];
+  const builtInWarnings = [];
   const scoredCohorts = {};
   const types = prepared.types.map((type) => {
     const candidates = scoreCohort(cohorts.get(type.id), stats, now, methodology);
@@ -443,11 +464,17 @@ export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = n
     });
     // Both slots are sticky; the raw-score leader may occupy neither place.
     const top = candidates[0];
+    const builtIns = [];
+    for (const id of type.builtIns ?? []) {
+      if (builtInsById.has(id)) builtIns.push(builtInRef(builtInsById.get(id)));
+      else builtInWarnings.push(`${type.id}: ${id} is not a built-in listing in this catalog`);
+    }
     return {
       id: type.id,
       name: type.name,
       description: type.description ?? "",
       eligibleCount: candidates.length,
+      builtIns,
       winner,
       runnerUp,
       topScorer: top ? { id: top.id, name: top.name, score: top.score } : null
@@ -459,9 +486,22 @@ export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = n
     .filter(([slot]) => type[slot]?.id && exclusions.has(type[slot].id))
     .map(([slot, place]) => ({ typeId: type.id, typeName: type.name ?? type.id, place, id: type[slot].id, name: type[slot].name ?? type[slot].id, reason: exclusions.get(type[slot].id) })));
 
+  // Eligible, classified plugins listed after the previous week's snapshot. A same-week
+  // republish keeps the earlier week as its baseline, so the interval never shrinks.
+  const since = Date.parse(newListingsBaseline?.generatedAt);
+  const newListings = Number.isFinite(since)
+    ? catalog
+      .filter((plugin) => typeIdsById.has(plugin.id))
+      .map((plugin) => ({ plugin, listed: Date.parse(plugin.listedAt) }))
+      .filter(({ listed }) => Number.isFinite(listed) && listed > since && listed <= now.getTime())
+      .sort((a, b) => a.listed - b.listed || a.plugin.id.localeCompare(b.plugin.id))
+      .map(({ plugin }) => ({ id: plugin.id, name: String(plugin.name || plugin.id), typeIds: typeIdsById.get(plugin.id) }))
+    : null;
+
   return {
     decisions,
     exclusions,
+    typeIdsById,
     ...(detail ? { cohorts: scoredCohorts } : {}),
     rankings: {
       schemaVersion: 1,
@@ -470,6 +510,10 @@ export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = n
       week: isoWeek(now),
       generatedAt: now.toISOString(),
       source,
+      newListings,
+      newListingsInterval: newListings
+        ? { since: new Date(since).toISOString(), until: now.toISOString(), baselineWeek: newListingsBaseline.week ?? null }
+        : null,
       types
     },
     report: {
@@ -481,6 +525,7 @@ export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = n
       uniqueUnclassifiedCount: unclassified.length,
       excluded,
       excludedIncumbents,
+      builtInWarnings,
       unclassified
     }
   };

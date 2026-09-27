@@ -603,3 +603,29 @@ test("refresh logs exclusion reasons and names the incumbents they removed", asy
   assert.match(log, /Excluded incumbent: Music runner-up Omarchy YouTube Music \(quickshell\.ytmusic\): repository-unreachable\./);
   assert.match(log, /Methodology 1\.1\.0 replaces published methodology 1\.0\.0/);
 });
+
+test("new-listing intervals start at the earlier week's snapshot and survive same-week republishes", async (context) => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "omapicks-new-listings-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  await mkdir(path.join(root, "data", "history"), { recursive: true });
+  await writeFile(path.join(root, "data", "app-types.json"), JSON.stringify({ schemaVersion: 1, types: [{ id: "weather", name: "Weather", include: ["\\bweather\\b"] }] }));
+  await writeFile(path.join(root, "data", "rankings.json"), JSON.stringify({ schemaVersion: 1, week: null, types: [] }));
+  const entry = (id, listedAt) => ({ id, name: id, description: "Weather forecast", installAvailable: true, installCommand: `install ${id}`, repo: `https://github.com/example/${id}`, listedAt });
+  const catalog = { plugins: [entry("old", "2026-08-01T00:00:00Z"), entry("fresh", "2026-09-03T00:00:00Z")] };
+  const stats = { schemaVersion: 1, plugins: { old: { views: 1, copies: 1, hearts: 0 }, fresh: { views: 1, copies: 1, hearts: 0 } } };
+  const fetchImpl = async (url) => jsonResponse(url.includes("/stats") ? stats : catalog);
+
+  const first = await refresh({ root, now: new Date("2026-09-01T09:00:00Z"), minimumCatalogSize: 1, fetchImpl });
+  assert.equal(first.rankings.newListings, null);
+  assert.equal(first.rankings.newListingsInterval, null);
+
+  const next = { root, now: new Date("2026-09-08T09:00:00Z"), minimumCatalogSize: 1, fetchImpl };
+  const weekly = await refresh(next);
+  assert.deepEqual(weekly.rankings.newListings.map((listing) => listing.id), ["fresh"]);
+  assert.deepEqual(weekly.rankings.newListingsInterval, { since: "2026-09-01T09:00:00.000Z", until: "2026-09-08T09:00:00.000Z", baselineWeek: "2026-W36" });
+  assert.match(formatRefreshLog(weekly).join("\n"), /1 new listing in ranked categories since the 2026-W36 snapshot/);
+
+  const rerun = await refresh({ ...next, now: new Date("2026-09-10T09:00:00Z"), republish: true });
+  assert.equal(rerun.rankings.newListingsInterval.since, "2026-09-01T09:00:00.000Z");
+  assert.equal(rerun.rankings.newListingsInterval.until, "2026-09-10T09:00:00.000Z");
+});
