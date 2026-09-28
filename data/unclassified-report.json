@@ -1,26 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-27T07:50:17.036Z",
-  "catalogCount": 4250,
-  "eligibleClassifiedCount": 1680,
-  "classificationAssignments": 1966,
-  "uniqueUnclassifiedCount": 1956,
+  "generatedAt": "2026-09-28T14:05:01.448Z",
+  "catalogCount": 4431,
+  "eligibleClassifiedCount": 1730,
+  "classificationAssignments": 2038,
+  "uniqueUnclassifiedCount": 2016,
   "excluded": {
-    "not-installable": 536,
+    "not-installable": 607,
     "repository-unreachable": 35,
     "compatibility-failed": 7,
     "built-in": 36
   },
-  "excludedIncumbents": [
-    {
-      "typeId": "music",
-      "typeName": "Music",
-      "place": "runner-up",
-      "id": "quickshell.ytmusic",
-      "name": "Omarchy YouTube Music",
-      "reason": "repository-unreachable"
-    }
-  ],
+  "excludedIncumbents": [],
   "builtInWarnings": [],
   "sharedRepositories": [],
   "unclassified": [
@@ -9270,11 +9261,6 @@
       "category": "Productivity"
     },
     {
-      "id": "klaudworks.omadoro",
-      "name": "Omadoro",
-      "category": "Productivity"
-    },
-    {
       "id": "hendkai.omarchy-mercedes",
       "name": "Mercedes SoC",
       "category": "Widgets"
@@ -9803,6 +9789,311 @@
       "id": "madmasx.russian-phrases",
       "name": "Frases de ruso",
       "category": "Widgets"
+    },
+    {
+      "id": "io.github.danielerikssoncoder.ps5-firmware",
+      "name": "PS5 Firmware",
+      "category": "System"
+    },
+    {
+      "id": "usutani.eye-care",
+      "name": "20-20-20 Eye Care",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.scmartin1995.stoic-scroll",
+      "name": "Stoic Scroll",
+      "category": "Widgets"
+    },
+    {
+      "id": "uk.co.mkultrausa.the-prisoner-seaside",
+      "name": "The Prisoner Seaside Background",
+      "category": "Appearance"
+    },
+    {
+      "id": "io.github.kaibur02.omarchy-active-window-logo",
+      "name": "Active Window Logo",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.manateelazycat.startup-map",
+      "name": "Startup Map",
+      "category": "System"
+    },
+    {
+      "id": "lef.windows-vm",
+      "name": "Windows VM",
+      "category": "System"
+    },
+    {
+      "id": "voyagen.oma-gradient-topbar",
+      "name": "Omarchy Gradient Topbar",
+      "category": "Appearance"
+    },
+    {
+      "id": "blacksheep.winvm",
+      "name": "Windows VM",
+      "category": "System"
+    },
+    {
+      "id": "dell.deepseek-usage",
+      "name": "DeepSeek Usage",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "foamy.idle-suspend",
+      "name": "Foamy Idle Suspend",
+      "category": "System"
+    },
+    {
+      "id": "foamy.menu",
+      "name": "Foamy Menu",
+      "category": "Desktop"
+    },
+    {
+      "id": "foamy.tray",
+      "name": "Foamy Tray",
+      "category": "Desktop"
+    },
+    {
+      "id": "foamy.train",
+      "name": "Foamy Train",
+      "category": "Widgets"
+    },
+    {
+      "id": "foamy.vitals",
+      "name": "Foamy Vitals",
+      "category": "System"
+    },
+    {
+      "id": "foamy.teams",
+      "name": "Foamy Teams",
+      "category": "Productivity"
+    },
+    {
+      "id": "foamy.media",
+      "name": "Foamy Media",
+      "category": "Widgets"
+    },
+    {
+      "id": "foamy.audio",
+      "name": "Foamy Audio",
+      "category": "Hardware"
+    },
+    {
+      "id": "thenitai.bsky",
+      "name": "Bluesky composer",
+      "category": "Productivity"
+    },
+    {
+      "id": "joe93.interval",
+      "name": "Interval",
+      "category": "Widgets"
+    },
+    {
+      "id": "foamy.github",
+      "name": "Foamy GitHub",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "neat.citadel",
+      "name": "Citadel",
+      "category": "System"
+    },
+    {
+      "id": "foamy.syncthing",
+      "name": "Foamy Syncthing",
+      "category": "System"
+    },
+    {
+      "id": "wynout.barhide",
+      "name": "Bar Hide",
+      "category": "Desktop"
+    },
+    {
+      "id": "brightwalker25.minimize",
+      "name": "Minimized windows",
+      "category": "Desktop"
+    },
+    {
+      "id": "io.github.vitorpacheco.mega",
+      "name": "MEGA Sync",
+      "category": "Productivity"
+    },
+    {
+      "id": "anavarre.jira-search",
+      "name": "Jira Search",
+      "category": "Productivity"
+    },
+    {
+      "id": "kelpme.lanchat",
+      "name": "Lanchat",
+      "category": "Widgets"
+    },
+    {
+      "id": "abs-player",
+      "name": "Audiobookshelf for Omarchy",
+      "category": "Widgets"
+    },
+    {
+      "id": "freshrss-reader",
+      "name": "FreshRSS for Omarchy",
+      "category": "Widgets"
+    },
+    {
+      "id": "oma.breathwork",
+      "name": "Breathwork",
+      "category": "Productivity"
+    },
+    {
+      "id": "leonavas.dock",
+      "name": "Dock",
+      "category": "Desktop"
+    },
+    {
+      "id": "anavarre.miniflux",
+      "name": "Miniflux",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.stash-11.dock",
+      "name": "My Dock",
+      "category": "Desktop"
+    },
+    {
+      "id": "jgarza.omalens",
+      "name": "omaLens",
+      "category": "Productivity"
+    },
+    {
+      "id": "jev.emoji",
+      "name": "Jev emoji",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.vip32.procyclingstats",
+      "name": "ProCyclingStats",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.wizard-neteng.hussh",
+      "name": "huSSH",
+      "category": "System"
+    },
+    {
+      "id": "io.github.callmeathul.brand-effects",
+      "name": "Brand Effects",
+      "category": "Appearance"
+    },
+    {
+      "id": "khwan.glass",
+      "name": "Glass",
+      "category": "Appearance"
+    },
+    {
+      "id": "omyphone",
+      "name": "OMyPhone",
+      "category": "Hardware"
+    },
+    {
+      "id": "lessunderrated.geoguess",
+      "name": "Geo Guess",
+      "category": "Widgets"
+    },
+    {
+      "id": "trinity-bytes.lock-keys-osd",
+      "name": "Lock Keys OSD",
+      "category": "Hardware"
+    },
+    {
+      "id": "io.github.edddine4-source.jev-challenge-lab",
+      "name": "Jev Challenge Lab",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "io.github.omakitsx.tray-panel",
+      "name": "Tray Panel",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.yanuarpmbd.winvm",
+      "name": "Windows VM Manager",
+      "category": "Widgets"
+    },
+    {
+      "id": "failsafe.audiogram-eq",
+      "name": "Audiogram EQ",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.julianbruno.jezz-atelier",
+      "name": "Jezz Atelier",
+      "category": "Other"
+    },
+    {
+      "id": "surface.tablet",
+      "name": "Omarchy Tablet",
+      "category": "Desktop"
+    },
+    {
+      "id": "freeholder.endurance",
+      "name": "Endurance",
+      "category": "Hardware"
+    },
+    {
+      "id": "fickleminded.iris",
+      "name": "Iris",
+      "category": "Productivity"
+    },
+    {
+      "id": "nomdelasociete.dsmn",
+      "name": "dsmn",
+      "category": "System"
+    },
+    {
+      "id": "io.github.pushmotta.candela",
+      "name": "Candela",
+      "category": "Hardware"
+    },
+    {
+      "id": "io.github.gabepsilva.user-services",
+      "name": "User Services",
+      "category": "System"
+    },
+    {
+      "id": "saigkill.mastodon",
+      "name": "Mastodon client",
+      "category": "Productivity"
+    },
+    {
+      "id": "nichovski.loudness-boost",
+      "name": "Loudness Boost",
+      "category": "Hardware"
+    },
+    {
+      "id": "jon.rail",
+      "name": "UK Rail",
+      "category": "Widgets"
+    },
+    {
+      "id": "f360c4.omaquest",
+      "name": "Omaquest",
+      "category": "Widgets"
+    },
+    {
+      "id": "murjax.omapostal",
+      "name": "OmaPostal",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.jsheffie.thockref",
+      "name": "ThockRef",
+      "category": "Productivity"
+    },
+    {
+      "id": "cdelcollado.bluetooth",
+      "name": "Bluetooth (hide devices)",
+      "category": "Hardware"
     }
   ]
 }
