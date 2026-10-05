@@ -1,20 +1,74 @@
 {
   "schemaVersion": 1,
-  "week": "2026-W40",
-  "generatedAt": "2026-09-28T14:05:01.448Z",
-  "changes": [],
-  "runnerUpChanges": [
+  "week": "2026-W41",
+  "generatedAt": "2026-10-05T05:39:39.683Z",
+  "changes": [
     {
-      "typeId": "radio",
-      "typeName": "Radio",
+      "typeId": "clipboard",
+      "typeName": "Clipboard",
       "kind": "displaced",
       "previous": {
-        "id": "ronnie.worldradio",
-        "name": "World Radio"
+        "id": "io.github.vuhuy.clipboard-manager",
+        "name": "Clipboard Manager"
       },
       "current": {
-        "id": "tiertek.ytm",
-        "name": "TekTube"
+        "id": "io.github.maajix.spotlight",
+        "name": "Spotlight"
+      }
+    },
+    {
+      "typeId": "screensavers",
+      "typeName": "Screensavers",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.deunnis.lacquer",
+        "name": "Omarchy Lacquer"
+      },
+      "current": {
+        "id": "brianirish.screensaver",
+        "name": "Screensaver"
+      },
+      "reason": "no-longer-in-category"
+    }
+  ],
+  "runnerUpChanges": [
+    {
+      "typeId": "clipboard",
+      "typeName": "Clipboard",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.maajix.spotlight",
+        "name": "Spotlight"
+      },
+      "current": {
+        "id": "io.github.vuhuy.clipboard-manager",
+        "name": "Clipboard Manager"
+      }
+    },
+    {
+      "typeId": "screen-time",
+      "typeName": "Screen Time",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.ricky.screentime",
+        "name": "Screen Time"
+      },
+      "current": {
+        "id": "rimuru.screentime",
+        "name": "Screen Time"
+      }
+    },
+    {
+      "typeId": "dictionary",
+      "typeName": "Dictionary & Thesaurus",
+      "kind": "displaced",
+      "previous": {
+        "id": "panadestein.lexicon",
+        "name": "Lexicon"
+      },
+      "current": {
+        "id": "io.github.keegan-sucks.lookup",
+        "name": "Look Up"
       }
     }
   ]
