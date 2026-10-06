@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "week": "2026-W41",
-  "generatedAt": "2026-10-05T05:39:39.683Z",
+  "generatedAt": "2026-10-06T02:15:44.709Z",
   "changes": [
     {
       "typeId": "clipboard",
@@ -69,6 +69,19 @@
       "current": {
         "id": "io.github.keegan-sucks.lookup",
         "name": "Look Up"
+      }
+    },
+    {
+      "typeId": "keyboard-lighting",
+      "typeName": "Keyboard Lighting",
+      "kind": "displaced",
+      "previous": {
+        "id": "samara-hub-ro.keyboard-light",
+        "name": "Asus TUF/ROG Keyboard Light"
+      },
+      "current": {
+        "id": "io.github.alexanderpuschkinberlin.keyboard-backlight",
+        "name": "ThinkPad Keyboard Backlight"
       }
     }
   ]

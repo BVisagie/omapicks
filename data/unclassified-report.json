@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-05T05:39:39.683Z",
-  "catalogCount": 4983,
-  "eligibleClassifiedCount": 1898,
-  "classificationAssignments": 2255,
-  "uniqueUnclassifiedCount": 2200,
+  "generatedAt": "2026-10-06T02:15:44.709Z",
+  "catalogCount": 5078,
+  "eligibleClassifiedCount": 1922,
+  "classificationAssignments": 2283,
+  "uniqueUnclassifiedCount": 2231,
   "excluded": {
-    "not-installable": 827,
+    "not-installable": 863,
     "compatibility-failed": 11,
-    "repository-unreachable": 10,
+    "repository-unreachable": 14,
     "built-in": 37
   },
   "excludedIncumbents": [],
@@ -10926,11 +10926,6 @@
       "category": "Desktop"
     },
     {
-      "id": "com.blogvirtualizado.omaops.pihole",
-      "name": "OmaPiHole Monitor",
-      "category": "System"
-    },
-    {
       "id": "io.github.smorshenniygus.omaconvert",
       "name": "OmaConvert",
       "category": "Productivity"
@@ -11013,6 +11008,166 @@
     {
       "id": "io.github.vincent-lavallee.omarchestra",
       "name": "Omarchestra",
+      "category": "System"
+    },
+    {
+      "id": "jra.jargon",
+      "name": "Jargon",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.jondkinney.omapop",
+      "name": "Omapop",
+      "category": "Productivity"
+    },
+    {
+      "id": "missioncontrolceo.omacasts",
+      "name": "Omacasts",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.felipecpaiva.omabarconfigurator",
+      "name": "OmaBar Configurator",
+      "category": "Appearance"
+    },
+    {
+      "id": "io.github.randal007.hamband",
+      "name": "Ham Band Conditions",
+      "category": "Widgets"
+    },
+    {
+      "id": "synapsync.usage-notch",
+      "name": "Usage Notch",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "mutantsan.solr-status",
+      "name": "Solr Status",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "bit-dev.bar",
+      "name": "Pill Bar",
+      "category": "Appearance"
+    },
+    {
+      "id": "io.github.mrc04d.opencode-go",
+      "name": "OpenCode Go Usage",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "jlord.mouse-focus",
+      "name": "Mouse focus",
+      "category": "System"
+    },
+    {
+      "id": "ucer.daylight-slider",
+      "name": "Daylight Slider",
+      "category": "Appearance"
+    },
+    {
+      "id": "io.github.shazzedio.touchdeck",
+      "name": "Touchdeck",
+      "category": "System"
+    },
+    {
+      "id": "omapass",
+      "name": "OmaPass",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.kurama07a.devopen",
+      "name": "Dev Open",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "io.github.lukasmoriarty.applesiliconthermals",
+      "name": "Apple Silicon Thermals",
+      "category": "Hardware"
+    },
+    {
+      "id": "warexpor.image-picker",
+      "name": "43PR Image Picker",
+      "category": "Desktop"
+    },
+    {
+      "id": "jbicks.skills",
+      "name": "SkillSync",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "lee.duobar",
+      "name": "DuoBar",
+      "category": "System"
+    },
+    {
+      "id": "esh.omicon",
+      "name": "Omicon",
+      "category": "System"
+    },
+    {
+      "id": "io.github.indie.gazeaway",
+      "name": "GazeAway",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.camilo211g.omadeck-super-tab",
+      "name": "Omadeck Super+TAB",
+      "category": "Productivity"
+    },
+    {
+      "id": "ozgun.primary-bar",
+      "name": "Primary Monitor Bar",
+      "category": "Desktop"
+    },
+    {
+      "id": "arisgysel-design.quick-dock",
+      "name": "Quick Dock",
+      "category": "Productivity"
+    },
+    {
+      "id": "lucas.football",
+      "name": "¿Hay fútbol?",
+      "category": "Widgets"
+    },
+    {
+      "id": "omahide",
+      "name": "Omahide",
+      "category": "Desktop"
+    },
+    {
+      "id": "w4rrior.local-models",
+      "name": "Local Models",
+      "category": "System"
+    },
+    {
+      "id": "onnwee.spool",
+      "name": "Spool",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "priard.inair",
+      "name": "inAir",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.houtvongsak.herdr-sessions",
+      "name": "Herdr Session Manager",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "maurice.daily-verse",
+      "name": "Daily Verse",
+      "category": "Widgets"
+    },
+    {
+      "id": "cgranier.dropshelf",
+      "name": "Drop Shelf",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.cylon58.myomarchy",
+      "name": "My Omarchy",
       "category": "System"
     }
   ]
