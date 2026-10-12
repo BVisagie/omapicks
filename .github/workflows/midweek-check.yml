@@ -26,9 +26,10 @@ jobs:
           check-latest: true
       - name: Install build dependencies
         run: npm ci
-      - name: Validate live feeds and calculate candidate changes
+      - name: Validate feeds, qualify recommendations and prioritize capability reviews
         run: node build/refresh.mjs --dry-run
       - name: Archive classification evidence
+        if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: classification-audit

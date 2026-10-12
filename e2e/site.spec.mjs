@@ -33,7 +33,7 @@ test("RSS navigation opens the HTML feed and keeps the XML subscription link", a
 
 test("advertised searches filter both lists and Enter opens the first match", async ({ page }) => {
   await page.goto("/");
-  for (const [query, id] of [["spotify", "music"], ["weather", "weather"], ["clipboard", "clipboard"]]) {
+  for (const [query, id] of [["spotify", "music-players"], ["weather", "weather"], ["clipboard", "clipboard"]]) {
     const expected = await searchMatches(page, query);
     expect(expected).toContain(`/picks/${id}/`);
     await page.getByRole("searchbox").fill(query);
@@ -164,4 +164,36 @@ test("discovery and email remain usable without JavaScript", async ({ browser })
   await page.locator('.starter-card a').first().click();
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Notes');
   await context.close();
+});
+
+test("recommendation cards expose their task evidence and related tools stay outside the podium", async ({ page, request }) => {
+  const types = await rankedTypes(request);
+  const type = types.find((t) => t.winner?.taskFit?.qualified && t.alternatives?.length && t.relatedTools?.length);
+  expect(type, "published snapshot includes reviewed choices and related integrations").toBeTruthy();
+  await page.goto(`/picks/${type.id}/`);
+  for (const [slot, candidate] of [["champion", type.winner], ["runner-up", type.runnerUp]]) {
+    if (!candidate) continue;
+    const card = slot === "champion" ? page.locator(".pick-card.champion") : page.locator(".pick-card:not(.champion)");
+    await expect(card.locator(".task-fit-note")).toContainText(candidate.taskFit.reason);
+    await expect(card.getByRole("link", { name: "Capability evidence" })).toHaveAttribute("href", candidate.taskFit.source.url);
+    for (const constraint of candidate.taskFit.constraints) await expect(card.locator(".task-fit-note")).toContainText(constraint);
+  }
+  await expect(page.getByRole("heading", { name: "More choices for this task" })).toBeVisible();
+  for (const candidate of type.relatedTools) {
+    await expect(page.locator(".task-alternatives")).toContainText(candidate.taskFit.reason);
+    expect([type.winner.id, type.runnerUp?.id]).not.toContain(candidate.id);
+  }
+});
+
+test("snapshot age reports the last successful publication when a refresh is overdue", async ({ page, request }) => {
+  const snapshot = await (await request.get("/rankings.json")).json();
+  const published = Date.parse(snapshot.generatedAt);
+  await page.clock.install({ time: new Date(published + 7 * 86400000) });
+  await page.goto("/");
+  await expect(page.locator("[data-snapshot-at]")).toBeHidden();
+  await page.clock.setSystemTime(new Date(published + 10 * 86400000));
+  await page.reload();
+  await expect(page.locator("[data-snapshot-at]")).toContainText("This snapshot is 10 days old");
+  await page.goto("/picks/screenshots/");
+  await expect(page.locator("[data-snapshot-at]")).toContainText("last successful publication");
 });

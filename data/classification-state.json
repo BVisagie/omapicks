@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "classificationVersion": 2,
-  "generatedAt": "2026-10-12T13:34:39.901Z",
-  "taxonomyHash": "a0d2869dfb5fc1cb0a183c673c53151da68acebeb92071d7741fd81cfb015e6b",
+  "classificationVersion": 3,
+  "generatedAt": "2026-10-12T15:39:44.802Z",
+  "taxonomyHash": "c445efdcd636d25535f61914c01bb39866ca8cb5cfa6012a18f2688ac09c150a",
   "plugins": [
     {
       "id": "07dcolem.appimages",
@@ -101,6 +101,7 @@
       "name": "Display & profiles",
       "metadataHash": "4a0e3b642ad5b67929aa01c1b229c8eff9cc79e5111318a89b8baaed74fc8158",
       "types": [
+        "brightness",
         "display-monitors"
       ]
     },
@@ -137,7 +138,7 @@
       "name": "ADHD Pomodoro",
       "metadataHash": "751ac3c6fa374d8393b8d518b6c535a88e53c0f51e5c8b9513df451265c6914a",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -228,7 +229,7 @@
       "metadataHash": "c93fb67754f27e5a9424e49981b8e328c84631102fad65032406986f05d42da2",
       "types": [
         "calendar",
-        "clock-timer"
+        "timers-alarms"
       ]
     },
     {
@@ -297,7 +298,8 @@
       "name": "Omarchy VPN",
       "metadataHash": "478adfa626555385dad5027342409603f1d7213a8d3e276c6464d437b8dedaa5",
       "types": [
-        "vpn"
+        "vpn",
+        "network"
       ]
     },
     {
@@ -311,7 +313,7 @@
       "name": "TickTick Tasks",
       "metadataHash": "4520e1bf6759acb14e706011128251021bef162ba66a5fa5216bff4bf1344101",
       "types": [
-        "focus"
+        "tasks"
       ]
     },
     {
@@ -441,7 +443,6 @@
       "name": "Auto Cafe",
       "metadataHash": "26549b5c2f8082fbe871f28613ea19521584f624cc8b79560250ee1ea71a2b35",
       "types": [
-        "music",
         "lock-idle"
       ]
     },
@@ -651,7 +652,7 @@
       "name": "Break Timer",
       "metadataHash": "042cdbe078852e908557a0935bec14dfee8ebe07bfb96f49eb6e381742d1d0e2",
       "types": [
-        "clock-timer"
+        "timers-alarms"
       ]
     },
     {
@@ -800,16 +801,14 @@
       "id": "andersdosen.nrkreviews",
       "name": "NRK Anmeldelser",
       "metadataHash": "559f95bff057d3ec1c150ab8831098ba5760b176119eb3e668f34c75f4794a5b",
-      "types": [
-        "music"
-      ]
+      "types": []
     },
     {
       "id": "andreasbylund.jellyfin",
       "name": "Jellyfin Music",
       "metadataHash": "6fa00208d20b6b292d66e9bac1304d4cc8bf7616b65b74af2f66fc5ab2f26bc4",
       "types": [
-        "music"
+        "music-players"
       ]
     },
     {
@@ -823,7 +822,7 @@
       "name": "Cockpit Board Companion",
       "metadataHash": "22986727e6be10059a51dc897fff6242f138373a224f69f51de14f8984c69218",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -955,7 +954,7 @@
       "metadataHash": "1d2db050b0047773bcf358713db6ef3e9d50bdb4e568f2abeda9ee53fc4cbdba",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -989,7 +988,7 @@
         "audio",
         "brightness",
         "notifications",
-        "screenshots"
+        "screen-recording"
       ]
     },
     {
@@ -1046,14 +1045,16 @@
       "id": "animated.dock",
       "name": "Animated Dock",
       "metadataHash": "7f18e22a02235f916b4c0f3c822b6684de8ec05e1be83746ae925523500d66d8",
-      "types": []
+      "types": [
+        "docks"
+      ]
     },
     {
       "id": "anishkn.mstodo",
       "name": "MS To Do",
       "metadataHash": "7479433c9533f32602bf1d37220c217eb025a48ac4ffc58241f751d2ce7ae2eb",
       "types": [
-        "focus"
+        "tasks"
       ]
     },
     {
@@ -1097,7 +1098,7 @@
       "types": [
         "system-monitor",
         "battery",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -1238,14 +1239,16 @@
       "id": "arisgysel-design.quick-dock",
       "name": "Quick Dock",
       "metadataHash": "77c2d85ec04cc217144cf6a8e04833085a25b7a9752e6ca65ed12a19d91c02db",
-      "types": []
+      "types": [
+        "docks"
+      ]
     },
     {
       "id": "arkane.fat-cat",
       "name": "Fat Cat Pomodoro",
       "metadataHash": "ca1c23ebcb22e0097e10bf21b10ad0fe700ee46fede54d4ceee58775811613a8",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -1260,6 +1263,8 @@
       "name": "ROG control",
       "metadataHash": "9a8ba8f589c0db8f0e4e723631deea865dd82651a59c5563dbcb206d5ac1755f",
       "types": [
+        "system-monitor",
+        "battery",
         "keyboard-lighting",
         "peripheral-battery"
       ]
@@ -1303,7 +1308,8 @@
       "name": "L2TP VPN",
       "metadataHash": "f12268b57a8045e7e08013ce11275d198dae00d6c58d2a92b8a52f5e679c825c",
       "types": [
-        "vpn"
+        "vpn",
+        "network"
       ]
     },
     {
@@ -1319,7 +1325,7 @@
       "name": "Control center",
       "metadataHash": "132e703b6c542b814c2bee99d54bfa47a24916c6bd0bc5af8e4771f0872a6307",
       "types": [
-        "brightness"
+        "night-light"
       ]
     },
     {
@@ -1369,6 +1375,7 @@
       "name": "OmaRazer",
       "metadataHash": "5ecb1788b78ad1601554a6feb2335cce238a9eed706dbe67232d08978f913d84",
       "types": [
+        "battery",
         "peripheral-battery"
       ]
     },
@@ -1377,7 +1384,7 @@
       "name": "OMAMPY",
       "metadataHash": "346e27fce18fd3500af696876ef8f43c194e5a477b88f34efef7ef96b05a85ae",
       "types": [
-        "music"
+        "music-players"
       ]
     },
     {
@@ -1502,7 +1509,9 @@
       "id": "atzingen.jarvis",
       "name": "Jarvis",
       "metadataHash": "1919edf43c0bb13be4eefdb0e0ebb8d517643f66fca301781c5d1f195a573ea5",
-      "types": []
+      "types": [
+        "ai-chat"
+      ]
     },
     {
       "id": "aurora-pulse",
@@ -1536,9 +1545,7 @@
       "id": "avibarit.snappy",
       "name": "Snappy",
       "metadataHash": "860194a836dc35bc09bcb8feb43b007ffac866aedd3b008208e14f3be3a0b439",
-      "types": [
-        "screenshots"
-      ]
+      "types": []
     },
     {
       "id": "avila.cameras",
@@ -1720,7 +1727,7 @@
       "name": "Omadoro",
       "metadataHash": "629869c9a618dfa1c83084f913c4c14ca8ac12db4f7bb6737784583aa03c87c1",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -1763,7 +1770,8 @@
       "name": "Omashot",
       "metadataHash": "6100746ecea4917f1b51d83b07790bf05270103d655091889f47f7d824e0af72",
       "types": [
-        "screenshots"
+        "screenshots",
+        "screen-recording"
       ]
     },
     {
@@ -1830,7 +1838,8 @@
       "metadataHash": "fd1b590a035e009d527d7a715972b9b172f3ed84fdc92a5a0b0827a1ec42cc35",
       "types": [
         "vpn",
-        "network"
+        "network",
+        "network-diagnostics"
       ]
     },
     {
@@ -1839,7 +1848,7 @@
       "metadataHash": "d2d3ec8c7f8d1b75027621719a5155014704cc89841d31a7ea76f2f13467e5e6",
       "types": [
         "system-monitor",
-        "network",
+        "network-diagnostics",
         "firewall"
       ]
     },
@@ -1854,6 +1863,7 @@
       "name": "BatPuter",
       "metadataHash": "a36741d59a300f0328e0924a324ff6ea32bf41ddd7c8fa06498f4069ff45b2c7",
       "types": [
+        "timers-alarms",
         "focus"
       ]
     },
@@ -2029,7 +2039,7 @@
       "name": "Focusd",
       "metadataHash": "1c166c2c7dd8d1d7d290fcdecf7078ca0ef3376b8282a1fe942226143bd23a1a",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -2162,7 +2172,7 @@
       "metadataHash": "b993173112163c2712a874753d61165eba9349f53052fee15fda29be1c2f2ec5",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -2272,7 +2282,7 @@
       "name": "Oma Spotify",
       "metadataHash": "e9527817decfe0fe511f26a00b7a46a03d6dccb7b49534b675a0ff0e751ea620",
       "types": [
-        "music"
+        "music-players"
       ]
     },
     {
@@ -2329,7 +2339,9 @@
       "id": "bogdart.dock",
       "name": "Minimizable Dock",
       "metadataHash": "7fd6b8b107fff14d21c2facc45d2a0e858654bb9781970fa739372167d84553d",
-      "types": []
+      "types": [
+        "docks"
+      ]
     },
     {
       "id": "bohar.looknfeel_center",
@@ -2343,7 +2355,7 @@
     {
       "id": "bonavr.omafolio",
       "name": "Omafolio",
-      "metadataHash": "82899b5a08c8f4d5f7cbab4177f663e38cda270267bf8fe033c9b544494b8da4",
+      "metadataHash": "c2b0b37efd3b01bd5802966ef799708b07ca687501d0e379af6cb80f79af62eb",
       "types": []
     },
     {
@@ -2458,7 +2470,7 @@
       "metadataHash": "353986507a5ef96c56164ab849701760ac7a026a6e031b282f0ba067cc345c3f",
       "types": [
         "system-monitor",
-        "ai-assistant"
+        "ai-chat"
       ]
     },
     {
@@ -2584,7 +2596,7 @@
       "metadataHash": "fab27aecafbf585c84d03f340607d340d507797e05e65718163fdb7ef64ad302",
       "types": [
         "vpn",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -2637,9 +2649,7 @@
       "id": "brownfamilysports.observatory",
       "name": "Fix-Everything Observatory",
       "metadataHash": "9bba8f29ad5182cea5da2e5f487c617c1c3a63b7b6a502b07597bdf96e37f975",
-      "types": [
-        "music"
-      ]
+      "types": []
     },
     {
       "id": "brownfamilysports.td-palette",
@@ -2687,7 +2697,9 @@
       "id": "burninc0de.dock",
       "name": "Stealth Dock",
       "metadataHash": "3e240e9cfa456ea5308e9de711c911bf0eb3e999ca6eb77cc3a0f6ae7e3d3d2d",
-      "types": []
+      "types": [
+        "docks"
+      ]
     },
     {
       "id": "burninc0de.lock",
@@ -2874,6 +2886,7 @@
       "name": "Monitor Desk",
       "metadataHash": "692c9724da7a9c2d80d27c6fb829cc94d3251c23505ae5b49d6c7e66814d2734",
       "types": [
+        "night-light",
         "display-monitors"
       ]
     },
@@ -2952,9 +2965,7 @@
       "id": "cdelcollado.network",
       "name": "Network (hide networks)",
       "metadataHash": "aa8c2d7cfabff2531056d23a5803d46afb6aa1f36be33f54de84c037eeca51d6",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "cdhananjay.menu-auto-open",
@@ -3173,7 +3184,7 @@
       "metadataHash": "0b89bc3b82691cc13bc411b6cd396b9affcd6a3d437938e5120754f9afe4a94d",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -3221,7 +3232,8 @@
       "name": "Easy Capture",
       "metadataHash": "1e82ff0017ae6eb6c25c49669840ad646870cc7ed5d4e65cc63d2360859c98b8",
       "types": [
-        "screenshots"
+        "screenshots",
+        "screen-recording"
       ]
     },
     {
@@ -3313,7 +3325,7 @@
       "name": "OmaScale",
       "metadataHash": "cc1f5cbe00294a449ed6c740c6ff53583b4648123ce797343979b9322a1e6c6c",
       "types": [
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -3352,7 +3364,9 @@
       "id": "clickety-clacks.ask",
       "name": "Ask",
       "metadataHash": "6a44e4e92b5ce680f611e06d03cc8f16973f07b269a5d6dda9e6f73ba8106681",
-      "types": []
+      "types": [
+        "ai-chat"
+      ]
     },
     {
       "id": "clipbasket.clipboard",
@@ -3411,7 +3425,7 @@
       "name": "Omaloom",
       "metadataHash": "fb06913c2d28ae01ebfd07e23f9015f3f5a0e4e779ab2b63dc897a2a94e5840a",
       "types": [
-        "screenshots"
+        "screen-recording"
       ]
     },
     {
@@ -3525,7 +3539,6 @@
       "name": "Panorama",
       "metadataHash": "07be044a020e378a22a5de77c586b324b9d98c4c2cf8eab2df71b8639742c59a",
       "types": [
-        "brightness",
         "display-monitors"
       ]
     },
@@ -3590,6 +3603,7 @@
       "name": "Radio Garden",
       "metadataHash": "3f8bc2f0d66c6637f09092c5bc23cc81099e2aa7c240b48828d3e5f7f1f84adc",
       "types": [
+        "network",
         "radio"
       ]
     },
@@ -3718,7 +3732,9 @@
       "id": "com.leafbox.f1",
       "name": "Formula 1",
       "metadataHash": "2d6169884f87eb96d01ced8d142e65d66b0e7834eaae6240b2247b0e46d588b8",
-      "types": []
+      "types": [
+        "clock-timer"
+      ]
     },
     {
       "id": "com.leafbox.hamradio",
@@ -3795,7 +3811,7 @@
       "name": "Hermes API",
       "metadataHash": "fe28ae7a6b9f0ed701fc1f634deec8c6a0284c03882d30b99b0177adf8b3fd92",
       "types": [
-        "music"
+        "ai-assistant"
       ]
     },
     {
@@ -3959,8 +3975,7 @@
       "name": "Pangolin for Omarchy",
       "metadataHash": "ad05be0b73c7eae0348d44ea6d1266485d087e27bfcde5f689faa1c70c068263",
       "types": [
-        "vpn",
-        "network"
+        "vpn"
       ]
     },
     {
@@ -3976,7 +3991,8 @@
       "name": "Melody",
       "metadataHash": "3ade7fde5624b13b898ba8de93576904dc529aef10f4051bed13918805d92732",
       "types": [
-        "music"
+        "music",
+        "music-players"
       ]
     },
     {
@@ -4003,7 +4019,9 @@
       "id": "confined-.ember",
       "name": "Ember-Tray",
       "metadataHash": "4aec4a8309b50235e34eb055c13fb0627fbfb6329f1f108946748b264bfaea25",
-      "types": []
+      "types": [
+        "battery"
+      ]
     },
     {
       "id": "connor.videodevices",
@@ -4093,7 +4111,6 @@
       "name": "Autoduck",
       "metadataHash": "b7434dcd4bd4977a4301bf1d770e89785435c53187751508616330e096a6ed3a",
       "types": [
-        "music",
         "audio"
       ]
     },
@@ -4121,14 +4138,16 @@
       "metadataHash": "853456a497531af6da26340c1da4450eceef48ece065f3d5a20eacd3358d0e20",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
       "id": "crazybadger.app-dock",
       "name": "App Dock",
       "metadataHash": "4ae38e7a4b86b6c18793f0c670ae461a32ab8828cbb793d5d0b0330a0e2f47a8",
-      "types": []
+      "types": [
+        "docks"
+      ]
     },
     {
       "id": "crazybadger.split-clock",
@@ -4136,7 +4155,8 @@
       "metadataHash": "161e3f32713399ad5f795ab4f3ba580a8b6877057b7518ccc040b7e553929780",
       "types": [
         "calendar",
-        "clock-timer"
+        "clock-timer",
+        "timers-alarms"
       ]
     },
     {
@@ -4178,6 +4198,7 @@
       "name": "hyprmoncfg: Multi-Monitor Manager for Omarchy",
       "metadataHash": "ba501388a715177f55f3c4a1b27037cc1d8d1961271db03a1655b0633c9695ec",
       "types": [
+        "brightness",
         "display-monitors"
       ]
     },
@@ -4186,7 +4207,7 @@
       "name": "Lyrics Synced with Music",
       "metadataHash": "ed411d826d655ff0929b3f4ffd4dd0dae05937de72c434e00787980fb2768732",
       "types": [
-        "music"
+        "music-players"
       ]
     },
     {
@@ -4219,7 +4240,7 @@
       "types": [
         "system-monitor",
         "battery",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -4227,16 +4248,14 @@
       "name": "OmaTasks for Todoist",
       "metadataHash": "df3b472976c05ab736badfb3217f2c63072f4fa19343d72af0e4a0392040381e",
       "types": [
-        "focus"
+        "tasks"
       ]
     },
     {
       "id": "crmne.ultimate-guitar",
       "name": "Ultimate Guitar Tabs",
       "metadataHash": "57d986881a37d9f36bd79f5d46357ca5aebce7fbfbbbaf26b191dde767594870",
-      "types": [
-        "music"
-      ]
+      "types": []
     },
     {
       "id": "cromewar.ultrawide-layouts",
@@ -4545,9 +4564,7 @@
       "id": "dansmith888.bandwidth",
       "name": "Bandwidth",
       "metadataHash": "0628c62baf8add76a7ea5916415dd30d8ec7806d8498fc29c2087f8d24f22035",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "dansmith888.cpu",
@@ -4603,7 +4620,7 @@
       "name": "Set your Nightlight",
       "metadataHash": "1942aab67367c2af7fdc70d3a7d7042c226a373947392333760851521eb4def9",
       "types": [
-        "brightness"
+        "night-light"
       ]
     },
     {
@@ -4619,7 +4636,8 @@
       "name": "Network+",
       "metadataHash": "10a5a9d673410d40fe47fe07d4b4dae3743ba7330188882c347cd8d16905df0f",
       "types": [
-        "network"
+        "network",
+        "network-diagnostics"
       ]
     },
     {
@@ -4653,9 +4671,7 @@
       "id": "davedes.netspeed",
       "name": "Net Speed",
       "metadataHash": "b008b4ff962ee8341b4218e997d1f6dd6a8b57416cd45f293c3d8e30fa0ac6b3",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "davedes.omadoctor",
@@ -4667,7 +4683,10 @@
       "id": "davedes.omcontrol",
       "name": "OmaControl",
       "metadataHash": "80113a007d26cf734de8667952743364a9d95ca470727574975a4da0bfff8e13",
-      "types": []
+      "types": [
+        "system-monitor",
+        "network-diagnostics"
+      ]
     },
     {
       "id": "davedes.workspace-restorer",
@@ -4700,8 +4719,7 @@
       "name": "OmaGAWD",
       "metadataHash": "528bdb3d7b832cb72f4314e2b0f88d5416f4fdfba588e3f8cb9989fb84eb1af6",
       "types": [
-        "music",
-        "radio"
+        "music-players"
       ]
     },
     {
@@ -4762,9 +4780,7 @@
       "id": "davidjm.scripture",
       "name": "Scripture",
       "metadataHash": "ff959980485d090a5500cb824b0d24391b88bf733e4674fbf1d5257200dc2636",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "davidkodar.scarlett",
@@ -4882,7 +4898,7 @@
       "name": "Deadline Timer",
       "metadataHash": "8b03c7326ef0f4dde3d1ff8c06b4f925d0e9681b2dd107ca0cb5eae4c9136e66",
       "types": [
-        "clock-timer"
+        "timers-alarms"
       ]
     },
     {
@@ -4930,7 +4946,7 @@
       "name": "Todo List",
       "metadataHash": "d7752d3e99df6183eb48005854caea9a5e51daad8b3d916f3a8954de72215820",
       "types": [
-        "focus"
+        "tasks"
       ]
     },
     {
@@ -5063,7 +5079,7 @@
       "metadataHash": "e92b9f6dfe6da93e0d59c92e7786158f886d8e14a84da16079b905ef37bb504d",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -5141,7 +5157,7 @@
       "name": "Network Throughput",
       "metadataHash": "82c48995dc3fb5ccc75844f63ab9287989f6339b2cd07e3a99b3367429bfd486",
       "types": [
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -5322,7 +5338,9 @@
       "id": "devinblack001.wazuh-server-view",
       "name": "Wazuh Server View",
       "metadataHash": "9ccb8ba9498d8709e30dd82e6bdf1d3b56f06bfdb2a9be13ee9ec808b9156a28",
-      "types": []
+      "types": [
+        "ai-assistant"
+      ]
     },
     {
       "id": "devinblack001.wazuh-view",
@@ -5383,7 +5401,7 @@
       "name": "Apple Music",
       "metadataHash": "d9efc7334512c9a59486b08bc6223471a2f15874199b5fe32c30291a44673606",
       "types": [
-        "music"
+        "music-players"
       ]
     },
     {
@@ -5470,14 +5488,17 @@
       "id": "dimdoremy.omaflameshot",
       "name": "omaflameshot",
       "metadataHash": "ba6e3fdb4566b2a1bc145e0a182552f14b43a1ce07c1ae7c82516f5ca94c00dc",
-      "types": []
+      "types": [
+        "screenshots"
+      ]
     },
     {
       "id": "dimef.network",
       "name": "Hidden Wi-Fi",
       "metadataHash": "978af5f56984979c1ac6c6dd0df4712593ab3af48428fef0a526cbfa1425597b",
       "types": [
-        "network"
+        "network",
+        "network-diagnostics"
       ]
     },
     {
@@ -5497,7 +5518,9 @@
       "name": "OpenVPN",
       "metadataHash": "877e14fda54b7fe792803d3f919caa2dc5b0ffa5a75c7cf5f5107cb9dbfb36d0",
       "types": [
-        "vpn"
+        "vpn",
+        "network",
+        "ai-assistant"
       ]
     },
     {
@@ -5747,9 +5770,7 @@
       "id": "don.lofiatc",
       "name": "Lofi ATC",
       "metadataHash": "36fe93b7d468caaf12102ca240d7fb861b9963db7894b16d716daf5229d78323",
-      "types": [
-        "radio"
-      ]
+      "types": []
     },
     {
       "id": "donnie.homelab-mesh",
@@ -5829,7 +5850,9 @@
       "id": "dorneles.omabeat",
       "name": "OmaBeat",
       "metadataHash": "51ca37f8cfee62cb65540bb04279e2b6261daa4a50b569a6290bf9d06b8ec264",
-      "types": []
+      "types": [
+        "clock-timer"
+      ]
     },
     {
       "id": "dorneles.omabot",
@@ -5930,7 +5953,7 @@
       "name": "YouTube Music Player",
       "metadataHash": "9882a0de807423a86973243ca29b26c29694ee7965c4b4cb8185471ef6dec804",
       "types": [
-        "music"
+        "music-players"
       ]
     },
     {
@@ -6080,7 +6103,7 @@
       "name": "Omatodo",
       "metadataHash": "4c9348e8f1324f064fac4dca351772044fa7dcac1c43cd3f5ce4ab150c6ed591",
       "types": [
-        "focus"
+        "tasks"
       ]
     },
     {
@@ -6244,7 +6267,6 @@
       "name": "Site Health",
       "metadataHash": "d54990707ec83ac31318c9dc3c6c12daadebbe5e37e48a1a5f5792e60f142d5d",
       "types": [
-        "network",
         "uptime-monitoring"
       ]
     },
@@ -6255,7 +6277,7 @@
       "types": [
         "vpn",
         "network",
-        "radio"
+        "network-diagnostics"
       ]
     },
     {
@@ -6447,7 +6469,7 @@
       "name": "Chore Timer",
       "metadataHash": "7db148e54384b385148650a6ec247d25728d941ca954eae2d15dbc245d774424",
       "types": [
-        "clock-timer"
+        "timers-alarms"
       ]
     },
     {
@@ -6486,9 +6508,7 @@
       "id": "evcode.hotspot",
       "name": "Wi-Fi Hotspot & Repeater",
       "metadataHash": "f30adbbc662c24a52372f01646e069fefdd010927aa309aa2564d22b3e4dfea9",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "ever.telemetry",
@@ -6565,6 +6585,7 @@
       "name": "Simple Toggl Tracker",
       "metadataHash": "81e7715c693b8f1694bf3c8bbd49a036a05d687101cfa45d580381c3e703a93c",
       "types": [
+        "timers-alarms",
         "focus"
       ]
     },
@@ -6621,7 +6642,6 @@
       "name": "Feedback",
       "metadataHash": "e2f1bb678cb6fb03ae73e128182555b82144c4926a6c9a45703d4027fef8d331",
       "types": [
-        "screenshots",
         "github"
       ]
     },
@@ -6814,8 +6834,9 @@
       "name": "FocusFlow",
       "metadataHash": "64c298dd0df85720e10cbcdd21f71b8053e9fe576921ca35344c4594e1fe721b",
       "types": [
-        "clock-timer",
-        "focus"
+        "timers-alarms",
+        "focus",
+        "tasks"
       ]
     },
     {
@@ -6899,7 +6920,9 @@
       "id": "foamy.notifications",
       "name": "Foamy Notifications",
       "metadataHash": "08e884904edd41fc4a45cdaf405815859c8c7fbf656f826c23bff3a95483f156",
-      "types": []
+      "types": [
+        "notifications"
+      ]
     },
     {
       "id": "foamy.power",
@@ -6913,7 +6936,9 @@
       "id": "foamy.syncthing",
       "name": "Foamy Syncthing",
       "metadataHash": "7087dba046d1ce325bc921b598ab9865d469c5163d73f9257c335acebb02263e",
-      "types": []
+      "types": [
+        "file-sync"
+      ]
     },
     {
       "id": "foamy.teams",
@@ -6952,7 +6977,7 @@
       "name": "Pomodoro Timer",
       "metadataHash": "39aaf5b193f4750218a1127810524a778e5a3cd05d807b1167a38ada9f7ec6a2",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -7121,7 +7146,7 @@
       "name": "Spotify Vinyl",
       "metadataHash": "89e097ad85df8ce60f9fea9171d26be7185357405fb102621b381b9d0d736891",
       "types": [
-        "music"
+        "music-players"
       ]
     },
     {
@@ -7240,6 +7265,7 @@
       "name": "App Dock",
       "metadataHash": "fdb8d53f71f5d127c2c2a7d206e52d1c4c7109f29eef35f419220397c4db8d4f",
       "types": [
+        "docks",
         "window-management"
       ]
     },
@@ -7266,6 +7292,7 @@
       "name": "PowerCore",
       "metadataHash": "bd199f0ff14ebe697aa4e5ab1b722d97e77c0455669a44e14472f57fbc9d9628",
       "types": [
+        "battery",
         "keyboard-lighting",
         "peripheral-battery"
       ]
@@ -7275,8 +7302,10 @@
       "name": "Ready Room",
       "metadataHash": "6851083bf7939179860f982d01b7002b322cb27dafeacff563c0a9ab92871d74",
       "types": [
-        "brightness",
-        "notifications"
+        "system-monitor",
+        "night-light",
+        "notifications",
+        "screen-recording"
       ]
     },
     {
@@ -7285,7 +7314,7 @@
       "metadataHash": "557199083bff0f93a1de91d5b258c93d9e29b7a9b779f0d96050ecf3d49d81fa",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -7308,9 +7337,7 @@
       "id": "geertjohan.lock-wifi-ap",
       "name": "AP Lock",
       "metadataHash": "9d4820547ca1dc6544da2ada19881a5c32ff1328ea7fea4870da86f785ba13f5",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "geertjohan.submap",
@@ -7542,6 +7569,8 @@
       "metadataHash": "afe5a40103b3768359a04734f9d80f9632bd3eac30d351b67dbb8318e84d8d77",
       "types": [
         "screenshots",
+        "screen-recording",
+        "ocr",
         "gaming"
       ]
     },
@@ -7821,7 +7850,8 @@
       "metadataHash": "98c77a5ad67dc7df8e4524a6f6eac4b33217b354f13461b1626433876e5a77b5",
       "types": [
         "music",
-        "weather"
+        "weather",
+        "docks"
       ]
     },
     {
@@ -7852,6 +7882,7 @@
       "name": "Keyboard Nightlight Sync",
       "metadataHash": "22893f91de91406fed476d0f01eea2ca39154f18d6ac4bc4a91e6da597ff0292",
       "types": [
+        "night-light",
         "keyboard-lighting"
       ]
     },
@@ -7873,9 +7904,7 @@
       "id": "gruper.nanit",
       "name": "Nanit",
       "metadataHash": "0daa0e37ad68159c3cfaabb5c4017f922ef1a939d6b9f258b8fd0b6dc6501980",
-      "types": [
-        "brightness"
-      ]
+      "types": []
     },
     {
       "id": "gruper.volume-beep",
@@ -7960,7 +7989,7 @@
       "name": "Omareel",
       "metadataHash": "ea31505669d6bb04b31388ec3a6446354a0677b78378f74fca9723d9ade90a36",
       "types": [
-        "screenshots"
+        "screen-recording"
       ]
     },
     {
@@ -8017,7 +8046,7 @@
       "metadataHash": "cf6d22a48c3335ddd1e38e62bdf813cee94fc40a5c53619476bef60885eee764",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -8120,7 +8149,7 @@
       "metadataHash": "a5363a8bb4addfdcbba38dc5a7f7561b2a69fc81819ed0ad89c9ec620504db63",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -8262,9 +8291,7 @@
       "id": "hegjon.unifi",
       "name": "UniFi",
       "metadataHash": "fbd1a6ecd1fd42aae53c417785459542e03900c5d483f44400f3079aa3ec50a3",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "hehh2001.lunar-clock",
@@ -8288,7 +8315,7 @@
       "name": "OpenProject Tasks",
       "metadataHash": "5e34565a1bf303513109dce08325a5f55744c7151abe362ca6e3a755266bf771",
       "types": [
-        "clock-timer"
+        "timers-alarms"
       ]
     },
     {
@@ -8585,7 +8612,7 @@
       "name": "OmaAmp",
       "metadataHash": "90e042edd9185b47744748e13363e0b3d362bc5a8ed237844a87a2c70366327f",
       "types": [
-        "music"
+        "music-players"
       ]
     },
     {
@@ -8629,7 +8656,7 @@
       "name": "Todo",
       "metadataHash": "cd1cd3076399fd083941fd36aa5b9d91866e36f870f11748030e06b17361a101",
       "types": [
-        "focus"
+        "tasks"
       ]
     },
     {
@@ -8715,7 +8742,7 @@
       "name": "Timers",
       "metadataHash": "a1e30f0008152cd49be07bc769563f1c3a436e3e3285e3da0a2d56645f73c7df",
       "types": [
-        "clock-timer"
+        "timers-alarms"
       ]
     },
     {
@@ -8758,9 +8785,7 @@
       "id": "idle-ladder",
       "name": "Idle ladder",
       "metadataHash": "3ddb29c5f4484c6909a753db831a62efb85cca9c609befbba93d3aa2ff98af1e",
-      "types": [
-        "brightness"
-      ]
+      "types": []
     },
     {
       "id": "ignibyte.kids-clock",
@@ -9022,7 +9047,7 @@
       "name": "Omato",
       "metadataHash": "4c64d6ed4d8f5820f296294cd26e97dac3367602d1631c968e3ccc11840a4943",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -9269,7 +9294,9 @@
       "id": "io.github.adam-loy.spotify-wheel",
       "name": "Spotify_Wheel",
       "metadataHash": "a059bec5b0463bdef7023d0fa6963162298ec82aaf47ad9cb4a346aec946cdbc",
-      "types": []
+      "types": [
+        "music-players"
+      ]
     },
     {
       "id": "io.github.adamcbrewer.voxtype-aura",
@@ -9426,7 +9453,7 @@
       "name": "Sunset Night Light",
       "metadataHash": "49a124917696107084f20d2eb6e8f37d26e2dff87534e3d3633835e1d8e005ad",
       "types": [
-        "brightness"
+        "night-light"
       ]
     },
     {
@@ -9489,6 +9516,7 @@
       "name": "Galaxy Buds Pro",
       "metadataHash": "d14fea61f57ebe4b5f9916cffa8c88ca2329bfa319037ab522304727f6546bad",
       "types": [
+        "battery",
         "audio"
       ]
     },
@@ -9746,7 +9774,9 @@
       "id": "io.github.alront.agent-folder-picker",
       "name": "Agent Folder Picker",
       "metadataHash": "bcfed0413d9b08e0e978174c86ec4bceab7be3aa8925bdb586179e486339fc4f",
-      "types": []
+      "types": [
+        "ai-assistant"
+      ]
     },
     {
       "id": "io.github.alvaroeds.hodl",
@@ -9964,7 +9994,7 @@
       "name": "Screen Temperature",
       "metadataHash": "a581e94b1bc0e1f41555e1284e45bc98940be94cd4442ec5fddaa6049ac70070",
       "types": [
-        "brightness"
+        "night-light"
       ]
     },
     {
@@ -10262,7 +10292,7 @@
       "name": "Better Network",
       "metadataHash": "a567dadbf6713aa31cb8029198a273600123d5bdaebaa129a365ebb917e0395c",
       "types": [
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -10270,7 +10300,8 @@
       "name": "Todoist",
       "metadataHash": "9e08e7134d5153a7b8fda09ccb62be5d8d01cdcd797c8edfb6f767c763465e7d",
       "types": [
-        "focus"
+        "focus",
+        "tasks"
       ]
     },
     {
@@ -10278,7 +10309,8 @@
       "name": "Better VPN",
       "metadataHash": "ec8a27cbd2c72a5d51c42c6f3de098f593d2fe222d7e028e853a37d547bbfe1e",
       "types": [
-        "vpn"
+        "vpn",
+        "network"
       ]
     },
     {
@@ -10332,7 +10364,7 @@
       "name": "AI Panel",
       "metadataHash": "dac702a08588af690363fc5ac61d7e84aa8f05a09e213bd70342bdcecaeab08d",
       "types": [
-        "ai-assistant"
+        "ai-chat"
       ]
     },
     {
@@ -10362,10 +10394,7 @@
       "id": "io.github.austindixson.touchbar",
       "name": "Touch Bar",
       "metadataHash": "99fa6948f2e57748e078cd29fb12789a66cbfbe1c9846af9a48fb9f59103f44d",
-      "types": [
-        "brightness",
-        "screenshots"
-      ]
+      "types": []
     },
     {
       "id": "io.github.auxxed.agents",
@@ -10400,6 +10429,7 @@
       "types": [
         "music",
         "calendar",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -10425,9 +10455,7 @@
       "id": "io.github.ayandexyz.attention",
       "name": "Attention",
       "metadataHash": "cc75526dff25e2edc558a3b07877f74f8cb7703af940d37976198f2995f70b88",
-      "types": [
-        "screenshots"
-      ]
+      "types": []
     },
     {
       "id": "io.github.ayandexyz.close-guard",
@@ -10553,6 +10581,7 @@
       "metadataHash": "e18be59f02a70b9f996f6b7e7b3e31ba0cdb3e167d1c6acdf068c20a9837395c",
       "types": [
         "ai-assistant",
+        "ai-chat",
         "ai-api-usage"
       ]
     },
@@ -10670,7 +10699,6 @@
       "metadataHash": "c810e61af656de4cf1f3744be734204a74a57abbbd5c308b07dcab62f32fdda9",
       "types": [
         "music",
-        "screenshots",
         "phone-integration"
       ]
     },
@@ -10707,7 +10735,7 @@
       "name": "Omarchy Focus Timer",
       "metadataHash": "e9e4cf97ed0cbf53c669557cffeff3f1b8dc716e6b453c05975932ce2beb5ffe",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -10811,7 +10839,9 @@
       "id": "io.github.bolens.privacy-devices",
       "name": "Privacy Devices",
       "metadataHash": "63ba1e1817dd4ef8e6f500d3ffc4cb9a97c2d99ad2d764956e810109d7981db6",
-      "types": []
+      "types": [
+        "screen-recording"
+      ]
     },
     {
       "id": "io.github.bonesgit.omarchy-netdata",
@@ -10915,7 +10945,7 @@
       "name": "Work Timer",
       "metadataHash": "2020d356a705b5e7f03c59da68a1eee8e742d3297946d07002f783290c72662f",
       "types": [
-        "clock-timer"
+        "timers-alarms"
       ]
     },
     {
@@ -11084,8 +11114,7 @@
       "name": "Dynamic Island",
       "metadataHash": "b4aeb03fd4709e3048d417c7a8754001b44c554767de6fb92eff9e9b6d6fae54",
       "types": [
-        "brightness",
-        "screenshots"
+        "screen-recording"
       ]
     },
     {
@@ -11093,6 +11122,7 @@
       "name": "OnePlus Experience",
       "metadataHash": "73de716e61665589ca8b8e692a26e46d70c9fbf4ce5fb67801369bb8c970d63b",
       "types": [
+        "battery",
         "audio"
       ]
     },
@@ -11119,7 +11149,7 @@
       "name": "Kirinuki",
       "metadataHash": "c44c43ee75e2958242312fce030885a2bb8276fab22c0d36aab32dd7cb009f0d",
       "types": [
-        "screenshots"
+        "ocr"
       ]
     },
     {
@@ -11233,7 +11263,7 @@
       "name": "Public IP",
       "metadataHash": "b110c7181df0c56d8af6bcc6e896e9fdc8eeaf246d0a19280f745f63af0453d9",
       "types": [
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -11291,7 +11321,8 @@
       "name": "Omaspotify",
       "metadataHash": "33b8fe9c9a62c8c399c54ed81ceef9b4ccac5e2f5f739a886c573f9e7d54c924",
       "types": [
-        "music"
+        "music",
+        "music-players"
       ]
     },
     {
@@ -11306,9 +11337,7 @@
       "id": "io.github.cempack.songrec",
       "name": "SongRec",
       "metadataHash": "7b24e90b0690b281f55dda4ebb6884c23072b50194b9e3ab8c6ba5bb0da3f75f",
-      "types": [
-        "music"
-      ]
+      "types": []
     },
     {
       "id": "io.github.cesarfilho.bluetooth-adapter-switch",
@@ -11519,7 +11548,7 @@
       "name": "OmaGlass",
       "metadataHash": "2c7221755c1898e67eb632c49e5a347669e568dc9158a0ee24e54967e2e398fe",
       "types": [
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -11538,7 +11567,9 @@
       "id": "io.github.claudsondouglas.arcdock",
       "name": "Arc Dock",
       "metadataHash": "6d879d5eacbe4e37e9114f782f206f20d508b23054d5b0c892ab4de4754cbce5",
-      "types": []
+      "types": [
+        "docks"
+      ]
     },
     {
       "id": "io.github.closetheloop-dev.token-fish",
@@ -11625,7 +11656,7 @@
       "name": "cOMApilot",
       "metadataHash": "e7f9fbe4cd38aed0bde4b3f7cd7be806de529b423d3acb926ad8e877ec3f9148",
       "types": [
-        "ai-assistant"
+        "ai-chat"
       ]
     },
     {
@@ -11639,7 +11670,6 @@
       "name": "Omatoki",
       "metadataHash": "60b2877257a5a1f6ababb80f7dfc5489495771bd4aae99208881b4fd086361c7",
       "types": [
-        "music",
         "weather",
         "calendar",
         "clock-timer"
@@ -11650,8 +11680,7 @@
       "name": "Timer",
       "metadataHash": "60788913727d8b22dcb0ff232441365f0a9bc923cfaa73c291ce697bbd6297a2",
       "types": [
-        "music",
-        "clock-timer"
+        "timers-alarms"
       ]
     },
     {
@@ -12021,7 +12050,7 @@
       "name": "omatodolist",
       "metadataHash": "c2c6886545d09d9777785ba0dd76fdf44e2b33e47305c1f58eb51e02002176b1",
       "types": [
-        "focus"
+        "tasks"
       ]
     },
     {
@@ -12043,7 +12072,7 @@
       "name": "Music Dock",
       "metadataHash": "d34d6b9af7efc8c25174ffd30fd23df3c63e882ab022b79c4357f11946d10a97",
       "types": [
-        "music"
+        "docks"
       ]
     },
     {
@@ -12122,7 +12151,7 @@
       "name": "Todoist Quick Add",
       "metadataHash": "9021b579289d81913d3e63e70ba418ce2d190549d654b99d97d3ea350e403613",
       "types": [
-        "focus"
+        "tasks"
       ]
     },
     {
@@ -12150,6 +12179,7 @@
       "name": "Control4",
       "metadataHash": "620b2e71dac7cff21fdc1ccfb9ae5ee3fbc31a720cc4b9c58eefa9d6162d1581",
       "types": [
+        "music-players",
         "radio"
       ]
     },
@@ -12179,7 +12209,7 @@
       "metadataHash": "524053d9230207056895edbe5932b6f53dd522222977bcc19f3bce9d571d44ef",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -12279,16 +12309,15 @@
       "id": "io.github.denisdmarques.network-routes",
       "name": "Network Routes",
       "metadataHash": "b3ba2048a814cdebd603b581f28f4cd791b4cfe2270b2bdf22996dbf55ef4cee",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "io.github.denisdmarques.openvpn-certpass",
       "name": "OpenVPN + cert-pass",
       "metadataHash": "2e32df0f18fb537bcc0f1da20c8f73a4be93db9ca5b7692363ac7c105d6bb488",
       "types": [
-        "vpn"
+        "vpn",
+        "network"
       ]
     },
     {
@@ -12318,7 +12347,7 @@
       "name": "Omarchy Lacquer",
       "metadataHash": "a8a62f2674c50478f3b20abb259897b7b334ada9c05637f4c147307f3f87640e",
       "types": [
-        "brightness",
+        "night-light",
         "lock-idle",
         "wallpaper",
         "themes-appearance"
@@ -12421,7 +12450,7 @@
       "name": "Network Scanner",
       "metadataHash": "1d89d164515edd0c10c883d13d148ae8640cfbd6c83056f49b64f502dd4662af",
       "types": [
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -12445,7 +12474,7 @@
       "types": [
         "system-monitor",
         "battery",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -12513,7 +12542,8 @@
       "name": "Omacapture",
       "metadataHash": "5e884afca6c93ad659637f75cce4c47b9f5ddc7990ec860be5123786cd746333",
       "types": [
-        "screenshots"
+        "screenshots",
+        "ocr"
       ]
     },
     {
@@ -12535,6 +12565,7 @@
       "name": "ZMK split battery",
       "metadataHash": "d7ff78cd012a5398cebbee4b7a2ab6c9dccffcc37cbdac6b7c774214715700a2",
       "types": [
+        "battery",
         "peripheral-battery"
       ]
     },
@@ -12854,7 +12885,7 @@
       "name": "Todoist Shopping List",
       "metadataHash": "4c315a689b834f999e63a059d8b8e57c5656c6733cf0e76d14fb026f270392db",
       "types": [
-        "focus"
+        "tasks"
       ]
     },
     {
@@ -13076,6 +13107,7 @@
       "name": "omakeylight",
       "metadataHash": "44c9fec2e2565fed09b723f1387fde35efd690f3bffae649a3224eb135b4ea44",
       "types": [
+        "brightness",
         "wallpaper"
       ]
     },
@@ -13203,7 +13235,9 @@
       "id": "io.github.ekrist1.nordstart",
       "name": "Nordstart",
       "metadataHash": "85f4c1af6b020f893a1e4215f9c7d6d44d32255f9e20376b75aa222640fd1e40",
-      "types": []
+      "types": [
+        "ai-assistant"
+      ]
     },
     {
       "id": "io.github.elberacasa.omalogi",
@@ -13449,7 +13483,7 @@
       "metadataHash": "4ee3bcd4ab02eb3fa5cb875ef235f194cc4e37e4982520c16e86201996a98c6c",
       "types": [
         "calendar",
-        "focus"
+        "tasks"
       ]
     },
     {
@@ -13476,7 +13510,7 @@
       "metadataHash": "f6a68fe3fa8f8de4be6a5dec20d09af7e57a4ff14e3a3496c30b036216fcebd6",
       "types": [
         "launcher",
-        "clock-timer"
+        "timers-alarms"
       ]
     },
     {
@@ -13524,7 +13558,7 @@
       "name": "Kanji Lookup",
       "metadataHash": "6dbd2e5985dac0703db6e907813fbde132b4f8a749e055a73f0ccd64ed351df5",
       "types": [
-        "screenshots",
+        "ocr",
         "dictionary"
       ]
     },
@@ -13549,8 +13583,10 @@
       "types": [
         "system-monitor",
         "music",
-        "clock-timer",
+        "battery",
+        "timers-alarms",
         "focus",
+        "tasks",
         "peripheral-battery"
       ]
     },
@@ -13742,7 +13778,7 @@
       "metadataHash": "28889a57cdb23e1a70e4b9b92dfdcd334708d8a45fd5a2b98c6c1084bf18710d",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -13859,7 +13895,7 @@
       "name": "Tunarchy",
       "metadataHash": "e48b7451f6acc23e2af8faf5671e9ac049e773983418f9af321785b377fe0aa9",
       "types": [
-        "music"
+        "music-players"
       ]
     },
     {
@@ -13894,9 +13930,7 @@
       "id": "io.github.flx-0x00.ip-copy",
       "name": "IP Copy",
       "metadataHash": "0c1bb0d7eaf88e8d79f1bf71b6d7b8dd040992f7a0f720718117cf533f65f8bd",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "io.github.franck.omapower",
@@ -13917,7 +13951,7 @@
       "name": "NetScope",
       "metadataHash": "c87e54768e9e0e2356dc8a17751c392548307e6e7ddf4054d88580057525a32c",
       "types": [
-        "network",
+        "network-diagnostics",
         "dev-ports"
       ]
     },
@@ -13995,7 +14029,9 @@
       "id": "io.github.gardnmi.window-shelf",
       "name": "Minimize",
       "metadataHash": "c1c6cf4d81eb3a4cfdc401a52b2671ef8097526ba8b684664f010d35f3f22d3b",
-      "types": []
+      "types": [
+        "window-management"
+      ]
     },
     {
       "id": "io.github.gashiartim.devpulse",
@@ -14183,7 +14219,7 @@
       "metadataHash": "381f4e788d1512b51819eb819ea27419d96f1dc1c23eae662f13f5cba6acc9b5",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -14323,9 +14359,7 @@
       "id": "io.github.guranex.media-lyrics",
       "name": "Media Lyrics Card",
       "metadataHash": "34470fe2102fe0a20b54e33edb89ebacd950df032f4163c709f917fa54e8fc3f",
-      "types": [
-        "music"
-      ]
+      "types": []
     },
     {
       "id": "io.github.gustavohariel.hubstaff",
@@ -14382,7 +14416,8 @@
       "name": "Omamusic",
       "metadataHash": "151eaf9b5f40e58b998e5039f5bb1a02bb57191f03c1f17042e3cd7ba6118109",
       "types": [
-        "music"
+        "music",
+        "music-players"
       ]
     },
     {
@@ -14436,9 +14471,7 @@
       "id": "io.github.hectorhache.omawifi",
       "name": "OmaWiFi - Wi-Fi Anchor",
       "metadataHash": "7d667f035404e7e397853cd8ab644c136f296ff5529df9697d79263add8c7f16",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "io.github.heinsk.devops-monitor",
@@ -14548,7 +14581,9 @@
       "id": "io.github.hogar1977.top-bar-dock",
       "name": "Top Bar Dock",
       "metadataHash": "9908627063ed65adff61795dcfa2b154c85d95ccaa04a38341509d4c93fe573e",
-      "types": []
+      "types": [
+        "docks"
+      ]
     },
     {
       "id": "io.github.homie10.catch",
@@ -14567,6 +14602,7 @@
       "name": "Launcher",
       "metadataHash": "10eb1e54c3f975128be1007d4d686cde16b2544a099e9dc84f6e8ef40a47cb1b",
       "types": [
+        "launcher",
         "window-management"
       ]
     },
@@ -14576,7 +14612,7 @@
       "metadataHash": "2cd9ccb8f5a4e3c83ba1cc990980b03a6608e51a2a8adfe882b419fb92a6fdee",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -14616,7 +14652,9 @@
       "id": "io.github.houtvongsak.herdr-sessions",
       "name": "Herdr Session Manager",
       "metadataHash": "0d4f2c5b90e99fe2de42d455c8865499cd0ce14dfd9671f3b0842c3b7cefe96e",
-      "types": []
+      "types": [
+        "ai-assistant"
+      ]
     },
     {
       "id": "io.github.howdyitskyle.weathering",
@@ -14724,7 +14762,7 @@
       "name": "NetNeighbors",
       "metadataHash": "972f4de66ad8ae405567c4975053d12a4869b914e318f2e1c06d25d7f896ac65",
       "types": [
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -14779,7 +14817,7 @@
       "metadataHash": "0b1b8e0bd32189363970f97d47f17d0462787ea04cdf310ab4358655389989c8",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -14836,7 +14874,7 @@
       "metadataHash": "9bdb642fab8ce8b2955eef8f1296246dcf2be972a246e960fa57d51e6de700bb",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -14885,7 +14923,7 @@
       "name": "Syncthing",
       "metadataHash": "09b84258fa8a1e98e9bae394805779efb88e2ee14b4bb8e3c1e6f6cc2eea4c6e",
       "types": [
-        "screenshots"
+        "file-sync"
       ]
     },
     {
@@ -14944,9 +14982,7 @@
       "id": "io.github.inxeo.plexamp-simple-player",
       "name": "Plexamp Simple Player",
       "metadataHash": "bea4a70f4a03b0b0c70e73c48beb2bab6410f5aa730d9acd91f1587467d812d0",
-      "types": [
-        "music"
-      ]
+      "types": []
     },
     {
       "id": "io.github.ipastorsan.bujo",
@@ -15012,14 +15048,16 @@
       "id": "io.github.itsdotdev.dock",
       "name": "Dock",
       "metadataHash": "d0888acd3610271347cbd1641d1b8ad7865373e8ccbdce5ce5d9e9edaf87fe8b",
-      "types": []
+      "types": [
+        "docks"
+      ]
     },
     {
       "id": "io.github.itsdotdev.youtube-music",
       "name": "YouTube Music",
       "metadataHash": "1e61bcc23d58ad932f6872bb0e779bf90a0f504862c3dfcf967e105a7b6b5a84",
       "types": [
-        "music"
+        "music-players"
       ]
     },
     {
@@ -15074,7 +15112,7 @@
       "name": "Tick",
       "metadataHash": "75977ab639ccd85ba2782051068180b542fd43368df983fd4f1255095351d5d6",
       "types": [
-        "clock-timer"
+        "timers-alarms"
       ]
     },
     {
@@ -15110,7 +15148,7 @@
       "name": "Swing Music Search",
       "metadataHash": "5b965aeddbb73aa967da26d14c583399fa1de03d9ed0f6f41d116f82665e804c",
       "types": [
-        "music"
+        "music-players"
       ]
     },
     {
@@ -15187,7 +15225,7 @@
       "name": "Meeting Mode",
       "metadataHash": "ab0c1fe3eab21f64f27da6f1ee05618ba1bc3b1fdd3a88a92df0c9e84aea61bf",
       "types": [
-        "brightness",
+        "night-light",
         "notifications"
       ]
     },
@@ -15219,6 +15257,7 @@
       "metadataHash": "c96eaaa0c54eef773cb153f79ad0896efbb73242d8132a27c8df0cc1be2ea0bc",
       "types": [
         "display-monitors",
+        "ai-assistant",
         "gaming"
       ]
     },
@@ -15275,7 +15314,8 @@
       "name": "Omarchy Vibez",
       "metadataHash": "c7d2fc3d8cf71784714932f52c9477cce902d17f42021b0d1a96f6932a219857",
       "types": [
-        "music"
+        "music",
+        "music-players"
       ]
     },
     {
@@ -15283,14 +15323,16 @@
       "name": "Night Light",
       "metadataHash": "1c5cd8fac4f63f5f8f10f28263103c9a4264f297b5e80fa0e5de095c908e96ca",
       "types": [
-        "brightness"
+        "night-light"
       ]
     },
     {
       "id": "io.github.jeremylanger.omaspotify",
       "name": "OmaSpotify",
       "metadataHash": "e7cf8f72501c2387bd5769103c54cb0ad4e0aff0511594f6667516b0a9877eaa",
-      "types": []
+      "types": [
+        "music-players"
+      ]
     },
     {
       "id": "io.github.jeremylongshore.bazaar",
@@ -15305,8 +15347,8 @@
       "name": "Capture Conveyor",
       "metadataHash": "8cc157ae8d2122f933362348dfa1bd15b620449b10025bdb9a1476852f570323",
       "types": [
-        "network",
-        "screenshots"
+        "screenshots",
+        "ocr"
       ]
     },
     {
@@ -15937,7 +15979,7 @@
       "name": "Gati",
       "metadataHash": "94bfce4ccff897abea6f06af3055fc37c2947a4faf2f948336c8004e57f536cf",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -15966,7 +16008,7 @@
       "name": "Flowstate",
       "metadataHash": "3d8fdcc5909b780cd2388a0b11bf4aac4ff97738a5071fcb193295d109835809",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -16036,7 +16078,7 @@
       "metadataHash": "8915b3f0fbc2672d13c9450f40d97d9cc1e364fb343aef96ea915fa324e9d6fe",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -16254,7 +16296,7 @@
       "types": [
         "system-monitor",
         "battery",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -16322,7 +16364,8 @@
       "name": "Ampbar for Plex",
       "metadataHash": "6b0eb5b904866b2490c0c28e6b77e26103577ff68ce497f0a3731ebf52e6b66f",
       "types": [
-        "music"
+        "music",
+        "music-players"
       ]
     },
     {
@@ -16426,7 +16469,8 @@
       "name": "Apple Music for Omarchy",
       "metadataHash": "904192e67753fc2b42ed45b30786a82d28b79993580b928b40310e5d2d6dc6d0",
       "types": [
-        "music"
+        "music",
+        "music-players"
       ]
     },
     {
@@ -16434,6 +16478,7 @@
       "name": "Vivobook Control",
       "metadataHash": "ef8a84b81e2570d75ed4a37931135e15b417b809fce6796d729101b05323a832",
       "types": [
+        "battery",
         "keyboard-lighting"
       ]
     },
@@ -16605,7 +16650,9 @@
       "id": "io.github.lioheimberg.stardate",
       "name": "Star Trek: Stardate",
       "metadataHash": "d8a59b59684dd2b4a56cce8484c07e2a578f0f324b0eb984d965390b2e3279d9",
-      "types": []
+      "types": [
+        "clock-timer"
+      ]
     },
     {
       "id": "io.github.lmajs.infiniarchy",
@@ -16641,9 +16688,7 @@
       "id": "io.github.loupibe.omarchy-wifi-privacy",
       "name": "Wi-Fi Privacy",
       "metadataHash": "e30bf6456ce8e6607a39918f4e3850ba44b6c06cd73a46c2326ff7efb3498e29",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "io.github.loupibe.system-monitor",
@@ -16651,7 +16696,7 @@
       "metadataHash": "024b0880170c245a7e865e2f0e33b8b83aff09f6c9d599679e880401a8c02cb7",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -16698,7 +16743,9 @@
       "id": "io.github.luccast.omarr",
       "name": "omARR",
       "metadataHash": "147289c4a43864b5bbec4ae4fc44d0caea0a6d1f7b3893d689b16d15a61f39ab",
-      "types": []
+      "types": [
+        "music-players"
+      ]
     },
     {
       "id": "io.github.luizeof.omarchy-sshmanager",
@@ -16729,7 +16776,7 @@
       "name": "Desktop Widget Control",
       "metadataHash": "46b58ec746fd8fa5dbc0b536056f87e7a993c07b6ea804ab71526774d26ef62e",
       "types": [
-        "music",
+        "music-players",
         "weather",
         "calendar"
       ]
@@ -16828,9 +16875,12 @@
       "metadataHash": "aac6eb15f6dbd1d992c05d7d3348c82dcae053815071c0e48a1e26a7e83b98f9",
       "types": [
         "clipboard",
+        "launcher",
         "network",
-        "brightness",
-        "calendar"
+        "night-light",
+        "calendar",
+        "window-management",
+        "file-search"
       ]
     },
     {
@@ -16891,9 +16941,7 @@
       "id": "io.github.majesticio.cliamped",
       "name": "CLIAMPed",
       "metadataHash": "46ae3e5c7de0e86834b216bb2bd1f1b1656e0137082c89538464e16cde8c1b7f",
-      "types": [
-        "radio"
-      ]
+      "types": []
     },
     {
       "id": "io.github.majesticio.clipboard-button",
@@ -16969,7 +17017,8 @@
       "name": "Omaview",
       "metadataHash": "277a2701b5bdb3a3a7988806750309d06f3b4454d771d411fe8775b8ddbd9865",
       "types": [
-        "calendar"
+        "calendar",
+        "clock-timer"
       ]
     },
     {
@@ -17020,7 +17069,9 @@
       "id": "io.github.manateelazycat.startup-map",
       "name": "Startup Map",
       "metadataHash": "8fa2508d99b7e9ea033b0c128375ca484eab880dd1cd70b3d07e21e5417b630c",
-      "types": []
+      "types": [
+        "launcher"
+      ]
     },
     {
       "id": "io.github.manateelazycat.terminal-clipboard",
@@ -17091,7 +17142,8 @@
       "name": "Deezer",
       "metadataHash": "3e0515982c1c55197391f5f668a2de5253af5e416be3bda5e156984e4f2fc547",
       "types": [
-        "music"
+        "music",
+        "music-players"
       ]
     },
     {
@@ -17104,7 +17156,9 @@
       "id": "io.github.marcoripa96.browser-minimap",
       "name": "Browser minimap",
       "metadataHash": "97af05f6ccb9e3f5f91e3c99a0b2302c723542b236b725f8e1c6ab50d41d42cd",
-      "types": []
+      "types": [
+        "ai-assistant"
+      ]
     },
     {
       "id": "io.github.marcusmyers.espn-scores",
@@ -17119,7 +17173,7 @@
       "name": "Hyprsunset Night Light",
       "metadataHash": "1028e60fead405f23044d9bc34a6bb84964d64633ca5a8b26592f13e2e969751",
       "types": [
-        "brightness"
+        "night-light"
       ]
     },
     {
@@ -17206,7 +17260,9 @@
       "id": "io.github.matheusmedrado.omadock",
       "name": "OmaDock",
       "metadataHash": "b1a39b46b25e31ae14be74bea220f7c5084f466baa9b5b4511cbce3c2f13230e",
-      "types": []
+      "types": [
+        "docks"
+      ]
     },
     {
       "id": "io.github.matiacone.omarci",
@@ -17250,7 +17306,9 @@
       "id": "io.github.matyssxdxd.clockify",
       "name": "Clockify",
       "metadataHash": "00328350881b125f318be198d2e0ed124bac6c3d1a1c63516484fb742edd8ec8",
-      "types": []
+      "types": [
+        "timers-alarms"
+      ]
     },
     {
       "id": "io.github.maxart.simple-workspaces",
@@ -17387,7 +17445,7 @@
       "name": "Plex Music",
       "metadataHash": "04ba848d7f30b4acde061ceda5e9be5d4e2cbcbf63a6d185ba15f68b6b635c2d",
       "types": [
-        "music"
+        "music-players"
       ]
     },
     {
@@ -17576,7 +17634,9 @@
       "id": "io.github.morawskimck.kimai",
       "name": "Kimai",
       "metadataHash": "2e1cec0e714b7c3b93d05b092f1b6ff6dce8bbbabab38a79185f9becb8413502",
-      "types": []
+      "types": [
+        "timers-alarms"
+      ]
     },
     {
       "id": "io.github.mousefirst.controls",
@@ -17862,7 +17922,9 @@
       "id": "io.github.nazlearn2code.line",
       "name": "LINE Messenger",
       "metadataHash": "58a2f8c1d3e53eed70778110397f15f9eb9563e17f7856df0614a93fae2d60d1",
-      "types": []
+      "types": [
+        "ai-assistant"
+      ]
     },
     {
       "id": "io.github.nchudleigh.omac",
@@ -17900,7 +17962,7 @@
       "name": "Pomodoro",
       "metadataHash": "9d830c26ac30925c9c7280d928590f4ee0b0435a0589f680df1731755ef76d3c",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -17957,7 +18019,9 @@
       "id": "io.github.nick-friedrich.hyprland-dock",
       "name": "Hyprland Dock",
       "metadataHash": "6557cc6f85127c9c7f08d490948c047035b1ff3cd337c052f399c512d9a3c05e",
-      "types": []
+      "types": [
+        "docks"
+      ]
     },
     {
       "id": "io.github.nico-kovacs.netbird",
@@ -18147,7 +18211,7 @@
       "name": "Chime",
       "metadataHash": "d67540a2679b8c586bdca9fdc187f5ab944c09148025f6b6c95f2a7f25e5f6f4",
       "types": [
-        "clock-timer"
+        "timers-alarms"
       ]
     },
     {
@@ -18178,7 +18242,9 @@
       "id": "io.github.nwohater.mixtape",
       "name": "Mixtape",
       "metadataHash": "d338d1ee9b9fabbfa54bc27ebd330c96bae67cc318da2e06229b5107a300500a",
-      "types": []
+      "types": [
+        "music-players"
+      ]
     },
     {
       "id": "io.github.objlako.hyprveil",
@@ -18208,7 +18274,7 @@
       "metadataHash": "19468f6e36a1803ffb9f60ea279e474b323da88bbc9aa66e96191a77f504d9a4",
       "types": [
         "music",
-        "screenshots",
+        "screen-recording",
         "ai-assistant"
       ]
     },
@@ -18236,7 +18302,7 @@
       "metadataHash": "34738fd0511357fb20a602ac4f37925c726dfd9c04ba9ef6ccac272b0aab06b1",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -18331,7 +18397,9 @@
       "id": "io.github.omar-sv88.vlans",
       "name": "VLANs",
       "metadataHash": "60358cd0f7550c2e88b5347f9f264c128a148dcc4a74776b8922eea65dfb087a",
-      "types": []
+      "types": [
+        "network"
+      ]
     },
     {
       "id": "io.github.omarchy.monitor-blanker",
@@ -18389,9 +18457,7 @@
       "id": "io.github.onatvural.screen-comfort",
       "name": "Screen Comfort",
       "metadataHash": "31be99dc006c4ddf14bd81d151b98823a00b3fb8546b13f9a1fcba66a46d5523",
-      "types": [
-        "brightness"
-      ]
+      "types": []
     },
     {
       "id": "io.github.onemohsen.gh-trending",
@@ -18508,7 +18574,9 @@
       "id": "io.github.pablousx.omastart",
       "name": "omastart",
       "metadataHash": "3e97f86c059bd50d04879052686c09d88845c287ab83c5e6f66b68546500a9b6",
-      "types": []
+      "types": [
+        "ai-assistant"
+      ]
     },
     {
       "id": "io.github.pantherdev2024.quartermaster",
@@ -18610,7 +18678,6 @@
       "name": "CI Ping",
       "metadataHash": "8dfaf529a180b1758bb4082c47c4ddd38e0f29ae0018c7c1568e332264c880f7",
       "types": [
-        "network",
         "github"
       ]
     },
@@ -18675,7 +18742,8 @@
       "name": "RAM speed test",
       "metadataHash": "5915b3a1ca21b377c8e3f7b141151124f281977607b129701924d22f6a644ec6",
       "types": [
-        "system-monitor"
+        "system-monitor",
+        "network-diagnostics"
       ]
     },
     {
@@ -18743,7 +18811,7 @@
       "name": "Clockwork",
       "metadataHash": "0603bebe738d8ac31464257a0106af3f8574520ad7e6c1e326e16421eddd5a81",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -18800,7 +18868,7 @@
       "name": "UniFi Network",
       "metadataHash": "7ff5b02843994d364d989bf9b2758e8bae8cfe38a40c8df5e04be0fab48eacee",
       "types": [
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -19020,7 +19088,7 @@
       "name": "Pomodoro",
       "metadataHash": "285dd6b62a099c4d56ccb191be6fadf87373ec21823aa947511927019f8113f3",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -19028,9 +19096,7 @@
       "id": "io.github.punkscience.omarchy-scrobble",
       "name": "Scrobble",
       "metadataHash": "4ca9622e26bdd94b9f6a68321932988551e58e50f5ab41fb6a12b411ba4fed78",
-      "types": [
-        "music"
-      ]
+      "types": []
     },
     {
       "id": "io.github.pushmotta.candela",
@@ -19312,13 +19378,17 @@
       "id": "io.github.ras.mediawidget",
       "name": "Media Widget",
       "metadataHash": "b4f9fa56c95708235f0268dcb392cce66148cfee48545251ada655c64882b2f0",
-      "types": []
+      "types": [
+        "music"
+      ]
     },
     {
       "id": "io.github.rationalseer.multi-account-agent-manager",
       "name": "Multi-Account Agent Manager",
       "metadataHash": "ca96eeb3150bee5ca85aac4290f196ef24c97bb6bafe022f19426fe9d087bc5c",
-      "types": []
+      "types": [
+        "ai-assistant"
+      ]
     },
     {
       "id": "io.github.rawritude.aria2",
@@ -19958,7 +20028,8 @@
       "name": "Music Assistant",
       "metadataHash": "0d477170a668933219a927ad4fdf07a45d2ab293af25e65c387a915fc02f09b9",
       "types": [
-        "music"
+        "music",
+        "music-players"
       ]
     },
     {
@@ -20354,7 +20425,8 @@
       "name": "WireGuard",
       "metadataHash": "f9b26068aa7933d49989887846bb72e33fbc33f7494952f62b99676eb12049e2",
       "types": [
-        "vpn"
+        "vpn",
+        "network"
       ]
     },
     {
@@ -20410,6 +20482,7 @@
       "name": "Glance Dock",
       "metadataHash": "9e341fd9dddd6d25695b27cce16bf17352c87bd93234c77a1c25a6f574038cb9",
       "types": [
+        "docks",
         "clock-timer"
       ]
     },
@@ -20514,7 +20587,7 @@
       "name": "MyIP",
       "metadataHash": "566304387a72dd0c054828c9cb3d3aa03fd99dc4e690c96f8f77c09b6ebf5522",
       "types": [
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -20577,7 +20650,9 @@
       "id": "io.github.silkvain.dockseid",
       "name": "Dockseid",
       "metadataHash": "3b656232ee2a5ab43cd352742f58427e159d6a186ecf71d9c35e631a84e4c827",
-      "types": []
+      "types": [
+        "docks"
+      ]
     },
     {
       "id": "io.github.silouanwright.look-elsewhere",
@@ -20651,7 +20726,9 @@
       "id": "io.github.sirallap.solfa",
       "name": "Solfa",
       "metadataHash": "36b6c8f71029dcffc85ec243fbfb37fa1db93e0127ba3c042a60a95a3a26937c",
-      "types": []
+      "types": [
+        "music-players"
+      ]
     },
     {
       "id": "io.github.sirallap.swapkin",
@@ -20696,7 +20773,7 @@
       "metadataHash": "02d7597b8f925569ad8c49ff754b7f73710662c40b974f280e9813fa651d1cbb",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -20728,7 +20805,8 @@
       "name": "Snipper",
       "metadataHash": "ed7bf1afc5166c11dac88586aa5e55e3eb03c6b2ff4ca10e374aba6a440c7d5d",
       "types": [
-        "screenshots"
+        "screenshots",
+        "ocr"
       ]
     },
     {
@@ -20811,7 +20889,7 @@
       "name": "Net Rain",
       "metadataHash": "f81f236f566ee2e5e73dc4ee0e6b181163b0a52b89845d60aae87eaa4ecb7289",
       "types": [
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -20881,8 +20959,9 @@
       "name": "TickTick",
       "metadataHash": "ec7bda24b10b172455ace8943968b705b06e74965b71572a08a38b761b2057fc",
       "types": [
-        "clock-timer",
-        "focus"
+        "timers-alarms",
+        "focus",
+        "tasks"
       ]
     },
     {
@@ -20969,7 +21048,9 @@
       "id": "io.github.stash-11.dock",
       "name": "My Dock",
       "metadataHash": "859d13625e0d0136e43e84ef7a779e0398300f76a4f36af642e1329fe88db87e",
-      "types": []
+      "types": [
+        "docks"
+      ]
     },
     {
       "id": "io.github.steezy-code.mousemap",
@@ -21064,7 +21145,8 @@
       "name": "WireGuard",
       "metadataHash": "d23cf95a69b036ca93d621f538c9b28b84f9bd7d1b15de715f6efc397535c851",
       "types": [
-        "vpn"
+        "vpn",
+        "network"
       ]
     },
     {
@@ -21087,7 +21169,7 @@
       "metadataHash": "85e8eb4bcd28c924cc921bf40a265d05c97358d8556c1ea5ef8e7798c154e3e3",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -21168,7 +21250,7 @@
       "name": "Spotify",
       "metadataHash": "45cf4ed2d5a5db8fbdf24301be9da63dce503b879ea960965a773d3a42f575be",
       "types": [
-        "music"
+        "music-players"
       ]
     },
     {
@@ -21298,7 +21380,7 @@
       "types": [
         "system-monitor",
         "music",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -21705,7 +21787,7 @@
       "name": "Stopwatch",
       "metadataHash": "a88340b646e155500482ef845a2e9d06e3e3617695778c9b6c2fc6a0a2a6f792",
       "types": [
-        "clock-timer"
+        "timers-alarms"
       ]
     },
     {
@@ -21727,7 +21809,7 @@
       "name": "Recast",
       "metadataHash": "caedc0ebcba4543ccdf48ea826e90f74fdbd745a2229f428e64c457759dc7f93",
       "types": [
-        "ai-assistant"
+        "ai-chat"
       ]
     },
     {
@@ -21740,9 +21822,7 @@
       "id": "io.github.tnperron.wired-vlan",
       "name": "Wired VLAN",
       "metadataHash": "ee0fc3b76327700deeb953ad454fec9021d7995a6a7644fccb621b91117df09b",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "io.github.tomdavenport.cam-stream",
@@ -21841,8 +21921,7 @@
       "name": "Omarchy OpenVPN Connect",
       "metadataHash": "4ab77d661995e79c448510ab3077dc529fb35511a96d9faf54e8234b97f5f348",
       "types": [
-        "vpn",
-        "network"
+        "vpn"
       ]
     },
     {
@@ -22150,7 +22229,7 @@
       "name": "Fast Note Todo",
       "metadataHash": "78221d95206e49730c19462f07cc33a9782731401776361ba05b21dbd1f6745d",
       "types": [
-        "focus",
+        "tasks",
         "notes"
       ]
     },
@@ -22204,7 +22283,9 @@
       "id": "io.github.vitorpacheco.mega",
       "name": "MEGA Sync",
       "metadataHash": "2111c220ec1e97d99048e56f43f6b4048ac3e59fdfb10f5faebbf68751a38368",
-      "types": []
+      "types": [
+        "file-sync"
+      ]
     },
     {
       "id": "io.github.vitorpacheco.pia",
@@ -22260,15 +22341,15 @@
       "id": "io.github.vonsensey.omargb",
       "name": "OmaRGB",
       "metadataHash": "124f5abb319b0af5b0993a98dcdc560cf7f1dec8dff313d19d10cc6dfec53c03",
-      "types": []
+      "types": [
+        "system-monitor"
+      ]
     },
     {
       "id": "io.github.vonsensey.omavet",
       "name": "Omavet",
       "metadataHash": "f97230eadb0eaec24814ba2d65a3fc85c441e63ef5895108de59c15d97615ae5",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "io.github.vonsensey.specimen",
@@ -22521,7 +22602,7 @@
       "metadataHash": "cfffe3ce546ba2aad7efea165a8cc03a18e411060fa8d3bede4074cd6302edd3",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -22862,7 +22943,7 @@
       "name": "Veilleuse",
       "metadataHash": "4ceef6f215330b431af59ab1d6e814e5549bc5fc5e0d5eb7b4d2a1974a4badd5",
       "types": [
-        "brightness"
+        "night-light"
       ]
     },
     {
@@ -22877,7 +22958,7 @@
       "metadataHash": "fd71ac81f9837bf93a74827b748ad07d5872bca54427fecf5506399c5b03d952",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -22965,7 +23046,7 @@
       "name": "To-Do List",
       "metadataHash": "0bb67170218ed3ebcafce859e9cf10dbb8251b2c9cca9d3d737ff28b75c7afb6",
       "types": [
-        "focus"
+        "tasks"
       ]
     },
     {
@@ -23043,7 +23124,8 @@
       "name": "Apple Music",
       "metadataHash": "a15eac9d129c763095ba861d0d9a125f7ccedd126540b54abe96a5d25161aaf8",
       "types": [
-        "music"
+        "music",
+        "music-players"
       ]
     },
     {
@@ -23143,7 +23225,7 @@
       "name": "Clash Verge",
       "metadataHash": "edd895c411de3930595fdae7cf8167c9b81609c026e86a60797adacbde35389d",
       "types": [
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -23427,7 +23509,7 @@
       "name": "Synced Todos",
       "metadataHash": "1bee2c56ca05fd85aeada862ac681e17803ea94bb4d3956de7ecc87d3e390a8d",
       "types": [
-        "focus"
+        "tasks"
       ]
     },
     {
@@ -23435,7 +23517,8 @@
       "name": "Cisco VPN",
       "metadataHash": "5667096676197d13534b9956f813e58c5744037dd920f6eafd9d9a93575fc417",
       "types": [
-        "vpn"
+        "vpn",
+        "network"
       ]
     },
     {
@@ -23594,7 +23677,9 @@
       "id": "jgarza.scrolldock",
       "name": "Scroll Dock",
       "metadataHash": "2b21a77a9f64c63108859c3f48a5f71a0053931cd240d357fd433fb3f45f9e57",
-      "types": []
+      "types": [
+        "docks"
+      ]
     },
     {
       "id": "jgarza.scrollmap",
@@ -23624,7 +23709,7 @@
       "metadataHash": "7ce707d83d0d96045599b24bac880aaa18e0ef0ee31ffe5117fa85d414d8d99d",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -23664,7 +23749,7 @@
       "name": "Ollama Chat",
       "metadataHash": "7cb1cf9081603addd9cbc791300a0c5c5caf6f2665297d1139d90e04f8d128ec",
       "types": [
-        "ai-assistant"
+        "ai-chat"
       ]
     },
     {
@@ -23846,7 +23931,9 @@
       "id": "jmb11111.tracearr",
       "name": "Tracearr",
       "metadataHash": "a87c4201d5643b03cbd51361355bff4c75eac2c441ac8c1666e55c353c709e57",
-      "types": []
+      "types": [
+        "music-players"
+      ]
     },
     {
       "id": "jmckible.swatch",
@@ -23959,6 +24046,7 @@
       "name": "BT Battery",
       "metadataHash": "f848695d70e82c95efe00fa4709b78543a0230d89878e0556c61b46e3d60ce85",
       "types": [
+        "battery",
         "peripheral-battery"
       ]
     },
@@ -24007,7 +24095,7 @@
       "name": "Modem Manager",
       "metadataHash": "247f7cb33b1a31acb5913aaba296ad13bde081e7d2c00c79b867fc8cfee4090a",
       "types": [
-        "radio"
+        "network"
       ]
     },
     {
@@ -24268,7 +24356,7 @@
       "metadataHash": "e364a55ad334b39a5cc7fc117221d84b689ea7f2f5c65eeb0d2e42f1a7dd563c",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -24276,7 +24364,7 @@
       "name": "Omascreen",
       "metadataHash": "832b6f11210caa8eae70324240b4a3bb2dedaf6ecbd836f978aa04d873c92e6d",
       "types": [
-        "screenshots"
+        "screen-recording"
       ]
     },
     {
@@ -24448,14 +24536,16 @@
       "id": "kb2uka.dock-doctor",
       "name": "Dock Doctor",
       "metadataHash": "5b5e8e0049e48d35adedaa000a65490fa6f2cfab2699a8c1f41273abe4e6e931",
-      "types": []
+      "types": [
+        "docks",
+        "network"
+      ]
     },
     {
       "id": "kb2uka.port-doctor",
       "name": "Port Doctor",
       "metadataHash": "5b0a26c553d0cddfda0a60672218fd8a0665f05e3c1f71354c27ec5997fcbca5",
       "types": [
-        "network",
         "dev-ports"
       ]
     },
@@ -24507,7 +24597,7 @@
       "metadataHash": "69ac1cfc33ce585147f1258ce20b2f955b1af200ea6a684ed4b7aa9df21e4f8a",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -24589,7 +24679,7 @@
       "name": "Night Light",
       "metadataHash": "2c53907187aab4475b4c81e856891c9384180f64ca277ea1d019c3bd0c0f480a",
       "types": [
-        "brightness"
+        "night-light"
       ]
     },
     {
@@ -24722,14 +24812,16 @@
       "id": "kiryuuki.oma-kasm",
       "name": "OmaKasm",
       "metadataHash": "c2ac1855d9ce0e3750dd86e318af7abeb4b1d105109e694647e3b29de79883c1",
-      "types": []
+      "types": [
+        "ai-assistant"
+      ]
     },
     {
       "id": "kiryuuki.oma-netscan",
       "name": "OmaNetscan",
       "metadataHash": "4e90248c63bdd4f9acc4d2ff0a8ca2b5bbd7c5ffb07c37260067dd8df8f320a3",
       "types": [
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -24744,7 +24836,7 @@
       "metadataHash": "240d66643e7e8206d83e5dd41ebf6a49ed56584fc2a08330e2fec0d64b0125c9",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -24784,7 +24876,7 @@
       "name": "Omadoro",
       "metadataHash": "f62bc92a80eb42b252fe71ebb49e40a6d3aa29e5fd2a3321ef79191648fd8339",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -24834,9 +24926,7 @@
       "id": "kokd.sundial",
       "name": "Sundial",
       "metadataHash": "b97bc1eb22e14d02f89dc7033651421474bcff92fc45bb0287b86603a1f7bc7e",
-      "types": [
-        "brightness"
-      ]
+      "types": []
     },
     {
       "id": "komagata.input-method",
@@ -24856,7 +24946,9 @@
       "id": "kosta.apple-tv",
       "name": "Apple TV Remote",
       "metadataHash": "79170e07a68bc5164f7a43c9af4834a7f605a80110bc602addda3d6d5a998a45",
-      "types": []
+      "types": [
+        "music"
+      ]
     },
     {
       "id": "koustav.omnicast",
@@ -24975,7 +25067,8 @@
       "name": "Jellyfin Now Playing",
       "metadataHash": "abbdf7cf0838507b7202420d37f9d2281ebb4d5e0f937446efa0278b285d3286",
       "types": [
-        "music"
+        "music",
+        "music-players"
       ]
     },
     {
@@ -25042,7 +25135,8 @@
       "name": "OMedia Controls",
       "metadataHash": "e00893273115850e0c02e176665eb5fa7d0989a991129b5c74644f8f9a198bd9",
       "types": [
-        "music"
+        "music",
+        "music-players"
       ]
     },
     {
@@ -25056,6 +25150,7 @@
       "name": "Omadoro",
       "metadataHash": "b8c0c5eb86a2bff96f540150b2f359c01fc2f4578961a14ab563add1bd553c28",
       "types": [
+        "timers-alarms",
         "focus"
       ]
     },
@@ -25063,9 +25158,7 @@
       "id": "larrywcox.site-thread",
       "name": "UniFi SiteThread",
       "metadataHash": "da1627801697042ff98d5c9b27dfaa97cc62b746e534a94d70bb1905e42ed659",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "latecompile.caffeine-curve",
@@ -25101,7 +25194,7 @@
       "metadataHash": "5e4fb7de04e144b583e7d7a1459736f7633fceefb62def6743c018daa6203980",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -25160,7 +25253,7 @@
       "metadataHash": "3749a956e8f773e9e2469e8e2b443315553dea7bd8b9a2ad3c1d33d5c183c2fe",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -25233,7 +25326,9 @@
       "id": "leonavas.dock",
       "name": "Dock",
       "metadataHash": "f4484bf5c88a6716aa44a82303e691ccca42191e35062ec96c506177650c8ed9",
-      "types": []
+      "types": [
+        "docks"
+      ]
     },
     {
       "id": "leonavas.mouse",
@@ -25255,7 +25350,7 @@
       "metadataHash": "8efc785e7e64a5baf89d680b8586bacef939406f2b17f06e236abc5efce817a5",
       "types": [
         "calendar",
-        "focus"
+        "tasks"
       ]
     },
     {
@@ -25307,7 +25402,8 @@
       "name": "YouTube Music",
       "metadataHash": "4a18d3cc4c4bbb34440ab11a9ffbaa71eb68d770c948bf8d634b47b77775b2ad",
       "types": [
-        "music"
+        "music",
+        "music-players"
       ]
     },
     {
@@ -25407,7 +25503,7 @@
       "name": "Tasks & Time Tracker",
       "metadataHash": "7ff10b2feabd145d4ad8f12ca0cabec96e9f41552e9e35a6d816c526f4169c18",
       "types": [
-        "clock-timer"
+        "timers-alarms"
       ]
     },
     {
@@ -25534,7 +25630,8 @@
       "name": "VPN Toggle",
       "metadataHash": "28ad76eef2aeab02911844d277b3656004dee6b7dea880fe96e62b68510c7cf8",
       "types": [
-        "vpn"
+        "vpn",
+        "network"
       ]
     },
     {
@@ -25656,7 +25753,7 @@
       "name": "Pomodoro",
       "metadataHash": "02980f6895d8f1b5926258d49c8eafd89f6db664f7149893f8eb5af3847f8420",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -25723,7 +25820,7 @@
       "name": "Pomodoro",
       "metadataHash": "7db3167366962b07beb67c8ece9575c4240e236ac4cfb6feef9479e269630d94",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -25762,9 +25859,7 @@
       "id": "lukedaduke.nexus",
       "name": "Hardware Nexus",
       "metadataHash": "6f13cc54b6f0838ea29adf27ac53d25ef2ff608297a72439c475ac43d928f66b",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "lukedaduke.power",
@@ -25780,7 +25875,6 @@
       "metadataHash": "784afe60003bc04e2664f8d69b53c234f0d8a5511e36b9db4415f7fc4c2a89ba",
       "types": [
         "weather",
-        "brightness",
         "lock-idle",
         "clock-timer"
       ]
@@ -25851,9 +25945,7 @@
       "id": "lutfi.eco",
       "name": "Eco Mode Manager",
       "metadataHash": "8f77e761065149079cc378835a3b7eb63ac6b5e1fb02b554f5a8a8c6dbba0f8c",
-      "types": [
-        "brightness"
-      ]
+      "types": []
     },
     {
       "id": "lutfi.glass",
@@ -25888,6 +25980,7 @@
       "name": "OmaBlob",
       "metadataHash": "726536dd53a1c3a75bb723a9406fc5a05200f0b886fa31342230e12ab34872e7",
       "types": [
+        "timers-alarms",
         "focus"
       ]
     },
@@ -25916,6 +26009,7 @@
       "name": "macOS Style Dock",
       "metadataHash": "45e55d1303fb5f744d86612b91ae50c131b4a464d04b91124f73d4a94401fea9",
       "types": [
+        "docks",
         "window-management"
       ]
     },
@@ -25958,7 +26052,7 @@
       "name": "Omado",
       "metadataHash": "1af44ce69a55e51b046a6ed66b97aa559b738079129fe0c8598fa63472603359",
       "types": [
-        "focus"
+        "tasks"
       ]
     },
     {
@@ -25966,7 +26060,7 @@
       "name": "OmaOpus",
       "metadataHash": "aa080df325fc3c9515391d63834d7f897343751a655b6238ac75f60cc931b222",
       "types": [
-        "music"
+        "music-players"
       ]
     },
     {
@@ -25975,7 +26069,7 @@
       "metadataHash": "cbd498e92b4606c3fe96499a5960df654f1222b79e962f9d6dfb5b619409c98e",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -25984,7 +26078,8 @@
       "metadataHash": "75537ce5a27a24277190dd06861130557db6e2c503c676068f2d5544703351bd",
       "types": [
         "system-monitor",
-        "launcher"
+        "launcher",
+        "ai-assistant"
       ]
     },
     {
@@ -26036,8 +26131,7 @@
       "name": "Per-Workspace Backgrounds",
       "metadataHash": "45318da90cc801f8d99d926c99ad0dfd135a872802e67b1a8eaec2384ed4c480",
       "types": [
-        "workspaces",
-        "wallpaper"
+        "workspaces"
       ]
     },
     {
@@ -26070,7 +26164,9 @@
       "id": "marcho78.magnify-dock",
       "name": "Magnify Dock",
       "metadataHash": "6fc7ab805872fac4661040f88301e2f26cdcffd3b289efe08d9af68fe12912a4",
-      "types": []
+      "types": [
+        "docks"
+      ]
     },
     {
       "id": "marcho78.o-spotlight",
@@ -26122,9 +26218,9 @@
         "system-monitor",
         "music",
         "battery",
-        "network",
+        "network-diagnostics",
         "audio",
-        "brightness",
+        "night-light",
         "notifications",
         "lock-idle",
         "containers"
@@ -26208,7 +26304,7 @@
       "name": "Pomodoro",
       "metadataHash": "bbf19cb64c8aab437416ee6a16c27c84d84bd3de26b30867653ca22d482b9137",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -26273,7 +26369,7 @@
       "name": "Omaplug",
       "metadataHash": "92baa2f8de4deaa3a22b538f87178a55bcfc7499f3f42c6820c5fb846b06af8f",
       "types": [
-        "music"
+        "plugin-manager"
       ]
     },
     {
@@ -26363,7 +26459,9 @@
       "id": "maximxmoroz.win11-dock",
       "name": "Windows Dock",
       "metadataHash": "560af53b9db534f807b747fb410668638241c00ec1c904e8c4853386501391f1",
-      "types": []
+      "types": [
+        "docks"
+      ]
     },
     {
       "id": "maxt.tablet-experience",
@@ -26412,8 +26510,7 @@
       "name": "Media Search",
       "metadataHash": "d52a65bb0f1954397bb1071f3e332b965ed1a5504547e41ed16dd9054eacbb76",
       "types": [
-        "music",
-        "radio"
+        "music"
       ]
     },
     {
@@ -26456,7 +26553,7 @@
       "name": "Apple Music",
       "metadataHash": "08115b7d02bf4589fdb0d462079d29bab95d13056098096cbfd39665d6da94e9",
       "types": [
-        "music"
+        "music-players"
       ]
     },
     {
@@ -26478,7 +26575,7 @@
       "name": "Fast: Network Speed Test",
       "metadataHash": "ba0e580e97f9f0dc1daebbd98c922754753d9e284437ca1084ce0d5961e035dc",
       "types": [
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -26648,7 +26745,8 @@
       "name": "Spotmarchy",
       "metadataHash": "3b12fdbe016af77285798a8a5d00212d5d545e4bc5bfcc1bc75bf7768aa4887c",
       "types": [
-        "music"
+        "music",
+        "music-players"
       ]
     },
     {
@@ -26664,7 +26762,7 @@
       "name": "NInfer Gauge",
       "metadataHash": "1d0c5d9300b3b905909ea55276b3968ad396e24eabec7e10fa23df0cc1fed611",
       "types": [
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -26828,7 +26926,7 @@
       "name": "Pomodoro",
       "metadataHash": "f26d1dd1b97c647ea2d3b3078824101e49b578cfe6c4e53b1e47e01c58020630",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -26850,7 +26948,9 @@
       "id": "mkelk.dock-recall",
       "name": "Dock Recall",
       "metadataHash": "efc8b6ac5d41311c5fbe39cfa1652d850a7ff82ab08cbd3cbbe2775a5c628f33",
-      "types": []
+      "types": [
+        "docks"
+      ]
     },
     {
       "id": "mkelk.keepass-picker",
@@ -26863,6 +26963,7 @@
       "name": "Govee Lights",
       "metadataHash": "458b82468a29e6650e4933504a5761e4e06ae04523b2f915882fb2010c1678a3",
       "types": [
+        "brightness",
         "smart-home"
       ]
     },
@@ -26871,7 +26972,7 @@
       "name": "Pomodoro",
       "metadataHash": "a131ab3783ad7da85b2a99b76678d987b493a29e2ae57bbf00fbff204f13a1ca",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -27167,7 +27268,7 @@
       "metadataHash": "2fad6f4167280b87877cfc0aba4dcec86e46c5885318ef3c3a0af633021b8445",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -27286,7 +27387,7 @@
       "name": "Auto Theme",
       "metadataHash": "30c36ca8346b4abb884cb4d7949721c94a0d27b37b0d341485e982dcd10ce613",
       "types": [
-        "brightness",
+        "night-light",
         "themes-appearance"
       ]
     },
@@ -27295,6 +27396,7 @@
       "name": "OpenLogi Battery Indicator",
       "metadataHash": "e016db23c58071f467d4ef2bf3fe7677b19040cd69bdf8c256bfdf234a2b9a6d",
       "types": [
+        "battery",
         "peripheral-battery"
       ]
     },
@@ -27323,8 +27425,7 @@
       "name": "Resonance",
       "metadataHash": "07e746f21624e8a58e1461f6217671adebd4c026b2f15e531e0cdc9bd5b7d5b7",
       "types": [
-        "music",
-        "radio"
+        "music"
       ]
     },
     {
@@ -27354,7 +27455,7 @@
       "name": "Spotify Autopause",
       "metadataHash": "cfe4fae9c1bd470a5f63dd9fc7cac00c2cdd7b757047366cbb5b07142eb120c9",
       "types": [
-        "music"
+        "music-players"
       ]
     },
     {
@@ -27483,7 +27584,7 @@
       "metadataHash": "4f1f246f851f5c9fc074f2ed801dceb3a84fc7127dbabc9678e4a8d241c01cc1",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -27503,7 +27604,7 @@
       "name": "Navidrome Play",
       "metadataHash": "614af2a1d434eb371f9979ab83a6badcfbed7d7f087ee16a5e67d464eba223c2",
       "types": [
-        "music"
+        "music-players"
       ]
     },
     {
@@ -27706,16 +27807,14 @@
       "id": "network-devices.plugin",
       "name": "Network Devices",
       "metadataHash": "48b021e8ad723c7d72c0ddf86eb6c3c8e26f65f6fa1ed0618cab538cb12ccca4",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "network-speed",
       "name": "Network Speed",
       "metadataHash": "f55d93e09e6043d71c2b6569fec9ea5b5db617bb759d85158f98f2a2e5729b32",
       "types": [
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -27766,9 +27865,7 @@
       "id": "niall.wotconn",
       "name": "Access Point",
       "metadataHash": "9c133078dfa2de5828f7b675e8919dc7197868c528d0b0503e88b9421f3bb3fe",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "nic.numr",
@@ -27805,7 +27902,7 @@
       "name": "Spotify Controls",
       "metadataHash": "334939dae16cbee681781f732e0674ac9157d6b767bd7b6db336e06476c27756",
       "types": [
-        "music"
+        "music-players"
       ]
     },
     {
@@ -27933,7 +28030,9 @@
       "id": "ninepointlabs.omasync",
       "name": "OmaSyncthing",
       "metadataHash": "56cb03e93345e2c8f1f004cbf7cb122e9fce844aac33906a093deb1307a35c44",
-      "types": []
+      "types": [
+        "file-sync"
+      ]
     },
     {
       "id": "ninepointlabs.pocketcasts",
@@ -27946,7 +28045,8 @@
       "name": "Spotify",
       "metadataHash": "fd213567fd9e9b4769e3e404d7e2e4dcf668bc82e35ed389b8aa35fd29569c2c",
       "types": [
-        "music"
+        "music",
+        "music-players"
       ]
     },
     {
@@ -28004,7 +28104,7 @@
       "name": "Internet Latency",
       "metadataHash": "3f68e92f74c43df9ec4efa88e5c71c70ecbdb49f7a6930b172da62cfce45a41a",
       "types": [
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -28012,7 +28112,7 @@
       "name": "Tuxedo Tasks",
       "metadataHash": "46df2e6bba1c04322b46903fb8a3685d2802e9fb1649db0e9b9b8be4e19f2c46",
       "types": [
-        "focus"
+        "tasks"
       ]
     },
     {
@@ -28025,7 +28125,9 @@
       "id": "njpatel.omapager",
       "name": "Omapager",
       "metadataHash": "1b6418830e9a02fe173b4f0c3e81f91307c856f64bb4562f9f0d87fa8b5e4f2c",
-      "types": []
+      "types": [
+        "notifications"
+      ]
     },
     {
       "id": "nkarl.fcitx-active-input-lang",
@@ -28172,7 +28274,7 @@
       "name": "My Network",
       "metadataHash": "092b8928e9368fe8088ee1f72b3388385727442051a652c399e1a4595c1b7d89",
       "types": [
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -28244,7 +28346,7 @@
       "types": [
         "system-monitor",
         "weather",
-        "network",
+        "network-diagnostics",
         "ai-api-usage"
       ]
     },
@@ -28452,7 +28554,7 @@
       "name": "Netviz 3D",
       "metadataHash": "79c5b6b2abf16d171cf0d3cd6ef1e7cfefd6de4a9b9441684f3368722a223efd",
       "types": [
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -28675,7 +28777,10 @@
       "id": "omadock",
       "name": "OmaDock",
       "metadataHash": "cb9ce69c60080f5ee75c89c441c63c22d36a620128bc962910509313090702ab",
-      "types": []
+      "types": [
+        "launcher",
+        "docks"
+      ]
     },
     {
       "id": "omafile.menu",
@@ -28888,8 +28993,9 @@
       "metadataHash": "cdbf096d5495942b7f8708a3ac4d8844939259fdd2e1c13aaaaebeb84c76846c",
       "types": [
         "calendar",
-        "clock-timer",
-        "focus"
+        "timers-alarms",
+        "focus",
+        "tasks"
       ]
     },
     {
@@ -28924,6 +29030,8 @@
       "name": "Display Settings",
       "metadataHash": "4bb8f6dd1e805939f14f9a10b6abcc3b269ed94c43e649d1831a9521b4ddd727",
       "types": [
+        "brightness",
+        "night-light",
         "display-monitors"
       ]
     },
@@ -29041,6 +29149,7 @@
       "name": "Omarchy Orivo Plugin",
       "metadataHash": "aa1f49535e5a19f37d5aca53a0189555da02827b0dc45818ba42c53b631c680a",
       "types": [
+        "timers-alarms",
         "focus"
       ]
     },
@@ -29066,7 +29175,7 @@
       "name": "Omarchy Pomodoro",
       "metadataHash": "01d0f0b3989c44f92fb80cc12e22bd72db6b2d776265e3d6f5ad1c76057aa3f9",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -29121,7 +29230,7 @@
       "name": "Tuxedo Todo",
       "metadataHash": "e393a084bee6f923732f9cee71dfb9897dcda27e45529e323bb13a99579b0b03",
       "types": [
-        "focus"
+        "tasks"
       ]
     },
     {
@@ -29502,7 +29611,9 @@
       "id": "omasys.task-manager",
       "name": "OmaSys",
       "metadataHash": "c4b42d06389829551b053d112a945677ea4bd77271a7d4718c5d4a2afd85f6db",
-      "types": []
+      "types": [
+        "system-monitor"
+      ]
     },
     {
       "id": "omatape",
@@ -29526,7 +29637,9 @@
       "id": "omavm",
       "name": "OmaVM",
       "metadataHash": "d280dff1430d739fcf5808a5f4e80eb8f8a13b72d9e2e922b6edf01077733948",
-      "types": []
+      "types": [
+        "network-diagnostics"
+      ]
     },
     {
       "id": "omayap.read-aloud",
@@ -29544,7 +29657,9 @@
       "id": "omdesky.remote",
       "name": "Omdesky",
       "metadataHash": "5ee7f7f498186145cb22aa0c7aa381e5f33995f353f19d1b6d8b1961cc541aa9",
-      "types": []
+      "types": [
+        "ai-assistant"
+      ]
     },
     {
       "id": "omni",
@@ -29633,7 +29748,7 @@
       "name": "GoDark",
       "metadataHash": "58343ffde4d21f5cd26ccd730a321e2adbac6156434b72a422466d85e5588c35",
       "types": [
-        "radio"
+        "network"
       ]
     },
     {
@@ -29681,16 +29796,14 @@
       "name": "openzoo ingest",
       "metadataHash": "05065c0ad8b1691baf3a10cda2c8c24038c9650a77d7b0b0c30c9e4a273dab72",
       "types": [
-        "screenshots"
+        "ocr"
       ]
     },
     {
       "id": "opoii.clown",
       "name": "Clown",
       "metadataHash": "f724e9a382a61e43b9f958c299fba23ff178f67771812e8dc22d9e3532002598",
-      "types": [
-        "music"
-      ]
+      "types": []
     },
     {
       "id": "opoii.workspaces",
@@ -29823,7 +29936,7 @@
       "metadataHash": "d96f51dd6c6a8a4605af00e24529e1b32da2049cf916e592991457e341005916",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -29911,7 +30024,7 @@
       "name": "NetRadar",
       "metadataHash": "37b70e9e27b24fc9e31aff32b26bebf5bc4d14b006830ca6e1267f8835abee6f",
       "types": [
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -29983,7 +30096,9 @@
       "id": "ozz1ee.bardock",
       "name": "Bar dock",
       "metadataHash": "45a47a16a20d1b45f9adf8fe91e8605ad5af2e03897ab0bad7f8256d376084b3",
-      "types": []
+      "types": [
+        "docks"
+      ]
     },
     {
       "id": "ozz1ee.hermbot",
@@ -30186,7 +30301,7 @@
       "types": [
         "music",
         "weather",
-        "brightness",
+        "docks",
         "clock-timer"
       ]
     },
@@ -30217,7 +30332,9 @@
       "id": "paul.jellyfin",
       "name": "Jellyfin Cinema",
       "metadataHash": "4187b7c2f275639f5be61c7f09f621aec78f17147b10ec2c4d934e5747d4d1ec",
-      "types": []
+      "types": [
+        "music-players"
+      ]
     },
     {
       "id": "paulhocker.omarchy-plugin-chuck",
@@ -30238,7 +30355,8 @@
       "name": "VPN",
       "metadataHash": "447ccf0d7265dfbc9313e4189f3a87cc92a7e145194f027dc89249b0f96d1b26",
       "types": [
-        "vpn"
+        "vpn",
+        "network"
       ]
     },
     {
@@ -30252,7 +30370,7 @@
       "name": "Apple Music Mini",
       "metadataHash": "4e679c0acdbaa63ad0e53cd5dd7de91ba25edc5d6f1bef474dfffd6e7252b680",
       "types": [
-        "music"
+        "music-players"
       ]
     },
     {
@@ -30299,13 +30417,17 @@
       "id": "payton.soundstage",
       "name": "Soundstage",
       "metadataHash": "3db4c98887a08bf4a29c3b279677648de4eaefbab75c9b3f638062e665d0c367",
-      "types": []
+      "types": [
+        "music-players"
+      ]
     },
     {
       "id": "pb.punch",
       "name": "Punch",
       "metadataHash": "39b842881d6a1c671f6cd37fcb649b61ca815b2f5dc7257253dc263e9336cec5",
-      "types": []
+      "types": [
+        "timers-alarms"
+      ]
     },
     {
       "id": "pbjorklund.omaip",
@@ -30332,7 +30454,7 @@
       "name": "Simple Task",
       "metadataHash": "f349f20d2aed034a7102cf9deaaa369e53ee28a366e7df158909d916faf369a2",
       "types": [
-        "focus"
+        "tasks"
       ]
     },
     {
@@ -30422,7 +30544,8 @@
       "name": "Apple Music",
       "metadataHash": "266cd9d94a991b4c2f6579725ab9bcef30610e442038f3b7fd4dc95262db52b9",
       "types": [
-        "music"
+        "music",
+        "music-players"
       ]
     },
     {
@@ -30514,6 +30637,7 @@
       "name": "Nothing Audio Control",
       "metadataHash": "08dd070c5199962ac49788ba761a0e50682d2b29361d3deff03ca6cfbfd068eb",
       "types": [
+        "battery",
         "audio",
         "peripheral-battery"
       ]
@@ -30523,7 +30647,8 @@
       "name": "OVPN Client",
       "metadataHash": "1bc0680a88780f3c08bf79eae66c24204252ae6869ff5843c625ac2c44de7828",
       "types": [
-        "vpn"
+        "vpn",
+        "network"
       ]
     },
     {
@@ -30540,7 +30665,7 @@
       "name": "Better Recast",
       "metadataHash": "e26adddf8b0ff279c6db50bc077e4a0d6dd88826f90c377ff17f66488d969f50",
       "types": [
-        "screenshots"
+        "screen-recording"
       ]
     },
     {
@@ -30555,7 +30680,7 @@
       "metadataHash": "8ecb84d76def90bb4318aa7e9f2af83bdb34fdcebe0d82836e9e90a99bfe54c4",
       "types": [
         "window-management",
-        "screenshots"
+        "ocr"
       ]
     },
     {
@@ -30605,7 +30730,7 @@
       "name": "Omodoro",
       "metadataHash": "701a2ef3f17f9524136ca2a2c02d069e6ceb6cdf4456aacb893cf7062f08a782",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -30620,7 +30745,7 @@
       "name": "Pomodoro Timer",
       "metadataHash": "a07c29873d86724bb764f9cfb4c3875b0d1552321cfe6a2089844fa911a1b261",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -30629,7 +30754,7 @@
       "name": "Pomodoro Timer",
       "metadataHash": "5b712efa8daedaa41d46c2d9cb1823173da9bfa87c4b56757b57cb5c6d7ffcd9",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -30747,7 +30872,9 @@
       "id": "primo.dock",
       "name": "PrimoDock",
       "metadataHash": "2508b10644a9a916eb90f36ce83ae2dce9b48e385f76e535b1a5ba81fbe9e1c4",
-      "types": []
+      "types": [
+        "docks"
+      ]
     },
     {
       "id": "primo.global-menu",
@@ -30760,7 +30887,6 @@
       "name": "Chronica",
       "metadataHash": "afe4e0e08539b5d7bce97c9dd218db79b7e02809b6dfb038e9a87bdb200e7509",
       "types": [
-        "mail",
         "calendar"
       ]
     },
@@ -30813,7 +30939,7 @@
       "metadataHash": "8f08657429bb9b948086cfcdd572ed23aaa32c82198fe95703265cefb4721765",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -31108,7 +31234,8 @@
       "name": "VPN",
       "metadataHash": "87eef25c3660bc536096c9e732f93eba35dae777e80d24bcecd438be9fcdc72e",
       "types": [
-        "vpn"
+        "vpn",
+        "network"
       ]
     },
     {
@@ -31209,7 +31336,9 @@
       "id": "rdf.dock",
       "name": "Dock",
       "metadataHash": "a95c451e6b2ddf0fdc581519c73cdc11a98606a4a3f7bcaa2b1e9326ef736d90",
-      "types": []
+      "types": [
+        "docks"
+      ]
     },
     {
       "id": "rdf.notes",
@@ -31244,8 +31373,7 @@
       "metadataHash": "93ab4aaa0e41325915204c080d9438bd7ee5a3b94f103fcad052a7eecb52b767",
       "types": [
         "clipboard",
-        "network",
-        "screenshots"
+        "ocr"
       ]
     },
     {
@@ -31316,9 +31444,7 @@
       "id": "reidenxerx.idle-dim",
       "name": "Idle dim",
       "metadataHash": "164f436d08070a53d5b1d0becbf66fa22cfafc2a3aca10e591203509bc76e58c",
-      "types": [
-        "brightness"
-      ]
+      "types": []
     },
     {
       "id": "reidenxerx.keyboard-cleaner",
@@ -31491,7 +31617,7 @@
       "name": "Pomodoro",
       "metadataHash": "4c0d324c829291b0ad5c79b893a12d36ec5eca220128c4d37a74af825b2c3936",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -31500,6 +31626,7 @@
       "name": "Charge limit",
       "metadataHash": "6568df3102c8469fc58e1fd04c429406badfd662c4e4e443d6b487307c38bd2c",
       "types": [
+        "battery",
         "lock-idle",
         "keyboard-layouts"
       ]
@@ -31542,7 +31669,7 @@
       "metadataHash": "80086cdda11c2ad7f95ae12538a8e789563e0b3a9ebe658bc293f040289da638",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -31561,9 +31688,7 @@
       "id": "rhystic1.automations",
       "name": "Automations",
       "metadataHash": "7106b0f2e46e08ed1c324b4837423561706d856240bb8dd91d08ff190ded9fdb",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "ribattrw.calm",
@@ -31582,8 +31707,9 @@
       "name": "Todochy",
       "metadataHash": "fc7b906707ea70e46be0a909c14e80f21661be7d06eed0be69a3a6c3ea99fa7a",
       "types": [
-        "clock-timer",
-        "focus"
+        "timers-alarms",
+        "focus",
+        "tasks"
       ]
     },
     {
@@ -31679,8 +31805,7 @@
       "metadataHash": "d78bc1e99b4a86ca4ed65425e26312b1595931c22aa869e9d76882247e14f6e1",
       "types": [
         "screen-time",
-        "wallpaper",
-        "gaming"
+        "wallpaper"
       ]
     },
     {
@@ -31688,7 +31813,7 @@
       "name": "Time Tracker",
       "metadataHash": "d38782a0ce7fca4bf306fca498d057d220c80a7ca6dddf90c519f968de94d382",
       "types": [
-        "clock-timer"
+        "timers-alarms"
       ]
     },
     {
@@ -31853,7 +31978,9 @@
       "id": "robson.agent-chat",
       "name": "Agent Chat",
       "metadataHash": "f32669a96af998e50501ab010e48aecf1afe65ff818a6bc994e0a0ecaeb03a2b",
-      "types": []
+      "types": [
+        "ai-chat"
+      ]
     },
     {
       "id": "robson.downloads",
@@ -31941,9 +32068,7 @@
       "id": "rohi.network",
       "name": "My Network",
       "metadataHash": "0378e96453372d19599e44e78cb95182d6f64108721f3cbc7ba1c836b41df17c",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "rohirik.agent-monitor",
@@ -32015,9 +32140,7 @@
       "id": "rookepoole.oligarchy-tax-department",
       "name": "Department of Oligarch Revenue",
       "metadataHash": "f05371efeeacc319f42a216b558d02204ed0a098096456916902c9050000023f",
-      "types": [
-        "clock-timer"
-      ]
+      "types": []
     },
     {
       "id": "roonakyadav.network-persona",
@@ -32041,7 +32164,10 @@
       "id": "rosakodu.dock",
       "name": "Dock",
       "metadataHash": "25af51d3d7dcaa9f55027fcd52587e203bc3e68e1b9279ece08aa491576640e2",
-      "types": []
+      "types": [
+        "launcher",
+        "docks"
+      ]
     },
     {
       "id": "rossvz.focus-mode",
@@ -32054,7 +32180,8 @@
       "name": "Omarchy Snip & Record",
       "metadataHash": "c6bfa455ead3a5d2c679e51cdaf0f5aaea53a482359a78a18469241d354dd50a",
       "types": [
-        "screenshots"
+        "screenshots",
+        "screen-recording"
       ]
     },
     {
@@ -32125,7 +32252,7 @@
       "name": "NoCom",
       "metadataHash": "6e204fb06dcb737ecbf81c8c6176fdbdc14217c150b5a08c26e7ea6f1f47c5ef",
       "types": [
-        "focus"
+        "tasks"
       ]
     },
     {
@@ -32304,7 +32431,7 @@
       "metadataHash": "9f9c385dd98936ab2ec2ce2f446f37edee81d2e599514183387031e05b3e792d",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -32355,16 +32482,14 @@
       "id": "saigkill.network-check",
       "name": "Network check",
       "metadataHash": "5b6c147f6093d1ccbcf7740a69fd1152b0abdeaf4da1a16e59215743190b9484",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "saigkill.tea-timer",
       "name": "Tea timer",
       "metadataHash": "92fb9546d7edd558dae01f9c2da85ba7439dac5ae07995779399887b69e5bd01",
       "types": [
-        "clock-timer"
+        "timers-alarms"
       ]
     },
     {
@@ -32668,6 +32793,7 @@
       "name": "Dock Workspaces",
       "metadataHash": "6e7684ed2cbeca2e3125f6256bc31e6ba349f43791e1242ebd1d61c3e6eb22b1",
       "types": [
+        "docks",
         "workspaces"
       ]
     },
@@ -32698,7 +32824,7 @@
       "name": "YouTube Music",
       "metadataHash": "89534d33bf33ecfe586e76f7c91ec9f75132d1bd25ad4cc98abfea76fcb314b5",
       "types": [
-        "music"
+        "music-players"
       ]
     },
     {
@@ -32747,7 +32873,7 @@
       "name": "TaskQ",
       "metadataHash": "55799865db66e390a06dea4997c37ca3701eefe522ab432726236be6400319ff",
       "types": [
-        "focus"
+        "tasks"
       ]
     },
     {
@@ -32823,7 +32949,7 @@
       "name": "Daybook Focus",
       "metadataHash": "13c15b1a372219b06d111b164010a32a5983ed01ed3a7fdb2c2188e805cf4d41",
       "types": [
-        "focus"
+        "tasks"
       ]
     },
     {
@@ -33104,7 +33230,8 @@
       "name": "SimulNetDevice",
       "metadataHash": "4cea566bdec555e0f7b17327121957a09ab05a1a90d0387f6c81249bda8c5dd2",
       "types": [
-        "network"
+        "network",
+        "network-diagnostics"
       ]
     },
     {
@@ -33181,7 +33308,7 @@
       "name": "Crate",
       "metadataHash": "58430c90b204c20aefc6eda673a926dcfdf24453e36895bed63cfac999596ebf",
       "types": [
-        "music"
+        "music-players"
       ]
     },
     {
@@ -33217,7 +33344,7 @@
       "name": "Skål Swap",
       "metadataHash": "cdfd80890b54a099b2a18505df4242e024ed12a60a7f6d4cfcf95b4cab4cbbc3",
       "types": [
-        "ai-assistant"
+        "ai-chat"
       ]
     },
     {
@@ -33253,8 +33380,7 @@
       "name": "Now Playing OSD",
       "metadataHash": "da4191e349d0b0d4e5c1973fb36918aacb836abbd1fea2320429e75470647884",
       "types": [
-        "music",
-        "brightness"
+        "music"
       ]
     },
     {
@@ -33314,9 +33440,7 @@
       "id": "sky.lofi",
       "name": "Skylofi",
       "metadataHash": "c55c7a899248da7566c8abaa240b7e72382dcbf1d8552dbccd6173a957aaab49",
-      "types": [
-        "radio"
-      ]
+      "types": []
     },
     {
       "id": "skylightlim.workspaces",
@@ -33359,7 +33483,7 @@
       "name": "Tomato Timer",
       "metadataHash": "1f87e89a459d1440798fb4727426e042757affbb1c86a4ffd4fbd827c3d6b6fd",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -33615,7 +33739,9 @@
       "id": "spuder.googledrive",
       "name": "Google Drives",
       "metadataHash": "c527a9d8e95801e3754cac82412eac26424bc8561efd9d308671c01dfc19f450",
-      "types": []
+      "types": [
+        "system-monitor"
+      ]
     },
     {
       "id": "spuder.protondrive",
@@ -33646,7 +33772,8 @@
       "name": "VPN",
       "metadataHash": "2a0869b2701ea05bec42bf357384d8b4f8f0b364e202ccc0c549ad46ccc42245",
       "types": [
-        "vpn"
+        "vpn",
+        "network"
       ]
     },
     {
@@ -33662,7 +33789,7 @@
       "name": "Colophon",
       "metadataHash": "399d03fff670ead8e5d0b142ca913153bab97dbe31be52adc341f609ead81913",
       "types": [
-        "ai-assistant"
+        "ai-chat"
       ]
     },
     {
@@ -33705,7 +33832,7 @@
       "metadataHash": "db9f59a42c2d13a2949cadd10b35e05a8c73972b338689940f8817d228ad9057",
       "types": [
         "clipboard",
-        "screenshots"
+        "ocr"
       ]
     },
     {
@@ -33814,7 +33941,7 @@
       "name": "Timers",
       "metadataHash": "b6d80799a3d49a7b84dcf1273fa93038bb022a0623dd3c24fba542984b31efd0",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -33934,7 +34061,9 @@
       "id": "sunshine144.solar-nightlight",
       "name": "Solar Nightlight",
       "metadataHash": "359e7829c2c03648780156c3fecf58ac1fc65500cbd008f82b8548b99a6b33b6",
-      "types": []
+      "types": [
+        "night-light"
+      ]
     },
     {
       "id": "super-apps",
@@ -33976,7 +34105,9 @@
       "id": "sven-strothoff.browser-switcher",
       "name": "Browser Switcher",
       "metadataHash": "8c426d93b3ac49842e25da2114ee7f2a88ebf245cdb20db2c87a38f8baab4ff4",
-      "types": []
+      "types": [
+        "network"
+      ]
     },
     {
       "id": "svighnesh.pacman-sentry",
@@ -34084,7 +34215,7 @@
       "metadataHash": "3cb47128d2a831c5bd7f9fefa36876d45b4b184cfd3b1f1695edfb5c7751806f",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -34092,7 +34223,7 @@
       "name": "Pomodoro",
       "metadataHash": "a2b4cc3ce8f4fa68eb7dadfa85e5ff22058154bc3ab7618af754cf2bbdaded15",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -34133,16 +34264,14 @@
       "name": "Ardoise",
       "metadataHash": "c2b47ebdee0774c1597479185002c2028fa437d23f391fa03979d414fb5aacc8",
       "types": [
-        "focus"
+        "tasks"
       ]
     },
     {
       "id": "tahayvr.postcard",
       "name": "Postcard",
       "metadataHash": "63470a98e10361d81945a4f28aa8b14c0d9179dd0a4fb2c1465821f50ba1bf69",
-      "types": [
-        "screenshots"
-      ]
+      "types": []
     },
     {
       "id": "takitani.sysmetrics",
@@ -34150,7 +34279,7 @@
       "metadataHash": "154b12d0f4d67ca8ab3bfff54bdc2ca969675d1d61a66e798fd6292add2447ba",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -34190,7 +34319,7 @@
       "name": "Focus Timer",
       "metadataHash": "0838ca2aa5e245e6edc09d94b70e2f21dad9c01be98c88838c1e0c251b210dff",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -34217,16 +34346,14 @@
       "name": "Checklist Todo",
       "metadataHash": "adf88d50411954505e12145c5dea6160013c259c1b02ef82cd92f4ed7b5a2093",
       "types": [
-        "focus"
+        "tasks"
       ]
     },
     {
       "id": "taufderl.ipinfo",
       "name": "IP Info",
       "metadataHash": "981ce90952fa573a44606c38fa0533add092fbc66cd77f074b715d50f63ff6b8",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "taufderl.octoprint",
@@ -34340,7 +34467,7 @@
       "metadataHash": "7caabefe3380fe89f49ec6e0de5b8913804d5500b2f1a6fa8d3fca7a0227564a",
       "types": [
         "notifications",
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -34357,9 +34484,9 @@
       "name": "Legion Toolkit",
       "metadataHash": "b6597927cdb6448f9089798c4bbd983c24bef3b024e5949e6ba99e97cacff5e2",
       "types": [
+        "battery",
         "display-monitors",
-        "keyboard-lighting",
-        "peripheral-battery"
+        "keyboard-lighting"
       ]
     },
     {
@@ -34391,7 +34518,7 @@
       "name": "Omusey",
       "metadataHash": "c94ff0fda679e890e09aac71bf49528deac29ea7ef42b8ba32d09e663740e3e5",
       "types": [
-        "ai-assistant"
+        "ai-chat"
       ]
     },
     {
@@ -34534,7 +34661,9 @@
       "id": "themediastandard.drive-speedtest",
       "name": "Drive Speed Test",
       "metadataHash": "85dd6e1353d549e6186ac05e06563282b4a6784487e99d2cdd7b8be796867154",
-      "types": []
+      "types": [
+        "network-diagnostics"
+      ]
     },
     {
       "id": "themo.mail-inbox",
@@ -34630,9 +34759,7 @@
       "id": "tiertek.tekscan",
       "name": "TekScan",
       "metadataHash": "dfea3ce206323070885a49a7aaca79961c09be1d41491b1945bc1447a72ab8ff",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "tiertek.tekvoice",
@@ -34647,7 +34774,7 @@
       "name": "TekTube",
       "metadataHash": "47bc4644901727b08d5570927688597490ca372a1d67838b8663064d21f3f032",
       "types": [
-        "radio"
+        "music-players"
       ]
     },
     {
@@ -34821,7 +34948,7 @@
       "name": "todo.md",
       "metadataHash": "0cf9db4cb052e1c87d61103f18bc101d0688e7384048016374000ec1f8ecec2a",
       "types": [
-        "focus"
+        "tasks"
       ]
     },
     {
@@ -34829,7 +34956,7 @@
       "name": "ToDoma",
       "metadataHash": "f365d688a94c1e784179ae45f4279dc3de4b1ab7a5ad42e5e54cbe01129b68ea",
       "types": [
-        "focus"
+        "tasks"
       ]
     },
     {
@@ -34871,7 +34998,7 @@
       "name": "Network Rate",
       "metadataHash": "fcf387a4bd9d8de918a9ca62a03e053b8315a7dcb1e4b7b151b7feac4a801cf9",
       "types": [
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -34899,7 +35026,7 @@
       "name": "Music Touchbar",
       "metadataHash": "fcbdb629d940ae2ebadb540861af16fb67c20f0f45adb10a427037d78cbe8fac",
       "types": [
-        "music",
+        "music-players",
         "radio"
       ]
     },
@@ -35105,7 +35232,8 @@
       "name": "Wirebar",
       "metadataHash": "8d981501fd15235410d678eaa3ac8dfdf2832945f60a0db6e9cd474a22f4c24b",
       "types": [
-        "vpn"
+        "vpn",
+        "network"
       ]
     },
     {
@@ -35191,9 +35319,7 @@
       "id": "ubruckhaus.wlan-monitor",
       "name": "WLAN Monitor",
       "metadataHash": "33718ed22a90766bf54f45112f10fc45e3612c173b4e38a557af61accce95191",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "ucer.daylight-slider",
@@ -35253,7 +35379,8 @@
       "name": "Sexy Screenshot",
       "metadataHash": "99a3ac586e7a3d08e6c350b44c629f38f1d1f7e62f8094ae369c5ff21e0cd7d3",
       "types": [
-        "screenshots"
+        "screenshots",
+        "ocr"
       ]
     },
     {
@@ -35299,6 +35426,7 @@
       "name": "Ratbag Mouse",
       "metadataHash": "de63279271d07dfc661ed9f6a35af447ed0721e2c535b4c810ea2d46cd690127",
       "types": [
+        "battery",
         "peripheral-battery"
       ]
     },
@@ -35447,9 +35575,7 @@
       "id": "vcanuel.unifi",
       "name": "UniFi",
       "metadataHash": "8a4a3b1d4f0f371a097e20e4e98bd3a3f6adc23c1bdd76d9fa2169e125aa2ff4",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "vdsabev.omadough",
@@ -35597,9 +35723,9 @@
       "name": "Now Bar",
       "metadataHash": "757f54db9ed75e8023148452bb9240e0020c50d2e16cd3406cfaa1b0fb045472",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus",
-        "screenshots"
+        "screen-recording"
       ]
     },
     {
@@ -35615,7 +35741,8 @@
       "name": "VPN Manager",
       "metadataHash": "f768a68c58c90f0833287b1e982b87d757b279c200c2ae9abe19ef82c8ebf05c",
       "types": [
-        "vpn"
+        "vpn",
+        "network"
       ]
     },
     {
@@ -35670,7 +35797,7 @@
       "metadataHash": "d95698d0bef2a978bd6bc095daccd1f9da7fadd38ef42728582b5122b8b03524",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -35756,7 +35883,8 @@
       "name": "Yandex Music",
       "metadataHash": "4c4b1474378752d9426c78c7d48279082950dea8d36285ba36704f7ffd89ec93",
       "types": [
-        "music"
+        "music",
+        "music-players"
       ]
     },
     {
@@ -35778,7 +35906,8 @@
       "name": "VPN Toggle",
       "metadataHash": "c0293aa5ea5894b2c8a0b2760a628c2b0daec64dfe1de84bb6c288ff2b41c2c8",
       "types": [
-        "vpn"
+        "vpn",
+        "network"
       ]
     },
     {
@@ -35882,7 +36011,7 @@
       "name": "Google Notes",
       "metadataHash": "1edf6faf8e00ffac219b8a0e650ed71da9dfcd392cffaf4de53b3fb206b85cd8",
       "types": [
-        "focus",
+        "tasks",
         "notes"
       ]
     },
@@ -35936,7 +36065,9 @@
       "id": "wdg.dock",
       "name": "macOS Magnify Dock",
       "metadataHash": "cb4e8667e1c8680213433b6c742c0c9889708b1846008cf892fe15162fe391e0",
-      "types": []
+      "types": [
+        "docks"
+      ]
     },
     {
       "id": "wdg.omarecall",
@@ -36026,7 +36157,7 @@
       "metadataHash": "a2a5f8780949530d9b9249939060db993081cf61fa054bc330348bb64bf071a0",
       "types": [
         "system-monitor",
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -36131,7 +36262,7 @@
       "name": "YouTube Music",
       "metadataHash": "860efbafaf94d085ad7ad09ac69749183d165c7ab6aac91954ba9c78759211ce",
       "types": [
-        "music"
+        "music-players"
       ]
     },
     {
@@ -36216,9 +36347,7 @@
       "id": "wvdominick.starlink",
       "name": "Starlink",
       "metadataHash": "6c7fce556287b401f4f6f5f1f6e0a47e93d1b780a547b55b99c9b21c3f85e234",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "wyatt.lull",
@@ -36276,7 +36405,7 @@
       "name": "Todoist",
       "metadataHash": "844eb18c098173fdcd1013fe6a46440e4d10e2b1920e531ad855b8c75f72c368",
       "types": [
-        "focus"
+        "tasks"
       ]
     },
     {
@@ -36482,9 +36611,7 @@
       "id": "yashwanth.link",
       "name": "OmaNetHub",
       "metadataHash": "e67961e6919f58aff9f82984b7dc0ab3400b802fc0af93bb2ec34356523c64d4",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "yass-gr.screen-time",
@@ -36624,7 +36751,7 @@
       "name": "YouTube Control Center",
       "metadataHash": "13cc3be61652f8c15f0e65a71c9f4f201c3931881bad5495d25b45d4954817dd",
       "types": [
-        "music"
+        "music-players"
       ]
     },
     {
@@ -36655,7 +36782,7 @@
       "name": "YouTube Music Lite",
       "metadataHash": "da797dde606ea393f4c04288d4dcdee004f419525a21b6905d7f7e8bfb36884f",
       "types": [
-        "music"
+        "music-players"
       ]
     },
     {
@@ -36755,7 +36882,7 @@
       "name": "Pomodoro",
       "metadataHash": "0787b6119aaf95daa35b84929dd8c49f8a98a4b764499c50e6bb5ad093a7dacb",
       "types": [
-        "clock-timer",
+        "timers-alarms",
         "focus"
       ]
     },
@@ -36873,7 +37000,7 @@
       "name": "NetworkStats",
       "metadataHash": "8fb12eafd0c6be4b970688f5059d3f53b7827deb2ab808937c40667292aa0c6b",
       "types": [
-        "network"
+        "network-diagnostics"
       ]
     },
     {
@@ -36887,7 +37014,7 @@
       "name": "Cider",
       "metadataHash": "121f42d8ecf60f7b9a6de21bf4918294389b34b6d57d4036785574ad37d1d9ab",
       "types": [
-        "music"
+        "music-players"
       ]
     },
     {

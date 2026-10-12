@@ -1,9 +1,10 @@
 import { CURRENT_METHODOLOGY_VERSION, methodologyFor } from "./methodology.mjs";
+import { explainTaskFit, prepareTaskReviews, taskMetadataHash, validateTaskContracts } from "./task-fit.mjs";
 
 export { methodologyFor, snapshotMethodology } from "./methodology.mjs";
 
 const DAY_MS = 86_400_000;
-export const CLASSIFICATION_VERSION = 2;
+export const CLASSIFICATION_VERSION = 3;
 
 // The rules new snapshots are calculated with. Rendering uses the snapshot's own definition.
 export const METHODOLOGY = methodologyFor(CURRENT_METHODOLOGY_VERSION);
@@ -94,13 +95,14 @@ export function prepareTaxonomy(taxonomy) {
     assert(!ids.has(type.id), `Duplicate taxonomy id: ${type.id}`);
     ids.add(type.id);
     assert(typeof type.name === "string" && type.name.length > 0, `${label}.name is required`);
+    assert(type.exclusionScope == null || ["field", "clause"].includes(type.exclusionScope), `${label}.exclusionScope is invalid`);
     // Omarchy built-ins shown beside a category's picks. Display only: never classified or ranked.
     assert(type.builtIns == null || (Array.isArray(type.builtIns) &&
       type.builtIns.every((id) => typeof id === "string" && id.length > 0)), `${label}.builtIns must be an array of plugin IDs`);
     return {
       ...type,
       includePatterns: compilePatterns(type.include, `${label}.include`),
-      namePatterns: type.nameInclude == null ? [] : compilePatterns(type.nameInclude, `${label}.nameInclude`),
+      namePatterns: type.nameInclude == null || (Array.isArray(type.nameInclude) && !type.nameInclude.length) ? [] : compilePatterns(type.nameInclude, `${label}.nameInclude`),
       excludePatterns: type.exclude == null || (Array.isArray(type.exclude) && type.exclude.length === 0)
         ? [] : compilePatterns(type.exclude, `${label}.exclude`)
     };
@@ -124,13 +126,23 @@ export function prepareTaxonomy(taxonomy) {
   return { types, overrides: { include: overrides.include ?? {}, exclude: overrides.exclude ?? {}, review: overrides.review ?? {}, reasons: overrides.reasons ?? {} } };
 }
 
-function matchedEvidence(patterns, fields, rule) {
+function matchedEvidence(patterns, fields, rule, version = CLASSIFICATION_VERSION) {
   const evidence = [];
   for (const [field, value] of Object.entries(fields)) {
     if (typeof value !== "string") continue;
     for (const pattern of patterns) {
-      const match = pattern.exec(value);
-      if (match) evidence.push({ rule, pattern: pattern.source, field, match: match[0] });
+      const matches = version < 3 ? [pattern.exec(value)].filter(Boolean) : [...value.matchAll(new RegExp(pattern.source, "giu"))];
+      for (const match of matches) {
+        const start = match.index;
+        const before = value.slice(0, start);
+        const clauseStart = Math.max(before.lastIndexOf(","), before.lastIndexOf(";"), before.lastIndexOf("."), before.lastIndexOf("\n")) + 1;
+        const after = value.slice(start + match[0].length);
+        const end = after.search(/[,;.\n]/);
+        const context = value.slice(clauseStart, end < 0 ? value.length : start + match[0].length + end);
+        const negated = rule !== "exclude" && /\b(?:no|not|without|never|does(?:n['’]t| not)|do(?:n['’]t| not))\s+(?:any\s+)?$/iu.test(before.slice(-50));
+        const preview = rule !== "exclude" && /\b(?:the |this )?(?:screenshot|preview image|image)\s+(?:shows?|depicts?|illustrates?)\b/iu.test(context);
+        evidence.push({ rule, pattern: pattern.source, field, match: match[0], ...(version >= 3 ? { context: context.trim(), ignored: negated ? "negated-capability" : preview ? "preview-reference" : null } : {}) });
+      }
     }
   }
   return evidence;
@@ -138,33 +150,41 @@ function matchedEvidence(patterns, fields, rule) {
 
 // Match fields separately: concatenation can manufacture phrases across field boundaries.
 // Tags, kind and upstream category are context for reviewers, never eligibility evidence.
-export function explainClassification(plugin, preparedTaxonomy) {
+export function explainClassification(plugin, preparedTaxonomy, version = CLASSIFICATION_VERSION, taskReviews = null) {
+  assert([2, 3].includes(version), `Unsupported classifier version: ${version}`);
   const fields = { name: plugin.name, description: plugin.description };
   const forced = new Set(preparedTaxonomy.overrides.include[plugin.id] ?? []);
   const blocked = new Set(preparedTaxonomy.overrides.exclude[plugin.id] ?? []);
   const review = new Set(preparedTaxonomy.overrides.review[plugin.id] ?? []);
   return preparedTaxonomy.types.map((type) => {
     const evidence = [
-      ...matchedEvidence(type.includePatterns, fields, "include"),
-      ...matchedEvidence(type.namePatterns, { name: plugin.name }, "nameInclude")
+      ...matchedEvidence(type.includePatterns, fields, "include", version),
+      ...matchedEvidence(type.namePatterns, { name: plugin.name }, "nameInclude", version)
     ];
-    const exclusions = matchedEvidence(type.excludePatterns, fields, "exclude");
+    const positive = evidence.filter((match) => !match.ignored);
+    const exclusions = matchedEvidence(type.excludePatterns, fields, "exclude", version);
+    const allowed = version >= 3 && type.exclusionScope === "clause"
+      ? positive.filter((match) => !type.excludePatterns.some((pattern) => pattern.test(match.context))) : exclusions.length ? [] : positive;
+    const taskFit = taskReviews ? explainTaskFit(plugin, type, taskReviews) : null;
     const decision = review.has(type.id) ? "review" : blocked.has(type.id) ? "override-exclude"
-      : forced.has(type.id) ? "override-include" : exclusions.length ? "excluded"
-        : evidence.length ? "task-match" : "no-task-evidence";
+      : taskFit?.status === "rejected" ? "task-rejected"
+        : taskFit?.qualified || taskFit?.status === "related" ? "reviewed-task"
+          : forced.has(type.id) ? "override-include" : allowed.length ? "task-match"
+        : exclusions.length ? "excluded" : "no-task-evidence";
     return {
       typeId: type.id,
-      accepted: decision === "override-include" || decision === "task-match",
+      accepted: ["override-include", "task-match", "reviewed-task"].includes(decision),
       decision,
       evidence,
       exclusions,
-      reason: preparedTaxonomy.overrides.reasons[plugin.id]?.[type.id] ?? null
+      reason: preparedTaxonomy.overrides.reasons[plugin.id]?.[type.id] ?? taskFit?.reason ?? null,
+      ...(taskFit ? { taskFit } : {})
     };
   });
 }
 
-export function classifyPlugin(plugin, preparedTaxonomy) {
-  return explainClassification(plugin, preparedTaxonomy).filter((match) => match.accepted).map((match) => match.typeId);
+export function classifyPlugin(plugin, preparedTaxonomy, version = CLASSIFICATION_VERSION, taskReviews = null) {
+  return explainClassification(plugin, preparedTaxonomy, version, taskReviews).filter((match) => match.accepted).map((match) => match.typeId);
 }
 
 // Health and built-in checks precede installability: failed listings also lose their install
@@ -372,6 +392,7 @@ function scoreCohort(plugins, stats, now, methodology) {
 export function pickWithHysteresis(candidates, incumbentId, excludedIds = new Set(), methodology = METHODOLOGY) {
   const available = candidates.filter((candidate) => !excludedIds.has(candidate.id));
   const challenger = available[0] ?? null;
+  if (methodology.hysteresis === 0) return challenger;
   const incumbent = available.find((candidate) => candidate.id === incumbentId);
   if (!incumbent || !challenger || incumbent.id === challenger.id) return challenger;
   return challenger.score > incumbent.score * (1 + methodology.hysteresis) ? challenger : incumbent;
@@ -383,6 +404,7 @@ export function explainPick(candidates, incumbentId, selected, excludedIds = new
   const challenger = available[0];
   const threshold = methodology.hysteresis * 100;
   if (!selected) return "No eligible candidates remain for this place.";
+  if (methodology.hysteresis === 0) return `${selected.name} (${selected.score}) is the highest-ranked available candidate; ties use copies, hearts, stars, then ID. Weekly publication provides stability.`;
   if (!incumbent) return `${selected.name} (${selected.score}) is the highest-ranked available candidate; ${incumbentId ? "the previous pick is no longer available for this place" : "there was no previous pick"}.`;
   if (incumbent.id === challenger.id) return `${selected.name} (${selected.score}) remains highest-ranked${available.length === 1 ? " and is the only available candidate" : "; score ties use copies, hearts, stars, then ID"}.`;
   const comparison = `${challenger.name} (${challenger.score}) versus incumbent ${incumbent.name} (${incumbent.score}); replacement requires a score strictly above ${incumbent.score * (1 + methodology.hysteresis)} (+${threshold}%)`;
@@ -412,17 +434,23 @@ function builtInRef(plugin) {
 // `methodology` defaults to the current rules; offline comparisons pass alternatives. `detail`
 // additionally returns every scored cohort for research reports; snapshots never contain it.
 // `newListingsBaseline` is the latest snapshot from an earlier ISO week ({ week, generatedAt }).
-export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = new Date(), source = null, methodology = METHODOLOGY, detail = false, newListingsBaseline = null }) {
+export function rankPlugins({ catalog, stats, taxonomy, taskReviews = { schemaVersion: 1, assignments: [] }, classificationVersion = CLASSIFICATION_VERSION, previous = null, now = new Date(), source = null, methodology = METHODOLOGY, detail = false, newListingsBaseline = null }) {
   assert(Array.isArray(catalog), "Catalog must be an array");
   assert(stats && typeof stats === "object" && !Array.isArray(stats), "Stats must be an object");
   assert(now instanceof Date && Number.isFinite(now.getTime()), "now must be a valid Date");
   const prepared = prepareTaxonomy(taxonomy);
+  const reviewed = methodology.eligibility.reviewedTaskEvidence === true;
+  if (reviewed) validateTaskContracts(prepared.types);
+  const reviews = reviewed ? prepareTaskReviews(taskReviews, prepared.types) : null;
+  const fits = new Map();
+  const reviewQueue = [];
   const cohorts = new Map(prepared.types.map((type) => [type.id, []]));
   const classifiedIds = new Set();
   const unclassified = [];
   const excluded = {};
   const exclusions = new Map();
   const typeIdsById = new Map();
+  const qualifiedTypeIdsById = new Map();
   const repositories = new Map();
   const builtInsById = new Map(catalog
     .filter((plugin) => plugin && typeof plugin.id === "string" && (plugin.sourceType === "builtin" || plugin.builtIn === true))
@@ -438,7 +466,7 @@ export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = n
     // Stars and push dates are repository-level, so plugins in one repository share them.
     const repository = plugin.repo.toLowerCase().replace(/\.git$/, "").replace(/\/+$/, "");
     repositories.set(repository, [...(repositories.get(repository) ?? []), plugin.id]);
-    const typeIds = classifyPlugin(plugin, prepared);
+    const typeIds = classifyPlugin(plugin, prepared, classificationVersion, reviews);
     if (typeIds.length === 0) {
       unclassified.push({ id: plugin.id, name: String(plugin.name || plugin.id), category: plugin.category ?? null });
       continue;
@@ -453,7 +481,30 @@ export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = n
   const builtInWarnings = [];
   const scoredCohorts = {};
   const types = prepared.types.map((type) => {
-    const candidates = scoreCohort(cohorts.get(type.id), stats, now, methodology);
+    const members = cohorts.get(type.id);
+    const qualified = reviewed ? members.filter((plugin) => {
+      const fit = explainTaskFit(plugin, type, reviews);
+      fits.set(`${plugin.id}/${type.id}`, fit);
+      if (fit.qualified) qualifiedTypeIdsById.set(plugin.id, [...(qualifiedTypeIdsById.get(plugin.id) ?? []), type.id]);
+      return fit.qualified;
+    }) : members;
+    const candidates = scoreCohort(qualified, stats, now, methodology);
+    if (reviewed) {
+      for (const candidate of candidates) candidate.taskFit = fits.get(`${candidate.id}/${type.id}`);
+      // Prospective activity scores prioritize research; they cannot confer headline eligibility.
+      const research = scoreCohort(members, stats, now, methodology);
+      for (const candidate of research) {
+        const fit = fits.get(`${candidate.id}/${type.id}`);
+        if (fit.status === "qualified" || fit.status === "rejected" || fit.status === "related") continue;
+        const prior = previousByType.get(type.id);
+        reviewQueue.push({ pluginId: candidate.id, name: candidate.name, repository: candidate.repository, description: candidate.description,
+          typeId: type.id, typeName: type.name, status: fit.status, reason: fit.reason, prospectiveScore: candidate.score,
+          contractVersion: type.contract.version, metadataHash: taskMetadataHash(members.find((p) => p.id === candidate.id)),
+          previousPick: [prior?.winner?.id, prior?.runnerUp?.id].includes(candidate.id),
+          wouldEnterPodium: research.slice(0, 2).some((p) => p.id === candidate.id),
+          evidence: explainClassification(members.find((p) => p.id === candidate.id), prepared, classificationVersion, reviews).find((e) => e.typeId === type.id) });
+      }
+    }
     if (detail) scoredCohorts[type.id] = candidates;
     const prior = previousByType.get(type.id);
     const winner = pickWithHysteresis(candidates, prior?.winner?.id, new Set(), methodology);
@@ -466,7 +517,7 @@ export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = n
       champion: explainPick(candidates, prior?.winner?.id, winner, new Set(), methodology),
       runnerUp: explainPick(candidates, prior?.runnerUp?.id, runnerUp, winnerIds, methodology)
     });
-    // Both slots are sticky; the raw-score leader may occupy neither place.
+    // Legacy methods retain both slots; current recommendations always expose the leader.
     const top = candidates[0];
     const builtIns = [];
     for (const id of type.builtIns ?? []) {
@@ -478,12 +529,37 @@ export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = n
       name: type.name,
       description: type.description ?? "",
       eligibleCount: candidates.length,
+      ...(reviewed ? { matchedCount: members.length, pendingCount: members.filter((p) => !["qualified", "related", "rejected"].includes(fits.get(`${p.id}/${type.id}`).status)).length,
+        taskContract: type.contract, alternatives: candidates.filter((p) => ![winner?.id, runnerUp?.id].includes(p.id)).slice(0, 5),
+        relatedTools: members.filter((p) => fits.get(`${p.id}/${type.id}`).status === "related").map((p) => ({ id: p.id, name: p.name,
+          detailUrl: `https://plugins.omarchy.org/plugin.html?id=${encodeURIComponent(p.id)}`, taskFit: fits.get(`${p.id}/${type.id}`) })).slice(0, 5) } : {}),
       builtIns,
       winner,
       runnerUp,
       topScorer: top ? { id: top.id, name: top.name, score: top.score } : null
     };
   });
+
+  if (reviewed) {
+    // A changed description can stop matching every discovery rule. Its old review still needs
+    // attention, especially when it used to supply a recommendation; do not lose it from the queue.
+    for (const plugin of catalog.filter((p) => !eligibilityReason(p, methodology))) {
+      for (const type of prepared.types) {
+        const key = `${plugin.id}/${type.id}`;
+        const held = prepared.overrides.review[plugin.id]?.includes(type.id);
+        if (fits.has(key) || prepared.overrides.exclude[plugin.id]?.includes(type.id) || (!held && !reviews.has(key))) continue;
+        const fit = explainTaskFit(plugin, type, reviews);
+        if (!held && !fit.status.startsWith("stale-")) continue;
+        const prior = previousByType.get(type.id);
+        reviewQueue.push({ pluginId: plugin.id, name: plugin.name, repository: plugin.repo, description: plugin.description,
+          typeId: type.id, typeName: type.name, status: held ? "held" : fit.status,
+          reason: held ? prepared.overrides.reasons[plugin.id]?.[type.id] ?? "Assignment held for editorial review." : fit.reason,
+          prospectiveScore: null, contractVersion: type.contract.version, metadataHash: taskMetadataHash(plugin),
+          previousPick: [prior?.winner?.id, prior?.runnerUp?.id].includes(plugin.id), wouldEnterPodium: false,
+          evidence: explainClassification(plugin, prepared, classificationVersion, reviews).find((e) => e.typeId === type.id) });
+      }
+    }
+  }
 
   // Previous picks that are still listed but no longer eligible, for logs and change reasons.
   const excludedIncumbents = (previous?.types ?? []).flatMap((type) => [["winner", "champion"], ["runnerUp", "runner-up"]]
@@ -495,17 +571,19 @@ export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = n
   const since = Date.parse(newListingsBaseline?.generatedAt);
   const newListings = Number.isFinite(since)
     ? catalog
-      .filter((plugin) => typeIdsById.has(plugin.id))
+      .filter((plugin) => (reviewed ? qualifiedTypeIdsById : typeIdsById).has(plugin.id))
       .map((plugin) => ({ plugin, listed: Date.parse(plugin.listedAt) }))
       .filter(({ listed }) => Number.isFinite(listed) && listed > since && listed <= now.getTime())
       .sort((a, b) => a.listed - b.listed || a.plugin.id.localeCompare(b.plugin.id))
-      .map(({ plugin }) => ({ id: plugin.id, name: String(plugin.name || plugin.id), typeIds: typeIdsById.get(plugin.id) }))
+      .map(({ plugin }) => ({ id: plugin.id, name: String(plugin.name || plugin.id), typeIds: (reviewed ? qualifiedTypeIdsById : typeIdsById).get(plugin.id) }))
     : null;
 
   return {
     decisions,
     exclusions,
     typeIdsById,
+    qualifiedTypeIdsById: reviewed ? qualifiedTypeIdsById : typeIdsById,
+    reviewQueue: reviewQueue.sort((a, b) => Number(b.previousPick) - Number(a.previousPick) || Number(b.wouldEnterPodium) - Number(a.wouldEnterPodium) || b.prospectiveScore - a.prospectiveScore || a.typeId.localeCompare(b.typeId) || a.pluginId.localeCompare(b.pluginId)),
     ...(detail ? { cohorts: scoredCohorts } : {}),
     rankings: {
       schemaVersion: 1,
@@ -526,6 +604,7 @@ export function rankPlugins({ catalog, stats, taxonomy, previous = null, now = n
       catalogCount: catalog.length,
       eligibleClassifiedCount: classifiedIds.size,
       classificationAssignments: [...cohorts.values()].reduce((sum, cohort) => sum + cohort.length, 0),
+      ...(reviewed ? { qualifiedAssignments: [...qualifiedTypeIdsById.values()].reduce((n, ids) => n + ids.length, 0), pendingAssignments: reviewQueue.length } : {}),
       uniqueUnclassifiedCount: unclassified.length,
       excluded,
       excludedIncumbents,

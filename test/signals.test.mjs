@@ -5,14 +5,16 @@ import {
   copyViewRatio,
   freshnessDetail,
   installRateLowerBound,
-  rankPlugins,
+  rankPlugins as rankLatest,
   shippedAt,
   verificationCoverage,
   verificationCredit
 } from "../build/rank.mjs";
-import { renderFixtureType, winningReason } from "../build/render.mjs";
+import { renderFixtureType, winningReason as winningLatest } from "../build/render.mjs";
 
 const current = methodologyFor("1.1.0");
+const rankPlugins = (options) => rankLatest({ methodology: current, ...options });
+const winningReason = (a, b, leader = null, method = current) => winningLatest(a, b, leader, method);
 const published = methodologyFor("1.0.0");
 const taxonomy = { schemaVersion: 1, types: [{ id: "weather", name: "Weather", description: "Forecasts", include: ["\\bweather\\b"] }] };
 const now = new Date("2026-09-28T06:17:00Z");

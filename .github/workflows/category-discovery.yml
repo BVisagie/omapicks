@@ -50,7 +50,7 @@ jobs:
           fi
           gh run download "$RUN_ID" --repo "$GITHUB_REPOSITORY" --name category-discovery-state --dir tmp/category-discovery-previous
           node scripts/restore-category-state.mjs
-      - name: Scan live catalog and explain category opportunities
+      - name: Prioritize capability reviews and research distinct task gaps
         run: node scripts/category-discovery.mjs
       - name: Archive reproducible evidence and LLM handoff
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

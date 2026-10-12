@@ -1,10 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-12T13:34:39.901Z",
+  "generatedAt": "2026-10-12T15:39:44.802Z",
   "catalogCount": 5416,
-  "eligibleClassifiedCount": 2014,
-  "classificationAssignments": 2399,
-  "uniqueUnclassifiedCount": 2335,
+  "eligibleClassifiedCount": 2038,
+  "classificationAssignments": 2502,
+  "qualifiedAssignments": 261,
+  "pendingAssignments": 2224,
+  "uniqueUnclassifiedCount": 2311,
   "excluded": {
     "not-installable": 969,
     "repository-unreachable": 45,
@@ -251,6 +253,11 @@
       "category": "Productivity"
     },
     {
+      "id": "io.github.cempack.songrec",
+      "name": "SongRec",
+      "category": "Widgets"
+    },
+    {
       "id": "lgse.backdrop",
       "name": "Backdrop",
       "category": "Appearance"
@@ -349,11 +356,6 @@
       "id": "io.github.ricky.whatsapp",
       "name": "WhatsApp",
       "category": "Widgets"
-    },
-    {
-      "id": "rosakodu.dock",
-      "name": "Dock",
-      "category": "Desktop"
     },
     {
       "id": "stappmus.stochi",
@@ -566,11 +568,6 @@
       "category": "Hardware"
     },
     {
-      "id": "io.github.nick-friedrich.hyprland-dock",
-      "name": "Hyprland Dock",
-      "category": "Appearance"
-    },
-    {
       "id": "io.github.janhesters.focus",
       "name": "Omarchy Focus",
       "category": "Productivity"
@@ -781,11 +778,6 @@
       "category": "Widgets"
     },
     {
-      "id": "mkelk.dock-recall",
-      "name": "Dock Recall",
-      "category": "Desktop"
-    },
-    {
       "id": "io.github.dylanmccavitt.omp-stats",
       "name": "OMP Stats",
       "category": "Developer Tools"
@@ -886,11 +878,6 @@
       "category": "Widgets"
     },
     {
-      "id": "io.github.matyssxdxd.clockify",
-      "name": "Clockify",
-      "category": "Productivity"
-    },
-    {
       "id": "glass-bar-omarchy",
       "name": "glass-bar-omarchy",
       "category": "Appearance"
@@ -909,11 +896,6 @@
       "id": "hegjon.coingecko",
       "name": "CoinGecko",
       "category": "Appearance"
-    },
-    {
-      "id": "io.github.gardnmi.window-shelf",
-      "name": "Minimize",
-      "category": "Desktop"
     },
     {
       "id": "io.github.edgarsilva.gitlab-ci",
@@ -1014,11 +996,6 @@
       "id": "mrpbennett.herdr-agents",
       "name": "Herdr Agents",
       "category": "Developer Tools"
-    },
-    {
-      "id": "omadock",
-      "name": "OmaDock",
-      "category": "Desktop"
     },
     {
       "id": "dki.quran-verse-of-the-day",
@@ -1141,11 +1118,6 @@
       "category": "Widgets"
     },
     {
-      "id": "io.github.ras.mediawidget",
-      "name": "Media Widget",
-      "category": "Widgets"
-    },
-    {
       "id": "tsouth89.resurrect",
       "name": "ress",
       "category": "System"
@@ -1226,6 +1198,11 @@
       "category": "Desktop"
     },
     {
+      "id": "io.github.vonsensey.omavet",
+      "name": "Omavet",
+      "category": "System"
+    },
+    {
       "id": "io.github.guettoblasterr.crypto-market-pulse",
       "name": "Crypto Market Pulse",
       "category": "Widgets"
@@ -1241,9 +1218,9 @@
       "category": "System"
     },
     {
-      "id": "rdf.dock",
-      "name": "Dock",
-      "category": "Desktop"
+      "id": "opoii.clown",
+      "name": "Clown",
+      "category": "Widgets"
     },
     {
       "id": "nwarwick.omambience",
@@ -1306,6 +1283,11 @@
       "category": "System"
     },
     {
+      "id": "geertjohan.lock-wifi-ap",
+      "name": "AP Lock",
+      "category": "Widgets"
+    },
+    {
       "id": "io.github.sahzudin.omamemo",
       "name": "Omamemo",
       "category": "Widgets"
@@ -1319,6 +1301,11 @@
       "id": "shop",
       "name": "Shop",
       "category": "Developer Tools"
+    },
+    {
+      "id": "crmne.ultimate-guitar",
+      "name": "Ultimate Guitar Tabs",
+      "category": "Widgets"
     },
     {
       "id": "io.github.maiosx.pinmark",
@@ -1366,14 +1353,14 @@
       "category": "Widgets"
     },
     {
+      "id": "hegjon.unifi",
+      "name": "UniFi",
+      "category": "Hardware"
+    },
+    {
       "id": "io.github.sh1d0w.omatrack",
       "name": "OmaTrack",
       "category": "Productivity"
-    },
-    {
-      "id": "io.github.marcoripa96.browser-minimap",
-      "name": "Browser minimap",
-      "category": "Developer Tools"
     },
     {
       "id": "io.github.boyoyooo.glucomarchy",
@@ -1404,11 +1391,6 @@
       "id": "ucmz851.omasecurity",
       "name": "OmaSecurity",
       "category": "System"
-    },
-    {
-      "id": "confined-.ember",
-      "name": "Ember-Tray",
-      "category": "Hardware"
     },
     {
       "id": "io.github.chris.window-hints",
@@ -1454,11 +1436,6 @@
       "id": "io.github.mshareef-git.omavibes",
       "name": "OmaVibes",
       "category": "Desktop"
-    },
-    {
-      "id": "io.github.vonsensey.omargb",
-      "name": "OmaRGB",
-      "category": "Hardware"
     },
     {
       "id": "io.github.marko-builds.porthole",
@@ -1561,11 +1538,6 @@
       "category": "Other"
     },
     {
-      "id": "io.github.bolens.privacy-devices",
-      "name": "Privacy Devices",
-      "category": "Widgets"
-    },
-    {
       "id": "io.github.vonsensey.specimen",
       "name": "Specimen",
       "category": "Appearance"
@@ -1614,11 +1586,6 @@
       "id": "io.github.ranjithraj.idea-alerts",
       "name": "Omarchy Plugin Ideas",
       "category": "Productivity"
-    },
-    {
-      "id": "io.github.omar-sv88.vlans",
-      "name": "VLANs",
-      "category": "Hardware"
     },
     {
       "id": "dev.alexandre.bible-search",
@@ -1829,11 +1796,6 @@
       "id": "io.github.bhanuprassad.navigator",
       "name": "Navigator",
       "category": "System"
-    },
-    {
-      "id": "burninc0de.dock",
-      "name": "Stealth Dock",
-      "category": "Desktop"
     },
     {
       "id": "io.github.rawritude.floating-mode",
@@ -2296,6 +2258,11 @@
       "category": "Productivity"
     },
     {
+      "id": "io.github.denisdmarques.network-routes",
+      "name": "Network Routes",
+      "category": "System"
+    },
+    {
       "id": "vliang.habitgrid",
       "name": "HabitGrid",
       "category": "Productivity"
@@ -2386,6 +2353,11 @@
       "category": "Productivity"
     },
     {
+      "id": "yashwanth.link",
+      "name": "OmaNetHub",
+      "category": "System"
+    },
+    {
       "id": "ogarza.plugins.weather",
       "name": "Omarchy Weather Effects",
       "category": "Appearance"
@@ -2474,11 +2446,6 @@
       "id": "b.omanews",
       "name": "Omanews",
       "category": "Widgets"
-    },
-    {
-      "id": "io.github.ekrist1.nordstart",
-      "name": "Nordstart",
-      "category": "Desktop"
     },
     {
       "id": "ksb.plugin-guard",
@@ -2791,6 +2758,11 @@
       "category": "Appearance"
     },
     {
+      "id": "davedes.netspeed",
+      "name": "Net Speed",
+      "category": "System"
+    },
+    {
       "id": "bitr0t.omarchytweet",
       "name": "X composer",
       "category": "Widgets"
@@ -2991,6 +2963,11 @@
       "category": "Widgets"
     },
     {
+      "id": "rhystic1.automations",
+      "name": "Automations",
+      "category": "Productivity"
+    },
+    {
       "id": "cossssmin.domaincheck",
       "name": "Domain Check",
       "category": "Widgets"
@@ -3023,6 +3000,11 @@
     {
       "id": "io.github.oqullcan.albus.dev",
       "name": "Albus DPI",
+      "category": "System"
+    },
+    {
+      "id": "taufderl.ipinfo",
+      "name": "IP Info",
       "category": "System"
     },
     {
@@ -3171,11 +3153,6 @@
       "category": "System"
     },
     {
-      "id": "omasys.task-manager",
-      "name": "OmaSys",
-      "category": "System"
-    },
-    {
       "id": "fel.vidi",
       "name": "Vidi",
       "category": "Widgets"
@@ -3249,11 +3226,6 @@
       "id": "propsuite.dell-input",
       "name": "DDC Input Switcher",
       "category": "Hardware"
-    },
-    {
-      "id": "io.github.matheusmedrado.omadock",
-      "name": "OmaDock",
-      "category": "Desktop"
     },
     {
       "id": "whitewebdev.flat-tray",
@@ -3491,11 +3463,6 @@
       "category": "Productivity"
     },
     {
-      "id": "bogdart.dock",
-      "name": "Minimizable Dock",
-      "category": "Desktop"
-    },
-    {
       "id": "eduard.kamal-deploy",
       "name": "Kamal Deploy",
       "category": "Developer Tools"
@@ -3626,6 +3593,11 @@
       "category": "Hardware"
     },
     {
+      "id": "network-devices.plugin",
+      "name": "Network Devices",
+      "category": "System"
+    },
+    {
       "id": "jankeesvw.time-machine",
       "name": "Time Machine",
       "category": "System"
@@ -3724,11 +3696,6 @@
       "id": "io.github.omarkamal.security-posture",
       "name": "Security Posture",
       "category": "System"
-    },
-    {
-      "id": "io.github.hogar1977.top-bar-dock",
-      "name": "Top Bar Dock",
-      "category": "Widgets"
     },
     {
       "id": "io.github.orthodox.omarchy-chord-expander",
@@ -3831,6 +3798,11 @@
       "category": "Productivity"
     },
     {
+      "id": "idle-ladder",
+      "name": "Idle ladder",
+      "category": "System"
+    },
+    {
       "id": "io.github.luxore.unifi-protect",
       "name": "UniFi Protect Viewer",
       "category": "Widgets"
@@ -3899,6 +3871,11 @@
       "id": "super-apps",
       "name": "Super Apps",
       "category": "Desktop"
+    },
+    {
+      "id": "rookepoole.oligarchy-tax-department",
+      "name": "Department of Oligarch Revenue",
+      "category": "Appearance"
     },
     {
       "id": "veepee.twingate",
@@ -3976,11 +3953,6 @@
       "category": "Desktop"
     },
     {
-      "id": "io.github.luccast.omarr",
-      "name": "omARR",
-      "category": "Other"
-    },
-    {
       "id": "omatape",
       "name": "Omatape",
       "category": "Widgets"
@@ -4039,11 +4011,6 @@
       "id": "io.github.solisoft.soli-proxy",
       "name": "Soli Proxy",
       "category": "System"
-    },
-    {
-      "id": "primo.dock",
-      "name": "PrimoDock",
-      "category": "Appearance"
     },
     {
       "id": "io.github.rsd.omavnc",
@@ -4246,11 +4213,6 @@
       "category": "Widgets"
     },
     {
-      "id": "io.github.lioheimberg.stardate",
-      "name": "Star Trek: Stardate",
-      "category": "System"
-    },
-    {
       "id": "focuswts.windows-like",
       "name": "Windows-like Window Experience",
       "category": "Desktop"
@@ -4278,11 +4240,6 @@
     {
       "id": "io.github.mranallo.dropshelf",
       "name": "Drop Shelf",
-      "category": "Productivity"
-    },
-    {
-      "id": "kiryuuki.oma-kasm",
-      "name": "OmaKasm",
       "category": "Productivity"
     },
     {
@@ -4324,11 +4281,6 @@
       "id": "io.github.zestybytes.tapo-cameras",
       "name": "Tapo Cameras",
       "category": "Hardware"
-    },
-    {
-      "id": "devinblack001.wazuh-server-view",
-      "name": "Wazuh Server View",
-      "category": "System"
     },
     {
       "id": "io.github.solisoft.soli-db",
@@ -4816,11 +4768,6 @@
       "category": "Productivity"
     },
     {
-      "id": "dimdoremy.omaflameshot",
-      "name": "omaflameshot",
-      "category": "Productivity"
-    },
-    {
       "id": "io.github.hanssound.bar-hints",
       "name": "Bar hints",
       "category": "Productivity"
@@ -4891,14 +4838,14 @@
       "category": "Desktop"
     },
     {
+      "id": "io.github.majesticio.cliamped",
+      "name": "CLIAMPed",
+      "category": "Widgets"
+    },
+    {
       "id": "palccod.omate",
       "name": "Omate",
       "category": "Desktop"
-    },
-    {
-      "id": "com.leafbox.f1",
-      "name": "Formula 1",
-      "category": "Widgets"
     },
     {
       "id": "ryanyogan.blast",
@@ -4981,6 +4928,11 @@
       "category": "System"
     },
     {
+      "id": "io.github.inxeo.plexamp-simple-player",
+      "name": "Plexamp Simple Player",
+      "category": "Widgets"
+    },
+    {
       "id": "jmaeder.sweeztv",
       "name": "Sweez TV",
       "category": "Widgets"
@@ -5004,11 +4956,6 @@
       "id": "io.github.iainfreestone.control-tower",
       "name": "Control Tower",
       "category": "Other"
-    },
-    {
-      "id": "themediastandard.drive-speedtest",
-      "name": "Drive Speed Test",
-      "category": "System"
     },
     {
       "id": "salted.crt",
@@ -5076,6 +5023,11 @@
       "category": "Productivity"
     },
     {
+      "id": "dansmith888.bandwidth",
+      "name": "Bandwidth",
+      "category": "Hardware"
+    },
+    {
       "id": "kigojomo.file-shelf",
       "name": "File Shelf",
       "category": "Productivity"
@@ -5136,6 +5088,11 @@
       "category": "Productivity"
     },
     {
+      "id": "kokd.sundial",
+      "name": "Sundial",
+      "category": "System"
+    },
+    {
       "id": "io.github.dedeanth.mokuzen",
       "name": "Mokuzen",
       "category": "Productivity"
@@ -5151,11 +5108,6 @@
       "category": "Desktop"
     },
     {
-      "id": "sunshine144.solar-nightlight",
-      "name": "Solar Nightlight",
-      "category": "Appearance"
-    },
-    {
       "id": "text-transform",
       "name": "Text Transform",
       "category": "Productivity"
@@ -5168,6 +5120,11 @@
     {
       "id": "valstar.menu-stats",
       "name": "Menu Stats",
+      "category": "System"
+    },
+    {
+      "id": "io.github.tnperron.wired-vlan",
+      "name": "Wired VLAN",
       "category": "System"
     },
     {
@@ -5209,6 +5166,11 @@
       "id": "dailen.omi",
       "name": "Omi Companion",
       "category": "Kids"
+    },
+    {
+      "id": "don.lofiatc",
+      "name": "Lofi ATC",
+      "category": "Widgets"
     },
     {
       "id": "wian47.siphon",
@@ -5321,6 +5283,11 @@
       "category": "System"
     },
     {
+      "id": "avibarit.snappy",
+      "name": "Snappy",
+      "category": "Other"
+    },
+    {
       "id": "aerorohit.nextcloud",
       "name": "Nextcloud",
       "category": "Productivity"
@@ -5359,6 +5326,11 @@
       "id": "digitaljohn.spond",
       "name": "Spond",
       "category": "Widgets"
+    },
+    {
+      "id": "wvdominick.starlink",
+      "name": "Starlink",
+      "category": "Hardware"
     },
     {
       "id": "plasticcupgames.omachy-pixels",
@@ -5431,6 +5403,11 @@
       "category": "Widgets"
     },
     {
+      "id": "larrywcox.site-thread",
+      "name": "UniFi SiteThread",
+      "category": "Widgets"
+    },
+    {
       "id": "josejaguirre.bar",
       "name": "Custom Bar",
       "category": "Appearance"
@@ -5439,11 +5416,6 @@
       "id": "io.github.irhop.mouse-odometer",
       "name": "Mouse Odometer",
       "category": "Widgets"
-    },
-    {
-      "id": "pb.punch",
-      "name": "Punch",
-      "category": "Productivity"
     },
     {
       "id": "illegalstudio.omarchy-insta360",
@@ -5534,11 +5506,6 @@
       "id": "ollywarren.prompt-guide",
       "name": "Prompt guide",
       "category": "Widgets"
-    },
-    {
-      "id": "io.github.alront.agent-folder-picker",
-      "name": "Agent Folder Picker",
-      "category": "Developer Tools"
     },
     {
       "id": "idan.folder-favorites",
@@ -5791,6 +5758,11 @@
       "category": "Developer Tools"
     },
     {
+      "id": "io.github.austindixson.touchbar",
+      "name": "Touch Bar",
+      "category": "Hardware"
+    },
+    {
       "id": "kiryuuki.oma-immich",
       "name": "OmaImmich",
       "category": "Widgets"
@@ -5906,11 +5878,6 @@
       "category": "Productivity"
     },
     {
-      "id": "sven-strothoff.browser-switcher",
-      "name": "Browser Switcher",
-      "category": "Productivity"
-    },
-    {
       "id": "ravivasavan.owlet",
       "name": "Omalet",
       "category": "Kids"
@@ -5948,6 +5915,11 @@
     {
       "id": "shady.wireless-display-cast",
       "name": "Wireless Display Cast",
+      "category": "System"
+    },
+    {
+      "id": "io.github.loupibe.omarchy-wifi-privacy",
+      "name": "Wi-Fi Privacy",
       "category": "System"
     },
     {
@@ -6196,11 +6168,6 @@
       "category": "Desktop"
     },
     {
-      "id": "njpatel.omapager",
-      "name": "Omapager",
-      "category": "Desktop"
-    },
-    {
       "id": "omazork",
       "name": "Omazork",
       "category": "Desktop"
@@ -6364,11 +6331,6 @@
       "id": "arkane.screenhop",
       "name": "ScreenHop",
       "category": "Developer Tools"
-    },
-    {
-      "id": "io.github.jeremylanger.omaspotify",
-      "name": "OmaSpotify",
-      "category": "Desktop"
     },
     {
       "id": "radres.call-me",
@@ -6541,11 +6503,6 @@
       "category": "Productivity"
     },
     {
-      "id": "wdg.dock",
-      "name": "macOS Magnify Dock",
-      "category": "Desktop"
-    },
-    {
       "id": "connor.videodevices",
       "name": "Video Devices",
       "category": "Hardware"
@@ -6616,6 +6573,11 @@
       "category": "Widgets"
     },
     {
+      "id": "davidjm.scripture",
+      "name": "Scripture",
+      "category": "Widgets"
+    },
+    {
       "id": "io.github.mrdulasolutions.pair",
       "name": "NVIDIA PAIR",
       "category": "System"
@@ -6676,6 +6638,11 @@
       "category": "Desktop"
     },
     {
+      "id": "io.github.flx-0x00.ip-copy",
+      "name": "IP Copy",
+      "category": "System"
+    },
+    {
       "id": "fr.rvier.quickborgmatic",
       "name": "QuickBorgmatic",
       "category": "System"
@@ -6686,24 +6653,19 @@
       "category": "Widgets"
     },
     {
-      "id": "dorneles.omabeat",
-      "name": "OmaBeat",
-      "category": "Productivity"
-    },
-    {
       "id": "io.github.brhellman.browser-select",
       "name": "Browser select",
       "category": "Productivity"
     },
     {
-      "id": "io.github.claudsondouglas.arcdock",
-      "name": "Arc Dock",
-      "category": "Desktop"
-    },
-    {
       "id": "reidenxerx.dgpu-status",
       "name": "dGPU status",
       "category": "Hardware"
+    },
+    {
+      "id": "reidenxerx.idle-dim",
+      "name": "Idle dim",
+      "category": "Desktop"
     },
     {
       "id": "reidenxerx.emoji-picker",
@@ -6926,11 +6888,6 @@
       "category": "System"
     },
     {
-      "id": "kosta.apple-tv",
-      "name": "Apple TV Remote",
-      "category": "Hardware"
-    },
-    {
       "id": "io.github.stackingturtles.t480fingerprint",
       "name": "T480 Fingerprint",
       "category": "Hardware"
@@ -6974,11 +6931,6 @@
       "id": "io.weirdware.omasnow",
       "name": "Omasnow",
       "category": "Appearance"
-    },
-    {
-      "id": "jgarza.scrolldock",
-      "name": "Scroll Dock",
-      "category": "Desktop"
     },
     {
       "id": "wdg.autofull",
@@ -7026,9 +6978,9 @@
       "category": "Kids"
     },
     {
-      "id": "omdesky.remote",
-      "name": "Omdesky",
-      "category": "Widgets"
+      "id": "lukedaduke.nexus",
+      "name": "Hardware Nexus",
+      "category": "Hardware"
     },
     {
       "id": "dutchbase.webapps",
@@ -7316,11 +7268,6 @@
       "category": "Productivity"
     },
     {
-      "id": "io.github.pablousx.omastart",
-      "name": "omastart",
-      "category": "System"
-    },
-    {
       "id": "oneplus-buds.control",
       "name": "OnePlus Buds Control",
       "category": "Hardware"
@@ -7351,11 +7298,6 @@
       "category": "System"
     },
     {
-      "id": "marcho78.magnify-dock",
-      "name": "Magnify Dock",
-      "category": "Desktop"
-    },
-    {
       "id": "zed.ganja",
       "name": "Ganja",
       "category": "Widgets"
@@ -7369,16 +7311,6 @@
       "id": "wakanda4ever",
       "name": "Wakanda4Ever",
       "category": "Developer Tools"
-    },
-    {
-      "id": "kb2uka.dock-doctor",
-      "name": "Dock Doctor",
-      "category": "Hardware"
-    },
-    {
-      "id": "spuder.googledrive",
-      "name": "Google Drives",
-      "category": "Productivity"
     },
     {
       "id": "io.github.adamya-gupta.virtual-display",
@@ -7434,11 +7366,6 @@
       "id": "jankeesvw.clippy",
       "name": "Clippy",
       "category": "Desktop"
-    },
-    {
-      "id": "io.github.nwohater.mixtape",
-      "name": "Mixtape",
-      "category": "Widgets"
     },
     {
       "id": "io.github.crumble21.notch-bar",
@@ -7581,11 +7508,6 @@
       "category": "Widgets"
     },
     {
-      "id": "davedes.omcontrol",
-      "name": "OmaControl",
-      "category": "System"
-    },
-    {
       "id": "jmthomas00.uplink",
       "name": "Uplink",
       "category": "Widgets"
@@ -7684,11 +7606,6 @@
       "id": "shienze.muster",
       "name": "Muster",
       "category": "Developer Tools"
-    },
-    {
-      "id": "io.github.silkvain.dockseid",
-      "name": "Dockseid",
-      "category": "Appearance"
     },
     {
       "id": "com.darkhorse-studios.tmog-bar-widget",
@@ -7851,6 +7768,11 @@
       "category": "Productivity"
     },
     {
+      "id": "brownfamilysports.observatory",
+      "name": "Fix-Everything Observatory",
+      "category": "Developer Tools"
+    },
+    {
       "id": "harshith.agent-shield",
       "name": "Agent Quota Shield",
       "category": "Productivity"
@@ -7863,6 +7785,11 @@
     {
       "id": "omarchy-cryptomator-plugin",
       "name": "Omarchy Cryptomator Plugin",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.punkscience.omarchy-scrobble",
+      "name": "Scrobble",
       "category": "Widgets"
     },
     {
@@ -7949,11 +7876,6 @@
       "id": "onelegdave.omachat",
       "name": "OmaChat",
       "category": "Productivity"
-    },
-    {
-      "id": "ozz1ee.bardock",
-      "name": "Bar dock",
-      "category": "Appearance"
     },
     {
       "id": "io.github.onemohsen.gh-trending",
@@ -8081,11 +8003,6 @@
       "category": "System"
     },
     {
-      "id": "crazybadger.app-dock",
-      "name": "App Dock",
-      "category": "Desktop"
-    },
-    {
       "id": "io.github.cylon58.omarchy-knowledge",
       "name": "Community Knowledge",
       "category": "Developer Tools"
@@ -8124,11 +8041,6 @@
       "id": "io.github.katla50.barebitcoin",
       "name": "Bare Bitcoin Price",
       "category": "Widgets"
-    },
-    {
-      "id": "animated.dock",
-      "name": "Animated Dock",
-      "category": "Desktop"
     },
     {
       "id": "jmthomas00.lookout",
@@ -8349,11 +8261,6 @@
       "id": "minholi.kindle",
       "name": "OmaKindle",
       "category": "Productivity"
-    },
-    {
-      "id": "io.github.rationalseer.multi-account-agent-manager",
-      "name": "Multi-Account Agent Manager",
-      "category": "Developer Tools"
     },
     {
       "id": "community.omarchy-friends",
@@ -8781,11 +8688,6 @@
       "category": "Productivity"
     },
     {
-      "id": "clickety-clacks.ask",
-      "name": "Ask",
-      "category": "Productivity"
-    },
-    {
       "id": "io.github.canclini.calculator",
       "name": "Calculator",
       "category": "Productivity"
@@ -8986,11 +8888,6 @@
       "category": "Productivity"
     },
     {
-      "id": "atzingen.jarvis",
-      "name": "Jarvis",
-      "category": "Desktop"
-    },
-    {
       "id": "afruth.omarchy-xr",
       "name": "XR Monitor Studio",
       "category": "Hardware"
@@ -9004,11 +8901,6 @@
       "id": "payton.glide",
       "name": "Glide",
       "category": "Hardware"
-    },
-    {
-      "id": "payton.soundstage",
-      "name": "Soundstage",
-      "category": "System"
     },
     {
       "id": "payton.macromancy",
@@ -9286,6 +9178,11 @@
       "category": "Desktop"
     },
     {
+      "id": "evcode.hotspot",
+      "name": "Wi-Fi Hotspot & Repeater",
+      "category": "System"
+    },
+    {
       "id": "jesusarchive.hyprland-layout",
       "name": "Omarchy Hyprland Layout",
       "category": "Desktop"
@@ -9299,6 +9196,11 @@
       "id": "taskwarrior-time",
       "name": "Taskwarrior Time",
       "category": "Productivity"
+    },
+    {
+      "id": "io.github.ayandexyz.attention",
+      "name": "Attention",
+      "category": "System"
     },
     {
       "id": "io.github.kyryl-bogach.camera-blur",
@@ -9316,6 +9218,11 @@
       "category": "Productivity"
     },
     {
+      "id": "gruper.nanit",
+      "name": "Nanit",
+      "category": "Kids"
+    },
+    {
       "id": "07dcolem.appimages",
       "name": "AppImages",
       "category": "System"
@@ -9324,11 +9231,6 @@
       "id": "io.github.aznit11.omayoutube-dl",
       "name": "OmaYoutube-dl",
       "category": "Widgets"
-    },
-    {
-      "id": "io.github.nazlearn2code.line",
-      "name": "LINE Messenger",
-      "category": "Desktop"
     },
     {
       "id": "io.github.bkbatchelor.omarchy-github-cli-cheatsheet",
@@ -9471,6 +9373,11 @@
       "category": "Productivity"
     },
     {
+      "id": "sky.lofi",
+      "name": "Skylofi",
+      "category": "Productivity"
+    },
+    {
       "id": "dell.commandcode-usage",
       "name": "Command Code Usage",
       "category": "Developer Tools"
@@ -9483,6 +9390,11 @@
     {
       "id": "shifty.agent-quota-bar",
       "name": "Agent Quota Bar",
+      "category": "Widgets"
+    },
+    {
+      "id": "andersdosen.nrkreviews",
+      "name": "NRK Anmeldelser",
       "category": "Widgets"
     },
     {
@@ -9524,11 +9436,6 @@
       "id": "io.github.iampoul.omatime",
       "name": "omaTime",
       "category": "Productivity"
-    },
-    {
-      "id": "io.github.sirallap.solfa",
-      "name": "Solfa",
-      "category": "Widgets"
     },
     {
       "id": "io.github.mindows.mib-vlog",
@@ -9666,8 +9573,13 @@
       "category": "Widgets"
     },
     {
-      "id": "io.github.manateelazycat.startup-map",
-      "name": "Startup Map",
+      "id": "rohi.network",
+      "name": "My Network",
+      "category": "System"
+    },
+    {
+      "id": "tiertek.tekscan",
+      "name": "TekScan",
       "category": "System"
     },
     {
@@ -9746,9 +9658,9 @@
       "category": "System"
     },
     {
-      "id": "foamy.syncthing",
-      "name": "Foamy Syncthing",
-      "category": "System"
+      "id": "vcanuel.unifi",
+      "name": "UniFi",
+      "category": "Widgets"
     },
     {
       "id": "wynout.barhide",
@@ -9761,11 +9673,6 @@
       "category": "Desktop"
     },
     {
-      "id": "io.github.vitorpacheco.mega",
-      "name": "MEGA Sync",
-      "category": "Productivity"
-    },
-    {
       "id": "anavarre.jira-search",
       "name": "Jira Search",
       "category": "Productivity"
@@ -9774,6 +9681,11 @@
       "id": "kelpme.lanchat",
       "name": "Lanchat",
       "category": "Widgets"
+    },
+    {
+      "id": "tahayvr.postcard",
+      "name": "Postcard",
+      "category": "Productivity"
     },
     {
       "id": "abs-player",
@@ -9791,19 +9703,9 @@
       "category": "Productivity"
     },
     {
-      "id": "leonavas.dock",
-      "name": "Dock",
-      "category": "Desktop"
-    },
-    {
       "id": "anavarre.miniflux",
       "name": "Miniflux",
       "category": "Productivity"
-    },
-    {
-      "id": "io.github.stash-11.dock",
-      "name": "My Dock",
-      "category": "Desktop"
     },
     {
       "id": "jgarza.omalens",
@@ -9899,6 +9801,11 @@
       "id": "staruxian.lifeos",
       "name": "LifeOS",
       "category": "Productivity"
+    },
+    {
+      "id": "cdelcollado.network",
+      "name": "Network (hide networks)",
+      "category": "Widgets"
     },
     {
       "id": "io.github.gabepsilva.user-services",
@@ -10041,11 +9948,6 @@
       "category": "Desktop"
     },
     {
-      "id": "omavm",
-      "name": "OmaVM",
-      "category": "System"
-    },
-    {
       "id": "vvkycodevv.sbb",
       "name": "SBB",
       "category": "Widgets"
@@ -10161,6 +10063,11 @@
       "category": "Productivity"
     },
     {
+      "id": "io.github.hectorhache.omawifi",
+      "name": "OmaWiFi - Wi-Fi Anchor",
+      "category": "Widgets"
+    },
+    {
       "id": "badr-emil.rustdesk",
       "name": "RustDesk",
       "category": "Widgets"
@@ -10249,11 +10156,6 @@
       "id": "paudelsamir.bhagwat-geeta",
       "name": "Bhagwat Geeta Bar",
       "category": "Kids"
-    },
-    {
-      "id": "ninepointlabs.omasync",
-      "name": "OmaSyncthing",
-      "category": "Widgets"
     },
     {
       "id": "jgarza.drives",
@@ -10431,6 +10333,11 @@
       "category": "Other"
     },
     {
+      "id": "niall.wotconn",
+      "name": "Access Point",
+      "category": "Widgets"
+    },
+    {
       "id": "spicybackend.seerr",
       "name": "Seerr Quick Requests",
       "category": "Widgets"
@@ -10456,11 +10363,6 @@
       "category": "Productivity"
     },
     {
-      "id": "robson.agent-chat",
-      "name": "Agent Chat",
-      "category": "Developer Tools"
-    },
-    {
       "id": "io.github.ericyhm80.agent-pipeline",
       "name": "Agent Pipeline",
       "category": "Developer Tools"
@@ -10469,11 +10371,6 @@
       "id": "bramvanoploo.omarchy-t2-linux",
       "name": "Omapple",
       "category": "Hardware"
-    },
-    {
-      "id": "io.github.adam-loy.spotify-wheel",
-      "name": "Spotify_Wheel",
-      "category": "Appearance"
     },
     {
       "id": "io.github.brunorzm.omaklippy",
@@ -10489,6 +10386,11 @@
       "id": "io.github.dankestrick.omarandom",
       "name": "OmaRandom",
       "category": "Other"
+    },
+    {
+      "id": "lutfi.eco",
+      "name": "Eco Mode Manager",
+      "category": "System"
     },
     {
       "id": "lutfi.glass",
@@ -10621,11 +10523,6 @@
       "category": "Widgets"
     },
     {
-      "id": "foamy.notifications",
-      "name": "Foamy Notifications",
-      "category": "Desktop"
-    },
-    {
       "id": "io.github.legibet.sing-box-bar",
       "name": "sing-box Bar",
       "category": "System"
@@ -10656,9 +10553,9 @@
       "category": "Hardware"
     },
     {
-      "id": "io.github.morawskimck.kimai",
-      "name": "Kimai",
-      "category": "Productivity"
+      "id": "saigkill.network-check",
+      "name": "Network check",
+      "category": "Desktop"
     },
     {
       "id": "saigkill.bluesky",
@@ -10856,6 +10753,11 @@
       "category": "Productivity"
     },
     {
+      "id": "io.github.guranex.media-lyrics",
+      "name": "Media Lyrics Card",
+      "category": "Widgets"
+    },
+    {
       "id": "io.github.hightech89.command-center",
       "name": "Command Center",
       "category": "System"
@@ -10884,11 +10786,6 @@
       "id": "io.github.tbogard.yamaha-mg-xu",
       "name": "Yamaha MG-XU Compatibility",
       "category": "System"
-    },
-    {
-      "id": "io.github.itsdotdev.dock",
-      "name": "Dock",
-      "category": "Widgets"
     },
     {
       "id": "jose.focusplease",
@@ -10976,6 +10873,11 @@
       "category": "Appearance"
     },
     {
+      "id": "io.github.onatvural.screen-comfort",
+      "name": "Screen Comfort",
+      "category": "System"
+    },
+    {
       "id": "io.github.mrc04d.opencode-go",
       "name": "OpenCode Go Usage",
       "category": "Developer Tools"
@@ -11041,11 +10943,6 @@
       "category": "Desktop"
     },
     {
-      "id": "arisgysel-design.quick-dock",
-      "name": "Quick Dock",
-      "category": "Productivity"
-    },
-    {
       "id": "lucas.football",
       "name": "¿Hay fútbol?",
       "category": "Widgets"
@@ -11074,11 +10971,6 @@
       "id": "dominikzajac.appspace",
       "name": "AppSpace",
       "category": "Desktop"
-    },
-    {
-      "id": "io.github.houtvongsak.herdr-sessions",
-      "name": "Herdr Session Manager",
-      "category": "Developer Tools"
     },
     {
       "id": "maurice.daily-verse",
@@ -11114,11 +11006,6 @@
       "id": "ashis.bikram",
       "name": "Bikram Sambat",
       "category": "Widgets"
-    },
-    {
-      "id": "maximxmoroz.win11-dock",
-      "name": "Windows Dock",
-      "category": "Desktop"
     },
     {
       "id": "teknobu.topapps",
@@ -11546,11 +11433,6 @@
       "category": "Widgets"
     },
     {
-      "id": "jmb11111.tracearr",
-      "name": "Tracearr",
-      "category": "Widgets"
-    },
-    {
       "id": "io.github.pierrenel.everywall",
       "name": "Everywall",
       "category": "Appearance"
@@ -11569,6 +11451,11 @@
       "id": "io.github.basantpandey.power-rename",
       "name": "Power Rename",
       "category": "Productivity"
+    },
+    {
+      "id": "ubruckhaus.wlan-monitor",
+      "name": "WLAN Monitor",
+      "category": "System"
     },
     {
       "id": "io.github.jholloway12.per-monitor-background",
@@ -11669,11 +11556,6 @@
       "id": "ubruckhaus.my-plugins",
       "name": "My Plugins",
       "category": "Developer Tools"
-    },
-    {
-      "id": "paul.jellyfin",
-      "name": "Jellyfin Cinema",
-      "category": "Widgets"
     },
     {
       "id": "mulcahyio.app-picker",

@@ -12,7 +12,8 @@
         "\\b(?:memory (?:usage|pressure|composition|breakdown)|ram usage|vram usage)\\b",
         "\\b(?:cpu|gpu|ram|processor)[^.;]{0,65}\\b(?:memory|ram|disk|thermal|metrics|telemetry|gauges|analytics|sensors|temperature|readings)\\b",
         "\\b(?:live|glanceable|monitor|shows|read-only|hardware)[^.;]{0,70}\\b(?:cpu|ram|thermal|fan.speed|temperature)\\b",
-        "\\b(?:system statistics|hardware inspection|pressure stalls|btop popup|thermal readings|hwmon|lm_sensors)\\b"
+        "\\b(?:system statistics|hardware inspection|pressure stalls|btop popup|thermal readings|hwmon|lm_sensors)\\b",
+        "\\b(?:task manager|resource monitoring|per-process inspection)\\b"
       ],
       "exclude": [
         "\\b(keyboard|keybind|color temperature|night[- ]light|ferment|cloud storage|smart mug|smart sock)\\b",
@@ -23,7 +24,17 @@
         "\\b(btop|htop|nvtop|system (?:stats|health|monitor))\\b",
         "\\b(?:hw monitor|system metrics|ram manager)\\b"
       ],
-      "task": "CPU, memory, temperature, and resource monitoring. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "CPU, memory, temperature, and resource monitoring. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "exclusionScope": "clause",
+      "contract": {
+        "version": 1,
+        "outcome": "CPU, memory, temperature, and resource monitoring",
+        "capabilitySets": [
+          [
+            "inspect-resource-usage"
+          ]
+        ]
+      }
     },
     {
       "id": "vpn",
@@ -42,10 +53,22 @@
       "exclude": [
         "\\b(kde connect|taildrop|clipboard bridge|vpn-leak alert)\\b"
       ],
-      "task": "VPN status, connection, and privacy controls. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify.",
+      "task": "VPN status, connection, and privacy controls. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
       "builtIns": [
         "omarchy.tailscale"
-      ]
+      ],
+      "contract": {
+        "version": 1,
+        "outcome": "VPN status, connection, and privacy controls",
+        "capabilitySets": [
+          [
+            "read-vpn-status"
+          ],
+          [
+            "control-vpn-connection"
+          ]
+        ]
+      }
     },
     {
       "id": "mail",
@@ -57,27 +80,72 @@
       "exclude": [
         "\\b(minimap|email (?:address|templates?|signature))\\b"
       ],
-      "task": "Unread mail, inbox, and email shortcuts. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Unread mail, inbox, and email shortcuts. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Unread mail, inbox, and email shortcuts",
+        "capabilitySets": [
+          [
+            "read-mail-status"
+          ]
+        ]
+      }
     },
     {
       "id": "music",
-      "name": "Music",
-      "description": "Music playback and now-playing controls",
+      "name": "Media Controls",
+      "description": "View now-playing details and control an existing media player",
       "include": [
-        "\\b(music (?:player|playback|library|controls?)|mpris|playerctl|now[- ]playing|media (?:player|playback|controls?)|identify the song)\\b",
-        "\\b(?:play|control|browse|manage)\\w*[^.]{0,40}\\b(?:music|spotify|songs?|tracks?|playlists?)\\b"
+        "\\b(?:mpris|playerctl|now[- ]playing|media controls?|music controls?|playback controls?|media widget)\\b"
       ],
       "exclude": [
-        "\\bvideo wall\\b",
-        "\\b(?:through|via) (?:omarchy.s |the )?(?:media controls|music player)\\b"
+        "\\b(?:through|via) (?:omarchy.s |the )?media controls\\b"
       ],
       "nameInclude": [
-        "\\b(music|spotify|media controls|now[- ]playing)\\b"
+        "\\b(?:media controls|now[- ]playing)\\b"
       ],
-      "task": "Music playback and now-playing controls. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify.",
+      "task": "View now-playing details and control an existing media player. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
       "builtIns": [
         "omarchy.media"
-      ]
+      ],
+      "exclusionScope": "clause",
+      "contract": {
+        "version": 1,
+        "outcome": "View now-playing details and control an existing media player",
+        "capabilitySets": [
+          [
+            "read-now-playing",
+            "control-playback"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "music-players",
+      "name": "Music Players",
+      "description": "Browse a music library and play songs or playlists",
+      "include": [
+        "\\b(?:music player|music playback|music library|youtube music|spotify (?:client|in)|apple music|jellyfin|local music|music collection)\\b",
+        "\\b(?:play|browse|search|manage)\\w*[^.;]{0,40}\\b(?:songs?|playlists?|music library)\\b"
+      ],
+      "nameInclude": [
+        "\\b(?:omaspotify|spotify|tektube|sonora)\\b"
+      ],
+      "exclude": [
+        "\\b(?:lyrics overlay|only controls|shows steam)\\b"
+      ],
+      "exclusionScope": "clause",
+      "contract": {
+        "version": 1,
+        "outcome": "Browse a music library and play songs or playlists",
+        "capabilitySets": [
+          [
+            "browse-music",
+            "play-music"
+          ]
+        ]
+      },
+      "task": "Browse a music library and play songs or playlists. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations."
     },
     {
       "id": "weather",
@@ -91,10 +159,19 @@
         "\\b(flight radar|space weather|weathered)\\b",
         "\\b(?:cash forecast|balance forecast|accounting|fullscreen weather overlays|rain and snow that fall over your windows|independent toggles|shader wallpaper)\\b"
       ],
-      "task": "Forecasts and current conditions. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify.",
+      "task": "Forecasts and current conditions. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
       "builtIns": [
         "omarchy.weather"
-      ]
+      ],
+      "contract": {
+        "version": 1,
+        "outcome": "Forecasts and current conditions",
+        "capabilitySets": [
+          [
+            "read-weather"
+          ]
+        ]
+      }
     },
     {
       "id": "battery",
@@ -102,7 +179,9 @@
       "description": "Computer battery level, charging, power draw, and battery health",
       "include": [
         "\\b(battery (?:status|stats|health|care|charge|level|widget|panel|warnings?|alerts?|diagnostics|draw|limit|protection|readouts?)|charge[- ](?:limit|threshold)|charging profiles?|power[- ]profile (?:switcher|settings|picker)|upower.{0,25}charge limit|pack watts|multi-battery|battery.{0,50}system (?:stats|panel))\\b",
-        "\\bbattery[^.]{0,55}\\b(?:stats|readouts|monitor|panel)\\b"
+        "\\bbattery[^.]{0,55}\\b(?:stats|readouts|monitor|panel)\\b",
+        "\\b(?:laptop|computer|system) battery\\b",
+        "\\bbattery charge modes\\b"
       ],
       "exclude": [
         "\\b(phone|iphone|kde connect|earbuds?|headphones?|headsets?|airpods|buds|mouse|mice|trackpad|keyboard|peripheral|controller|garmin|rivian|vehicle|smart mug|smart sock|dualsense|jabra|shokz|cetra|blackshark|sennheiser|bose|sony)\\b",
@@ -111,11 +190,27 @@
       "nameInclude": [
         "\\b(batter(?:y|ies)|charge (?:cap|limit)|power profiles?)\\b"
       ],
-      "task": "Computer battery level, charging, power draw, and battery health. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify.",
+      "task": "Computer battery level, charging, power draw, and battery health. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
       "builtIns": [
         "omarchy.battery",
         "omarchy.power"
-      ]
+      ],
+      "exclusionScope": "clause",
+      "contract": {
+        "version": 1,
+        "outcome": "Computer battery level, charging, power draw, and battery health",
+        "capabilitySets": [
+          [
+            "read-computer-battery"
+          ],
+          [
+            "control-charge-limit"
+          ],
+          [
+            "manage-power-profiles"
+          ]
+        ]
+      }
     },
     {
       "id": "clipboard",
@@ -126,10 +221,20 @@
         "\\bcopy (tracker|action)\\b",
         "\\bre-copy\\b"
       ],
-      "task": "Clipboard history, reusable snippets, and paste management. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify.",
+      "task": "Clipboard history, reusable snippets, and paste management. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
       "builtIns": [
         "omarchy.clipboard"
-      ]
+      ],
+      "contract": {
+        "version": 1,
+        "outcome": "Clipboard history, reusable snippets, and paste management",
+        "capabilitySets": [
+          [
+            "browse-clipboard-history",
+            "reuse-clipboard-entry"
+          ]
+        ]
+      }
     },
     {
       "id": "launcher",
@@ -142,35 +247,98 @@
         "\\btheme-aware(?: omarchy)? launcher\\b",
         "\\bomarchy launcher\\b[^.]{0,60}\\b(apps?|applications?|programs?|commands?|search)\\b",
         "\\b(?:rofi|wofi|fuzzel|walker) (?:launcher|replacement|app search)\\b",
-        "\\b(?:unified )?spotlight search for apps\\b"
+        "\\b(?:unified )?spotlight search for apps\\b",
+        "\\b(?:raycast-style launcher|launch(?:es|ing)? applications)\\b"
       ],
-      "task": "Application launchers, command palettes, and quick search. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Application launchers, command palettes, and quick search. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Application launchers, command palettes, and quick search",
+        "capabilitySets": [
+          [
+            "find-applications",
+            "launch-applications"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "docks",
+      "name": "Application Docks",
+      "description": "Pin, launch and switch applications from a desktop dock",
+      "include": [
+        "\\b(?:application dock|app dock|dock for omarchy|macos dock|arc dock)\\b"
+      ],
+      "nameInclude": [
+        "\\b(?:dock|omadock)\\b"
+      ],
+      "contract": {
+        "version": 1,
+        "outcome": "Pin, launch and switch applications from a desktop dock",
+        "capabilitySets": [
+          [
+            "pin-applications",
+            "launch-pinned-applications"
+          ]
+        ]
+      },
+      "task": "Pin, launch and switch applications from a desktop dock. Hosting a tray or showing status icons alone does not qualify."
     },
     {
       "id": "network",
-      "name": "Network",
-      "description": "Network status, traffic, Wi-Fi, and connectivity",
+      "name": "Network Connections",
+      "description": "Connect, disconnect and configure Wi-Fi, Ethernet or cellular networks",
       "include": [
-        "\\b(network|wi-?fi|ethernet|bandwidth) (?:status|traffic|monitor|rate|speed|connection|manager|hub|interfaces?|controls?|settings|throughput)\\b",
-        "\\b(internet speed|traffic monitor|network latency|internet latency|latency test(?:ing)?|packet loss|public ip|wan link|wi-fi clients|throughput|network[^.]{0,40}(?:stats|monitor|readouts?))\\b",
-        "\\b(?:scan|connect|switch|toggle|manage|monitor)\\w*[^.]{0,35}\\b(?:network|wi-fi|wifi|ethernet|subnet)\\b",
-        "\\bnetwork (?:download|discovery|health|telemetry|info|tools|topology)\\b",
-        "\\b(?:share your ethernet|wi-fi radar|lock wi-fi|captive portal|wired lan vlan|starlink latency)\\b",
-        "\\b(?:see|watch|scan|monitor|manage|shows?|live|reactive)[^.;]{0,75}\\b(?:network|wi-fi|bandwidth)\\b",
-        "\\bnetwork[^.;]{0,65}\\b(?:usage|status|chart|panel|gauges)\\b",
-        "\\b(?:system (?:monitor|vitals)|cpu)[^.;]{0,100}\\bnetwork\\b"
+        "\\b(?:wi-?fi|ethernet|cellular|network|modem) (?:panel|manager|connections?|controls?|settings|list|toggle)\\b",
+        "\\b(?:connect|disconnect|forget|switch|configure|toggle|disable|restore)\\w*[^.;]{0,50}\\b(?:wi-?fi|ethernet|networks?|networking|radio|links?)\\b",
+        "\\b(?:networkmanager|modemmanager|captive portal|dns provider switching|airplane mode)\\b",
+        "\\b(?:share your ethernet|wi-fi ap|wi-fi repeater|mobile hotspot|internet hotspot)\\b"
       ],
       "exclude": [
-        "\\b(social network|neural network|low[- ]latency|kde connect)\\b",
-        "\\b(?:no network|no shared network|never.{0,20}network|no.{0,40}network requests|bitcoin network|network ups tools|ram read and write bandwidth|works on.{0,25}network)\\b"
+        "\\b(?:social network|neural network|kde connect)\\b"
       ],
-      "nameInclude": [
-        "\\b(network|wi-?fi|bandwidth|internet latency|ping)\\b"
-      ],
-      "task": "Network status, traffic, Wi-Fi, and connectivity. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify.",
+      "nameInclude": [],
+      "task": "Connect, disconnect and configure Wi-Fi, Ethernet or cellular networks. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
       "builtIns": [
         "omarchy.network"
-      ]
+      ],
+      "exclusionScope": "clause",
+      "contract": {
+        "version": 1,
+        "outcome": "Connect, disconnect and configure Wi-Fi, Ethernet or cellular networks",
+        "capabilitySets": [
+          [
+            "manage-network-connections"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "network-diagnostics",
+      "name": "Network Traffic & Diagnostics",
+      "description": "Measure throughput, latency and connection activity",
+      "include": [
+        "\\b(?:network|wi-?fi|ethernet|bandwidth|internet|traffic) (?:stats|statistics|traffic|monitor|speed|rates?|throughput|latency|diagnostics|telemetry)\\b",
+        "\\b(?:packet loss|public ip|throughput|network latency|speed test|network[^.;]{0,45}stats)\\b",
+        "\\b(?:system monitor|cpu)[^.;]{0,100}\\bnetwork\\b",
+        "\\bnetwork[^.;]{0,60}\\b(?:monitor|usage|chart|panel|gauges)\\b",
+        "\\b(?:network discovery|local subnet|wi-fi radar|internet latency|latency testing|traffic monitor)\\b",
+        "\\b(?:every device|devices) on your network\\b"
+      ],
+      "exclude": [
+        "\\b(?:no network|no[^.;]{0,30}network requests|social network|neural network|ram read and write bandwidth)\\b"
+      ],
+      "exclusionScope": "clause",
+      "contract": {
+        "version": 1,
+        "outcome": "Measure throughput, latency and connection activity",
+        "capabilitySets": [
+          [
+            "inspect-network-activity"
+          ]
+        ]
+      },
+      "task": "Measure throughput, latency and connection activity. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations."
     },
     {
       "id": "bluetooth",
@@ -185,10 +353,19 @@
         "\\bbluetooth (?:proximity|control session)\\b",
         "\\b(lamps?|light bulbs?|proximity|touchpad)\\b"
       ],
-      "task": "Bluetooth device discovery, pairing, connections, and adapter controls. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify.",
+      "task": "Bluetooth device discovery, pairing, connections, and adapter controls. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
       "builtIns": [
         "omarchy.bluetooth"
-      ]
+      ],
+      "contract": {
+        "version": 1,
+        "outcome": "Bluetooth device discovery, pairing, connections, and adapter controls",
+        "capabilitySets": [
+          [
+            "manage-bluetooth-connections"
+          ]
+        ]
+      }
     },
     {
       "id": "audio",
@@ -210,17 +387,31 @@
         "\\b(?:audio|volume|microphone) (?:controls?|mixer|switcher|panel|priority|gain|effects|master|patchbay)\\b",
         "\\bheadphones? (?:manager|volume|controls?)\\b"
       ],
-      "task": "System volume, microphones, audio routing, and headset sound controls. A player or sound generator with its own volume slider does not qualify; neither does a visualizer or recorder merely using PipeWire.",
+      "task": "System volume, microphones, audio routing, and headset sound controls. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
       "builtIns": [
         "omarchy.audio"
-      ]
+      ],
+      "contract": {
+        "version": 1,
+        "outcome": "System volume, microphones, audio routing, and headset sound controls",
+        "capabilitySets": [
+          [
+            "control-system-audio"
+          ],
+          [
+            "configure-headset-audio"
+          ]
+        ]
+      }
     },
     {
       "id": "brightness",
-      "name": "Brightness",
-      "description": "Display brightness and night-light controls",
+      "name": "Screen Brightness",
+      "description": "Adjust computer display brightness manually or automatically",
       "include": [
-        "\\b(brightness|backlight|night light|blue light|gammastep|hyprsunset)\\b"
+        "\\b(?:display|screen|monitor) (?:brightness|backlight)\\b",
+        "\\b(?:adjust|control|automatic|adaptive|ambient-light|auto)\\w*[^.;]{0,35}\\b(?:brightness|backlight)\\b",
+        "\\bbrightness (?:controls?|range|slider)\\b"
       ],
       "exclude": [
         "\\b(display|monitor) (manager|configuration|config|profiles?|layouts?)\\b",
@@ -228,7 +419,45 @@
         "\\b(keyboard|key light|smart lights?|rgb|openrgb|wled|govee|wiz lights?|hue lights?|peripherals?)\\b",
         "\\b(?:lamps?|smart bulbs?)\\b"
       ],
-      "task": "Display brightness and night-light controls. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Adjust computer display brightness manually or automatically. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "nameInclude": [
+        "\\b(?:auto(?:matic)?|adaptive|display|screen) brightness\\b"
+      ],
+      "exclusionScope": "clause",
+      "contract": {
+        "version": 1,
+        "outcome": "Adjust computer display brightness manually or automatically",
+        "capabilitySets": [
+          [
+            "adjust-display-brightness"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "night-light",
+      "name": "Night Light",
+      "description": "Adjust and schedule computer display color temperature",
+      "include": [
+        "\\b(?:night ?light|blue light|hyprsunset|gammastep|screen temperature)\\b"
+      ],
+      "exclude": [
+        "\\b(?:camera|baby|nanit|lamps?|bulbs?|smart lights?)\\b"
+      ],
+      "exclusionScope": "clause",
+      "contract": {
+        "version": 1,
+        "outcome": "Adjust and schedule computer display color temperature",
+        "capabilitySets": [
+          [
+            "adjust-display-color-temperature"
+          ],
+          [
+            "schedule-night-light"
+          ]
+        ]
+      },
+      "task": "Adjust and schedule computer display color temperature. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations."
     },
     {
       "id": "display-monitors",
@@ -244,7 +473,16 @@
         "\\b(system|resource|hardware|traffic|temperature) monitor\\b",
         "\\b(screen time|wallpaper|backgrounds?)\\b"
       ],
-      "task": "Monitor layouts, display profiles, and output controls. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Monitor layouts, display profiles, and output controls. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Monitor layouts, display profiles, and output controls",
+        "capabilitySets": [
+          [
+            "configure-display-outputs"
+          ]
+        ]
+      }
     },
     {
       "id": "notifications",
@@ -253,7 +491,8 @@
       "include": [
         "\\bnotification(?:s)? (?:cent(?:er|re)|history|manager|management|daemon|service|inbox|panel|grouping|replacement)\\b",
         "\\b(do[- ]not[- ]disturb|dnd mode|mako)\\b",
-        "\\b(?:snooze|dismiss|group|mute|manage)(?:s|d|ing)?[^.]{0,25}\\bnotifications?\\b"
+        "\\b(?:snooze|dismiss|group|mute|manage)(?:s|d|ing)?[^.]{0,25}\\bnotifications?\\b",
+        "\\b(?:notifications?[^.;]{0,80}(?:replacement|stacking|grouping|per-source snooze)|replacement[^.;]{0,50}notification service)\\b"
       ],
       "nameInclude": [
         "\\bnotification (?:cent(?:er|re)|history|manager|slideover)\\b"
@@ -261,10 +500,20 @@
       "exclude": [
         "\\b(kde connect|does not touch the normal notification)\\b"
       ],
-      "task": "Notification centers, history, and do-not-disturb. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify.",
+      "task": "Notification centers, history, and do-not-disturb. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
       "builtIns": [
         "omarchy.notifications"
-      ]
+      ],
+      "exclusionScope": "clause",
+      "contract": {
+        "version": 1,
+        "outcome": "Notification centers, history, and do-not-disturb",
+        "capabilitySets": [
+          [
+            "manage-desktop-notifications"
+          ]
+        ]
+      }
     },
     {
       "id": "lock-idle",
@@ -286,11 +535,23 @@
         "\\b(caps lock|rotation lock|screen auto-rotate)\\b",
         "\\bkeyboard backlight\\b"
       ],
-      "task": "Screen locking, idle behavior, and sleep prevention. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify.",
+      "task": "Screen locking, idle behavior, and sleep prevention. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
       "builtIns": [
         "omarchy.lock",
         "omarchy.idle"
-      ]
+      ],
+      "contract": {
+        "version": 1,
+        "outcome": "Screen locking, idle behavior, and sleep prevention",
+        "capabilitySets": [
+          [
+            "configure-lock-screen"
+          ],
+          [
+            "manage-idle-behavior"
+          ]
+        ]
+      }
     },
     {
       "id": "password-manager",
@@ -303,7 +564,16 @@
         "\\b(compliance|workstation checks?)\\b",
         "vpn"
       ],
-      "task": "Password vaults, TOTP codes, and credential managers. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Password vaults, TOTP codes, and credential managers. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Password vaults, TOTP codes, and credential managers",
+        "capabilitySets": [
+          [
+            "retrieve-credentials"
+          ]
+        ]
+      }
     },
     {
       "id": "calendar",
@@ -312,32 +582,109 @@
       "include": [
         "\\b(calendar|agenda|caldav|google calendar|events? widget)\\b"
       ],
-      "task": "Calendars, events, and agenda widgets. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Calendars, events, and agenda widgets. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Calendars, events, and agenda widgets",
+        "capabilitySets": [
+          [
+            "browse-calendar-events"
+          ]
+        ]
+      }
     },
     {
       "id": "clock-timer",
-      "name": "Clock & Timer",
-      "description": "Clocks, timers, stopwatches, and alarms",
+      "name": "Clocks & Time Zones",
+      "description": "Read the time and compare time zones",
       "include": [
-        "\\b(clock|stopwatch|world time|time zones?|countdown timer|focus timer|pomodoro timer|alarm clock|alarm manager|timer widget)\\b",
-        "\\b(?:set|start|manage|create)\\w*[^.]{0,30}\\b(?:timers?|alarms?)\\b"
+        "\\b(?:clock|world time|time zones?|timezone|local time|current time)\\b"
       ],
       "exclude": [
-        "\\b(clock[- ]speed|on a(?: [\\w-]+)? timer)\\b"
+        "\\b(?:clock[- ]speed|focus clock|pomodoro|clockwork|countdown|timer)\\b"
       ],
       "nameInclude": [
-        "\\b(timers?|alarms?|pomodoro|omodoro)\\b"
+        "\\b(?:clock|timezones?|world time)\\b"
       ],
-      "task": "Clocks, timers, stopwatches, and alarms. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Read the time and compare time zones. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "exclusionScope": "clause",
+      "contract": {
+        "version": 1,
+        "outcome": "Read the time and compare time zones",
+        "capabilitySets": [
+          [
+            "read-time"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "timers-alarms",
+      "name": "Timers & Alarms",
+      "description": "Run timers, stopwatches and scheduled alarms",
+      "include": [
+        "\\b(?:stopwatch|countdown timer|focus timer|pomodoro|alarm clock|alarm manager|timer widget|omodoro)\\b",
+        "\\b(?:set|start|manage|create|runs?)\\w*[^.;]{0,35}\\b(?:timers?|alarms?)\\b"
+      ],
+      "nameInclude": [
+        "\\b(?:timers?|alarms?|pomodoro|omodoro|clockwork)\\b"
+      ],
+      "exclude": [
+        "\\bon a(?: [\\w-]+)? timer\\b"
+      ],
+      "exclusionScope": "clause",
+      "contract": {
+        "version": 1,
+        "outcome": "Run timers, stopwatches and scheduled alarms",
+        "capabilitySets": [
+          [
+            "run-timer"
+          ],
+          [
+            "run-stopwatch"
+          ],
+          [
+            "schedule-alarm"
+          ]
+        ]
+      },
+      "task": "Run timers, stopwatches and scheduled alarms. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations."
     },
     {
       "id": "focus",
-      "name": "Focus",
-      "description": "Pomodoro, habits, tasks, and focus sessions",
+      "name": "Focus Sessions",
+      "description": "Run Pomodoro and structured focus sessions",
       "include": [
-        "\\b(pomodoro|focus timer|focus session|habit tracker|todo|to-do|todoist|ticktick|microsoft to do|task list)\\b"
+        "\\b(?:pomodoro|focus timer|focus session)\\b"
       ],
-      "task": "Pomodoro, habits, tasks, and focus sessions. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Run Pomodoro and structured focus sessions. Managing a task list alone does not supply focus sessions.",
+      "contract": {
+        "version": 1,
+        "outcome": "Run Pomodoro and structured focus sessions",
+        "capabilitySets": [
+          [
+            "manage-focus-sessions"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "tasks",
+      "name": "Task Lists",
+      "description": "Create, browse and complete personal tasks",
+      "include": [
+        "\\b(?:todo|to-do|todoist|ticktick|microsoft to do|task list)\\b"
+      ],
+      "task": "Create, browse and complete personal tasks. Coding-agent task status is not personal task management.",
+      "contract": {
+        "version": 1,
+        "outcome": "Create, browse and complete personal tasks",
+        "capabilitySets": [
+          [
+            "manage-personal-tasks"
+          ]
+        ]
+      }
     },
     {
       "id": "notes",
@@ -359,7 +706,19 @@
       "nameInclude": [
         "\\b(notes|obsidian)\\b"
       ],
-      "task": "Note-taking, scratchpads, and quick capture tools. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Note-taking, scratchpads, and quick capture tools. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Note-taking, scratchpads, and quick capture tools",
+        "capabilitySets": [
+          [
+            "capture-notes"
+          ],
+          [
+            "read-notes"
+          ]
+        ]
+      }
     },
     {
       "id": "screen-time",
@@ -368,7 +727,16 @@
       "include": [
         "\\b(screen time|digital well[- ]?being|desktop usage tracker|application usage tracker|app usage tracker)\\b"
       ],
-      "task": "Screen-time tracking and digital wellbeing. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Screen-time tracking and digital wellbeing. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Screen-time tracking and digital wellbeing",
+        "capabilitySets": [
+          [
+            "track-app-screen-time"
+          ]
+        ]
+      }
     },
     {
       "id": "workspaces",
@@ -388,10 +756,22 @@
       "nameInclude": [
         "\\bworkspaces?\\b"
       ],
-      "task": "Hyprland workspace indicators and navigation. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify.",
+      "task": "Hyprland workspace indicators and navigation. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
       "builtIns": [
         "omarchy.workspaces"
-      ]
+      ],
+      "contract": {
+        "version": 1,
+        "outcome": "Hyprland workspace indicators and navigation",
+        "capabilitySets": [
+          [
+            "navigate-workspaces"
+          ],
+          [
+            "show-workspace-state"
+          ]
+        ]
+      }
     },
     {
       "id": "window-management",
@@ -402,28 +782,100 @@
         "\\b(workspace|window) overview\\b",
         "\\bexpos[eé](?!\\w)",
         "\\boverview of (?:every |all )?(?:open )?windows\\b",
-        "\\b(?:tiling (?:layouts?|area)|window tiling|float every newly opened window|tiling, right-click closes)\\b"
+        "\\b(?:tiling (?:layouts?|area)|window tiling|float every newly opened window|tiling, right-click closes)\\b",
+        "\\b(?:switch(?:es|ing)? windows|minimize hyprland windows)\\b"
       ],
       "exclude": [
         "\\bkeyboard layouts?\\b",
         "\\b(?:tutorial|tiling trainer|learn omarchy|raycaster|setup: after installing|tiling terminal)\\b"
       ],
-      "task": "Window switchers, layouts, tiling, and window rules. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Window switchers, layouts, tiling, and window rules. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Window switchers, layouts, tiling, and window rules",
+        "capabilitySets": [
+          [
+            "switch-windows"
+          ],
+          [
+            "configure-window-behavior"
+          ]
+        ]
+      }
     },
     {
       "id": "screenshots",
-      "name": "Screenshots & Recording",
-      "description": "Screenshots, screen recording, and OCR capture",
+      "name": "Screen Capture",
+      "description": "Take, annotate and export screenshots",
       "include": [
-        "\\b(screenshot|screen capture|screen record|screen recorder|ocr|grimblast|slurp)\\b",
-        "\\brecord (?:your |the )?(?:screen|desktop)\\b",
-        "\\bscreen[- ]?recording\\b",
-        "\\b(?:capture|take|one-click)[^.]{0,25}\\bscreenshots?\\b"
+        "\\b(?:screenshot capture|screen capture|screenshot tool|snipping tool|screenshot overlay|take screenshots?|capture[^.;]{0,35}screenshots?|one-click[^.;]{0,25}screenshots?)\\b",
+        "\\bscreenshot and screen[- ]recording overlay\\b"
       ],
       "exclude": [
-        "\\bprivacy (indicators?|alerts?)\\b"
+        "\\b(?:screenshot history|screenshots taken|screenshot thumbnails|screenshot shows|no screen capture)\\b"
       ],
-      "task": "Screenshots, screen recording, and OCR capture. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Take, annotate and export screenshots. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "nameInclude": [
+        "\\b(?:screenshot|snip(?:per|ping)?|omashot|omaflameshot|omacapture)\\b"
+      ],
+      "exclusionScope": "clause",
+      "contract": {
+        "version": 1,
+        "outcome": "Take, annotate and export screenshots",
+        "capabilitySets": [
+          [
+            "capture-image",
+            "export-image"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "screen-recording",
+      "name": "Screen Recording",
+      "description": "Start, stop and save recordings of your screen",
+      "include": [
+        "\\b(?:screen[- ]recording|screen recorder|record (?:your |the )?(?:screen|desktop)|gpu-screen-recorder|recording overlay)\\b"
+      ],
+      "exclude": [
+        "\\b(?:recording indicator|recording activity|privacy indicator|no screen capture)\\b"
+      ],
+      "exclusionScope": "clause",
+      "contract": {
+        "version": 1,
+        "outcome": "Start, stop and save recordings of your screen",
+        "capabilitySets": [
+          [
+            "start-recording",
+            "stop-recording",
+            "save-recording"
+          ]
+        ]
+      },
+      "task": "Start, stop and save recordings of your screen. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations."
+    },
+    {
+      "id": "ocr",
+      "name": "Screen Text Extraction",
+      "description": "Select screen content and extract text with OCR",
+      "include": [
+        "\\b(?:ocr|extract text|copy[^.;]{0,25}screen text|screen translator)\\b"
+      ],
+      "exclude": [
+        "\\b(?:window contents search|ocr search)\\b"
+      ],
+      "exclusionScope": "clause",
+      "contract": {
+        "version": 1,
+        "outcome": "Select screen content and extract text with OCR",
+        "capabilitySets": [
+          [
+            "select-screen-content",
+            "extract-text"
+          ]
+        ]
+      },
+      "task": "Select screen content and extract text with OCR. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations."
     },
     {
       "id": "wallpaper",
@@ -433,7 +885,19 @@
         "\\b(wallpaper|background image|hyprpaper|swww)\\b",
         "\\b(?:rotate|browse|switch|set|change)\\w*[^.]{0,30}\\b(?:desktop )?backgrounds?\\b"
       ],
-      "task": "Wallpaper browsing, switching, and automation. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Wallpaper browsing, switching, and automation. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Wallpaper browsing, switching, and automation",
+        "capabilitySets": [
+          [
+            "select-wallpaper"
+          ],
+          [
+            "play-video-wallpaper"
+          ]
+        ]
+      }
     },
     {
       "id": "themes-appearance",
@@ -448,7 +912,16 @@
       "exclude": [
         "\\b(color theme support|theme integration|theme sync|theme follower|follows? (?:the )?(?:current )?theme|theme[- ]aware|matches? (?:every|the) theme)\\b"
       ],
-      "task": "Theme browsing, switching, scheduling, and visual customization. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Theme browsing, switching, scheduling, and visual customization. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Theme browsing, switching, scheduling, and visual customization",
+        "capabilitySets": [
+          [
+            "manage-desktop-appearance"
+          ]
+        ]
+      }
     },
     {
       "id": "color-picker",
@@ -457,27 +930,74 @@
       "include": [
         "\\b(color picker|colour picker|eyedropper|hyprpicker)\\b"
       ],
-      "task": "On-screen color picking and palette tools. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "On-screen color picking and palette tools. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "On-screen color picking and palette tools",
+        "capabilitySets": [
+          [
+            "pick-screen-color"
+          ],
+          [
+            "reuse-picked-colors"
+          ]
+        ]
+      }
     },
     {
       "id": "ai-assistant",
-      "name": "AI Assistant",
-      "description": "AI chat, model controls, and launching or managing agent sessions",
+      "name": "Agent Sessions",
+      "description": "Browse, resume, launch and organize coding-agent sessions",
       "include": [
-        "\\b(ai assistant|ai chat|chat with an? (?:llm|ai)|ollama (?:service|server|api|status)|(?:resume|launch|browse|manage|orchestrat)\\w*[^.]{0,65}(?:ai coding|agent|claude|codex)[^.]{0,30}(?:sessions?|threads?|conversations?))\\b",
-        "\\b(?:ai coding|agent) (?:sessions?|threads?|orchestrat\\w*)\\b",
-        "\\b(?:provider and model|default-agent switching|model launchers?)\\b",
-        "\\b(?:browse|resume|launch|manage)\\w*[^.]{0,30}\\bsessions?[^.]{0,40}\\b(?:ai|agent|claude|codex)\\b"
+        "\\b(?:ai coding|coding[- ]agent|agent) (?:sessions?|threads?|orchestrator|orchestration)\\b",
+        "\\b(?:browse|resume|launch|manage|organize|orchestrat)\\w*[^.;]{0,70}\\b(?:claude|codex|agent|sessions?)\\b"
       ],
       "exclude": [
-        "\\b(usage tracker|usage monitor|usage bar|quota|rate limits?|credits? remaining)\\b",
-        "\\bollama cloud usage\\b",
-        "\\b(?:memory for|feed notes to)\\b"
+        "\\b(?:quota monitor|usage tracker|memory for|feed notes to)\\b"
       ],
       "nameInclude": [
-        "\\b(agent (?:threads|orchestrator)|ollama status|ai assistant)\\b"
+        "\\b(?:agent orchestrator|session browser|agent threads)\\b"
       ],
-      "task": "AI chat, model controls, and launching or managing agent sessions. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Browse, resume, launch and organize coding-agent sessions. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "exclusionScope": "clause",
+      "contract": {
+        "version": 1,
+        "outcome": "Browse, resume, launch and organize coding-agent sessions",
+        "capabilitySets": [
+          [
+            "manage-agent-sessions"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "ai-chat",
+      "name": "AI Chat & Models",
+      "description": "Chat with AI and select or manage local models",
+      "include": [
+        "\\b(?:ai chat|ai assistant|chat with an? (?:llm|ai)|ollama (?:service|server|api|status)|provider and model|model launcher|default-agent switching)\\b",
+        "\\b(?:chat|conversation)[^.;]{0,50}\\b(?:ai|claude|codex|agent|llm|ollama)\\b"
+      ],
+      "nameInclude": [
+        "\\b(?:ollama status|ai assistant)\\b"
+      ],
+      "exclude": [
+        "\\b(?:usage monitor|quota monitor|ollama cloud usage)\\b"
+      ],
+      "exclusionScope": "clause",
+      "contract": {
+        "version": 1,
+        "outcome": "Chat with AI and select or manage local models",
+        "capabilitySets": [
+          [
+            "chat-with-ai"
+          ],
+          [
+            "manage-ai-models"
+          ]
+        ]
+      },
+      "task": "Chat with AI and select or manage local models. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations."
     },
     {
       "id": "ai-api-usage",
@@ -493,10 +1013,19 @@
         "\\btoken history\\b",
         "\\b(?:ollama cloud|claude code|codex|fireworks|hermes|ai agents?) usage\\b"
       ],
-      "task": "AI model quotas, token usage, and API spending. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify.",
+      "task": "AI model quotas, token usage, and API spending. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
       "exclude": [
         "\\bnot token usage\\b"
-      ]
+      ],
+      "contract": {
+        "version": 1,
+        "outcome": "AI model quotas, token usage, and API spending",
+        "capabilitySets": [
+          [
+            "read-ai-usage"
+          ]
+        ]
+      }
     },
     {
       "id": "smart-home",
@@ -511,7 +1040,16 @@
       "exclude": [
         "\\bturns your monitor into a key light\\b"
       ],
-      "task": "Home automation, lighting, and connected-device controls. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Home automation, lighting, and connected-device controls. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Home automation, lighting, and connected-device controls",
+        "capabilitySets": [
+          [
+            "control-home-devices"
+          ]
+        ]
+      }
     },
     {
       "id": "github",
@@ -523,7 +1061,16 @@
         "\\breview requests?\\b",
         "\\b(github|gitlab|forgejo|gitea).{0,80}\\b(ci|actions?) status\\b"
       ],
-      "task": "GitHub activity, pull requests, issues, and shortcuts. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "GitHub activity, pull requests, issues, and shortcuts. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "GitHub activity, pull requests, issues, and shortcuts",
+        "capabilitySets": [
+          [
+            "browse-forge-activity"
+          ]
+        ]
+      }
     },
     {
       "id": "containers",
@@ -540,7 +1087,19 @@
       "nameInclude": [
         "\\b(docker|podman|container|containers|kubernetes|k8s)\\b"
       ],
-      "task": "Docker, Podman, and container management. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Docker, Podman, and container management. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Docker, Podman, and container management",
+        "capabilitySets": [
+          [
+            "inspect-containers"
+          ],
+          [
+            "manage-containers"
+          ]
+        ]
+      }
     },
     {
       "id": "gaming",
@@ -554,7 +1113,19 @@
         "\\bshows steam\\b",
         "\\b(?:wallpaper engine|gaming mouse|gaming mice|themed tray|ollama service|workspace indicators)\\b"
       ],
-      "task": "Game launchers, performance, and gaming status. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Game launchers, performance, and gaming status. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Game launchers, performance, and gaming status",
+        "capabilitySets": [
+          [
+            "manage-game-session"
+          ],
+          [
+            "launch-games"
+          ]
+        ]
+      }
     },
     {
       "id": "mini-games",
@@ -570,7 +1141,16 @@
         "\\b(game controller|shortcut recall|trains the shortcuts)\\b",
         "\\b(chess\\.com|lichess|rating pill|stats panel)\\b"
       ],
-      "task": "Playable arcade, puzzle, and mini-games in the bar or on the desktop. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Playable arcade, puzzle, and mini-games in the bar or on the desktop. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Playable arcade, puzzle, and mini-games in the bar or on the desktop",
+        "capabilitySets": [
+          [
+            "play-desktop-game"
+          ]
+        ]
+      }
     },
     {
       "id": "keybinding-managers",
@@ -586,7 +1166,16 @@
       "exclude": [
         "\\brebind (?:the )?toggle keybind\\b"
       ],
-      "task": "Create, edit, and manage keyboard shortcuts and keybindings. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Create, edit, and manage keyboard shortcuts and keybindings. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Create, edit, and manage keyboard shortcuts and keybindings",
+        "capabilitySets": [
+          [
+            "edit-keybindings"
+          ]
+        ]
+      }
     },
     {
       "id": "shortcut-guides",
@@ -601,7 +1190,16 @@
         "\\bshortcut guide\\b",
         "\\bguide (?:for|to)[^.]{0,30}\\b(?:keybind(?:ing)?s?|keyboard shortcuts?)\\b"
       ],
-      "task": "Look up, learn, and visualize keyboard shortcuts. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Look up, learn, and visualize keyboard shortcuts. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Look up, learn, and visualize keyboard shortcuts",
+        "capabilitySets": [
+          [
+            "learn-keybindings"
+          ]
+        ]
+      }
     },
     {
       "id": "translation",
@@ -615,7 +1213,16 @@
       "exclude": [
         "\\b(qur'?an|ayah|hadith|mushaf)\\b"
       ],
-      "task": "Translate selected, clipboard, and on-screen text. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Translate selected, clipboard, and on-screen text. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Translate selected, clipboard, and on-screen text",
+        "capabilitySets": [
+          [
+            "translate-user-text"
+          ]
+        ]
+      }
     },
     {
       "id": "dictionary",
@@ -628,7 +1235,16 @@
       "exclude": [
         "\\b(dictation|voxtype|speech[- ]to[- ]text)\\b"
       ],
-      "task": "Definitions, synonyms, thesaurus, and word lookup tools. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Definitions, synonyms, thesaurus, and word lookup tools. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Definitions, synonyms, thesaurus, and word lookup tools",
+        "capabilitySets": [
+          [
+            "look-up-word-definitions"
+          ]
+        ]
+      }
     },
     {
       "id": "prayer-times",
@@ -637,7 +1253,16 @@
       "include": [
         "\\b(prayer times?|prayer countdown|adhan|athan|salah times?|mawaqit)\\b"
       ],
-      "task": "Islamic prayer schedules, countdowns, and Adhan notifications. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Islamic prayer schedules, countdowns, and Adhan notifications. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Islamic prayer schedules, countdowns, and Adhan notifications",
+        "capabilitySets": [
+          [
+            "read-prayer-schedule"
+          ]
+        ]
+      }
     },
     {
       "id": "keyboard-lighting",
@@ -648,7 +1273,16 @@
         "\\b(backlight|brightness|lighting)[^.]{0,35}\\bkeyboard\\b",
         "\\brgb keyboard\\b"
       ],
-      "task": "Keyboard backlight, brightness, night-light, and RGB controls. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Keyboard backlight, brightness, night-light, and RGB controls. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Keyboard backlight, brightness, night-light, and RGB controls",
+        "capabilitySets": [
+          [
+            "control-keyboard-lighting"
+          ]
+        ]
+      }
     },
     {
       "id": "keyboard-layouts",
@@ -660,19 +1294,60 @@
         "\\binput (?:language|layout)(?: manager| switcher| indicator)?\\b",
         "\\bxkb (?:language\\/)?layouts?\\b"
       ],
-      "task": "Switch, configure, and indicate keyboard input layouts. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify.",
+      "task": "Switch, configure, and indicate keyboard input layouts. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
       "builtIns": [
         "omarchy.keyboard-layout"
-      ]
+      ],
+      "contract": {
+        "version": 1,
+        "outcome": "Switch, configure, and indicate keyboard input layouts",
+        "capabilitySets": [
+          [
+            "manage-keyboard-layouts"
+          ]
+        ]
+      }
     },
     {
       "id": "file-search",
       "name": "File Search",
       "description": "Find files with fast filename, fuzzy, and full-text search",
       "include": [
-        "\\b(file search|search files?|find files?|file finder|full[- ]text file search|fuzzy[- ]find (?:any |your )?files?|fuzzy file (?:selector|picker))\\b"
+        "\\b(file search|search files?|find files?|file finder|full[- ]text file search|fuzzy[- ]find (?:any |your )?files?|fuzzy file (?:selector|picker))\\b",
+        "\\b(?:finds|searches) files\\b"
       ],
-      "task": "Find files with fast filename, fuzzy, and full-text search. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Find files with fast filename, fuzzy, and full-text search. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Find files with fast filename, fuzzy, and full-text search",
+        "capabilitySets": [
+          [
+            "search-local-files"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "file-sync",
+      "name": "File Synchronization",
+      "description": "Monitor and manage synchronization of folders between devices",
+      "include": [
+        "\\b(?:syncthing|folder sync|file synchronization|file sync)\\b"
+      ],
+      "exclude": [
+        "\\b(?:syncthing-synced|backed by markdown)\\b"
+      ],
+      "contract": {
+        "version": 1,
+        "outcome": "Monitor and manage synchronization of folders between devices",
+        "capabilitySets": [
+          [
+            "inspect-sync-state",
+            "manage-folder-sync"
+          ]
+        ]
+      },
+      "task": "Monitor and manage synchronization of folders between devices. Merely storing data in a synced directory does not qualify."
     },
     {
       "id": "feed-readers",
@@ -686,7 +1361,16 @@
       "exclude": [
         "\\b(game launcher|itch\\.io|epic games)\\b"
       ],
-      "task": "Read RSS, Atom, news feeds, and headlines. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Read RSS, Atom, news feeds, and headlines. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Read RSS, Atom, news feeds, and headlines",
+        "capabilitySets": [
+          [
+            "read-news-feeds"
+          ]
+        ]
+      }
     },
     {
       "id": "sports-scores",
@@ -703,7 +1387,16 @@
       "exclude": [
         "\\b(mini-?game|video game|tennis game)\\b"
       ],
-      "task": "Live scores, fixtures, standings, and sports schedules. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Live scores, fixtures, standings, and sports schedules. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Live scores, fixtures, standings, and sports schedules",
+        "capabilitySets": [
+          [
+            "read-sports-results"
+          ]
+        ]
+      }
     },
     {
       "id": "uptime-monitoring",
@@ -717,7 +1410,16 @@
       "exclude": [
         "\\b(system uptime|process monitor|system monitor|health[- ]check and repair)\\b"
       ],
-      "task": "Monitor website, service, and endpoint availability. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Monitor website, service, and endpoint availability. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Monitor website, service, and endpoint availability",
+        "capabilitySets": [
+          [
+            "read-endpoint-availability"
+          ]
+        ]
+      }
     },
     {
       "id": "system-updates",
@@ -729,27 +1431,47 @@
         "\\bupdate (?:checker|center)\\b",
         "\\bpending.{0,60}updates?\\b"
       ],
-      "task": "Arch package updates and update notifications. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify.",
+      "task": "Arch package updates and update notifications. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
       "builtIns": [
         "omarchy.system-update"
-      ]
+      ],
+      "contract": {
+        "version": 1,
+        "outcome": "Arch package updates and update notifications",
+        "capabilitySets": [
+          [
+            "check-software-updates"
+          ]
+        ]
+      }
     },
     {
       "id": "radio",
       "name": "Radio",
-      "description": "Internet and streaming radio players",
+      "description": "Browse and play live internet radio stations",
       "include": [
-        "\\bradio\\b"
+        "\\b(?:internet radio|radio stations?|radio paradise|somafm|soma[.]fm|nts radio|radio garden|radio atlas|world radio|streaming radio|icecast|online radio|live radio)\\b",
+        "\\b(?:play(?:s|ing)?|stream(?:s|ing)?|tune(?:s|d)?|listen(?:s|ing)?)\\b[^.;]{0,50}\\bradio\\b",
+        "\\bweb radio\\b"
       ],
       "exclude": [
-        "\\b(amateur|ham) radio\\b",
-        "\\bcallsigns?\\b",
-        "\\bband conditions\\b",
-        "\\bradio (exam|quiz|licen[cs]e)\\b",
-        "\\bradio auto-advance\\b",
-        "\\bradio broadcast\\b"
+        "\\b(?:cellular radio|wi-fi radio|multi-radio|amateur radio|ham radio|radio exam|radio quiz|radio licen[cs]e|start radio from|radio mix)\\b"
       ],
-      "task": "Internet and streaming radio players. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Browse and play live internet radio stations. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "nameInclude": [
+        "\\bradio\\b"
+      ],
+      "exclusionScope": "clause",
+      "contract": {
+        "version": 1,
+        "outcome": "Browse and play live internet radio stations",
+        "capabilitySets": [
+          [
+            "browse-radio-stations",
+            "play-radio-station"
+          ]
+        ]
+      }
     },
     {
       "id": "screensavers",
@@ -765,7 +1487,16 @@
         "\\b(suspend|hibernate|sleep)\\b",
         "\\bcountdown before\\b"
       ],
-      "task": "Screensavers and idle-screen visuals. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Screensavers and idle-screen visuals. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Screensavers and idle-screen visuals",
+        "capabilitySets": [
+          [
+            "manage-screensaver-visuals"
+          ]
+        ]
+      }
     },
     {
       "id": "power-menu",
@@ -779,7 +1510,16 @@
       "exclude": [
         "\\bpower (management|manager|profiles?)\\b"
       ],
-      "task": "Power menus, session actions, and shutdown controls. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Power menus, session actions, and shutdown controls. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Power menus, session actions, and shutdown controls",
+        "capabilitySets": [
+          [
+            "perform-session-actions"
+          ]
+        ]
+      }
     },
     {
       "id": "plugin-manager",
@@ -787,7 +1527,9 @@
       "description": "Browsing, installing, and managing Omarchy plugins",
       "include": [
         "\\bplugin (manager|marketplace|store|storefront|control center|directory)\\b",
-        "\\b(browse|install|manage|update|remove|enable|disable)\\b[^.]{0,40}\\bplugins\\b"
+        "\\b(browse|install|manage|update|remove|enable|disable)\\b[^.]{0,40}\\bplugins\\b",
+        "\\bplugin (?:and |& )?package manager\\b",
+        "\\bdiscover plugins\\b"
       ],
       "exclude": [
         "\\bplugin containers?\\b",
@@ -795,7 +1537,16 @@
         "\\b(security (review|scanner|scan)|capability scan|behavior analysis|source drift)\\b",
         "\\bback ?up\\b"
       ],
-      "task": "Browsing, installing, and managing Omarchy plugins. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Browsing, installing, and managing Omarchy plugins. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Browsing, installing, and managing Omarchy plugins",
+        "capabilitySets": [
+          [
+            "manage-plugins"
+          ]
+        ]
+      }
     },
     {
       "id": "firewall",
@@ -814,7 +1565,19 @@
       "nameInclude": [
         "\\b(firewall|ufw|iptables|nftables)\\b"
       ],
-      "task": "Firewall rules and outbound connection control. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Firewall rules and outbound connection control. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Firewall rules and outbound connection control",
+        "capabilitySets": [
+          [
+            "manage-firewall"
+          ],
+          [
+            "inspect-outbound-connections"
+          ]
+        ]
+      }
     },
     {
       "id": "dev-ports",
@@ -833,7 +1596,16 @@
         "\\b(wayland|hyprland|linux) port\\b",
         "\\bdpi presets?\\b"
       ],
-      "task": "Local development ports and listening servers. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Local development ports and listening servers. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Local development ports and listening servers",
+        "capabilitySets": [
+          [
+            "inspect-local-listeners"
+          ]
+        ]
+      }
     },
     {
       "id": "phone-integration",
@@ -843,7 +1615,17 @@
         "\\b(kde[- ]?connect|phone integration|phone connect|iphone clipboard|iphone on the bar|phone notifications)\\b",
         "\\b(?:mirror and control|clipboard sharing)[^.]{0,45}\\bandroid phone\\b"
       ],
-      "task": "Pair phones, view phone status, and exchange messages, clipboard content, or files. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Pair phones, view phone status, and exchange messages, clipboard content, or files. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Pair phones, view phone status, and exchange messages, clipboard content, or files",
+        "capabilitySets": [
+          [
+            "manage-phone-connection",
+            "exchange-phone-content"
+          ]
+        ]
+      }
     },
     {
       "id": "peripheral-battery",
@@ -857,7 +1639,17 @@
       "exclude": [
         "\\b(phone|iphone|kde connect|smart mug|garmin|rivian)\\b"
       ],
-      "task": "Battery and charging status for mice, keyboards, headsets, and other peripherals. A supporting technology, compatibility claim, alert, or integration mention alone does not qualify."
+      "task": "Battery and charging status for mice, keyboards, headsets, and other peripherals. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "contract": {
+        "version": 1,
+        "outcome": "Battery and charging status for mice, keyboards, headsets, and other peripherals",
+        "capabilitySets": [
+          [
+            "read-peripheral-battery",
+            "identify-peripheral-device"
+          ]
+        ]
+      }
     }
   ],
   "overrides": {
@@ -882,15 +1674,16 @@
         "audio",
         "bluetooth",
         "network",
-        "notifications"
+        "notifications",
+        "brightness"
       ],
       "marco.omarchy-info": [
         "system-monitor",
         "audio",
         "battery",
-        "network",
         "containers",
-        "music"
+        "music",
+        "network-diagnostics"
       ],
       "io.github.grechman.dynamic-bar": [
         "battery",
@@ -923,8 +1716,27 @@
       "io.github.deunnis.lacquer": [
         "themes-appearance",
         "wallpaper",
-        "brightness",
-        "lock-idle"
+        "lock-idle",
+        "night-light"
+      ],
+      "io.github.jeremylanger.omaspotify": [
+        "music-players"
+      ],
+      "njpatel.omapager": [
+        "notifications"
+      ],
+      "davedes.omcontrol": [
+        "system-monitor",
+        "network-diagnostics"
+      ],
+      "tedwester.legion": [
+        "battery"
+      ],
+      "jon.modem": [
+        "network"
+      ],
+      "oniomarchy.godark": [
+        "network"
       ]
     },
     "exclude": {
@@ -1019,6 +1831,36 @@
       ],
       "io.github.gardnmi.boomux": [
         "workspaces"
+      ],
+      "io.github.ilyazar.syncthing": [
+        "screenshots"
+      ],
+      "io.github.ayandexyz.attention": [
+        "screenshots",
+        "screen-recording"
+      ],
+      "gruper.nanit": [
+        "brightness",
+        "night-light"
+      ],
+      "elliot.network": [
+        "radio"
+      ],
+      "jon.modem": [
+        "radio"
+      ],
+      "oniomarchy.godark": [
+        "radio"
+      ],
+      "mateus.omaplug": [
+        "music",
+        "music-players"
+      ],
+      "tedwester.legion": [
+        "peripheral-battery"
+      ],
+      "tiertek.ytm": [
+        "radio"
       ]
     },
     "reasons": {
@@ -1033,15 +1875,16 @@
         "audio": "README runtime dependency table documents native sink selection, Bluetooth toggle/connect, Wi-Fi lists and notification history/DND, beyond merely hosting widgets: https://github.com/AngeeelD/omaltbar (reviewed 2026-09-21).",
         "bluetooth": "README runtime dependency table documents native sink selection, Bluetooth toggle/connect, Wi-Fi lists and notification history/DND, beyond merely hosting widgets: https://github.com/AngeeelD/omaltbar (reviewed 2026-09-21).",
         "network": "README runtime dependency table documents native sink selection, Bluetooth toggle/connect, Wi-Fi lists and notification history/DND, beyond merely hosting widgets: https://github.com/AngeeelD/omaltbar (reviewed 2026-09-21).",
-        "notifications": "README runtime dependency table documents native sink selection, Bluetooth toggle/connect, Wi-Fi lists and notification history/DND, beyond merely hosting widgets: https://github.com/AngeeelD/omaltbar (reviewed 2026-09-21)."
+        "notifications": "README runtime dependency table documents native sink selection, Bluetooth toggle/connect, Wi-Fi lists and notification history/DND, beyond merely hosting widgets: https://github.com/AngeeelD/omaltbar (reviewed 2026-09-21).",
+        "brightness": "README documents the native BrightnessState slider and display-brightness write command: https://github.com/AngeeelD/omaltbar (reviewed 2026-10-12)."
       },
       "marco.omarchy-info": {
         "system-monitor": "README Cards table documents CPU/RAM/disk bars, live PipeWire volume/mute, UPower battery, network status, docker ps and play/pause: https://github.com/Comm4nd0/omarchy-info#cards (reviewed 2026-09-21).",
         "audio": "README Cards table documents CPU/RAM/disk bars, live PipeWire volume/mute, UPower battery, network status, docker ps and play/pause: https://github.com/Comm4nd0/omarchy-info#cards (reviewed 2026-09-21).",
         "battery": "README Cards table documents CPU/RAM/disk bars, live PipeWire volume/mute, UPower battery, network status, docker ps and play/pause: https://github.com/Comm4nd0/omarchy-info#cards (reviewed 2026-09-21).",
-        "network": "README Cards table documents CPU/RAM/disk bars, live PipeWire volume/mute, UPower battery, network status, docker ps and play/pause: https://github.com/Comm4nd0/omarchy-info#cards (reviewed 2026-09-21).",
         "containers": "README Cards table documents CPU/RAM/disk bars, live PipeWire volume/mute, UPower battery, network status, docker ps and play/pause: https://github.com/Comm4nd0/omarchy-info#cards (reviewed 2026-09-21).",
-        "music": "README Cards table documents CPU/RAM/disk bars, live PipeWire volume/mute, UPower battery, network status, docker ps and play/pause: https://github.com/Comm4nd0/omarchy-info#cards (reviewed 2026-09-21)."
+        "music": "README Cards table documents CPU/RAM/disk bars, live PipeWire volume/mute, UPower battery, network status, docker ps and play/pause: https://github.com/Comm4nd0/omarchy-info#cards (reviewed 2026-09-21).",
+        "network-diagnostics": "README Cards table documents CPU/RAM/disk bars, live PipeWire volume/mute, UPower battery, network status, docker ps and play/pause: https://github.com/Comm4nd0/omarchy-info#cards (reviewed 2026-09-21)."
       },
       "bottelet.slack": {
         "notifications": "The catalog describes Slack-specific Do Not Disturb, not desktop notification management."
@@ -1173,8 +2016,51 @@
       "io.github.deunnis.lacquer": {
         "themes-appearance": "README documents theme previews, switching, scheduled theme shuffle and appearance controls. Source: https://github.com/Deunnis/omarchy-lacquer (reviewed 2026-09-21).",
         "wallpaper": "README Theme & wallpaper section documents browsing and applying installed theme wallpapers. Source: https://github.com/Deunnis/omarchy-lacquer (reviewed 2026-09-21).",
-        "brightness": "README Desktop section documents nightlight configuration and scheduling through hyprsunset. Source: https://github.com/Deunnis/omarchy-lacquer (reviewed 2026-09-21).",
-        "lock-idle": "README Screens section documents native screensaver and lock idle timing controls, plus lock-explorer integration. Source: https://github.com/Deunnis/omarchy-lacquer (reviewed 2026-09-21)."
+        "lock-idle": "README Screens section documents native screensaver and lock idle timing controls, plus lock-explorer integration. Source: https://github.com/Deunnis/omarchy-lacquer (reviewed 2026-09-21).",
+        "night-light": "README Desktop section documents nightlight configuration and scheduling through hyprsunset. Source: https://github.com/Deunnis/omarchy-lacquer (reviewed 2026-09-21)."
+      },
+      "io.github.jeremylanger.omaspotify": {
+        "music-players": "README documents a complete Spotify music client with library and playback controls: https://github.com/jeremylanger/omaspotify (reviewed 2026-10-12)."
+      },
+      "njpatel.omapager": {
+        "notifications": "README documents desktop notification replacement, history, grouping, snooze and DND: https://github.com/ryanrhughes/omapager (reviewed 2026-10-12)."
+      },
+      "davedes.omcontrol": {
+        "system-monitor": "README documents CPU/memory/process history and per-process network attribution: https://github.com/Davedes83/OmaControl (reviewed 2026-10-12).",
+        "network-diagnostics": "README documents CPU/memory/process history and per-process network attribution: https://github.com/Davedes83/OmaControl (reviewed 2026-10-12)."
+      },
+      "tedwester.legion": {
+        "battery": "README documents computer battery charge controls separately from keyboard lighting: https://github.com/tedwester/omalegion (reviewed 2026-10-12).",
+        "peripheral-battery": "Laptop battery and keyboard lighting are separate features; no peripheral battery capability: https://github.com/tedwester/omalegion (reviewed 2026-10-12)."
+      },
+      "jon.modem": {
+        "network": "README documents ModemManager cellular radio and connection controls: https://github.com/MariposaJon/omarchy_modemmanager_plugin (reviewed 2026-10-12).",
+        "radio": "Radio refers to Wi-Fi/cellular hardware, not live internet radio playback (catalog and upstream README reviewed 2026-10-12)."
+      },
+      "oniomarchy.godark": {
+        "network": "README documents disabling/restoring NetworkManager connections and hardware radios: https://github.com/SalimRK/godark (reviewed 2026-10-12).",
+        "radio": "Radio refers to Wi-Fi/cellular hardware, not live internet radio playback (catalog and upstream README reviewed 2026-10-12)."
+      },
+      "io.github.ilyazar.syncthing": {
+        "screenshots": "The screenshot reference explains its preview; this is a file synchronization interface: https://github.com/omarchy-QOL/syncshell (reviewed 2026-10-12)."
+      },
+      "io.github.ayandexyz.attention": {
+        "screenshots": "The description and README explicitly deny screen capture; this is a head-pose privacy blur: https://github.com/ayandexyz/omarchy-attention (reviewed 2026-10-12).",
+        "screen-recording": "The description and README explicitly deny screen capture; this is a head-pose privacy blur: https://github.com/ayandexyz/omarchy-attention (reviewed 2026-10-12)."
+      },
+      "gruper.nanit": {
+        "brightness": "Night light controls target the baby camera, not the computer display: https://github.com/GruperTal/omarchy-nanit (reviewed 2026-10-12).",
+        "night-light": "Night light controls target the baby camera, not the computer display: https://github.com/GruperTal/omarchy-nanit (reviewed 2026-10-12)."
+      },
+      "elliot.network": {
+        "radio": "Radio refers to Wi-Fi/cellular hardware, not live internet radio playback (catalog and upstream README reviewed 2026-10-12)."
+      },
+      "mateus.omaplug": {
+        "music": "Track changes is a software-management verb, not music playback: https://github.com/Pegorim/omaplug (reviewed 2026-10-12).",
+        "music-players": "Track changes is a software-management verb, not music playback: https://github.com/Pegorim/omaplug (reviewed 2026-10-12)."
+      },
+      "tiertek.ytm": {
+        "radio": "YouTube Music's song-seeded radio creates a music mix, not a live internet station player: https://github.com/TIerTek/omarchy-tektube (reviewed 2026-10-12)."
       }
     },
     "review": {}

@@ -1,8 +1,12 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import { classifyPlugin, explainClassification, prepareTaxonomy, rankPlugins } from "../build/rank.mjs";
-import { auditClassifications, renderClassificationAudit } from "../build/classification-audit.mjs";
+import { classifyPlugin, explainClassification, prepareTaxonomy, rankPlugins as rankLatest, methodologyFor } from "../build/rank.mjs";
+import { auditClassifications as auditLatest, renderClassificationAudit } from "../build/classification-audit.mjs";
+
+const legacy = methodologyFor("1.1.0");
+const rankPlugins = (options) => rankLatest({ methodology: legacy, ...options });
+const auditClassifications = (options) => auditLatest({ methodology: legacy, ...options });
 
 const production = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
 const prepared = prepareTaxonomy(production);

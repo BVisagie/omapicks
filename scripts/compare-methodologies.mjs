@@ -21,9 +21,11 @@ export const PROPOSALS = Object.freeze([
 
 // Each variant names its immediate baseline so a proposal is judged alone before the combination.
 // Research variants are never registered methodologies and can never appear in a snapshot.
-export function defaultVariants() {
+export function defaultVariants({ taskReviews = false } = {}) {
   const legacy = methodologyFor(LEGACY_METHODOLOGY_VERSION);
-  const current = methodologyFor(CURRENT_METHODOLOGY_VERSION);
+  // Older scoring captures contain no task adjudications. Compare their scoring proposals under
+  // the last signal-only method; use compare:task-fit to compare the complete current pipeline.
+  const current = methodologyFor(taskReviews ? CURRENT_METHODOLOGY_VERSION : "1.1.0");
   const health = deriveMethodology(legacy, { eligibility: { upstreamHealth: true } }, "health");
   const variants = [
     { id: legacy.version, label: `Published ${legacy.version} rules`, methodology: legacy, baselines: [] },
@@ -141,7 +143,7 @@ function diagnostics(result, methodology, pluginsById, now) {
   };
 }
 
-export function compareMethodologies(inputs, { variants = defaultVariants(), revision = null } = {}) {
+export function compareMethodologies(inputs, { variants = defaultVariants({ taskReviews: Boolean(inputs.taskReviews) }), revision = null } = {}) {
   validateFeeds(inputs.catalog.body, inputs.stats.body, 1, inputs.previous);
   const now = new Date(inputs.now);
   if (!Number.isFinite(now.getTime())) throw new Error("Comparison inputs need a valid analysis time");
@@ -156,6 +158,8 @@ export function compareMethodologies(inputs, { variants = defaultVariants(), rev
     catalog: inputs.catalog.body.plugins,
     stats: inputs.stats.body.plugins,
     taxonomy: inputs.taxonomy,
+    taskReviews: inputs.taskReviews,
+    classificationVersion: inputs.classificationVersion ?? 2,
     previous: inputs.previous,
     now,
     methodology: variant.methodology,

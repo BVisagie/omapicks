@@ -6,9 +6,9 @@ The Tuesday 06:43 UTC workflow is a report-only prompt for editorial research. I
 
 Open **Weekly category discovery → Summary**. The same explanation is printed in the scan step's log. Download `category-discovery-report` for:
 
-- `report.md`: up to three ready probes, a short watchlist, and a copyable LLM prompt.
+- `report.md`: priority task reviews, up to three ready probes, a short watchlist, and a copyable LLM prompt.
 - `report.json`: full candidate evidence, IDs, repository lists, descriptions, engagement, current category overlaps, suppression decisions, and history.
-- `inputs.json`: exact catalog, stats and explorer responses (explorer with URL, checksum, `generatedAt`, `method` and availability or warning), taxonomy, configuration, feed-validation baseline, previous observations, analysis time, and workflow commit. The report records its SHA-256 hash.
+- `inputs.json`: exact catalog, stats and explorer responses (explorer with URL, checksum, `generatedAt`, `method` and availability or warning), taxonomy, complete task decisions, prior rankings, configuration, feed-validation baseline, previous observations, analysis time, and workflow commit. The report records its SHA-256 hash.
 - `state.json`: observations used for subsequent runs.
 
 The Summary contains only the live-catalog report; integration-test fixtures explicitly suppress summary output. History text states how many comparable observations exist, how many satisfy the 6–21-day window, and the earliest eligibility time when the baseline is still too recent. Displayed listings put prominent unclassified evidence first and label already-classified overlap or additional lexical matches separately.
@@ -23,7 +23,7 @@ A lead needs at least three distinct unclassified repositories across two reposi
 
 For every lead the report includes all matching eligible listings, even those already classified, with category overlaps. When a majority already matches one category, the report asks to investigate an existing matching gap first. Groups with fewer than three uncovered repositories are omitted: this conservative pilot will miss small niches and some useful subdivisions. Synonymous groups sharing at least 80% of the smaller repository set are collapsed, favoring curated probes. The `collapsedGroups` array in `report.json` preserves their complete evidence and a `collapsedInto` parent ID so reviewers can inspect hidden subdivisions.
 
-A lead becomes ready only after at least three of its prominent, unclassified repositories recur in an observation 6–21 days old. First runs show a watchlist. Only the first observation in each ISO week is retained, so repeated manual runs cannot accelerate promotion. Changed taxonomy/configuration, analysis version, or an expired baseline resets persistence. Bump `ALGORITHM_VERSION` when changing clustering or evidence rules. Decisions do not reset history. Suggestions are ordered by the number of prominent unclassified repositories, then stable ID; engagement is supporting evidence, not a popularity gate. Maximum three ready probes and three preliminary watchlist entries are displayed. The JSON contains remaining candidates.
+A lead becomes ready only after at least three of its prominent, unclassified repositories recur in an observation 6–21 days old. First runs show a watchlist. Only the first observation in each ISO week is retained, so repeated manual runs cannot accelerate promotion. Changed taxonomy/configuration, analysis version, or an expired baseline resets persistence. Bump `ALGORITHM_VERSION` when changing clustering or evidence rules. Decisions do not reset history. Curated probes receive priority, followed by prominent unclassified repository count and stable ID. Known coding-agent phrase variants share one highlighted topic slot; other candidates remain in JSON. This is report allocation, not semantic validation; engagement is supporting evidence, not a popularity gate. Maximum three ready probes and three preliminary watchlist entries are displayed. The JSON contains remaining candidates.
 
 Possible successful outcomes are `ready-for-probe`, `insufficient-history`, and `no-worthwhile-proposals`. The last can mean insufficient evidence, existing coverage, duplicate clusters, or suppressed proposals; counts explain the exclusions. A failed run is explicitly different and does not publish new state.
 
@@ -42,7 +42,7 @@ The graph is optional. A failed or oversized download, or a graph with duplicate
 
 Attach the report artifact and use its included prompt. Ask the LLM to verify actual primary purposes against source listings and repositories, examine counterexamples and existing categories, and only then propose taxonomy rules. It should evaluate the full catalog, show resulting matches and leadership changes, add regression tests, update relevant navigation, and open a PR only when justified. Model-generated rules must be reviewed and tested before publication. An unchanged or rejected result is useful too.
 
-This pilot deliberately stops before semantic adjudication, generating matching rules, and simulating rankings for hypothetical categories. Those belong in the prompted LLM probe, where the category definition can first be justified. No API secret or model subscription is required by the workflow.
+The workflow reports pending, stale and held recommendation claims before hypothetical category research. Research scores help prioritize possible challengers, including single-category former picks, but never confer approval. The explicit review helper and fixed-input comparison are described in [classification and review](classification.md). The workflow stops before semantic adjudication, generating matching rules, and simulating rankings for hypothetical categories. Those belong in the prompted LLM probe, where the category definition can first be justified. No API secret or model subscription is required by the workflow.
 
 ## Remember review decisions
 
@@ -76,7 +76,7 @@ For an offline replay, check out the workflow commit recorded in `inputs.json`, 
 node scripts/category-discovery.mjs --input /path/to/inputs.json --output tmp/category-discovery-replay
 ```
 
-Replay uses only the captured inputs, including the explorer response and feed-validation baseline: it makes no network requests, does not read `data/`, and reproduces `report.json`, `report.md` and `state.json` byte for byte. Timestamps and a checksum alone could not replay an evolving graph, which is why the full response is kept. `ALGORITHM_VERSION` 4 marks the first analysis with explorer probes and health-aware eligibility, so earlier observations are not reused as persistence evidence.
+Replay uses only the captured inputs, including the explorer response and feed-validation baseline: it makes no network requests, does not read `data/`, and reproduces `report.json`, `report.md` and `state.json` byte for byte. Timestamps and a checksum alone could not replay an evolving graph, which is why the full response is kept. `ALGORITHM_VERSION` 5 adds task-review priorities and diverse handoff slots, resetting incompatible observations. Replay rejects other algorithm versions; use the capture's recorded workflow commit for algorithm 4 and earlier artifacts.
 
 ## Four-week evaluation
 
@@ -84,4 +84,4 @@ Review the pilot after four scheduled observations. Record which probes led to a
 
 ## Existing assignments
 
-The report also lists broad overlaps (three or more categories) and assignments explicitly held in `overrides.review`, with the same evidence used by ranking. This is a research queue, not a rule that rejects multipurpose plugins. Check direct task fit before proposing new categories; follow [category eligibility and audit](classification.md). Algorithm version 3 resets discovery observations so old keyword-only assignments are not treated as comparable evidence.
+The report also lists broad overlaps (three or more categories) and assignments explicitly held in `overrides.review`, with the same evidence used by ranking. This is a research queue, not a rule that rejects multipurpose plugins. Check direct task fit before proposing new categories; follow [category eligibility and audit](classification.md). The separate task-review queue also catches missing or stale decisions on one-category claims; overlap count is not its eligibility criterion. Resolve explicit judgments through `data/task-reviews.json`; no model is called and no approval is inferred from a score.

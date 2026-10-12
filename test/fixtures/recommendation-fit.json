@@ -1,0 +1,193 @@
+{
+  "capturedAt": "2026-10-12T13:34:39.901Z",
+  "inputHash": "571768068ff3f8a791d08d7ffa52c8c97a63751230f9ab6fe771409b763fca8a",
+  "cases": [
+    {
+      "plugin": {
+        "id": "io.github.ilyazar.syncthing",
+        "name": "Syncthing",
+        "description": "An elegant Syncthing interface with intuitive multi-folder and multi-device management. Includes a redesigned web UI with optional Omarchy theme integration, while retaining support for Syncthing’s original Web UI. Monitor file activity and easily manage folder sharing across machines. Review pending device and folder-sharing invitations. The screenshot shows the modern webUI under the Nord theme (left) and the plugin with open folder addition view (right).",
+        "repo": "https://github.com/omarchy-QOL/syncshell",
+        "installAvailable": true,
+        "installCommand": "install io.github.ilyazar.syncthing"
+      },
+      "qualified": [
+        "file-sync"
+      ],
+      "rejected": [
+        "screenshots",
+        "screen-recording"
+      ]
+    },
+    {
+      "plugin": {
+        "id": "io.github.ayandexyz.attention",
+        "name": "Attention",
+        "description": "Privacy shield: the screen blurs when you look away from it and clears when you look back, driven by the glanced daemon's head-pose stream. No screen capture, no input grabbing, fails open.",
+        "repo": "https://github.com/ayandexyz/omarchy-attention",
+        "installAvailable": true,
+        "installCommand": "install io.github.ayandexyz.attention"
+      },
+      "qualified": [],
+      "rejected": [
+        "screenshots",
+        "screen-recording"
+      ]
+    },
+    {
+      "plugin": {
+        "id": "gruper.nanit",
+        "name": "Nanit",
+        "description": "Nanit baby monitor in the bar: live camera video in the popup, always-on audio while you work, night light and white noise controls.",
+        "repo": "https://github.com/GruperTal/omarchy-nanit",
+        "installAvailable": true,
+        "installCommand": "install gruper.nanit"
+      },
+      "qualified": [],
+      "rejected": [
+        "brightness",
+        "night-light"
+      ]
+    },
+    {
+      "plugin": {
+        "id": "elliot.network",
+        "name": "My Network",
+        "description": "Multi-radio Wi-Fi panel: browse networks per adapter with per-adapter connection state and stats (IP, gateway, ping, throughput), connect/disconnect/forget, DNS provider switching, QR share, speed test, and VPN route labeling.",
+        "repo": "https://github.com/elliotalien/elliot-network-plugin",
+        "installAvailable": true,
+        "installCommand": "install elliot.network"
+      },
+      "qualified": [
+        "network"
+      ],
+      "rejected": [
+        "radio"
+      ]
+    },
+    {
+      "plugin": {
+        "id": "jon.modem",
+        "name": "Modem Manager",
+        "description": "Cellular radio, connection controls, signal and traffic monitoring for ModemManager.",
+        "repo": "https://github.com/MariposaJon/omarchy_modemmanager_plugin",
+        "installAvailable": true,
+        "installCommand": "install jon.modem"
+      },
+      "qualified": [
+        "network"
+      ],
+      "rejected": [
+        "radio"
+      ]
+    },
+    {
+      "plugin": {
+        "id": "oniomarchy.godark",
+        "name": "GoDark",
+        "description": "One switch on the Omarchy bar that cuts every radio and network link, and restores exactly what was on before.",
+        "repo": "https://github.com/SalimRK/godark",
+        "installAvailable": true,
+        "installCommand": "install oniomarchy.godark"
+      },
+      "qualified": [
+        "network"
+      ],
+      "rejected": [
+        "radio"
+      ]
+    },
+    {
+      "plugin": {
+        "id": "mateus.omaplug",
+        "name": "Omaplug",
+        "description": "Plugin and package manager: discover plugins, manage installed software, check updates, and track changes.",
+        "repo": "https://github.com/Pegorim/omaplug",
+        "installAvailable": true,
+        "installCommand": "install mateus.omaplug"
+      },
+      "qualified": [
+        "plugin-manager"
+      ],
+      "rejected": [
+        "music",
+        "music-players"
+      ]
+    },
+    {
+      "plugin": {
+        "id": "tedwester.legion",
+        "name": "Legion Toolkit",
+        "description": "Lenovo Legion control center for Omarchy. Power modes synced with the laptop and battery panel, GPU and display controls, battery charge modes, firmware fan curves, per-key keyboard lighting, input controls, and cooling.",
+        "repo": "https://github.com/tedwester/omalegion",
+        "installAvailable": true,
+        "installCommand": "install tedwester.legion"
+      },
+      "qualified": [
+        "battery",
+        "keyboard-lighting"
+      ],
+      "rejected": [
+        "peripheral-battery"
+      ]
+    },
+    {
+      "plugin": {
+        "id": "io.github.jeremylanger.omaspotify",
+        "name": "OmaSpotify",
+        "description": "Spotify in Quickshell with all the features you need—using about 60 MB of memory versus roughly 950 MB for the official client.",
+        "repo": "https://github.com/jeremylanger/omaspotify",
+        "installAvailable": true,
+        "installCommand": "install io.github.jeremylanger.omaspotify"
+      },
+      "qualified": [
+        "music-players"
+      ],
+      "rejected": []
+    },
+    {
+      "plugin": {
+        "id": "njpatel.omapager",
+        "name": "Omapager",
+        "description": "Notifications for Omarchy: a stacking, grouping replacement for the built-in service, with markup parsing, resolved source icons, inline reply, and per-source snooze.",
+        "repo": "https://github.com/ryanrhughes/omapager",
+        "installAvailable": true,
+        "installCommand": "install njpatel.omapager"
+      },
+      "qualified": [
+        "notifications"
+      ],
+      "rejected": []
+    },
+    {
+      "plugin": {
+        "id": "davedes.omcontrol",
+        "name": "OmaControl",
+        "description": "Advanced task manager with historical resource monitoring, process enforcement, privacy alerts, and plain-language process identification",
+        "repo": "https://github.com/Davedes83/OmaControl",
+        "installAvailable": true,
+        "installCommand": "install davedes.omcontrol"
+      },
+      "qualified": [
+        "system-monitor"
+      ],
+      "rejected": []
+    },
+    {
+      "plugin": {
+        "id": "io.github.maajix.spotlight",
+        "name": "Spotlight",
+        "description": "A Raycast-style launcher for Omarchy. Spotlight launches applications, switches windows, finds files, searches clipboard history, runs Omarchy commands and toggles system settings such as Wi-Fi and night light from a single input. Natural-language input covers calculations, unit conversions, reminders and calendar events, and search prefixes route queries to sites such as YouTube and GitHub. Spotlight runs inside omarchy-shell and opens instantly, without a separate background process.",
+        "repo": "https://github.com/maajix/omarchy-spotlight",
+        "installAvailable": true,
+        "installCommand": "install io.github.maajix.spotlight"
+      },
+      "qualified": [
+        "launcher",
+        "window-management",
+        "file-search"
+      ],
+      "rejected": []
+    }
+  ]
+}

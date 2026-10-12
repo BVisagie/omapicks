@@ -1,79 +1,88 @@
-# Category eligibility and audit
+# Category eligibility, evidence and review
 
-A category is a task someone wants to accomplish. A plugin qualifies when its name or description establishes that it directly performs that task. A substantial secondary capability can qualify too. Popularity is scored only after category eligibility; it cannot compensate for an unrelated feature.
+A category is a task someone wants to accomplish. Under methodology 1.2.0, a recommendation needs an explicit capability review satisfying its task contract. Popularity is scored only after qualification; it cannot compensate for an unrelated or incomplete feature. See the [decision record](methodology-1.2.0.md) and [baseline investigation](categorization-investigation-2026-10-12.md).
 
-## Boundaries
+## Discovery versus recommendations
 
-Every type in `data/app-types.json` has a task contract. `include` patterns match the name or description separately; `nameInclude` supplies category-specific name rules. Tags, kind and the marketplace category are never eligibility evidence. Matching does not join fields into synthetic phrases.
+Each type in `data/app-types.json` has a versioned `contract` with an outcome and `capabilitySets`. One complete capability set is the minimum for qualification. `include` and `nameInclude` patterns search names and descriptions separately for research leads. Tags, kind and upstream categories cannot qualify an assignment. Classifier 3 ignores explicit negation and preview-image references; selected exclusions apply within matched clauses so unrelated capabilities do not cancel each other. These checks reduce known errors; they do not establish semantic accuracy for arbitrary new prose.
 
-Some important distinctions:
+`data/task-reviews.json` supplies the deterministic editorial decision. `qualified` core or substantial native secondary capabilities can compete equally. `related` integrations appear separately with their narrower scope; `rejected` assignments are excluded. Missing reviews and changed metadata/contracts enter the queue. Explicit `overrides.review` holds and `overrides.exclude` take precedence; an inclusion override alone cannot authorize a recommendation.
 
-| Category | Direct fit | Insufficient evidence |
+| Task | Direct fit | Insufficient scope |
 | --- | --- | --- |
-| Battery | Computer charge, health, consumption, power profiles | Phone/peripheral battery, reacting to unplug events |
-| Peripheral Batteries | Mouse, keyboard, headset and controller battery readouts | Computer battery or merely connecting a device |
-| Phone Integration | Pair/status/control phones, exchange messages, clipboard or files | A phone mentioned as a compatible client |
-| Bluetooth | Scan, pair, connect/disconnect, adapter controls | Codecs, battery readouts, using Bluetooth as transport |
-| Audio | System volume, microphone processing, routing, headset settings | A player's own volume, typing sounds, recording/visualization using PipeWire |
-| Clipboard | History, reusable snippets, paste management | Reading/copying clipboard content, cross-device transport |
-| VPN | Tunnel status, connect/disconnect and configuration | Tailscale discovery, reachable peers, using a VPN |
-| Notifications | Desktop notification history, management, DND | Sending alerts, app-specific notification preferences |
-| System Monitor | Hardware resource measurements and inspection | Agent memory, CPU opponents, RAM requirements |
-| Workspaces | Virtual-desktop indicators, selection and organization | Project workspaces or a window merely residing on a desktop |
-| Notes | Reading, writing and capturing text notes | Hyprland window scratchpads, release notes |
-| Weather | Atmospheric observations and forecasts | Financial forecasts, decorative rain |
+| Screen Capture | Create and export a screen image | A screenshot of the plugin's own interface |
+| Screen Recording | Start, stop and save a recording | Recording status or a stop button for another recorder |
+| Screen Brightness | Read and adjust display brightness | Physical lights; night light alone |
+| Night Light | Adjust or schedule display colour temperature | A baby camera's night light |
+| Network Connections | Operate network connections or adapters | Traffic measurements alone |
+| Radio | Find and play radio stations | Wi-Fi/cellular radio hardware; song mixes |
+| Peripheral Batteries | Identify a peripheral and expose its charge | A small mouse battery indicator inside unrelated settings |
+| Battery | Computer battery measurements and charge/power controls | Phone/peripheral batteries or unplug-triggered behaviour |
+| Notifications | Desktop notification history, management or DND | Sending app-specific alerts |
+| Clipboard | Browse/reuse clipboard history or manage snippets | Reading/copying clipboard content; cross-device transport |
+| Plugin Manager | Discover/install/update/remove plugins | Merely mentioning the plugin ecosystem |
 
-The other categories use their stated task contracts and regression fixtures. In particular, a plugin hosting another plugin's popup does not automatically inherit its categories. Native controls implemented inside a multipurpose plugin can qualify: Omaltbar's README documents real brightness, audio, Wi-Fi, Bluetooth and notification controls. X-Ray's README documents actual container inspection/restart and process resource inspection.
+Other boundaries are expressed by their contracts and fixtures. Hosting another plugin's popup does not inherit its task. A wider plugin with complete native controls can qualify; its requirements belong in `constraints` and are shown beside the recommendation.
 
-## Marketplace health and built-ins
+## Review a queued assignment
 
-Category eligibility is decided only for listings that can compete at all. Since methodology 1.1.0, a listing whose latest daily marketplace check reports `upstreamCheckStatus: "failed"` (invalid manifest or preview) or `"unreachable"` (repository could not be fetched) is excluded immediately, with the reason `compatibility-failed` or `repository-unreachable`. The catalog keeps the previous install command for unreachable repositories, so installability alone would not catch them. An incumbent in either state leaves its place at once and the next eligible plugin takes it; the listing competes normally again once a later check passes. Feeds without a check result are not treated as failures.
+Read the latest Monday or Thursday `classification-audit` artifact, or Tuesday `category-discovery-report`. Former picks with changed evidence and possible podium challengers receive priority, including single-category plugins. Scores prioritize research only. The committed `data/task-review-queue.json` preserves first/last seen dates and resolution counts; complete lexical evidence is in the artifact.
 
-Omarchy built-ins (`sourceType: "builtin"`) have no marketplace install command and are never ranked; they are recorded as `built-in`. The ranker, the classification audit and category discovery share one eligibility function, so an excluded listing has no task evidence and cannot appear among picks or accepted assignments.
+For each assignment, inspect the captured listing, contract, upstream documentation and plausible counterexamples. Decide whether the tool accomplishes the complete outcome; record provider, hardware, setup and scope requirements. Use catalog evidence for an unambiguous direct claim and repository evidence for ambiguous or broad capabilities. Do not claim an installation test unless one was performed.
 
-An unreachable check is not proof that a repository is permanently gone. A grace period for short outages is deliberately deferred: it would need its own methodology version deciding between guaranteed retention and temporary eligibility, how the first affected week is tracked, and how installation copy explains the exception.
+Create an explicit JSON decision array:
 
-## Editorial decisions
+```json
+[
+  {
+    "pluginId": "example.capture",
+    "typeId": "screenshots",
+    "decision": "qualified",
+    "role": "core",
+    "capabilities": ["capture-image", "export-image"],
+    "constraints": ["Requires the documented native capture utilities."],
+    "reason": "Creates a region screenshot and saves the image for reuse.",
+    "reviewedAt": "2026-10-12",
+    "provenance": "repository-evidence",
+    "source": {
+      "url": "https://github.com/example/capture#features",
+      "revision": "the-reviewed-document-commit-or-content-hash",
+      "evidence": "README.md, capture/export features and requirements"
+    }
+  }
+]
+```
 
-`overrides.include` preserves verified capabilities that compact catalog descriptions omit. `overrides.exclude` rejects misleading matches. `overrides.review` holds an uncertain assignment out of rankings until evidence resolves it. Each production override must have a reason in `overrides.reasons`, with an upstream URL when documentation was needed.
+Use the exact capability names from the task contract. The helper binds explicit judgments to captured metadata and the contract version; it cannot invent approvals:
 
-Precedence is **review → explicit exclusion → explicit inclusion → category exclusion → positive task evidence**. Holds are per assignment, not blanket plugin bans. A plugin may still compete in other categories for which evidence is sufficient.
+```sh
+npm run review:tasks -- --input /path/to/inputs.json --decisions /path/to/decisions.json \
+  --taxonomy data/app-types.json --existing data/task-reviews.json --output tmp/task-review-proposal.json
+# Inspect the proposal, then incorporate reviewed decisions in data/task-reviews.json.
+npm run compare:task-fit -- --input /path/to/inputs.json
+npm run refresh -- --dry-run
+npm run check
+npm run test:e2e
+```
 
-The classifier remains deterministic; there is no runtime LLM or requirement to approve every new listing. An automatic rule decision is not a claim that somebody manually reviewed that repository. New ambiguous cases should be held explicitly, researched and covered by a regression fixture. No heuristic can guarantee that future prose will be interpreted perfectly.
+The default proposal output is research only. Omitting a source uses the captured catalog checksum and listing URL; repository judgments must include their actual source revision. Metadata hashes bind name, description and repository, not maintenance dates or engagement. A source implementation can change without a catalog metadata change; such changes need explicit re-review when discovered and are not automatically detected.
 
-## Reproducible audit
+## Capture and replay
 
 ```sh
 npm run audit:classification
-npm run audit:classification -- --input tmp/classification-audit/inputs.json --output tmp/classification-replay
-# Compare an older taxonomy using identical feeds, statistics, incumbents and time:
-npm run audit:classification -- --baseline /path/to/old-taxonomy.json --baseline-version 1
+npm run audit:classification -- --input /path/to/inputs.json --output tmp/classification-replay
+npm run compare:task-fit -- --input /path/to/baseline-inputs.json
 ```
 
-The audit writes only its output directory (default `tmp/classification-audit/`):
+The audit writes inputs, JSON/Markdown reports and compact membership state under its output directory. Refresh also writes a priority queue and persists state/queue only on publication. Captures include full feeds, taxonomy, reviews, prior rankings/state, clock, classifier/methodology versions and code revision. Classifier 2 and 3 replay under their recorded methodologies; unknown versions fail. The task migration comparison preserves baseline taxonomy, reviews and selection as well as identical feeds/time. A taxonomy-only `--baseline` comparison remains supported for legacy methods; current eligibility migrations require `compare:task-fit` rather than silently reusing new decisions for the old taxonomy.
 
-- `inputs.json`: catalog and statistics responses, taxonomy, previous rankings/membership state and analysis time.
-- `report.json`: a decision for every listing; accepted and rejected rule evidence; old/new assignments; new or removed listings; metadata changes; held assignments; category counts; and evidence for every champion and runner-up.
-- `report.md`: readable category/pick comparison and membership changes.
-- `state.json`: compact membership/metadata baseline for later comparisons.
+Dry runs write research artifacts but never change `data/` or published assets. Same-week publication skips fetching only when taxonomy, classifier and review hashes match. A methodology-only change requires the next week or explicit `--republish`; deliberate republishes keep earlier weekly changelog events. Monday/Thursday artifacts are retained for 90 days and uploaded on failures when present. Validated inputs are written before qualification so malformed reviews can be investigated without publishing them.
 
-Every record defaults unmentioned categories to `no-task-evidence`. Ineligible listings are recorded separately and cannot compete. A baseline-taxonomy replay isolates classification changes; comparison to a previous published snapshot also reflects feed and engagement changes. Reports record input hashes. Use the code revision that produced the inputs; increment `CLASSIFICATION_VERSION` whenever matching semantics change. Replay refuses a different classification version. Inputs also record `methodologyVersion`, and replay applies that methodology's eligibility and ranking rules rather than the current ones; inputs without it predate versioning and replay under 1.0.0, and a version this revision does not define is refused with the capture's `codeRevision`.
+## Global eligibility and new categories
 
-Refresh builds the same report from its own feeds, saves `data/classification-state.json` with the published snapshot, and includes classification counts in its Actions summary. Weekly and midweek workflows retain the complete report and replay inputs as artifacts for 90 days. Dry runs do not alter committed snapshot/state files. An already-refreshed week skips publication only when both taxonomy hash and classifier version match. Existing category discovery also highlights broad overlaps and explicitly held assignments for editorial investigation; it remains report-only.
+All recommendation and discovery paths share installability, HTTPS repository and health checks. Failed/unreachable marketplace checks exclude the plugin immediately; successful later checks restore eligibility. Omarchy built-ins are shown separately and never ranked. A missing health result is not inferred as a failure. The optional retirement registry labels departures without blocking refresh.
 
-## New categories
+New categories need a distinct task and at least three eligible repositories across two owners. Check direct capability evidence, record an explicit decision in `data/category-discovery.json`, and update search/navigation. Lexical probes never authorize publication; owner diversity is not proof of independent authorship. The October 12 additions and stable route mapping are documented in [methodology 1.2.0](methodology-1.2.0.md).
 
-New categories require a distinct task and at least three eligible repositories across at least two owners. Owner diversity is not proof of independently authored code. Check upstream documentation and record the decision in `data/category-discovery.json`; lexical discovery alone does not authorize publication.
-
-The 2026-09-21 cleanup added:
-
-- **Phone Integration:** [OmaConnect](https://github.com/jitendradara12/omaconnect), [Phone](https://github.com/krongggggg/omarchy-phone), [OmaKDEConnect](https://github.com/mintisan/OmaKDEConnect), and [OMAConnect](https://github.com/ekollof/omaconnect) document phone pairing/status and cross-device actions.
-- **Peripheral Batteries:** [Device Battery Stats](https://github.com/Deoxizn/devicebattstats), [Peripheral Battery Indicator](https://github.com/hlasensky/omarchy-peripheral-battery), and [Nothing Audio](https://github.com/r-witz/omarchy-nothing-ear) document peripheral battery monitoring. These are distinct repositories owned by different accounts, all eligible in the captured catalog.
-
-These were explicit editorial additions from upstream research, not automatic promotions from the discovery pilot. Smaller or unverified gaps remain unranked and available to discovery.
-
-See the [cleanup audit summary](classification-audit-2026-09-21.md) for counts, changed picks, input hashes and validation.
-
-## Verification
-
-`npm test` includes real catalog positive/negative fixtures, metadata-only and cross-field false matches, override precedence, held assignments, immediate removal of disqualified incumbents, empty/single-candidate categories, deterministic audits, and feed/refresh safeguards. `npm run check` renders the published snapshot offline; `npm run test:e2e` exercises the browser. Prior published weeks are retained when correcting the current week.
+Tests include real catalog positive/negative fixtures, source-backed missed purposes, negation/preview references, native secondary versus integration scope, invalid/stale decisions, immediate incumbent removal, canonical selection, queue aging, legacy replay and feed/refresh safeguards. Browser checks cover evidence/requirements, related choices, snapshot age, navigation, accessibility and mobile layouts. This verifies encoded behavior, not the accuracy of all unreviewed catalog prose.

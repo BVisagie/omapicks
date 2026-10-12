@@ -15,7 +15,7 @@ import {
   weekLabel,
   winningReason
 } from "../build/render.mjs";
-import { methodologyFor } from "../build/methodology.mjs";
+import { methodologyFor, snapshotMethodology } from "../build/methodology.mjs";
 
 function fixtureCandidate(values = {}) {
   return {
@@ -421,7 +421,7 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.match(home, /02 Runner-up/);
   assert.match(home, /runner-up /);
   assert.match(home, /Week of [A-Z][a-z]+ \d{1,2}, \d{4}/);
-  assert.match(home, /Category entries/);
+  assert.match(home, snapshotMethodology(rankings).eligibility.reviewedTaskEvidence ? /Reviewed category entries/ : /Category entries/);
   assert.equal([...home.matchAll(/data-catalog-row/g)].length, typeCount);
   assert.equal([...home.matchAll(/data-finder-item/g)].length, typeCount);
   assert.equal([...home.matchAll(/data-suggested/g)].length, featured.length);
@@ -505,7 +505,7 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.match(pick, /These bars are raw public counts/);
   // The live Weather race may be a clear win, a close race, or a champion held by the
   // stability rule; each sentence has its own fixture test above.
-  assert.ok(pick.includes(`<p class="why-won">${escapeHtml(winningReason(weather.winner, weather.runnerUp, weather.topScorer))}</p>`));
+  assert.ok(pick.includes(`<p class="why-won">${escapeHtml(winningReason(weather.winner, weather.runnerUp, weather.topScorer, snapshotMethodology(rankings)))}</p>`));
   assert.match(pick, /How we pick/);
   assert.match(pick, /01 Champion/);
   assert.match(pick, /target="_blank" rel="noopener noreferrer">Original listing<\/a>/);
@@ -685,6 +685,12 @@ test("discovery metadata uses taxonomy categories and related navigation stays c
   assert.ok([...directory.matchAll(/<a href=/g)].length <= 6);
   assert.match(directory, /\/picks\/audio\//);
   assert.match(directory, /\/picks\/radio\//);
+  assert.match(directory, /\/picks\/music-players\//);
+  for (const [id, sibling] of [["brightness", "night-light"], ["network", "network-diagnostics"], ["screenshots", "screen-recording"]]) {
+    const page = renderFixtureType(rankings.types.find((type) => type.id === id), rankings);
+    const links = page.match(/<div class="category-grid">([\s\S]*?)<\/div>/)[1];
+    assert.match(links, new RegExp(`/picks/${sibling}/`));
+  }
   assert.match(html, /href="\/#catalog">Browse all categories/);
 });
 

@@ -199,7 +199,7 @@
     },
     "accepted": [
       "battery",
-      "network",
+      "network-diagnostics",
       "system-monitor"
     ],
     "rejected": [],
@@ -218,7 +218,7 @@
       "kind": "Bar widget"
     },
     "accepted": [
-      "clock-timer",
+      "timers-alarms",
       "focus"
     ],
     "rejected": [
@@ -393,7 +393,7 @@
       "kind": "Bar widget"
     },
     "accepted": [
-      "network"
+      "network-diagnostics"
     ],
     "rejected": [
       "vpn"
@@ -412,7 +412,7 @@
       "kind": "Bar widget"
     },
     "accepted": [
-      "network"
+      "network-diagnostics"
     ],
     "rejected": [
       "vpn"
@@ -717,11 +717,11 @@
       "kind": "Bar widget"
     },
     "accepted": [
-      "brightness",
       "audio",
       "bluetooth",
       "network",
-      "notifications"
+      "notifications",
+      "brightness"
     ],
     "rejected": [],
     "source": "https://github.com/AngeeelD/omaltbar"
@@ -1236,7 +1236,7 @@
       "kind": "Bar widget"
     },
     "accepted": [
-      "network"
+      "network-diagnostics"
     ],
     "rejected": [],
     "source": "https://github.com/i12bp8/omarchy-netneighbours"
@@ -1468,7 +1468,7 @@
       "screensavers",
       "themes-appearance",
       "wallpaper",
-      "brightness",
+      "night-light",
       "lock-idle"
     ],
     "rejected": [

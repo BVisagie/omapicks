@@ -330,3 +330,37 @@ test("offline replay of captured inputs reproduces the report byte for byte with
     assert.equal(await readFile(path.join(root, "replay", file), "utf8"), await readFile(path.join(root, "live", file), "utf8"), file);
   }
 });
+
+test("limited handoff slots prioritize curated tasks and diversify coding-agent phrases", () => {
+  const entries = [
+    ...Array.from({ length: 5 }, (_, i) => plugin(`claude${i}`, "Claude code account monitoring")),
+    ...Array.from({ length: 4 }, (_, i) => plugin(`agents${i}`, "Coding agents remote dispatch")),
+    ...Array.from({ length: 3 }, (_, i) => plugin(`security${i}`, "Security scanner dependency audit")),
+    ...Array.from({ length: 3 }, (_, i) => plugin(`garden${i}`, "Garden irrigation controller"))
+  ];
+  const options = { ...input, catalog: entries, config: { ...config, concepts: [{ id: "security-scanning", name: "Security scanning", terms: ["security scanner"] }] } };
+  const first = analyze(options);
+  const next = analyze({ ...options, previous: first.state, now: laterDate });
+  assert.equal(next.suggestions[0].id, "concept:security-scanning");
+  assert.equal(next.suggestions.length, 3);
+  assert.equal(next.suggestions.filter((g) => g.members.some((p) => /^(claude|agents)/.test(p.id))).length, 1);
+  assert.ok(next.suggestions.some((g) => /garden|irrigation/.test(g.id)));
+  assert.ok([...next.candidates, ...next.collapsedGroups].some((g) => /coding-agents/.test(g.id)), "hidden lexical leads remain in the JSON");
+});
+
+test("discovery includes an unreviewed single-category former pick in its task handoff", async () => {
+  const { taskMetadataHash } = await import("../build/task-fit.mjs");
+  const taskTaxonomy = { schemaVersion: 1, types: [{ id: "music", name: "Media Controls", include: ["\\bmusic\\b"],
+    contract: { version: 1, outcome: "Control the active media player", capabilitySets: [["control-playback"]] } }] };
+  const a = plugin("a", "Control music playback"), former = plugin("former", "Control music playback");
+  const taskReviews = { schemaVersion: 1, assignments: [{ pluginId: a.id, typeId: "music", decision: "qualified", role: "core", contractVersion: 1,
+    metadataHash: taskMetadataHash(a), capabilities: ["control-playback"], constraints: [], reason: "Native playback controls operate the active player.",
+    reviewedAt: "2026-09-15", provenance: "catalog-evidence", source: { url: a.repo, revision: "fixture", evidence: a.description } }] };
+  const report = analyze({ ...input, catalog: [a, former], taxonomy: taskTaxonomy, taskReviews,
+    previousRankings: { types: [{ id: "music", winner: { id: former.id }, runnerUp: null }] } });
+  assert.equal(report.classificationReview.length, 0);
+  const pending = report.taskReviewQueue.find((p) => p.pluginId === former.id);
+  assert.equal(pending.previousPick, true);
+  assert.equal(pending.status, "pending");
+  assert.match(renderReport(report), /former/);
+});

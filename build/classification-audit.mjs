@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { CLASSIFICATION_VERSION, METHODOLOGY, classifyPlugin, eligibilityReason, explainClassification, prepareTaxonomy, rankPlugins } from "./rank.mjs";
+import { prepareTaskReviews } from "./task-fit.mjs";
 
 export const checksum = (value) => createHash("sha256").update(JSON.stringify(value)).digest("hex");
 const compare = (a, b) => a.id.localeCompare(b.id);
@@ -18,15 +19,18 @@ function legacyTypes(plugin, prepared) {
 
 // `methodology` decides eligibility and ranking. Replays pass the one recorded with their inputs so
 // captured evidence is never silently reinterpreted under newer rules.
-export function auditClassifications({ catalog, taxonomy, previousState = null, baselineTaxonomy = null, baselineVersion = CLASSIFICATION_VERSION, stats = null, previous = null, now = new Date(), methodology = METHODOLOGY }) {
+export function auditClassifications({ catalog, taxonomy, taskReviews = { schemaVersion: 1, assignments: [] }, classificationVersion = CLASSIFICATION_VERSION, previousState = null, baselineTaxonomy = null, baselineVersion = classificationVersion, stats = null, previous = null, now = new Date(), methodology = METHODOLOGY }) {
   const prepared = prepareTaxonomy(taxonomy);
+  const reviewed = methodology.eligibility.reviewedTaskEvidence === true;
+  if (reviewed && baselineTaxonomy) throw new Error("Task qualification migrations require captured baseline decisions and methodology; use compare:task-fit with the baseline inputs.json");
+  const reviews = reviewed ? prepareTaskReviews(taskReviews, prepared.types) : null;
   const baseline = baselineTaxonomy ? prepareTaxonomy(baselineTaxonomy) : null;
   const prior = new Map((previousState?.plugins ?? []).map((p) => [p.id, p]));
   const records = [...catalog].sort(compare).map((plugin) => {
     const ineligible = eligibilityReason(plugin, methodology);
-    const explanations = ineligible ? [] : explainClassification(plugin, prepared);
+    const explanations = ineligible ? [] : explainClassification(plugin, prepared, classificationVersion, reviews);
     const types = explanations.filter((e) => e.accepted).map((e) => e.typeId);
-    const before = baseline ? (ineligible ? [] : baselineVersion === 1 ? legacyTypes(plugin, baseline) : classifyPlugin(plugin, baseline)) : prior.get(plugin.id)?.types ?? null;
+    const before = baseline ? (ineligible ? [] : baselineVersion === 1 ? legacyTypes(plugin, baseline) : classifyPlugin(plugin, baseline, baselineVersion)) : prior.get(plugin.id)?.types ?? null;
     const metadataHash = checksum(metadata(plugin));
     return {
       id: plugin.id, name: plugin.name, description: plugin.description, repository: plugin.repo,
@@ -36,7 +40,7 @@ export function auditClassifications({ catalog, taxonomy, previousState = null, 
       decision: ineligible ? "ineligible" : types.length ? "classified" : "unranked",
       // Unmentioned types all have the same decision: no task evidence. Keep the report compact.
       defaultDecision: "no-task-evidence",
-      evidence: explanations.filter((e) => e.accepted || e.evidence.length || e.exclusions.length || e.decision.startsWith("override-") || e.decision === "review" || before?.includes(e.typeId))
+      evidence: explanations.filter((e) => e.accepted || e.evidence.length || e.exclusions.length || e.decision.startsWith("override-") || e.decision === "review" || e.taskFit && e.taskFit.status !== "pending" || before?.includes(e.typeId))
     };
   });
   const eligible = records.filter((p) => !p.ineligible);
@@ -47,8 +51,11 @@ export function auditClassifications({ catalog, taxonomy, previousState = null, 
   const newListings = previousState && !baseline ? records.filter((p) => !prior.has(p.id)).map((p) => p.id) : [];
   let rankingComparison = null;
   let picks = [];
+  let reviewQueue = [];
   if (stats) {
-    const after = rankPlugins({ catalog, stats, taxonomy, previous, now, methodology }).rankings;
+    const ranked = rankPlugins({ catalog, stats, taxonomy, taskReviews, classificationVersion, previous, now, methodology });
+    const after = ranked.rankings;
+    reviewQueue = ranked.reviewQueue;
     const byId = new Map(records.map((p) => [p.id, p]));
     picks = after.types.flatMap((type) => ["winner", "runnerUp"].filter((slot) => type[slot]).map((slot) => ({ typeId: type.id, slot, id: type[slot].id, name: type[slot].name, eligibility: byId.get(type[slot].id).evidence.find((e) => e.typeId === type.id) })));
     if (baseline) {
@@ -58,17 +65,18 @@ export function auditClassifications({ catalog, taxonomy, previousState = null, 
         types: baselineTaxonomy.types.map((type) => ({ ...type, include: ["(?!)"], nameInclude: undefined, exclude: [] })),
         overrides: { include: Object.fromEntries(records.filter((p) => !p.ineligible).map((p) => [p.id, p.before])) }
       };
-      const before = rankPlugins({ catalog, stats, taxonomy: fixedTaxonomy, previous, now, methodology }).rankings;
+      const before = rankPlugins({ catalog, stats, taxonomy: fixedTaxonomy, taskReviews, classificationVersion, previous, now, methodology }).rankings;
       rankingComparison = compareRankings(before, after);
     } else if (previous) rankingComparison = compareRankings(previous, after);
   }
   return {
-    schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, methodologyVersion: methodology.version, generatedAt: now.toISOString(),
+    schemaVersion: 1, classificationVersion, methodologyVersion: methodology.version, generatedAt: now.toISOString(),
     hashes: { catalog: checksum(catalog), taxonomy: checksum(taxonomy), baselineTaxonomy: baselineTaxonomy ? checksum(baselineTaxonomy) : null },
     comparison: baseline ? "same-input-taxonomy-replay" : previousState ? "previous-published-memberships" : "baseline-established",
     counts: { catalog: records.length, eligible: eligible.length, classified: eligible.filter((p) => p.types.length).length, unranked: eligible.filter((p) => !p.types.length).length, assignments: eligible.reduce((n, p) => n + p.types.length, 0), changed: changes.length + removed.length, unresolved: unresolved.length },
+    ...(reviewed ? { taskQualification: { qualified: records.reduce((n, p) => n + p.evidence.filter((e) => e.accepted && e.taskFit?.qualified).length, 0), pending: reviewQueue.length }, reviewQueue } : {}),
     changes: [...changes, ...removed], newListings, unresolved, rankingComparison, picks, records,
-    state: { schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, generatedAt: now.toISOString(), taxonomyHash: checksum(taxonomy), plugins: records.map(({ id, name, metadataHash, types }) => ({ id, name, metadataHash, types })) }
+    state: { schemaVersion: 1, classificationVersion, generatedAt: now.toISOString(), taxonomyHash: checksum(taxonomy), plugins: records.map(({ id, name, metadataHash, types }) => ({ id, name, metadataHash, types })) }
   };
 }
 
@@ -86,12 +94,20 @@ function compareRankings(before, after) {
 const escape = (s) => String(s ?? "").replace(/[\u0000-\u001f\u007f]/g, " ").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replace(/[\\`*_{}\[\]()#+.!|]/g, "\\$&");
 export function renderClassificationAudit(report) {
   const c = report.counts;
-  const lines = ["# Category eligibility audit", "", `${c.catalog} listings; ${c.eligible} eligible; ${c.classified} classified; ${c.unranked} unranked; ${c.assignments} assignments. Eligibility and picks use methodology ${escape(report.methodologyVersion ?? "1.0.0")}.`, "",
+  const lines = ["# Category eligibility audit", "", `${c.catalog} listings; ${c.eligible} eligible; ${c.classified} classified; ${c.unranked} unranked; ${c.assignments} discovered assignments. Eligibility and picks use methodology ${escape(report.methodologyVersion ?? "1.0.0")}.`, "",
     `${c.changed} changed listings; ${c.unresolved} assignments held for review. Comparison: ${report.comparison}.`, "",
     "Decisions are reproducible rule evaluations, not a claim of manual review of every repository. report.json contains each listing's accepted and rejected evidence, every published pick, and all membership changes. Unresolved assignments do not compete.", ""];
   if (report.rankingComparison) {
     lines.push("## Category and pick changes", "", "| Category | Candidates before → after | Champion before → after | Runner-up before → after |", "| --- | --- | --- | --- |");
     for (const t of report.rankingComparison) if (t.beforeCount !== t.afterCount || t.beforeWinner !== t.afterWinner || t.beforeRunnerUp !== t.afterRunnerUp) lines.push(`| ${escape(t.typeId)} | ${t.beforeCount} → ${t.afterCount} | ${escape(t.beforeWinner ?? "none")} → ${escape(t.afterWinner ?? "none")} | ${escape(t.beforeRunnerUp ?? "none")} → ${escape(t.afterRunnerUp ?? "none")} |`);
+    lines.push("");
+  }
+  if (report.taskQualification) {
+    lines.push("## Recommendation qualification", "", `${report.taskQualification.qualified} assignments meet their reviewed task contracts; ${report.taskQualification.pending} assignments need capability review. Unreviewed, stale, related and rejected evidence cannot enter recommendation cards.`, "",
+      "## Priority task review queue", "", "Resolve these through data/task-reviews.json using the captured catalog and source documentation; scores prioritize research only. Existing picks and prospective podium entrants come first.", "");
+    for (const p of report.reviewQueue.slice(0, 20)) lines.push(`- ${escape(p.typeName)} / ${escape(p.name)} (${escape(p.pluginId)}): ${escape(p.status)}; ${p.previousPick ? "previous pick; " : ""}${p.wouldEnterPodium ? "prospective podium; " : ""}${escape(p.reason)} Repository: ${escape(p.repository)}.`);
+    lines.push("", "## Why each recommendation fits", "");
+    for (const p of report.picks) lines.push(`- ${escape(p.typeId)} / ${escape(p.name)}: ${escape(p.eligibility.taskFit?.reason)} (${escape(p.eligibility.taskFit?.role)}). ${escape(p.eligibility.taskFit?.source?.url)}.`);
     lines.push("");
   }
   if (report.newListings.length) lines.push("## New listings", "", ...report.newListings.map((id) => `- ${escape(id)}`), "");

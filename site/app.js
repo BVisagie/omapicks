@@ -1,6 +1,14 @@
 const root = document.documentElement;
 const themeButton = document.querySelector("[data-theme-toggle]");
 
+for (const notice of document.querySelectorAll("[data-snapshot-at]")) {
+  const ageDays = Math.floor((Date.now() - Date.parse(notice.dataset.snapshotAt)) / 86_400_000);
+  if (Number.isFinite(ageDays) && ageDays > 8) {
+    notice.textContent = `This snapshot is ${ageDays} days old. These picks come from the last successful publication.`;
+    notice.hidden = false;
+  }
+}
+
 function storedTheme() {
   try {
     return localStorage.getItem("omapicks-theme");

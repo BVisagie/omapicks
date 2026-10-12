@@ -4,6 +4,7 @@ import { cp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { METHODOLOGY, changesBetween, removalSentence, scoreLeader, snapshotMethodology, verificationCoverage, verificationCredit } from "./rank.mjs";
+import { assertTaskQualifiedSnapshot } from "./task-fit.mjs";
 import { renderSocialImage } from "./social.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -193,6 +194,11 @@ function methodologyCopy(method) {
   const stability = percentLabel(method.hysteresis);
   const graded = method.verification.rule === "coverage";
   const rate = method.installRate;
+  const taskQualified = method.eligibility.reviewedTaskEvidence === true;
+  const selection = method.hysteresis === 0
+    ? "The highest-scoring task-qualified plugin is champion, followed by the strongest remaining alternative. Picks stay frozen until the next weekly publication."
+    : `A champion keeps the title until someone beats their score by more than ${stability}.`;
+  const taskEvidence = taskQualified ? "Recommendations first need reviewed evidence that they complete this category's task. Core and substantial secondary capabilities qualify equally; integrations and unreviewed claims do not compete. " : "";
   const viewsClause = rate
     ? "Listing views barely count, and a small share rewards stronger install-command-copy evidence relative to detail views."
     : "Listing views barely count.";
@@ -201,8 +207,8 @@ function methodologyCopy(method) {
     : "A verified listing is a small bonus, not a win condition.";
   return {
     stability,
-    lede: `In plain terms: we rank plugins by public evidence of use and upkeep, not votes. Copying the install command counts most, then hearts and GitHub stars. ${viewsClause} Abandoned repositories sink. ${verifiedClause} A champion keeps the title until someone beats their score by more than ${stability}.`,
-    note: `This is not a vote. Install-command copies count most, then hearts and GitHub stars. ${viewsClause} Recently updated repositories rank higher than abandoned ones, and ${graded ? "a verified snapshot" : "a verified listing"} is only a small bonus. Plugins with little public evidence are pulled toward the middle, so a brand-new listing cannot win on three copies. A champion stays until a challenger is more than ${stability} ahead on the combined score.`,
+    lede: `In plain terms: ${taskEvidence}We rank the public evidence of use and upkeep. Copying the install command counts most, then hearts and GitHub stars. ${viewsClause} ${verifiedClause} ${selection}`,
+    note: `${taskEvidence}Install-command copies count most, then hearts and GitHub stars. ${viewsClause} Recently updated repositories rank higher than abandoned ones, and ${graded ? "a verified snapshot" : "a verified listing"} is only a small bonus. Sparse engagement is pulled toward the middle. ${method.hysteresis === 0 ? selection : `A champion stays until a challenger is more than ${stability} ahead on the combined score.`}`,
     comparison: rate
       ? `Copies per detail view divides two anonymous counters and is capped at 100%, because copies can also come from listing cards; it is not a measured install rate. Plugins with fewer than ${rate.minimumViews} detail views are not rated.`
       : "",
@@ -219,7 +225,7 @@ function methodologyCopy(method) {
         ? `Verification is a small bonus, not a requirement. The marketplace verifies an exact listed commit. A snapshot verified at the commit upstream still points to earns full credit; a verified snapshot whose repository has since moved to unverified code earns ${percentLabel(method.verification.updateUnverifiedCredit)} of it; anything else earns none. Maintainer review and automated baseline checks describe the same exact-commit fact and earn the same credit. <a href="${VERIFICATION_POLICY_URL}">How marketplace verification works</a>.`
         : "Verification is a small bonus, not a requirement."
     ],
-    stabilityRule: `An eligible incumbent remains in place until a challenger scores more than ${stability} higher. If an incumbent becomes unavailable, the highest-scoring eligible plugin takes its place immediately. Ties fall back to copies, hearts, stars, then plugin ID.`,
+    stabilityRule: method.hysteresis === 0 ? `${selection} Ties fall back to copies, hearts, stars, then plugin ID.` : `An eligible incumbent remains in place until a challenger scores more than ${stability} higher. If an incumbent becomes unavailable, the highest-scoring eligible plugin takes its place immediately. Ties fall back to copies, hearts, stars, then plugin ID.`,
     verifiedTipped: graded
       ? "The two were close on public activity; stronger verification evidence tipped this week's score."
       : "The two were close on public activity; a verified listing tipped this week's score.",
@@ -613,7 +619,7 @@ function previewFrame(candidate) {
 }
 
 function candidateCard(candidate, place, type, week, { runnerUp = null, topScorer = null, method = METHODOLOGY, generatedAt = null } = {}) {
-  if (!candidate) return `<article class="pick-card empty"><p>No eligible plugin this week.</p></article>`;
+  if (!candidate) return `<article class="pick-card empty"><p>${method.eligibility.reviewedTaskEvidence ? "No reviewed recommendation for this place yet." : "No eligible plugin this week."}</p></article>`;
   const badgePath = `/badges/${encodeURIComponent(week)}/${encodeURIComponent(type.id)}/${encodeURIComponent(candidate.id)}.svg`;
   const rank = place === "winner" ? "01 Champion" : "02 Runner-up";
   const extras = [statusPill(candidate)];
@@ -626,6 +632,7 @@ function candidateCard(candidate, place, type, week, { runnerUp = null, topScore
       <h3>${outboundLink(candidate.detailUrl, escapeHtml(candidate.name))}</h3>
       <p class="byline">${byline(candidate)}</p>
       ${listingAge(candidate, generatedAt)}
+      ${taskFitNote(candidate)}
       ${reason ? `<p class="why-won">${escapeHtml(reason)}</p>` : ""}
       <p>${escapeHtml(candidate.description)}</p>
       <div class="command-row">
@@ -650,6 +657,33 @@ function candidateCard(candidate, place, type, week, { runnerUp = null, topScore
       </div>` : ""}
     </div>
   </article>`;
+}
+
+function taskFitNote(candidate) {
+  const fit = candidate.taskFit;
+  if (!fit?.qualified) return "";
+  return `<div class="task-fit-note"><p><strong>Why it fits:</strong> ${escapeHtml(fit.reason)}</p>
+    ${fit.role === "substantial-secondary" ? "<p>Native task controls within a wider plugin.</p>" : ""}
+    ${fit.constraints.length ? `<p><strong>Before you choose:</strong> ${fit.constraints.map(escapeHtml).join(" ")}</p>` : ""}
+    <p class="task-fit-source">${outboundLink(fit.source.url, "Capability evidence")} · Reviewed ${escapeHtml(fit.reviewedAt)}</p></div>`;
+}
+
+function moreTaskChoices(type) {
+  const alternatives = type.alternatives ?? [];
+  const related = type.relatedTools ?? [];
+  if (!alternatives.length && !related.length) return "";
+  return `<section class="task-alternatives" aria-labelledby="task-alternatives-heading">
+    <h2 id="task-alternatives-heading">More choices for this task</h2>
+    ${alternatives.length ? `<ul>${alternatives.map((candidate) => `<li><h3>${outboundLink(candidate.detailUrl, escapeHtml(candidate.name))}</h3>${taskFitNote(candidate)}</li>`).join("")}</ul>` : ""}
+    ${related.length ? `<h3>Related tools with a narrower scope</h3><ul>${related.map((candidate) => `<li><strong>${outboundLink(candidate.detailUrl, escapeHtml(candidate.name))}</strong><p>${escapeHtml(candidate.taskFit.reason)}</p>
+      ${candidate.taskFit.constraints.length ? `<p>${candidate.taskFit.constraints.map(escapeHtml).join(" ")}</p>` : ""}
+      <p class="task-fit-source">${outboundLink(candidate.taskFit.source.url, "Capability evidence")}</p></li>`).join("")}</ul>` : ""}
+  </section>`;
+}
+
+function snapshotNotice(rankings) {
+  return Number.isFinite(Date.parse(rankings.generatedAt))
+    ? `<p class="snapshot-status" data-snapshot-at="${escapeHtml(rankings.generatedAt)}" hidden></p>` : "";
 }
 
 function showdownEntry(candidate, place, href) {
@@ -743,9 +777,13 @@ function categoryNavigation(type, rankings) {
   const index = rankings.types.findIndex((candidate) => candidate.id === type.id);
   const previous = index > 0 ? rankings.types[index - 1] : null;
   const next = index >= 0 && index < rankings.types.length - 1 ? rankings.types[index + 1] : null;
-  const relatedIds = new Set(DISCOVERY.relatedGroups.filter((group) => group.includes(type.id)).flat());
+  const groups = DISCOVERY.relatedGroups.filter((group) => group.includes(type.id));
+  const relatedIds = new Set(groups.flat());
   const related = rankings.types.filter((candidate) => candidate.id !== type.id && relatedIds.has(candidate.id));
-  const others = (related.length ? related : [previous, next].filter(Boolean)).sort(byCategoryName).slice(0, 6);
+  // Focused sibling tasks come before broad navigation groups in the six available slots.
+  const proximity = (candidate) => Math.min(...groups.filter((group) => group.includes(candidate.id)).map((group) => group.length), Infinity);
+  const others = (related.length ? related : [previous, next].filter(Boolean))
+    .sort((a, b) => proximity(a) - proximity(b) || byCategoryName(a, b)).slice(0, 6);
   return `<section class="category-directory" aria-labelledby="other-categories-heading">
     <div class="category-directory-head">
       <h2 id="other-categories-heading">Explore more categories</h2>
@@ -829,7 +867,8 @@ function homePage(rankings, history = []) {
         <span class="visually-hidden">${weekLabel(rankings.week, rankings.generatedAt)}</span>
       </p>
       <h1>Find the best Omarchy plugin for the job.</h1>
-      <p class="hero-lede">A champion and a runner-up in each category, rescored every Monday from Omarchy Plugins.</p>
+      <p class="hero-lede">A champion and a runner-up in each category, ${snapshotMethodology(rankings).eligibility.reviewedTaskEvidence ? "qualified by task evidence and " : ""}rescored every Monday from Omarchy Plugins.</p>
+      ${snapshotNotice(rankings)}
       <p class="hero-trust"># no votes. no sponsorships. just a reproducible weekly snapshot from omarchy plugins.</p>
       <p class="hero-actions">
         <a class="button" href="#catalog">${escapeHtml(browseLabel(categoryCount))}</a>
@@ -856,7 +895,7 @@ function homePage(rankings, history = []) {
       </div>
       <dl class="hero-meta">
         <div><dt>Categories</dt><dd>${categoryCount}</dd></div>
-        <div><dt>Category entries</dt><dd>${eligibleEntries.toLocaleString("en-US")}</dd></div>
+        <div><dt>${snapshotMethodology(rankings).eligibility.reviewedTaskEvidence ? "Reviewed category entries" : "Category entries"}</dt><dd>${eligibleEntries.toLocaleString("en-US")}</dd></div>
         <div><dt>Snapshot</dt><dd>${escapeHtml(dateLabel(rankings.generatedAt) ?? rankings.week ?? "pending")}</dd></div>
       </dl>
       <p class="entry-note">Plugins in multiple categories count once in each.</p>
@@ -921,7 +960,8 @@ function typePage(type, rankings) {
         <h1>${escapeHtml(type.name)}</h1>
       </div>
       <div class="type-intro-copy">
-        <p>${escapeHtml(type.description)}. ${competedLabel(type.eligibleCount)} this week. This page shows the champion and runner-up.</p>
+        <p>${escapeHtml(type.description)}. ${competedLabel(type.eligibleCount)} this week${method.eligibility.reviewedTaskEvidence ? " after task capability review" : ""}. This page shows the champion and runner-up.</p>
+        ${snapshotNotice(rankings)}
         ${
           type.winner
             ? shareLinks(
@@ -939,6 +979,7 @@ function typePage(type, rankings) {
       ${candidateCard(type.runnerUp, "runner-up", type, rankings.week, { method, generatedAt: rankings.generatedAt })}
     </div>
     ${scoreComparison(type, method)}
+    ${moreTaskChoices(type)}
     <aside class="method-note">
       <h2>How we pick</h2>
       <p>${escapeHtml(methodologyCopy(method).note)} <a href="/methodology/">Full scoring notes</a></p>
@@ -979,6 +1020,8 @@ function methodologyPage(rankings) {
     <h2>Who can compete</h2>
     <p>${escapeHtml(copy.eligibility)} Only plugins matching at least one focused app type compete; unmatched listings remain unranked instead of being forced into a catch-all category. Category eligibility requires evidence that the plugin directly performs the stated task. Names and descriptions supply that evidence; tags, supporting technologies, and incidental alerts do not qualify on their own. A plugin can appear in several app types when it directly performs each task. Computer batteries, peripheral batteries, and phone integration have separate categories; Bluetooth means device discovery, pairing, connections, or adapter controls. Audio codecs belong under Audio. Assignments awaiting review remain unranked.</p>
     <h2>The score</h2>
+    ${method.eligibility.reviewedTaskEvidence ? `<p>Category matching supplies research leads. A recommendation needs a source-backed task decision in <code>data/task-reviews.json</code> that satisfies the category's minimum capabilities. Native core and substantial secondary capabilities qualify equally. Thin integrations are shown as related tools; pending, rejected and stale decisions cannot enter the podium. A changed name, description, repository or task contract invalidates the decision until review. Reviews describe publicly documented capabilities, not installation testing. Requirements and limitations appear with each choice.</p>
+    <p>Each capture includes the complete review file and its checksum. The priority queue includes new claims, previous picks with changed evidence and prospective challengers. These research scores cannot confer eligibility. Popularity is normalized within the reviewed cohort; it remains evidence about the whole plugin, not measured adoption of an individual capability.</p>` : ""}
     <p>${copy.score}</p>
     <ul class="weight-list">${weights}</ul>
     ${copy.afterWeights.map((paragraph) => `<p>${paragraph}</p>`).join("\n    ")}
@@ -1240,7 +1283,7 @@ export async function render({ root = ROOT } = {}) {
   if (root !== ROOT) throw new Error("Custom render roots are not supported; pass fixture data to exported helpers instead");
   const rankings = JSON.parse(await readFile(path.join(ROOT, "data", "rankings.json"), "utf8"));
   if (!Array.isArray(rankings.types)) throw new Error("data/rankings.json has no types array");
-  snapshotMethodology(rankings);
+  if (snapshotMethodology(rankings).eligibility.reviewedTaskEvidence) assertTaskQualifiedSnapshot(rankings);
   if (rankings.week !== null && !/^\d{4}-W\d{2}$/.test(rankings.week)) throw new Error(`Unsafe week: ${rankings.week}`);
   for (const type of rankings.types) {
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(type.id)) throw new Error(`Unsafe app type id: ${type.id}`);
@@ -1251,7 +1294,9 @@ export async function render({ root = ROOT } = {}) {
     }
   }
   const history = await readHistory();
-  for (const snapshot of history) snapshotMethodology(snapshot);
+  for (const snapshot of history) {
+    if (snapshotMethodology(snapshot).eligibility.reviewedTaskEvidence) assertTaskQualifiedSnapshot(snapshot);
+  }
   await rm(DIST, { recursive: true, force: true });
   await mkdir(path.join(DIST, "assets"), { recursive: true });
   await mkdir(path.join(DIST, "og"), { recursive: true });

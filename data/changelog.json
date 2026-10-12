@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "week": "2026-W42",
-  "generatedAt": "2026-10-12T13:34:39.901Z",
+  "generatedAt": "2026-10-12T15:39:44.802Z",
   "changes": [
     {
       "typeId": "screenshots",
@@ -27,6 +27,279 @@
       "current": {
         "id": "io.github.sahzudin.omawall",
         "name": "Omawall"
+      }
+    },
+    {
+      "typeId": "system-monitor",
+      "typeName": "System Monitor",
+      "kind": "displaced",
+      "previous": {
+        "id": "im0001gt.hw-tooltip",
+        "name": "Hardware Tooltip"
+      },
+      "current": {
+        "id": "stappmus.activity-monitor",
+        "name": "Activity Monitor"
+      }
+    },
+    {
+      "typeId": "music-players",
+      "typeName": "Music Players",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.jeremylanger.omaspotify",
+        "name": "OmaSpotify"
+      }
+    },
+    {
+      "typeId": "launcher",
+      "typeName": "Launcher",
+      "kind": "displaced",
+      "previous": {
+        "id": "tyrsolution.app-launcher",
+        "name": "App Launcher"
+      },
+      "current": {
+        "id": "evindor.keystroke",
+        "name": "Keystroke"
+      }
+    },
+    {
+      "typeId": "docks",
+      "typeName": "Application Docks",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "rosakodu.dock",
+        "name": "Dock"
+      }
+    },
+    {
+      "typeId": "network",
+      "typeName": "Network Connections",
+      "kind": "displaced",
+      "previous": {
+        "id": "vitals",
+        "name": "Vitals"
+      },
+      "current": {
+        "id": "angeeeld.omaltbar",
+        "name": "Omaltbar"
+      },
+      "reason": "no-longer-in-category"
+    },
+    {
+      "typeId": "network-diagnostics",
+      "typeName": "Network Traffic & Diagnostics",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "vitals",
+        "name": "Vitals"
+      }
+    },
+    {
+      "typeId": "brightness",
+      "typeName": "Screen Brightness",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.deunnis.lacquer",
+        "name": "Omarchy Lacquer"
+      },
+      "current": {
+        "id": "crmne.hyprmoncfg",
+        "name": "hyprmoncfg: Multi-Monitor Manager for Omarchy"
+      },
+      "reason": "no-longer-in-category"
+    },
+    {
+      "typeId": "night-light",
+      "typeName": "Night Light",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.deunnis.lacquer",
+        "name": "Omarchy Lacquer"
+      }
+    },
+    {
+      "typeId": "clock-timer",
+      "typeName": "Clocks & Time Zones",
+      "kind": "displaced",
+      "previous": {
+        "id": "pnkm0nk.omodoro",
+        "name": "Omodoro"
+      },
+      "current": {
+        "id": "io.github.sspaeti.timezones",
+        "name": "Timezones"
+      },
+      "reason": "no-longer-in-category"
+    },
+    {
+      "typeId": "timers-alarms",
+      "typeName": "Timers & Alarms",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "pnkm0nk.omodoro",
+        "name": "Omodoro"
+      }
+    },
+    {
+      "typeId": "tasks",
+      "typeName": "Task Lists",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.aryan-techie.todoist",
+        "name": "Todoist"
+      }
+    },
+    {
+      "typeId": "workspaces",
+      "typeName": "Workspaces",
+      "kind": "displaced",
+      "previous": {
+        "id": "mirador",
+        "name": "Mirador"
+      },
+      "current": {
+        "id": "tornikegomareli.spaces",
+        "name": "Spaces"
+      }
+    },
+    {
+      "typeId": "window-management",
+      "typeName": "Window Management",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.pablo-merino.altswitch",
+        "name": "Alt-tab switcher"
+      },
+      "current": {
+        "id": "expose.window-overview",
+        "name": "Exposé"
+      }
+    },
+    {
+      "typeId": "screenshots",
+      "typeName": "Screen Capture",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.ilyazar.syncthing",
+        "name": "Syncthing"
+      },
+      "current": {
+        "id": "chyld.easy-capture",
+        "name": "Easy Capture"
+      },
+      "reason": "no-longer-in-category"
+    },
+    {
+      "typeId": "screen-recording",
+      "typeName": "Screen Recording",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "chyld.easy-capture",
+        "name": "Easy Capture"
+      }
+    },
+    {
+      "typeId": "ocr",
+      "typeName": "Screen Text Extraction",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss"
+      }
+    },
+    {
+      "typeId": "wallpaper",
+      "typeName": "Wallpaper",
+      "kind": "displaced",
+      "previous": {
+        "id": "nosignal.motion-wallpaper",
+        "name": "Motion Wallpaper"
+      },
+      "current": {
+        "id": "io.github.deunnis.lacquer",
+        "name": "Omarchy Lacquer"
+      }
+    },
+    {
+      "typeId": "themes-appearance",
+      "typeName": "Themes & Appearance",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.mtolhuys.theme-manager",
+        "name": "Omarchy Theme Manager"
+      },
+      "current": {
+        "id": "gotar.omarchy-themes",
+        "name": "Themes Gallery"
+      }
+    },
+    {
+      "typeId": "ai-assistant",
+      "typeName": "Agent Sessions",
+      "kind": "displaced",
+      "previous": {
+        "id": "sid.sessions",
+        "name": "Session Browser"
+      },
+      "current": {
+        "id": "meviusisback.agent-orchestr",
+        "name": "Agent Orchestrator"
+      }
+    },
+    {
+      "typeId": "ai-chat",
+      "typeName": "AI Chat & Models",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.atif-1402.ai-panel",
+        "name": "AI Panel"
+      }
+    },
+    {
+      "typeId": "file-sync",
+      "typeName": "File Synchronization",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.ilyazar.syncthing",
+        "name": "Syncthing"
+      }
+    },
+    {
+      "typeId": "uptime-monitoring",
+      "typeName": "Uptime Monitoring",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.dupontbertrand.omastatus",
+        "name": "Omastatus"
+      },
+      "current": {
+        "id": "bottelet.is-it-down",
+        "name": "Is It Down?"
+      }
+    },
+    {
+      "typeId": "screensavers",
+      "typeName": "Screensavers",
+      "kind": "displaced",
+      "previous": {
+        "id": "brianirish.screensaver",
+        "name": "Screensaver"
+      },
+      "current": {
+        "id": "omarchy-undercover",
+        "name": "Omarchy Undercover"
       }
     }
   ],
@@ -82,6 +355,448 @@
         "id": "io.github.chris.snitch",
         "name": "Snitch"
       }
+    },
+    {
+      "typeId": "system-monitor",
+      "typeName": "System Monitor",
+      "kind": "displaced",
+      "previous": {
+        "id": "stappmus.activity-monitor",
+        "name": "Activity Monitor"
+      },
+      "current": {
+        "id": "harshith.system-monitor",
+        "name": "System Monitor"
+      }
+    },
+    {
+      "typeId": "music-players",
+      "typeName": "Music Players",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "funcoder.spotify",
+        "name": "Spotify Vinyl"
+      }
+    },
+    {
+      "typeId": "launcher",
+      "typeName": "Launcher",
+      "kind": "displaced",
+      "previous": {
+        "id": "evindor.keystroke",
+        "name": "Keystroke"
+      },
+      "current": {
+        "id": "tyrsolution.app-launcher",
+        "name": "App Launcher"
+      }
+    },
+    {
+      "typeId": "docks",
+      "typeName": "Application Docks",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "omadock",
+        "name": "OmaDock"
+      }
+    },
+    {
+      "typeId": "network",
+      "typeName": "Network Connections",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.diegopluna.argus",
+        "name": "Argus"
+      },
+      "current": {
+        "id": "community.network",
+        "name": "Network Manager (with Repeater & Hotspot)"
+      },
+      "reason": "no-longer-in-category"
+    },
+    {
+      "typeId": "network-diagnostics",
+      "typeName": "Network Traffic & Diagnostics",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "crmne.omastats",
+        "name": "OmaStats"
+      }
+    },
+    {
+      "typeId": "bluetooth",
+      "typeName": "Bluetooth",
+      "kind": "displaced",
+      "previous": {
+        "id": "angeeeld.omaltbar",
+        "name": "Omaltbar"
+      },
+      "current": {
+        "id": "io.github.aryan-techie.bluetooth",
+        "name": "Better Bluetooth"
+      }
+    },
+    {
+      "typeId": "audio",
+      "typeName": "Audio",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.r-witz.nothing-ear",
+        "name": "Nothing Audio"
+      },
+      "current": {
+        "id": "ssupt.bluetooth-audio",
+        "name": "Advanced Bluetooth Audio"
+      }
+    },
+    {
+      "typeId": "brightness",
+      "typeName": "Screen Brightness",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.maajix.spotlight",
+        "name": "Spotlight"
+      },
+      "current": {
+        "id": "omarchy-display",
+        "name": "Display Settings"
+      },
+      "reason": "no-longer-in-category"
+    },
+    {
+      "typeId": "night-light",
+      "typeName": "Night Light",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "kenny.nightlight",
+        "name": "Night Light"
+      }
+    },
+    {
+      "typeId": "lock-idle",
+      "typeName": "Lock & Idle",
+      "kind": "displaced",
+      "previous": {
+        "id": "lgse.sandman",
+        "name": "Sandman"
+      },
+      "current": {
+        "id": "onlyvishesh.power-manager",
+        "name": "Omarchy Power Manager"
+      }
+    },
+    {
+      "typeId": "calendar",
+      "typeName": "Calendar",
+      "kind": "displaced",
+      "previous": {
+        "id": "sirwizardlizard.calendar",
+        "name": "CalDav Calendar"
+      },
+      "current": {
+        "id": "promaa.clock",
+        "name": "Chronica"
+      }
+    },
+    {
+      "typeId": "clock-timer",
+      "typeName": "Clocks & Time Zones",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.sspaeti.timezones",
+        "name": "Timezones"
+      },
+      "current": {
+        "id": "ubeyidah.omaclock",
+        "name": "OmaClock"
+      }
+    },
+    {
+      "typeId": "timers-alarms",
+      "typeName": "Timers & Alarms",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "io.github.pjgeutjens.clockwork",
+        "name": "Clockwork"
+      }
+    },
+    {
+      "typeId": "tasks",
+      "typeName": "Task Lists",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "maduki-tech.omado",
+        "name": "Omado"
+      }
+    },
+    {
+      "typeId": "workspaces",
+      "typeName": "Workspaces",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.thetrueferret.decent-workspaces",
+        "name": "Decent Workspaces"
+      },
+      "current": {
+        "id": "mirador",
+        "name": "Mirador"
+      }
+    },
+    {
+      "typeId": "window-management",
+      "typeName": "Window Management",
+      "kind": "displaced",
+      "previous": {
+        "id": "expose.window-overview",
+        "name": "Exposé"
+      },
+      "current": {
+        "id": "io.github.pablo-merino.altswitch",
+        "name": "Alt-tab switcher"
+      }
+    },
+    {
+      "typeId": "screenshots",
+      "typeName": "Screen Capture",
+      "kind": "displaced",
+      "previous": {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss"
+      },
+      "current": {
+        "id": "b.omashot",
+        "name": "Omashot"
+      }
+    },
+    {
+      "typeId": "screen-recording",
+      "typeName": "Screen Recording",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "b.omashot",
+        "name": "Omashot"
+      }
+    },
+    {
+      "typeId": "ocr",
+      "typeName": "Screen Text Extraction",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "io.github.diyaclanker.omacapture",
+        "name": "Omacapture"
+      }
+    },
+    {
+      "typeId": "wallpaper",
+      "typeName": "Wallpaper",
+      "kind": "displaced",
+      "previous": {
+        "id": "tenzin.live-wallpaper",
+        "name": "Live Wallpaper"
+      },
+      "current": {
+        "id": "nosignal.motion-wallpaper",
+        "name": "Motion Wallpaper"
+      }
+    },
+    {
+      "typeId": "themes-appearance",
+      "typeName": "Themes & Appearance",
+      "kind": "displaced",
+      "previous": {
+        "id": "gotar.omarchy-themes",
+        "name": "Themes Gallery"
+      },
+      "current": {
+        "id": "pretty.omagen",
+        "name": "Omagen"
+      }
+    },
+    {
+      "typeId": "ai-assistant",
+      "typeName": "Agent Sessions",
+      "kind": "displaced",
+      "previous": {
+        "id": "meviusisback.agent-orchestr",
+        "name": "Agent Orchestrator"
+      },
+      "current": {
+        "id": "sid.sessions",
+        "name": "Session Browser"
+      }
+    },
+    {
+      "typeId": "ai-chat",
+      "typeName": "AI Chat & Models",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "atzingen.jarvis",
+        "name": "Jarvis"
+      }
+    },
+    {
+      "typeId": "ai-api-usage",
+      "typeName": "AI & API Usage",
+      "kind": "displaced",
+      "previous": {
+        "id": "othavi0.agent-bar",
+        "name": "Agent Bar"
+      },
+      "current": {
+        "id": "io.github.viganogabriele.agent-usage-plus",
+        "name": "Agent Usage Plus"
+      }
+    },
+    {
+      "typeId": "smart-home",
+      "typeName": "Smart Home",
+      "kind": "displaced",
+      "previous": {
+        "id": "omarchy-philips-hue",
+        "name": "Omarchy Hue Light Control and Theme Sync"
+      },
+      "current": {
+        "id": "io.github.amitcpatel.elgato-control",
+        "name": "Elgato Control"
+      }
+    },
+    {
+      "typeId": "containers",
+      "typeName": "Containers",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.andressm415.omaprox",
+        "name": "Omaprox"
+      },
+      "current": {
+        "id": "devgtv.docker",
+        "name": "Omarchy Control Docker"
+      }
+    },
+    {
+      "typeId": "keybinding-managers",
+      "typeName": "Keybinding Managers",
+      "kind": "displaced",
+      "previous": {
+        "id": "firstpick.keybindings",
+        "name": "Keybinding editor"
+      },
+      "current": {
+        "id": "davedes.mouse-keybind-settings",
+        "name": "Mouse & Keybind Settings"
+      }
+    },
+    {
+      "typeId": "keyboard-lighting",
+      "typeName": "Keyboard Lighting",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.alexanderpuschkinberlin.keyboard-backlight",
+        "name": "ThinkPad Keyboard Backlight"
+      },
+      "current": {
+        "id": "tedwester.legion",
+        "name": "Legion Toolkit"
+      }
+    },
+    {
+      "typeId": "file-search",
+      "typeName": "File Search",
+      "kind": "displaced",
+      "previous": {
+        "id": "shafayet.finder",
+        "name": "File Finder"
+      },
+      "current": {
+        "id": "io.github.maajix.spotlight",
+        "name": "Spotlight"
+      }
+    },
+    {
+      "typeId": "file-sync",
+      "typeName": "File Synchronization",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "io.github.vitorpacheco.mega",
+        "name": "MEGA Sync"
+      }
+    },
+    {
+      "typeId": "feed-readers",
+      "typeName": "RSS & News Readers",
+      "kind": "displaced",
+      "previous": {
+        "id": "mghizdavet.rss",
+        "name": "RSS news"
+      },
+      "current": {
+        "id": "io.github.alejandro-llanes.news",
+        "name": "News"
+      }
+    },
+    {
+      "typeId": "uptime-monitoring",
+      "typeName": "Uptime Monitoring",
+      "kind": "displaced",
+      "previous": {
+        "id": "bottelet.is-it-down",
+        "name": "Is It Down?"
+      },
+      "current": {
+        "id": "io.github.dupontbertrand.omastatus",
+        "name": "Omastatus"
+      }
+    },
+    {
+      "typeId": "radio",
+      "typeName": "Radio",
+      "kind": "displaced",
+      "previous": {
+        "id": "tiertek.ytm",
+        "name": "TekTube"
+      },
+      "current": {
+        "id": "io.github.kaibur02.omarchy-world-radio",
+        "name": "World Radio"
+      },
+      "reason": "no-longer-in-category"
+    },
+    {
+      "typeId": "screensavers",
+      "typeName": "Screensavers",
+      "kind": "displaced",
+      "previous": {
+        "id": "omarchy-undercover",
+        "name": "Omarchy Undercover"
+      },
+      "current": {
+        "id": "brianirish.screensaver",
+        "name": "Screensaver"
+      }
+    },
+    {
+      "typeId": "peripheral-battery",
+      "typeName": "Peripheral Batteries",
+      "kind": "displaced",
+      "previous": {
+        "id": "davedes.mouse-keybind-settings",
+        "name": "Mouse & Keybind Settings"
+      },
+      "current": {
+        "id": "io.github.69harold69.gadget-batteries",
+        "name": "Gadget Batteries"
+      },
+      "reason": "no-longer-in-category"
     }
   ]
 }

@@ -4,106 +4,445 @@
   "minimumOwners": 2,
   "maximumSuggestions": 3,
   "concepts": [
-    { "id": "translation", "name": "Text translation", "terms": ["translate", "translation", "translator"] },
-    { "id": "dictionary", "name": "Dictionaries and word lookup", "terms": ["dictionary", "thesaurus", "word definitions"] },
-    { "id": "config-backup", "name": "Configuration backup and recovery", "terms": ["config snapshots", "configuration backup", "config backup", "config time machine", "configuration repository", "dotfile backup"] },
-    { "id": "prayer-times", "name": "Prayer times", "terms": ["prayer times", "prayer countdown", "adhan"] },
-    { "id": "security-scanning", "name": "Security scanning", "terms": ["security scan", "security scanner", "security posture", "security auditor", "dependency audit", "code health scanner"] },
-    { "id": "file-sync", "name": "File synchronization", "terms": ["syncthing", "file sync", "folder sync", "file synchronization"] },
-    { "id": "keybindings", "name": "Keyboard shortcut management", "terms": ["keybind manager", "keybinding manager", "keybindings", "keyboard shortcuts", "shortcut editor"] },
-    { "id": "phone-integration", "name": "Phone integration", "terms": ["kde connect", "phone integration", "phone connect"] },
-    { "id": "peripheral-battery", "name": "Peripheral batteries", "terms": ["peripheral battery", "mouse battery", "headset battery", "keyboard battery"] }
+    {
+      "id": "translation",
+      "name": "Text translation",
+      "terms": [
+        "translate",
+        "translation",
+        "translator"
+      ]
+    },
+    {
+      "id": "dictionary",
+      "name": "Dictionaries and word lookup",
+      "terms": [
+        "dictionary",
+        "thesaurus",
+        "word definitions"
+      ]
+    },
+    {
+      "id": "config-backup",
+      "name": "Configuration backup and recovery",
+      "terms": [
+        "config snapshots",
+        "configuration backup",
+        "config backup",
+        "config time machine",
+        "configuration repository",
+        "dotfile backup"
+      ]
+    },
+    {
+      "id": "prayer-times",
+      "name": "Prayer times",
+      "terms": [
+        "prayer times",
+        "prayer countdown",
+        "adhan"
+      ]
+    },
+    {
+      "id": "security-scanning",
+      "name": "Security scanning",
+      "terms": [
+        "security scan",
+        "security scanner",
+        "security posture",
+        "security auditor",
+        "dependency audit",
+        "code health scanner"
+      ]
+    },
+    {
+      "id": "file-sync",
+      "name": "File synchronization",
+      "terms": [
+        "syncthing",
+        "file sync",
+        "folder sync",
+        "file synchronization"
+      ]
+    },
+    {
+      "id": "keybindings",
+      "name": "Keyboard shortcut management",
+      "terms": [
+        "keybind manager",
+        "keybinding manager",
+        "keybindings",
+        "keyboard shortcuts",
+        "shortcut editor"
+      ]
+    },
+    {
+      "id": "phone-integration",
+      "name": "Phone integration",
+      "terms": [
+        "kde connect",
+        "phone integration",
+        "phone connect"
+      ]
+    },
+    {
+      "id": "peripheral-battery",
+      "name": "Peripheral batteries",
+      "terms": [
+        "peripheral battery",
+        "mouse battery",
+        "headset battery",
+        "keyboard battery"
+      ]
+    }
   ],
   "decisions": [
     {
       "id": "concept:keybindings",
       "status": "accepted",
       "reason": "Accepted as Keybinding Managers and Shortcut Guides (editing/managing keybindings, and learning/looking up shortcuts). The 2026-09-21 observation (https://github.com/BVisagie/omapicks/actions/runs/35568256005) confirmed the cluster against the 2026-09-14 baseline.",
-      "repositories": ["github.com/alivault/omarchy-unified-launcher", "github.com/anothadev/omachord", "github.com/astrofoundry/omarchy-keybind-editor", "github.com/bagareal/omarchy-keybindings-lookup", "github.com/cgranier/omarchy-keybind-dojo", "github.com/cyprusad/omakeez", "github.com/davedes83/mouse-keybind-plugin", "github.com/deoxizn/keybind-manager", "github.com/digitalbase/omarchy-hyper", "github.com/dimdoremy/omaflameshot", "github.com/funcoder/omarchy-app-shortcuts", "github.com/herr-brandt/omarchy-tour", "github.com/huacnlee/omarchy-which-key", "github.com/jan-berberich/omarchy-grace-window", "github.com/jayosays/omacheatsheet", "github.com/lancefaul/omarchy-omedia-controls", "github.com/maxmad75/omarchy-keycap", "github.com/meviusisback/keybinds-plugin", "github.com/ming-bao/omarchy-shortcut-visualizer", "github.com/modpunk/omarchy-help", "github.com/omashift/omashift", "github.com/pnkm0nk/omodoro", "github.com/sahzudin/omarchy-keymap", "github.com/sarr77/windowpeek", "github.com/seth-wood/keyarchy", "github.com/terrifiedbug/omacast", "github.com/thatpikaga/aurabind", "github.com/twiking/omasettings", "github.com/younesdahdouh/hyprland-keybind-manager"]
+      "repositories": [
+        "github.com/alivault/omarchy-unified-launcher",
+        "github.com/anothadev/omachord",
+        "github.com/astrofoundry/omarchy-keybind-editor",
+        "github.com/bagareal/omarchy-keybindings-lookup",
+        "github.com/cgranier/omarchy-keybind-dojo",
+        "github.com/cyprusad/omakeez",
+        "github.com/davedes83/mouse-keybind-plugin",
+        "github.com/deoxizn/keybind-manager",
+        "github.com/digitalbase/omarchy-hyper",
+        "github.com/dimdoremy/omaflameshot",
+        "github.com/funcoder/omarchy-app-shortcuts",
+        "github.com/herr-brandt/omarchy-tour",
+        "github.com/huacnlee/omarchy-which-key",
+        "github.com/jan-berberich/omarchy-grace-window",
+        "github.com/jayosays/omacheatsheet",
+        "github.com/lancefaul/omarchy-omedia-controls",
+        "github.com/maxmad75/omarchy-keycap",
+        "github.com/meviusisback/keybinds-plugin",
+        "github.com/ming-bao/omarchy-shortcut-visualizer",
+        "github.com/modpunk/omarchy-help",
+        "github.com/omashift/omashift",
+        "github.com/pnkm0nk/omodoro",
+        "github.com/sahzudin/omarchy-keymap",
+        "github.com/sarr77/windowpeek",
+        "github.com/seth-wood/keyarchy",
+        "github.com/terrifiedbug/omacast",
+        "github.com/thatpikaga/aurabind",
+        "github.com/twiking/omasettings",
+        "github.com/younesdahdouh/hyprland-keybind-manager"
+      ]
     },
     {
       "id": "concept:translation",
       "status": "accepted",
       "reason": "Accepted as Translation. The 2026-09-21 observation (https://github.com/BVisagie/omapicks/actions/runs/35568256005) confirmed the cluster against the 2026-09-14 baseline.",
-      "repositories": ["github.com/alfonsobries/fluent-omarchy", "github.com/arhamthedeveloper/mushaf", "github.com/b7s/omarchy-googletranslate", "github.com/cbayschm74/deepl-omarchy", "github.com/danglenoir/omarchy-deepl", "github.com/einarnot/omarchy-bibleverse", "github.com/godofjoper/omarchy-google-translate", "github.com/imargorsi/quranverse", "github.com/jankeesvw/omarchy-text-transform", "github.com/komagata/screen-lens", "github.com/kusumaindraputra/omarchy-daily-deen", "github.com/legibet/omarchy-popup-translator", "github.com/mattmangoni/omarchy-proofreader", "github.com/panadestein/omarchy-lexicon", "github.com/r4y-br/omarchy-quran-motivation", "github.com/ryuhzk/omarchy-translation", "github.com/seshna/quick-translate", "github.com/tcballard/omarchy-plugin-translate", "github.com/tonybo/omarchy-music-touchbar"]
+      "repositories": [
+        "github.com/alfonsobries/fluent-omarchy",
+        "github.com/arhamthedeveloper/mushaf",
+        "github.com/b7s/omarchy-googletranslate",
+        "github.com/cbayschm74/deepl-omarchy",
+        "github.com/danglenoir/omarchy-deepl",
+        "github.com/einarnot/omarchy-bibleverse",
+        "github.com/godofjoper/omarchy-google-translate",
+        "github.com/imargorsi/quranverse",
+        "github.com/jankeesvw/omarchy-text-transform",
+        "github.com/komagata/screen-lens",
+        "github.com/kusumaindraputra/omarchy-daily-deen",
+        "github.com/legibet/omarchy-popup-translator",
+        "github.com/mattmangoni/omarchy-proofreader",
+        "github.com/panadestein/omarchy-lexicon",
+        "github.com/r4y-br/omarchy-quran-motivation",
+        "github.com/ryuhzk/omarchy-translation",
+        "github.com/seshna/quick-translate",
+        "github.com/tcballard/omarchy-plugin-translate",
+        "github.com/tonybo/omarchy-music-touchbar"
+      ]
     },
     {
       "id": "concept:dictionary",
       "status": "accepted",
       "reason": "Accepted as Dictionary & Thesaurus. The 2026-09-21 observation (https://github.com/BVisagie/omapicks/actions/runs/35568256005) confirmed the cluster against the 2026-09-14 baseline.",
-      "repositories": ["github.com/aashbury/voxhud", "github.com/cbullard/defthis", "github.com/dlpwaters/omarchy-dictionary-thesaurus", "github.com/keegan-sucks/omarchy-lookup", "github.com/nonmirror/nonmirror.dict", "github.com/panadestein/omarchy-lexicon", "github.com/slowburnaz/omaslang", "github.com/tristonarmstrong/omarchy-dictionary"]
+      "repositories": [
+        "github.com/aashbury/voxhud",
+        "github.com/cbullard/defthis",
+        "github.com/dlpwaters/omarchy-dictionary-thesaurus",
+        "github.com/keegan-sucks/omarchy-lookup",
+        "github.com/nonmirror/nonmirror.dict",
+        "github.com/panadestein/omarchy-lexicon",
+        "github.com/slowburnaz/omaslang",
+        "github.com/tristonarmstrong/omarchy-dictionary"
+      ]
     },
     {
       "id": "concept:prayer-times",
       "status": "accepted",
       "reason": "Accepted as Prayer Times. The 2026-09-21 observation (https://github.com/BVisagie/omapicks/actions/runs/35568256005) confirmed the cluster against the 2026-09-14 baseline.",
-      "repositories": ["github.com/abdalrohman/omarchy-athan", "github.com/ah410/omarchy-islamic-prayer-times", "github.com/cryptobredda/openathan", "github.com/durak1frt-cyber/omarchy-salah", "github.com/husamemadh/omarchy-quattro-prayer-times", "github.com/idr4n/omarchy-prayer-times", "github.com/iyassr/awqat", "github.com/mwiederrecht/muezzin", "github.com/ronald2wing/omarchy-quran", "github.com/salemsayed/omaprayers", "github.com/salted-sorbet/salted.adhan", "github.com/zaka53/omarchy-mawaqit-times"]
+      "repositories": [
+        "github.com/abdalrohman/omarchy-athan",
+        "github.com/ah410/omarchy-islamic-prayer-times",
+        "github.com/cryptobredda/openathan",
+        "github.com/durak1frt-cyber/omarchy-salah",
+        "github.com/husamemadh/omarchy-quattro-prayer-times",
+        "github.com/idr4n/omarchy-prayer-times",
+        "github.com/iyassr/awqat",
+        "github.com/mwiederrecht/muezzin",
+        "github.com/ronald2wing/omarchy-quran",
+        "github.com/salemsayed/omaprayers",
+        "github.com/salted-sorbet/salted.adhan",
+        "github.com/zaka53/omarchy-mawaqit-times"
+      ]
     },
     {
       "id": "phrase:keyboard-backlight",
       "status": "accepted",
       "reason": "Accepted as Keyboard Lighting. The 2026-09-21 observation (https://github.com/BVisagie/omapicks/actions/runs/35568256005) confirmed the cluster against the 2026-09-14 baseline.",
-      "repositories": ["github.com/abhishek-adhikari-1/asus-kbd-backlight", "github.com/adibains/omarchy-manual-backlight-lock", "github.com/alexanderpuschkinberlin/omarchy-keyboard-backlight", "github.com/andrewf403/omarchy-keyboard-idle", "github.com/anes-03/keyboard-brightness-plugin", "github.com/arikisonfire/omarchy-macbook-keyboard-backlight", "github.com/dataknox/omarchy-keyboard-backlight", "github.com/grnqrtr/omarchy-keyboard-nightlight", "github.com/joaovicentebaptista/omarchy-samsung-keyboard-backlight", "github.com/majesticio/omarchy-keyboard-backlight-plugin", "github.com/odessa2/omakeyboard-brightness", "github.com/paulogeyer/omarchy-vivobook-s14-copilot", "github.com/samara-hub-ro/samara-tuf-keyboard-light"]
+      "repositories": [
+        "github.com/abhishek-adhikari-1/asus-kbd-backlight",
+        "github.com/adibains/omarchy-manual-backlight-lock",
+        "github.com/alexanderpuschkinberlin/omarchy-keyboard-backlight",
+        "github.com/andrewf403/omarchy-keyboard-idle",
+        "github.com/anes-03/keyboard-brightness-plugin",
+        "github.com/arikisonfire/omarchy-macbook-keyboard-backlight",
+        "github.com/dataknox/omarchy-keyboard-backlight",
+        "github.com/grnqrtr/omarchy-keyboard-nightlight",
+        "github.com/joaovicentebaptista/omarchy-samsung-keyboard-backlight",
+        "github.com/majesticio/omarchy-keyboard-backlight-plugin",
+        "github.com/odessa2/omakeyboard-brightness",
+        "github.com/paulogeyer/omarchy-vivobook-s14-copilot",
+        "github.com/samara-hub-ro/samara-tuf-keyboard-light"
+      ]
     },
     {
       "id": "phrase:keyboard-layout",
       "status": "accepted",
       "reason": "Accepted as Keyboard Layouts. The 2026-09-21 observation (https://github.com/BVisagie/omapicks/actions/runs/35568256005) confirmed the cluster against the 2026-09-14 baseline.",
-      "repositories": ["github.com/0x1ocean/omarchy-keyglow", "github.com/aloglu/qwitch", "github.com/arazgray/omalang", "github.com/glafeara/omalang", "github.com/jwkicklighter/jwkicklighter.input-layout", "github.com/madmatt341/omarchy-keyboard-settings", "github.com/nenas1ya/omarchy-latin-input", "github.com/olivoil/omarchy-keyboard-switcher", "github.com/omarchy-qol/omarchy-keyboard-layout", "github.com/reidenxerx/omarchy-keyboard-layout-per-app", "github.com/simonezpx3/omarchy-vkeyboard", "github.com/somnius/keyboard-layout-for-omarchy", "github.com/sterre-g/omarchy-keyboard-hud"]
+      "repositories": [
+        "github.com/0x1ocean/omarchy-keyglow",
+        "github.com/aloglu/qwitch",
+        "github.com/arazgray/omalang",
+        "github.com/glafeara/omalang",
+        "github.com/jwkicklighter/jwkicklighter.input-layout",
+        "github.com/madmatt341/omarchy-keyboard-settings",
+        "github.com/nenas1ya/omarchy-latin-input",
+        "github.com/olivoil/omarchy-keyboard-switcher",
+        "github.com/omarchy-qol/omarchy-keyboard-layout",
+        "github.com/reidenxerx/omarchy-keyboard-layout-per-app",
+        "github.com/simonezpx3/omarchy-vkeyboard",
+        "github.com/somnius/keyboard-layout-for-omarchy",
+        "github.com/sterre-g/omarchy-keyboard-hud"
+      ]
     },
     {
       "id": "phrase:file-search",
       "status": "accepted",
       "reason": "Accepted as File Search. The 2026-09-21 observation (https://github.com/BVisagie/omapicks/actions/runs/35568256005) confirmed the cluster against the 2026-09-14 baseline.",
-      "repositories": ["github.com/corck/omarchy-filesearch", "github.com/dovydasv0/omafile", "github.com/jesseburlamaque/omarchy-find", "github.com/l0ne-f0x/omarchy-ferret", "github.com/maiosx/overview"]
+      "repositories": [
+        "github.com/corck/omarchy-filesearch",
+        "github.com/dovydasv0/omafile",
+        "github.com/jesseburlamaque/omarchy-find",
+        "github.com/l0ne-f0x/omarchy-ferret",
+        "github.com/maiosx/overview"
+      ]
     },
     {
       "id": "phrase:atom-reader",
       "status": "accepted",
       "reason": "Accepted as RSS & News Readers. The 2026-09-21 observation (https://github.com/BVisagie/omapicks/actions/runs/35568256005) confirmed the cluster against the 2026-09-14 baseline.",
-      "repositories": ["github.com/keegan-sucks/rss-feeder", "github.com/sanjyay/rss-reeder", "github.com/siygle/omarchy-rss-client"]
+      "repositories": [
+        "github.com/keegan-sucks/rss-feeder",
+        "github.com/sanjyay/rss-reeder",
+        "github.com/siygle/omarchy-rss-client"
+      ]
     },
     {
       "id": "phrase:rss-news",
       "status": "accepted",
       "reason": "Accepted as RSS & News Readers. The 2026-09-21 observation (https://github.com/BVisagie/omapicks/actions/runs/35568256005) confirmed the cluster against the 2026-09-14 baseline.",
-      "repositories": ["github.com/joisephdev/omarchy-news-feed", "github.com/mariusghizdavet/omarchy-rss", "github.com/ranjithrajv/news-reader"]
+      "repositories": [
+        "github.com/joisephdev/omarchy-news-feed",
+        "github.com/mariusghizdavet/omarchy-rss",
+        "github.com/ranjithrajv/news-reader"
+      ]
     },
     {
       "id": "phrase:news-feed",
       "status": "accepted",
       "reason": "Accepted as RSS & News Readers. The 2026-09-21 observation (https://github.com/BVisagie/omapicks/actions/runs/35568256005) confirmed the cluster against the 2026-09-14 baseline.",
-      "repositories": ["github.com/bussdeeai/at.familienfabrik_omarchy", "github.com/joisephdev/omarchy-news-feed", "github.com/renerocksai/omapress", "github.com/thelost77/omarchy-courier"]
+      "repositories": [
+        "github.com/bussdeeai/at.familienfabrik_omarchy",
+        "github.com/joisephdev/omarchy-news-feed",
+        "github.com/renerocksai/omapress",
+        "github.com/thelost77/omarchy-courier"
+      ]
     },
     {
       "id": "phrase:premier-league",
       "status": "accepted",
       "reason": "Accepted as Sports Scores. The 2026-09-21 observation (https://github.com/BVisagie/omapicks/actions/runs/35568256005) confirmed the cluster against the 2026-09-14 baseline.",
-      "repositories": ["github.com/marty-schneider/sports-tracker", "github.com/nag3sy/fpl-tracker-omarchy-plugin", "github.com/niraj-envision/football", "github.com/weedwhitesandwine/fpl-gaffer"]
+      "repositories": [
+        "github.com/marty-schneider/sports-tracker",
+        "github.com/nag3sy/fpl-tracker-omarchy-plugin",
+        "github.com/niraj-envision/football",
+        "github.com/weedwhitesandwine/fpl-gaffer"
+      ]
     },
     {
       "id": "phrase:nfl-nba",
       "status": "accepted",
       "reason": "Accepted as Sports Scores. The 2026-09-21 observation (https://github.com/BVisagie/omapicks/actions/runs/35568256005) confirmed the cluster against the 2026-09-14 baseline.",
-      "repositories": ["github.com/exquisiteskink/sportmarchy", "github.com/marty-schneider/sports-tracker", "github.com/slowburnaz/omascore"]
+      "repositories": [
+        "github.com/exquisiteskink/sportmarchy",
+        "github.com/marty-schneider/sports-tracker",
+        "github.com/slowburnaz/omascore"
+      ]
     },
     {
       "id": "phrase:uptime-kuma",
       "status": "accepted",
       "reason": "Accepted as Uptime Monitoring. The 2026-09-21 observation (https://github.com/BVisagie/omapicks/actions/runs/35568256005) confirmed the cluster against the 2026-09-14 baseline.",
-      "repositories": ["github.com/daanlenaerts/omakuma", "github.com/p145085/omarchy-uptime-kuma", "github.com/scoop/omarchy-plugin-uptime-kuma"]
+      "repositories": [
+        "github.com/daanlenaerts/omakuma",
+        "github.com/p145085/omarchy-uptime-kuma",
+        "github.com/scoop/omarchy-plugin-uptime-kuma"
+      ]
     },
     {
       "id": "concept:phone-integration",
       "status": "accepted",
       "reason": "Phone pairing/status, messaging and file/clipboard exchange form a distinct task. Four upstream READMEs checked on 2026-09-21; phone battery is not computer battery health. Explicit editorial addition during the catalog task-fit audit; not automatic discovery promotion. See docs/classification.md.",
-      "repositories": ["github.com/jitendradara12/omaconnect", "github.com/krongggggg/omarchy-phone", "github.com/mintisan/omakdeconnect", "github.com/ekollof/omaconnect"]
+      "repositories": [
+        "github.com/jitendradara12/omaconnect",
+        "github.com/krongggggg/omarchy-phone",
+        "github.com/mintisan/omakdeconnect",
+        "github.com/ekollof/omaconnect"
+      ]
     },
     {
       "id": "concept:peripheral-battery",
       "status": "accepted",
       "reason": "Wireless peripheral battery monitoring is distinct from computer battery health and Bluetooth connection management. Three upstream READMEs checked on 2026-09-21. Explicit editorial addition during the catalog task-fit audit; not automatic discovery promotion. See docs/classification.md.",
-      "repositories": ["github.com/deoxizn/devicebattstats", "github.com/hlasensky/omarchy-peripheral-battery", "github.com/r-witz/omarchy-nothing-ear"]
+      "repositories": [
+        "github.com/deoxizn/devicebattstats",
+        "github.com/hlasensky/omarchy-peripheral-battery",
+        "github.com/r-witz/omarchy-nothing-ear"
+      ]
+    },
+    {
+      "id": "editorial:night-light",
+      "status": "accepted",
+      "reason": "Accepted Night Light after the October 12 task audit. Adjust and schedule computer display color temperature Alternatives and source-backed qualifications are recorded in data/task-reviews.json. Explicit editorial split/addition, not automatic lexical promotion; see docs/methodology-1.2.0.md.",
+      "repositories": [
+        "github.com/agkrishnendu/omarchy-nightlight",
+        "github.com/deunnis/omarchy-lacquer",
+        "github.com/jeremylanger/omarchy-nightlight",
+        "github.com/key-tone/omarchy-nightlight",
+        "github.com/marioxabel/omarchy-hyprsunset"
+      ]
+    },
+    {
+      "id": "editorial:network-diagnostics",
+      "status": "accepted",
+      "reason": "Accepted Network Traffic & Diagnostics after the October 12 task audit. Measure throughput, latency and connection activity Alternatives and source-backed qualifications are recorded in data/task-reviews.json. Explicit editorial split/addition, not automatic lexical promotion; see docs/methodology-1.2.0.md.",
+      "repositories": [
+        "github.com/crmne/omastats",
+        "github.com/davedes83/omacontrol",
+        "github.com/diegopluna/omarchy-argus",
+        "github.com/niraletter/vitals"
+      ]
+    },
+    {
+      "id": "editorial:music-players",
+      "status": "accepted",
+      "reason": "Accepted Music Players after the October 12 task audit. Browse a music library and play songs or playlists Alternatives and source-backed qualifications are recorded in data/task-reviews.json. Explicit editorial split/addition, not automatic lexical promotion; see docs/methodology-1.2.0.md.",
+      "repositories": [
+        "github.com/funcoder/omarchy-spotify",
+        "github.com/jeremylanger/omaspotify",
+        "github.com/sirallap/omarchy-solfa",
+        "github.com/tiertek/omarchy-tektube",
+        "github.com/vornashev/omarchy-yandex-music"
+      ]
+    },
+    {
+      "id": "editorial:timers-alarms",
+      "status": "accepted",
+      "reason": "Accepted Timers & Alarms after the October 12 task audit. Run timers, stopwatches and scheduled alarms Alternatives and source-backed qualifications are recorded in data/task-reviews.json. Explicit editorial split/addition, not automatic lexical promotion; see docs/methodology-1.2.0.md.",
+      "repositories": [
+        "github.com/bibekbhusal0/omarchy-focusd",
+        "github.com/pjgeutjens/omarchy-clockwork",
+        "github.com/pnkm0nk/omodoro",
+        "github.com/techywilbur/omarchy-pomodoro"
+      ]
+    },
+    {
+      "id": "editorial:tasks",
+      "status": "accepted",
+      "reason": "Accepted Task Lists after the October 12 task audit. Create, browse and complete personal tasks Alternatives and source-backed qualifications are recorded in data/task-reviews.json. Explicit editorial split/addition, not automatic lexical promotion; see docs/methodology-1.2.0.md.",
+      "repositories": [
+        "github.com/aryan-techie/omarchy-todoist",
+        "github.com/crmne/omatasks",
+        "github.com/maduki-tech/omado",
+        "github.com/tathagat11/omarchy-checklist-todo"
+      ]
+    },
+    {
+      "id": "editorial:screen-recording",
+      "status": "accepted",
+      "reason": "Accepted Screen Recording after the October 12 task audit. Start, stop and save recordings of your screen Alternatives and source-backed qualifications are recorded in data/task-reviews.json. Explicit editorial split/addition, not automatic lexical promotion; see docs/methodology-1.2.0.md.",
+      "repositories": [
+        "github.com/brianblakely/omashot",
+        "github.com/chyld/omarchy-easy-capture",
+        "github.com/glasschan/oma-swiss",
+        "github.com/hadijaveed/omareel",
+        "github.com/k4ditano/omascreen",
+        "github.com/pxllbt/better-recast",
+        "github.com/roubilibo/omarchy-snip-record"
+      ]
+    },
+    {
+      "id": "editorial:ocr",
+      "status": "accepted",
+      "reason": "Accepted Screen Text Extraction after the October 12 task audit. Select screen content and extract text with OCR Alternatives and source-backed qualifications are recorded in data/task-reviews.json. Explicit editorial split/addition, not automatic lexical promotion; see docs/methodology-1.2.0.md.",
+      "repositories": [
+        "github.com/diyahir/omacapture",
+        "github.com/glasschan/oma-swiss",
+        "github.com/slomo-b/omarchy-snipper",
+        "github.com/unicadesign/omarchy-sexy-screenshot"
+      ]
+    },
+    {
+      "id": "editorial:ai-chat",
+      "status": "accepted",
+      "reason": "Accepted AI Chat & Models after the October 12 task audit. Chat with AI and select or manage local models Alternatives and source-backed qualifications are recorded in data/task-reviews.json. Explicit editorial split/addition, not automatic lexical promotion; see docs/methodology-1.2.0.md.",
+      "repositories": [
+        "github.com/atif-1402/ai-panel",
+        "github.com/atzingen/hey-jarvis",
+        "github.com/jchisholm59/omarchy-ollama-chat",
+        "github.com/ssandys/colophon",
+        "github.com/tnep4/recast"
+      ]
+    },
+    {
+      "id": "editorial:docks",
+      "status": "accepted",
+      "reason": "Accepted Application Docks after the October 12 task audit. Pin, launch and switch applications from a desktop dock Alternatives and source-backed qualifications are recorded in data/task-reviews.json. Explicit editorial split/addition, not automatic lexical promotion; see docs/methodology-1.2.0.md.",
+      "repositories": [
+        "github.com/claudsondouglas/arc.dock",
+        "github.com/primogamestudio/primo.dock",
+        "github.com/rosakodu/omarchy-dock",
+        "github.com/thepathless/omadock"
+      ]
+    },
+    {
+      "id": "concept:file-sync",
+      "status": "accepted",
+      "reason": "Accepted File Synchronization after the October 12 task audit. Monitor and manage synchronization of folders between devices Alternatives and source-backed qualifications are recorded in data/task-reviews.json. Explicit editorial split/addition, not automatic lexical promotion; see docs/methodology-1.2.0.md.",
+      "repositories": [
+        "github.com/foamrider/foamy-syncthing",
+        "github.com/ninepointlabs/omasync",
+        "github.com/omarchy-qol/syncshell",
+        "github.com/vitorpacheco/omarchy-mega"
+      ]
     }
   ]
 }
