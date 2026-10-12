@@ -8,13 +8,19 @@ import {
   invertedRawScoreRaces,
   isoWeek,
   methodologyFor,
-  pickWithHysteresis,
+  pickWithHysteresis as pickLatest,
   prepareTaxonomy,
-  rankPlugins,
+  rankPlugins as rankLatest,
   removalSentence,
   runnerUpChangesBetween,
   scoreLeader
 } from "../build/rank.mjs";
+
+// Signal and incumbent fixtures preserve the published 1.1.0 rules. Current task qualification
+// and current selection are exercised independently in task-qualification.test.mjs.
+const publishedSignals = methodologyFor("1.1.0");
+const rankPlugins = (options) => rankLatest({ methodology: publishedSignals, ...options });
+const pickWithHysteresis = (candidates, incumbent, excluded = new Set(), method = publishedSignals) => pickLatest(candidates, incumbent, excluded, method);
 
 const taxonomy = {
   schemaVersion: 1,
@@ -43,10 +49,10 @@ function plugin(id, values = {}) {
   };
 }
 
-test("the production taxonomy is valid and intentionally broad", async () => {
+test("the production taxonomy is valid and covers focused tasks", async () => {
   const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
   const prepared = prepareTaxonomy(source);
-  assert.equal(prepared.types.length, 54);
+  assert.equal(prepared.types.length, 64);
   assert.equal(new Set(prepared.types.map((type) => type.id)).size, prepared.types.length);
 });
 
@@ -70,7 +76,7 @@ test("production taxonomy keeps real overlap and rejects accidental keyword hits
       name: "Internet Latency",
       description: "Live color-coded internet latency with target selection, packet loss, jitter, and history."
     }),
-    ["network"]
+    ["network-diagnostics"]
   );
   assert.deepEqual(
     typesOf({
@@ -78,7 +84,7 @@ test("production taxonomy keeps real overlap and rejects accidental keyword hits
       name: "Clash Verge",
       description: "Clash Verge proxy status, node switching, latency testing and traffic in the Omarchy bar."
     }),
-    ["network"]
+    ["network-diagnostics"]
   );
   assert.deepEqual(
     typesOf({
@@ -86,7 +92,7 @@ test("production taxonomy keeps real overlap and rejects accidental keyword hits
       name: "Vitals",
       description: "Native Linux CPU, memory, GPU, storage, network, and process monitor"
     }),
-    ["system-monitor", "network"]
+    ["system-monitor", "network-diagnostics"]
   );
   assert.ok(
     !typesOf({
@@ -272,7 +278,7 @@ test("production taxonomy covers recurring jobs without bleeding into adjacent c
       name: "Multi-Monitor Manager",
       description: "Configure monitor layouts, per-display brightness, and workspaces across connected displays."
     }),
-    ["display-monitors"]
+    ["brightness", "display-monitors"]
   );
   assert.deepEqual(
     typesOf({
@@ -320,7 +326,7 @@ test("production taxonomy covers recurring jobs without bleeding into adjacent c
       name: "Todoist",
       description: "View and complete Todoist tasks."
     }),
-    ["focus"]
+    ["tasks"]
   );
   assert.ok(
     !typesOf({
@@ -720,7 +726,7 @@ test("vpn matches provider names that fuse the acronym onto a prefix", async () 
   );
 });
 
-test("music matches hyphenated now-playing, and screenshots matches reversed record wording", async () => {
+test("media controls match hyphenated now-playing and recording matches reversed record wording", async () => {
   const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
   const prepared = prepareTaxonomy(source);
   const typesOf = (values) => classifyPlugin(plugin(values.id, values), prepared);
@@ -735,7 +741,7 @@ test("music matches hyphenated now-playing, and screenshots matches reversed rec
       name: "Omascreen",
       description: "Record your screen and cut it into a finished video — capture, timeline, layers, subtitles and render."
     }),
-    ["screenshots"]
+    ["screen-recording"]
   );
   assert.ok(
     !typesOf({
@@ -853,7 +859,7 @@ test("radio ranks streaming players without ham radio, autoplay radio, or radio-
     name: "OMAMPY",
     description: "A local music player that makes your files sound like a 1980s MW/SW radio broadcast."
   });
-  assert.ok(omampy.includes("music"));
+  assert.ok(omampy.includes("music-players"));
   assert.ok(!omampy.includes("radio"));
 });
 
@@ -1208,7 +1214,8 @@ test("score leaders include a top scorer held out of both sticky places", () => 
 });
 
 test("pick explanations distinguish stable, held, replaced, unavailable and vacant places", async () => {
-  const { explainPick, pickWithHysteresis } = await import("../build/rank.mjs");
+  const { explainPick: explainLatest } = await import("../build/rank.mjs");
+  const explainPick = (candidates, incumbent, selected, excluded = new Set()) => explainLatest(candidates, incumbent, selected, excluded, publishedSignals);
   const old = { id: "old", name: "Old", score: 1 };
   for (const [score, expected] of [[1.1, /Incumbent retained/], [1.11, /Challenger replaces incumbent/]]) {
     const candidates = [{ id: "new", name: "New", score }, old];

@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import { CLASSIFICATION_VERSION, METHODOLOGY, REMOVAL_REASONS, changesBetween, invertedRawScoreRaces, isoWeek, rankPlugins, runnerUpChangesBetween } from "./rank.mjs";
 import { LEGACY_METHODOLOGY_VERSION, methodologyFor } from "./methodology.mjs";
 import { auditClassifications, renderClassificationAudit } from "./classification-audit.mjs";
+import { assertTaskQualifiedSnapshot, taskReviewsHash, updateTaskReviewQueue } from "./task-fit.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CATALOG_URL = "https://plugins.omarchy.org/catalog.json";
@@ -106,13 +107,14 @@ function registrySource(registry) {
   };
 }
 
-export function changeContext({ catalog, registry, exclusions, typeIdsById }) {
+export function changeContext({ catalog, registry, exclusions, typeIdsById, taskStatusByAssignment }) {
   const available = registry?.status === "available";
   return {
     catalogIds: new Set(catalog.map((plugin) => plugin?.id)),
     retirement: { available, ids: new Set(available ? registry.retiredPluginIds : []) },
     exclusions,
-    typeIdsById
+    typeIdsById,
+    taskStatusByAssignment
   };
 }
 
@@ -123,11 +125,14 @@ export function replayChanges(inputs) {
     catalog,
     stats: inputs.stats.body.plugins,
     taxonomy: inputs.taxonomy,
+    taskReviews: inputs.taskReviews,
+    classificationVersion: inputs.classificationVersion ?? 2,
     previous: inputs.previous,
+    previousReviewQueue: inputs.previousReviewQueue,
     now: new Date(inputs.now),
     methodology: methodologyFor(inputs.methodologyVersion ?? LEGACY_METHODOLOGY_VERSION)
   });
-  const context = changeContext({ catalog, registry: inputs.registry, exclusions: ranked.exclusions, typeIdsById: ranked.typeIdsById });
+  const context = changeContext({ catalog, registry: inputs.registry, exclusions: ranked.exclusions, typeIdsById: ranked.typeIdsById, taskStatusByAssignment: ranked.taskStatusByAssignment });
   return {
     changes: changesBetween(inputs.previous, ranked.rankings, context),
     runnerUpChanges: runnerUpChangesBetween(inputs.previous, ranked.rankings, context)
@@ -161,6 +166,10 @@ export function validateFeeds(catalogFeed, statsFeed, minimumCatalogSize, previo
   }
   if (catalogFeed.plugins.length < minimumCatalogSize) {
     throw new Error(`Catalog contains ${catalogFeed.plugins.length} plugins; expected at least ${minimumCatalogSize}`);
+  }
+  const priorCatalogCount = previous?.source?.catalog?.count;
+  if (Number.isFinite(priorCatalogCount) && catalogFeed.plugins.length < priorCatalogCount * 0.75) {
+    throw new Error(`Catalog contains ${catalogFeed.plugins.length} entries; fewer than 75% of the previous ${priorCatalogCount}`);
   }
   const ids = new Set();
   for (const [index, plugin] of catalogFeed.plugins.entries()) {
@@ -470,7 +479,9 @@ export function formatRefreshLog(result, { dryRun = false } = {}) {
     lines.push(`Upstream catalog warnings: ${warningCodes.map(([code, count]) => `${code} ${count}`).join("; ")}.`);
   }
   const methodology = result.methodology ?? METHODOLOGY;
-  lines.push(`Scores combine ${signalList(methodology)}, with sparse engagement dampened. Both places retain eligible incumbents unless a challenger scores strictly more than ${methodology.hysteresis * 100}% higher; runner-up selection excludes the champion.`);
+  lines.push(`Scores combine ${signalList(methodology)}, with sparse engagement dampened. ${methodology.hysteresis === 0
+    ? "The current task-qualified score leader is champion; the highest-ranked remaining candidate is runner-up. Weekly publication provides stability."
+    : `Both places retain eligible incumbents unless a challenger scores strictly more than ${methodology.hysteresis * 100}% higher; runner-up selection excludes the champion.`}`);
   if (!changes.length) lines.push("No champion identities changed: the per-type decisions below explain which incumbents still lead and which were retained by the stability rule.");
   for (const change of changes) lines.push(`  Champion ${change.typeName}: ${formatPickName(change.previous)} -> ${formatPickName(change.current)}${formatReason(change)}`);
   if (result.changes.length !== changes.length) lines.push(`Weekly changelog retains ${result.changes.length} events, including earlier runs; this calculation has ${changes.length} champion changes.`);
@@ -533,28 +544,32 @@ export async function refresh({
   minimumCatalogSize = 1_000,
   fetchImpl = fetch,
   root = ROOT,
-  revision = null
+  revision = null,
+  methodology = METHODOLOGY
 } = {}) {
   const taxonomyFile = path.join(root, "data", "app-types.json");
   const rankingsFile = path.join(root, "data", "rankings.json");
   const previous = await readJson(rankingsFile, null);
   const taxonomy = await readJson(taxonomyFile);
+  const taskReviews = await readJson(path.join(root, "data", "task-reviews.json"), { schemaVersion: 1, assignments: [] });
+  const reviewsSha = taskReviewsHash(taskReviews);
   const taxonomySha = checksum(taxonomy);
   const week = isoWeek(now);
   const publishedMethodologyVersion = previous?.week ? previous.methodologyVersion ?? LEGACY_METHODOLOGY_VERSION : null;
-  if (!dryRun && !republish && previous?.week === week && previous.source?.taxonomy?.sha256 === taxonomySha && previous.source?.taxonomy?.classificationVersion === CLASSIFICATION_VERSION) {
+  if (!dryRun && !republish && previous?.week === week && previous.source?.taxonomy?.sha256 === taxonomySha && previous.source?.taxonomy?.classificationVersion === CLASSIFICATION_VERSION &&
+      (!methodology.eligibility.reviewedTaskEvidence || previous.source?.taskReviews?.sha256 === reviewsSha)) {
     return {
       changed: false,
       week,
       reason: "already-refreshed",
       publishedMethodologyVersion,
-      currentMethodologyVersion: METHODOLOGY.version
+      currentMethodologyVersion: methodology.version
     };
   }
 
   const [catalogResult, statsResult, registry] = await Promise.all([
-    fetchJson(CATALOG_URL, { fetchImpl }),
-    fetchJson(STATS_URL, { fetchImpl }),
+    fetchJson(CATALOG_URL, { fetchImpl: (url, options) => boundedFetch(fetchImpl, url, options) }),
+    fetchJson(STATS_URL, { fetchImpl: (url, options) => boundedFetch(fetchImpl, url, options) }),
     fetchRetirements(fetchImpl)
   ]);
   validateFeeds(catalogResult.body, statsResult.body, minimumCatalogSize, previous);
@@ -585,35 +600,45 @@ export async function refresh({
       classificationVersion: CLASSIFICATION_VERSION,
       typeCount: Array.isArray(taxonomy?.types) ? taxonomy.types.length : 0
     },
+    ...(methodology.eligibility.reviewedTaskEvidence ? { taskReviews: { sha256: reviewsSha, schemaVersion: taskReviews.schemaVersion, count: taskReviews.assignments.length } } : {}),
     registry: registrySource(registry)
   };
 
-  const { rankings, report, decisions, exclusions, typeIdsById } = rankPlugins({
+  const previousState = await readJson(path.join(root, "data", "classification-state.json"), null);
+  const previousReviewQueue = await readJson(path.join(root, "data", "task-review-queue.json"), null);
+  const auditInputs = { schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, methodologyVersion: methodology.version, codeRevision: revision, now: now.toISOString(), catalog: catalogResult, stats: statsResult, registry, taxonomy, ...(methodology.eligibility.reviewedTaskEvidence ? { taskReviews, previousReviewQueue } : {}), previous, previousState };
+  // Retain the evidence even if a malformed contract or review blocks publication.
+  const output = path.join(root, "tmp", "classification-audit");
+  await writeJsonAtomic(path.join(output, "inputs.json"), auditInputs);
+  const { rankings, report, decisions, exclusions, typeIdsById, taskStatusByAssignment } = rankPlugins({
     catalog: catalogResult.body.plugins,
     stats: statsResult.body.plugins,
     taxonomy,
+    taskReviews,
+    methodology,
     previous,
+    previousReviewQueue,
     now,
     source,
     newListingsBaseline: await priorWeekBaseline(root, week)
   });
   const historyFile = path.join(root, "data", "history", `${week}.json`);
+  if (methodology.eligibility.reviewedTaskEvidence) assertTaskQualifiedSnapshot(rankings);
   const existingHistory = await readJson(historyFile, null);
-  const context = changeContext({ catalog: catalogResult.body.plugins, registry, exclusions, typeIdsById });
+  const context = changeContext({ catalog: catalogResult.body.plugins, registry, exclusions, typeIdsById, taskStatusByAssignment });
   const computedChanges = changesBetween(previous, rankings, context);
   const changes = weekChangeLog(previous, week, existingHistory, computedChanges);
   const runnerUpChanges = runnerUpChangesBetween(previous, rankings, context);
   const weeklyRunnerUpChanges = weekChangeLog(previous, week, existingHistory, runnerUpChanges, "runnerUpChanges");
   const previousReport = await readJson(path.join(root, "data", "unclassified-report.json"), null);
-  const previousState = await readJson(path.join(root, "data", "classification-state.json"), null);
-  const auditInputs = { schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, methodologyVersion: METHODOLOGY.version, codeRevision: revision, now: now.toISOString(), catalog: catalogResult, stats: statsResult, registry, taxonomy, previous, previousState };
-  const classificationAudit = auditClassifications({ catalog: catalogResult.body.plugins, stats: statsResult.body.plugins, taxonomy, previous, previousState, now, methodology: METHODOLOGY });
+  const classificationAudit = auditClassifications({ catalog: catalogResult.body.plugins, stats: statsResult.body.plugins, taxonomy, taskReviews, previous, previousState, previousReviewQueue, now, methodology });
   classificationAudit.inputsHash = checksum(auditInputs);
+  const reviewQueue = { ...updateTaskReviewQueue(classificationAudit.reviewQueue ?? [], previousReviewQueue, now.toISOString()), taxonomyHash: taxonomySha, taskReviewsHash: reviewsSha };
   const summary = {
     changed: true,
     week,
     republished: republish && previous?.week === week,
-    methodology: METHODOLOGY,
+    methodology,
     publishedMethodologyVersion,
     rankings,
     report,
@@ -622,6 +647,7 @@ export async function refresh({
     decisions,
     classificationAudit,
     auditInputs,
+    reviewQueue,
     validation: formatValidation(source, previous, catalogResult.body.plugins, statsResult.body.plugins, report),
     upstreamWarnings: upstreamWarningCodes(catalogResult.body.warnings),
     runnerUpChanges,
@@ -635,6 +661,11 @@ export async function refresh({
     imageWarnings: []
   };
 
+  // Evidence and the durable editorial queue are written before any snapshot publication.
+  // A dry run may write research artifacts, but never data/ or published assets.
+  await writeJsonAtomic(path.join(output, "report.json"), classificationAudit);
+  await writeFile(path.join(output, "report.md"), renderClassificationAudit(classificationAudit));
+  await writeJsonAtomic(path.join(output, "review-queue.json"), reviewQueue);
   if (dryRun) return summary;
 
   const imageWarnings = await attachImages(rankings, { fetchImpl, previous, root });
@@ -653,6 +684,7 @@ export async function refresh({
   });
   await writeJsonAtomic(path.join(root, "data", "unclassified-report.json"), report);
   await writeJsonAtomic(path.join(root, "data", "classification-state.json"), classificationAudit.state);
+  if (methodology.eligibility.reviewedTaskEvidence) await writeJsonAtomic(path.join(root, "data", "task-review-queue.json"), reviewQueue);
   await writeJsonAtomic(rankingsFile, rankings);
   await removeStaleImages(rankings, root);
 
@@ -670,13 +702,15 @@ async function main() {
   for (const line of lines) console.log(line);
   for (const warning of result.imageWarnings ?? []) console.warn(`Image warning: ${warning}`);
   if (result.classificationAudit) {
-    const output = path.join(ROOT, "tmp", "classification-audit");
-    await writeJsonAtomic(path.join(output, "inputs.json"), result.auditInputs);
-    await writeJsonAtomic(path.join(output, "report.json"), result.classificationAudit);
-    await writeFile(path.join(output, "report.md"), renderClassificationAudit(result.classificationAudit));
     const { changed, unresolved, assignments } = result.classificationAudit.counts;
-    lines.push(`Classification: ${assignments} task-fit assignments; ${changed} changed listings; ${unresolved} held assignments. Full evidence: tmp/classification-audit/report.json`);
+    lines.push(`Classification: ${assignments} discovered assignments; ${changed} changed listings; ${unresolved} held assignments. Full evidence: tmp/classification-audit/report.json`);
     console.log(lines.at(-1));
+    if (result.classificationAudit.taskQualification) {
+      const fit = result.classificationAudit.taskQualification;
+      lines.push(`Task qualification: ${fit.qualified} reviewed assignments compete; ${fit.pending} await review. Research scores never confer recommendation eligibility. Priority evidence: tmp/classification-audit/review-queue.json`);
+      console.log(lines.at(-1));
+      if (process.env.GITHUB_STEP_SUMMARY) await appendFile(process.env.GITHUB_STEP_SUMMARY, renderClassificationAudit(result.classificationAudit));
+    }
   }
   if (process.env.GITHUB_STEP_SUMMARY) {
     const escape = (line) => line.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");

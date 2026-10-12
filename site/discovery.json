@@ -1,85 +1,494 @@
 {
   "aliases": {
-    "system-monitor": ["btop", "htop", "cpu", "ram", "disk space"],
-    "network": ["wifi", "wi-fi", "internet", "connectivity"],
-    "vpn": ["wireguard", "tailscale", "mullvad", "proton"],
-    "mail": ["email", "gmail", "outlook", "inbox"],
-    "music": ["spotify", "mpris", "playerctl", "now playing"],
-    "weather": ["forecast", "rain", "temperature"],
-    "battery": ["laptop battery", "charging", "power profile", "battery health"],
-    "clipboard": ["copy paste", "paste history"],
-    "launcher": ["app search", "open apps"],
-    "bluetooth": ["pairing", "connect devices", "adapter"],
-    "audio": ["volume", "microphone", "sound", "pipewire", "headphones", "earbuds", "bluetooth codecs"],
-    "brightness": ["backlight", "night light", "blue light"],
-    "display-monitors": ["external monitor", "multi monitor", "screen layout"],
-    "notifications": ["do not disturb", "dnd", "mako"],
-    "lock-idle": ["screen lock", "sleep", "suspend", "caffeine"],
-    "password-manager": ["bitwarden", "passwords", "totp", "2fa"],
-    "calendar": ["agenda", "events", "caldav"],
-    "clock-timer": ["alarm", "stopwatch", "time zones"],
-    "focus": ["pomodoro", "todo", "tasks", "habits"],
-    "notes": ["obsidian", "scratchpad", "sticky notes"],
-    "screen-time": ["digital wellbeing", "app usage"],
-    "workspaces": ["virtual desktops", "workspace switcher"],
-    "window-management": ["alt tab", "tiling", "window switcher"],
-    "screenshots": ["screen recording", "ocr", "capture"],
-    "wallpaper": ["desktop background", "hyprpaper", "swww"],
-    "themes-appearance": ["colors", "colour", "cursor theme", "dark mode"],
-    "color-picker": ["colour picker", "eyedropper", "hex", "hyprpicker"],
-    "ai-assistant": ["chatgpt", "claude", "ollama", "llm"],
-    "ai-api-usage": ["tokens", "quota", "api spending", "codex usage"],
-    "smart-home": ["home assistant", "philips hue", "wled"],
-    "github": ["pull requests", "issues", "ci status"],
-    "containers": ["docker", "podman", "kubernetes"],
-    "gaming": ["steam", "lutris", "game mode"],
-    "mini-games": ["solitaire", "chess", "tetris", "desktop pet"],
-    "system-updates": ["pacman", "aur", "package updates"],
-    "radio": ["internet radio", "stations"],
-    "screensavers": ["idle visuals", "screen saver"],
-    "power-menu": ["shutdown", "restart", "logout"],
-    "plugin-manager": ["install plugins", "marketplace", "plugin store"],
-    "firewall": ["ufw", "outbound connections", "nftables"],
-    "dev-ports": ["localhost", "listening ports", "dev servers"],
-    "keybinding-managers": ["keybindings", "keyboard shortcuts", "shortcut editor", "hotkeys"],
-    "shortcut-guides": ["keybinding reference", "keyboard shortcuts", "cheat sheet", "which key"],
-    "translation": ["translate", "translator", "deepl", "google translate"],
-    "dictionary": ["definitions", "thesaurus", "wiktionary", "word lookup"],
-    "prayer-times": ["adhan", "athan", "salah", "mawaqit"],
-    "keyboard-lighting": ["keyboard backlight", "keyboard brightness", "keyboard rgb"],
-    "keyboard-layouts": ["keyboard language", "input layout", "xkb", "layout switcher"],
-    "file-search": ["find files", "file finder", "full text search"],
-    "feed-readers": ["rss", "atom", "news reader", "feeds"],
-    "sports-scores": ["sports", "scores", "fixtures", "standings", "nfl", "premier league"],
-    "uptime-monitoring": ["uptime kuma", "website status", "endpoint health", "status page"],
-    "phone-integration": ["phone", "kde connect", "android", "iphone", "phone sync"],
-    "peripheral-battery": ["mouse battery", "keyboard battery", "headset battery", "earbud battery"]
+    "system-monitor": [
+      "btop",
+      "htop",
+      "cpu",
+      "ram",
+      "disk space"
+    ],
+    "network": [
+      "wifi",
+      "wi-fi",
+      "ethernet",
+      "cellular",
+      "connectivity"
+    ],
+    "vpn": [
+      "wireguard",
+      "tailscale",
+      "mullvad",
+      "proton"
+    ],
+    "mail": [
+      "email",
+      "gmail",
+      "outlook",
+      "inbox"
+    ],
+    "music": [
+      "mpris",
+      "playerctl",
+      "now playing"
+    ],
+    "weather": [
+      "forecast",
+      "rain",
+      "temperature"
+    ],
+    "battery": [
+      "laptop battery",
+      "charging",
+      "power profile",
+      "battery health"
+    ],
+    "clipboard": [
+      "copy paste",
+      "paste history"
+    ],
+    "launcher": [
+      "app search",
+      "open apps"
+    ],
+    "bluetooth": [
+      "pairing",
+      "connect devices",
+      "adapter"
+    ],
+    "audio": [
+      "volume",
+      "microphone",
+      "sound",
+      "pipewire",
+      "headphones",
+      "earbuds",
+      "bluetooth codecs"
+    ],
+    "brightness": [
+      "display brightness",
+      "screen backlight",
+      "adaptive brightness"
+    ],
+    "display-monitors": [
+      "external monitor",
+      "multi monitor",
+      "screen layout"
+    ],
+    "notifications": [
+      "do not disturb",
+      "dnd",
+      "mako"
+    ],
+    "lock-idle": [
+      "screen lock",
+      "sleep",
+      "suspend",
+      "caffeine"
+    ],
+    "password-manager": [
+      "bitwarden",
+      "passwords",
+      "totp",
+      "2fa"
+    ],
+    "calendar": [
+      "agenda",
+      "events",
+      "caldav"
+    ],
+    "clock-timer": [
+      "world clock",
+      "time zones",
+      "timezone"
+    ],
+    "focus": [
+      "pomodoro",
+      "focus timer",
+      "concentration"
+    ],
+    "notes": [
+      "obsidian",
+      "scratchpad",
+      "sticky notes"
+    ],
+    "screen-time": [
+      "digital wellbeing",
+      "app usage"
+    ],
+    "workspaces": [
+      "virtual desktops",
+      "workspace switcher"
+    ],
+    "window-management": [
+      "alt tab",
+      "tiling",
+      "window switcher"
+    ],
+    "screenshots": [
+      "screenshot",
+      "capture",
+      "annotation"
+    ],
+    "wallpaper": [
+      "desktop background",
+      "hyprpaper",
+      "swww"
+    ],
+    "themes-appearance": [
+      "colors",
+      "colour",
+      "cursor theme",
+      "dark mode"
+    ],
+    "color-picker": [
+      "colour picker",
+      "eyedropper",
+      "hex",
+      "hyprpicker"
+    ],
+    "ai-assistant": [
+      "agent sessions",
+      "claude",
+      "codex",
+      "orchestration"
+    ],
+    "ai-api-usage": [
+      "tokens",
+      "quota",
+      "api spending",
+      "codex usage"
+    ],
+    "smart-home": [
+      "home assistant",
+      "philips hue",
+      "wled"
+    ],
+    "github": [
+      "pull requests",
+      "issues",
+      "ci status"
+    ],
+    "containers": [
+      "docker",
+      "podman",
+      "kubernetes"
+    ],
+    "gaming": [
+      "steam",
+      "lutris",
+      "game mode"
+    ],
+    "mini-games": [
+      "solitaire",
+      "chess",
+      "tetris",
+      "desktop pet"
+    ],
+    "system-updates": [
+      "pacman",
+      "aur",
+      "package updates"
+    ],
+    "radio": [
+      "internet radio",
+      "stations"
+    ],
+    "screensavers": [
+      "idle visuals",
+      "screen saver"
+    ],
+    "power-menu": [
+      "shutdown",
+      "restart",
+      "logout"
+    ],
+    "plugin-manager": [
+      "install plugins",
+      "marketplace",
+      "plugin store"
+    ],
+    "firewall": [
+      "ufw",
+      "outbound connections",
+      "nftables"
+    ],
+    "dev-ports": [
+      "localhost",
+      "listening ports",
+      "dev servers"
+    ],
+    "keybinding-managers": [
+      "keybindings",
+      "keyboard shortcuts",
+      "shortcut editor",
+      "hotkeys"
+    ],
+    "shortcut-guides": [
+      "keybinding reference",
+      "keyboard shortcuts",
+      "cheat sheet",
+      "which key"
+    ],
+    "translation": [
+      "translate",
+      "translator",
+      "deepl",
+      "google translate"
+    ],
+    "dictionary": [
+      "definitions",
+      "thesaurus",
+      "wiktionary",
+      "word lookup"
+    ],
+    "prayer-times": [
+      "adhan",
+      "athan",
+      "salah",
+      "mawaqit"
+    ],
+    "keyboard-lighting": [
+      "keyboard backlight",
+      "keyboard brightness",
+      "keyboard rgb"
+    ],
+    "keyboard-layouts": [
+      "keyboard language",
+      "input layout",
+      "xkb",
+      "layout switcher"
+    ],
+    "file-search": [
+      "find files",
+      "file finder",
+      "full text search"
+    ],
+    "feed-readers": [
+      "rss",
+      "atom",
+      "news reader",
+      "feeds"
+    ],
+    "sports-scores": [
+      "sports",
+      "scores",
+      "fixtures",
+      "standings",
+      "nfl",
+      "premier league"
+    ],
+    "uptime-monitoring": [
+      "uptime kuma",
+      "website status",
+      "endpoint health",
+      "status page"
+    ],
+    "phone-integration": [
+      "phone",
+      "kde connect",
+      "android",
+      "iphone",
+      "phone sync"
+    ],
+    "peripheral-battery": [
+      "mouse battery",
+      "keyboard battery",
+      "headset battery",
+      "earbud battery"
+    ],
+    "night-light": [
+      "blue light",
+      "hyprsunset",
+      "screen temperature"
+    ],
+    "network-diagnostics": [
+      "traffic",
+      "throughput",
+      "latency",
+      "speed test",
+      "bandwidth"
+    ],
+    "music-players": [
+      "spotify",
+      "youtube music",
+      "music library",
+      "playlists"
+    ],
+    "screen-recording": [
+      "record screen",
+      "recording",
+      "screencast"
+    ],
+    "ocr": [
+      "ocr",
+      "extract text",
+      "screen text"
+    ],
+    "timers-alarms": [
+      "timer",
+      "alarm",
+      "stopwatch",
+      "pomodoro"
+    ],
+    "ai-chat": [
+      "ai chat",
+      "ollama",
+      "models",
+      "llm"
+    ],
+    "docks": [
+      "dock",
+      "pinned applications",
+      "macos dock"
+    ],
+    "file-sync": [
+      "syncthing",
+      "folder sync",
+      "mega sync"
+    ],
+    "tasks": [
+      "todo",
+      "todoist",
+      "ticktick",
+      "personal tasks",
+      "checklist"
+    ]
   },
   "collections": [
     {
       "title": "Get through your day",
       "description": "Capture a thought, keep track of plans, and make room to focus.",
-      "types": ["notes", "calendar", "clipboard", "focus"]
+      "types": [
+        "notes",
+        "calendar",
+        "clipboard",
+        "focus",
+        "tasks"
+      ]
     },
     {
       "title": "Make your desktop yours",
       "description": "Find your colors, change the view, and move between windows.",
-      "types": ["themes-appearance", "wallpaper", "workspaces", "window-management"]
+      "types": [
+        "themes-appearance",
+        "wallpaper",
+        "workspaces",
+        "window-management"
+      ]
     },
     {
       "title": "Keep your laptop ready",
       "description": "Check power, manage sound, and see what needs attention.",
-      "types": ["battery", "audio", "network", "system-updates"]
+      "types": [
+        "battery",
+        "audio",
+        "network",
+        "system-updates"
+      ]
     }
   ],
   "relatedGroups": [
-    ["weather", "clock-timer", "calendar", "brightness", "battery", "feed-readers", "sports-scores", "prayer-times"],
-    ["notes", "calendar", "clipboard", "focus", "mail", "clock-timer", "screen-time", "notifications", "translation", "dictionary", "ai-assistant"],
-    ["themes-appearance", "wallpaper", "color-picker", "screensavers", "smart-home"],
-    ["workspaces", "window-management", "launcher", "display-monitors", "screenshots", "keybinding-managers", "shortcut-guides", "keyboard-layouts", "file-search"],
-    ["battery", "brightness", "keyboard-lighting", "lock-idle", "power-menu", "system-monitor", "system-updates", "display-monitors"],
-    ["network", "vpn", "firewall", "password-manager", "bluetooth", "phone-integration"],
-    ["audio", "bluetooth", "music", "radio", "gaming", "mini-games", "peripheral-battery"],
-    ["dev-ports", "containers", "github", "ai-assistant", "ai-api-usage", "plugin-manager", "uptime-monitoring"]
+    ["brightness", "night-light", "display-monitors"],
+    ["network", "network-diagnostics"],
+    ["music", "music-players", "radio"],
+    ["clock-timer", "timers-alarms"],
+    ["focus", "tasks", "timers-alarms"],
+    ["screenshots", "screen-recording", "ocr"],
+    ["ai-assistant", "ai-chat"],
+    ["launcher", "docks", "file-search"],
+    [
+      "weather",
+      "clock-timer",
+      "calendar",
+      "brightness",
+      "battery",
+      "feed-readers",
+      "sports-scores",
+      "prayer-times",
+      "night-light",
+      "timers-alarms"
+    ],
+    [
+      "notes",
+      "calendar",
+      "clipboard",
+      "focus",
+      "mail",
+      "clock-timer",
+      "screen-time",
+      "notifications",
+      "translation",
+      "dictionary",
+      "ai-assistant",
+      "timers-alarms",
+      "ai-chat",
+      "tasks"
+    ],
+    [
+      "themes-appearance",
+      "wallpaper",
+      "color-picker",
+      "screensavers",
+      "smart-home"
+    ],
+    [
+      "workspaces",
+      "window-management",
+      "launcher",
+      "display-monitors",
+      "screenshots",
+      "keybinding-managers",
+      "shortcut-guides",
+      "keyboard-layouts",
+      "file-search",
+      "screen-recording",
+      "ocr",
+      "docks",
+      "file-sync"
+    ],
+    [
+      "battery",
+      "brightness",
+      "keyboard-lighting",
+      "lock-idle",
+      "power-menu",
+      "system-monitor",
+      "system-updates",
+      "display-monitors",
+      "night-light"
+    ],
+    [
+      "network",
+      "vpn",
+      "firewall",
+      "password-manager",
+      "bluetooth",
+      "phone-integration",
+      "network-diagnostics"
+    ],
+    [
+      "audio",
+      "bluetooth",
+      "music",
+      "radio",
+      "peripheral-battery",
+      "music-players"
+    ],
+    [
+      "gaming",
+      "mini-games",
+      "system-monitor",
+      "peripheral-battery"
+    ],
+    [
+      "dev-ports",
+      "containers",
+      "github",
+      "ai-assistant",
+      "ai-api-usage",
+      "plugin-manager",
+      "uptime-monitoring",
+      "ai-chat"
+    ]
   ]
 }

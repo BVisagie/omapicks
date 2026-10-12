@@ -16,7 +16,9 @@
     "traffic": "node scripts/report-traffic.mjs",
     "test:e2e": "playwright test",
     "audit:classification": "node scripts/classification-audit.mjs",
-    "compare:methodology": "node scripts/compare-methodologies.mjs"
+    "compare:methodology": "node scripts/compare-methodologies.mjs",
+    "compare:task-fit": "node scripts/compare-task-fit.mjs",
+    "review:tasks": "node scripts/task-review.mjs"
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",

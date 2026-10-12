@@ -1940,3 +1940,45 @@ footer p a {
   color: var(--muted);
   font-size: 0.84rem;
 }
+
+.task-fit-note {
+  margin-block: 1rem;
+  padding: 0.9rem 1rem;
+  border-left: 3px solid var(--accent);
+  background: var(--well);
+}
+.task-fit-note p {
+  margin: 0 0 0.6rem;
+  overflow-wrap: anywhere;
+}
+.task-fit-note p:last-child {
+  margin-bottom: 0;
+}
+.task-fit-source {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+.snapshot-status {
+  color: var(--muted);
+  border-left: 3px solid var(--accent);
+  padding-left: 0.75rem;
+}
+.task-alternatives {
+  margin-block: 2.5rem;
+}
+.task-alternatives ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+}
+.task-alternatives li {
+  padding: 1.1rem;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  overflow-wrap: anywhere;
+}
+.task-alternatives h3 {
+  margin-top: 0;
+}

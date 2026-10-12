@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { auditClassifications, checksum, renderClassificationAudit } from "../build/classification-audit.mjs";
 import { LEGACY_METHODOLOGY_VERSION, methodologyVersions, methodologyFor } from "../build/methodology.mjs";
 import { CLASSIFICATION_VERSION, METHODOLOGY } from "../build/rank.mjs";
-import { codeRevision, fetchJson, validateFeeds } from "../build/refresh.mjs";
+import { boundedFetch, codeRevision, fetchJson, validateFeeds } from "../build/refresh.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 async function json(file, fallback) {
@@ -16,21 +16,23 @@ export async function runAudit({ root = ROOT, inputFile, baselineFile, baselineV
   let inputs;
   if (inputFile) {
     inputs = await json(inputFile);
-    if (inputs.classificationVersion !== CLASSIFICATION_VERSION) throw new Error("Replay requires the classifier version recorded in inputs.json");
+    if (![2, CLASSIFICATION_VERSION].includes(inputs.classificationVersion)) throw new Error("Replay requires the classifier version recorded in inputs.json");
     // Inputs captured before methodology versions were recorded came from the 1.0.0 rules.
     const recorded = inputs.methodologyVersion ?? LEGACY_METHODOLOGY_VERSION;
     if (!methodologyVersions().includes(recorded)) {
       throw new Error(`Replay requires methodology ${JSON.stringify(recorded)} recorded in inputs.json, which this revision does not define; check out revision ${inputs.codeRevision ?? "that captured the inputs"}`);
     }
   } else {
-    const [catalog, stats, taxonomy, previous, previousState] = await Promise.all([
-      fetchJson("https://plugins.omarchy.org/catalog.json", { fetchImpl }),
-      fetchJson("https://api.omarchyplugins.com/v1/stats", { fetchImpl }),
+    const [catalog, stats, taxonomy, taskReviews, previous, previousState, previousReviewQueue] = await Promise.all([
+      fetchJson("https://plugins.omarchy.org/catalog.json", { fetchImpl: (url, options) => boundedFetch(fetchImpl, url, options) }),
+      fetchJson("https://api.omarchyplugins.com/v1/stats", { fetchImpl: (url, options) => boundedFetch(fetchImpl, url, options) }),
       json(path.join(root, "data", "app-types.json")),
+      json(path.join(root, "data", "task-reviews.json"), { schemaVersion: 1, assignments: [] }),
       json(path.join(root, "data", "rankings.json")),
-      json(path.join(root, "data", "classification-state.json"), null)
+      json(path.join(root, "data", "classification-state.json"), null),
+      json(path.join(root, "data", "task-review-queue.json"), null)
     ]);
-    inputs = { schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, methodologyVersion: METHODOLOGY.version, codeRevision: codeRevision(root), now: new Date().toISOString(), catalog, stats, taxonomy, previous, previousState,
+    inputs = { schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, methodologyVersion: METHODOLOGY.version, codeRevision: codeRevision(root), now: new Date().toISOString(), catalog, stats, taxonomy, taskReviews, previous, previousState, previousReviewQueue,
       baselineTaxonomy: baselineFile ? await json(baselineFile) : null, baselineVersion };
   }
   validateFeeds(inputs.catalog.body, inputs.stats.body, 1000, inputs.previous);
@@ -53,6 +55,6 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     options[args[i]] = args[i + 1];
   }
   const baselineVersion = Number(options["--baseline-version"] ?? CLASSIFICATION_VERSION);
-  if (![1, CLASSIFICATION_VERSION].includes(baselineVersion)) throw new Error("Unsupported baseline classifier version");
+  if (![1, 2, CLASSIFICATION_VERSION].includes(baselineVersion)) throw new Error("Unsupported baseline classifier version");
   await runAudit({ inputFile: options["--input"], baselineFile: options["--baseline"], baselineVersion, output: options["--output"] });
 }

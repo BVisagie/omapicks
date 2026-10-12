@@ -3,8 +3,11 @@ import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { fetchJson, formatRefreshLog, refresh, replayChanges, upstreamWarningCodes, validateFeeds } from "../build/refresh.mjs";
+import { fetchJson, formatRefreshLog, refresh as refreshLatest, replayChanges, upstreamWarningCodes, validateFeeds } from "../build/refresh.mjs";
+import { methodologyFor } from "../build/methodology.mjs";
 import { renderFixtureChangelog } from "../build/render.mjs";
+
+const refresh = (options) => refreshLatest({ methodology: methodologyFor("1.1.0"), ...options });
 
 function jsonResponse(value, status = 200) {
   return new Response(JSON.stringify(value), {
@@ -266,6 +269,7 @@ test("same-week refresh stays frozen unless the taxonomy checksum changes", asyn
 
 test("formatRefreshLog adds dry-run context for deltas, runner-ups, and inverted races", () => {
   const result = {
+    methodology: methodologyFor("1.1.0"),
     week: "2026-W37",
     rankings: { types: [{ id: "weather" }, { id: "themes-appearance" }] },
     changes: [],
