@@ -1,19 +1,47 @@
 {
   "schemaVersion": 1,
-  "week": "2026-W41",
-  "generatedAt": "2026-10-06T02:15:44.709Z",
+  "week": "2026-W42",
+  "generatedAt": "2026-10-12T13:34:39.901Z",
   "changes": [
     {
-      "typeId": "clipboard",
-      "typeName": "Clipboard",
+      "typeId": "screenshots",
+      "typeName": "Screenshots & Recording",
       "kind": "displaced",
       "previous": {
-        "id": "io.github.vuhuy.clipboard-manager",
-        "name": "Clipboard Manager"
+        "id": "b.omashot",
+        "name": "Omashot"
       },
       "current": {
-        "id": "io.github.maajix.spotlight",
-        "name": "Spotlight"
+        "id": "io.github.ilyazar.syncthing",
+        "name": "Syncthing"
+      }
+    },
+    {
+      "typeId": "firewall",
+      "typeName": "Firewall",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.chris.snitch",
+        "name": "Snitch"
+      },
+      "current": {
+        "id": "io.github.sahzudin.omawall",
+        "name": "Omawall"
+      }
+    }
+  ],
+  "runnerUpChanges": [
+    {
+      "typeId": "keyboard-layouts",
+      "typeName": "Keyboard Layouts",
+      "kind": "displaced",
+      "previous": {
+        "id": "glafeara.languages",
+        "name": "Omalang"
+      },
+      "current": {
+        "id": "jesusarchive.keyboard-layout-switcher",
+        "name": "Keyboard Layout Switcher"
       }
     },
     {
@@ -21,67 +49,38 @@
       "typeName": "Screensavers",
       "kind": "displaced",
       "previous": {
-        "id": "io.github.deunnis.lacquer",
-        "name": "Omarchy Lacquer"
+        "id": "io.github.fabiopauli.oligarchy-screensaver",
+        "name": "Oligarchy Screensaver"
       },
       "current": {
-        "id": "brianirish.screensaver",
-        "name": "Screensaver"
-      },
-      "reason": "no-longer-in-category"
-    }
-  ],
-  "runnerUpChanges": [
-    {
-      "typeId": "clipboard",
-      "typeName": "Clipboard",
-      "kind": "displaced",
-      "previous": {
-        "id": "io.github.maajix.spotlight",
-        "name": "Spotlight"
-      },
-      "current": {
-        "id": "io.github.vuhuy.clipboard-manager",
-        "name": "Clipboard Manager"
+        "id": "omarchy-undercover",
+        "name": "Omarchy Undercover"
       }
     },
     {
-      "typeId": "screen-time",
-      "typeName": "Screen Time",
+      "typeId": "power-menu",
+      "typeName": "Power & Session",
       "kind": "displaced",
       "previous": {
-        "id": "io.github.ricky.screentime",
-        "name": "Screen Time"
+        "id": "io.github.jordanneenan.simple-power-menu",
+        "name": "Simple Power Menu"
       },
       "current": {
-        "id": "rimuru.screentime",
-        "name": "Screen Time"
+        "id": "blackcode.power-menu",
+        "name": "Power Menu"
       }
     },
     {
-      "typeId": "dictionary",
-      "typeName": "Dictionary & Thesaurus",
+      "typeId": "firewall",
+      "typeName": "Firewall",
       "kind": "displaced",
       "previous": {
-        "id": "panadestein.lexicon",
-        "name": "Lexicon"
+        "id": "io.github.sahzudin.omawall",
+        "name": "Omawall"
       },
       "current": {
-        "id": "io.github.keegan-sucks.lookup",
-        "name": "Look Up"
-      }
-    },
-    {
-      "typeId": "keyboard-lighting",
-      "typeName": "Keyboard Lighting",
-      "kind": "displaced",
-      "previous": {
-        "id": "samara-hub-ro.keyboard-light",
-        "name": "Asus TUF/ROG Keyboard Light"
-      },
-      "current": {
-        "id": "io.github.alexanderpuschkinberlin.keyboard-backlight",
-        "name": "ThinkPad Keyboard Backlight"
+        "id": "io.github.chris.snitch",
+        "name": "Snitch"
       }
     }
   ]
