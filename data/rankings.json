@@ -31,7 +31,7 @@
       "typeCount": 64
     },
     "taskReviews": {
-      "sha256": "f3df4b4d4296390a94f1cd5618620c0101623f25218d9577704e16f4d473f2b1",
+      "sha256": "f416554d3186beb7db1b44fc471452aef7ebfd5598dfb45cabeb2e2a3c721c05",
       "schemaVersion": 1,
       "count": 283
     },
@@ -50,13 +50,6 @@
       "name": "Dynamic Island",
       "typeIds": [
         "ai-assistant"
-      ]
-    },
-    {
-      "id": "oniomarchy.godark",
-      "name": "GoDark",
-      "typeIds": [
-        "network"
       ]
     }
   ],
@@ -3572,7 +3565,7 @@
       "id": "network",
       "name": "Network Connections",
       "description": "Connect, disconnect and configure Wi-Fi, Ethernet or cellular networks",
-      "eligibleCount": 5,
+      "eligibleCount": 4,
       "matchedCount": 53,
       "pendingCount": 47,
       "taskContract": {
@@ -3617,26 +3610,26 @@
             "installRateLowerBound": 0.0518
           },
           "normalized": {
-            "copies": 0.393921,
-            "hearts": 0.494211,
-            "stars": 0.534959,
-            "views": 0.432122,
-            "installRateLowerBound": 0.247664,
+            "copies": 0.292172,
+            "hearts": 0.425588,
+            "stars": 0.481569,
+            "views": 0.32978,
+            "installRateLowerBound": 0.246679,
             "freshness": 0.964705,
             "verified": 1
           },
           "contributions": {
-            "copies": 0.141812,
-            "hearts": 0.098842,
-            "stars": 0.096293,
-            "views": 0.012964,
-            "installRateLowerBound": 0.012383,
+            "copies": 0.105182,
+            "hearts": 0.085118,
+            "stars": 0.086682,
+            "views": 0.009893,
+            "installRateLowerBound": 0.012334,
             "freshness": 0.125412,
             "verified": 0.05
           },
           "evidence": 0.581152,
           "freshnessDays": 9,
-          "score": 0.537706,
+          "score": 0.474621,
           "taskFit": {
             "status": "qualified",
             "qualified": true,
@@ -3690,26 +3683,26 @@
             "installRateLowerBound": 0.0725
           },
           "normalized": {
-            "copies": 0.519342,
+            "copies": 0.441015,
             "hearts": 0.164609,
-            "stars": 0.223302,
-            "views": 0.553406,
-            "installRateLowerBound": 0.461186,
+            "stars": 0.164609,
+            "views": 0.474333,
+            "installRateLowerBound": 0.381338,
             "freshness": 0.948208,
             "verified": 1
           },
           "contributions": {
-            "copies": 0.186963,
+            "copies": 0.158765,
             "hearts": 0.032922,
-            "stars": 0.040194,
-            "views": 0.016602,
-            "installRateLowerBound": 0.023059,
+            "stars": 0.02963,
+            "views": 0.01423,
+            "installRateLowerBound": 0.019067,
             "freshness": 0.123267,
             "verified": 0.05
           },
           "evidence": 0.670782,
           "freshnessDays": 13,
-          "score": 0.473007,
+          "score": 0.427881,
           "taskFit": {
             "status": "qualified",
             "qualified": true,
@@ -3724,79 +3717,6 @@
             "source": {
               "url": "https://github.com/MariposaJon/omarchy_modemmanager_plugin#readme",
               "revision": "109c6f476e61e99c42c461f5955d8ca33b031540",
-              "path": "README.md",
-              "evidence": "Provides native network connection controls rather than only resource statistics."
-            },
-            "reviewedAt": "2026-10-12",
-            "provenance": "repository-evidence"
-          }
-        },
-        {
-          "id": "oniomarchy.godark",
-          "name": "GoDark",
-          "description": "One switch on the Omarchy bar that cuts every radio and network link, and restores exactly what was on before.",
-          "author": "cyberbow",
-          "category": "System",
-          "repository": "https://github.com/SalimRK/godark",
-          "detailUrl": "https://plugins.omarchy.org/plugin.html?id=oniomarchy.godark",
-          "installCommand": "omarchy plugin add https://github.com/SalimRK/godark.git --enable",
-          "verificationStatus": "verified",
-          "verificationCoverage": "snapshot-verified",
-          "verificationMethod": "maintainer-reviewed",
-          "upstreamCheckStatus": "passed",
-          "version": "0.1.0",
-          "releaseTag": null,
-          "shippedAt": null,
-          "listedAt": "2026-10-07T21:43:07.694Z",
-          "license": "MIT",
-          "repositoryUpdatedAt": "2026-10-07T21:35:37.000Z",
-          "previewSource": "https://plugins.omarchy.org/assets/img/plugins/7-salimrk-godark-card.webp",
-          "previewWidth": 720,
-          "previewHeight": 272,
-          "localImage": null,
-          "metrics": {
-            "copies": 6,
-            "hearts": 1,
-            "stars": 0,
-            "views": 51,
-            "copyViewRatio": 0.1176,
-            "installRateLowerBound": 0.055
-          },
-          "normalized": {
-            "copies": 0.331778,
-            "hearts": 0.387004,
-            "stars": 0.317198,
-            "views": 0.358665,
-            "installRateLowerBound": 0.386993,
-            "freshness": 0.981864,
-            "verified": 1
-          },
-          "contributions": {
-            "copies": 0.11944,
-            "hearts": 0.077401,
-            "stars": 0.057096,
-            "views": 0.01076,
-            "installRateLowerBound": 0.01935,
-            "freshness": 0.127642,
-            "verified": 0.05
-          },
-          "evidence": 0.443155,
-          "freshnessDays": 4,
-          "score": 0.461689,
-          "taskFit": {
-            "status": "qualified",
-            "qualified": true,
-            "metadataHash": "cd07cc4e1a1f7054fb567ca64f890ff1080b156225ba281f59add36ec21af0c2",
-            "contractVersion": 1,
-            "role": "core",
-            "capabilities": [
-              "manage-network-connections"
-            ],
-            "constraints": [],
-            "reason": "Provides native network connection controls rather than only resource statistics.",
-            "source": {
-              "url": "https://github.com/SalimRK/godark#readme",
-              "revision": "210598a7151d34c0351a16cb60834a6fc27e4c4b",
               "path": "README.md",
               "evidence": "Provides native network connection controls rather than only resource statistics."
             },
@@ -3824,6 +3744,33 @@
               "revision": "721c05874f0269c85604f9f1bb92be0bfaa0f810",
               "path": "README.md",
               "evidence": "Provides native network connection controls rather than only resource statistics."
+            },
+            "reviewedAt": "2026-10-12",
+            "provenance": "repository-evidence"
+          }
+        },
+        {
+          "id": "oniomarchy.godark",
+          "name": "GoDark",
+          "detailUrl": "https://plugins.omarchy.org/plugin.html?id=oniomarchy.godark",
+          "taskFit": {
+            "status": "related",
+            "qualified": false,
+            "metadataHash": "cd07cc4e1a1f7054fb567ca64f890ff1080b156225ba281f59add36ec21af0c2",
+            "contractVersion": 1,
+            "role": "integration",
+            "capabilities": [
+              "toggle-network-radios"
+            ],
+            "constraints": [
+              "A global all-links switch; use a connection manager for network selection and configuration."
+            ],
+            "reason": "Disables all radios and NetworkManager networking, then restores the previous state. It does not select networks or configure connections.",
+            "source": {
+              "url": "https://github.com/SalimRK/godark#readme",
+              "revision": "210598a7151d34c0351a16cb60834a6fc27e4c4b",
+              "path": "README.md",
+              "evidence": "README.md: Using it, What it cuts and Restoring describe the global radio/networking switch and saved-state restoration, without network selection or connection configuration."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -3873,24 +3820,24 @@
         "normalized": {
           "copies": 0.970149,
           "hearts": 0.970149,
-          "stars": 0.556564,
+          "stars": 0.470178,
           "views": 0.970149,
-          "installRateLowerBound": 0.686377,
+          "installRateLowerBound": 0.627334,
           "freshness": 0.932997,
           "verified": 0.6
         },
         "contributions": {
           "copies": 0.349254,
           "hearts": 0.19403,
-          "stars": 0.100182,
+          "stars": 0.084632,
           "views": 0.029104,
-          "installRateLowerBound": 0.034319,
+          "installRateLowerBound": 0.031367,
           "freshness": 0.12129,
           "verified": 0.03
         },
         "evidence": 0.940299,
         "freshnessDays": 18,
-        "score": 0.858179,
+        "score": 0.839677,
         "taskFit": {
           "status": "qualified",
           "qualified": true,
@@ -3944,26 +3891,26 @@
           "installRateLowerBound": 0.2609
         },
         "normalized": {
-          "copies": 0.798646,
-          "hearts": 0.755808,
+          "copies": 0.744425,
+          "hearts": 0.699395,
           "stars": 0.963392,
-          "views": 0.777527,
+          "views": 0.722117,
           "installRateLowerBound": 0.963392,
           "freshness": 0.997922,
           "verified": 0.6
         },
         "contributions": {
-          "copies": 0.287513,
-          "hearts": 0.151162,
+          "copies": 0.267993,
+          "hearts": 0.139879,
           "stars": 0.173411,
-          "views": 0.023326,
+          "views": 0.021664,
           "installRateLowerBound": 0.04817,
           "freshness": 0.12973,
           "verified": 0.03
         },
         "evidence": 0.926785,
         "freshnessDays": 0,
-        "score": 0.843312,
+        "score": 0.810847,
         "taskFit": {
           "status": "qualified",
           "qualified": true,
@@ -3987,7 +3934,7 @@
       "topScorer": {
         "id": "angeeeld.omaltbar",
         "name": "Omaltbar",
-        "score": 0.858179
+        "score": 0.839677
       }
     },
     {

@@ -19,7 +19,7 @@ function legacyTypes(plugin, prepared) {
 
 // `methodology` decides eligibility and ranking. Replays pass the one recorded with their inputs so
 // captured evidence is never silently reinterpreted under newer rules.
-export function auditClassifications({ catalog, taxonomy, taskReviews = { schemaVersion: 1, assignments: [] }, classificationVersion = CLASSIFICATION_VERSION, previousState = null, baselineTaxonomy = null, baselineVersion = classificationVersion, stats = null, previous = null, now = new Date(), methodology = METHODOLOGY }) {
+export function auditClassifications({ catalog, taxonomy, taskReviews = { schemaVersion: 1, assignments: [] }, classificationVersion = CLASSIFICATION_VERSION, previousState = null, baselineTaxonomy = null, baselineVersion = classificationVersion, stats = null, previous = null, previousReviewQueue = null, now = new Date(), methodology = METHODOLOGY }) {
   const prepared = prepareTaxonomy(taxonomy);
   const reviewed = methodology.eligibility.reviewedTaskEvidence === true;
   if (reviewed && baselineTaxonomy) throw new Error("Task qualification migrations require captured baseline decisions and methodology; use compare:task-fit with the baseline inputs.json");
@@ -53,7 +53,7 @@ export function auditClassifications({ catalog, taxonomy, taskReviews = { schema
   let picks = [];
   let reviewQueue = [];
   if (stats) {
-    const ranked = rankPlugins({ catalog, stats, taxonomy, taskReviews, classificationVersion, previous, now, methodology });
+    const ranked = rankPlugins({ catalog, stats, taxonomy, taskReviews, classificationVersion, previous, previousReviewQueue, now, methodology });
     const after = ranked.rankings;
     reviewQueue = ranked.reviewQueue;
     const byId = new Map(records.map((p) => [p.id, p]));
@@ -105,7 +105,7 @@ export function renderClassificationAudit(report) {
   if (report.taskQualification) {
     lines.push("## Recommendation qualification", "", `${report.taskQualification.qualified} assignments meet their reviewed task contracts; ${report.taskQualification.pending} assignments need capability review. Unreviewed, stale, related and rejected evidence cannot enter recommendation cards.`, "",
       "## Priority task review queue", "", "Resolve these through data/task-reviews.json using the captured catalog and source documentation; scores prioritize research only. Existing picks and prospective podium entrants come first.", "");
-    for (const p of report.reviewQueue.slice(0, 20)) lines.push(`- ${escape(p.typeName)} / ${escape(p.name)} (${escape(p.pluginId)}): ${escape(p.status)}; ${p.previousPick ? "previous pick; " : ""}${p.wouldEnterPodium ? "prospective podium; " : ""}${escape(p.reason)} Repository: ${escape(p.repository)}.`);
+    for (const p of report.reviewQueue.slice(0, 20)) lines.push(`- ${escape(p.typeName)} / ${escape(p.name)} (${escape(p.pluginId)}): ${escape(p.status)}; ${p.previousPick ? "former pick; " : ""}${p.wouldEnterPodium ? "prospective podium; " : ""}awaiting review since ${escape(p.firstSeenAt)}. ${escape(p.reason)} Repository: ${escape(p.repository)}.`);
     lines.push("", "## Why each recommendation fits", "");
     for (const p of report.picks) lines.push(`- ${escape(p.typeId)} / ${escape(p.name)}: ${escape(p.eligibility.taskFit?.reason)} (${escape(p.eligibility.taskFit?.role)}). ${escape(p.eligibility.taskFit?.source?.url)}.`);
     lines.push("");

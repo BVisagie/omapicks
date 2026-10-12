@@ -23,15 +23,16 @@ export async function runAudit({ root = ROOT, inputFile, baselineFile, baselineV
       throw new Error(`Replay requires methodology ${JSON.stringify(recorded)} recorded in inputs.json, which this revision does not define; check out revision ${inputs.codeRevision ?? "that captured the inputs"}`);
     }
   } else {
-    const [catalog, stats, taxonomy, taskReviews, previous, previousState] = await Promise.all([
+    const [catalog, stats, taxonomy, taskReviews, previous, previousState, previousReviewQueue] = await Promise.all([
       fetchJson("https://plugins.omarchy.org/catalog.json", { fetchImpl: (url, options) => boundedFetch(fetchImpl, url, options) }),
       fetchJson("https://api.omarchyplugins.com/v1/stats", { fetchImpl: (url, options) => boundedFetch(fetchImpl, url, options) }),
       json(path.join(root, "data", "app-types.json")),
       json(path.join(root, "data", "task-reviews.json"), { schemaVersion: 1, assignments: [] }),
       json(path.join(root, "data", "rankings.json")),
-      json(path.join(root, "data", "classification-state.json"), null)
+      json(path.join(root, "data", "classification-state.json"), null),
+      json(path.join(root, "data", "task-review-queue.json"), null)
     ]);
-    inputs = { schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, methodologyVersion: METHODOLOGY.version, codeRevision: codeRevision(root), now: new Date().toISOString(), catalog, stats, taxonomy, taskReviews, previous, previousState,
+    inputs = { schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, methodologyVersion: METHODOLOGY.version, codeRevision: codeRevision(root), now: new Date().toISOString(), catalog, stats, taxonomy, taskReviews, previous, previousState, previousReviewQueue,
       baselineTaxonomy: baselineFile ? await json(baselineFile) : null, baselineVersion };
   }
   validateFeeds(inputs.catalog.body, inputs.stats.body, 1000, inputs.previous);

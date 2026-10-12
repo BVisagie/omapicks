@@ -2959,20 +2959,22 @@
       "typeId": "network",
       "contractVersion": 1,
       "metadataHash": "cd07cc4e1a1f7054fb567ca64f890ff1080b156225ba281f59add36ec21af0c2",
-      "decision": "qualified",
-      "role": "core",
+      "decision": "related",
+      "role": "integration",
       "capabilities": [
-        "manage-network-connections"
+        "toggle-network-radios"
       ],
-      "constraints": [],
-      "reason": "Provides native network connection controls rather than only resource statistics.",
+      "constraints": [
+        "A global all-links switch; use a connection manager for network selection and configuration."
+      ],
+      "reason": "Disables all radios and NetworkManager networking, then restores the previous state. It does not select networks or configure connections.",
       "reviewedAt": "2026-10-12",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/SalimRK/godark#readme",
         "revision": "210598a7151d34c0351a16cb60834a6fc27e4c4b",
         "path": "README.md",
-        "evidence": "Provides native network connection controls rather than only resource statistics."
+        "evidence": "README.md: Using it, What it cuts and Restoring describe the global radio/networking switch and saved-state restoration, without network selection or connection configuration."
       }
     },
     {

@@ -363,4 +363,43 @@ test("discovery includes an unreviewed single-category former pick in its task h
   assert.equal(pending.previousPick, true);
   assert.equal(pending.status, "pending");
   assert.match(renderReport(report), /former/);
+  const next = analyze({ ...input, catalog: [a, former], taxonomy: taskTaxonomy, taskReviews, now: laterDate,
+    previousRankings: { types: [{ id: "music", winner: { id: a.id }, runnerUp: null }] },
+    previousReviewQueue: { schemaVersion: 1, assignments: report.taskReviewQueue } });
+  assert.equal(next.taskReviewQueue[0].previousPick, true);
+  assert.equal(next.taskReviewQueue[0].firstSeenAt, report.taskReviewQueue[0].firstSeenAt);
+  assert.match(renderReport(next), /former pick;/);
+});
+
+test("discovery captures durable former-pick history and replays it without reading repository data", async (context) => {
+  const { taskMetadataHash } = await import("../build/task-fit.mjs");
+  const root = await mkdtemp(path.join(os.tmpdir(), "omapicks-discovery-review-history-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  await mkdir(path.join(root, "data"));
+  const taskTaxonomy = { schemaVersion: 1, types: [{ id: "music", name: "Media Controls", include: ["\\bmusic\\b"],
+    contract: { version: 1, outcome: "Control the active media player", capabilitySets: [["control-playback"]] } }] };
+  const a = plugin("a", "Control music playback"), former = plugin("former", "Control music playback");
+  const taskReviews = { schemaVersion: 1, assignments: [{ pluginId: a.id, typeId: "music", decision: "qualified", role: "core", contractVersion: 1,
+    metadataHash: taskMetadataHash(a), capabilities: ["control-playback"], constraints: [], reason: "Native playback controls operate the active player.",
+    reviewedAt: "2026-09-15", provenance: "catalog-evidence", source: { url: a.repo, revision: "fixture", evidence: a.description } }] };
+  const previousReviewQueue = { schemaVersion: 1, assignments: [{ pluginId: former.id, typeId: "music", metadataHash: taskMetadataHash(former), contractVersion: 1,
+    previousPick: true, firstSeenAt: firstDate.toISOString() }] };
+  const rankings = { source: { catalog: { count: 1000 }, stats: { count: 1000 } }, types: [{ id: "music", winner: { id: a.id }, runnerUp: null }] };
+  const files = { "app-types": taskTaxonomy, "category-discovery": config, rankings, "task-reviews": taskReviews, "task-review-queue": previousReviewQueue };
+  for (const [name, value] of Object.entries(files)) await writeFile(path.join(root, `data/${name}.json`), JSON.stringify(value));
+  const feed = [a, former, ...Array.from({ length: 998 }, (_, i) => ({ ...plugin(`filler${i}`, "Unrelated"), installAvailable: false }))];
+  const stats = Object.fromEntries(feed.map((p) => [p.id, { copies: 1, hearts: 0, views: 10 }]));
+  const fetchImpl = async (url) => new Response(JSON.stringify(url.includes("/stats") ? { schemaVersion: 1, plugins: stats }
+    : url.includes("explorer-data") ? {} : { plugins: feed }));
+  const live = await run({ root, now: laterDate, summaryFile: null, fetchImpl, output: path.join(root, "live") });
+  assert.equal(live.taskReviewQueue[0].previousPick, true);
+  assert.equal(live.taskReviewQueue[0].firstSeenAt, firstDate.toISOString());
+  const inputs = JSON.parse(await readFile(path.join(root, "live/inputs.json")));
+  assert.deepEqual(inputs.previousReviewQueue, previousReviewQueue);
+  await rm(path.join(root, "data"), { recursive: true });
+  await run({ root, inputFile: path.join(root, "live/inputs.json"), summaryFile: null, output: path.join(root, "replay"),
+    fetchImpl: () => { throw new Error("Replay fetched"); } });
+  for (const file of ["inputs.json", "report.json", "report.md", "state.json"]) {
+    assert.equal(await readFile(path.join(root, "live", file), "utf8"), await readFile(path.join(root, "replay", file), "utf8"), file);
+  }
 });

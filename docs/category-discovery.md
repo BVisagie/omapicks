@@ -8,7 +8,7 @@ Open **Weekly category discovery → Summary**. The same explanation is printed 
 
 - `report.md`: priority task reviews, up to three ready probes, a short watchlist, and a copyable LLM prompt.
 - `report.json`: full candidate evidence, IDs, repository lists, descriptions, engagement, current category overlaps, suppression decisions, and history.
-- `inputs.json`: exact catalog, stats and explorer responses (explorer with URL, checksum, `generatedAt`, `method` and availability or warning), taxonomy, complete task decisions, prior rankings, configuration, feed-validation baseline, previous observations, analysis time, and workflow commit. The report records its SHA-256 hash.
+- `inputs.json`: exact catalog, stats and explorer responses (explorer with URL, checksum, `generatedAt`, `method` and availability or warning), taxonomy, complete task decisions, prior rankings and the durable review queue, configuration, feed-validation baseline, previous observations, analysis time, and workflow commit. The report records its SHA-256 hash.
 - `state.json`: observations used for subsequent runs.
 
 The Summary contains only the live-catalog report; integration-test fixtures explicitly suppress summary output. History text states how many comparable observations exist, how many satisfy the 6–21-day window, and the earliest eligibility time when the baseline is still too recent. Displayed listings put prominent unclassified evidence first and label already-classified overlap or additional lexical matches separately.

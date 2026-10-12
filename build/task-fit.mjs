@@ -79,15 +79,25 @@ export function validateTaskContracts(types) {
   }
 }
 
-export function updateTaskReviewQueue(assignments, previous = null, generatedAt = new Date().toISOString()) {
+export function preserveTaskReviewHistory(assignments, previous = null, generatedAt = new Date().toISOString()) {
   const prior = new Map((previous?.assignments ?? []).map((p) => [`${p.pluginId}/${p.typeId}`, p]));
-  const current = assignments.map((p) => {
+  return assignments.map((p) => {
     const old = prior.get(`${p.pluginId}/${p.typeId}`);
     const sameEvidence = old?.metadataHash === p.metadataHash && old?.contractVersion === p.contractVersion;
+    // Former-pick priority lasts for the unresolved assignment, even through another metadata edit.
+    return { ...p, previousPick: Boolean(p.previousPick || old?.previousPick),
+      firstSeenAt: sameEvidence ? old.firstSeenAt ?? generatedAt : generatedAt, lastSeenAt: generatedAt };
+  }).sort((a, b) => Number(b.previousPick) - Number(a.previousPick) || Number(b.wouldEnterPodium) - Number(a.wouldEnterPodium) ||
+    (b.prospectiveScore ?? -1) - (a.prospectiveScore ?? -1) || a.typeId.localeCompare(b.typeId) || a.pluginId.localeCompare(b.pluginId));
+}
+
+export function updateTaskReviewQueue(assignments, previous = null, generatedAt = new Date().toISOString()) {
+  const prior = new Map((previous?.assignments ?? []).map((p) => [`${p.pluginId}/${p.typeId}`, p]));
+  const current = preserveTaskReviewHistory(assignments, previous, generatedAt).map((p) => {
     return { pluginId: p.pluginId, typeId: p.typeId, name: p.name, repository: p.repository, status: p.status,
       reason: p.reason, metadataHash: p.metadataHash, contractVersion: p.contractVersion,
       prospectiveScore: p.prospectiveScore, previousPick: p.previousPick, wouldEnterPodium: p.wouldEnterPodium,
-      firstSeenAt: sameEvidence ? old.firstSeenAt : generatedAt, lastSeenAt: generatedAt };
+      firstSeenAt: p.firstSeenAt, lastSeenAt: p.lastSeenAt };
   });
   const keys = new Set(current.map((p) => `${p.pluginId}/${p.typeId}`));
   return { schemaVersion: 1, generatedAt, resolvedCount: [...prior.keys()].filter((key) => !keys.has(key)).length, assignments: current };

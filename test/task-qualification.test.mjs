@@ -5,7 +5,7 @@ import os from "node:os";
 import test from "node:test";
 import { classifyPlugin, prepareTaxonomy, rankPlugins, methodologyFor, pickWithHysteresis } from "../build/rank.mjs";
 import { assertTaskQualifiedSnapshot, explainTaskFit, prepareTaskReviews, taskMetadataHash, updateTaskReviewQueue } from "../build/task-fit.mjs";
-import { auditClassifications } from "../build/classification-audit.mjs";
+import { auditClassifications, renderClassificationAudit } from "../build/classification-audit.mjs";
 import { refresh, validateFeeds } from "../build/refresh.mjs";
 import { renderFixtureType, renderFixtureMethodology } from "../build/render.mjs";
 import { reviewProposal } from "../scripts/task-review.mjs";
@@ -105,6 +105,51 @@ test("a pending assignment retains its queue age and resolution clears it", () =
   assert.equal(updateTaskReviewQueue([], second, now.toISOString()).resolvedCount, 1);
 });
 
+test("unresolved former picks keep their priority and queue age after replacement", () => {
+  const old = plugin("old"), replacement = plugin("replacement"), challenger = plugin("challenger");
+  const reviews = [review(old), review(replacement)];
+  const args = inputs([old, replacement, challenger], reviews, { stats: {
+    old: { copies: 1000, hearts: 90, views: 3000 }, replacement: { copies: 10, hearts: 1, views: 50 },
+    challenger: { copies: 10000, hearts: 1000, views: 30000 }
+  } });
+  const initial = rankPlugins(args);
+  const changed = { ...old, description: "A changed screenshot capture claim." };
+  const first = rankPlugins({ ...args, catalog: [changed, replacement, challenger], previous: initial.rankings });
+  const queue = updateTaskReviewQueue(first.reviewQueue, null, now.toISOString());
+  const next = auditClassifications({ ...args, catalog: [changed, replacement, challenger], previous: first.rankings,
+    previousReviewQueue: queue, now: new Date("2026-10-19T15:00:00Z") });
+  const pending = next.reviewQueue.find((p) => p.pluginId === old.id);
+  assert.equal(pending.previousPick, true);
+  assert.equal(pending.firstSeenAt, now.toISOString());
+  assert.equal(next.reviewQueue[0].pluginId, old.id, "a stronger pending challenger cannot bury the unresolved former pick");
+  assert.match(renderClassificationAudit(next), /former pick;/);
+  const stored = updateTaskReviewQueue(next.reviewQueue, queue, next.generatedAt);
+  assert.equal(stored.assignments[0].previousPick, true);
+  const editedAgain = updateTaskReviewQueue([{ ...pending, metadataHash: "changed-again", previousPick: false }], stored, "2026-10-20T15:00:00Z");
+  assert.equal(editedAgain.assignments[0].previousPick, true);
+  assert.equal(editedAgain.assignments[0].firstSeenAt, "2026-10-20T15:00:00Z");
+  const resolved = updateTaskReviewQueue([], editedAgain, "2026-10-21T15:00:00Z");
+  assert.equal(updateTaskReviewQueue([{ ...pending, previousPick: false }], resolved).assignments[0].previousPick, false);
+});
+
+test("known related integrations cannot hide a challenger from prospective podium review", () => {
+  const good = plugin("good"), pending = plugin("pending"), a = plugin("related-a"), b = plugin("related-b");
+  const related = (p) => review(p, { decision: "related", role: "integration", capabilities: [],
+    reason: "Only reports capture activity from another tool; cannot capture and export images." });
+  const args = inputs([good, pending, a, b], [review(good), related(a), related(b)], { stats: {
+    good: { copies: 10, hearts: 1, views: 50 }, pending: { copies: 1000, hearts: 100, views: 3000 },
+    "related-a": { copies: 10000, hearts: 1000, views: 30000 }, "related-b": { copies: 20000, hearts: 2000, views: 60000 }
+  } });
+  const before = rankPlugins(args);
+  const row = before.reviewQueue.find((p) => p.pluginId === pending.id);
+  assert.equal(row.wouldEnterPodium, true);
+  assert.equal(before.rankings.types[0].winner.id, good.id);
+  const admitted = rankPlugins({ ...args, taskReviews: { schemaVersion: 1, assignments: [...args.taskReviews.assignments, review(pending)] } });
+  assert.equal(admitted.rankings.types[0].winner.id, pending.id);
+  const withoutRelated = rankPlugins({ ...args, catalog: [good, pending] });
+  assert.equal(row.prospectiveScore, withoutRelated.reviewQueue[0].prospectiveScore, "related popularity also cannot alter research normalization");
+});
+
 test("review proposal binds an explicit judgment to captured evidence and never invents approval", () => {
   const p = plugin("a"); const capture = { catalog: { body: { plugins: [p] } }, taxonomy };
   assert.throws(() => reviewProposal(capture, [{ pluginId: "a", typeId: "capture" }]), /decision/);
@@ -143,6 +188,33 @@ test("refresh archives a task queue in dry runs, hashes decisions for the freeze
   assert.throws(() => validateFeeds({ plugins: [p] }, { schemaVersion: 1, plugins: { a: { copies: 0, hearts: 0, views: 0 } } }, 1, { source: { catalog: { count: 4 } } }), /fewer than 75%/);
 });
 
+test("publishing a replacement does not erase former-pick priority from subsequent refresh captures", async (context) => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "omapicks-former-pick-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  await mkdir(path.join(root, "data"));
+  const old = plugin("old"), replacement = plugin("replacement"), challenger = plugin("challenger");
+  let entries = [old, replacement, challenger];
+  for (const [file, value] of Object.entries({ "app-types": taxonomy, "task-reviews": { schemaVersion: 1, assignments: [review(old), review(replacement)] } })) {
+    await writeFile(path.join(root, "data", `${file}.json`), JSON.stringify(value));
+  }
+  const stats = { old: { copies: 1000, hearts: 90, views: 3000 }, replacement: { copies: 10, hearts: 1, views: 50 }, challenger: { copies: 10000, hearts: 1000, views: 30000 } };
+  const fetchImpl = async (url) => new Response(JSON.stringify(url.includes("/stats") ? { schemaVersion: 1, plugins: stats }
+    : url.includes("registry") ? { retiredPluginIds: [] } : { plugins: entries }));
+  const options = { root, now, minimumCatalogSize: 1, fetchImpl };
+  await refresh(options);
+  entries = [{ ...old, description: "Changed screenshot capture evidence." }, replacement, challenger];
+  const replaced = await refresh({ ...options, republish: true });
+  assert.equal(replaced.rankings.types[0].winner.id, replacement.id);
+  const firstQueue = replaced.reviewQueue;
+  const later = await refresh({ ...options, now: new Date("2026-10-19T15:00:00Z") });
+  assert.equal(later.reviewQueue.assignments[0].pluginId, old.id);
+  assert.equal(later.classificationAudit.reviewQueue[0].previousPick, true);
+  assert.deepEqual(later.auditInputs.previousReviewQueue, firstQueue);
+  assert.equal(later.reviewQueue.assignments[0].firstSeenAt, firstQueue.assignments[0].firstSeenAt);
+  const stored = JSON.parse(await readFile(path.join(root, "data", "task-review-queue.json")));
+  assert.equal(stored.assignments[0].previousPick, true);
+});
+
 test("version 2 audit captures still replay their classifier evidence under the recorded methodology", () => {
   const p = plugin("sync", "The screenshot shows the file synchronization panel.");
   const legacy = auditClassifications({ catalog: [p], stats: {}, taxonomy, classificationVersion: 2, methodology: methodologyFor("1.1.0"), now });
@@ -170,9 +242,13 @@ test("captured counterexamples and missed primary tasks have explicit recommenda
   const productionReviews = await json("../data/task-reviews.json");
   const catalog = fixtures.cases.map((c) => c.plugin);
   const result = rankPlugins({ catalog, stats: {}, taxonomy: productionTaxonomy, taskReviews: productionReviews, now });
-  for (const { plugin: p, qualified, rejected } of fixtures.cases) {
+  for (const { plugin: p, qualified, rejected, related = [] } of fixtures.cases) {
     const assignments = result.qualifiedTypeIdsById.get(p.id) ?? [];
     for (const typeId of qualified) assert.ok(assignments.includes(typeId), `${p.id} must qualify for ${typeId}`);
+    for (const typeId of related) {
+      assert.ok(!assignments.includes(typeId), `${p.id} has insufficient scope for ${typeId}`);
+      assert.ok(result.rankings.types.find((t) => t.id === typeId).relatedTools.some((c) => c.id === p.id), `${p.id} stays discoverable as related to ${typeId}`);
+    }
     for (const typeId of rejected) {
       assert.ok(!assignments.includes(typeId), `${p.id} cannot recommend ${typeId}`);
       assert.ok(!(result.typeIdsById.get(p.id) ?? []).includes(typeId), `${p.id} cannot match ${typeId}`);

@@ -165,7 +165,7 @@ function analyzeExplorer(explorer, eligible, prepared, catalog, catalogGenerated
   };
 }
 
-export function analyze({ catalog, stats, taxonomy, config, taskReviews = null, previousRankings = null, previous = null, now = new Date(), explorer = null, catalogGeneratedAt = null }) {
+export function analyze({ catalog, stats, taxonomy, config, taskReviews = null, previousRankings = null, previousReviewQueue = null, previous = null, now = new Date(), explorer = null, catalogGeneratedAt = null }) {
   validateConfig(config);
   const prepared = prepareTaxonomy(taxonomy);
   const reviews = taskReviews ? prepareTaskReviews(taskReviews, prepared.types) : null;
@@ -254,7 +254,7 @@ export function analyze({ catalog, stats, taxonomy, config, taskReviews = null, 
   };
   const suggestions = diverse(distinct.filter((g) => g.status === "ready-for-probe"));
   const watchlist = diverse(distinct.filter((g) => g.status === "watchlist"));
-  const taskReviewQueue = taskReviews ? rankPlugins({ catalog, stats, taxonomy, taskReviews, previous: previousRankings, now }).reviewQueue : [];
+  const taskReviewQueue = taskReviews ? rankPlugins({ catalog, stats, taxonomy, taskReviews, previous: previousRankings, previousReviewQueue, now }).reviewQueue : [];
   const observation = { at: now.toISOString(), settingsHash, groups: candidates.map((g) => ({ id: g.id, repositories: g.evidenceRepositories })) };
   // Retain the first observation of each ISO week; manual reruns cannot manufacture persistence.
   const priorWeeks = observations.filter((o) => isoWeek(new Date(o.at)) !== isoWeek(now));
@@ -309,7 +309,7 @@ export function renderReport(report) {
     "This is a deterministic research prompt, not semantic validation or a recommendation to publish a category. Repeated phrases can describe incidental features; prominence in a name or opening description is only a lexical filter, not proof of primary purpose. No LLM was called, no categories changed, and no PR was opened.", "",
     `Screening counts (not mutually exclusive): ${Object.entries(report.counts).map(([key, value]) => `${key}=${value}`).join(", ")}. At most three probes are highlighted; full evidence is in report.json.`, ""];
   lines.push("## Recommendation capability review first", "", `${report.taskReviewQueue?.length ?? 0} assignments await capability review. Previous picks and prospective podium entrants have priority, including plugins with only one category. Research scores cannot publish a recommendation.`, "");
-  for (const p of (report.taskReviewQueue ?? []).slice(0, 12)) lines.push(`- ${escape(p.typeName)} / ${escape(p.name)} (${escape(p.pluginId)}): ${escape(p.status)}. ${escape(p.reason)} Repository: ${escape(p.repository)}.`);
+  for (const p of (report.taskReviewQueue ?? []).slice(0, 12)) lines.push(`- ${escape(p.typeName)} / ${escape(p.name)} (${escape(p.pluginId)}): ${escape(p.status)}; ${p.previousPick ? "former pick; " : ""}${p.wouldEnterPodium ? "prospective podium; " : ""}awaiting review since ${escape(p.firstSeenAt)}. ${escape(p.reason)} Repository: ${escape(p.repository)}.`);
   lines.push("", "Resolve task decisions in data/task-reviews.json against captured metadata and the category contract before expanding the taxonomy. Curated probes are prioritized and at most one coding-agent topic family receives a highlighted slot; all remaining evidence stays in report.json.", "");
   lines.push("## Existing-category eligibility checks", "", `${report.classificationReview?.length ?? 0} listings warrant an overlap or held-assignment check. Multiple categories can be valid; this is a research prompt, not automatic rejection. Full task evidence is in report.json.`, "");
   for (const p of (report.classificationReview ?? []).slice(0, 8)) lines.push(`- ${escape(p.name)} (${escape(p.id)}): ${escape(p.types.join(", "))}. ${escape(p.reason)}.`);
@@ -361,13 +361,15 @@ async function captureInputs({ root, previous, now, fetchImpl }) {
   const [taxonomy, config, rankings] = await Promise.all([read("data/app-types.json"), read("data/category-discovery.json"), read("data/rankings.json")]);
   let taskReviews = null;
   try { taskReviews = await read("data/task-reviews.json"); } catch (error) { if (error.code !== "ENOENT") throw error; }
+  let previousReviewQueue = null;
+  try { previousReviewQueue = await read("data/task-review-queue.json"); } catch (error) { if (error.code !== "ENOENT") throw error; }
   const [catalog, stats, explorer] = await Promise.all([
     fetchJson("https://plugins.omarchy.org/catalog.json", { fetchImpl: (url, options) => boundedFetch(fetchImpl, url, options) }),
     fetchJson("https://api.omarchyplugins.com/v1/stats", { fetchImpl: (url, options) => boundedFetch(fetchImpl, url, options) }),
     fetchExplorer(fetchImpl)
   ]);
   const validation = { minimumCatalogSize: Math.max(1000, Math.ceil(rankings.source.catalog.count * 0.75)), previousStatsCount: rankings.source?.stats?.count ?? null };
-  return { algorithmVersion: ALGORITHM_VERSION, catalog, stats, explorer, taxonomy, config, taskReviews, previousRankings: rankings, validation, now: now.toISOString(), previous, commit: process.env.GITHUB_SHA ?? null };
+  return { algorithmVersion: ALGORITHM_VERSION, catalog, stats, explorer, taxonomy, config, taskReviews, previousRankings: rankings, previousReviewQueue, validation, now: now.toISOString(), previous, commit: process.env.GITHUB_SHA ?? null };
 }
 
 // `inputFile` replays a previous run's inputs.json offline: nothing is fetched or read from data/.
@@ -377,7 +379,7 @@ export async function run({ root = ROOT, output = path.join(root, "tmp/category-
   const { catalog, stats } = inputs;
   if (catalog.body.plugins?.length > 20000 || Object.keys(stats.body.plugins ?? {}).length > 30000) throw new Error("Discovery input exceeds the bounded catalog/stats budget");
   validateFeeds(catalog.body, stats.body, inputs.validation?.minimumCatalogSize ?? 1000, { source: { stats: { count: inputs.validation?.previousStatsCount ?? null } } });
-  const report = analyze({ catalog: catalog.body.plugins, stats: stats.body.plugins, taxonomy: inputs.taxonomy, config: inputs.config, taskReviews: inputs.taskReviews, previousRankings: inputs.previousRankings, previous: inputs.previous,
+  const report = analyze({ catalog: catalog.body.plugins, stats: stats.body.plugins, taxonomy: inputs.taxonomy, config: inputs.config, taskReviews: inputs.taskReviews, previousRankings: inputs.previousRankings, previousReviewQueue: inputs.previousReviewQueue, previous: inputs.previous,
     now: new Date(inputs.now), explorer: inputs.explorer ?? null, catalogGeneratedAt: catalog.body.generatedAt ?? null });
   report.inputsHash = hash(inputs);
   const markdown = renderReport(report);

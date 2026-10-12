@@ -1,5 +1,5 @@
 import { CURRENT_METHODOLOGY_VERSION, methodologyFor } from "./methodology.mjs";
-import { explainTaskFit, prepareTaskReviews, taskMetadataHash, validateTaskContracts } from "./task-fit.mjs";
+import { explainTaskFit, prepareTaskReviews, preserveTaskReviewHistory, taskMetadataHash, validateTaskContracts } from "./task-fit.mjs";
 
 export { methodologyFor, snapshotMethodology } from "./methodology.mjs";
 
@@ -434,7 +434,7 @@ function builtInRef(plugin) {
 // `methodology` defaults to the current rules; offline comparisons pass alternatives. `detail`
 // additionally returns every scored cohort for research reports; snapshots never contain it.
 // `newListingsBaseline` is the latest snapshot from an earlier ISO week ({ week, generatedAt }).
-export function rankPlugins({ catalog, stats, taxonomy, taskReviews = { schemaVersion: 1, assignments: [] }, classificationVersion = CLASSIFICATION_VERSION, previous = null, now = new Date(), source = null, methodology = METHODOLOGY, detail = false, newListingsBaseline = null }) {
+export function rankPlugins({ catalog, stats, taxonomy, taskReviews = { schemaVersion: 1, assignments: [] }, classificationVersion = CLASSIFICATION_VERSION, previous = null, previousReviewQueue = null, now = new Date(), source = null, methodology = METHODOLOGY, detail = false, newListingsBaseline = null }) {
   assert(Array.isArray(catalog), "Catalog must be an array");
   assert(stats && typeof stats === "object" && !Array.isArray(stats), "Stats must be an object");
   assert(now instanceof Date && Number.isFinite(now.getTime()), "now must be a valid Date");
@@ -492,7 +492,7 @@ export function rankPlugins({ catalog, stats, taxonomy, taskReviews = { schemaVe
     if (reviewed) {
       for (const candidate of candidates) candidate.taskFit = fits.get(`${candidate.id}/${type.id}`);
       // Prospective activity scores prioritize research; they cannot confer headline eligibility.
-      const research = scoreCohort(members, stats, now, methodology);
+      const research = scoreCohort(members.filter((plugin) => !["related", "rejected"].includes(fits.get(`${plugin.id}/${type.id}`).status)), stats, now, methodology);
       for (const candidate of research) {
         const fit = fits.get(`${candidate.id}/${type.id}`);
         if (fit.status === "qualified" || fit.status === "rejected" || fit.status === "related") continue;
@@ -583,7 +583,7 @@ export function rankPlugins({ catalog, stats, taxonomy, taskReviews = { schemaVe
     exclusions,
     typeIdsById,
     qualifiedTypeIdsById: reviewed ? qualifiedTypeIdsById : typeIdsById,
-    reviewQueue: reviewQueue.sort((a, b) => Number(b.previousPick) - Number(a.previousPick) || Number(b.wouldEnterPodium) - Number(a.wouldEnterPodium) || b.prospectiveScore - a.prospectiveScore || a.typeId.localeCompare(b.typeId) || a.pluginId.localeCompare(b.pluginId)),
+    reviewQueue: preserveTaskReviewHistory(reviewQueue, previousReviewQueue, now.toISOString()),
     ...(detail ? { cohorts: scoredCohorts } : {}),
     rankings: {
       schemaVersion: 1,

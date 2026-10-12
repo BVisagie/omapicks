@@ -90,11 +90,12 @@
         "installAvailable": true,
         "installCommand": "install oniomarchy.godark"
       },
-      "qualified": [
-        "network"
-      ],
+      "qualified": [],
       "rejected": [
         "radio"
+      ],
+      "related": [
+        "network"
       ]
     },
     {

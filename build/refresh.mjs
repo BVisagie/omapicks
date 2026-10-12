@@ -127,6 +127,7 @@ export function replayChanges(inputs) {
     taskReviews: inputs.taskReviews,
     classificationVersion: inputs.classificationVersion ?? 2,
     previous: inputs.previous,
+    previousReviewQueue: inputs.previousReviewQueue,
     now: new Date(inputs.now),
     methodology: methodologyFor(inputs.methodologyVersion ?? LEGACY_METHODOLOGY_VERSION)
   });
@@ -603,7 +604,8 @@ export async function refresh({
   };
 
   const previousState = await readJson(path.join(root, "data", "classification-state.json"), null);
-  const auditInputs = { schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, methodologyVersion: methodology.version, codeRevision: revision, now: now.toISOString(), catalog: catalogResult, stats: statsResult, registry, taxonomy, ...(methodology.eligibility.reviewedTaskEvidence ? { taskReviews } : {}), previous, previousState };
+  const previousReviewQueue = await readJson(path.join(root, "data", "task-review-queue.json"), null);
+  const auditInputs = { schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, methodologyVersion: methodology.version, codeRevision: revision, now: now.toISOString(), catalog: catalogResult, stats: statsResult, registry, taxonomy, ...(methodology.eligibility.reviewedTaskEvidence ? { taskReviews, previousReviewQueue } : {}), previous, previousState };
   // Retain the evidence even if a malformed contract or review blocks publication.
   const output = path.join(root, "tmp", "classification-audit");
   await writeJsonAtomic(path.join(output, "inputs.json"), auditInputs);
@@ -614,6 +616,7 @@ export async function refresh({
     taskReviews,
     methodology,
     previous,
+    previousReviewQueue,
     now,
     source,
     newListingsBaseline: await priorWeekBaseline(root, week)
@@ -627,8 +630,7 @@ export async function refresh({
   const runnerUpChanges = runnerUpChangesBetween(previous, rankings, context);
   const weeklyRunnerUpChanges = weekChangeLog(previous, week, existingHistory, runnerUpChanges, "runnerUpChanges");
   const previousReport = await readJson(path.join(root, "data", "unclassified-report.json"), null);
-  const previousReviewQueue = await readJson(path.join(root, "data", "task-review-queue.json"), null);
-  const classificationAudit = auditClassifications({ catalog: catalogResult.body.plugins, stats: statsResult.body.plugins, taxonomy, taskReviews, previous, previousState, now, methodology });
+  const classificationAudit = auditClassifications({ catalog: catalogResult.body.plugins, stats: statsResult.body.plugins, taxonomy, taskReviews, previous, previousState, previousReviewQueue, now, methodology });
   classificationAudit.inputsHash = checksum(auditInputs);
   const reviewQueue = { ...updateTaskReviewQueue(classificationAudit.reviewQueue ?? [], previousReviewQueue, now.toISOString()), taxonomyHash: taxonomySha, taskReviewsHash: reviewsSha };
   const summary = {

@@ -2,7 +2,7 @@
 
 Captured 2026-10-12T13:34:39.901Z; inputs 571768068ff3f8a791d08d7ffa52c8c97a63751230f9ab6fe771409b763fca8a. Methodology 1.1.0 → 1.2.0.
 
-10 new categories; 13 existing champion changes; 261 reviewed assignments compete; 2224 assignments await review.
+10 new categories; 13 existing champion changes; 260 reviewed assignments compete; 2224 assignments await review.
 
 Before counts are the old eligible cohort; after counts are reviewed candidates. Taxonomy, task evidence and selection change together here; feed, engagement and time are held fixed. Popularity cannot replace task qualification.
 
@@ -12,7 +12,7 @@ Before counts are the old eligible cohort; after counts are reviewed candidates.
 | Music Players (new) | 0 → 5 | none → OmaSpotify | none → Spotify Vinyl |
 | Launcher | 34 → 4 | App Launcher → Keystroke | Keystroke → App Launcher |
 | Application Docks (new) | 0 → 4 | none → Dock | none → OmaDock |
-| Network Connections | 133 → 5 | Vitals → Omaltbar | Argus → Network Manager (with Repeater & Hotspot) |
+| Network Connections | 133 → 4 | Vitals → Omaltbar | Argus → Network Manager (with Repeater & Hotspot) |
 | Network Traffic & Diagnostics (new) | 0 → 4 | none → Vitals | none → OmaStats |
 | Bluetooth | 11 → 4 | Advanced Bluetooth Audio → Advanced Bluetooth Audio | Omaltbar → Better Bluetooth |
 | Audio | 70 → 4 | Advanced Audio Control → Advanced Audio Control | Nothing Audio → Advanced Bluetooth Audio |
