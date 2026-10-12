@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "classificationVersion": 3,
-  "generatedAt": "2026-10-12T15:39:44.802Z",
+  "generatedAt": "2026-10-12T19:52:15.513Z",
   "taxonomyHash": "54fd6c4847defdacaee35f3fc58c873b76f4c4acd6862cd9192e4868800944ed",
   "plugins": [
     {
@@ -508,6 +508,12 @@
       ]
     },
     {
+      "id": "akitaonrails.cheatsheets",
+      "name": "Cheatsheets",
+      "metadataHash": "902589aeabc1baa7b7d1ed6e03b0f7a901b429712dfa019932073df51a8f07ca",
+      "types": []
+    },
+    {
       "id": "akshad135.anisync",
       "name": "AniSync",
       "metadataHash": "204e486625fb8886248fd206f1a63eab848355aca5f1a3985b7f8f39677f0ced",
@@ -946,6 +952,12 @@
       "id": "andy.side-panel",
       "name": "Side Panel",
       "metadataHash": "a52e8b9ba7246ca9048ae57c0b3ecfff3f2447bbf8b0d1cadc4d4b4637d764fc",
+      "types": []
+    },
+    {
+      "id": "andy.switch-display",
+      "name": "Switch Display",
+      "metadataHash": "80a4252bb797a7cdce82414827b6a99fe7f2539349cc570706179ae6839ea752",
       "types": []
     },
     {
@@ -6732,6 +6744,20 @@
       "types": []
     },
     {
+      "id": "fernando.jarvis-ai-monitor",
+      "name": "Jarvis AI Monitor",
+      "metadataHash": "7317f01c82d98bac50f6246c99230a84a8206939ddbd6a8e5176592c08630d93",
+      "types": []
+    },
+    {
+      "id": "fernando.jarvis-monitor",
+      "name": "Jarvis Monitor",
+      "metadataHash": "de1dfc9295a99014549e0b2b4c19ca16c04b1b8902558b2216df7c3a1efd7fab",
+      "types": [
+        "system-monitor"
+      ]
+    },
+    {
       "id": "fickleminded.iris",
       "name": "Iris",
       "metadataHash": "5cefb4aafbeb6e2a4cea5b6abbfeaef10093292c829fdfb206a4952a3e00e2b5",
@@ -8696,6 +8722,12 @@
       "types": []
     },
     {
+      "id": "ianswope.g7-companion",
+      "name": "G7 Companion",
+      "metadataHash": "6d5f286e3f933c11354ec60d5be73cd971420e764033d21272704a6196cadbbe",
+      "types": []
+    },
+    {
       "id": "ianswope.homebridge",
       "name": "Homebridge",
       "metadataHash": "9d75e2506fa9bbf5c4e443e656e717387bc09ce12f9457a5e6c83e8d6756c98c",
@@ -9171,6 +9203,14 @@
       "metadataHash": "20ce37328b6d5cd556b5ad8b2a3e67635d83c5c1b8660a1bab1ff2afb1b2702f",
       "types": [
         "peripheral-battery"
+      ]
+    },
+    {
+      "id": "io.github.9khaledsayed.task-manager",
+      "name": "Task Manager",
+      "metadataHash": "db4cae285f55c20446aeead9ce3284d5c4f1de92384a91489c397818fa035ac2",
+      "types": [
+        "system-monitor"
       ]
     },
     {
@@ -10052,6 +10092,12 @@
       ]
     },
     {
+      "id": "io.github.anky209e.project-manager",
+      "name": "Project Manager",
+      "metadataHash": "790efb429f1a6484afac1e11c1b95c5b3830642e1f357acabce2c3f7c3988b03",
+      "types": []
+    },
+    {
       "id": "io.github.anooplamba.workspace-preview",
       "name": "Workspace Peek",
       "metadataHash": "5c39e419be1067c99c886cf6f2ab6e3deeb4162678b6c0db0eb4e594238de881",
@@ -10206,6 +10252,14 @@
       "name": "sbxEnclave",
       "metadataHash": "abffdd517c874c89995af10de9d58080f3ad979484262d1b429eca0030304d54",
       "types": []
+    },
+    {
+      "id": "io.github.arnaldo-delisio.memory-oomd",
+      "name": "Memory (oomd)",
+      "metadataHash": "b237b2eaf6baae9ffa29bf2574966604bdfaf63a8fde4507dbfc422dde38ae99",
+      "types": [
+        "system-monitor"
+      ]
     },
     {
       "id": "io.github.arslan.sysmon",
@@ -11440,6 +11494,14 @@
       "name": "Bongo Cat",
       "metadataHash": "99477d72f554cb0c986406fa57d36ba2ccda517327c08700cc24aef51db41718",
       "types": []
+    },
+    {
+      "id": "io.github.chizzler.bluechip",
+      "name": "Bluechip",
+      "metadataHash": "ea3617d8936222629ddea3da6bc9333115d3f1f4abdce6098a1557be23ccf5af",
+      "types": [
+        "peripheral-battery"
+      ]
     },
     {
       "id": "io.github.chris.desktop-undo",
@@ -15238,6 +15300,12 @@
       ]
     },
     {
+      "id": "io.github.jburchel.omarchy-assistant",
+      "name": "Omarchy Assistant",
+      "metadataHash": "13c3ebfc94e9f14cd22062378689339113ac817e87c8eae21ef198829df52fcb",
+      "types": []
+    },
+    {
       "id": "io.github.jburchel.workspace-nameplates",
       "name": "Workspace Names & Icons",
       "metadataHash": "ef5bf7cb5c484d8c037710dccb766e7cb9fc747f8066f3089658277be9e85937",
@@ -16432,6 +16500,18 @@
       "id": "io.github.latex.omaaura-theme",
       "name": "OmaAura Theme",
       "metadataHash": "376cdf8bd73f99103cc1b17a24c870dcd2ad493d42735982541a91be3c5246b7",
+      "types": []
+    },
+    {
+      "id": "io.github.lavart.gridfall",
+      "name": "Gridfall",
+      "metadataHash": "a1a22e7bc440055e2872944324e16781566d33c8ef46bb6ef4a563c03f0211d1",
+      "types": []
+    },
+    {
+      "id": "io.github.lavart.omacommand",
+      "name": "Omacommand",
+      "metadataHash": "b78c05f1acefa05e245df17935cb494a181050e8215ab3a67aaff589de6b0faf",
       "types": []
     },
     {
@@ -17816,6 +17896,14 @@
       "metadataHash": "323cf09ae28f6fe5479dac887aed1a780d9e6438ced6fda4f47d2cd59dcf4ef6",
       "types": [
         "prayer-times"
+      ]
+    },
+    {
+      "id": "io.github.mxkeaton.plugpatcher",
+      "name": "PlugPatcher",
+      "metadataHash": "46901675da2b0d691dfe72547beff8ed047e9f1549936d5e9930b39a3e55ff7e",
+      "types": [
+        "github"
       ]
     },
     {
@@ -20885,12 +20973,26 @@
       "types": []
     },
     {
+      "id": "io.github.soham3301.display-particles",
+      "name": "Display Particles",
+      "metadataHash": "9c3c68e6c2afe393f9914bff64a0682fa93dd0b0415c70cddde33bc54aeecb35",
+      "types": [
+        "weather"
+      ]
+    },
+    {
       "id": "io.github.soham3301.net-rain",
       "name": "Net Rain",
       "metadataHash": "f81f236f566ee2e5e73dc4ee0e6b181163b0a52b89845d60aae87eaa4ecb7289",
       "types": [
         "network-diagnostics"
       ]
+    },
+    {
+      "id": "io.github.soham3301.port-watcher",
+      "name": "Port Watcher",
+      "metadataHash": "2ca982d8ffa4a9efe3530e95a9cab57db83ad6d4608f7fedfae6f11ab4a4fc53",
+      "types": []
     },
     {
       "id": "io.github.soham3301.spinning-disks",
@@ -22771,6 +22873,20 @@
       "types": []
     },
     {
+      "id": "io.github.yeutterg.display-rotation",
+      "name": "Display with Rotation",
+      "metadataHash": "bc3a7dc1dd9c2d2b2bf3d5e7c550f7c00733cc47443c13fa36fa4c37ed0ab5d0",
+      "types": []
+    },
+    {
+      "id": "io.github.yeutterg.lock-pin",
+      "name": "Lock Screen PIN Pad",
+      "metadataHash": "003d82bd44bb8f324807e9589148f96d60dde6c369566390d7938297a1ed0007",
+      "types": [
+        "lock-idle"
+      ]
+    },
+    {
       "id": "io.github.ylaung-uod.omarchy-rdp",
       "name": "Remote Desktop",
       "metadataHash": "42dd5ba08e14c75bf04a8aba4aeab6d57e697e7c3402be682d3cb3fa3c8da22c",
@@ -24175,6 +24291,12 @@
       "types": []
     },
     {
+      "id": "joseluis.control-center",
+      "name": "Centro de control",
+      "metadataHash": "a49aa43fd0b56d52286df098611d343c39cd742c77a356dc993acbda07b8639c",
+      "types": []
+    },
+    {
       "id": "joseluis.media",
       "name": "Media",
       "metadataHash": "78d44fc70186d206855f57d75832966194fdbabb44a6ed38c2b0d4e0e77dad7c",
@@ -25339,6 +25461,12 @@
       ]
     },
     {
+      "id": "leonavas.slack",
+      "name": "Slack",
+      "metadataHash": "005dc442450d9239d244713077220c193cdade904c4edfccf7a607feab74084a",
+      "types": []
+    },
+    {
       "id": "leonavas.superstrike",
       "name": "Superstrike",
       "metadataHash": "5f9351620720e086bf58250e52f8ec4a3ed30a1464b9397a7d19e813b26680bb",
@@ -26121,6 +26249,12 @@
       "types": []
     },
     {
+      "id": "mani4.job-queues",
+      "name": "Job Queues",
+      "metadataHash": "88589e39287223a2cf77a5634c5b00702603a0f03729171bbfdc419c02810269",
+      "types": []
+    },
+    {
       "id": "mani4.search-menu-items",
       "name": "Search Menu Items",
       "metadataHash": "249a76c1d2bc8573c3026695d2ab8c0a3cb3a826a99d2eb08670028be330c242",
@@ -26476,6 +26610,12 @@
       "types": []
     },
     {
+      "id": "mcp64.server-monitor",
+      "name": "Server Monitor",
+      "metadataHash": "fe8365ab98a857857188208d4c92a16117d5839e6f714797259bf70da596da87",
+      "types": []
+    },
+    {
       "id": "mcwehner.pcalc",
       "name": "Programmer calculator",
       "metadataHash": "6a80aaa7fbf25944e54ba188be419c75029ad26e33dc03052760714c4c80ae54",
@@ -26527,6 +26667,12 @@
         "wallpaper",
         "themes-appearance"
       ]
+    },
+    {
+      "id": "mehir.usb-internet-share",
+      "name": "OmaNet",
+      "metadataHash": "f2af3e220e468f07754e572f1896e6993628efbe33cee5e63b5f084473a620df",
+      "types": []
     },
     {
       "id": "meirdick.scores",
@@ -32943,6 +33089,18 @@
       "types": [
         "system-updates"
       ]
+    },
+    {
+      "id": "shaggyrs6.first-boot",
+      "name": "First Boot",
+      "metadataHash": "68d6ac89149bbb3758911ce9d7b26b2f700c3bf1d77c74b17e54f66830a3bd43",
+      "types": []
+    },
+    {
+      "id": "shaggyrs6.scratchview",
+      "name": "Omarchy ScratchView",
+      "metadataHash": "08ad4cbde2ca64628ba87f5deb2a2562b27a31bd61467186eb5254d0415ae8b0",
+      "types": []
     },
     {
       "id": "shahin.daybook",
