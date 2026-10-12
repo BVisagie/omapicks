@@ -17,6 +17,8 @@ Unreviewed assignments cannot enter recommendations. Changed metadata or contrac
 
 This is a conservative initial corpus, not a claim that every catalog plugin was manually evaluated. It includes 283 assignment decisions, with at least three qualified repositories per category. Straightforward, explicit task claims use captured catalog evidence; ambiguous and broad plugins use upstream documentation. The remaining claims enter a review queue rather than competing by default. Reviews establish documented capabilities, not successful installation, usability, security, or independent author verification.
 
+Each source record identifies an actual listing passage or a location in the reviewed README, rather than repeating a category capability template. This applies equally to qualified, related and rejected decisions. VPN contract version 2 requires both tunnel status and native connection controls; a status-only indicator cannot qualify. The four reviewed VPN tools document these controls. MultiVPN's OpenVPN/WireGuard controls qualify, while its GlobalProtect connection handoff to an external client is recorded as a requirement beside the recommendation.
+
 The metadata binding intentionally excludes engagement, push dates and version updates, so routine maintenance does not invalidate capability evidence. A README or implementation can change without changing catalog metadata: these changes are **not automatically detected**. Recorded source revisions make the decision inspectable; reviewers must revisit changed capabilities and requirements when found. Automatic source revalidation and task-specific adoption measurement remain future work.
 
 ## Focused categories and stable routes
@@ -45,7 +47,7 @@ The 1.1.0 signal weights, normalization, sparse-evidence damping, copy/view floo
 
 The champion is the current highest-scoring qualified candidate. The runner-up is the highest remaining candidate, with the existing copies/hearts/stars/ID tie-breaks. The old 10% incumbent margin is removed: on capped scores it could require an unattainable lead and put the raw leader in neither card. Weekly publication supplies stability. Historical snapshots still use their immutable 1.0.0 or 1.1.0 definitions.
 
-The [fixed-input comparison](task-fit-comparison-2026-10-12.md) holds the October 12 feeds, engagement and time constant while changing taxonomy, qualification and selection together. It produces ten new categories, thirteen existing champion changes and 260 qualified assignments. It is a migration comparison, not an estimate of classification accuracy or an installation evaluation. The PR deliberately republishes W42 under 1.2.0; earlier weeks are retained and earlier W42 changelog events are preserved.
+The [fixed-input comparison](task-fit-comparison-2026-10-12.md) holds the October 12 feeds, engagement and time constant while changing taxonomy, qualification and selection together. It produces ten new categories, thirteen existing champion changes and 260 qualified assignments. It is a migration comparison, not an estimate of classification accuracy or an installation evaluation. The PR deliberately republishes W42 under 1.2.0; earlier weeks are retained and earlier W42 changelog events are preserved. The W42 Peripheral Batteries runner-up event now explains that Mouse & Keybind Settings remains a related tool with a narrower scope. Future events distinguish related or unresolved task evidence from a category exit, and those reasons replay from the refresh capture.
 
 ## Weekly operation and review handoff
 

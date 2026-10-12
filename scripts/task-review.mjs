@@ -4,6 +4,15 @@ import { fileURLToPath } from "node:url";
 import { prepareTaskReviews, taskMetadataHash } from "../build/task-fit.mjs";
 import { checksum } from "../build/classification-audit.mjs";
 
+export function catalogReviewSource(catalog, plugin) {
+  const index = catalog.plugins.findIndex((p) => p.id === plugin.id);
+  if (index < 0) throw new Error(`Missing captured catalog source: ${plugin.id}`);
+  const captured = catalog.plugins[index];
+  const field = captured.description ? "description" : "name";
+  return { url: `https://plugins.omarchy.org/plugin.html?id=${encodeURIComponent(plugin.id)}`, revision: checksum(catalog), path: "catalog.json",
+    evidence: `plugins[${index}].${field} (${plugin.id}): ${captured[field]}` };
+}
+
 // The decisions file is the editorial judgment. This helper only binds that judgment to the
 // captured metadata and validates it; a score or keyword match can never manufacture approval.
 export function reviewProposal(inputs, decisions, { taxonomy = inputs.taxonomy, existing = inputs.taskReviews ?? { schemaVersion: 1, assignments: [] } } = {}) {
@@ -24,7 +33,7 @@ export function reviewProposal(inputs, decisions, { taxonomy = inputs.taxonomy, 
     if (decision.metadataHash && decision.metadataHash !== metadataHash) throw new Error(`Decision uses different captured metadata: ${key}`);
     if (decision.contractVersion && decision.contractVersion !== type.contract.version) throw new Error(`Decision uses a different task contract: ${key}`);
     records.set(key, { ...decision, metadataHash, contractVersion: type.contract.version,
-      source: decision.source ?? { url: `https://plugins.omarchy.org/plugin.html?id=${encodeURIComponent(plugin.id)}`, revision: checksum(inputs.catalog.body), evidence: decision.reason },
+      source: decision.source ?? catalogReviewSource(inputs.catalog.body, plugin),
       provenance: decision.provenance ?? "catalog-evidence" });
   }
   const reviews = { schemaVersion: 1, assignments: [...records.values()].sort((a, b) => a.typeId.localeCompare(b.typeId) || a.pluginId.localeCompare(b.pluginId)) };

@@ -26,12 +26,12 @@
       "count": 5485
     },
     "taxonomy": {
-      "sha256": "c445efdcd636d25535f61914c01bb39866ca8cb5cfa6012a18f2688ac09c150a",
+      "sha256": "54fd6c4847defdacaee35f3fc58c873b76f4c4acd6862cd9192e4868800944ed",
       "classificationVersion": 3,
       "typeCount": 64
     },
     "taskReviews": {
-      "sha256": "f416554d3186beb7db1b44fc471452aef7ebfd5598dfb45cabeb2e2a3c721c05",
+      "sha256": "0eff03aaeda17e05b905a74275d0312a69bafe41f3fb3d6396acd8b975404391",
       "schemaVersion": 1,
       "count": 283
     },
@@ -142,7 +142,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=im0001gt.hw-tooltip",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Inspects live hardware resource usage and provides a system dashboard."
+              "path": "catalog.json",
+              "evidence": "plugins[198].description (im0001gt.hw-tooltip): Omarchy-native click panel that names your CPU, RAM, GPU, and disks, then shows live load bars and headline temperatures that follow the theme"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -214,7 +215,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=crmne.omastats",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Inspects live hardware resource usage and provides a system dashboard."
+              "path": "catalog.json",
+              "evidence": "plugins[2488].description (crmne.omastats): System monitor for the Omarchy bar: CPU, GPU, memory, disk, network, temperature, fan and battery stats with live graphs and a detailed panel. An iStat Menus-style activity monitor showing the machine's vital signs, configurable from inside the panel."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -287,7 +289,7 @@
               "url": "https://github.com/Davedes83/OmaControl#readme",
               "revision": "57178c420bf66060b2363a740af4f2e0af3360e1",
               "path": "README.md",
-              "evidence": "Inspects live hardware resource usage and provides a system dashboard."
+              "evidence": "README.md, line 13: Features: task-manager view, historical resource graphs, process controls and adaptive resource sampling."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -359,7 +361,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.diegopluna.argus",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Inspects live hardware resource usage and provides a system dashboard."
+              "path": "catalog.json",
+              "evidence": "plugins[504].description (io.github.diegopluna.argus): CPU, RAM, GPU, disk, network, battery, power, and temperature stats in the bar, with a full system panel: 2m/1h/24h history that survives restarts (the flight recorder), per-metric opt-in alerts with context snapshots, a filterable sortable process table, per-process GPU usage, drive SMART health, an alert hook for automation, and a GAME tab that configures your MangoHud in-game overlay live."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -434,7 +437,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=stappmus.activity-monitor",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Inspects live hardware resource usage and provides a system dashboard."
+            "path": "catalog.json",
+            "evidence": "plugins[60].description (stappmus.activity-monitor): A calm, low-overhead glance at CPU, memory, GPU, storage, and processes — with a die that matches your chip"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -507,7 +511,7 @@
             "url": "https://github.com/Harshith292002/omarchy-system-monitor#readme",
             "revision": "cd4dfd573e7da9de717af8a3cc2a1aa80fcf566f",
             "path": "README.md",
-            "evidence": "Inspects live hardware resource usage and provides a system dashboard."
+            "evidence": "README.md, line 59: Metrics and Highlights: live CPU/memory, temperature, disk/network throughput, filesystem capacity and supported GPU measurements."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "repository-evidence"
@@ -522,18 +526,16 @@
     {
       "id": "vpn",
       "name": "VPN",
-      "description": "VPN status, connection, and privacy controls",
+      "description": "Inspect VPN tunnel state and connect, disconnect or switch VPN connections",
       "eligibleCount": 4,
       "matchedCount": 81,
       "pendingCount": 77,
       "taskContract": {
-        "version": 1,
-        "outcome": "VPN status, connection, and privacy controls",
+        "version": 2,
+        "outcome": "Inspect VPN tunnel state and connect, disconnect or switch VPN connections",
         "capabilitySets": [
           [
-            "read-vpn-status"
-          ],
-          [
+            "read-vpn-status",
             "control-vpn-connection"
           ]
         ]
@@ -595,22 +597,25 @@
             "status": "qualified",
             "qualified": true,
             "metadataHash": "fac9b289485378a7db080a38ebf585f45ec4f4a361c8588a0f002a5e533321a6",
-            "contractVersion": 1,
+            "contractVersion": 2,
             "role": "core",
             "capabilities": [
-              "read-vpn-status"
+              "read-vpn-status",
+              "control-vpn-connection"
             ],
             "constraints": [
-              "Requires configured OpenVPN, WireGuard or GlobalProtect connections."
+              "Requires configured OpenVPN, WireGuard or GlobalProtect connections.",
+              "GlobalProtect connect is handed off to its terminal or vendor GUI; OpenVPN/WireGuard have native connection controls."
             ],
-            "reason": "Shows tunnel state and provides VPN connection controls.",
+            "reason": "Shows active VPNs and controls OpenVPN/WireGuard profiles independently; GlobalProtect connection uses an external client.",
             "source": {
-              "url": "https://plugins.omarchy.org/plugin.html?id=io.github.nepomuk-software.multivpn",
-              "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Shows tunnel state and provides VPN connection controls."
+              "url": "https://github.com/Nepomuk-Software/MultiVPN#what-you-get",
+              "revision": "0f1dea473e7b7cb6478d45da2b55fc905b0fdd1c",
+              "path": "README.md",
+              "evidence": "README.md, line 30: What you get and Backends: per-VPN state and switches, OpenVPN/WireGuard profiles, native connect/disconnect; GlobalProtect connect is handed off."
             },
             "reviewedAt": "2026-10-12",
-            "provenance": "catalog-evidence"
+            "provenance": "repository-evidence"
           }
         },
         {
@@ -669,22 +674,24 @@
             "status": "qualified",
             "qualified": true,
             "metadataHash": "fd46243319fb0e30b9c02ee9a574573fce3d5e9756b716a5b63e7fde38c558b1",
-            "contractVersion": 1,
+            "contractVersion": 2,
             "role": "core",
             "capabilities": [
-              "read-vpn-status"
+              "read-vpn-status",
+              "control-vpn-connection"
             ],
             "constraints": [
               "Requires Proton VPN."
             ],
-            "reason": "Shows tunnel state and provides VPN connection controls.",
+            "reason": "Shows Proton server and tunnel details and connects to the fastest eligible server or disconnects.",
             "source": {
-              "url": "https://plugins.omarchy.org/plugin.html?id=tharin.protonvpn",
-              "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Shows tunnel state and provides VPN connection controls."
+              "url": "https://github.com/tharinfernando/omarchy-protonvpn#features",
+              "revision": "969ad60afb8af6609b41f54457eb54e4885d996a",
+              "path": "README.md",
+              "evidence": "README.md, line 7: Features: connected server/state, an on/off panel switch, and right-click fastest-server connect/disconnect; Backend names official Proton CLI commands."
             },
             "reviewedAt": "2026-10-12",
-            "provenance": "catalog-evidence"
+            "provenance": "repository-evidence"
           }
         }
       ],
@@ -754,22 +761,24 @@
           "status": "qualified",
           "qualified": true,
           "metadataHash": "327e9d1d5f7e4b38f691d0ecb2a434188368c5b85edfe1eb8d42d2c4ca64d857",
-          "contractVersion": 1,
+          "contractVersion": 2,
           "role": "core",
           "capabilities": [
-            "read-vpn-status"
+            "read-vpn-status",
+            "control-vpn-connection"
           ],
           "constraints": [
             "Requires Proton VPN."
           ],
-          "reason": "Shows tunnel state and provides VPN connection controls.",
+          "reason": "Shows the active Proton tunnel and connects through quick-connect or city/server selection.",
           "source": {
-            "url": "https://plugins.omarchy.org/plugin.html?id=io.github.grichard99.omaproton-vpn",
-            "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Shows tunnel state and provides VPN connection controls."
+            "url": "https://github.com/grichard99/omaproton-vpn#how-to-use-it",
+            "revision": "8e4c1dc4f6bd59ce9cab763bb70649fc7d6e7436",
+            "path": "README.md",
+            "evidence": "README.md, line 140: How to use it: bar/map show active tunnel state, with quick-connect, city selection and panel connection switches."
           },
           "reviewedAt": "2026-10-12",
-          "provenance": "catalog-evidence"
+          "provenance": "repository-evidence"
         }
       },
       "runnerUp": {
@@ -828,22 +837,24 @@
           "status": "qualified",
           "qualified": true,
           "metadataHash": "e892da589623cb96b49821197fca9b90efbac5cd3f62e4adecce05f1f0f1b1d1",
-          "contractVersion": 1,
+          "contractVersion": 2,
           "role": "core",
           "capabilities": [
-            "read-vpn-status"
+            "read-vpn-status",
+            "control-vpn-connection"
           ],
           "constraints": [
             "Requires an installed supported VPN tool."
           ],
-          "reason": "Shows tunnel state and provides VPN connection controls.",
+          "reason": "Shows tunnel state, connects or disconnects, and switches between installed VPN tools and profiles.",
           "source": {
-            "url": "https://plugins.omarchy.org/plugin.html?id=jkoestinger.vpn",
-            "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Shows tunnel state and provides VPN connection controls."
+            "url": "https://github.com/jkoestinger/omarchy-vpn#using-it",
+            "revision": "0226724fee5e61cc5d5b5ec15d08178a39e4cdd5",
+            "path": "README.md",
+            "evidence": "README.md, line 36: Using it: bar icon tracks tunnel state; master switch/right click connect or disconnect, and tool/profile lists switch installed VPNs."
           },
           "reviewedAt": "2026-10-12",
-          "provenance": "catalog-evidence"
+          "provenance": "repository-evidence"
         }
       },
       "topScorer": {
@@ -937,7 +948,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=caseonline.omarchy.office365",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Shows inbox state so you can read or triage incoming mail."
+              "path": "catalog.json",
+              "evidence": "plugins[770].description (caseonline.omarchy.office365): Unread Outlook mail and your agenda in the Omarchy bar. One widget can carry several mailboxes, or add one per mailbox. Needs python3 (standard library only) and talks to Microsoft Graph, nothing else."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -1014,7 +1026,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=omamail",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Shows inbox state so you can read or triage incoming mail."
+            "path": "catalog.json",
+            "evidence": "plugins[609].description (omamail): Email client for Omarchy: read, triage, and reply to Gmail, HEY and any JMAP or IMAP mailbox in a native window. Fastmail, iCloud, Outlook, Zoho, Proton Bridge, or your own server — several accounts at once, each with its own inbox and unread count. Keyboard-first, three columns when there is room and one when there is not, and it follows your theme. Meeting invitations are drawn as meetings you can answer, newsletters unsubscribe in one click, and remote images stay blocked until you ask."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -1088,7 +1101,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=jankeesvw.gmail-inbox",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Shows inbox state so you can read or triage incoming mail."
+            "path": "catalog.json",
+            "evidence": "plugins[1074].description (jankeesvw.gmail-inbox): Unread count in the bar, with the inbox in a panel"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -1185,7 +1199,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=custom.media",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Shows the current track and provides playback controls for an existing player."
+              "path": "catalog.json",
+              "evidence": "plugins[1565].description (custom.media): MPRIS media visualizer and player controller"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -1258,7 +1273,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=mich.spotmarchy",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Shows the current track and provides playback controls for an existing player."
+              "path": "catalog.json",
+              "evidence": "plugins[637].description (mich.spotmarchy): Spotify in the Omarchy bar: now playing, transport, and a panel on a backdrop made from the album cover."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -1342,7 +1358,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=crmne.mpris",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Shows the current track and provides playback controls for an existing player."
+            "path": "catalog.json",
+            "evidence": "plugins[92].description (crmne.mpris): Media controls for the Omarchy bar with live album art, now-playing details, and previous/play-pause/next buttons for Spotify and other players."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -1418,7 +1435,7 @@
             "url": "https://github.com/jitendradara12/omaconnect#readme",
             "revision": "d5027a52759b6f6a489012a28535acf21ec41b34",
             "path": "README.md",
-            "evidence": "Shows the current track and provides playback controls for an existing player."
+            "evidence": "README.md, line 18: Features, Media playback: track metadata, playback controls and player switching are exposed for the paired-device integration."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "repository-evidence"
@@ -1517,7 +1534,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=vornashev.yandex-music",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Provides a music library or catalog together with song and playlist playback."
+              "path": "catalog.json",
+              "evidence": "plugins[2707].description (vornashev.yandex-music): Native Yandex Music player with catalog, owned-playlist management, library, queue and MPRIS"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -1592,7 +1610,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.sirallap.solfa",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Provides a music library or catalog together with song and playlist playback."
+              "path": "catalog.json",
+              "evidence": "plugins[4098].description (io.github.sirallap.solfa): Solfa — YouTube Music in the bar and a keyboard panel. Search, play, queue, library, lyrics and likes; the web app runs hidden as the engine and never takes focus."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -1668,7 +1687,7 @@
               "url": "https://github.com/TIerTek/omarchy-tektube#readme",
               "revision": "419adc6badab02b5d4e69730d85779edb052cd4c",
               "path": "README.md",
-              "evidence": "Provides a music library or catalog together with song and playlist playback."
+              "evidence": "README.md, line 40: What you get: YouTube Music Home, playlists, Liked Music, queue, search and playback controls."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -1692,7 +1711,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=mich.spotmarchy",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Provides a music library or catalog together with song and playlist playback."
+              "path": "catalog.json",
+              "evidence": "plugins[637].description (mich.spotmarchy): Spotify in the Omarchy bar: now playing, transport, and a panel on a backdrop made from the album cover."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -1714,7 +1734,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=crmne.lyrics",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Provides a music library or catalog together with song and playlist playback."
+              "path": "catalog.json",
+              "evidence": "plugins[698].description (crmne.lyrics): Lyrics for whatever you are playing, following the song line by line. It picks the track up from your media player, so there is nothing to search for."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -1792,7 +1813,7 @@
             "url": "https://github.com/jeremylanger/omaspotify#readme",
             "revision": "320fbc004f364d4435384161904d750c5ca14890",
             "path": "README.md",
-            "evidence": "Provides a music library or catalog together with song and playlist playback."
+            "evidence": "README.md, line 30: Why you will love it: Spotify search, artists/albums, playlists, queue and Spotify Connect playback are part of the full music library."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "repository-evidence"
@@ -1868,7 +1889,7 @@
             "url": "https://github.com/funcoder/omarchy-spotify#readme",
             "revision": "48c79783d5bf0155281d701ecb868b32514753f3",
             "path": "README.md",
-            "evidence": "Provides a music library or catalog together with song and playlist playback."
+            "evidence": "README.md, line 19: Introduction and playlist features: Spotify player with Liked songs, Recent, Queue, Search and Spotify Connect devices."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "repository-evidence"
@@ -1963,7 +1984,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=ashuttl.linecast",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Provides current atmospheric conditions, forecasts or weather radar."
+              "path": "catalog.json",
+              "evidence": "plugins[1138].description (ashuttl.linecast): Weather, sun, moon, and tide pills from linecast, each opening a panel drawn in the theme"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -2035,7 +2057,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.guiestrela.weather",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Provides current atmospheric conditions, forecasts or weather radar."
+              "path": "catalog.json",
+              "evidence": "plugins[2038].description (io.github.guiestrela.weather): Weather pill with detail popup"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -2118,7 +2141,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=eduardodallecort.weather-radar",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Provides current atmospheric conditions, forecasts or weather radar."
+            "path": "catalog.json",
+            "evidence": "plugins[215].description (eduardodallecort.weather-radar): Live weather radar map in the Omarchy bar, with optional storm alerts for your location."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -2190,7 +2214,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.calebhat.weather",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Provides current atmospheric conditions, forecasts or weather radar."
+            "path": "catalog.json",
+            "evidence": "plugins[848].description (io.github.calebhat.weather): Detailed weather with an interactive orbital ten-day forecast, remaining-hour outlook, city peek, and Open radar in the default browser."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -2293,7 +2318,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=patcastle.power",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Shows computer battery or charging state and exposes the relevant power controls."
+              "path": "catalog.json",
+              "evidence": "plugins[1464].description (patcastle.power): The Omarchy power widget with battery charge protection."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -2370,7 +2396,7 @@
               "url": "https://github.com/tedwester/omalegion#readme",
               "revision": "e4d4e81d67ee1aac1c050c583c7d17eb72032c04",
               "path": "README.md",
-              "evidence": "Shows computer battery or charging state and exposes the relevant power controls."
+              "evidence": "README.md, line 58: Battery section: laptop charge modes include normal, conservation, rapid and overnight, with always-on USB charging."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -2460,7 +2486,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=crmne.omastats",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Shows computer battery or charging state and exposes the relevant power controls."
+            "path": "catalog.json",
+            "evidence": "plugins[2488].description (crmne.omastats): System monitor for the Omarchy bar: CPU, GPU, memory, disk, network, temperature, fan and battery stats with live graphs and a detailed panel. An iStat Menus-style activity monitor showing the machine's vital signs, configurable from inside the panel."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -2532,7 +2559,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.diegopluna.argus",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Shows computer battery or charging state and exposes the relevant power controls."
+            "path": "catalog.json",
+            "evidence": "plugins[504].description (io.github.diegopluna.argus): CPU, RAM, GPU, disk, network, battery, power, and temperature stats in the bar, with a full system panel: 2m/1h/24h history that survives restarts (the flight recorder), per-metric opt-in alerts with context snapshots, a filterable sortable process table, per-process GPU usage, drive SMART health, an alert hook for automation, and a GAME tab that configures your MangoHud in-game overlay live."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -2629,7 +2657,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=clipbasket.clipboard",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Lets you browse saved clipboard history and reuse a selected entry."
+              "path": "catalog.json",
+              "evidence": "plugins[1147].description (clipbasket.clipboard): Clipboard history for Omarchy — search everything you have copied"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -2702,7 +2731,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=alanfortlink.clipboard",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Lets you browse saved clipboard history and reuse a selected entry."
+              "path": "catalog.json",
+              "evidence": "plugins[2712].description (alanfortlink.clipboard): Raycast-style clipboard history: fuzzy search over content, type, app and date, with rich per-type previews"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -2787,7 +2817,7 @@
             "url": "https://github.com/maajix/omarchy-spotlight#readme",
             "revision": "721c05874f0269c85604f9f1bb92be0bfaa0f810",
             "path": "README.md",
-            "evidence": "Lets you browse saved clipboard history and reuse a selected entry."
+            "evidence": "README.md, line 36: Try it: the cb prefix searches clipboard history from the launcher input."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "repository-evidence"
@@ -2860,7 +2890,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.vuhuy.clipboard-manager",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Lets you browse saved clipboard history and reuse a selected entry."
+            "path": "catalog.json",
+            "evidence": "plugins[367].description (io.github.vuhuy.clipboard-manager): A native Omarchy bar panel for browsing and reusing clipboard history."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -2958,7 +2989,7 @@
               "url": "https://github.com/maajix/omarchy-spotlight#readme",
               "revision": "721c05874f0269c85604f9f1bb92be0bfaa0f810",
               "path": "README.md",
-              "evidence": "Finds installed applications and launches a selected application."
+              "evidence": "README.md, line 5: Introduction and Try it: application search and launch share the main input, including the chrom example."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -3031,7 +3062,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=olauncher",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Finds installed applications and launches a selected application."
+              "path": "catalog.json",
+              "evidence": "plugins[3732].description (olauncher): A liquid app launcher with animated most-used apps, unified app/file search, calculator and contextual actions."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -3056,7 +3088,7 @@
               "url": "https://github.com/rosakodu/omarchy-dock#readme",
               "revision": "3a18441838a6fc2cabcccbdbb686bcbd63de5590",
               "path": "README.md",
-              "evidence": "Finds installed applications and launches a selected application."
+              "evidence": "README.md, line 31: Controls & Shortcuts: opens pinned/running application icons and manages pins; this is a dock workflow, not general application search."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -3079,7 +3111,7 @@
               "url": "https://github.com/thepathless/omadock#readme",
               "revision": "af559f164bd79d13afea6569f6c5cecca749fe59",
               "path": "README.md",
-              "evidence": "Finds installed applications and launches a selected application."
+              "evidence": "README.md, line 64: Overview and dock controls describe launching pinned icons and focusing running apps, rather than a general installed-application search workflow."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -3154,7 +3186,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=evindor.keystroke",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Finds installed applications and launches a selected application."
+            "path": "catalog.json",
+            "evidence": "plugins[2777].description (evindor.keystroke): A Raycast-style command palette that replaces the Omarchy menu, with voice, Codex and community extensions"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -3227,7 +3260,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=tyrsolution.app-launcher",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Finds installed applications and launches a selected application."
+            "path": "catalog.json",
+            "evidence": "plugins[1096].description (tyrsolution.app-launcher): One overlay for Omarchy: launch apps and coding agents, browse the system menu as folders, and flip the switches you reach for most"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -3325,7 +3359,7 @@
               "url": "https://github.com/claudsondouglas/arc.dock#readme",
               "revision": "7d2cd2f710f3390e58f64a90e554f4b2dfee9619",
               "path": "README.md",
-              "evidence": "Pins applications and launches or focuses them from a desktop dock."
+              "evidence": "README.md, line 66: Pinned apps section and Slots: pinned application icons launch closed apps and focus or cycle running windows."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -3398,7 +3432,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=primo.dock",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Pins applications and launches or focuses them from a desktop dock."
+              "path": "catalog.json",
+              "evidence": "plugins[1781].description (primo.dock): Application dock for Omarchy. Tracks Hyprland windows across workspaces with smart launch, focus and cycling behavior, per-window minimize-to-dock and restore, drag & drop reordering, and a rich right-click action card featuring .desktop quick actions. Touch-friendly long-press gestures mirror every mouse interaction, a Super-held System menu handles pinning and custom icon overrides, and Chromium webapps launch reliably alongside seamless Omarchy theme integration."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -3475,7 +3510,7 @@
             "url": "https://github.com/rosakodu/omarchy-dock#readme",
             "revision": "3a18441838a6fc2cabcccbdbb686bcbd63de5590",
             "path": "README.md",
-            "evidence": "Pins applications and launches or focuses them from a desktop dock."
+            "evidence": "README.md, line 31: Controls & Shortcuts: icons open, restore or focus apps; edit mode manages pins and folders."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "repository-evidence"
@@ -3549,7 +3584,7 @@
             "url": "https://github.com/thepathless/omadock#readme",
             "revision": "af559f164bd79d13afea6569f6c5cecca749fe59",
             "path": "README.md",
-            "evidence": "Pins applications and launches or focuses them from a desktop dock."
+            "evidence": "README.md, line 64: Overview, Core features and controls describe pinned application icons, groups and running-window previews in a desktop dock."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "repository-evidence"
@@ -3645,7 +3680,7 @@
               "url": "https://github.com/elliotalien/elliot-network-plugin#readme",
               "revision": "cd0c4a3a8ce9a4c2d4c00a0f370f7b0331f25fd5",
               "path": "README.md",
-              "evidence": "Provides native network connection controls rather than only resource statistics."
+              "evidence": "README.md, line 3: Features: per-adapter Wi-Fi list supports connect/disconnect/forget with inline controls; other rows document DNS provider switching."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -3718,7 +3753,7 @@
               "url": "https://github.com/MariposaJon/omarchy_modemmanager_plugin#readme",
               "revision": "109c6f476e61e99c42c461f5955d8ca33b031540",
               "path": "README.md",
-              "evidence": "Provides native network connection controls rather than only resource statistics."
+              "evidence": "README.md, line 18: Interface features: data connect/disconnect, saved GSM profile selection and autoconnect are separate from radio power; modem details include APN."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -3740,13 +3775,13 @@
             "constraints": [],
             "reason": "Offers a Wi-Fi toggle; full network selection and connection configuration require a connection manager.",
             "source": {
-              "url": "https://github.com/maajix/omarchy-spotlight#readme",
-              "revision": "721c05874f0269c85604f9f1bb92be0bfaa0f810",
-              "path": "README.md",
-              "evidence": "Provides native network connection controls rather than only resource statistics."
+              "url": "https://plugins.omarchy.org/plugin.html?id=io.github.maajix.spotlight",
+              "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
+              "path": "catalog.json",
+              "evidence": "plugins[2752].description (io.github.maajix.spotlight): A Raycast-style launcher for Omarchy. Spotlight launches applications, switches windows, finds files, searches clipboard history, runs Omarchy commands and toggles system settings such as Wi-Fi and night light from a single input. Natural-language input covers calculations, unit conversions, reminders and calendar events, and search prefixes route queries to sites such as YouTube and GitHub. Spotlight runs inside omarchy-shell and opens instantly, without a separate background process."
             },
             "reviewedAt": "2026-10-12",
-            "provenance": "repository-evidence"
+            "provenance": "catalog-evidence"
           }
         },
         {
@@ -3770,7 +3805,7 @@
               "url": "https://github.com/SalimRK/godark#readme",
               "revision": "210598a7151d34c0351a16cb60834a6fc27e4c4b",
               "path": "README.md",
-              "evidence": "README.md: Using it, What it cuts and Restoring describe the global radio/networking switch and saved-state restoration, without network selection or connection configuration."
+              "evidence": "README.md, line 42: What it cuts and Restoring: blocks all rfkill radios/NetworkManager links, then restores saved state; no network selection or connection configuration."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -3853,7 +3888,7 @@
             "url": "https://github.com/AngeeelD/omaltbar#external-dependencies",
             "revision": "da317a46bfecce20fbe20fa95d602cc8c774618e",
             "path": "README.md",
-            "evidence": "Provides native network connection controls rather than only resource statistics."
+            "evidence": "README.md, line 155: External dependencies and shell-internal modules: QuickSettingsView has NetworkManager Wi-Fi lists and imports the shell network Model.js."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "repository-evidence"
@@ -3925,7 +3960,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=community.network",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Provides native network connection controls rather than only resource statistics."
+            "path": "catalog.json",
+            "evidence": "plugins[3126].description (community.network): Complete network manager for Omarchy featuring Wi-Fi, simultaneous Wi-Fi Repeater chaining & Hotspot AP with centered QR sharing, 1-click linux-wifi-hotspot installer, DNS selection, and interactive Wired Ethernet configuration (DHCP & Static IP) with full keyboard navigation."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -4020,7 +4056,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.diegopluna.argus",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Inspects live network traffic or connection activity."
+              "path": "catalog.json",
+              "evidence": "plugins[504].description (io.github.diegopluna.argus): CPU, RAM, GPU, disk, network, battery, power, and temperature stats in the bar, with a full system panel: 2m/1h/24h history that survives restarts (the flight recorder), per-metric opt-in alerts with context snapshots, a filterable sortable process table, per-process GPU usage, drive SMART health, an alert hook for automation, and a GAME tab that configures your MangoHud in-game overlay live."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -4093,7 +4130,7 @@
               "url": "https://github.com/Davedes83/OmaControl#readme",
               "revision": "57178c420bf66060b2363a740af4f2e0af3360e1",
               "path": "README.md",
-              "evidence": "Inspects live network traffic or connection activity."
+              "evidence": "README.md, line 23: Features: network information/graphs and connection monitoring accompany the hardware/process dashboard."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -4168,7 +4205,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=vitals",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Inspects live network traffic or connection activity."
+            "path": "catalog.json",
+            "evidence": "plugins[78].description (vitals): Native Linux CPU, memory, GPU, storage, network, and process monitor"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -4240,7 +4278,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=crmne.omastats",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Inspects live network traffic or connection activity."
+            "path": "catalog.json",
+            "evidence": "plugins[2488].description (crmne.omastats): System monitor for the Omarchy bar: CPU, GPU, memory, disk, network, temperature, fan and battery stats with live graphs and a detailed panel. An iStat Menus-style activity monitor showing the machine's vital signs, configurable from inside the panel."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -4336,7 +4375,7 @@
               "url": "https://github.com/AngeeelD/omaltbar#external-dependencies",
               "revision": "da317a46bfecce20fbe20fa95d602cc8c774618e",
               "path": "README.md",
-              "evidence": "Provides Bluetooth discovery, pairing or connection controls."
+              "evidence": "README.md, line 149: External dependencies: QuickSettingsView uses Bluetooth power/device helpers for adapter toggling and device connections."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -4408,7 +4447,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.grechman.dynamic-bar",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Provides Bluetooth discovery, pairing or connection controls."
+              "path": "catalog.json",
+              "evidence": "plugins[2165].description (io.github.grechman.dynamic-bar): Dynamic-island top bar for Omarchy: live pill for Claude Code and T3 Code agents, AI subscription limits, music with cover art, a drop shelf, and a wifi, bluetooth, audio and battery panel."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -4491,7 +4531,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=ssupt.bluetooth-audio",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Provides Bluetooth discovery, pairing or connection controls."
+            "path": "catalog.json",
+            "evidence": "plugins[114].description (ssupt.bluetooth-audio): Adds Bluetooth device details, reliable controls, codec selection, and per-device connect-time audio policies"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -4563,7 +4604,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.aryan-techie.bluetooth",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Provides Bluetooth discovery, pairing or connection controls."
+            "path": "catalog.json",
+            "evidence": "plugins[2289].description (io.github.aryan-techie.bluetooth): Bluetooth device list with connect/disconnect, plus a background auto-reconnect watcher for devices you pin."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -4663,7 +4705,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.r-witz.nothing-ear",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Provides system audio controls or native headset sound configuration."
+              "path": "catalog.json",
+              "evidence": "plugins[519].description (io.github.r-witz.nothing-ear): Nothing earbuds and headphones in the Omarchy bar: battery, noise control, codec selection, and low-latency mode."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -4735,7 +4778,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=equalizer",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Provides system audio controls or native headset sound configuration."
+              "path": "catalog.json",
+              "evidence": "plugins[184].description (equalizer): A native six-band PipeWire equalizer for the Omarchy bar."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -4818,7 +4862,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=ssupt.audio-control",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Provides system audio controls or native headset sound configuration."
+            "path": "catalog.json",
+            "evidence": "plugins[116].description (ssupt.audio-control): Advanced PipeWire and WirePlumber audio mixer for Omarchy: devices, multi-output groups, Bluetooth codecs, safety policies, microphone privacy, audio scenes, persistent routing rules, graph and service diagnostics, channel tests, support reports, and guarded recovery"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -4890,7 +4935,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=ssupt.bluetooth-audio",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Provides system audio controls or native headset sound configuration."
+            "path": "catalog.json",
+            "evidence": "plugins[114].description (ssupt.bluetooth-audio): Adds Bluetooth device details, reliable controls, codec selection, and per-device connect-time audio policies"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -4988,7 +5034,7 @@
               "url": "https://github.com/AngeeelD/omaltbar#external-dependencies",
               "revision": "da317a46bfecce20fbe20fa95d602cc8c774618e",
               "path": "README.md",
-              "evidence": "BrightnessState exposes a slider and writes display brightness through the native Omarchy command."
+              "evidence": "README.md, line 144: External dependencies: BrightnessState reads the focused monitor state and writes percentages through omarchy-brightness-display."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -5062,7 +5108,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=omajitjadhav.touchpad-edge",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Directly adjusts computer display brightness."
+              "path": "catalog.json",
+              "evidence": "plugins[3607].description (omajitjadhav.touchpad-edge): Dual-edge vertical swipe sliders for laptop touchpads on Omarchy. Right edge swipes adjust system volume; left edge swipes adjust display brightness with native Omarchy OSD feedback. Features intelligent palm rejection, multi-touch bypass, edge swapping, and a status bar toggle panel."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -5136,7 +5183,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=ziouf.adaptive-brightness",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Directly adjusts computer display brightness."
+              "path": "catalog.json",
+              "evidence": "plugins[3646].description (ziouf.adaptive-brightness): Adaptive screen brightness from ambient light: IIO light sensor when the machine has one, built-in webcam as fallback. Min/max bounds slider in the Display panel, toggle row, launcher entry, systemd user service."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -5210,7 +5258,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=engida.autobrightness",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Directly adjusts computer display brightness."
+              "path": "catalog.json",
+              "evidence": "plugins[3087].description (engida.autobrightness): Automatic display brightness: follows your ambient light sensor when you have one, and the sun's position when you don't."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -5289,7 +5338,7 @@
             "url": "https://github.com/crmne/omarchy-hyprmoncfg#readme",
             "revision": "22ebf5736af60632bde14eec354b460c9e58a378",
             "path": "README.md",
-            "evidence": "README.md: Live controls (per-display hardware brightness) and Requirements (hyprmoncfg 1.19.0 or newer)."
+            "evidence": "README.md, line 44: Live controls: selected-monitor hardware brightness uses internal backlight, DDC/CI and Apple Display support."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "repository-evidence"
@@ -5361,7 +5410,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=omarchy-display",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Directly adjusts computer display brightness."
+            "path": "catalog.json",
+            "evidence": "plugins[2229].description (omarchy-display): Display and monitor settings for Omarchy and Hyprland. Arrange displays, monitors, and screens with drag-and-drop layout controls. Adjust screen resolution, scaling, brightness, night light, and refresh rate."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -5459,7 +5509,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.marioxabel.hyprsunset",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Adjusts display color temperature or its schedule."
+              "path": "catalog.json",
+              "evidence": "plugins[1494].description (io.github.marioxabel.hyprsunset): Night light / red light slider for Omarchy. On/off and color temperature for the built-in hyprsunset filter — nothing extra to install."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -5531,7 +5582,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.jeremylanger.nightlight",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Adjusts display color temperature or its schedule."
+              "path": "catalog.json",
+              "evidence": "plugins[1502].description (io.github.jeremylanger.nightlight): Night light switch and editable schedule for hyprsunset"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -5603,7 +5655,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.agkrishnendu.nightlight",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Adjusts display color temperature or its schedule."
+              "path": "catalog.json",
+              "evidence": "plugins[4389].description (io.github.agkrishnendu.nightlight): Night light that follows your local sunset, with a bar popup to see and override it"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -5628,7 +5681,7 @@
               "url": "https://github.com/maajix/omarchy-spotlight#readme",
               "revision": "721c05874f0269c85604f9f1bb92be0bfaa0f810",
               "path": "README.md",
-              "evidence": "Adjusts display color temperature or its schedule."
+              "evidence": "README.md, line 37: Try it: night light shows a live on/off toggle; temperature adjustment and scheduling are not described."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -5705,7 +5758,7 @@
             "url": "https://github.com/Deunnis/omarchy-lacquer#readme",
             "revision": "8a9ef5a0a439a27d30dec216ceb930dc8900ba2d",
             "path": "README.md",
-            "evidence": "Adjusts display color temperature or its schedule."
+            "evidence": "README.md, line 58: What is in it and Desktop/Screen settings: night-light controls are included alongside screen and text settings."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "repository-evidence"
@@ -5777,7 +5830,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=kenny.nightlight",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Adjusts display color temperature or its schedule."
+            "path": "catalog.json",
+            "evidence": "plugins[1880].description (kenny.nightlight): f.lux-style color temperature: slider, sunrise/sunset schedule, presets, and pause."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -5872,7 +5926,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.bmontythe3rd.display-manager",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Configures display outputs, arrangements and profiles."
+              "path": "catalog.json",
+              "evidence": "plugins[89].description (io.github.bmontythe3rd.display-manager): Windows-style multi-monitor arrangement, display controls, and automatic dock profiles for Omarchy."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -5944,7 +5999,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.dragosol.better-displays-pro",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Configures display outputs, arrangements and profiles."
+              "path": "catalog.json",
+              "evidence": "plugins[3354].description (io.github.dragosol.better-displays-pro): Multi-monitor settings on one wide panel: native resolution and refresh rate read from each monitor's EDID, scale, rotation, arrangement, mirroring, workspaces, and layouts remembered automatically across hotplug and Hyprland reloads."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -6023,7 +6079,7 @@
             "url": "https://github.com/crmne/omarchy-hyprmoncfg#readme",
             "revision": "22ebf5736af60632bde14eec354b460c9e58a378",
             "path": "README.md",
-            "evidence": "README.md: Automatically match the right layout to the connected monitors; Requirements; background service."
+            "evidence": "README.md, line 32: Automatic layout section: saved monitor profiles are applied on hotplug/lid changes using monitor make, model and serial."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "repository-evidence"
@@ -6095,7 +6151,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=im0001gt.screens",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Configures display outputs, arrangements and profiles."
+            "path": "catalog.json",
+            "evidence": "plugins[298].description (im0001gt.screens): Snap-to-edge monitor layout with brightness, text size, HDR, VRR, hardware-aware profiles, optional bar dim, and workspace spreading with names, icons, and a configurable total"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -6191,7 +6248,7 @@
               "url": "https://github.com/ryanrhughes/omapager#readme",
               "revision": "a4b434749c8b39aaf8bcc204796fd8be42a53c48",
               "path": "README.md",
-              "evidence": "Manages desktop notifications or their history."
+              "evidence": "README.md, line 27: Features and The bar: grouped desktop notifications, inline actions, snoozing/history and do-not-disturb are handled by the replacement daemon."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -6215,7 +6272,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=techywilbur.pomodoro",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Manages desktop notifications or their history."
+              "path": "catalog.json",
+              "evidence": "plugins[1560].description (techywilbur.pomodoro): Pomodoro focus timer for the Omarchy bar: a countdown in the bar, a popup with transport controls, focus presets and break buttons, a full-screen break screen with a progress ring, Do Not Disturb while you focus, chimes, notifications and daily stats. Survives shell restarts and suspend."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -6297,7 +6355,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=jankeesvw.notification-center",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Manages desktop notifications or their history."
+            "path": "catalog.json",
+            "evidence": "plugins[757].description (jankeesvw.notification-center): Every notification you were sent, kept, and readable again"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -6369,7 +6428,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=shavanced.notification-center",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Manages desktop notifications or their history."
+            "path": "catalog.json",
+            "evidence": "plugins[185].description (shavanced.notification-center): A native Omarchy notification center with live notifications, persistent history, search, Do Not Disturb, and a theme-aware bar widget."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -6471,7 +6531,7 @@
               "url": "https://github.com/Deunnis/omarchy-lacquer#readme",
               "revision": "8a9ef5a0a439a27d30dec216ceb930dc8900ba2d",
               "path": "README.md",
-              "evidence": "Configures the lock screen or the computer's idle and sleep behavior."
+              "evidence": "README.md, line 58: What is in it: Screen & text includes lock, startup and screensaver settings; Desktop describes idle handling."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -6543,7 +6603,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=lgse.sandman",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Configures the lock screen or the computer's idle and sleep behavior."
+              "path": "catalog.json",
+              "evidence": "plugins[213].description (lgse.sandman): Set lid-close actions and when your screen rests, locks, sleeps, and hibernates."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -6633,7 +6694,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.sirjul1337.lock-explorer",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Configures the lock screen or the computer's idle and sleep behavior."
+            "path": "catalog.json",
+            "evidence": "plugins[331].description (io.github.sirjul1337.lock-explorer): Lock screen designs for Omarchy, a picker to preview and switch between them, and a designer for building your own"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -6705,7 +6767,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=onlyvishesh.power-manager",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Configures the lock screen or the computer's idle and sleep behavior."
+            "path": "catalog.json",
+            "evidence": "plugins[1881].description (onlyvishesh.power-manager): Advanced power management with hibernation support, configurable profiles, idle behavior, and lid actions"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -6802,7 +6865,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=icyleaf.bitwarden",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Retrieves credentials from the configured password vault."
+              "path": "catalog.json",
+              "evidence": "plugins[3555].description (icyleaf.bitwarden): Fast Bitwarden vault search, credential copy, and security manager for Omarchy."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -6876,7 +6940,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.cempack.proton-pass",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Retrieves credentials from the configured password vault."
+              "path": "catalog.json",
+              "evidence": "plugins[173].description (io.github.cempack.proton-pass): Search Proton Pass items and inspect logins, notes, cards, and 2FA from the Omarchy bar."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -6953,7 +7018,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.elevate08.qs-bitwarden-cli",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Retrieves credentials from the configured password vault."
+            "path": "catalog.json",
+            "evidence": "plugins[1107].description (io.github.elevate08.qs-bitwarden-cli): Bitwarden password manager integration for the Omarchy status bar and quick access panel."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -7027,7 +7093,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.salemsayed.omawarden",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Retrieves credentials from the configured password vault."
+            "path": "catalog.json",
+            "evidence": "plugins[681].description (io.github.salemsayed.omawarden): Bitwarden in the Omarchy bar: instant search, safe timed copies, lock and sync."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -7124,7 +7191,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=sirwizardlizard.calendar",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Browses calendar events and the agenda."
+              "path": "catalog.json",
+              "evidence": "plugins[907].description (sirwizardlizard.calendar): Create events in the Omarchy clock and sync them to iPhone, Mac, and other CalDAV calendars."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -7198,7 +7266,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=caseonline.omarchy.office365",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Browses calendar events and the agenda."
+              "path": "catalog.json",
+              "evidence": "plugins[770].description (caseonline.omarchy.office365): Unread Outlook mail and your agenda in the Omarchy bar. One widget can carry several mailboxes, or add one per mailbox. Needs python3 (standard library only) and talks to Microsoft Graph, nothing else."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -7218,15 +7287,15 @@
             "role": "integration",
             "capabilities": [],
             "constraints": [],
-            "reason": "Creates calendar events from launcher input; this is not an agenda or calendar browser.",
+            "reason": "Provides calendar-event input in a launcher; it does not supply a browsable calendar or agenda.",
             "source": {
-              "url": "https://github.com/maajix/omarchy-spotlight#readme",
-              "revision": "721c05874f0269c85604f9f1bb92be0bfaa0f810",
-              "path": "README.md",
-              "evidence": "Browses calendar events and the agenda."
+              "url": "https://plugins.omarchy.org/plugin.html?id=io.github.maajix.spotlight",
+              "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
+              "path": "catalog.json",
+              "evidence": "plugins[2752].description (io.github.maajix.spotlight): A Raycast-style launcher for Omarchy. Spotlight launches applications, switches windows, finds files, searches clipboard history, runs Omarchy commands and toggles system settings such as Wi-Fi and night light from a single input. Natural-language input covers calculations, unit conversions, reminders and calendar events, and search prefixes route queries to sites such as YouTube and GitHub. Spotlight runs inside omarchy-shell and opens instantly, without a separate background process."
             },
             "reviewedAt": "2026-10-12",
-            "provenance": "repository-evidence"
+            "provenance": "catalog-evidence"
           }
         }
       ],
@@ -7299,7 +7368,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=tmn73.calendar",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Browses calendar events and the agenda."
+            "path": "catalog.json",
+            "evidence": "plugins[46].description (tmn73.calendar): Your Google Calendar in the bar. Your day at a glance, one click to join a meeting, and events you create and edit without leaving the desktop."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -7373,7 +7443,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=promaa.clock",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Browses calendar events and the agenda."
+            "path": "catalog.json",
+            "evidence": "plugins[1870].description (promaa.clock): Every calendar you own, in your Omarchy bar: two-way sync with Google, CalDAV, Fastmail JMAP and any .ics or webcal feed"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -7468,7 +7539,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.guiestrela.omarchy-google-calendar-clock",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Shows the time or compares world time zones."
+              "path": "catalog.json",
+              "evidence": "plugins[1590].description (io.github.guiestrela.omarchy-google-calendar-clock): An Omarchy clock with a local-first calendar and Google sync"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -7543,7 +7615,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.sspaeti.timezones",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Shows the time or compares world time zones."
+            "path": "catalog.json",
+            "evidence": "plugins[787].description (io.github.sspaeti.timezones): World clock bar pill with a worldtimebuddy-style hour-grid popup. Hover a column to convert any moment across all your zones."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -7615,7 +7688,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=ubeyidah.omaclock",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Shows the time or compares world time zones."
+            "path": "catalog.json",
+            "evidence": "plugins[202].description (ubeyidah.omaclock): A simple, minimal desktop clock widget rendered behind all windows on the bottom layer, with theme-aware colors, controlled from a bar widget."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -7716,7 +7790,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=bibek.focusd",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Runs a timer, stopwatch or scheduled alarm with user controls."
+              "path": "catalog.json",
+              "evidence": "plugins[308].description (bibek.focusd): A pomodoro timer for the Omarchy bar with features like streak, daily goal, sessions, stats, history, and session progress visualization."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -7788,7 +7863,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=techywilbur.pomodoro",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Runs a timer, stopwatch or scheduled alarm with user controls."
+              "path": "catalog.json",
+              "evidence": "plugins[1560].description (techywilbur.pomodoro): Pomodoro focus timer for the Omarchy bar: a countdown in the bar, a popup with transport controls, focus presets and break buttons, a full-screen break screen with a progress ring, Do Not Disturb while you focus, chimes, notifications and daily stats. Survives shell restarts and suspend."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -7863,7 +7939,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=pnkm0nk.omodoro",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Runs a timer, stopwatch or scheduled alarm with user controls."
+            "path": "catalog.json",
+            "evidence": "plugins[586].description (pnkm0nk.omodoro): Pomodoro technique timer panel with task tracking, keybindings, configuration and notifications"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -7937,7 +8014,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.pjgeutjens.clockwork",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Runs a timer, stopwatch or scheduled alarm with user controls."
+            "path": "catalog.json",
+            "evidence": "plugins[810].description (io.github.pjgeutjens.clockwork): A stopwatch, countdown, alarm, intervals, and Pomodoro timer for the Omarchy bar."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -8032,7 +8110,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=bibek.focusd",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Helps run focus sessions or directly manage personal tasks."
+              "path": "catalog.json",
+              "evidence": "plugins[308].description (bibek.focusd): A pomodoro timer for the Omarchy bar with features like streak, daily goal, sessions, stats, history, and session progress visualization."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -8056,7 +8135,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.aryan-techie.todoist",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Helps run focus sessions or directly manage personal tasks."
+              "path": "catalog.json",
+              "evidence": "plugins[384].description (io.github.aryan-techie.todoist): Todoist task count in the bar, with a panel to view due/overdue tasks, check them off, and quick-add new ones."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -8130,7 +8210,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=pnkm0nk.omodoro",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Helps run focus sessions or directly manage personal tasks."
+            "path": "catalog.json",
+            "evidence": "plugins[586].description (pnkm0nk.omodoro): Pomodoro technique timer panel with task tracking, keybindings, configuration and notifications"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -8202,7 +8283,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.pjgeutjens.clockwork",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Helps run focus sessions or directly manage personal tasks."
+            "path": "catalog.json",
+            "evidence": "plugins[810].description (io.github.pjgeutjens.clockwork): A stopwatch, countdown, alarm, intervals, and Pomodoro timer for the Omarchy bar."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -8299,7 +8381,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=crmne.todoist",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "The captured catalog describes a user-managed personal task list."
+              "path": "catalog.json",
+              "evidence": "plugins[3231].description (crmne.todoist): Todoist in the Omarchy bar: Today, Inbox and Upcoming, rich Quick Add, task editing, multi-selection, bulk actions, and drag-to-reorder synced through the API."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -8371,7 +8454,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=tathagat11.checklist-todo",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "The captured catalog describes a user-managed personal task list."
+              "path": "catalog.json",
+              "evidence": "plugins[4069].description (tathagat11.checklist-todo): A tiny todo list in the Omarchy bar: add items with a name and description, open an item to read its details, and check it off to remove it."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -8448,7 +8532,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.aryan-techie.todoist",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "The captured catalog describes a user-managed personal task list."
+            "path": "catalog.json",
+            "evidence": "plugins[384].description (io.github.aryan-techie.todoist): Todoist task count in the bar, with a panel to view due/overdue tasks, check them off, and quick-add new ones."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -8520,7 +8605,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=maduki-tech.omado",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "The captured catalog describes a user-managed personal task list."
+            "path": "catalog.json",
+            "evidence": "plugins[121].description (maduki-tech.omado): A minimal local todo list for your Omarchy bar"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -8620,7 +8706,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=rperaza.obsidian-notes",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Captures or browses text notes in a dedicated note workflow."
+              "path": "catalog.json",
+              "evidence": "plugins[1257].description (rperaza.obsidian-notes): Search and open notes across an Obsidian vault from the bar."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -8692,7 +8779,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.weedwhitesandwine.omascratch",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Captures or browses text notes in a dedicated note workflow."
+              "path": "catalog.json",
+              "evidence": "plugins[138].description (io.github.weedwhitesandwine.omascratch): A quick-note scratchpad that docks to a screen corner. Toggle with a keybind or the bar icon; font size, corner, and the keybind itself are all configurable from an in-panel settings view. Summon with: omarchy-shell shell toggle io.github.weedwhitesandwine.omascratch"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -8767,7 +8855,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.huligabuliga.omasticky",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Captures or browses text notes in a dedicated note workflow."
+            "path": "catalog.json",
+            "evidence": "plugins[532].description (io.github.huligabuliga.omasticky): Markdown sticky notes pinned to the desktop."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -8841,7 +8930,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=luca.obsidian-daily",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Captures or browses text notes in a dedicated note workflow."
+            "path": "catalog.json",
+            "evidence": "plugins[752].description (luca.obsidian-daily): View and manage Obsidian daily note todos from the Omarchy bar. Set vaultPath or OBSIDIAN_VAULT_ROOT."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -8936,7 +9026,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.ricky.screentime",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Measures per-application screen time."
+              "path": "catalog.json",
+              "evidence": "plugins[1603].description (io.github.ricky.screentime): Daily screen time tracking with a GitHub-style contribution heatmap. Digital Wellbeing for your Omarchy bar, fully local."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -9008,7 +9099,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=nihalebr.wellbeing",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Measures per-application screen time."
+              "path": "catalog.json",
+              "evidence": "plugins[2257].description (nihalebr.wellbeing): Tracks which applications you use the most and for how long, like Android's Digital Wellbeing. A bar icon opens a breakdown of today's screen time by app, an hourly timeline, and the last seven days."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -9083,7 +9175,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=agx.screen-time",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Measures per-application screen time."
+            "path": "catalog.json",
+            "evidence": "plugins[129].description (agx.screen-time): Know where your time goes. Live per-app screen time in your bar with a donut breakdown, a 52-week trend, a yearly overview, and usage insights — terminal-aware, keyboard-first, fully local."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -9155,7 +9248,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=rimuru.screentime",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Measures per-application screen time."
+            "path": "catalog.json",
+            "evidence": "plugins[3662].description (rimuru.screentime): Daily screen time per app in your Omarchy bar: sees what runs inside terminals, names Steam games, folds browsers and web apps. The popup has a donut chart, a 52-week trend, insights, a yearly overview that reaches back to your first day, a daily goal, a settings menu and an optional faint background picture. Fully local: nothing leaves your machine."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -9253,7 +9347,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.thetrueferret.decent-workspaces",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Shows virtual desktop state or navigates between workspaces."
+              "path": "catalog.json",
+              "evidence": "plugins[156].description (io.github.thetrueferret.decent-workspaces): Per-monitor workspace indicators: shows only workspaces with windows, with an app icon beside each workspace number"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -9325,7 +9420,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=mmsbrggr.per-monitor-workspaces",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Shows virtual desktop state or navigates between workspaces."
+              "path": "catalog.json",
+              "evidence": "plugins[304].description (mmsbrggr.per-monitor-workspaces): Independent workspaces per monitor: SUPER+N always means this screen's Nth workspace"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -9408,7 +9504,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=tornikegomareli.spaces",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Shows virtual desktop state or navigates between workspaces."
+            "path": "catalog.json",
+            "evidence": "plugins[4145].description (tornikegomareli.spaces): Workspace switcher that shows the apps open on each workspace"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -9482,7 +9579,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=mirador",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Shows virtual desktop state or navigates between workspaces."
+            "path": "catalog.json",
+            "evidence": "plugins[34].description (mirador): Visual overview of workspaces and their windows. Setup required: copy the keyboard bindings from the repository README into ~/.config/hypr/bindings.lua."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -9580,7 +9678,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=macos.dock",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Switches windows or configures their desktop behavior."
+              "path": "catalog.json",
+              "evidence": "plugins[435].description (macos.dock): A compact, glassy, configurable macOS style dock with pinning, auto-hiding and Alt+Tab app switcher. Right click to change icons on the dock."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -9652,7 +9751,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.mtolhuys.fathom",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Switches windows or configures their desktop behavior."
+              "path": "catalog.json",
+              "evidence": "plugins[4024].description (io.github.mtolhuys.fathom): A depth-based Alt-Tab: every window recedes into the distance by how long ago you last used it. Hold Alt, dive with Tab, release to focus."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -9725,7 +9825,7 @@
               "url": "https://github.com/maajix/omarchy-spotlight#readme",
               "revision": "721c05874f0269c85604f9f1bb92be0bfaa0f810",
               "path": "README.md",
-              "evidence": "Switches windows or configures their desktop behavior."
+              "evidence": "README.md, line 5: Introduction and Try it: searches windows and switches to results from the same launcher input."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -9800,7 +9900,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=expose.window-overview",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Switches windows or configures their desktop behavior."
+            "path": "catalog.json",
+            "evidence": "plugins[1040].description (expose.window-overview): macOS-style Exposé for Omarchy: one key or a hot corner shows every open window as a live preview. Type to search, press Space to Quick Look, press Enter to launch."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -9872,7 +9973,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.pablo-merino.altswitch",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Switches windows or configures their desktop behavior."
+            "path": "catalog.json",
+            "evidence": "plugins[94].description (io.github.pablo-merino.altswitch): Windows-style ALT+TAB window switcher across every workspace, ordered by most recently used."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -9971,7 +10073,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=glasschan.oma-swiss",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Captures a screen region or window and exports the resulting image."
+              "path": "catalog.json",
+              "evidence": "plugins[1465].description (glasschan.oma-swiss): One bar icon, six Hyprland tools: laptop Super⇄Alt swap, single-window aspect ratio, Opinionated Looks, gaming mode, fcitx5 IME candidate-window theming, and one-click screenshots, OCR, QR scan & recording. No daemon, no idle cost."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -10044,7 +10147,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=mark.retina-screenshot",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Captures a screen region or window and exports the resulting image."
+              "path": "catalog.json",
+              "evidence": "plugins[3309].description (mark.retina-screenshot): Capture crisp 2× regions or windows from a fractionally scaled display. Retina Screenshot re-renders the workspace on a hidden high-DPI Hyprland output, then restores everything without visible workspace switching."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -10117,7 +10221,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.diyaclanker.omacapture",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Captures a screen region or window and exports the resulting image."
+              "path": "catalog.json",
+              "evidence": "plugins[2860].description (io.github.diyaclanker.omacapture): Screenshot capture and annotation editor for Omarchy: frozen-screen region picker, shapes, arrows, text, blur, OCR, Quick Access cards, history, and an MCP server for agents."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -10141,7 +10246,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.sahzudin.omarchy-screenshot-manager",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Captures a screen region or window and exports the resulting image."
+              "path": "catalog.json",
+              "evidence": "plugins[1439].description (io.github.sahzudin.omarchy-screenshot-manager): Browse, preview, copy, and delete screenshots taken with omarchy capture."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -10219,7 +10325,7 @@
             "url": "https://github.com/chyld/omarchy-easy-capture#new-in-040",
             "revision": "90e3c5cc8b67af94c9d81670a07c51701f4fb6f5",
             "path": "README.md",
-            "evidence": "The documented screen-capture service provides region, app and monitor capture, recording start/stop and local capture files."
+            "evidence": "README.md, line 55: What it shows: Screenshot tab selects Region, App or Monitor targets and creates a local screenshot file."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "repository-evidence"
@@ -10292,7 +10398,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=b.omashot",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Captures a screen region or window and exports the resulting image."
+            "path": "catalog.json",
+            "evidence": "plugins[253].description (b.omashot): Screenshot and screen-recording overlay for Omarchy"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -10393,7 +10500,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=glasschan.oma-swiss",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Starts, stops and saves screen recordings."
+              "path": "catalog.json",
+              "evidence": "plugins[1465].description (glasschan.oma-swiss): One bar icon, six Hyprland tools: laptop Super⇄Alt swap, single-window aspect ratio, Opinionated Looks, gaming mode, fcitx5 IME candidate-window theming, and one-click screenshots, OCR, QR scan & recording. No daemon, no idle cost."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -10467,7 +10575,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=k4ditano.omascreen",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Starts, stops and saves screen recordings."
+              "path": "catalog.json",
+              "evidence": "plugins[860].description (k4ditano.omascreen): Record your screen and cut it into a finished video — capture, timeline, layers, subtitles and render, all inside the shell."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -10541,7 +10650,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=hadijaveed.omareel",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Starts, stops and saves screen recordings."
+              "path": "catalog.json",
+              "evidence": "plugins[2729].description (hadijaveed.omareel): Record your screen, camera, and voice on Omarchy. Save locally or share a link from your own storage. Optional Studio adds click zooms, backgrounds, and frames for polished demos and tutorials."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -10615,7 +10725,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=pix.recast",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Starts, stops and saves screen recordings."
+              "path": "catalog.json",
+              "evidence": "plugins[3848].description (pix.recast): GPU-accelerated screen recording with automatic hardware detection"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -10689,7 +10800,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=roubilibo.omarchy-snip-record",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Starts, stops and saves screen recordings."
+              "path": "catalog.json",
+              "evidence": "plugins[1850].description (roubilibo.omarchy-snip-record): A Windows-like screenshot and screen recording overlay for Omarchy"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -10713,7 +10825,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.bolens.privacy-devices",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Starts, stops and saves screen recordings."
+              "path": "catalog.json",
+              "evidence": "plugins[813].description (io.github.bolens.privacy-devices): Unified, configurable privacy indicators for microphones, audio playback, cameras, screen sharing, screenshots, screen recording, and location access."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -10736,7 +10849,7 @@
               "url": "https://github.com/AngeeelD/omaltbar#external-dependencies",
               "revision": "da317a46bfecce20fbe20fa95d602cc8c774618e",
               "path": "README.md",
-              "evidence": "Shows recording activity and stops an existing recorder; it does not provide start-and-save capture controls."
+              "evidence": "README.md, line 151: External dependencies: ScreenRecordingView polls recorder activity and calls the stop-recording helper; no start/save workflow is described."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -10759,7 +10872,7 @@
               "url": "https://github.com/ofa14-prog/omarchy-dynamic-island#readme",
               "revision": "0309eeeb00c2ac114a113ee6e14bc31745be45ea",
               "path": "README.md",
-              "evidence": "Starts, stops and saves screen recordings."
+              "evidence": "README.md, line 7: Features: displays activity from the Omarchy recorder and offers a stop action; this passage does not describe starting or saving a recording."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -10838,7 +10951,7 @@
             "url": "https://github.com/chyld/omarchy-easy-capture#new-in-040",
             "revision": "90e3c5cc8b67af94c9d81670a07c51701f4fb6f5",
             "path": "README.md",
-            "evidence": "The documented screen-capture service provides region, app and monitor capture, recording start/stop and local capture files."
+            "evidence": "README.md, line 55: What it shows and New in 0.4.0: Record tab selects Region/App/Monitor, starts a shared recording service and exposes stop/output handling."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "repository-evidence"
@@ -10912,7 +11025,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=b.omashot",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Starts, stops and saves screen recordings."
+            "path": "catalog.json",
+            "evidence": "plugins[253].description (b.omashot): Screenshot and screen-recording overlay for Omarchy"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -11009,7 +11123,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.slomo-b.snipper",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Selects visible screen content and extracts reusable text."
+              "path": "catalog.json",
+              "evidence": "plugins[1818].description (io.github.slomo-b.snipper): Snipping tool with OCR — a bar pill that opens a keyboard panel to select a screen area and copy its text or image."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -11082,7 +11197,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=unicadesign.sexy-screenshot",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Selects visible screen content and extracts reusable text."
+              "path": "catalog.json",
+              "evidence": "plugins[4779].description (unicadesign.sexy-screenshot): Sexy Screenshot: take screenshots, extract text, pick colors, and start screen recordings from the Omarchy bar — including pinned window recording that survives workspace switches."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -11107,7 +11223,7 @@
               "url": "https://github.com/piyush97/omaswitch#readme",
               "revision": "33c53d58b13efb3f376b6d9ab2efcc61385b2cf6",
               "path": "README.md",
-              "evidence": "Selects visible screen content and extracts reusable text."
+              "evidence": "README.md, line 92: Searching window contents: OCR filters existing windows after three characters; the workflow returns window matches, not reusable extracted text."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -11184,7 +11300,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=glasschan.oma-swiss",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Selects visible screen content and extracts reusable text."
+            "path": "catalog.json",
+            "evidence": "plugins[1465].description (glasschan.oma-swiss): One bar icon, six Hyprland tools: laptop Super⇄Alt swap, single-window aspect ratio, Opinionated Looks, gaming mode, fcitx5 IME candidate-window theming, and one-click screenshots, OCR, QR scan & recording. No daemon, no idle cost."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -11257,7 +11374,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.diyaclanker.omacapture",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Selects visible screen content and extracts reusable text."
+            "path": "catalog.json",
+            "evidence": "plugins[2860].description (io.github.diyaclanker.omacapture): Screenshot capture and annotation editor for Omarchy: frozen-screen region picker, shapes, arrows, text, blur, OCR, Quick Access cards, history, and an MCP server for agents."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -11355,7 +11473,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=tenzin.live-wallpaper",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Selects or plays desktop backgrounds."
+              "path": "catalog.json",
+              "evidence": "plugins[555].description (tenzin.live-wallpaper): Add seamless video wallpapers by dropping a video into the current theme's background folder, then selecting it in Style > Background."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -11427,7 +11546,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=co.klair.wallarchy",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Selects or plays desktop backgrounds."
+              "path": "catalog.json",
+              "evidence": "plugins[1860].description (co.klair.wallarchy): Browse Wallhaven by category or tag, set any wallpaper as your Omarchy background, and rotate on a timer."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -11505,7 +11625,7 @@
             "url": "https://github.com/Deunnis/omarchy-lacquer#readme",
             "revision": "8a9ef5a0a439a27d30dec216ceb930dc8900ba2d",
             "path": "README.md",
-            "evidence": "Selects or plays desktop backgrounds."
+            "evidence": "README.md, line 309: Theme & wallpaper section: selects theme backgrounds, with wallpaper/theme generation and scheduled shuffle workflows."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "repository-evidence"
@@ -11577,7 +11697,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=nosignal.motion-wallpaper",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Selects or plays desktop backgrounds."
+            "path": "catalog.json",
+            "evidence": "plugins[925].description (nosignal.motion-wallpaper): Native looping video wallpaper for omarchy-shell. Renders a muted, looping video on the background layer above the static wallpaper, with a different clip per monitor if you want one, adjustable playback speed, optional rotation through your library on a per-monitor schedule, and auto-pause on fullscreen. Controlled from its bar widget, or from a terminal with the motion-wallpaper CLI."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -11675,7 +11796,7 @@
               "url": "https://github.com/Deunnis/omarchy-lacquer#readme",
               "revision": "8a9ef5a0a439a27d30dec216ceb930dc8900ba2d",
               "path": "README.md",
-              "evidence": "Creates, selects or manages desktop appearance settings."
+              "evidence": "README.md, line 309: Theme & wallpaper, Generate and Saved looks: selects themes and creates/preserves desktop appearances."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -11747,7 +11868,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.mtolhuys.theme-manager",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Creates, selects or manages desktop appearance settings."
+              "path": "catalog.json",
+              "evidence": "plugins[1062].description (io.github.mtolhuys.theme-manager): Manage Omarchy themes, sticky per-theme wallpapers/icons, browse openly licensed desktop art, and install Pling/gnome-look.org icon themes from the native picker."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -11822,7 +11944,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=gotar.omarchy-themes",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Creates, selects or manages desktop appearance settings."
+            "path": "catalog.json",
+            "evidence": "plugins[1065].description (gotar.omarchy-themes): Gallery for bjarneo.github.io/omarchy-themes — thousands of wallpapers × 5 variants. Search, filter, preview palettes and apply any variant as an Omarchy theme in one click."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -11894,7 +12017,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=pretty.omagen",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Creates, selects or manages desktop appearance settings."
+            "path": "catalog.json",
+            "evidence": "plugins[951].description (pretty.omagen): Generate Omarchy themes from images"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -11992,7 +12116,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=loamstudios.contrast",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Picks a screen color or reuses previously picked colors."
+              "path": "catalog.json",
+              "evidence": "plugins[4941].description (loamstudios.contrast): Colour contrast checker with WCAG 2 conformance, eyedropper and an RGB / HSL / OKLCH / greyscale picker"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -12064,7 +12189,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.manateelazycat.color-picker",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Picks a screen color or reuses previously picked colors."
+              "path": "catalog.json",
+              "evidence": "plugins[3860].description (io.github.manateelazycat.color-picker): Pick an exact screen pixel from the Omarchy bar and copy it as HEX, RGB, or HSL."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -12139,7 +12265,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.ajanraj.chroma",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Picks a screen color or reuses previously picked colors."
+            "path": "catalog.json",
+            "evidence": "plugins[1174].description (io.github.ajanraj.chroma): Fast screen color picker and eyedropper for Omarchy. Pick any pixel, copy HEX, RGB or HSL values, browse color history, generate palettes, and check WCAG contrast."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -12211,7 +12338,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.arcanavox.colorhistory",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Picks a screen color or reuses previously picked colors."
+            "path": "catalog.json",
+            "evidence": "plugins[1468].description (io.github.arcanavox.colorhistory): Keeps every color you pick with hyprpicker, ready to copy back as hex, rgb or hsl."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -12307,7 +12435,7 @@
               "url": "https://github.com/ofa14-prog/omarchy-dynamic-island#readme",
               "revision": "0309eeeb00c2ac114a113ee6e14bc31745be45ea",
               "path": "README.md",
-              "evidence": "Browses, resumes or organizes coding-agent sessions."
+              "evidence": "README.md, line 62: Agent feature: shows each coding-agent session, jumps to its terminal, opens its folder and starts new sessions."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -12382,7 +12510,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=meviusisback.agent-orchestr",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Browses, resumes or organizes coding-agent sessions."
+            "path": "catalog.json",
+            "evidence": "plugins[1805].description (meviusisback.agent-orchestr): Live monitor and workspace orchestrator for AI coding agents (Herdr, OMP, Hermes, remote Hermes peers, Claude, Codex, Grok) in the Omarchy bar."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -12454,7 +12583,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=sid.sessions",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Browses, resumes or organizes coding-agent sessions."
+            "path": "catalog.json",
+            "evidence": "plugins[1433].description (sid.sessions): Browse previous sessions from every AI coding agent on this machine (Claude Code, Codex, opencode, Copilot, Pi, Gemini, Grok) and resume any of them in a terminal."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -12554,7 +12684,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=ssandys.colophon",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Provides AI conversation or native model controls."
+              "path": "catalog.json",
+              "evidence": "plugins[80].description (ssandys.colophon): Ollama server status and control in the bar: start, stop, restart, start-at-boot, loaded and installed models, and per-model parameter editing. Summon with: omarchy-shell shell toggle ssandys.colophon"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -12628,7 +12759,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.tnep4.recast",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Provides AI conversation or native model controls."
+              "path": "catalog.json",
+              "evidence": "plugins[2621].description (io.github.tnep4.recast): Transform selected text or chat with an LLM (OpenRouter), streamed, with follow-ups."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -12702,7 +12834,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=jim.ollama-chat",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Provides AI conversation or native model controls."
+              "path": "catalog.json",
+              "evidence": "plugins[4837].description (jim.ollama-chat): Bar icon that opens a sticky chat panel for testing an Ollama server: model picker, streamed replies, thinking toggle, image/file attachments and tokens/sec stats."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -12777,7 +12910,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.atif-1402.ai-panel",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Provides AI conversation or native model controls."
+            "path": "catalog.json",
+            "evidence": "plugins[878].description (io.github.atif-1402.ai-panel): A native AI chat sidebar for Omarchy with multi-provider streaming, markdown rendering, slash commands, local chat storage, prompt presets, file attachments, and theme-aware styling."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -12849,7 +12983,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=atzingen.jarvis",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Provides AI conversation or native model controls."
+            "path": "catalog.json",
+            "evidence": "plugins[3865].description (atzingen.jarvis): Local-first voice assistant for Omarchy: wake word, natural conversation, barge-in, Codex/Claude answers with machine access gated by per-command consent (the model has no tools of its own by default), live conversation window, dictation (speech-to-text into the active window). Bar widget with status, dictation controls and settings."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -12944,7 +13079,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=othavi0.agent-bar",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Displays model subscription usage, quotas or token history."
+              "path": "catalog.json",
+              "evidence": "plugins[29].description (othavi0.agent-bar): LLM quota monitor for Claude, Codex, Grok, and Antigravity."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -13016,7 +13152,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=local.opencode-go",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Displays model subscription usage, quotas or token history."
+              "path": "catalog.json",
+              "evidence": "plugins[95].description (local.opencode-go): OpenCode Go usage, account switching, reset countdowns, and token history."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -13093,7 +13230,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=akitaonrails.ai-usagebar",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Displays model subscription usage, quotas or token history."
+            "path": "catalog.json",
+            "evidence": "plugins[126].description (akitaonrails.ai-usagebar): Multi-provider AI plan usage and balances in a native Omarchy Quattro panel. Needs the ai-usagebar binary as well as this plugin: omarchy pkg aur add ai-usagebar-bin"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -13165,7 +13303,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.viganogabriele.agent-usage-plus",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Displays model subscription usage, quotas or token history."
+            "path": "catalog.json",
+            "evidence": "plugins[1024].description (io.github.viganogabriele.agent-usage-plus): Live AI coding-subscription usage, limits, API-rate estimates, and token history in a native Omarchy bar panel."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -13262,7 +13401,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=omarchy-philips-hue",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Controls connected home devices."
+              "path": "catalog.json",
+              "evidence": "plugins[731].description (omarchy-philips-hue): Control Philips Hue lights from the bar connected to Hue Bridge. Syncs with your active Omarchy theme!"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -13336,7 +13476,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.bitshiftxr.atrium",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Controls connected home devices."
+              "path": "catalog.json",
+              "evidence": "plugins[1685].description (io.github.bitshiftxr.atrium): Control your Home Assistant devices from the Omarchy bar."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -13413,7 +13554,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=hass",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Controls connected home devices."
+            "path": "catalog.json",
+            "evidence": "plugins[48].description (hass): View and control Home Assistant devices from the Omarchy bar."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -13487,7 +13629,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.amitcpatel.elgato-control",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Controls connected home devices."
+            "path": "catalog.json",
+            "evidence": "plugins[721].description (io.github.amitcpatel.elgato-control): Unofficial adaptive controls for Elgato Stream Deck, Pedal, Wave microphones, and Key Lights."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -13582,7 +13725,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.ricky.ghstats",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Browses repository, review, issue or forge activity."
+              "path": "catalog.json",
+              "evidence": "plugins[771].description (io.github.ricky.ghstats): GitHub contribution boxes and inbox notifications in the Omarchy bar."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -13654,7 +13798,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=halmylyseas.github-status",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Browses repository, review, issue or forge activity."
+              "path": "catalog.json",
+              "evidence": "plugins[1558].description (halmylyseas.github-status): Not a notification inbox -- a status-bar dashboard for a solo maintainer's own repos: repository status, own open PRs with CI/review state, review requests, alongside notifications. Powered entirely by your authenticated gh CLI."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -13729,7 +13874,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=robzolkos.github",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Browses repository, review, issue or forge activity."
+            "path": "catalog.json",
+            "evidence": "plugins[97].description (robzolkos.github): A keyboard-friendly GitHub inbox for notifications, reviews, your own pull requests, assigned issues, Actions, and repositories."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -13801,7 +13947,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=dev.git",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Browses repository, review, issue or forge activity."
+            "path": "catalog.json",
+            "evidence": "plugins[439].description (dev.git): GitHub, GitLab and Gitea open work: a full-year contribution graph, review queue, and your open pull/merge requests in a native Omarchy bar panel."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -13901,7 +14048,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.andressm415.omaprox",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Inspects or controls real container instances."
+              "path": "catalog.json",
+              "evidence": "plugins[398].description (io.github.andressm415.omaprox): Read-only Proxmox VE dashboard in the Omarchy bar: every container and VM with a status LED, per-guest stats, and one key to a console."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -13975,7 +14123,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.majkelll.omarchy-docker",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Inspects or controls real container instances."
+              "path": "catalog.json",
+              "evidence": "plugins[1946].description (io.github.majkelll.omarchy-docker): Everything you need for Docker in the bar, and nothing you don't: start, stop, restart, pause and remove containers, view logs or open a shell, and watch live CPU/RAM per container and in total. No privileges asked for, nothing written to disk."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -14051,7 +14200,7 @@
             "url": "https://github.com/RandaZraik/omarchy-xray#readme",
             "revision": "09a1e8f4d9d18f2355c1f27faa33eaa7c4bab139",
             "path": "README.md",
-            "evidence": "Inspects or controls real container instances."
+            "evidence": "README.md, line 56: Features: traces Docker/Podman/nerdctl targets and can restart targets owned by a supported container runtime."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "repository-evidence"
@@ -14125,7 +14274,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=devgtv.docker",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Inspects or controls real container instances."
+            "path": "catalog.json",
+            "evidence": "plugins[204].description (devgtv.docker): Shows running Docker containers in the bar and lets you control the RAM limit of each one."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -14223,7 +14373,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.linuxg33k76.hey-im-gaming-here",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Controls a game session, launches games or manages desktop behavior while playing."
+              "path": "catalog.json",
+              "evidence": "plugins[1996].description (io.github.linuxg33k76.hey-im-gaming-here): Detects Steam/Lutris/Heroic/Bottles game sessions and keeps the screensaver and lock screen off while you're actually playing."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -14298,7 +14449,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=silvaio.gamemode",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Controls a game session, launches games or manages desktop behavior while playing."
+            "path": "catalog.json",
+            "evidence": "plugins[581].description (silvaio.gamemode): One-click Game Mode for Omarchy: lock compositor shortcuts, optimize Hyprland, silence the desktop, and optionally launch Steam in Gamescope / Big Picture."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -14372,7 +14524,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=glasschan.oma-swiss",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Controls a game session, launches games or manages desktop behavior while playing."
+            "path": "catalog.json",
+            "evidence": "plugins[1465].description (glasschan.oma-swiss): One bar icon, six Hyprland tools: laptop Super⇄Alt swap, single-window aspect ratio, Opinionated Looks, gaming mode, fcitx5 IME candidate-window theming, and one-click screenshots, OCR, QR scan & recording. No daemon, no idle cost."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -14467,7 +14620,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=terminal.tetris",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Provides a playable desktop game or interactive desktop pet."
+              "path": "catalog.json",
+              "evidence": "plugins[217].description (terminal.tetris): Theme-aware terminal Tetris with Classic, Sprint, and Ultra modes."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -14539,7 +14693,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=jankeesvw.omasweeper",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Provides a playable desktop game or interactive desktop pet."
+              "path": "catalog.json",
+              "evidence": "plugins[422].description (jankeesvw.omasweeper): Minesweeper for omarchy-shell, drawn like a TUI: a character grid on hairlines, base-36 gutter labels, ANSI numbers and a status bar. Opens as an ordinary tiled window, plays entirely from the keyboard with vim motions, makes 8-bit noises, and unloads again when you close it. Summon with: omarchy-shell shell toggle jankeesvw.omasweeper"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -14614,7 +14769,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=slcode777.omagotchi",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Provides a playable desktop game or interactive desktop pet."
+            "path": "catalog.json",
+            "evidence": "plugins[1014].description (slcode777.omagotchi): A 1-bit desktop pet in your bar, in the spirit of the 1997 originals: feed it, scrub it clean, cuddle it, and let it out to roam your screen and climb your windows. It hatches, grows, and evolves with the care you give."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -14686,7 +14842,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=nosignal.quattrolitaire",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Provides a playable desktop game or interactive desktop pet."
+            "path": "catalog.json",
+            "evidence": "plugins[316].description (nosignal.quattrolitaire): Klondike solitaire for omarchy-shell. Drag-and-drop card table drawn entirely in QML, coloured from the active theme, with undo, autocomplete, scoring and a game that survives a shell restart. Summon with: omarchy-shell shell toggle nosignal.quattrolitaire"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -14781,7 +14938,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=firstpick.keybindings",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Creates or edits real desktop keybindings."
+              "path": "catalog.json",
+              "evidence": "plugins[2473].description (firstpick.keybindings): Edit, record, import and export Hyprland keybind maps with staged changes and conflict review"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -14853,7 +15011,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=astrofoundry.keybind-editor",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Creates or edits real desktop keybindings."
+              "path": "catalog.json",
+              "evidence": "plugins[1878].description (astrofoundry.keybind-editor): Keybindings viewer with interactive rebinding"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -14928,7 +15087,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=meviusisback.keybinds",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Creates or edits real desktop keybindings."
+            "path": "catalog.json",
+            "evidence": "plugins[971].description (meviusisback.keybinds): Graphical frontend to view, modify, create, and manage Hyprland keybindings with conflict detection."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -15003,7 +15163,7 @@
             "url": "https://github.com/Davedes83/mouse-keybind-plugin#readme",
             "revision": "b0c6d960556cf8292339c5f1036ec4830eed7325",
             "path": "README.md",
-            "evidence": "Creates or edits real desktop keybindings."
+            "evidence": "README.md, line 27: Keybinds features: searches bindings, identifies conflicts and edits/adds Hyprland bindings from the settings panel."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "repository-evidence"
@@ -15098,7 +15258,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=slw.keyarchy",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Teaches or looks up desktop shortcuts."
+              "path": "catalog.json",
+              "evidence": "plugins[2502].description (slw.keyarchy): Learn Omarchy's keybindings as you work: teaches the shortcut for what you just did with the mouse"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -15170,7 +15331,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=nav-guide",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Teaches or looks up desktop shortcuts."
+              "path": "catalog.json",
+              "evidence": "plugins[3971].description (nav-guide): An enhanced Super+K window that teaches you Omarchy keybindings by suggesting shortcuts based on what you have open."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -15245,7 +15407,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=huacnlee.which-key",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Teaches or looks up desktop shortcuts."
+            "path": "catalog.json",
+            "evidence": "plugins[1420].description (huacnlee.which-key): A LazyVim which-key-style shortcut guide that automatically reads Omarchy live keybindings and appears when you hold Super"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -15317,7 +15480,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.omashift.omashift",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Teaches or looks up desktop shortcuts."
+            "path": "catalog.json",
+            "evidence": "plugins[1623].description (io.github.omashift.omashift): A rally game that drills your Omarchy keybindings. The bar widget opens it, and retires a stage that is still holding your keyboard."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -15412,7 +15576,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=godofjoper.translate",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Translates user-supplied or selected text."
+              "path": "catalog.json",
+              "evidence": "plugins[3519].description (godofjoper.translate): Google Translate overlay — select any text and translate it with a hotkey"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -15484,7 +15649,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.tcballard.bartranslate",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Translates user-supplied or selected text."
+              "path": "catalog.json",
+              "evidence": "plugins[3288].description (io.github.tcballard.bartranslate): A native, theme-aware translation panel for the Omarchy bar."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -15559,7 +15725,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=b7s.googletranslate",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Translates user-supplied or selected text."
+            "path": "catalog.json",
+            "evidence": "plugins[428].description (b7s.googletranslate): Translate text straight from the bar: type in the panel and get an instant translation through Google's free endpoint."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -15631,7 +15798,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=jankeesvw.text-transform",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Translates user-supplied or selected text."
+            "path": "catalog.json",
+            "evidence": "plugins[1723].description (jankeesvw.text-transform): Rewrite, translate or fix text with the coding agent Omarchy already runs."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -15726,7 +15894,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=dlpwaters.thesaurus",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Looks up word definitions or synonyms."
+              "path": "catalog.json",
+              "evidence": "plugins[465].description (dlpwaters.thesaurus): Find definitions, synonyms, and antonyms with key-free APIs"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -15798,7 +15967,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=panadestein.lexicon",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Looks up word definitions or synonyms."
+              "path": "catalog.json",
+              "evidence": "plugins[1128].description (panadestein.lexicon): A Kindle-style English translation and dictionary popup for selected text"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -15873,7 +16043,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=tristonarmstrong.dictionary",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Looks up word definitions or synonyms."
+            "path": "catalog.json",
+            "evidence": "plugins[225].description (tristonarmstrong.dictionary): Look up word definitions across 23 Wiktionary editions directly in the Omarchy bar — English works offline via Webster's 1913. PLUS press meta+D to auto search highlighted words"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -15945,7 +16116,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.keegan-sucks.lookup",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Looks up word definitions or synonyms."
+            "path": "catalog.json",
+            "evidence": "plugins[3013].description (io.github.keegan-sucks.lookup): A macOS-style dictionary lookup popup. Select a word (or type one), press a hotkey, and see its definition from one or more dictionaries shown in the order you choose. Ships with Webster's 1913 as the offline base dictionary."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -16040,7 +16212,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.idr4n.prayer-times",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Provides a prayer timetable or the next-prayer countdown."
+              "path": "catalog.json",
+              "evidence": "plugins[1834].description (io.github.idr4n.prayer-times): Configurable prayer times, countdowns, and daily schedule for the Omarchy bar."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -16112,7 +16285,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=abdulrahman.athan",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Provides a prayer timetable or the next-prayer countdown."
+              "path": "catalog.json",
+              "evidence": "plugins[1044].description (abdulrahman.athan): Islamic prayer times, live countdown to next athan, monthly prayer timetable, rich athan audio customization, and Qibla compass"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -16187,7 +16361,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=local.prayer-times",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Provides a prayer timetable or the next-prayer countdown."
+            "path": "catalog.json",
+            "evidence": "plugins[12].description (local.prayer-times): Mosque icon with next prayer countdown and a popup with today's five prayers"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -16259,7 +16434,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.salemsayed.omaprayers",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Provides a prayer timetable or the next-prayer countdown."
+            "path": "catalog.json",
+            "evidence": "plugins[172].description (io.github.salemsayed.omaprayers): Prayer times in the Omarchy bar, calculated offline: a to-scale day strip or a ruled timetable, Arabic and English, selectable calculation methods and notifications."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -16356,7 +16532,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.alexanderpuschkinberlin.keyboard-backlight",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Controls the supported keyboard's backlight."
+              "path": "catalog.json",
+              "evidence": "plugins[2465].description (io.github.alexanderpuschkinberlin.keyboard-backlight): Manual and scheduled keyboard lighting for ThinkPads without an automatic backlight sensor."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -16431,7 +16608,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.anes-03.keyboard-brightness",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Controls the supported keyboard's backlight."
+            "path": "catalog.json",
+            "evidence": "plugins[2489].description (io.github.anes-03.keyboard-brightness): Adjust the keyboard backlight from the Omarchy bar"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -16506,7 +16684,7 @@
             "url": "https://github.com/tedwester/omalegion#readme",
             "revision": "e4d4e81d67ee1aac1c050c583c7d17eb72032c04",
             "path": "README.md",
-            "evidence": "Controls the supported keyboard's backlight."
+            "evidence": "README.md, line 75: Lighting section: Spectrum Legion keyboard backlight has on/off, brightness and hardware lighting slots."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "repository-evidence"
@@ -16601,7 +16779,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=lef.keyboard-layout",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Selects or configures keyboard input layouts."
+              "path": "catalog.json",
+              "evidence": "plugins[1055].description (lef.keyboard-layout): Shows your keyboard layout on the bar and switches it with a click, scroll or key. Set up to four layouts with variants, choose the switch key, and edit input.lua safely with backups and one-click restore."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -16673,7 +16852,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=xarishark.language-input",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Selects or configures keyboard input layouts."
+              "path": "catalog.json",
+              "evidence": "plugins[4761].description (xarishark.language-input): Manage keyboard layouts, layout-switch shortcuts, and display languages in Omarchy Shell"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -16756,7 +16936,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.ilyazar.keyboard-layout",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Selects or configures keyboard input layouts."
+            "path": "catalog.json",
+            "evidence": "plugins[73].description (io.github.ilyazar.keyboard-layout): Minimalist keyboard layout picker with optional settings that can be toggled on/off: pulsing indicator, per-window layouts and 'keep open for single language choices'."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -16828,7 +17009,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=jesusarchive.keyboard-layout-switcher",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Selects or configures keyboard input layouts."
+            "path": "catalog.json",
+            "evidence": "plugins[3906].description (jesusarchive.keyboard-layout-switcher): Keyboard layout switcher and interactive keyboard viewer for Omarchy Quattro."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -16923,7 +17105,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=shafayet.finder",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Finds local files from a direct search workflow."
+              "path": "catalog.json",
+              "evidence": "plugins[1086].description (shafayet.finder): Fuzzy file finder with live preview"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -16995,7 +17178,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=olauncher",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Finds local files from a direct search workflow."
+              "path": "catalog.json",
+              "evidence": "plugins[3732].description (olauncher): A liquid app launcher with animated most-used apps, unified app/file search, calculator and contextual actions."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -17070,7 +17254,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=jesseburlamaque.omarchy-find",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Finds local files from a direct search workflow."
+            "path": "catalog.json",
+            "evidence": "plugins[1206].description (jesseburlamaque.omarchy-find): A fast, elegant, keyboard-driven universal file search and quick launcher for the Omarchy shell on Linux."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -17143,7 +17328,7 @@
             "url": "https://github.com/maajix/omarchy-spotlight#readme",
             "revision": "721c05874f0269c85604f9f1bb92be0bfaa0f810",
             "path": "README.md",
-            "evidence": "Finds local files from a direct search workflow."
+            "evidence": "README.md, line 36: Try it: the f prefix searches local files; the following paragraph describes navigating folder results."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "repository-evidence"
@@ -17243,7 +17428,7 @@
               "url": "https://github.com/foamrider/foamy-syncthing#readme",
               "revision": "8e55b71538c61e400601766a7ece86d7e52d40b9",
               "path": "README.md",
-              "evidence": "Inspects synchronization state and manages synchronized folders or their service."
+              "evidence": "README.md, line 33: Use section: Syncthing folder state and folder/service controls are exposed by the bundled Syncshell helper."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -17319,7 +17504,7 @@
               "url": "https://github.com/ninepointlabs/omasync#readme",
               "revision": "9ab80e5d3f61fb73ed342f727d3a0fa89b29e954",
               "path": "README.md",
-              "evidence": "Inspects synchronization state and manages synchronized folders or their service."
+              "evidence": "README.md, line 19: Features: shows Syncthing folder/device state, invitations and transfer rates, with control over the Syncthing service."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -17398,7 +17583,7 @@
             "url": "https://github.com/omarchy-QOL/syncshell#readme",
             "revision": "59a5d1d5f7742c0bf9a7554470146beb4c93e95b",
             "path": "README.md",
-            "evidence": "Inspects synchronization state and manages synchronized folders or their service."
+            "evidence": "README.md, line 284: Manage folders and devices from the panel: operates shared folders, connected devices and pending invitations in Syncthing."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "repository-evidence"
@@ -17474,7 +17659,7 @@
             "url": "https://github.com/vitorpacheco/omarchy-mega#readme",
             "revision": "fd936a453c5359da029504db3b6c2ac6f7d2282a",
             "path": "README.md",
-            "evidence": "Inspects synchronization state and manages synchronized folders or their service."
+            "evidence": "README.md, line 113: Synchronize a folder and Features: configures bidirectional MEGA folder sync with pause/resume and local-folder shortcuts."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "repository-evidence"
@@ -17569,7 +17754,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=mghizdavet.rss",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Reads news-feed items and manages feeds or unread state."
+              "path": "catalog.json",
+              "evidence": "plugins[2689].description (mghizdavet.rss): An RSS reader in the Omarchy bar: the unread count, the items in a panel, mark-all-read, and feed management. Speaks 10 languages, following the system locale by default."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -17641,7 +17827,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.keegan-sucks.rss-feeder",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Reads news-feed items and manages feeds or unread state."
+              "path": "catalog.json",
+              "evidence": "plugins[2923].description (io.github.keegan-sucks.rss-feeder): Native RSS and Atom reader for the Omarchy bar with OPML, per-feed category editing, YouTube Shorts filtering, search, unread tracking, and configurable retention."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -17716,7 +17903,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.sanjyay.rss-reeder",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Reads news-feed items and manages feeds or unread state."
+            "path": "catalog.json",
+            "evidence": "plugins[543].description (io.github.sanjyay.rss-reeder): Native RSS and Atom reader for the Omarchy bar with OPML, categories, search, unread tracking, and configurable retention."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -17788,7 +17976,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.alejandro-llanes.news",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Reads news-feed items and manages feeds or unread state."
+            "path": "catalog.json",
+            "evidence": "plugins[955].description (io.github.alejandro-llanes.news): A news reader in the bar. Hacker News out of the box, any RSS/Atom feed you add, with article artwork, bookmarks, and a cache you control."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -17883,7 +18072,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.joega.sportray",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Displays sports scores, schedules or team results."
+              "path": "catalog.json",
+              "evidence": "plugins[1079].description (io.github.joega.sportray): Follow favorite teams with live scores, daily schedules, and alerts in the Omarchy bar."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -17955,7 +18145,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=slowburnaz.omascore",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Displays sports scores, schedules or team results."
+              "path": "catalog.json",
+              "evidence": "plugins[1746].description (slowburnaz.omascore): Live scores for NFL, NBA, MLB, NHL, college and soccer — favorited teams pinned to the top"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -18030,7 +18221,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=devbook.futbar",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Displays sports scores, schedules or team results."
+            "path": "catalog.json",
+            "evidence": "plugins[1207].description (devbook.futbar): Live match center and football tracker with tactical lineups, real-time scores, standings, and live event alerts."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -18102,7 +18294,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=sportsbar",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Displays sports scores, schedules or team results."
+            "path": "catalog.json",
+            "evidence": "plugins[408].description (sportsbar): Favorite team score & upcoming game pill with detail popup"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -18199,7 +18392,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=daan.uptime-kuma",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Displays availability of websites, services or configured endpoints."
+              "path": "catalog.json",
+              "evidence": "plugins[195].description (daan.uptime-kuma): Show the status of every active Uptime Kuma monitor in a bar popup."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -18271,7 +18465,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.majkelll.omarchy-uptime",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Displays availability of websites, services or configured endpoints."
+              "path": "catalog.json",
+              "evidence": "plugins[1833].description (io.github.majkelll.omarchy-uptime): Watch the sites you care about from the Omarchy bar, with outage history and a notification when one stops answering"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -18346,7 +18541,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=bottelet.is-it-down",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Displays availability of websites, services or configured endpoints."
+            "path": "catalog.json",
+            "evidence": "plugins[989].description (bottelet.is-it-down): Is it me or is it down? Watches the status pages of services you depend on (GitHub, AWS, Cloudflare, npm, ...) from the bar."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -18418,7 +18614,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.dupontbertrand.omastatus",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Displays availability of websites, services or configured endpoints."
+            "path": "catalog.json",
+            "evidence": "plugins[1499].description (io.github.dupontbertrand.omastatus): Monitor websites, ports, databases, hosts, systemd units, Docker containers, and Kubernetes resources from the Omarchy bar."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -18513,7 +18710,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=gennaro.updater",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Checks pending system or software updates."
+              "path": "catalog.json",
+              "evidence": "plugins[411].description (gennaro.updater): Review and run pending Omarchy, system, and AUR updates; search installed apps by name."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -18585,7 +18783,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=svighnesh.pacman-sentry",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Checks pending system or software updates."
+              "path": "catalog.json",
+              "evidence": "plugins[162].description (svighnesh.pacman-sentry): Pending pacman update count in the bar; popup flags risky packages, shows Arch news, and lists .pacnew files."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -18668,7 +18867,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=dizziee.system-updates",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Checks pending system or software updates."
+            "path": "catalog.json",
+            "evidence": "plugins[8].description (dizziee.system-updates): Arch, AUR, Flatpak, Omarchy, plugins, and mise update indicator with per-repo update buttons."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -18740,7 +18940,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.saiiiiiph.update-center",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Checks pending system or software updates."
+            "path": "catalog.json",
+            "evidence": "plugins[2688].description (io.github.saiiiiiph.update-center): One quiet indicator for pending system, AUR, Flatpak, and Omarchy plugin updates."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -18837,7 +19038,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=ronnie.worldradio",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Browses and plays live internet radio stations."
+              "path": "catalog.json",
+              "evidence": "plugins[1597].description (ronnie.worldradio): Pick a country and a mood, tune in to a live radio station from there — inspired by radiooooo.com"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -18910,7 +19112,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.pixdevsapps.hertz-radio",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Browses and plays live internet radio stations."
+              "path": "catalog.json",
+              "evidence": "plugins[4057].description (io.github.pixdevsapps.hertz-radio): Internet radio in the bar: a minimalist player with genre, country and search browsing, favorites, and station artwork tinted in your theme's colors. Stations from radio-browser.info."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -18986,7 +19189,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=akshar.radio-atlas",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Browses and plays live internet radio stations."
+            "path": "catalog.json",
+            "evidence": "plugins[96].description (akshar.radio-atlas): Explore live radio on a rotatable globe and play stations through Omarchy's media controls."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -19059,7 +19263,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.kaibur02.omarchy-world-radio",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Browses and plays live internet radio stations."
+            "path": "catalog.json",
+            "evidence": "plugins[2945].description (io.github.kaibur02.omarchy-world-radio): Spinning world globe in the bar. Click for a big globe of every country; hover a country, city or town to play its live radio."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -19154,7 +19359,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=dailen.omarcharium",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Selects or configures screensaver visuals."
+              "path": "catalog.json",
+              "evidence": "plugins[2004].description (dailen.omarcharium): A living TTE-inspired tropical aquarium screensaver with a tray-hosted control room and procedural ambience."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -19226,7 +19432,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.fabiopauli.oligarchy-screensaver",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Selects or configures screensaver visuals."
+              "path": "catalog.json",
+              "evidence": "plugins[1146].description (io.github.fabiopauli.oligarchy-screensaver): Rotates oligarchy.fyi taglines beneath Omarchy's screensaver banner."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -19303,7 +19510,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=omarchy-undercover",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Selects or configures screensaver visuals."
+            "path": "catalog.json",
+            "evidence": "plugins[4394].description (omarchy-undercover): Flagship Omarchy desktop camouflage suite replicating Apple macOS Tahoe & Sequoia (with Stage Manager and Apple Aerial Screensavers) and Windows 11 Fluent for Omarchy Hyprland"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -19375,7 +19583,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=brianirish.screensaver",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Selects or configures screensaver visuals."
+            "path": "catalog.json",
+            "evidence": "plugins[2646].description (brianirish.screensaver): Screensaver settings: toggle, idle timing, effect picker, branding"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -19470,7 +19679,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.jordanneenan.simple-power-menu",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Performs computer session actions from a power menu."
+              "path": "catalog.json",
+              "evidence": "plugins[2144].description (io.github.jordanneenan.simple-power-menu): A compact, customizable power menu anchored to the Omarchy bar"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -19542,7 +19752,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=owaiss.session-menu",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Performs computer session actions from a power menu."
+              "path": "catalog.json",
+              "evidence": "plugins[3289].description (owaiss.session-menu): Elegant, theme-aware popout session and power menu for Omarchy with keyboard navigation and bar launcher."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -19617,7 +19828,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.edgarsilva.power-button",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Performs computer session actions from a power menu."
+            "path": "catalog.json",
+            "evidence": "plugins[511].description (io.github.edgarsilva.power-button): A power button for the bar with a keyboard-navigable session menu: screens off, lock, suspend, shutdown, reboot, logout."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -19689,7 +19901,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=blackcode.power-menu",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Performs computer session actions from a power menu."
+            "path": "catalog.json",
+            "evidence": "plugins[4290].description (blackcode.power-menu): Bar power button with lock, logout, suspend, hibernate, reboot, and shutdown"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -19784,7 +19997,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=io.github.juancasanueva.plugin-manager",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Discovers or manages installed Omarchy plugins."
+              "path": "catalog.json",
+              "evidence": "plugins[763].description (io.github.juancasanueva.plugin-manager): Browse, install, place, enable, update, and remove Omarchy shell plugins from the bar"
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -19857,7 +20071,7 @@
               "url": "https://github.com/Pegorim/omaplug#readme",
               "revision": "229a67b394a3677b6082ea3d946e9d64c88bbe1b",
               "path": "README.md",
-              "evidence": "Discovers or manages installed Omarchy plugins."
+              "evidence": "README.md, line 9: What you can do, Install from the marketplace and Remove software: discovers, installs, enables/disables, updates and removes plugins."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -19932,7 +20146,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=omaplug",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Discovers or manages installed Omarchy plugins."
+            "path": "catalog.json",
+            "evidence": "plugins[966].description (omaplug): Manage installed Omarchy plugins: enable/disable, update, install from git, and remove third-party plugins"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -20004,7 +20219,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=b.okomart",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Discovers or manages installed Omarchy plugins."
+            "path": "catalog.json",
+            "evidence": "plugins[49].description (b.okomart): Browse, install, enable, disable, update, and remove Omarchy plugins from a storefront interface"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -20102,7 +20318,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=illegalstudio.omarchy-firewall",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Inspects outbound connections or configures firewall policy."
+              "path": "catalog.json",
+              "evidence": "plugins[2101].description (illegalstudio.omarchy-firewall): ufw status and rules in the Omarchy bar. Reads unprivileged; every change goes through the Omarchy password prompt."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -20174,7 +20391,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=srozen.ufw",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Inspects outbound connections or configures firewall policy."
+              "path": "catalog.json",
+              "evidence": "plugins[470].description (srozen.ufw): ufw firewall status in the Omarchy bar, with a switch, the current rule list, and adding and removing rules."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -20249,7 +20467,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.sahzudin.omawall",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Inspects outbound connections or configures firewall policy."
+            "path": "catalog.json",
+            "evidence": "plugins[873].description (io.github.sahzudin.omawall): View and manage the Omarchy UFW firewall from the bar."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -20321,7 +20540,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.chris.snitch",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Inspects outbound connections or configures firewall policy."
+            "path": "catalog.json",
+            "evidence": "plugins[747].description (io.github.chris.snitch): Live per-app outbound connection map with country flags and one-key per-app firewall blocks."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -20416,7 +20636,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=yuler.omaports",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Inspects local listening ports and their owning processes."
+              "path": "catalog.json",
+              "evidence": "plugins[1418].description (yuler.omaports): Find open TCP ports and close them from the Omarchy bar and overlay."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -20440,7 +20661,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=kb2uka.port-doctor",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Inspects local listening ports and their owning processes."
+              "path": "catalog.json",
+              "evidence": "plugins[3513].description (kb2uka.port-doctor): See everything on your home network: every host, its open ports and services, and every live connection this machine is making."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -20514,7 +20736,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=zeru.portwatch",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Inspects local listening ports and their owning processes."
+            "path": "catalog.json",
+            "evidence": "plugins[2106].description (zeru.portwatch): Shows local listening ports/dev servers in the bar with a popup to stop them"
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -20586,7 +20809,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=io.github.mich-nduka.omaports",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Inspects local listening ports and their owning processes."
+            "path": "catalog.json",
+            "evidence": "plugins[796].description (io.github.mich-nduka.omaports): Open dev ports on localhost in the Omarchy bar: which project holds which port, what is reachable beyond this machine, and a way to close it."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -20683,7 +20907,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=ekollof.omaconnect",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Connects to a phone and exchanges messages, files or other content."
+              "path": "catalog.json",
+              "evidence": "plugins[2898].description (ekollof.omaconnect): KDE Connect devices in the Omarchy bar via the kcd daemon: pairing, battery, notification replies, file sharing, and quick actions."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -20756,7 +20981,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=com.github.tug-benson.omadroid",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Connects to a phone and exchanges messages, files or other content."
+              "path": "catalog.json",
+              "evidence": "plugins[1786].description (com.github.tug-benson.omadroid): Mirror and control an Android phone from the Omarchy bar via scrcpy/adb — USB by default, optional WiFi."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -20835,7 +21061,7 @@
             "url": "https://github.com/jitendradara12/omaconnect#readme",
             "revision": "d5027a52759b6f6a489012a28535acf21ec41b34",
             "path": "README.md",
-            "evidence": "Connects to a phone and exchanges messages, files or other content."
+            "evidence": "README.md, line 21: Features: manages pairing requests/verification, shares files/text/clipboard and opens SMS for paired devices."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "repository-evidence"
@@ -20908,7 +21134,8 @@
           "source": {
             "url": "https://plugins.omarchy.org/plugin.html?id=omakdeconnect",
             "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-            "evidence": "Connects to a phone and exchanges messages, files or other content."
+            "path": "catalog.json",
+            "evidence": "plugins[1539].description (omakdeconnect): KDE Connect beyond the LAN with Tailscale peer discovery, stable-address pairing, clipboard sharing, and file transfer in the Omarchy bar."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "catalog-evidence"
@@ -21008,7 +21235,7 @@
               "url": "https://github.com/hlasensky/omarchy-peripheral-battery#features",
               "revision": "70c985e443f27698cd7bb73ffc0fe7ea9e0cfef1",
               "path": "README.md",
-              "evidence": "The dedicated device panel identifies Bluetooth and wireless devices and displays their battery readings."
+              "evidence": "README.md, line 14: Features: per-device Tiles/List views show peripheral names and charge, with low-battery notifications."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -21084,7 +21311,7 @@
               "url": "https://github.com/Deoxizn/devicebattstats#features",
               "revision": "719f5b5dd92f3d8a613c0d28db85c4033e7a7678",
               "path": "README.md",
-              "evidence": "The dedicated device panel identifies Bluetooth and wireless devices and displays their battery readings."
+              "evidence": "README.md, line 24: Features: each device row has its name, type, source, charge state and battery bar."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "repository-evidence"
@@ -21110,7 +21337,8 @@
             "source": {
               "url": "https://plugins.omarchy.org/plugin.html?id=meviusisback.mouse-settings",
               "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-              "evidence": "Includes a small mouse battery indicator inside input settings; a dedicated battery panel supplies device identification and charge details."
+              "path": "catalog.json",
+              "evidence": "plugins[897].description (meviusisback.mouse-settings): Graphical mouse & pointer configuration tool for Omarchy: cursor speed, precision/flat acceleration, natural scroll, left-handed mode, button remapping, synthetic button presses (ydotool), and mouse battery display."
             },
             "reviewedAt": "2026-10-12",
             "provenance": "catalog-evidence"
@@ -21132,13 +21360,13 @@
             ],
             "reason": "Includes a small mouse battery indicator inside input settings; a dedicated battery panel supplies device identification and charge details.",
             "source": {
-              "url": "https://github.com/Davedes83/mouse-keybind-plugin#readme",
-              "revision": "b0c6d960556cf8292339c5f1036ec4830eed7325",
-              "path": "README.md",
-              "evidence": "Includes a small mouse battery indicator inside input settings; a dedicated battery panel supplies device identification and charge details."
+              "url": "https://plugins.omarchy.org/plugin.html?id=davedes.mouse-keybind-settings",
+              "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
+              "path": "catalog.json",
+              "evidence": "plugins[2354].description (davedes.mouse-keybind-settings): Combined graphical configuration for mouse/pointer settings and Hyprland keybindings — cursor speed, acceleration profiles, scroll behavior, button remapping, synthetic button presses, battery indicator, and full keybind manager."
             },
             "reviewedAt": "2026-10-12",
-            "provenance": "repository-evidence"
+            "provenance": "catalog-evidence"
           }
         }
       ],
@@ -21213,7 +21441,7 @@
             "url": "https://github.com/r-witz/omarchy-nothing-ear#features",
             "revision": "4a8565227da9d17a0bcb28a535a7af11d597d7be",
             "path": "README.md",
-            "evidence": "The panel identifies supported devices and shows individual battery and charging readings."
+            "evidence": "README.md, line 14: Features: identifies supported Nothing devices and shows left/right/case or headset battery, including Bluetooth fallback readings."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "repository-evidence"
@@ -21287,7 +21515,7 @@
             "url": "https://github.com/69Harold69/omarchy-gadget-batteries#features",
             "revision": "d08c2396d2b1bdae5a1169e54b5ac568485bd7cc",
             "path": "README.md",
-            "evidence": "The panel identifies supported devices and shows individual battery and charging readings."
+            "evidence": "README.md, line 40: What it does and What it reads: shows individual connected gadget batteries/charge, with per-device supported data sources."
           },
           "reviewedAt": "2026-10-12",
           "provenance": "repository-evidence"
@@ -22094,7 +22322,7 @@
         "id": "io.github.69harold69.gadget-batteries",
         "name": "Gadget Batteries"
       },
-      "reason": "no-longer-in-category"
+      "reason": "related-task-scope"
     }
   ]
 }

@@ -5,9 +5,9 @@ import os from "node:os";
 import test from "node:test";
 import { classifyPlugin, prepareTaxonomy, rankPlugins, methodologyFor, pickWithHysteresis } from "../build/rank.mjs";
 import { assertTaskQualifiedSnapshot, explainTaskFit, prepareTaskReviews, taskMetadataHash, updateTaskReviewQueue } from "../build/task-fit.mjs";
-import { auditClassifications, renderClassificationAudit } from "../build/classification-audit.mjs";
-import { refresh, validateFeeds } from "../build/refresh.mjs";
-import { renderFixtureType, renderFixtureMethodology } from "../build/render.mjs";
+import { auditClassifications, checksum, renderClassificationAudit } from "../build/classification-audit.mjs";
+import { refresh, replayChanges, validateFeeds } from "../build/refresh.mjs";
+import { renderFixtureType, renderFixtureMethodology, renderFixtureChangelog } from "../build/render.mjs";
 import { reviewProposal } from "../scripts/task-review.mjs";
 import { compareTaskFit } from "../scripts/compare-task-fit.mjs";
 
@@ -157,6 +157,12 @@ test("review proposal binds an explicit judgment to captured evidence and never 
   assert.throws(() => reviewProposal(capture, [review(p, { metadataHash: "old" })]), /different captured metadata/);
   const proposed = reviewProposal(capture, [review(p)]);
   assert.equal(proposed.assignments[0].metadataHash, taskMetadataHash(p));
+  const catalogDecision = review(p, { provenance: "catalog-evidence", source: undefined });
+  const source = reviewProposal(capture, [catalogDecision]).assignments[0].source;
+  assert.equal(source.revision, checksum(capture.catalog.body));
+  assert.equal(source.path, "catalog.json");
+  assert.equal(source.evidence, `plugins[0].description (a): ${p.description}`);
+  assert.notEqual(source.evidence, catalogDecision.reason);
 });
 
 test("fixed-input comparison keeps feeds and time while changing qualification and selection", () => {
@@ -260,4 +266,109 @@ test("captured counterexamples and missed primary tasks have explicit recommenda
 test("taxonomy-only baselines cannot silently reuse current task adjudications", () => {
   const p = plugin("a");
   assert.throws(() => auditClassifications({ ...inputs([p], [review(p)]), baselineTaxonomy: taxonomy }), /compare:task-fit/);
+});
+
+test("caption wording preserves one- and two-sentence task claims for review", async () => {
+  const production = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
+  for (const [typeId, description] of [
+    ["weather", "The image shows a weather radar widget for the menu bar."],
+    ["weather", "Menu-bar weather radar. The image shows the forecast."],
+    ["network", "The image shows how you connect, disconnect and configure Wi-Fi networks."],
+    ["network", "Connect, disconnect and configure Wi-Fi networks. The preview image shows the controls."],
+    ["screenshots", "The screenshot shows how to take a screenshot of a window and save the image."],
+    ["screenshots", "Take a screenshot of a window and save the image."],
+    ["screenshots", "Take screenshots of a window and save the images."]
+  ]) {
+    const p = plugin("neutral-utility", description);
+    const result = rankPlugins(inputs([p], [], { taxonomy: production }));
+    assert.ok(result.typeIdsById.get(p.id)?.includes(typeId), description);
+    assert.equal(result.reviewQueue.find((r) => r.pluginId === p.id && r.typeId === typeId)?.status, "pending", description);
+    assert.equal(result.rankings.types.find((t) => t.id === typeId).winner, null, "discovery cannot manufacture qualification");
+  }
+});
+
+test("source evidence reflects the related scope instead of a qualified category template", async () => {
+  const decisions = JSON.parse(await readFile(new URL("../data/task-reviews.json", import.meta.url)));
+  for (const r of decisions.assignments.filter((r) => r.decision !== "qualified")) {
+    assert.ok(!decisions.assignments.some((q) => q.typeId === r.typeId && q.decision === "qualified" && q.source.evidence === r.source.evidence), `${r.pluginId}/${r.typeId}`);
+    assert.match(r.source.evidence, r.provenance === "catalog-evidence" ? /^plugins\[\d+\]\.(?:description|name) / : /^README\.md, line \d+: /);
+  }
+  const manager = decisions.assignments.find((r) => r.pluginId === "io.github.sahzudin.omarchy-screenshot-manager" && r.typeId === "screenshots");
+  assert.match(manager.source.evidence, /Browse, preview, copy, and delete screenshots taken with omarchy capture/);
+  assert.doesNotMatch(manager.source.evidence, /Captures a screen region/);
+});
+
+test("the VPN contract requires connection controls and its reviewed tools document both capabilities", async () => {
+  const production = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
+  const decisions = JSON.parse(await readFile(new URL("../data/task-reviews.json", import.meta.url)));
+  const vpn = production.types.find((t) => t.id === "vpn");
+  assert.equal(vpn.contract.version, 2);
+  const assignments = decisions.assignments.filter((r) => r.typeId === "vpn");
+  assert.equal(assignments.length, 4);
+  for (const r of assignments) {
+    assert.deepEqual(r.capabilities, ["read-vpn-status", "control-vpn-connection"]);
+    assert.equal(r.provenance, "repository-evidence");
+    assert.match(r.source.evidence, /^README\.md, line \d+: /);
+    assert.throws(() => prepareTaskReviews({ schemaVersion: 1, assignments: [{ ...r, capabilities: ["read-vpn-status"] }] }, [vpn]), /does not meet task contract/);
+  }
+});
+
+test("refresh and replay distinguish related, unresolved and departed former picks", async (context) => {
+  const scenarios = [
+    ["related", "related-task-scope"], ["pending", "awaiting-task-qualification"],
+    ["stale-metadata", "awaiting-task-qualification"], ["stale-without-match", "awaiting-task-qualification"],
+    ["stale-contract", "awaiting-task-qualification"], ["held", "awaiting-task-qualification"],
+    ["departed", "no-longer-in-category"], ["failed", "compatibility-failed"],
+    ["unreachable", "repository-unreachable"], ["retired", "retired"]
+  ];
+  for (const [scenario, expected] of scenarios) {
+    const root = await mkdtemp(path.join(os.tmpdir(), "omapicks-removal-scope-"));
+    context.after(() => rm(root, { recursive: true, force: true }));
+    await mkdir(path.join(root, "data"));
+    const old = plugin("old"), runner = plugin("old-runner"), replacement = plugin("replacement");
+    const stats = { old: { copies: 10000, hearts: 1000, views: 30000 }, "old-runner": { copies: 1000, hearts: 100, views: 3000 }, replacement: { copies: 10, hearts: 1, views: 50 } };
+    const previous = rankPlugins(inputs([old, runner, replacement], [], { stats, methodology: methodologyFor("1.1.0") })).rankings;
+    assert.equal(previous.types[0].winner.id, old.id);
+    assert.equal(previous.types[0].runnerUp.id, runner.id);
+    let catalog = [old, runner, replacement], reviews = [review(replacement)];
+    const currentTaxonomy = structuredClone(taxonomy);
+    if (["related", "failed", "unreachable"].includes(scenario)) {
+      reviews.push(...[old, runner].map((p) => review(p, { decision: "related", role: "integration", capabilities: [], reason: "Only indicates capture activity from another application." })));
+      if (scenario !== "related") catalog = catalog.map((p) => p.id === replacement.id ? p : { ...p, upstreamCheckStatus: scenario });
+    } else if (scenario.startsWith("stale")) {
+      reviews.push(review(old), review(runner));
+      if (scenario === "stale-contract") {
+        currentTaxonomy.types[0].contract.version = 2;
+        reviews[0].contractVersion = 2;
+      } else catalog = catalog.map((p) => p.id === replacement.id ? p : { ...p, description: scenario === "stale-without-match" ? "Synchronizes local folders." : "Changed screenshot capture claim." });
+    } else if (scenario === "held") {
+      reviews.push(review(old), review(runner));
+      currentTaxonomy.overrides = { review: { old: ["capture"], "old-runner": ["capture"] }, reasons: {
+        old: { capture: "Requires another capability source check." }, "old-runner": { capture: "Requires another capability source check." }
+      } };
+    } else if (scenario === "departed") catalog = catalog.map((p) => p.id === replacement.id ? p : { ...p, description: "Synchronizes local folders." });
+    else if (scenario === "retired") catalog = [replacement];
+    for (const [file, value] of Object.entries({ "app-types": currentTaxonomy, "task-reviews": { schemaVersion: 1, assignments: reviews }, rankings: previous })) {
+      await writeFile(path.join(root, "data", `${file}.json`), JSON.stringify(value));
+    }
+    const fetchImpl = async (url) => new Response(JSON.stringify(url.includes("/stats") ? { schemaVersion: 1, plugins: stats }
+      : url.includes("registry") ? { retiredPluginIds: [old.id, runner.id] } : { plugins: catalog }));
+    const result = await refresh({ root, now, minimumCatalogSize: 1, fetchImpl, dryRun: true });
+    assert.equal(result.computedChanges[0].reason, expected, `${scenario}: champion`);
+    assert.equal(result.runnerUpChanges[0].reason, expected, `${scenario}: runner-up`);
+    const replayed = replayChanges(JSON.parse(JSON.stringify(result.auditInputs)));
+    assert.deepEqual(replayed.changes, result.computedChanges, scenario);
+    assert.deepEqual(replayed.runnerUpChanges, result.runnerUpChanges, scenario);
+  }
+});
+
+test("the W42 related peripheral tool has consistent history and changelog wording", async () => {
+  const history = JSON.parse(await readFile(new URL("../data/history/2026-W42.json", import.meta.url)));
+  const changelog = JSON.parse(await readFile(new URL("../data/changelog.json", import.meta.url)));
+  const event = (snapshot) => snapshot.runnerUpChanges.find((c) => c.typeId === "peripheral-battery" && c.previous?.id === "davedes.mouse-keybind-settings");
+  assert.equal(event(history).reason, "related-task-scope");
+  assert.deepEqual(event(changelog), event(history));
+  const html = renderFixtureChangelog([history]);
+  assert.match(html, /Mouse &amp; Keybind Settings remains a related tool with a narrower task scope/);
+  assert.doesNotMatch(html, /Mouse &amp; Keybind Settings no longer matches this category/);
 });

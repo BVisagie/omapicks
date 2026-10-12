@@ -130,6 +130,8 @@ function matchedEvidence(patterns, fields, rule, version = CLASSIFICATION_VERSIO
   const evidence = [];
   for (const [field, value] of Object.entries(fields)) {
     if (typeof value !== "string") continue;
+    const captions = version >= 3 && rule !== "exclude"
+      ? [...value.matchAll(/\b(?:(?:the|this)\s+)?(?:screenshots?|preview(?: image)?|images?)\s+(?:shows?|depicts?|illustrates?)\b/giu)] : [];
     for (const pattern of patterns) {
       const matches = version < 3 ? [pattern.exec(value)].filter(Boolean) : [...value.matchAll(new RegExp(pattern.source, "giu"))];
       for (const match of matches) {
@@ -140,7 +142,7 @@ function matchedEvidence(patterns, fields, rule, version = CLASSIFICATION_VERSIO
         const end = after.search(/[,;.\n]/);
         const context = value.slice(clauseStart, end < 0 ? value.length : start + match[0].length + end);
         const negated = rule !== "exclude" && /\b(?:no|not|without|never|does(?:n['’]t| not)|do(?:n['’]t| not))\s+(?:any\s+)?$/iu.test(before.slice(-50));
-        const preview = rule !== "exclude" && /\b(?:the |this )?(?:screenshot|preview image|image)\s+(?:shows?|depicts?|illustrates?)\b/iu.test(context);
+        const preview = captions.some((caption) => start >= caption.index && start + match[0].length <= caption.index + caption[0].length);
         evidence.push({ rule, pattern: pattern.source, field, match: match[0], ...(version >= 3 ? { context: context.trim(), ignored: negated ? "negated-capability" : preview ? "preview-reference" : null } : {}) });
       }
     }
@@ -583,6 +585,8 @@ export function rankPlugins({ catalog, stats, taxonomy, taskReviews = { schemaVe
     exclusions,
     typeIdsById,
     qualifiedTypeIdsById: reviewed ? qualifiedTypeIdsById : typeIdsById,
+    taskStatusByAssignment: new Map([...fits].map(([key, fit]) => [key, fit.status])
+      .concat(reviewQueue.map((p) => [`${p.pluginId}/${p.typeId}`, p.status]))),
     reviewQueue: preserveTaskReviewHistory(reviewQueue, previousReviewQueue, now.toISOString()),
     ...(detail ? { cohorts: scoredCohorts } : {}),
     rankings: {
@@ -633,7 +637,9 @@ export const REMOVAL_REASONS = Object.freeze({
   "not-installable": "no longer has a marketplace install command",
   "invalid-repository": "no longer has a valid HTTPS repository",
   "invalid-id": "has an invalid catalog ID",
-  "no-longer-in-category": "no longer matches this category"
+  "no-longer-in-category": "no longer matches this category",
+  "related-task-scope": "remains a related tool with a narrower task scope",
+  "awaiting-task-qualification": "is awaiting task qualification before it can compete"
 });
 
 export function removalSentence(change) {
@@ -641,7 +647,8 @@ export function removalSentence(change) {
   return phrase && change.previous ? `${change.previous.name} ${phrase}.` : "";
 }
 
-// `context` explains removals: { catalogIds, retirement: { available, ids }, exclusions, typeIdsById }.
+// `context` explains removals with catalog/retirement IDs, global exclusions,
+// discovered typeIdsById and taskStatusByAssignment (including unresolved reviews).
 // Without it (older call sites and rendering), changes carry no reason.
 function removalReason(oldId, typeId, context) {
   if (!context) return null;
@@ -652,6 +659,9 @@ function removalReason(oldId, typeId, context) {
   }
   // A live listing is judged by the current catalog even if the registry also lists it as retired.
   if (context.exclusions?.has(oldId)) return context.exclusions.get(oldId);
+  const taskStatus = context.taskStatusByAssignment?.get(`${oldId}/${typeId}`);
+  if (taskStatus === "related") return "related-task-scope";
+  if (["pending", "stale-metadata", "stale-contract", "held"].includes(taskStatus)) return "awaiting-task-qualification";
   if (context.typeIdsById && !(context.typeIdsById.get(oldId) ?? []).includes(typeId)) return "no-longer-in-category";
   return null;
 }

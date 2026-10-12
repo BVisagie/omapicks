@@ -39,7 +39,7 @@
     {
       "id": "vpn",
       "name": "VPN",
-      "description": "VPN status, connection, and privacy controls",
+      "description": "Inspect VPN tunnel state and connect, disconnect or switch VPN connections",
       "include": [
         "\\b(?:vpn|wireguard|tailscale|mullvad|windscribe|cloudflare warp|openvpn)\\b[^.]{0,65}\\b(?:status|state|connect|disconnect|toggle|switch|control|panel|manager|tunnels?|profiles?)",
         "\\b(?:connect|toggle|switch|control|manage|monitor)\\w*[^.]{0,40}\\b(?:vpn|wireguard|tailscale|openvpn)\\b",
@@ -53,18 +53,16 @@
       "exclude": [
         "\\b(kde connect|taildrop|clipboard bridge|vpn-leak alert)\\b"
       ],
-      "task": "VPN status, connection, and privacy controls. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "task": "Inspect VPN tunnel state and connect, disconnect or switch VPN connections. Native connection controls are required; a status-only indicator is a related tool.",
       "builtIns": [
         "omarchy.tailscale"
       ],
       "contract": {
-        "version": 1,
-        "outcome": "VPN status, connection, and privacy controls",
+        "version": 2,
+        "outcome": "Inspect VPN tunnel state and connect, disconnect or switch VPN connections",
         "capabilitySets": [
           [
-            "read-vpn-status"
-          ],
-          [
+            "read-vpn-status",
             "control-vpn-connection"
           ]
         ]
@@ -808,11 +806,11 @@
       "name": "Screen Capture",
       "description": "Take, annotate and export screenshots",
       "include": [
-        "\\b(?:screenshot capture|screen capture|screenshot tool|snipping tool|screenshot overlay|take screenshots?|capture[^.;]{0,35}screenshots?|one-click[^.;]{0,25}screenshots?)\\b",
+        "\\b(?:screenshot capture|screen capture|screenshot tool|snipping tool|screenshot overlay|take (?:a )?screenshots?|capture[^.;]{0,35}screenshots?|one-click[^.;]{0,25}screenshots?)\\b",
         "\\bscreenshot and screen[- ]recording overlay\\b"
       ],
       "exclude": [
-        "\\b(?:screenshot history|screenshots taken|screenshot thumbnails|screenshot shows|no screen capture)\\b"
+        "\\b(?:screenshot history|screenshots taken|screenshot thumbnails|no screen capture)\\b"
       ],
       "task": "Take, annotate and export screenshots. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
       "nameInclude": [

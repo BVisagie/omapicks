@@ -431,11 +431,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "7cd2cf2adce99789c47a3804b7c88c772d572d045a496091ec47d5ff67aeb0f7",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.900571,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -746,11 +746,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "05d324d4599dcdf3a15ea32f6cd6a4d99b8ad137a475aff0350a75c3115774cf",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.879381,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -836,11 +836,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "c68d40f3e7c98f973f4dafa9b894e1be2e1c48383ee49d1ff1d044cc73680ef5",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.87393,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -1181,11 +1181,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "f1bebc3d4b1624f9a8dfae14c11f6e4edda31d9edb9dd408fe7520b1fcab11f8",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.860236,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -1331,11 +1331,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "220b1e67c5e99ec2dca2d77497132901cc476381cc1ec8f7a1cce66a3cbc7ddb",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.850992,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -1511,11 +1511,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "2e1487e38ecffd3ea902fda2fb486b0c1763054907beb2723676edabdc53bc38",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.844218,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -2111,11 +2111,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "71856a5942bf19d09d245cb2024bc6c404249afc721c81b781f0fd6e867f16c4",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.818596,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -2171,11 +2171,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "7e8de635eac9d03b7828ca10dbd22eca1f7f9096115326b46057aeea08d2065a",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.816712,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -3581,11 +3581,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "aed5eb8a7c970bc1c7adbe01d8b3bc8f31d037b680bf43697016187810398d25",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.764659,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -3716,11 +3716,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "c82b4b3915b1ea90c8c70bddb4287dc2af0a056b481cab765768b58063b737fe",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.758642,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -3731,11 +3731,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "e60cb25cf47ade3971fae6f8358b3509cf7a9af22cb19844bc44f3155f11fbd1",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.758564,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -3776,11 +3776,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "cd7f8d9f04f154f544ad6192c18ef84998313239592da6fcc7696ed6620d7c90",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.756578,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -3971,11 +3971,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "a6ede8ea5828d8bb22aeee302607bef952ad3d7198b8394792255d5bc2dda789",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.752037,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -4376,11 +4376,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "acf14e7c104fdd3db35c0d6e0d98fad399b8c39689ee6c3342b164d0f7ee6f22",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.739385,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -5171,11 +5171,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "5be4741ac1e7a8b042cc73cd1fdfba60af0b93ecc5a3f01dfafdb504256e0a42",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.720244,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -5231,11 +5231,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "7a92df316b817eb20262ead1d21b3a22e68cf5dde77c76787826fd64d6e9df1d",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.719399,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -5261,11 +5261,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "9fc055789d1b15ea4c9db67528e3f5c33ed8b5825dc8e1babf3ab34c4d00aee6",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.718888,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -5591,11 +5591,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "fecef39b9b7c1a45cd66148b02f4b601096c6bb2a9950eebdfdfbfe6890fb8c5",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.711727,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -5816,11 +5816,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "6fd7e3f0b9e9b7eb520dd83591f0aa6cccafd1f4c70a8abe5fc9a9b839c9c7f8",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.706743,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -5876,11 +5876,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "4a67bce3a45724eaf3c5bc354bb2c778349cc1055535b3045100807bbbce3750",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.705487,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -7166,11 +7166,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "2942575f7ec3745b90d9bfa5120b52a1d52d5179aa081aad127c427d2fd76dfc",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.676803,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -8336,11 +8336,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "7f138ee940646bcf3e42e74dfd73dc0edca06e68d198c7fe1bbce9e3002d8cf5",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.655467,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -9176,11 +9176,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "99aa1cc842d364c62aaf59a9d0930b2d8e8a604d48ff8b7b72efbf827cb5a6f5",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.641929,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -9326,11 +9326,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "f0de49f3cd366375a7ddaaad22f54ddd8f55d33b9c1240668ff97fd31dbeb159",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.640345,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -9461,11 +9461,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "4174731529898b92f34493a8ac5bbb020c9d14e2941096ff759ba0ad1f5fbad2",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.638372,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -9521,11 +9521,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "de9c7a8b5e6cd788293db48244d4cc0107adcd11e8df45406251fff0a3f2c65f",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.636976,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -10271,11 +10271,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "5e83e73d574f0cc9ea16d672ae2de52a8dc702ab8c226fd1cdd0317c0b73a22f",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.623721,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -10451,11 +10451,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "fbf3f19e1634d9eb537c7eeefcf7161661946afe30f45b515f554cdf3f3ce7e7",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.622052,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -11471,11 +11471,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "f9c7aa58da467f294d8ca6acd3eab46f7a99a1af51a8547e97e1ec27778969c3",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.603819,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -13121,11 +13121,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "f084f5dcd19e422a09c047faa1ba41ce5959a27c39e067f961a4b3f2b3b408ea",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.579454,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -13181,11 +13181,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "63d56f1770bfb051f91c0ec339c5f00a3f8b510a0a96776aa6306bd65f7cd37b",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.578168,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -13481,11 +13481,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "c557b194d521860c71d28185006961a22b544dd5a58d1decb436d5276000b647",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.574397,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -13721,11 +13721,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "27b5e778048bd50b39eb80a12d37fbbde312c13951bf61535d9440b4d6bed335",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.572734,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -13916,11 +13916,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "c6f3aa87d8b49bd3a1b56e7846984f4076dd63b4599aa530bf396d07b43f2094",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.568295,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -14261,11 +14261,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "e447e272289af7fa5f32ca7d07241efea9966c823cae726c3327d35022921539",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.564339,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -14711,11 +14711,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "8272f9ffaf948926b828139eefe0761df5f94cd95a535b1e3fa45a246a5d7019",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.561127,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -15386,11 +15386,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "52db4badf411a76196a55b4497bab7dc457e544900d3078e2bc2ee24683780aa",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.553452,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -15506,11 +15506,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "f496d743dffec52276ae838e3d255a92b06a7a3f3dc8904612d5ae53a19d2275",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.55208,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -16646,11 +16646,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "95ebbe118117b22185d735f1ed92ac25aad90cda02df04215fe4c59b8920cd33",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.539274,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -17441,11 +17441,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "2a484f7536368f67dcf2281c8c2dcd3b78976cae937bde44c0ce6f664af9c755",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.531054,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -17471,11 +17471,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "a028575337be1f586d076e774ed8d5d7b03eb5ca8ac0da10533da6666ef42ccc",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.530882,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -17861,11 +17861,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "9732e6915101257f816342fbc38d70f1db2d0048ddc89dc95b34bf293ec3e627",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.527489,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -18206,11 +18206,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "186ea0eaf738bd6d37888ca8bbb16f79c1eb3e55ee45593224033c5e17cd8e7c",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.524585,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -18896,11 +18896,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "6f403566b848db50a3dbfa81d9b7274d8f231fb31b4659aaefba073d5671152d",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.518847,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -19196,11 +19196,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "dda1af45b771896013df64b3c46b6c0f9ed05ab4981551840f1fe9b7a510e729",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.516605,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -19496,11 +19496,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "9898213c553a66ed296695e7e8062c5e183cf641179e01d165b6641418e00d00",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.514073,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -19526,11 +19526,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "59d904958fc03b986383b7a881746fb5c909888ffe9c4d8fe3aa93ff6c53194b",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.513683,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -19751,11 +19751,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "f657c15cd995d1c9a4a47258acf26e01b684868b2d88c58dc3b4ee97814913d9",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.511987,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -20411,11 +20411,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "c5813411695211384f2cf0853308975e3b58c46ede512288ef7572bbca587096",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.506371,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -20621,11 +20621,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "c39500e798a8ad42b448dd0b1da8ee616d8ca9864ef5919dbc3a589118ed72bc",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.505337,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -21611,11 +21611,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "60bbd54c1e9f091094cb0f6ad158d8bfaf500801244031d799a6b62048e7fae9",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.499859,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -21896,11 +21896,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "5c16811421dc491f157ea78f36f678db7014791e3bcccc5d51758e660e3e37d1",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.4977,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -22241,11 +22241,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "78cdbcf96d62303555cf04905ef4a62621abb69d3421340af2d3be1c2d5df4d4",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.495919,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -22601,11 +22601,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "dbf08a43b940c53604008a2a19e520819027cf6b9a812cdc64904c077fe0ad3b",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.493193,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -23171,11 +23171,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "b8651717cb2dd16fc87149fed4e49fc8412958ad3fcec244f2571470492f820f",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.489708,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -23441,11 +23441,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "079aadc9318eaf06f176e4e25137202eb4077fe97c0df94cd7e6d42f35a9fb90",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.48806,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -23516,11 +23516,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "cb8dc337a767b37ffeca37cb0fcc9dedfca3742dde751a244c31c69749135d66",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.487133,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -23636,11 +23636,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "8f77b480f4e94c6ccc7e60c5fab30617ff5cd98d2c8973716fd1c3ab7045b31a",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.486642,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -24056,11 +24056,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "5f9db003ce270210a920b0f8edc093615de062dcc683d9ce254081ed64350499",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.484672,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -25226,11 +25226,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "202112a4a34cc1eb2739ceb6f9193a9e28baaf535d2213d4e55e119d7feb60f1",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.477868,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -25316,11 +25316,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "c59dd98006ebca363b1bc843fac8b6f2be85c125640897aaa34d5ff6f41733a6",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.477335,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -25781,11 +25781,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "76e05dc86b162d4b6af0822ea7baa0a0706968cae88a11437419885aad7ea789",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.474614,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -26981,11 +26981,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "c5a4b60343ec77f99e8c44cad8b715a3c23024b14debf5c97e94561d4777252d",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.468141,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -27041,11 +27041,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "e0051912963e47a4add85453bf53b5ae873e88aa1e701b7537ea1dc4b0dc924a",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.467777,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -28466,11 +28466,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "d178c6abb037af2c6ba3a0f4b6bc1a44969f7fcf128fe05f9ba5b9ebd4eca7a9",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.459857,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -29396,11 +29396,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "104553aec68d6864db93d728dc959de453e820135c2b7656c93bf68d6754f843",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.452316,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -29621,11 +29621,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "72abc55281d967e082559bfeecd28aca70796e63c5e0df1dce6cb7ebd47547b2",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.450848,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -30446,11 +30446,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "6d724cab729ccb584a703bdbdc40721de603bd2d30c1fe80824799aefe40a702",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.443308,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -30656,11 +30656,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "dc8d111c894f309e66dc450d152a422c459b018e7bbf226a5304946c968bd787",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.44093,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -30716,11 +30716,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "3cee844f2e3abe71e33195402c69f2814b42b3f67198b0610c4ac26c5a295c53",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.44031,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -30821,11 +30821,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "04354e1e99e767fee41e4e0aaad318fb85dfcdd58470d58b14a5e47317ecd2fe",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.439842,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -30971,11 +30971,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "5e779fc057b28d2d14ecf66aed2c7d5633490929d948750976a696595d70d469",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.438146,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -31331,11 +31331,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "4052ec0a422859dd0ced9b1a9a21e526ce74222b4b9f2dbf58850a45c0257c1c",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.43458,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -31661,11 +31661,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "65475d0108ef83acf51b9b5acb5d6318fd3dd399abc9fcdc50dff365d99bb62a",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.431031,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -32351,11 +32351,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "edc0c3156d45965379d5ca122c87a189f7783d9c13ea8511c157faf8ae664cbe",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.421176,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -32441,11 +32441,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "bdd8a54a9ea0f4925bb5d0112be238c01355dde75075eaa3791bb98fe8193e6d",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.419475,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -32816,11 +32816,11 @@
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "d50be9d82ef8da2326d317f2d98ac2f97d5195a2d83f8c2d26b12995d9b33c59",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "prospectiveScore": 0.40849,
       "previousPick": false,
       "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "firstSeenAt": "2026-10-12T15:39:44.802Z",
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     },
     {
@@ -33364,6 +33364,6 @@
       "lastSeenAt": "2026-10-12T15:39:44.802Z"
     }
   ],
-  "taxonomyHash": "c445efdcd636d25535f61914c01bb39866ca8cb5cfa6012a18f2688ac09c150a",
-  "taskReviewsHash": "f416554d3186beb7db1b44fc471452aef7ebfd5598dfb45cabeb2e2a3c721c05"
+  "taxonomyHash": "54fd6c4847defdacaee35f3fc58c873b76f4c4acd6862cd9192e4868800944ed",
+  "taskReviewsHash": "0eff03aaeda17e05b905a74275d0312a69bafe41f3fb3d6396acd8b975404391"
 }

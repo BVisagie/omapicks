@@ -4,7 +4,7 @@ A category is a task someone wants to accomplish. Under methodology 1.2.0, a rec
 
 ## Discovery versus recommendations
 
-Each type in `data/app-types.json` has a versioned `contract` with an outcome and `capabilitySets`. One complete capability set is the minimum for qualification. `include` and `nameInclude` patterns search names and descriptions separately for research leads. Tags, kind and upstream categories cannot qualify an assignment. Classifier 3 ignores explicit negation and preview-image references; selected exclusions apply within matched clauses so unrelated capabilities do not cancel each other. These checks reduce known errors; they do not establish semantic accuracy for arbitrary new prose.
+Each type in `data/app-types.json` has a versioned `contract` with an outcome and `capabilitySets`. One complete capability set is the minimum for qualification. `include` and `nameInclude` patterns search names and descriptions separately for research leads. Tags, kind and upstream categories cannot qualify an assignment. Classifier 3 ignores explicit negation and matches contained in caption wording such as “the screenshot shows”. A real task claim elsewhere in that sentence still enters review: “the image shows a weather radar widget” supplies Weather evidence, while the word “image” alone supplies no screen-capture evidence. Selected exclusions apply within matched clauses so unrelated capabilities do not cancel each other. These checks reduce known errors; they do not establish semantic accuracy for arbitrary new prose.
 
 `data/task-reviews.json` supplies the deterministic editorial decision. `qualified` core or substantial native secondary capabilities can compete equally. `related` integrations appear separately with their narrower scope; `rejected` assignments are excluded. Missing reviews and changed metadata/contracts enter the queue. Explicit `overrides.review` holds and `overrides.exclude` take precedence; an inclusion override alone cannot authorize a recommendation.
 
@@ -15,6 +15,7 @@ Each type in `data/app-types.json` has a versioned `contract` with an outcome an
 | Screen Brightness | Read and adjust display brightness | Physical lights; night light alone |
 | Night Light | Adjust or schedule display colour temperature | A baby camera's night light |
 | Network Connections | Operate network connections or adapters | Traffic measurements alone |
+| VPN | Inspect tunnel state and operate VPN connections | A status-only tunnel indicator |
 | Radio | Find and play radio stations | Wi-Fi/cellular radio hardware; song mixes |
 | Peripheral Batteries | Identify a peripheral and expose its charge | A small mouse battery indicator inside unrelated settings |
 | Battery | Computer battery measurements and charge/power controls | Phone/peripheral batteries or unplug-triggered behaviour |
@@ -65,7 +66,7 @@ npm run check
 npm run test:e2e
 ```
 
-The default proposal output is research only. Omitting a source uses the captured catalog checksum and listing URL; repository judgments must include their actual source revision. Metadata hashes bind name, description and repository, not maintenance dates or engagement. A source implementation can change without a catalog metadata change; such changes need explicit re-review when discovered and are not automatically detected.
+The default proposal output is research only. Omitting a source records the captured catalog checksum, listing URL, and the actual description (or name) with its catalog index and plugin ID. Evidence must point to the passage supporting that assignment's decision, including related or rejected scope; a category's capability template or the reviewer's rationale is not a source passage. Repository judgments must include their actual source revision and passage location. Metadata hashes bind name, description and repository, not maintenance dates or engagement. A source implementation can change without a catalog metadata change; such changes need explicit re-review when discovered and are not automatically detected.
 
 ## Capture and replay
 
@@ -82,6 +83,8 @@ Dry runs write research artifacts but never change `data/` or published assets. 
 ## Global eligibility and new categories
 
 All recommendation and discovery paths share installability, HTTPS repository and health checks. Failed/unreachable marketplace checks exclude the plugin immediately; successful later checks restore eligibility. Omarchy built-ins are shown separately and never ranked. A missing health result is not inferred as a failure. The optional retirement registry labels departures without blocking refresh.
+
+Changelog reasons distinguish a related tool's narrower scope, an assignment awaiting qualification, and a real category exit. Pending, stale or held evidence removes recommendation eligibility immediately, but does not establish that the plugin stopped matching the task. Global health and retirement reasons take precedence. Refresh captures include the decisions needed to replay these reasons offline; historical events keep their recorded reasons across later republishes.
 
 New categories need a distinct task and at least three eligible repositories across two owners. Check direct capability evidence, record an explicit decision in `data/category-discovery.json`, and update search/navigation. Lexical probes never authorize publication; owner diversity is not proof of independent authorship. The October 12 additions and stable route mapping are documented in [methodology 1.2.0](methodology-1.2.0.md).
 

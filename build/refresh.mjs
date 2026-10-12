@@ -107,13 +107,14 @@ function registrySource(registry) {
   };
 }
 
-export function changeContext({ catalog, registry, exclusions, typeIdsById }) {
+export function changeContext({ catalog, registry, exclusions, typeIdsById, taskStatusByAssignment }) {
   const available = registry?.status === "available";
   return {
     catalogIds: new Set(catalog.map((plugin) => plugin?.id)),
     retirement: { available, ids: new Set(available ? registry.retiredPluginIds : []) },
     exclusions,
-    typeIdsById
+    typeIdsById,
+    taskStatusByAssignment
   };
 }
 
@@ -131,7 +132,7 @@ export function replayChanges(inputs) {
     now: new Date(inputs.now),
     methodology: methodologyFor(inputs.methodologyVersion ?? LEGACY_METHODOLOGY_VERSION)
   });
-  const context = changeContext({ catalog, registry: inputs.registry, exclusions: ranked.exclusions, typeIdsById: ranked.qualifiedTypeIdsById });
+  const context = changeContext({ catalog, registry: inputs.registry, exclusions: ranked.exclusions, typeIdsById: ranked.typeIdsById, taskStatusByAssignment: ranked.taskStatusByAssignment });
   return {
     changes: changesBetween(inputs.previous, ranked.rankings, context),
     runnerUpChanges: runnerUpChangesBetween(inputs.previous, ranked.rankings, context)
@@ -609,7 +610,7 @@ export async function refresh({
   // Retain the evidence even if a malformed contract or review blocks publication.
   const output = path.join(root, "tmp", "classification-audit");
   await writeJsonAtomic(path.join(output, "inputs.json"), auditInputs);
-  const { rankings, report, decisions, exclusions, qualifiedTypeIdsById: typeIdsById } = rankPlugins({
+  const { rankings, report, decisions, exclusions, typeIdsById, taskStatusByAssignment } = rankPlugins({
     catalog: catalogResult.body.plugins,
     stats: statsResult.body.plugins,
     taxonomy,
@@ -624,7 +625,7 @@ export async function refresh({
   const historyFile = path.join(root, "data", "history", `${week}.json`);
   if (methodology.eligibility.reviewedTaskEvidence) assertTaskQualifiedSnapshot(rankings);
   const existingHistory = await readJson(historyFile, null);
-  const context = changeContext({ catalog: catalogResult.body.plugins, registry, exclusions, typeIdsById });
+  const context = changeContext({ catalog: catalogResult.body.plugins, registry, exclusions, typeIdsById, taskStatusByAssignment });
   const computedChanges = changesBetween(previous, rankings, context);
   const changes = weekChangeLog(previous, week, existingHistory, computedChanges);
   const runnerUpChanges = runnerUpChangesBetween(previous, rankings, context);
