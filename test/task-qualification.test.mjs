@@ -364,10 +364,13 @@ test("refresh and replay distinguish related, unresolved and departed former pic
 
 test("the W42 related peripheral tool has consistent history and changelog wording", async () => {
   const history = JSON.parse(await readFile(new URL("../data/history/2026-W42.json", import.meta.url)));
+  const event = history.runnerUpChanges.find((c) => c.typeId === "peripheral-battery" && c.previous?.id === "davedes.mouse-keybind-settings");
+  assert.equal(event.reason, "related-task-scope");
+  // changelog.json only holds the latest published week, so compare it with that week's history.
   const changelog = JSON.parse(await readFile(new URL("../data/changelog.json", import.meta.url)));
-  const event = (snapshot) => snapshot.runnerUpChanges.find((c) => c.typeId === "peripheral-battery" && c.previous?.id === "davedes.mouse-keybind-settings");
-  assert.equal(event(history).reason, "related-task-scope");
-  assert.deepEqual(event(changelog), event(history));
+  const latest = JSON.parse(await readFile(new URL(`../data/history/${changelog.week}.json`, import.meta.url)));
+  assert.deepEqual(changelog.changes, latest.changes);
+  assert.deepEqual(changelog.runnerUpChanges, latest.runnerUpChanges);
   const html = renderFixtureChangelog([history]);
   assert.match(html, /Mouse &amp; Keybind Settings remains a related tool with a narrower task scope/);
   assert.doesNotMatch(html, /Mouse &amp; Keybind Settings no longer matches this category/);
