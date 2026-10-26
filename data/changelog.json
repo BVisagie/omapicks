@@ -1,113 +1,165 @@
 {
   "schemaVersion": 1,
-  "week": "2026-W43",
-  "generatedAt": "2026-10-19T04:00:44.411Z",
+  "week": "2026-W44",
+  "generatedAt": "2026-10-26T07:36:52.835Z",
   "changes": [
     {
-      "typeId": "system-monitor",
-      "typeName": "System Monitor",
+      "typeId": "network-diagnostics",
+      "typeName": "Network Traffic & Diagnostics",
       "kind": "displaced",
       "previous": {
-        "id": "stappmus.activity-monitor",
-        "name": "Activity Monitor"
+        "id": "vitals",
+        "name": "Vitals"
       },
       "current": {
-        "id": "harshith.system-monitor",
-        "name": "System Monitor"
+        "id": "crmne.omastats",
+        "name": "OmaStats"
       }
     },
     {
-      "typeId": "network",
-      "typeName": "Network Connections",
+      "typeId": "keyboard-layouts",
+      "typeName": "Keyboard Layouts",
       "kind": "displaced",
       "previous": {
-        "id": "angeeeld.omaltbar",
-        "name": "Omaltbar"
+        "id": "io.github.ilyazar.keyboard-layout",
+        "name": "Keyboard Layout Pulse"
       },
       "current": {
-        "id": "community.network",
-        "name": "Network Manager (with Repeater & Hotspot)"
+        "id": "jesusarchive.keyboard-layout-switcher",
+        "name": "Keyboard Layout Switcher"
+      }
+    },
+    {
+      "typeId": "uptime-monitoring",
+      "typeName": "Uptime Monitoring",
+      "kind": "displaced",
+      "previous": {
+        "id": "bottelet.is-it-down",
+        "name": "Is It Down?"
+      },
+      "current": {
+        "id": "io.github.dupontbertrand.omastatus",
+        "name": "Omastatus"
       }
     }
   ],
   "runnerUpChanges": [
     {
-      "typeId": "system-monitor",
-      "typeName": "System Monitor",
+      "typeId": "music-players",
+      "typeName": "Music Players",
       "kind": "displaced",
       "previous": {
-        "id": "harshith.system-monitor",
-        "name": "System Monitor"
+        "id": "funcoder.spotify",
+        "name": "Spotify Vinyl"
       },
       "current": {
-        "id": "stappmus.activity-monitor",
-        "name": "Activity Monitor"
+        "id": "vornashev.yandex-music",
+        "name": "Yandex Music"
       }
     },
     {
-      "typeId": "docks",
-      "typeName": "Application Docks",
+      "typeId": "network-diagnostics",
+      "typeName": "Network Traffic & Diagnostics",
       "kind": "displaced",
       "previous": {
-        "id": "omadock",
-        "name": "OmaDock"
+        "id": "crmne.omastats",
+        "name": "OmaStats"
       },
       "current": {
-        "id": "io.github.claudsondouglas.arcdock",
-        "name": "Arc Dock"
+        "id": "vitals",
+        "name": "Vitals"
+      }
+    },
+    {
+      "typeId": "display-monitors",
+      "typeName": "Display & Monitors",
+      "kind": "displaced",
+      "previous": {
+        "id": "im0001gt.screens",
+        "name": "Screens"
+      },
+      "current": {
+        "id": "io.github.bmontythe3rd.display-manager",
+        "name": "Omarchy Display Manager"
       },
       "reason": "awaiting-task-qualification"
     },
     {
-      "typeId": "network",
-      "typeName": "Network Connections",
+      "typeId": "color-picker",
+      "typeName": "Color Picker",
       "kind": "displaced",
       "previous": {
-        "id": "community.network",
-        "name": "Network Manager (with Repeater & Hotspot)"
+        "id": "io.github.arcanavox.colorhistory",
+        "name": "Color History"
       },
       "current": {
-        "id": "angeeeld.omaltbar",
-        "name": "Omaltbar"
+        "id": "io.github.manateelazycat.color-picker",
+        "name": "Omarchy Color Picker"
       }
     },
     {
-      "typeId": "screenshots",
-      "typeName": "Screen Capture",
+      "typeId": "containers",
+      "typeName": "Containers",
       "kind": "displaced",
       "previous": {
-        "id": "b.omashot",
-        "name": "Omashot"
+        "id": "devgtv.docker",
+        "name": "Omarchy Control Docker"
       },
       "current": {
-        "id": "glasschan.oma-swiss",
-        "name": "OmaSwiss"
+        "id": "io.github.majkelll.omarchy-docker",
+        "name": "Docker"
       }
     },
     {
-      "typeId": "screen-recording",
-      "typeName": "Screen Recording",
+      "typeId": "mini-games",
+      "typeName": "Mini-Games",
       "kind": "displaced",
       "previous": {
-        "id": "b.omashot",
-        "name": "Omashot"
+        "id": "nosignal.quattrolitaire",
+        "name": "Quattrolitaire"
       },
       "current": {
-        "id": "glasschan.oma-swiss",
-        "name": "OmaSwiss"
+        "id": "jankeesvw.omasweeper",
+        "name": "Omasweeper"
       }
     },
     {
-      "typeId": "shortcut-guides",
-      "typeName": "Shortcut Guides",
+      "typeId": "dictionary",
+      "typeName": "Dictionary & Thesaurus",
       "kind": "displaced",
       "previous": {
-        "id": "io.github.omashift.omashift",
-        "name": "Omashift"
+        "id": "io.github.keegan-sucks.lookup",
+        "name": "Look Up"
       },
       "current": {
-        "id": "slw.keyarchy",
-        "name": "Keyarchy"
+        "id": "dlpwaters.thesaurus",
+        "name": "Dictionary & Thesaurus"
+      }
+    },
+    {
+      "typeId": "keyboard-layouts",
+      "typeName": "Keyboard Layouts",
+      "kind": "displaced",
+      "previous": {
+        "id": "jesusarchive.keyboard-layout-switcher",
+        "name": "Keyboard Layout Switcher"
+      },
+      "current": {
+        "id": "io.github.ilyazar.keyboard-layout",
+        "name": "Keyboard Layout Pulse"
+      }
+    },
+    {
+      "typeId": "uptime-monitoring",
+      "typeName": "Uptime Monitoring",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.dupontbertrand.omastatus",
+        "name": "Omastatus"
+      },
+      "current": {
+        "id": "bottelet.is-it-down",
+        "name": "Is It Down?"
       }
     }
   ]
