@@ -662,7 +662,7 @@ function removalReason(oldId, typeId, context) {
   if (context.exclusions?.has(oldId)) return context.exclusions.get(oldId);
   const taskStatus = context.taskStatusByAssignment?.get(`${oldId}/${typeId}`);
   if (taskStatus === "related") return "related-task-scope";
-  if (["pending", "stale-metadata", "stale-contract", "held"].includes(taskStatus)) return "awaiting-task-qualification";
+  if (["pending", "stale-metadata", "stale-contract", "stale-source", "pending-source", "pending-requirements", "source-unavailable", "held"].includes(taskStatus)) return "awaiting-task-qualification";
   if (context.typeIdsById && !(context.typeIdsById.get(oldId) ?? []).includes(typeId)) return "no-longer-in-category";
   return null;
 }

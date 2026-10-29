@@ -2,7 +2,7 @@ import { appendFile, mkdir, readFile, rename, writeFile } from "node:fs/promises
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { boundedFetch, fetchJson } from "./refresh.mjs";
-import { verificationCoverage } from "./rank.mjs";
+import { eligibilityReason, verificationCoverage } from "./rank.mjs";
 
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
 const CATALOG_URL = "https://plugins.omarchy.org/catalog.json";
@@ -29,9 +29,7 @@ export function availabilityFor(rankings, catalog, { now = new Date(), minimumCa
     let status = "available";
     if (!plugin) reason = "missing-from-catalog";
     else if (repository(plugin.repo) !== repository(pick.repository)) reason = "repository-changed";
-    else if (plugin.upstreamCheckStatus === "failed") reason = "compatibility-failed";
-    else if (plugin.upstreamCheckStatus === "unreachable") reason = "repository-unreachable";
-    else if (plugin.installAvailable !== true || typeof plugin.installCommand !== "string" || !plugin.installCommand.trim()) reason = "not-installable";
+    else if (eligibilityReason(plugin)) reason = eligibilityReason(plugin);
     else if (plugin.upstreamCheckStatus !== "passed") { status = "unknown"; reason = "check-unavailable"; }
     if (reason && status !== "unknown") status = "unavailable";
     return [id, { status, reason, checkedAt, verificationCoverage: plugin ? verificationCoverage(plugin) : "unverified" }];

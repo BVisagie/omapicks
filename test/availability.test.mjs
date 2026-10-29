@@ -28,6 +28,9 @@ test("availability distinguishes failed, missing, changed and unknown checks", (
     [{ upstreamCheckStatus: "failed" }, "unavailable", "compatibility-failed"],
     [{ upstreamCheckStatus: "unreachable" }, "unavailable", "repository-unreachable"],
     [{ installAvailable: false }, "unavailable", "not-installable"],
+    [{ status: "retired" }, "unavailable", "retired"],
+    [{ status: "delisted" }, "unavailable", "retired"],
+    [{ sourceType: "builtin" }, "unavailable", "built-in"],
     [{ repo: "https://github.com/other/repository" }, "unavailable", "repository-changed"],
     [{ upstreamCheckStatus: undefined }, "unknown", "check-unavailable"]
   ]) {

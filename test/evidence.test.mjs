@@ -4,7 +4,7 @@ import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { captureEvidence, observationCurrent, pinnedSource, relevantTreeFingerprint } from "../build/evidence.mjs";
-import { rankPlugins, methodologyFor } from "../build/rank.mjs";
+import { changesBetween, rankPlugins, methodologyFor } from "../build/rank.mjs";
 import { assertTaskQualifiedSnapshot, taskMetadataHash } from "../build/task-fit.mjs";
 import { refresh, replayChanges } from "../build/refresh.mjs";
 
@@ -94,6 +94,20 @@ test("related tools retain reviewed shared requirements without acquiring qualif
   assert.equal(type.relatedTools[0].taskFit.qualified, false);
   assert.deepEqual(type.relatedTools[0].taskFit.pluginRequirements, ["Requires grim."]);
   assert.equal(type.relatedTools[0].taskFit.requirementsStatus, "reviewed");
+});
+
+test("missing or changed source evidence is described as pending qualification, not task departure", () => {
+  const previous = rankPlugins(args()).rankings;
+  for (const mutate of [
+    (a) => { a.pluginProfiles.plugins = {}; },
+    (a) => { a.taskReviews.assignments[0].provenance = "catalog-evidence"; },
+    (a) => { a.evidenceObservations.plugins = {}; },
+    (a) => { a.evidenceObservations.plugins.capture.status = "changed"; }
+  ]) {
+    const a = args(); mutate(a); const result = rankPlugins({ ...a, previous });
+    const [change] = changesBetween(previous, result.rankings, { catalogIds: new Set([plugin.id]), exclusions: result.exclusions, typeIdsById: result.typeIdsById, taskStatusByAssignment: result.taskStatusByAssignment });
+    assert.equal(change.reason, "awaiting-task-qualification");
+  }
 });
 
 test("immutable sources must bind repository, revision and evidence path", () => {
