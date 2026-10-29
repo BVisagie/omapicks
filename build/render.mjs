@@ -847,7 +847,7 @@ function featureArticle(type, slot = 0, method) {
     ? ` · ${reviewedPresentation(method) ? "alternative" : "runner-up"} ${type.runnerUp.name} by ${type.runnerUp.author || "Unknown author"}`
     : "";
   return `<div class="support-wrap reveal" data-slot="${slot}" style="--d: ${slot * 90}ms"><a class="glass tilt parallax feature support" href="${href}" data-feature data-slot="${slot}">
-    <span class="media feature-media" aria-hidden="true">${mediaImage(winner, { decorative: true })}<span class="badge">${statusPill(winner)}</span></span>
+    <span class="media feature-media">${mediaImage(winner, { decorative: true })}<span class="badge">${statusPill(winner)}</span></span>
     <div class="support-copy">
       <p class="kicker">${escapeHtml(type.name)}</p>
       <h3>${escapeHtml(winner.name)}</h3>

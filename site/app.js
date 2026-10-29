@@ -50,6 +50,8 @@ function countUp(element) {
   requestAnimationFrame(tick);
 }
 
+// Threshold 0: a tall target (the full catalog panel on a phone) can never reach a 15% ratio,
+// so reveal as soon as its leading edge crosses the lower 6% of the viewport.
 const revealObserver = "IntersectionObserver" in window ? new IntersectionObserver((entries) => {
   for (const entry of entries) {
     if (!entry.isIntersecting) continue;
@@ -57,7 +59,7 @@ const revealObserver = "IntersectionObserver" in window ? new IntersectionObserv
     for (const counter of entry.target.querySelectorAll("[data-count]")) countUp(counter);
     revealObserver.unobserve(entry.target);
   }
-}, { threshold: 0.15, rootMargin: "0px 0px -6% 0px" }) : null;
+}, { threshold: 0, rootMargin: "0px 0px -6% 0px" }) : null;
 
 for (const element of document.querySelectorAll(".reveal, [data-animate]")) {
   if (revealObserver) revealObserver.observe(element);
@@ -204,6 +206,17 @@ const paletteSlot = palette?.querySelector("[data-palette-slot]");
 const finderHint = finder?.querySelector("[data-finder-hint]");
 let finderPlaceholder = null;
 let paletteReturnFocus = null;
+let inertWhilePaletteOpen = [];
+
+// Everything outside the dialog becomes inert while it is open, so aria-modal is backed by the
+// accessibility tree and not only by the Tab loop below.
+function backgroundBranches() {
+  const branches = [];
+  for (let node = palette; node && node !== document.body; node = node.parentElement) {
+    for (const sibling of node.parentElement.children) if (sibling !== node) branches.push(sibling);
+  }
+  return branches.filter((node) => !node.hasAttribute("inert"));
+}
 
 function openPalette() {
   if (!palette || !finder || !palette.hidden) return;
@@ -213,6 +226,8 @@ function openPalette() {
   paletteSlot.append(finder);
   finder.classList.add("is-palette");
   if (finderHint) finderHint.hidden = false;
+  inertWhilePaletteOpen = backgroundBranches();
+  for (const node of inertWhilePaletteOpen) node.setAttribute("inert", "");
   palette.hidden = false;
   document.body.style.overflow = "hidden";
   filter?.focus();
@@ -223,6 +238,8 @@ function closePalette() {
   if (!palette || palette.hidden) return;
   palette.hidden = true;
   document.body.style.overflow = "";
+  for (const node of inertWhilePaletteOpen) node.removeAttribute("inert");
+  inertWhilePaletteOpen = [];
   finder.classList.remove("is-palette");
   if (finderHint) finderHint.hidden = true;
   finderPlaceholder?.replaceWith(finder);
@@ -287,8 +304,9 @@ if (heroHeading && !reduceMotion && heroHeading.children.length === 0) {
 // counter-rotating rings and a sweep; hover reads the leading option, click opens the category.
 const radarPanel = document.querySelector("[data-radar]");
 const radarCanvas = radarPanel?.querySelector("canvas");
-if (radarPanel && radarCanvas && finderItems.length && radarCanvas.getContext) {
-  const ctx = radarCanvas.getContext("2d");
+const radarContext = radarCanvas?.getContext?.("2d") ?? null;
+if (radarPanel && radarCanvas && radarContext && finderItems.length) {
+  const ctx = radarContext;
   const categoryOut = radarPanel.querySelector("[data-radar-category]");
   const pickOut = radarPanel.querySelector("[data-radar-pick]");
   const entries = finderItems.map((item) => ({
@@ -382,22 +400,34 @@ if (radarPanel && radarCanvas && finderItems.length && radarCanvas.getContext) {
     }
   }
   function frame(now) {
+    if (!running) return;
     sweep += Math.min(0.05, (now - last) / 1000) * 0.85;
     last = now;
     draw(now / 1000);
     raf = requestAnimationFrame(frame);
   }
-  const start = () => { if (running || reduceMotion) return; running = true; last = performance.now(); raf = requestAnimationFrame(frame); };
+  // The loop only runs while the canvas has a size (it is display:none on phones), is on screen
+  // and the document is visible.
+  let onScreen = true;
+  const shouldRun = () => size > 0 && onScreen && !document.hidden && !reduceMotion;
   const stop = () => { running = false; cancelAnimationFrame(raf); };
+  const start = () => {
+    if (!shouldRun()) { stop(); return; }
+    if (running) return;
+    running = true;
+    last = performance.now();
+    raf = requestAnimationFrame(frame);
+  };
   function resize() {
     const rect = radarCanvas.getBoundingClientRect();
-    if (!rect.width) return;
-    const dpr = Math.min(devicePixelRatio || 1, 2);
     size = rect.width;
+    if (!size) { stop(); return; }
+    const dpr = Math.min(devicePixelRatio || 1, 2);
     radarCanvas.width = Math.round(size * dpr);
     radarCanvas.height = Math.round(size * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     draw(performance.now() / 1000);
+    start();
   }
   radarCanvas.addEventListener("pointermove", (event) => {
     const rect = radarCanvas.getBoundingClientRect();
@@ -406,13 +436,15 @@ if (radarPanel && radarCanvas && finderItems.length && radarCanvas.getContext) {
   });
   radarCanvas.addEventListener("pointerleave", () => { pointer = null; if (reduceMotion) draw(0); });
   radarCanvas.addEventListener("click", () => { if (hovered?.href) window.location.assign(hovered.href); });
-  document.addEventListener("visibilitychange", () => (document.hidden ? stop() : start()));
+  document.addEventListener("visibilitychange", start);
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; start(); }).observe(radarPanel);
+  }
   themeButton?.addEventListener("click", () => { readColors(); if (reduceMotion) draw(0); });
   radarPanel.hidden = false;
   readColors();
   new ResizeObserver(resize).observe(radarCanvas);
   resize();
-  start();
 }
 
 async function copyText(text) {

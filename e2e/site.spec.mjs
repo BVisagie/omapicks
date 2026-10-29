@@ -192,6 +192,45 @@ test("the hero finder doubles as a command palette and returns to the hero on cl
   await expect(page).toHaveURL(/\/picks\/clipboard\/$/);
 });
 
+test("the palette makes the rest of the page inert and tall sections still reveal on phones", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  await page.keyboard.press("/");
+  await expect(page.locator(".site-header[inert]")).toHaveCount(1);
+  await expect(page.locator("footer[inert]")).toHaveCount(1);
+  await expect(page.locator(".hero[inert]")).toHaveCount(1);
+  await expect(page.locator("[data-palette][inert]")).toHaveCount(0);
+  await page.keyboard.press("Escape");
+  await expect(page.locator("[inert]")).toHaveCount(0);
+  for (const width of [320, 375, 680]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+    await page.locator("#catalog").scrollIntoViewIfNeeded();
+    await expect(page.locator(".readout-panel")).toHaveClass(/is-in/);
+    await expect(page.locator(".readout-panel")).toHaveCSS("opacity", "1");
+  }
+  // Status badges on pick tiles must stay in the accessibility tree (not inside an aria-hidden media wrapper).
+  expect(await page.locator(".support .badge .status").first().evaluate((node) => Boolean(node.closest("[aria-hidden='true']")))).toBe(false);
+  expect(await page.locator(".support .badge .status").first().textContent()).toMatch(/Snapshot verified|Verified snapshot; update unverified|Community|Currently unavailable|Availability unknown/);
+});
+
+test("reduced motion shows every section in its final state without waiting for scroll", async ({ browser }) => {
+  const context = await browser.newContext({ reducedMotion: "reduce", viewport: { width: 1440, height: 900 } });
+  const page = await context.newPage();
+  await page.goto("http://127.0.0.1:4173/");
+  const states = await page.locator(".reveal").evaluateAll((nodes) => nodes.map((node) => {
+    const style = getComputedStyle(node);
+    return [style.opacity, style.transform];
+  }));
+  expect(states.length).toBeGreaterThan(5);
+  for (const [opacity, transform] of states) {
+    expect(opacity).toBe("1");
+    expect(transform).toBe("none");
+  }
+  expect(await page.locator(".aurora").first().evaluate((node) => getComputedStyle(node).animationName)).toBe("none");
+  await context.close();
+});
+
 test("the radar and headline decode are enhancements that leave the content intact", async ({ page, browser, request }) => {
   const html = await (await request.get("/")).text();
   const heading = html.match(/<h1>([^<]+)<\/h1>/)[1];

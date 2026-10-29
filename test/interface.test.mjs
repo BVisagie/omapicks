@@ -54,6 +54,28 @@ test("hero enhancements ship inert: plain heading, hidden radar, palette and tri
   assert.doesNotMatch(renderFixtureMethodology(fixtureRankings()), /data-palette|data-open-palette/);
 });
 
+test("the signal meter appears only where the legacy delta does, with the winner's share of the pair", () => {
+  const candidate = (id, score) => ({ id, name: id, description: "d", author: "a", repository: "https://github.com/x/y", detailUrl: "https://plugins.omarchy.org/plugin.html?id=" + id,
+    installCommand: "omarchy plugin add https://github.com/x/y.git", metrics: { copies: 1, hearts: 1, stars: 1, views: 30 }, normalized: { freshness: 0.5 }, score });
+  const legacy = (winner, runnerUp) => ({ schemaVersion: 1, methodologyVersion: "1.2.0", week: "2026-W43", generatedAt: "2026-10-19T06:00:00Z",
+    types: [{ id: "weather", name: "Weather", description: "Forecasts", eligibleCount: 2, winner, runnerUp,
+      ...(winner ? { winner: { ...winner, taskFit: { qualified: true, reason: "r", source: { url: "https://github.com/x/y" }, reviewedAt: "2026-10-12", constraints: [] } } } : {}),
+      ...(runnerUp ? { runnerUp: { ...runnerUp, taskFit: { qualified: true, reason: "r", source: { url: "https://github.com/x/y" }, reviewedAt: "2026-10-12", constraints: [] } } } : {}) }] });
+  const pair = renderFixtureHome(legacy(candidate("lead", 0.9), candidate("second", 0.6)));
+  assert.match(pair, /class="delta">50\.0% ahead on score</);
+  assert.match(pair, /aria-label="lead holds 60% of the combined score"><span style="--v: 60%">/);
+  assert.match(pair, /<div class="meter-legend"><span>lead<\/span><span>second<\/span><\/div>/);
+  const tie = renderFixtureHome(legacy(candidate("lead", 0.7), candidate("second", 0.7)));
+  assert.match(tie, /Equal combined scores/);
+  assert.match(tie, /holds 50% of the combined score/);
+  const solo = renderFixtureHome(legacy(candidate("lead", 0.7), null));
+  assert.doesNotMatch(solo, /class="meter"|class="delta"/);
+  const reviewed = renderFixtureHome({ ...fixtureRankings(), types: [{ ...fixtureRankings().types[0], eligibleCount: 2,
+    runnerUp: { ...fixtureRankings().types[0].winner, id: "other", name: "Other", score: 0.5 } }] });
+  assert.doesNotMatch(reviewed, /class="meter"|class="delta"/, "reviewed snapshots keep the score off the home page");
+  assert.match(reviewed, /2 qualified options/);
+});
+
 test("contrast-probed tokens stay opaque in both themes", () => {
   // e2e reads --muted against --bg, --surface and --well as solid colours; translucent values
   // would be parsed as their first three channels and report a false contrast.

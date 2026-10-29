@@ -1348,12 +1348,14 @@ kbd {
   box-shadow: 0 0 14px var(--glow);
 }
 
-.js [data-animate]:not(.is-in) .meter > span {
-  width: 0;
-}
+@media screen and (prefers-reduced-motion: no-preference) {
+  .js [data-animate]:not(.is-in) .meter > span {
+    width: 0;
+  }
 
-.js .is-in .meter > span {
-  transition: width 1500ms var(--ease-out);
+  .js .is-in .meter > span {
+    transition: width 1500ms var(--ease-out);
+  }
 }
 
 .meter-legend {
@@ -2739,12 +2741,6 @@ footer p a {
   .button:hover {
     transform: none;
   }
-
-  .js .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
 }
 
 /* Discovery and sharing use the same reading order at every viewport size. */
@@ -2839,25 +2835,23 @@ footer p a {
   color: var(--bg);
 }
 
-/* Scroll reveal: only when scripts run (html.js), so content never waits on an observer. */
-.js .reveal {
-  opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 800ms var(--ease-out), transform 800ms var(--ease-out);
-  transition-delay: var(--d, 0ms);
-}
-
-.js .reveal.is-in {
-  opacity: 1;
-  transform: none;
-}
-
-@media print {
+/* Scroll reveal: only when scripts run (html.js) and motion is allowed, so content never waits
+   on an observer without JavaScript, under reduced motion, or in print. */
+@media screen and (prefers-reduced-motion: no-preference) {
   .js .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 800ms var(--ease-out), transform 800ms var(--ease-out);
+    transition-delay: var(--d, 0ms);
+  }
+
+  .js .reveal.is-in {
     opacity: 1;
     transform: none;
   }
+}
 
+@media print {
   .atmosphere {
     display: none;
   }
