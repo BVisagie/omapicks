@@ -372,7 +372,7 @@ async function captureInputs({ root, previous, now, fetchImpl }) {
   ]);
   let pluginProfiles = { schemaVersion: 1, plugins: {} };
   try { pluginProfiles = await read("data/plugin-profiles.json"); } catch (error) { if (error.code !== "ENOENT") throw error; }
-  const evidenceObservations = taskReviews ? await captureEvidence({ catalog: catalog.body.plugins, taskReviews, pluginProfiles, now, fetchImpl }) : { schemaVersion: 1, plugins: {} };
+  const evidenceObservations = taskReviews ? await captureEvidence({ catalog: catalog.body.plugins, taskReviews, pluginProfiles, taxonomy, now, fetchImpl }) : { schemaVersion: 1, plugins: {} };
   const validation = { minimumCatalogSize: Math.max(1000, Math.ceil(rankings.source.catalog.count * 0.75)), previousStatsCount: rankings.source?.stats?.count ?? null };
   return { algorithmVersion: ALGORITHM_VERSION, catalog, stats, explorer, taxonomy, config, taskReviews, pluginProfiles, evidenceObservations, previousRankings: rankings, previousReviewQueue, validation, now: now.toISOString(), previous, commit: process.env.GITHUB_SHA ?? null };
 }

@@ -52,7 +52,7 @@ test("reviewed shortlists foreground requirements, pinned evidence and honest co
   assert.match(html, /3 qualified options/);
   assert.match(html, /8 pending research leads/);
   assert.match(html, /Pending matches have not been established as suitable alternatives/);
-  assert.match(html, /Repository documentation reviewed · Reviewed 2026-10-26/);
+  assert.match(html, /Repository evidence reviewed · Reviewed 2026-10-26/);
   assert.match(html, /Evidence checked October 28, 2026/);
   assert.match(html, /Known installation requirements reviewed/);
   assert.match(html, /Requires a weather API key\. Requires Omarchy 4\./);
@@ -85,6 +85,16 @@ test("missing requirements and evidence that needs review remain explicit", () =
   assert.match(html, /Installation requirements have not been fully reviewed/);
   assert.match(html, /Source evidence changed; re-review is pending/);
   assert.doesNotMatch(html, /href="javascript:/);
+});
+
+test("related scope keeps setup disclosures and review evidence without claiming task qualification", () => {
+  const rankings = snapshot();
+  const related = candidate("related");
+  related.taskFit = { ...related.taskFit, qualified: false, status: "related", role: "integration", reason: "Only displays reports from a separate weather service.", pluginRequirements: ["Requires a paid service account."] };
+  rankings.types[0].relatedTools = [related];
+  const html = renderFixtureType(rankings.types[0], rankings);
+  assert.match(html, /Narrower scope:<\/strong> Only displays reports/);
+  assert.match(html, /Requires a paid service account/);
 });
 
 test("current availability suppresses only unavailable installs, without changing weekly selection or badges", () => {

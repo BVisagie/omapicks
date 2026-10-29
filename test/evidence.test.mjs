@@ -58,7 +58,7 @@ test("source changes, future observations and old observations cannot qualify", 
 test("source fingerprints ignore unrelated images and workflow edits, but include new code, manifests, modes and cited documentation", () => {
   const irrelevant = [...tree.tree, { path: "preview.png", type: "blob", mode: "100644", sha: "e".repeat(40) }, { path: ".github/workflows/build.yml", type: "blob", mode: "100644", sha: "e".repeat(40) }, { path: "docs/history.md", type: "blob", mode: "100644", sha: "e".repeat(40) }];
   assert.equal(relevantTreeFingerprint({ tree: irrelevant }, ["README.md"]), fingerprint);
-  for (const entry of [{ path: "docs/helper.py", type: "blob", mode: "100644", sha: "e".repeat(40) }, { path: "manifest.json", type: "blob", mode: "100644", sha: "e".repeat(40) }, { path: "dependency", type: "commit", mode: "100644", sha: "e".repeat(40) }]) assert.notEqual(relevantTreeFingerprint({ tree: [...tree.tree, entry] }, ["README.md"]), fingerprint);
+  for (const entry of [{ path: "docs/helper.py", type: "blob", mode: "100644", sha: "e".repeat(40) }, { path: "requirements.txt", type: "blob", mode: "100644", sha: "e".repeat(40) }, { path: "CMakeLists.txt", type: "blob", mode: "100644", sha: "e".repeat(40) }, { path: "manifest.json", type: "blob", mode: "100644", sha: "e".repeat(40) }, { path: "dependency", type: "commit", mode: "100644", sha: "e".repeat(40) }]) assert.notEqual(relevantTreeFingerprint({ tree: [...tree.tree, entry] }, ["README.md"]), fingerprint);
   const changed = structuredClone(tree); changed.tree[0].sha = "e".repeat(40);
   assert.notEqual(relevantTreeFingerprint(changed, ["README.md"]), fingerprint);
   assert.throws(() => relevantTreeFingerprint({ tree: [{ path: "Main.qml", type: "blob", mode: "100644", sha: "bad" }] }, []), /Malformed/);
@@ -79,11 +79,27 @@ test("capture reads immutable repository trees, reuses requests, and retains fai
   const mixed = await captureEvidence({ catalog: [plugin], taskReviews: { schemaVersion: 2, assignments: [olderReview, review] }, pluginProfiles, now, fetchImpl: async () => new Response(JSON.stringify(tree)) });
   assert.equal(mixed.plugins.capture.status, "current");
   assert.equal(observationCurrent(mixed.plugins.capture, plugin, [olderReview.source], now), false);
+  const malformed = await captureEvidence({ catalog: [{ ...plugin, repo: "not a repository" }], taskReviews, pluginProfiles, now, fetchImpl: () => { throw new Error("Invalid identity should not fetch"); } });
+  assert.equal(malformed.attempted, 1); assert.equal(malformed.completed, 0);
+  const obsolete = { ...review, typeId: "obsolete", source: { ...source, path: "old-task.md", url: source.url.replace("README.md", "old-task.md") } };
+  const filtered = await captureEvidence({ catalog: [plugin], taskReviews: { schemaVersion: 2, assignments: [obsolete, review] }, taxonomy, pluginProfiles, now, fetchImpl: async () => new Response(JSON.stringify(tree)) });
+  assert.equal(filtered.plugins.capture.status, "current");
+  assert.deepEqual(filtered.plugins.capture.evidencePaths, ["README.md"]);
+});
+
+test("related tools retain reviewed shared requirements without acquiring qualification", () => {
+  const a = args(); a.taskReviews.assignments[0].decision = "related"; a.taskReviews.assignments[0].role = "integration"; a.taskReviews.assignments[0].capabilities = ["save"];
+  const type = rankPlugins(a).rankings.types[0];
+  assert.equal(type.winner, null);
+  assert.equal(type.relatedTools[0].taskFit.qualified, false);
+  assert.deepEqual(type.relatedTools[0].taskFit.pluginRequirements, ["Requires grim."]);
+  assert.equal(type.relatedTools[0].taskFit.requirementsStatus, "reviewed");
 });
 
 test("immutable sources must bind repository, revision and evidence path", () => {
   assert.equal(pinnedSource(source, plugin.repo), true);
   assert.equal(pinnedSource({ ...source, url: source.url.replace("github.com", "github.com.evil.test") }, plugin.repo), false);
+  assert.equal(pinnedSource({ ...source, url: source.url.replace("github.com", "github.com:444") }, plugin.repo), false);
   assert.equal(pinnedSource({ ...source, revision: currentRevision }, plugin.repo), false);
   assert.equal(pinnedSource({ ...source, path: "other.md" }, plugin.repo), false);
 });

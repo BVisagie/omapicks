@@ -582,7 +582,7 @@ export async function refresh({
   validateFeeds(catalogResult.body, statsResult.body, minimumCatalogSize, previous);
 
   const evidenceObservations = methodology.eligibility.repositoryEvidence
-    ? await captureEvidence({ catalog: catalogResult.body.plugins, taskReviews, pluginProfiles, now, fetchImpl })
+    ? await captureEvidence({ catalog: catalogResult.body.plugins, taskReviews, pluginProfiles, taxonomy, now, fetchImpl })
     : { schemaVersion: 1, plugins: {} };
   const source = {
     catalog: {

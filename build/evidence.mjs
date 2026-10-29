@@ -11,7 +11,7 @@ export function pinnedSource(source, repository = null) {
   try {
     const url = new URL(source.url);
     const parts = url.pathname.split("/").filter(Boolean);
-    return url.protocol === "https:" && url.hostname === "github.com" && !url.username && !url.password &&
+    return url.origin === "https://github.com" && !url.username && !url.password &&
       parts.length >= 5 && parts[2] === "blob" && SHA.test(source.revision) && parts[3] === source.revision &&
       source.path === decodeURIComponent(parts.slice(4).join("/")) &&
       typeof source.evidence === "string" && source.evidence.trim().length > 0 &&
@@ -55,7 +55,7 @@ export function relevantTreeFingerprint(tree, evidencePaths) {
     if (!["blob", "commit"].includes(entry.type)) return false;
     if (cited.has(entry.path)) return true;
     if (/^\.github(?:\/|$)/i.test(entry.path)) return false;
-    return !/\.(?:md|mdx|rst|txt|png|jpe?g|gif|webp|svg|ico|mp4|webm|woff2?|ttf|otf)$/i.test(entry.path);
+    return !/\.(?:md|mdx|rst|png|jpe?g|gif|webp|svg|ico|mp4|webm|woff2?|ttf|otf)$/i.test(entry.path);
   }).map(({ path, sha, mode, type }) => ({ path, sha, mode, type })).sort((a, b) => a.path.localeCompare(b.path));
   for (const path of cited) if (!entries.some((e) => e.path === path && e.type === "blob")) throw new Error(`Missing evidence file: ${path}`);
   return evidenceHash(entries);
@@ -64,7 +64,7 @@ export function relevantTreeFingerprint(tree, evidencePaths) {
 async function githubTree(repository, revision, fetchImpl, token) {
   const parsed = new URL(repository);
   const parts = parsed.pathname.replace(/\.git$/, "").split("/").filter(Boolean);
-  if (parsed.protocol !== "https:" || parsed.hostname !== "github.com" || parts.length !== 2 || !SHA.test(revision)) throw new Error("Unsupported repository identity");
+  if (parsed.origin !== "https://github.com" || parsed.username || parsed.password || parts.length !== 2 || !SHA.test(revision)) throw new Error("Unsupported repository identity");
   const url = `https://api.github.com/repos/${parts.map(encodeURIComponent).join("/")}/git/trees/${revision}?recursive=1`;
   const response = await fetchImpl(url, { headers: { accept: "application/vnd.github+json", "user-agent": "OmaPicks-evidence", ...(token ? { authorization: `Bearer ${token}` } : {}) }, signal: AbortSignal.timeout(20000), redirect: "error" });
   if (!response.ok) throw new Error(`Source observation failed (HTTP ${response.status})`);
@@ -78,11 +78,13 @@ async function githubTree(repository, revision, fetchImpl, token) {
 
 // Read-only repository observation. Every result, including failure, travels with
 // replay inputs. Only the final weekly publication persists a ranking decision.
-export async function captureEvidence({ catalog, taskReviews, pluginProfiles, now = new Date(), fetchImpl = fetch, token = process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN, concurrency = 6 }) {
+export async function captureEvidence({ catalog, taskReviews, pluginProfiles, taxonomy = null, now = new Date(), fetchImpl = fetch, token = process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN, concurrency = 6 }) {
   validateProfiles(pluginProfiles);
   const byId = new Map(catalog.map((p) => [p.id, p]));
   const groups = new Map();
+  const contracts = new Map((taxonomy?.types ?? []).map((type) => [type.id, type.contract?.version]));
   for (const review of taskReviews.assignments) if (review.decision === "qualified" && review.provenance === "repository-evidence") {
+    if (taxonomy && contracts.get(review.typeId) !== review.contractVersion) continue;
     // One plugin observation follows its shared requirements review. An older
     // category review cannot poison newer reviews for the same plugin; it will
     // independently fail the revision match in observationCurrent.
@@ -101,9 +103,9 @@ export async function captureEvidence({ catalog, taskReviews, pluginProfiles, no
       const plugin = byId.get(id); const profile = pluginProfiles.plugins[id];
       const sources = [...citations, ...(profile?.sources ?? [])];
       const base = { repository: plugin?.repo ?? null, reviewRevision: sources[0]?.revision ?? null, currentRevision: plugin?.upstreamObservedCommit ?? null, checkedAt: now.toISOString(), evidencePaths: [...new Set(sources.map((s) => s.path))].sort() };
+      if (plugin) attempted += 1;
       try {
         if (!plugin || profile?.requirementsStatus !== "reviewed" || !sources.length || !sources.every((s) => pinnedSource(s, plugin.repo) && s.revision === base.reviewRevision)) throw new Error("Missing or inconsistent review and requirement sources");
-        attempted += 1;
         const [before, after] = await Promise.all([tree(plugin.repo, base.reviewRevision), tree(plugin.repo, base.currentRevision)]);
         const baselineFingerprint = relevantTreeFingerprint(before, base.evidencePaths);
         const currentFingerprint = relevantTreeFingerprint(after, base.evidencePaths);

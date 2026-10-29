@@ -56,11 +56,15 @@ export function explainTaskFit(plugin, type, reviews) {
   if (!review) return base;
   if (review.contractVersion !== type.contract?.version) return { ...base, status: "stale-contract", reason: "The task definition changed after this capability review." };
   const metadataChanged = review.metadataHash !== taskMetadataHash(plugin);
-  let details = {};
+  const profile = reviews.profiles?.[plugin.id];
+  const sharedReviewed = profile?.requirementsStatus === "reviewed" && profile.sources?.every((s) => pinnedSource(s, plugin.repo)) && Date.parse(profile.reviewedAt) <= reviews.now.getTime();
+  let details = reviews.policy?.repositoryEvidence ? {
+    pluginRequirements: sharedReviewed ? profile.requirements : [], requirementsStatus: sharedReviewed ? "reviewed" : "unknown",
+    profileSources: sharedReviewed ? profile.sources : [], profileReviewedAt: sharedReviewed ? profile.reviewedAt : null
+  } : {};
   if (reviews.policy?.repositoryEvidence && review.decision === "qualified") {
     const sources = reviewSources(review);
     if (review.provenance !== "repository-evidence" || !sources.length || !sources.every((s) => pinnedSource(s, plugin.repo))) return { ...base, status: "pending-source", reason: "The task needs immutable repository evidence before recommendation." };
-    const profile = reviews.profiles[plugin.id];
     if (profile?.requirementsStatus !== "reviewed" || !profile.sources?.every((s) => pinnedSource(s, plugin.repo))) return { ...base, status: "pending-requirements", reason: "Shared installation requirements have not been reviewed against this repository." };
     if (Date.parse(review.reviewedAt) > reviews.now.getTime() || Date.parse(profile.reviewedAt) > reviews.now.getTime()) return { ...base, status: "pending-source", reason: "Review dates cannot be later than the observation." };
     const observation = reviews.observations[plugin.id];

@@ -706,12 +706,12 @@ function availabilityNote(candidate) {
 
 function taskFitNote(candidate, method) {
   const fit = candidate.taskFit;
-  if (!fit?.qualified) return "";
   const modern = reviewedPresentation(method);
+  if (!fit?.qualified && !(modern && fit?.status === "related")) return "";
   const sources = fit.sources?.length ? fit.sources : fit.source ? [fit.source] : [];
   const constraints = [...new Set([...(modern ? fit.pluginRequirements ?? [] : []), ...(fit.constraints ?? [])])];
-  const tier = fit.provenance === "repository-evidence" ? "Repository documentation reviewed" : "Listing claim reviewed";
-  return `<div class="task-fit-note"><p><strong>Why it fits:</strong> ${escapeHtml(fit.reason)}</p>
+  const tier = fit.provenance === "repository-evidence" ? "Repository evidence reviewed" : "Listing claim reviewed";
+  return `<div class="task-fit-note"><p><strong>${fit.qualified ? "Why it fits:" : "Narrower scope:"}</strong> ${escapeHtml(fit.reason)}</p>
     ${fit.role === "substantial-secondary" ? "<p>Native task controls within a wider plugin.</p>" : ""}
     ${constraints.length ? `<p><strong>Before you choose:</strong> ${constraints.map(escapeHtml).join(" ")}</p>` : ""}
     ${modern ? `<p class="requirements-status">${fit.requirementsStatus === "reviewed" ? "Known installation requirements reviewed." : "Installation requirements have not been fully reviewed."}</p>
@@ -731,9 +731,9 @@ function moreTaskChoices(type, method) {
   return `<section class="task-alternatives" aria-labelledby="task-alternatives-heading">
     <h2 id="task-alternatives-heading">More choices for this task</h2>
     ${alternatives.length ? `<ul>${alternatives.map((candidate) => `<li><h3>${outboundLink(candidate.detailUrl, escapeHtml(candidate.name))}</h3>${taskFitNote(candidate, method)}${availabilityNote(candidate)}</li>`).join("")}</ul>` : ""}
-    ${related.length ? `<h3>Related tools with a narrower scope</h3><ul>${related.map((candidate) => `<li><strong>${outboundLink(candidate.detailUrl, escapeHtml(candidate.name))}</strong><p>${escapeHtml(candidate.taskFit.reason)}</p>
+    ${related.length ? `<h3>Related tools with a narrower scope</h3><ul>${related.map((candidate) => `<li><strong>${outboundLink(candidate.detailUrl, escapeHtml(candidate.name))}</strong>${reviewedPresentation(method) ? taskFitNote(candidate, method) : `<p>${escapeHtml(candidate.taskFit.reason)}</p>
       ${candidate.taskFit.constraints.length ? `<p>${candidate.taskFit.constraints.map(escapeHtml).join(" ")}</p>` : ""}
-      <p class="task-fit-source">${outboundLink(candidate.taskFit.source.url, "Capability evidence")}</p></li>`).join("")}</ul>` : ""}
+      <p class="task-fit-source">${outboundLink(candidate.taskFit.source.url, "Capability evidence")}</p>`}</li>`).join("")}</ul>` : ""}
   </section>`;
 }
 

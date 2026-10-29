@@ -36,7 +36,7 @@ export async function runAudit({ root = ROOT, inputFile, baselineFile, baselineV
     ]);
     const pluginProfiles = await json(path.join(root, "data", "plugin-profiles.json"), { schemaVersion: 1, plugins: {} });
     const now = new Date();
-    const evidenceObservations = await captureEvidence({ catalog: catalog.body.plugins, taskReviews, pluginProfiles, now, fetchImpl });
+    const evidenceObservations = await captureEvidence({ catalog: catalog.body.plugins, taskReviews, pluginProfiles, taxonomy, now, fetchImpl });
     inputs = { pluginProfiles, evidenceObservations, schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, methodologyVersion: METHODOLOGY.version, codeRevision: codeRevision(root), now: now.toISOString(), catalog, stats, taxonomy, taskReviews, previous, previousState, previousReviewQueue,
       baselineTaxonomy: baselineFile ? await json(baselineFile) : null, baselineVersion };
   }
