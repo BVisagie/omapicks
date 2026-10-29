@@ -29,6 +29,37 @@ document.addEventListener("pointerout", (event) => {
   tile.style.removeProperty("--ry");
 });
 
+// Numbers count up and sections reveal as they scroll into view; reduced motion shows final values.
+function countUp(element) {
+  const target = Number.parseFloat(element.dataset.count);
+  if (!Number.isFinite(target)) return;
+  const decimals = Number(element.dataset.decimals || 0);
+  const suffix = element.dataset.suffix || "";
+  const format = (value) => (decimals ? value.toFixed(decimals) : Math.round(value).toLocaleString("en-US")) + suffix;
+  if (reduceMotion) { element.textContent = format(target); return; }
+  const start = performance.now();
+  const tick = (now) => {
+    const progress = Math.min(1, (now - start) / 1300);
+    element.textContent = format(target * (1 - (1 - progress) ** 3));
+    if (progress < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
+
+const revealObserver = "IntersectionObserver" in window ? new IntersectionObserver((entries) => {
+  for (const entry of entries) {
+    if (!entry.isIntersecting) continue;
+    entry.target.classList.add("is-in");
+    for (const counter of entry.target.querySelectorAll("[data-count]")) countUp(counter);
+    revealObserver.unobserve(entry.target);
+  }
+}, { threshold: 0.15, rootMargin: "0px 0px -6% 0px" }) : null;
+
+for (const element of document.querySelectorAll(".reveal, [data-animate]")) {
+  if (revealObserver) revealObserver.observe(element);
+  else element.classList.add("is-in");
+}
+
 for (const notice of document.querySelectorAll("[data-snapshot-at]")) {
   const ageDays = Math.floor((Date.now() - Date.parse(notice.dataset.snapshotAt)) / 86_400_000);
   if (Number.isFinite(ageDays) && ageDays > 8) {

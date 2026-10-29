@@ -964,35 +964,178 @@ kbd {
   margin-top: 0;
 }
 
-.hero-meta {
+/* Bento band: Podium's tile system on Signal's glass. 12 columns on desktop, collapsing to a
+   3-up stat row, then single tiles, on narrow screens. */
+.bento {
   display: grid;
-  gap: 0;
-  margin: 1.4rem 0 0;
-  padding: 0;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-auto-rows: minmax(120px, auto);
+  gap: 1rem;
+  margin: 0.4rem 0 0;
+}
+
+.b-stat {
+  grid-column: span 2;
+}
+
+.b-changed {
+  grid-column: 7 / 13;
+  grid-row: 1 / 3;
+}
+
+.b-links {
+  grid-column: 1 / 7;
+  grid-row: 2;
+}
+
+.b-newcomer {
+  grid-column: 1 / -1;
+  grid-row: 3;
+}
+
+.stat {
+  margin: 0;
+  justify-content: end;
   font-family: var(--mono);
 }
 
-.hero-meta div {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 1rem;
-  padding: 0.55rem 0;
-  border-top: 1px solid var(--line);
+.stat dt {
+  color: var(--muted);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-.hero-meta dt,
-.hero-meta dd {
-  margin: 0;
-}
-
-.hero-meta dt::after {
-  content: ":";
-}
-
-.hero-meta dd {
-  color: var(--ink);
+.stat dd {
+  margin: 0.25rem 0 0;
+  font-size: clamp(2rem, 3.4vw, 2.9rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
-  font-weight: 650;
+}
+
+.stat.accent dd {
+  color: var(--accent-text);
+  text-shadow: 0 0 22px var(--glow);
+}
+
+.weekly-summary h2 {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: clamp(1.35rem, 2.2vw, 1.8rem);
+  line-height: 1.2;
+}
+
+.changes {
+  margin: 0.9rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.changes li {
+  display: grid;
+  grid-template-columns: 1.6rem minmax(0, 1fr);
+  gap: 0.6rem;
+  padding: 0.65rem 0;
+  border-top: 1px solid var(--line);
+  font-size: 0.93rem;
+}
+
+.changes .n {
+  padding-top: 0.2rem;
+  color: var(--accent-text);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.changes a {
+  font-weight: 600;
+  text-decoration-color: var(--line-strong);
+}
+
+.changes b {
+  font-weight: 600;
+}
+
+.changes em {
+  font-style: normal;
+  color: var(--muted);
+}
+
+.weekly-summary .new-listings {
+  margin: 0.9rem 0 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.weekly-summary .new-listings + ul {
+  margin: 0.3rem 0 0;
+  padding-left: 1.1rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.tile-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.4rem 1rem;
+  margin: auto 0 0;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.76rem;
+}
+
+.tile-foot a {
+  color: var(--accent-text);
+}
+
+.links {
+  justify-content: center;
+  gap: 0.15rem;
+  padding-block: 1rem;
+}
+
+.links a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.55rem 0.2rem;
+  border-bottom: 1px solid var(--line);
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 200ms ease, padding 300ms var(--ease);
+}
+
+.links a:last-child {
+  border-bottom: 0;
+}
+
+.links a:hover {
+  padding-inline: 0.6rem;
+  color: var(--ink);
+  background: var(--surface-2);
+}
+
+.links a span:last-child {
+  color: var(--accent-text);
+  font-family: var(--mono);
+  transition: transform 400ms var(--ease);
+}
+
+.links a:hover span:last-child {
+  transform: translateX(4px);
+}
+
+.links .entry-note {
+  margin: 0.8rem 0.2rem 0;
+  font-size: 0.74rem;
 }
 
 .showcase {
@@ -2372,6 +2515,12 @@ footer p a {
   .button:hover {
     transform: none;
   }
+
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 /* Discovery and sharing use the same reading order at every viewport size. */
@@ -2397,74 +2546,131 @@ footer p a {
   font-size: 0.8rem;
 }
 
-.getting-started,
-.weekly-summary {
-  margin: 0 0 2.5rem;
-  padding-top: 1.8rem;
-  border-top: 1px solid var(--line);
+.getting-started h2 {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: clamp(1.35rem, 2.2vw, 1.8rem);
+  line-height: 1.2;
 }
 
-.getting-started h2,
-.weekly-summary h2 {
-  margin: 0 0 0.8rem;
-  font: 650 1.65rem/1.2 var(--mono);
-}
-
-.newcomer {
-  max-width: 76ch;
-}
-
-.newcomer p,
-.starter-card p,
-.weekly-summary p {
+.newcomer p:not(.kicker) {
+  max-width: 46rem;
+  margin: 0.4rem 0 0;
   color: var(--muted);
+  font-size: 0.93rem;
+}
+
+.newcomer p a {
+  text-decoration-color: var(--line-strong);
 }
 
 .starter-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
 }
 
 .starter-card {
-  padding: 1.2rem;
-  background: var(--surface);
+  padding: 0.9rem 1rem;
   border: 1px solid var(--line);
+  border-radius: var(--r-inner);
+  background: var(--surface-2);
 }
 
 .starter-card h3 {
   margin: 0;
-  font: 650 1.1rem/1.4 var(--mono);
+  font: 650 0.95rem/1.4 var(--mono);
 }
 
-.starter-card ul {
-  padding-left: 1.2rem;
+.starter-card p {
+  margin: 0.2rem 0 0;
+  color: var(--muted);
+  font-size: 0.8rem;
 }
 
-.starter-card li,
-.weekly-summary li {
-  margin: 0.45rem 0;
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.65rem 0 0;
+  padding: 0;
+  list-style: none;
 }
 
-.weekly-summary {
-  display: grid;
-  grid-template-columns: 1fr 1.5fr;
-  gap: 2rem;
+.chip {
+  display: inline-block;
+  padding: 0.22rem 0.6rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-pill);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  text-decoration: none;
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
 }
 
-.weekly-summary ul {
-  margin-top: 0;
-  padding-left: 1.2rem;
+.chip:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
 }
 
-@media (max-width: 700px) {
-  .starter-grid,
-  .weekly-summary {
+/* Scroll reveal: only when scripts run (html.js), so content never waits on an observer. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 800ms var(--ease-out), transform 800ms var(--ease-out);
+  transition-delay: var(--d, 0ms);
+}
+
+.js .reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media print {
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .atmosphere {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .b-stat {
+    grid-column: span 4;
+  }
+
+  .b-changed,
+  .b-links,
+  .b-newcomer {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+  .starter-grid {
     grid-template-columns: 1fr;
   }
-  .weekly-summary {
-    gap: 0.5rem;
+}
+
+@media (max-width: 520px) {
+  .bento {
+    gap: 0.7rem;
+  }
+
+  .tile {
+    padding: 1rem 1.05rem;
+  }
+
+  .stat dd {
+    font-size: 1.7rem;
+  }
+
+  .stat dt {
+    font-size: 0.58rem;
   }
 }
 

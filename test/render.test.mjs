@@ -647,7 +647,8 @@ test("weekly summary compares snapshots and handles unchanged and vacant picks",
   const previous = { ...fixtureRankings(), week: "2026-W35" };
   const changed = renderFixtureHome(current, [previous]);
   assert.match(changed, /1 category has a champion change/);
-  assert.match(changed, /New replaces Safe Plugin/);
+  assert.match(changed, /<b>New<\/b> <em>replaces Safe Plugin\.<\/em>/);
+  assert.match(changed, /<dt>Champion changes<\/dt><dd data-count="1">1<\/dd>/);
   assert.match(changed, /New to Omarchy/);
   assert.match(changed, /See all weekly changes/);
   const unchanged = renderFixtureHome(fixtureRankings(), [previous]);

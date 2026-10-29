@@ -911,10 +911,10 @@ function starterCollections(rankings) {
     if (!picks.length) return "";
     return `<article class="starter-card"><h3>${escapeHtml(collection.title)}</h3>
       <p>${escapeHtml(collection.description)}</p>
-      <ul>${picks.map((type) => `<li><a href="/picks/${type.id}/">${escapeHtml(type.name)}</a></li>`).join("")}</ul></article>`;
+      <ul class="chips">${picks.map((type) => `<li><a class="chip" href="/picks/${type.id}/">${escapeHtml(type.name)}</a></li>`).join("")}</ul></article>`;
   }).filter(Boolean);
-  return `<section class="getting-started" aria-labelledby="getting-started-heading">
-    <div class="newcomer"><h2 id="getting-started-heading">New to Omarchy?</h2>
+  return `<section class="glass tile getting-started" aria-labelledby="getting-started-heading">
+    <div class="newcomer"><p class="kicker">start with a task, not a plugin list</p><h2 id="getting-started-heading">New to Omarchy?</h2>
       <p><a href="https://omarchy.org/">Omarchy</a> is a Linux desktop built around the keyboard. Plugins add tools and shortcuts to your setup. Explore a task below, compare this week’s picks, and visit the original listing for setup and version requirements.</p></div>
     ${cards.length ? `<div class="starter-grid">${cards.join("")}</div>` : ""}
   </section>`;
@@ -941,23 +941,58 @@ function newListingsNote(rankings) {
       ${shown.length ? `<ul>${shown.join("")}</ul>` : ""}`;
 }
 
-function weeklySummary(rankings, history) {
-  const modern = reviewedPresentation(snapshotMethodology(rankings));
+// Changes shown on the home page come from the previous published week when one exists,
+// otherwise from the snapshot's own recorded changes.
+function weeklyChanges(rankings, history) {
   const previous = history.filter((snapshot) => snapshot.week < rankings.week)
     .sort((a, b) => b.week.localeCompare(a.week))[0];
   const current = history.find((snapshot) => snapshot.week === rankings.week);
   const changes = previous ? changesBetween(previous, rankings) : current?.changes ?? [];
+  return { previous, current, changes };
+}
+
+function weeklySummary(rankings, history) {
+  const modern = reviewedPresentation(snapshotMethodology(rankings));
+  const { previous, current, changes } = weeklyChanges(rankings, history);
   const count = changes.length;
   const summary = !previous && !current
     ? "The first weekly snapshot is ready to explore."
     : count ? `${count} ${count === 1 ? "category has" : "categories have"} a ${modern ? "leading-option" : "champion"} change in this snapshot.`
       : modern ? "The leading reviewed options are unchanged in this snapshot." : "No champion changes in this snapshot. The current picks kept their titles.";
-  return `<section class="weekly-summary" aria-labelledby="weekly-summary-heading">
-    <div><p class="kicker">${escapeHtml(rankings.week ?? "Latest snapshot")}</p>
-      <h2 id="weekly-summary-heading">What changed this week</h2><p>${summary}</p></div>
-    <div>${count ? `<ul>${changes.slice(0, 3).map((change) => `<li><a href="/picks/${encodeURIComponent(change.typeId)}/">${escapeHtml(change.typeName)}</a>: ${change.current ? `${escapeHtml(change.current.name)} ${change.previous ? `replaces ${escapeHtml(change.previous.name)}` : modern ? "is the first leading reviewed option" : "is the first champion"}` : modern ? "has no leading reviewed option" : "the champion spot is vacant"}.</li>`).join("")}</ul>` : ""}
-      ${newListingsNote(rankings)}
-      <p><a href="/changelog/">See all weekly changes</a> · <a href="/feed/">Subscribe with RSS</a></p></div>
+  return `<section class="glass tile weekly-summary" aria-labelledby="weekly-summary-heading">
+    <p class="kicker">${escapeHtml(rankings.week ?? "Latest snapshot")} · what changed</p>
+    <h2 id="weekly-summary-heading">${summary}</h2>
+    ${count ? `<ol class="changes">${changes.slice(0, 3).map((change, index) => `<li><span class="n">${String(index + 1).padStart(2, "0")}</span><span><a href="/picks/${encodeURIComponent(change.typeId)}/">${escapeHtml(change.typeName)}</a>: ${change.current ? `<b>${escapeHtml(change.current.name)}</b> <em>${change.previous ? `replaces ${escapeHtml(change.previous.name)}` : modern ? "is the first leading reviewed option" : "is the first champion"}.</em>` : `<em>${modern ? "has no leading reviewed option" : "the champion spot is vacant"}.</em>`}</span></li>`).join("")}</ol>` : ""}
+    ${newListingsNote(rankings)}
+    <p class="tile-foot"><span>Snapshot ${escapeHtml(dateLabel(rankings.generatedAt) ?? rankings.week ?? "pending")}</span><span><a href="/changelog/">See all weekly changes</a> · <a href="/feed/">Subscribe with RSS</a></span></p>
+  </section>`;
+}
+
+function statTile(label, value, { accent = false, delay = 0 } = {}) {
+  const number = Number(value);
+  return `<div class="b-stat reveal"${delay ? ` style="--d: ${delay}ms"` : ""}><dl class="glass tile stat${accent ? " accent" : ""}"><dt>${escapeHtml(label)}</dt><dd data-count="${escapeHtml(number)}">${escapeHtml(number.toLocaleString("en-US"))}</dd></dl></div>`;
+}
+
+// Podium's bento band on Signal's glass: three stat tiles, the weekly changes, quick links and
+// the starter collections. Everything here is also meaningful without scripts or motion.
+function bentoBand(rankings, history, { categoryCount, eligibleEntries, method }) {
+  const modern = reviewedPresentation(method);
+  const { changes } = weeklyChanges(rankings, history);
+  return `<section class="bento" aria-labelledby="glance-heading">
+    <h2 id="glance-heading" class="visually-hidden">This week at a glance</h2>
+    ${statTile("Categories", categoryCount)}
+    ${statTile(method.eligibility.reviewedTaskEvidence ? "Reviewed category entries" : "Category entries", eligibleEntries, { delay: 60 })}
+    ${statTile(modern ? "Leading-option changes" : "Champion changes", changes.length, { accent: true, delay: 120 })}
+    <div class="b-changed reveal" style="--d: 180ms">${weeklySummary(rankings, history)}</div>
+    <div class="b-links reveal" style="--d: 240ms">
+      <nav class="glass tile links" aria-label="Learn more">
+        <a href="/methodology/"><span>How rankings work</span><span aria-hidden="true">→</span></a>
+        <a href="/feed/"><span>Subscribe with RSS</span><span aria-hidden="true">→</span></a>
+        <a href="/changelog/"><span>All weekly changes</span><span aria-hidden="true">→</span></a>
+        <p class="entry-note">Plugins in multiple categories count once in each.</p>
+      </nav>
+    </div>
+    <div class="b-newcomer reveal" style="--d: 300ms">${starterCollections(rankings)}</div>
   </section>`;
 }
 
@@ -1012,16 +1047,9 @@ function homePage(rankings, history = []) {
         <p class="filter-empty" data-finder-empty hidden>No categories match.</p>
         <p class="finder-hint" data-finder-hint hidden>↑↓ move · ↵ open · esc close</p>
       </div>
-      <dl class="hero-meta">
-        <div><dt>Categories</dt><dd>${categoryCount}</dd></div>
-        <div><dt>${snapshotMethodology(rankings).eligibility.reviewedTaskEvidence ? "Reviewed category entries" : "Category entries"}</dt><dd>${eligibleEntries.toLocaleString("en-US")}</dd></div>
-        <div><dt>Snapshot</dt><dd>${escapeHtml(dateLabel(rankings.generatedAt) ?? rankings.week ?? "pending")}</dd></div>
-      </dl>
-      <p class="entry-note">Plugins in multiple categories count once in each.</p>
     </aside>
   </section>
-  ${starterCollections(rankings)}
-  ${weeklySummary(rankings, history)}
+  ${bentoBand(rankings, history, { categoryCount, eligibleEntries, method })}
   ${
     featured.length
       ? `<section class="showcase" aria-label="Featured picks">
