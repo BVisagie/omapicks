@@ -1,896 +1,896 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-29T19:35:51.804Z",
-  "catalogGeneratedAt": "2026-10-29T19:31:29.562Z",
+  "generatedAt": "2026-10-29T20:02:11.980Z",
+  "catalogGeneratedAt": "2026-10-29T19:54:16.814Z",
   "rankingsGeneratedAt": "2026-10-29T19:35:18.101Z",
   "source": "https://plugins.omarchy.org/catalog.json",
   "plugins": {
     "37signals.hey": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "aabulkhairov.battery-insights": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "abdullahmansoor.omapodman": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "ablanco.notethis": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "abran-labs.notification-center": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "acooper.scratchpad": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "acp.omascribe": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "aditya.workspace-icons": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "agnibha.diskspace": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "agx.screen-time": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "akitaonrails.ai-usagebar": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "unverified"
     },
     "akshar.radio-atlas": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "ali.iweather": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "andreasbylund.jellyfin": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "angeeeld.omaltbar": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "anishkn.mstodo": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "apurva.notifications": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "arh.file-picker": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "unverified"
     },
     "atzingen.jarvis": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "azterisk.menu": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "b.okomart": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "b7s.googletranslate": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "unverified"
     },
     "blackcode.power-menu": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "bottelet.is-it-down": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "brianirish.screensaver": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "chyld.easy-capture": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "community.network": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "crmne.files": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "crmne.hyprmoncfg": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "crmne.mpris": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "crmne.omastats": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "crmne.todoist": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "davedes.mouse-keybind-settings": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "dev.git": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "devbook.futbar": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "devgtv.docker": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "dizziee.system-updates": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "djjeane.docker-monitor": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "unverified"
     },
     "dlpwaters.thesaurus": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "eduardodallecort.weather-radar": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "evindor.keystroke": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "expose.window-overview": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "fkcodes.key-promoter": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "glasschan.oma-swiss": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "gotar.omarchy-themes": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "harshith.system-monitor": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "hass": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "huacnlee.which-key": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "illegalstudio.omarchy-firewall": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "im0001gt.screens": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.69harold69.gadget-batteries": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.ajanraj.chroma": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.alejandro-llanes.news": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.amitcpatel.elgato-control": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.anes-03.keyboard-brightness": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.arcanavox.colorhistory": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.aryan-techie.bluetooth": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.aryan-techie.todoist": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "io.github.atif-1402.ai-panel": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.bmontythe3rd.display-manager": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "unverified"
     },
     "io.github.calebhat.weather": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.chris.snitch": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.claudsondouglas.arcdock": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "io.github.deunnis.lacquer": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "io.github.diegopluna.argus": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "io.github.diyaclanker.omacapture": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "io.github.dupontbertrand.omastatus": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.edgarsilva.power-button": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "unverified"
     },
     "io.github.ejuro.blow-off-some-steam": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.elevate08.qs-bitwarden-cli": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.grichard99.omaproton-vpn": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.huligabuliga.omasticky": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.ilyazar.keyboard-layout": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.ilyazar.syncthing": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.jeremylanger.omaspotify": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "io.github.kaibur02.omarchy-world-radio": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "io.github.maajix.spotlight": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "io.github.majkelll.omarchy-docker": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.manateelazycat.color-picker": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.mich-nduka.omaports": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.pablo-merino.altswitch": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "io.github.pjgeutjens.clockwork": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.r-witz.nothing-ear": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.randazraik.xray": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.sahzudin.omawall": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.saiiiiiph.update-center": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "io.github.salemsayed.omaprayers": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.salemsayed.omawarden": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.sanjyay.rss-reeder": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "io.github.shivamnarkar47.omarchy-hotspot": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.sirjul1337.lock-explorer": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.sspaeti.timezones": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.viganogabriele.agent-usage-plus": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.vitorpacheco.mega": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "io.github.vuhuy.clipboard-manager": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "io.github.weedwhitesandwine.omascratch": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "jankeesvw.gmail-inbox": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "jankeesvw.notification-center": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "jankeesvw.omasweeper": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "jankeesvw.text-transform": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "jesseburlamaque.omarchy-find": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "jesusarchive.keyboard-layout-switcher": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "jkoestinger.vpn": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "unverified"
     },
     "kenny.nightlight": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "loamstudios.contrast": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "local.prayer-times": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "unverified"
     },
     "luca.obsidian-daily": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "maduki-tech.omado": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "unverified"
     },
     "meviusisback.agent-orchestr": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "meviusisback.keybinds": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "mirador": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "njpatel.omapager": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "nosignal.motion-wallpaper": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "omaconnect": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "omadock": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "omakdeconnect": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "omamail": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "unverified"
     },
     "omaplug": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "omarchy-display": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "omarchy-undercover": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "onlyvishesh.power-manager": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "patcastle.power": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "pnkm0nk.omodoro": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "pretty.omagen": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "promaa.clock": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "rimuru.screentime": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "robzolkos.github": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "rosakodu.dock": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "rperaza.obsidian-notes": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "shavanced.notification-center": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "unverified"
     },
     "sid.sessions": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "silvaio.gamemode": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "slcode777.omagotchi": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "slw.keyarchy": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "sportsbar": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "srozen.ufw": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "unverified"
     },
     "ssupt.audio-control": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "ssupt.bluetooth-audio": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "stappmus.activity-monitor": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "unverified"
     },
     "tedwester.legion": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "tmn73.calendar": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "tornikegomareli.spaces": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "tristonarmstrong.dictionary": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "tyrsolution.app-launcher": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "ubeyidah.omaclock": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     },
     "vitals": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "unverified"
     },
     "vornashev.yandex-music": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "snapshot-verified"
     },
     "zeru.portwatch": {
       "status": "available",
       "reason": null,
-      "checkedAt": "2026-10-29T19:35:51.804Z",
+      "checkedAt": "2026-10-29T20:02:11.980Z",
       "verificationCoverage": "update-unverified"
     }
   }
