@@ -164,8 +164,9 @@ test("homepage discovery chrome follows the ranking taxonomy", () => {
     ]
   });
   assert.match(two, /Find the best Omarchy plugin for the job/);
-  assert.match(two, /\$<\/span> omapicks rank --week 2026-W36/);
-  assert.match(two, /# no votes\. no sponsorships\. just a reproducible weekly snapshot from omarchy plugins/);
+  assert.match(two, /<h1>Your desktop\.<br><span>Next dimension\.<\/span><\/h1>/);
+  assert.match(two, /Independent by design\. No votes\. No sponsorships\./);
+  assert.match(two, /data-motion-toggle aria-pressed="true" hidden/);
   assert.match(two, /rescored every Monday from Omarchy Plugins/);
   assert.match(two, /data-filter-status data-total="2"/);
   assert.match(two, /Browse 2 categories/);

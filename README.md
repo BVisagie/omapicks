@@ -24,6 +24,10 @@ npm run test:e2e       # browser interactions, mobile layouts, contrast
 
 `npm run build` reads committed files under `data/` and never accesses the network. `npm run refresh` and the audit/discovery research commands fetch public feeds; rendering stays offline.
 
+To explore a local build, run `npm run build` followed by `python -m http.server 4174 --bind 127.0.0.1 --directory dist`, then open `http://127.0.0.1:4174/`. Stop the server with Ctrl+C. This does not publish to Cloudflare.
+
+The Orbital interface includes visual category previews, task collection filters, and keyboard discovery: `/` or Ctrl/⌘+K focuses search, ↓ focuses the first match, Enter opens it, and Escape clears the search while preserving the selected collection. Reset filters clears both. Light/dark and motion preferences are stored locally; the system reduced-motion preference always takes precedence. Category links, evidence, and starter collections remain usable without JavaScript.
+
 ## Ranking method
 
 Plugins must be installable and point to an HTTPS repository. Failed or unreachable marketplace checks exclude a listing immediately; built-ins never rank. Category patterns discover research leads. A recommendation additionally needs a source-backed decision in `data/task-reviews.json` satisfying the category's versioned minimum capabilities. Native core and substantial secondary capabilities qualify equally; limited integrations appear as related tools. Missing or changed evidence awaits review and cannot compete. Cards explain task fit, requirements and source evidence. See [classification and review](docs/classification.md) and the [methodology 1.2.0 decision record](docs/methodology-1.2.0.md). A ranking is not an endorsement or safety review.

@@ -42,6 +42,40 @@ themeButton?.addEventListener("click", () => {
   }
 });
 
+const motionButton = document.querySelector("[data-motion-toggle]");
+const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+let motionPreference = "on";
+try {
+  if (localStorage.getItem("omapicks-motion") === "off") motionPreference = "off";
+} catch {
+  // Motion controls still work when browser storage is unavailable.
+}
+
+function applyMotion() {
+  const enabled = !reducedMotion.matches && motionPreference === "on";
+  root.dataset.motion = enabled ? "on" : "off";
+  if (!motionButton) return;
+  motionButton.hidden = false;
+  motionButton.disabled = reducedMotion.matches;
+  motionButton.textContent = reducedMotion.matches ? "Reduced motion" : enabled ? "Motion on" : "Motion off";
+  motionButton.setAttribute("aria-pressed", String(enabled));
+  motionButton.title = reducedMotion.matches
+    ? "Respects your system’s reduced-motion preference"
+    : "Toggle decorative animation";
+}
+
+applyMotion();
+reducedMotion.addEventListener("change", applyMotion);
+motionButton?.addEventListener("click", () => {
+  motionPreference = motionPreference === "on" ? "off" : "on";
+  applyMotion();
+  try {
+    localStorage.setItem("omapicks-motion", motionPreference);
+  } catch {
+    // Keep the selected motion setting for this page even without storage.
+  }
+});
+
 const filter = document.querySelector("[data-pick-filter]");
 const catalogRows = [...document.querySelectorAll("[data-catalog-row]")];
 const finderItems = [...document.querySelectorAll("[data-finder-item]")];
@@ -50,55 +84,107 @@ const filterStatus = document.querySelector("[data-filter-status]");
 const filterEmpty = document.querySelector("[data-filter-empty]");
 const finderEmpty = document.querySelector("[data-finder-empty]");
 const catalogHead = document.querySelector("[data-catalog-head]");
+const filterJump = document.querySelector("[data-filter-jump]");
+const collectionButtons = [...document.querySelectorAll("[data-collection-filter]")];
+const filterResets = [...document.querySelectorAll("[data-filter-reset]")];
+let activeCollection = "all";
 
 function matchesQuery(node, query) {
   return !query || (node.dataset.search ?? "").includes(query);
 }
 
+function matchesCollection(node) {
+  return activeCollection === "all" || (node.dataset.collections ?? "").split(/\s+/).includes(activeCollection);
+}
+
 function applyFilter() {
   if (!filter) return;
   const query = filter.value.trim().toLocaleLowerCase();
+  const isFiltering = Boolean(query) || activeCollection !== "all";
   let visibleRows = 0;
   let visibleFinder = 0;
 
   for (const row of catalogRows) {
-    const match = matchesQuery(row, query);
+    const match = matchesCollection(row) && matchesQuery(row, query);
     row.hidden = !match;
     if (match) visibleRows += 1;
   }
 
   for (const item of finderItems) {
-    const match = query ? matchesQuery(item, query) : item.hasAttribute("data-suggested");
+    const match = isFiltering
+      ? matchesCollection(item) && matchesQuery(item, query)
+      : item.hasAttribute("data-suggested");
     item.hidden = !match;
     if (match) visibleFinder += 1;
   }
 
   if (filterStatus) {
     const total = Number(filterStatus.dataset.total) || catalogRows.length;
-    const visible = query ? visibleRows : visibleFinder;
+    const visible = isFiltering ? visibleRows : visibleFinder;
     filterStatus.textContent = `${visible}/${total}`;
-    filterStatus.setAttribute("aria-label", query
+    filterStatus.setAttribute("aria-label", isFiltering
       ? `${visibleRows} of ${total} categories match`
       : `${visibleFinder} of ${total} suggested categories shown`);
   }
-  if (filterEmpty) filterEmpty.hidden = !query || visibleRows > 0;
-  if (finderEmpty) finderEmpty.hidden = !query || visibleFinder > 0;
-  if (catalogHead) catalogHead.hidden = Boolean(query) && visibleRows === 0;
+  if (filterEmpty) filterEmpty.hidden = !isFiltering || visibleRows > 0;
+  if (finderEmpty) finderEmpty.hidden = !isFiltering || visibleFinder > 0;
+  if (catalogHead) catalogHead.hidden = isFiltering && visibleRows === 0;
+  if (filterJump) {
+    filterJump.hidden = visibleRows === 0;
+    filterJump.textContent = `View ${visibleRows} ${isFiltering ? "matching " : ""}${visibleRows === 1 ? "category" : "categories"} ↓`;
+  }
   if (finderResults) {
-    finderResults.setAttribute("aria-label", query ? "Matching categories" : "Suggested categories");
+    finderResults.setAttribute("aria-label", isFiltering ? "Matching categories" : "Suggested categories");
+  }
+  for (const button of collectionButtons) {
+    button.setAttribute("aria-pressed", String(button.dataset.collectionFilter === activeCollection));
   }
 }
 
 if (filter) {
+  for (const button of collectionButtons) {
+    button.hidden = false;
+    button.addEventListener("click", () => {
+      activeCollection = button.dataset.collectionFilter;
+      applyFilter();
+    });
+  }
+  for (const button of filterResets) {
+    button.hidden = false;
+    button.addEventListener("click", () => {
+      filter.value = "";
+      activeCollection = "all";
+      applyFilter();
+      filter.focus();
+    });
+  }
   applyFilter();
   filter.addEventListener("input", applyFilter);
   filter.addEventListener("search", applyFilter);
   filter.addEventListener("keydown", (event) => {
-    if (event.key !== "Enter") return;
+    if (event.isComposing) return;
+    if (event.key === "Escape") {
+      event.preventDefault();
+      filter.value = "";
+      applyFilter();
+      return;
+    }
+    if (event.key !== "Enter" && event.key !== "ArrowDown") return;
     const first = finderItems.find((item) => !item.hidden)?.querySelector("a");
     if (!first?.href) return;
     event.preventDefault();
-    window.location.assign(first.href);
+    if (event.key === "ArrowDown") first.focus();
+    else window.location.assign(first.href);
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.defaultPrevented || event.isComposing || document.querySelector("dialog[open]")) return;
+    if ([...document.querySelectorAll('[role="dialog"][aria-modal="true"]')].some((dialog) => dialog.getClientRects().length)) return;
+    const editing = event.target instanceof Element && event.target.closest('input, textarea, select, [contenteditable]:not([contenteditable="false"])');
+    const slash = event.key === "/" && !editing && !event.ctrlKey && !event.metaKey && !event.altKey;
+    const command = event.key.toLowerCase() === "k" && (event.ctrlKey || event.metaKey) && !event.altKey;
+    if (!slash && !command) return;
+    event.preventDefault();
+    filter.focus();
   });
 }
 

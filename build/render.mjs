@@ -30,11 +30,11 @@ const FUNCTION_ROUTES = {
   ]
 };
 const PALETTE = Object.freeze({
-  bg: "#1a1b26",
-  lightBg: "#e9e9ec",
-  ink: "#c0caf5",
-  muted: "#7f849c",
-  accent: "#8bd5ca"
+  bg: "#090f14",
+  lightBg: "#f2f6f3",
+  ink: "#edf4f2",
+  muted: "#a7b8bc",
+  accent: "#b7f7cf"
 });
 const SOCIAL_IMAGE = Object.freeze({
   url: "/og/terminal.jpg",
@@ -405,7 +405,7 @@ function navLink(href, label, pathname) {
 
 function nav(pathname = "/") {
   return `<header class="site-header">
-    <a class="brand" href="/" aria-label="OmaPicks home">OmaPicks</a>
+    <a class="brand" href="/" aria-label="OmaPicks home"><span class="brand-mark" aria-hidden="true">↗</span>OmaPicks<span class="brand-slash" aria-hidden="true">/</span></a>
     <nav aria-label="Primary navigation">
       ${navLink("/methodology/", "Method", pathname)}
       ${navLink("/changelog/", "Changes", pathname)}
@@ -738,6 +738,10 @@ function featureArticle(type, slot = 0) {
   </a>`;
 }
 
+function collectionMembership(type) {
+  return DISCOVERY.collections.flatMap((collection, index) => collection.types.includes(type.id) ? [index] : []).join(" ");
+}
+
 function catalogRow(type) {
   const winner = type.winner
     ? `${type.winner.name} · ${type.winner.author || "Unknown author"}`
@@ -746,11 +750,12 @@ function catalogRow(type) {
     ? `${type.runnerUp.name} · ${type.runnerUp.author || "Unknown author"}`
     : "—";
   const aria = `${type.name}: champion ${winner}; runner-up ${runnerUp}; ${competedLabel(type.eligibleCount)}`;
-  return `<a class="catalog-row" href="/picks/${encodeURIComponent(type.id)}/" aria-label="${escapeHtml(aria)}" data-catalog-row data-search="${escapeHtml(searchBlob(type))}">
+  return `<a class="catalog-row" href="/picks/${encodeURIComponent(type.id)}/" aria-label="${escapeHtml(aria)}" data-catalog-row data-search="${escapeHtml(searchBlob(type))}" data-collections="${collectionMembership(type)}">
     <span class="type">${escapeHtml(type.name)}</span>
+    <span class="catalog-preview" aria-hidden="true">${mediaImage(type.winner, { decorative: true })}</span>
     <span class="champ"><span class="field-label">Champion</span> ${escapeHtml(winner)}</span>
     <span class="runner"><span class="field-label">Runner-up</span> ${escapeHtml(runnerUp)}</span>
-    <span class="count">${type.eligibleCount}</span>
+    <span class="catalog-foot"><span class="count">${competedLabel(type.eligibleCount)}</span><span>Compare picks ↗</span></span>
   </a>`;
 }
 
@@ -758,7 +763,7 @@ function finderItem(type, suggested) {
   const champion = type.winner?.name ?? "No pick yet";
   const suggestedAttr = suggested ? " data-suggested" : "";
   const hiddenAttr = suggested ? "" : " hidden";
-  return `<li data-finder-item data-search="${escapeHtml(searchBlob(type))}"${suggestedAttr}${hiddenAttr}>
+  return `<li data-finder-item data-search="${escapeHtml(searchBlob(type))}" data-collections="${collectionMembership(type)}"${suggestedAttr}${hiddenAttr}>
     <a href="/picks/${encodeURIComponent(type.id)}/">
       <span>${escapeHtml(type.name)}</span>
       <strong>${escapeHtml(champion)}</strong>
@@ -862,46 +867,59 @@ function homePage(rankings, history = []) {
   const catalogTypes = types.slice().sort(byCategoryName);
   const body = `<section class="hero">
     <div class="hero-copy">
-      <p class="eyebrow command-prompt">
-        <span aria-hidden="true"><span class="prompt-mark">$</span> omapicks rank --week ${escapeHtml(rankings.week ?? "pending")}<span class="terminal-cursor"></span></span>
-        <span class="visually-hidden">${weekLabel(rankings.week, rankings.generatedAt)}</span>
-      </p>
-      <h1>Find the best Omarchy plugin for the job.</h1>
-      <p class="hero-lede">A champion and a runner-up in each category, ${snapshotMethodology(rankings).eligibility.reviewedTaskEvidence ? "qualified by task evidence and " : ""}rescored every Monday from Omarchy Plugins.</p>
-      ${snapshotNotice(rankings)}
-      <p class="hero-trust"># no votes. no sponsorships. just a reproducible weekly snapshot from omarchy plugins.</p>
+      <p class="eyebrow">Independent picks. Infinite possibilities.</p>
+      <h1>Your desktop.<br><span>Next dimension.</span></h1>
+      <p class="hero-lede">Find the best Omarchy plugin for the job. Focused tasks. Clear winners. Evidence behind every pick.</p>
       <p class="hero-actions">
-        <a class="button" href="#catalog">${escapeHtml(browseLabel(categoryCount))}</a>
+        <a class="button" href="#discover">${escapeHtml(browseLabel(categoryCount))} <span aria-hidden="true">↗</span></a>
         <a class="text-link" href="/methodology/">How rankings work</a>
-        ${shareLinks(
-          "This week's Omarchy plugin rankings, independently scored from Omarchy Plugins.",
-          `${ORIGIN}/`,
-          "Share this week on X"
-        )}
       </p>
     </div>
-    <aside class="hero-aside">
+    <div class="hero-art" aria-hidden="true">
+      <div class="starfield"></div>
+      <div class="orb"><div class="orbit-track"><span class="satellite"></span></div></div>
+      <div class="orbital-tag orbital-tag-top"><span>↗ THE LOOK</span><strong>Make your desktop yours.</strong></div>
+      <div class="orbital-tag orbital-tag-bottom"><span>✓ THE FIT</span><strong>Small tools. Better days.</strong></div>
+    </div>
+  </section>
+  <div class="hero-strip"><p>Independent by design. No votes. No sponsorships.</p><p>${weekLabel(rankings.week, rankings.generatedAt)}</p><button class="motion-toggle" type="button" data-motion-toggle aria-pressed="true" hidden>Motion on</button></div>
+  ${snapshotNotice(rankings)}
+  <section class="discovery-panel" id="discover" aria-labelledby="discovery-heading">
+    <div class="discovery-main">
+      <h2 id="discovery-heading">Find your next upgrade.</h2>
+      <p class="discovery-lede">Start with a task. Find a plugin that fits.</p>
       <div class="hero-finder" role="search">
         <label id="finder-label" for="pick-filter">Find a category</label>
         <div class="finder-command">
-          <span class="finder-prompt" aria-hidden="true">&gt;</span>
+          <span class="finder-prompt" aria-hidden="true">⌕</span>
           <input id="pick-filter" type="search" placeholder="weather, clipboard, spotify…" autocomplete="off" spellcheck="false" aria-describedby="filter-status" aria-controls="finder-results" data-pick-filter>
           <span id="filter-status" data-filter-status data-total="${categoryCount}" aria-live="polite"></span>
+        </div>
+        <div class="collection-filters" role="group" aria-label="Filter by collection">
+          <button type="button" data-collection-filter="all" aria-pressed="true" hidden>All picks</button>
+          ${DISCOVERY.collections.map((collection, index) => `<button type="button" data-collection-filter="${index}" aria-pressed="false" hidden>${escapeHtml(collection.title)}</button>`).join("")}
         </div>
         <ul class="finder-results" id="finder-results" data-finder-results aria-label="Suggested categories">
           ${catalogTypes.map((type) => finderItem(type, suggestedIds.has(type.id))).join("")}
         </ul>
         <p class="filter-empty" data-finder-empty hidden>No categories match.</p>
+        <div class="finder-help"><span class="search-shortcut">Press <kbd>/</kbd> to search · Enter to explore</span><button type="button" class="filter-reset" data-filter-reset hidden>Reset filters</button></div>
+        <a class="text-link finder-jump" href="#catalog" data-filter-jump hidden>View matching categories ↓</a>
+        <noscript><p>Search needs JavaScript. <a href="#catalog">Browse the full category directory</a> or use the starter collections below.</p></noscript>
       </div>
+    </div>
+    <aside class="discovery-aside" aria-label="About this snapshot">
+      <p class="eyebrow">A better starting point</p>
+      <p>A champion and a runner-up in each category, ${snapshotMethodology(rankings).eligibility.reviewedTaskEvidence ? "qualified by task evidence and " : ""}rescored every Monday from Omarchy Plugins.</p>
       <dl class="hero-meta">
         <div><dt>Categories</dt><dd>${categoryCount}</dd></div>
         <div><dt>${snapshotMethodology(rankings).eligibility.reviewedTaskEvidence ? "Reviewed category entries" : "Category entries"}</dt><dd>${eligibleEntries.toLocaleString("en-US")}</dd></div>
         <div><dt>Snapshot</dt><dd>${escapeHtml(dateLabel(rankings.generatedAt) ?? rankings.week ?? "pending")}</dd></div>
       </dl>
       <p class="entry-note">Plugins in multiple categories count once in each.</p>
+      <a class="text-link" href="#catalog">Explore the full directory ↓</a>
     </aside>
   </section>
-  ${starterCollections(rankings)}
   ${weeklySummary(rankings, history)}
   ${
     featured.length
@@ -917,16 +935,23 @@ function homePage(rankings, history = []) {
   </section>`
       : ""
   }
+  ${starterCollections(rankings)}
   <section class="catalog" id="catalog" aria-labelledby="catalog-heading">
     <div class="catalog-header">
-      <h2 id="catalog-heading">${escapeHtml(browseLabel(categoryCount, { all: true }))}</h2>
+      <div><p class="eyebrow">Your next possibility</p><h2 id="catalog-heading">${escapeHtml(browseLabel(categoryCount, { all: true }))}</h2></div>
+      <a class="text-link" href="#discover">Search & filter ↑</a>
     </div>
     <div class="catalog-table">
       <div class="catalog-head" aria-hidden="true" data-catalog-head><span>Category</span><span>Champion · Author</span><span>Runner-up · Author</span><span>Competed</span></div>
       ${catalogTypes.map((type) => catalogRow(type)).join("")}
     </div>
     <p class="filter-empty" data-filter-empty hidden>No categories match.</p>
-  </section>`;
+  </section>
+  <section class="share-section" aria-label="Share OmaPicks"><div><h2>Good finds are worth sharing.</h2><p>Help someone make their desktop a little more theirs.</p></div>${shareLinks(
+    "This week's Omarchy plugin rankings, independently scored from Omarchy Plugins.",
+    `${ORIGIN}/`,
+    "Share this week on X"
+  )}</section>`;
   return shell({
     title: "OmaPicks",
     description: "Independent weekly rankings of Omarchy plugins, one champion and one runner-up per app type.",
@@ -1072,8 +1097,9 @@ function privacyPage() {
     <h1>How OmaPicks treats visitors</h1>
     <p class="page-lede">OmaPicks has no accounts, comments, advertising, or marketing trackers. The published pages are static files. Your browser does not receive an analytics script, analytics cookie, or analytics storage from this site.</p>
     <p>Optional share links open X in a new tab after you leave OmaPicks; this site does not load an X script. The Sponsor on GitHub link likewise opens GitHub in a new tab; this site does not load GitHub scripts.</p>
-    <h2>Theme preference</h2>
+    <h2>Theme and motion preferences</h2>
     <p>If you use the theme toggle, OmaPicks stores <code>light</code> or <code>dark</code> in your browser's <code>localStorage</code> so the choice can persist. That value is not sent to the server and is not used to measure traffic.</p>
+    <p>The motion toggle similarly stores <code>on</code> or <code>off</code> under <code>omapicks-motion</code> in localStorage. It controls decorative animation only, is not sent to the server, and is not used to measure traffic. Your system's reduced-motion preference always takes precedence.</p>
     <h2>Traffic measurement</h2>
     <p>To understand how many people use the site and which category pages are popular, Cloudflare's edge records a small server-side event for successful HTML page views. The browser is not asked to run extra code for this.</p>
     <p>Each event keeps only the UTC date, the page path such as <code>/picks/network/</code>, and a one-way identifier that is salted for that day. Raw IP addresses, user-agent strings, query strings, referrers, and device fingerprints are not stored. The daily identifier cannot follow a visitor across days or websites, so weekly or monthly visitor totals are estimates, not an exact headcount.</p>
