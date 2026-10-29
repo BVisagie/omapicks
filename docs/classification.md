@@ -1,12 +1,12 @@
 # Category eligibility, evidence and review
 
-A category is a task someone wants to accomplish. Under methodology 1.2.0, a recommendation needs an explicit capability review satisfying its task contract. Popularity is scored only after qualification; it cannot compensate for an unrelated or incomplete feature. See the [decision record](methodology-1.2.0.md) and [baseline investigation](categorization-investigation-2026-10-12.md).
+A category is a task someone wants to accomplish. Under methodology 1.3.0, a recommendation needs an explicit capability review satisfying its task contract, pinned repository evidence, reviewed shared requirements and a recent matching source observation. Popularity is scored only after qualification; it cannot compensate for an unrelated or incomplete feature. See the [decision record](methodology-1.3.0.md) and [baseline investigation](categorization-investigation-2026-10-12.md).
 
 ## Discovery versus recommendations
 
 Each type in `data/app-types.json` has a versioned `contract` with an outcome and `capabilitySets`. One complete capability set is the minimum for qualification. `include` and `nameInclude` patterns search names and descriptions separately for research leads. Tags, kind and upstream categories cannot qualify an assignment. Classifier 3 ignores explicit negation and matches contained in caption wording such as “the screenshot shows”. A real task claim elsewhere in that sentence still enters review: “the image shows a weather radar widget” supplies Weather evidence, while the word “image” alone supplies no screen-capture evidence. Selected exclusions apply within matched clauses so unrelated capabilities do not cancel each other. These checks reduce known errors; they do not establish semantic accuracy for arbitrary new prose.
 
-`data/task-reviews.json` supplies the deterministic editorial decision. `qualified` core or substantial native secondary capabilities can compete equally. `related` integrations appear separately with their narrower scope; `rejected` assignments are excluded. Missing reviews and changed metadata/contracts enter the queue. Explicit `overrides.review` holds and `overrides.exclude` take precedence; an inclusion override alone cannot authorize a recommendation.
+`data/task-reviews.json` supplies the deterministic editorial decision. `qualified` core or substantial native secondary capabilities can compete equally. `related` integrations appear separately with their narrower scope; `rejected` assignments are excluded. Missing reviews and changed contracts or relevant sources enter the queue and cannot qualify. Metadata wording changes enter reconciliation; unchanged reviewed source can preserve only the existing capability judgment. Explicit `overrides.review` holds and `overrides.exclude` take precedence; an inclusion override alone cannot authorize a recommendation.
 
 | Task | Direct fit | Insufficient scope |
 | --- | --- | --- |
@@ -18,18 +18,18 @@ Each type in `data/app-types.json` has a versioned `contract` with an outcome an
 | VPN | Inspect tunnel state and operate VPN connections | A status-only tunnel indicator |
 | Radio | Find and play radio stations | Wi-Fi/cellular radio hardware; song mixes |
 | Peripheral Batteries | Identify a peripheral and expose its charge | A small mouse battery indicator inside unrelated settings |
-| Battery | Computer battery measurements and charge/power controls | Phone/peripheral batteries or unplug-triggered behaviour |
+| Battery | Read the computer battery charge or state | Phone/peripheral batteries or unplug-triggered behaviour |
 | Notifications | Desktop notification history, management or DND | Sending app-specific alerts |
 | Clipboard | Browse/reuse clipboard history or manage snippets | Reading/copying clipboard content; cross-device transport |
 | Plugin Manager | Discover/install/update/remove plugins | Merely mentioning the plugin ecosystem |
 
-Other boundaries are expressed by their contracts and fixtures. Hosting another plugin's popup does not inherit its task. A wider plugin with complete native controls can qualify; its requirements belong in `constraints` and are shown beside the recommendation.
+Other boundaries are expressed by their contracts and fixtures. Hosting another plugin's popup does not inherit its task. A wider plugin with complete native controls can qualify; category-specific limitations belong in `constraints`; installation requirements belong in the shared `data/plugin-profiles.json` profile and are shown beside every recommendation for that plugin.
 
 ## Review a queued assignment
 
-Read the latest Monday or Thursday `classification-audit` artifact, or Tuesday `category-discovery-report`. Former picks with changed evidence and possible podium challengers receive priority, including single-category plugins. Former-pick priority survives replacement snapshots and later metadata edits until that assignment leaves the unresolved queue. Research cohorts exclude known related/rejected assignments, so tools that cannot compete cannot consume prospective podium positions. Scores prioritize research only. The committed `data/task-review-queue.json` preserves first/last seen dates and resolution counts; reports show the original queue date and retained priority. Complete lexical evidence is in the artifact.
+Read the latest Monday `recommendation-evidence` artifact or Tuesday/Thursday `review-evidence` artifact. Former picks with changed evidence and possible podium challengers receive priority, including single-category plugins. Former-pick priority survives replacement snapshots and later metadata edits until that assignment leaves the unresolved queue. Research cohorts exclude known related/rejected assignments, so tools that cannot compete cannot consume prospective podium positions. Scores prioritize research only. The committed `data/task-review-queue.json` preserves first/last seen dates and queue-departure counts (departures are not necessarily completed editorial reviews); reports show the original queue date and retained priority. Complete lexical evidence is in the artifact.
 
-For each assignment, inspect the captured listing, contract, upstream documentation and plausible counterexamples. Decide whether the tool accomplishes the complete outcome; record provider, hardware, setup and scope requirements. Use catalog evidence for an unambiguous direct claim and repository evidence for ambiguous or broad capabilities. Do not claim an installation test unless one was performed.
+For each assignment, inspect the captured listing, contract, upstream documentation and plausible counterexamples. Decide whether the tool accomplishes the complete outcome; record provider, hardware, setup and scope requirements. Use immutable repository passages for every recommendation. Catalog evidence can support research triage, related scope or rejection but cannot qualify a 1.3.0 recommendation. Do not claim an installation test unless one was performed.
 
 Create an explicit JSON decision array:
 
@@ -43,12 +43,13 @@ Create an explicit JSON decision array:
     "capabilities": ["capture-image", "export-image"],
     "constraints": ["Requires the documented native capture utilities."],
     "reason": "Creates a region screenshot and saves the image for reuse.",
-    "reviewedAt": "2026-10-12",
+    "reviewedAt": "2026-10-29",
     "provenance": "repository-evidence",
     "source": {
-      "url": "https://github.com/example/capture#features",
-      "revision": "the-reviewed-document-commit-or-content-hash",
-      "evidence": "README.md, capture/export features and requirements"
+      "url": "https://github.com/example/capture/blob/0123456789abcdef0123456789abcdef01234567/README.md",
+      "revision": "0123456789abcdef0123456789abcdef01234567",
+      "path": "README.md",
+      "evidence": "The exact supporting passage from the reviewed README."
     }
   }
 ]
@@ -66,7 +67,9 @@ npm run check
 npm run test:e2e
 ```
 
-The default proposal output is research only. Omitting a source records the captured catalog checksum, listing URL, and the actual description (or name) with its catalog index and plugin ID. Evidence must point to the passage supporting that assignment's decision, including related or rejected scope; a category's capability template or the reviewer's rationale is not a source passage. Repository judgments must include their actual source revision and passage location. Metadata hashes bind name, description and repository, not maintenance dates or engagement. A source implementation can change without a catalog metadata change; such changes need explicit re-review when discovered and are not automatically detected.
+Record shared requirements with `requirementsStatus: "reviewed"`, a review date and pinned `sources` in `data/plugin-profiles.json`; use `unknown` when they have not been reviewed. All task and requirement sources for a plugin must refer to the same reviewed commit so source comparison is coherent. A new qualification alone cannot bypass a missing requirements review.
+
+The default proposal output is research only. Omitting a source records the captured catalog checksum, listing URL, and the actual description (or name) with its catalog index and plugin ID. Evidence must point to the passage supporting that assignment's decision, including related or rejected scope; a category's capability template or the reviewer's rationale is not a source passage. Repository judgments must include their actual source revision and passage location. Metadata hashes bind name, description and repository, not maintenance dates or engagement. Source-tree observations automatically detect changes to relevant implementation files, manifests, dependencies and cited documents even when metadata stays unchanged. Changes need explicit re-review. Trees do not prove runtime behavior or detect changes in external services.
 
 ## Capture and replay
 
@@ -76,9 +79,9 @@ npm run audit:classification -- --input /path/to/inputs.json --output tmp/classi
 npm run compare:task-fit -- --input /path/to/baseline-inputs.json
 ```
 
-The audit writes inputs, JSON/Markdown reports and compact membership state under its output directory. Refresh also writes a priority queue and persists state/queue only on publication. Captures include full feeds, taxonomy, reviews, prior rankings/state/review queue, clock, classifier/methodology versions and code revision. Classifier 2 and 3 replay under their recorded methodologies; unknown versions fail. The task migration comparison preserves baseline taxonomy, reviews and selection as well as identical feeds/time. A taxonomy-only `--baseline` comparison remains supported for legacy methods; current eligibility migrations require `compare:task-fit` rather than silently reusing new decisions for the old taxonomy.
+The audit writes inputs, JSON/Markdown reports and compact membership state under its output directory. Refresh also writes a priority queue and persists state/queue only on publication. Captures include full feeds, taxonomy, reviews, shared requirements, source observations (including failures), prior rankings/state/review queue, clock, classifier/methodology versions and code revision. Classifier 2 and 3 replay under their recorded methodologies; unknown versions fail. The task migration comparison preserves baseline taxonomy, reviews and selection as well as identical feeds/time. A taxonomy-only `--baseline` comparison remains supported for legacy methods; current eligibility migrations require `compare:task-fit` rather than silently reusing new decisions for the old taxonomy.
 
-Dry runs write research artifacts but never change `data/` or published assets. Same-week publication skips fetching only when taxonomy, classifier and review hashes match. A methodology-only change requires the next week or explicit `--republish`; deliberate republishes keep earlier weekly changelog events. Monday/Thursday artifacts are retained for 90 days and uploaded on failures when present. Validated inputs are written before qualification so malformed reviews can be investigated without publishing them.
+Dry runs write research artifacts but never change `data/` or published assets. Same-week publication skips fetching only when taxonomy, classifier, review and shared-requirement hashes match. A methodology-only change requires the next week or explicit `--republish`; deliberate republishes keep earlier weekly changelog events. Monday and Tuesday/Thursday artifacts are retained for 90 days and uploaded on failures when present. Validated inputs are written before qualification so malformed reviews can be investigated without publishing them.
 
 ## Global eligibility and new categories
 

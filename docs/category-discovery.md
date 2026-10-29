@@ -1,14 +1,14 @@
-# Weekly category discovery pilot
+# Review evidence pilot
 
-The Tuesday 06:43 UTC workflow is a report-only prompt for editorial research. It has read-only repository/Actions permissions, does not call an LLM, and cannot publish categories, push commits, or open PRs. It also supports **Run workflow** on the Actions page.
+The Tuesday 06:43 UTC run of **Review evidence** includes this report-only discovery prompt. Thursday captures recommendation evidence without adding discovery state; manual dispatch chooses whether to include discovery. It has read-only repository/Actions permissions, does not call an LLM, and cannot publish categories, push commits, or open PRs. It also supports **Run workflow** on the Actions page.
 
 ## What to read
 
-Open **Weekly category discovery → Summary**. The same explanation is printed in the scan step's log. Download `category-discovery-report` for:
+Open **Review evidence → Summary**. The same explanation is printed in the scan step's log. Download `category-discovery-report` for:
 
 - `report.md`: priority task reviews, up to three ready probes, a short watchlist, and a copyable LLM prompt.
 - `report.json`: full candidate evidence, IDs, repository lists, descriptions, engagement, current category overlaps, suppression decisions, and history.
-- `inputs.json`: exact catalog, stats and explorer responses (explorer with URL, checksum, `generatedAt`, `method` and availability or warning), taxonomy, complete task decisions, prior rankings and the durable review queue, configuration, feed-validation baseline, previous observations, analysis time, and workflow commit. The report records its SHA-256 hash.
+- `inputs.json`: exact catalog, stats and explorer responses (explorer with URL, checksum, `generatedAt`, `method` and availability or warning), taxonomy, complete task decisions, shared requirements, source observations, prior rankings and the durable review queue, configuration, feed-validation baseline, previous observations, analysis time, and workflow commit. The report records its SHA-256 hash.
 - `state.json`: observations used for subsequent runs.
 
 The Summary contains only the live-catalog report; integration-test fixtures explicitly suppress summary output. History text states how many comparable observations exist, how many satisfy the 6–21-day window, and the earliest eligibility time when the baseline is still too recent. Displayed listings put prominent unclassified evidence first and label already-classified overlap or additional lexical matches separately.
@@ -68,7 +68,7 @@ node scripts/category-discovery.mjs
 DISCOVERY_PREVIOUS=/path/to/state.json node scripts/category-discovery.mjs
 ```
 
-The live command writes only `tmp/category-discovery/`. It uses the existing feed validator plus a 75% catalog preservation check, limits each response to 20 MiB, caps catalog/stats entry counts, and uses bounded retries and request timeouts. The workflow has a 10-minute timeout.
+The live command writes only `tmp/category-discovery/`. It uses the existing feed validator plus a 75% catalog preservation check, limits each response to 20 MiB, caps catalog/stats entry counts, and uses bounded retries and request timeouts. The combined workflow has a 30-minute timeout and validates a separately staged candidate site.
 
 For an offline replay, check out the workflow commit recorded in `inputs.json`, then run from that checkout (adjust the artifact path):
 
@@ -76,7 +76,7 @@ For an offline replay, check out the workflow commit recorded in `inputs.json`, 
 node scripts/category-discovery.mjs --input /path/to/inputs.json --output tmp/category-discovery-replay
 ```
 
-Replay uses only the captured inputs, including the explorer response and feed-validation baseline: it makes no network requests, does not read `data/`, and reproduces `report.json`, `report.md` and `state.json` byte for byte. Timestamps and a checksum alone could not replay an evolving graph, which is why the full response is kept. `ALGORITHM_VERSION` 5 adds task-review priorities and diverse handoff slots, resetting incompatible observations. Replay rejects other algorithm versions; use the capture's recorded workflow commit for algorithm 4 and earlier artifacts.
+Replay uses only the captured inputs, including the explorer response and feed-validation baseline: it makes no network requests, does not read `data/`, and reproduces `report.json`, `report.md` and `state.json` byte for byte. Timestamps and a checksum alone could not replay an evolving graph, which is why the full response is kept. `ALGORITHM_VERSION` 6 adds shared requirement and source observations to the task-review context, resetting incompatible observations. Replay rejects other algorithm versions; use the capture's recorded workflow commit for algorithm 5 and earlier artifacts.
 
 ## Four-week evaluation
 
