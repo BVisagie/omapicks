@@ -2,7 +2,9 @@ name: CI
 
 on:
   push:
+    branches: [main]
   pull_request:
+    branches: [main]
 
 permissions:
   contents: read
@@ -18,18 +20,22 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: Use Node.js
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version-file: .nvmrc
-          check-latest: true
-      - name: Install build dependencies
-        run: npm ci
-      - name: Test
-        run: npm test
-      - name: Verify production render
-        run: node build/index.mjs
-      - name: Install Chromium for browser checks
-        run: npx playwright install --with-deps chromium
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+        with:
+          browser: 'true'
+      - name: Validate workflow syntax
+        run: bash scripts/lint-workflows.sh
+      - name: Test and render
+        run: npm run check
       - name: Verify browser interactions and mobile layouts
         run: npm run test:e2e
+      - name: Preserve browser diagnostics
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ci-browser-diagnostics
+          path: test-results/
+          if-no-files-found: ignore
+          retention-days: 14
