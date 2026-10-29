@@ -427,18 +427,38 @@ function navLink(href, label, pathname) {
   return `<a href="${href}"${current}>${label}</a>`;
 }
 
+// The brand mark is inlined so it follows the theme tokens; the standalone icon.svg keeps fixed colours.
+function brandMark() {
+  return `<svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><rect width="64" height="64" rx="12" fill="var(--bg-2)"/><path d="m14 19 12 13-12 13" fill="none" stroke="var(--accent)" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"/><path d="M32 45h18" fill="none" stroke="var(--ink)" stroke-linecap="round" stroke-width="6"/></svg>`;
+}
+
+// Aurora, dot grid and grain sit behind every page; CSS only, disabled under reduced motion.
+function atmosphere() {
+  return `<div class="atmosphere" aria-hidden="true">
+    <div class="aurora aurora-a"></div>
+    <div class="aurora aurora-b"></div>
+    <div class="aurora aurora-c"></div>
+    <div class="dot-grid"></div>
+    <div class="grain"></div>
+  </div>`;
+}
+
 function nav(pathname = "/") {
+  // The finder trigger only works with JavaScript (it opens the palette), so it ships hidden.
   return `<header class="site-header">
-    <a class="brand" href="/" aria-label="OmaPicks home">OmaPicks</a>
-    <nav aria-label="Primary navigation">
-      ${navLink("/methodology/", "Method", pathname)}
-      ${navLink("/changelog/", "Changes", pathname)}
-      ${navLink("/feed/", "RSS", pathname)}
-      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme" aria-pressed="true">
-        <span class="theme-label-dark" aria-hidden="true">Dark</span>
-        <span class="theme-label-light" aria-hidden="true">Light</span>
-      </button>
-    </nav>
+    <div class="page-wrap">
+      <a class="brand" href="/" aria-label="OmaPicks home">${brandMark()}OmaPicks</a>
+      <nav aria-label="Primary navigation">
+        ${navLink("/methodology/", "Method", pathname)}
+        ${navLink("/changelog/", "Changes", pathname)}
+        ${navLink("/feed/", "RSS", pathname)}
+        ${pathname === "/" ? `<button class="finder-trigger" type="button" data-open-palette hidden><span class="finder-trigger-label">find a category</span><kbd>⌘K</kbd></button>` : ""}
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme" aria-pressed="true">
+          <span class="theme-label-dark" aria-hidden="true">Dark</span>
+          <span class="theme-label-light" aria-hidden="true">Light</span>
+        </button>
+      </nav>
+    </div>
   </header>`;
 }
 
@@ -480,8 +500,9 @@ function shell({ title, description, pathname, image, body, structuredData = nul
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
+  ${atmosphere()}
+  ${nav(pathname)}
   <div class="page-wrap">
-    ${nav(pathname)}
     <main id="main">${body}</main>
     <footer>
       <p>Plugin metadata, engagement signals, and previews come from <a href="https://plugins.omarchy.org/?sort=copies">Omarchy Plugins</a>. OmaPicks calculates the rankings independently and is not affiliated with Omarchy, 37signals, or omarchyplugins.com.</p>

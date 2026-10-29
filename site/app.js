@@ -1,5 +1,33 @@
 const root = document.documentElement;
 const themeButton = document.querySelector("[data-theme-toggle]");
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const finePointer = matchMedia("(pointer: fine)").matches;
+
+// Styles that depend on JavaScript (scroll reveals, tilt) key off this class so that without
+// scripts every element simply renders in its final state.
+root.classList.add("js");
+
+// Glass tiles: the cursor position lights the border and spotlight; .tilt tiles lean toward it.
+document.addEventListener("pointermove", (event) => {
+  const tile = event.target.closest?.(".glass");
+  if (!tile) return;
+  const rect = tile.getBoundingClientRect();
+  const x = event.clientX - rect.left;
+  const y = event.clientY - rect.top;
+  tile.style.setProperty("--mx", `${x}px`);
+  tile.style.setProperty("--my", `${y}px`);
+  if (tile.classList.contains("tilt") && finePointer && !reduceMotion) {
+    tile.style.setProperty("--rx", `${((0.5 - y / rect.height) * 8).toFixed(2)}deg`);
+    tile.style.setProperty("--ry", `${((x / rect.width - 0.5) * 8).toFixed(2)}deg`);
+  }
+}, { passive: true });
+
+document.addEventListener("pointerout", (event) => {
+  const tile = event.target.closest?.(".glass");
+  if (!tile || tile.contains(event.relatedTarget)) return;
+  tile.style.removeProperty("--rx");
+  tile.style.removeProperty("--ry");
+});
 
 for (const notice of document.querySelectorAll("[data-snapshot-at]")) {
   const ageDays = Math.floor((Date.now() - Date.parse(notice.dataset.snapshotAt)) / 86_400_000);
