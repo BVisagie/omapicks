@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "week": "2026-W44",
-  "generatedAt": "2026-10-26T07:36:52.835Z",
+  "generatedAt": "2026-10-29T19:20:24.170Z",
   "changes": [
     {
       "typeId": "network-diagnostics",
@@ -40,6 +40,32 @@
       "current": {
         "id": "io.github.dupontbertrand.omastatus",
         "name": "Omastatus"
+      }
+    },
+    {
+      "typeId": "network",
+      "typeName": "Network Connections",
+      "kind": "displaced",
+      "previous": {
+        "id": "community.network",
+        "name": "Network Manager (with Repeater & Hotspot)"
+      },
+      "current": {
+        "id": "io.github.shivamnarkar47.omarchy-hotspot",
+        "name": "Mobile Hotspot"
+      }
+    },
+    {
+      "typeId": "shortcut-guides",
+      "typeName": "Shortcut Guides",
+      "kind": "displaced",
+      "previous": {
+        "id": "huacnlee.which-key",
+        "name": "Which Key"
+      },
+      "current": {
+        "id": "fkcodes.key-promoter",
+        "name": "Omarchy Key Promoter"
       }
     }
   ],
@@ -160,6 +186,110 @@
       "current": {
         "id": "bottelet.is-it-down",
         "name": "Is It Down?"
+      }
+    },
+    {
+      "typeId": "docks",
+      "typeName": "Application Docks",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.claudsondouglas.arcdock",
+        "name": "Arc Dock"
+      },
+      "current": {
+        "id": "omadock",
+        "name": "Dock (OmaDock)"
+      }
+    },
+    {
+      "typeId": "network",
+      "typeName": "Network Connections",
+      "kind": "displaced",
+      "previous": {
+        "id": "angeeeld.omaltbar",
+        "name": "Omaltbar"
+      },
+      "current": {
+        "id": "community.network",
+        "name": "Network Manager (with Repeater & Hotspot)"
+      }
+    },
+    {
+      "typeId": "night-light",
+      "typeName": "Night Light",
+      "kind": "displaced",
+      "previous": {
+        "id": "kenny.nightlight",
+        "name": "Night Light"
+      },
+      "current": {
+        "id": "omarchy-display",
+        "name": "Display Settings"
+      }
+    },
+    {
+      "typeId": "display-monitors",
+      "typeName": "Display & Monitors",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.bmontythe3rd.display-manager",
+        "name": "Omarchy Display Manager"
+      },
+      "current": {
+        "id": "im0001gt.screens",
+        "name": "Screens"
+      }
+    },
+    {
+      "typeId": "notifications",
+      "typeName": "Notifications",
+      "kind": "displaced",
+      "previous": {
+        "id": "shavanced.notification-center",
+        "name": "Notification Center"
+      },
+      "current": {
+        "id": "njpatel.omapager",
+        "name": "Omapager"
+      }
+    },
+    {
+      "typeId": "tasks",
+      "typeName": "Task Lists",
+      "kind": "displaced",
+      "previous": {
+        "id": "maduki-tech.omado",
+        "name": "Omado"
+      },
+      "current": {
+        "id": "crmne.todoist",
+        "name": "OmaTasks for Todoist"
+      }
+    },
+    {
+      "typeId": "mini-games",
+      "typeName": "Mini-Games",
+      "kind": "displaced",
+      "previous": {
+        "id": "jankeesvw.omasweeper",
+        "name": "Omasweeper"
+      },
+      "current": {
+        "id": "io.github.ejuro.blow-off-some-steam",
+        "name": "Blow off some steam"
+      }
+    },
+    {
+      "typeId": "shortcut-guides",
+      "typeName": "Shortcut Guides",
+      "kind": "displaced",
+      "previous": {
+        "id": "slw.keyarchy",
+        "name": "Keyarchy"
+      },
+      "current": {
+        "id": "huacnlee.which-key",
+        "name": "Which Key"
       }
     }
   ]

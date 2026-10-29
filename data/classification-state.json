@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "classificationVersion": 3,
-  "generatedAt": "2026-10-26T07:36:52.835Z",
-  "taxonomyHash": "54fd6c4847defdacaee35f3fc58c873b76f4c4acd6862cd9192e4868800944ed",
+  "generatedAt": "2026-10-29T19:20:24.170Z",
+  "taxonomyHash": "8914d9ef61f66e5a5edd7a1fcc354a5746b552ad1c20a73da0e1ae05ed0657bd",
   "plugins": [
     {
       "id": "07dcolem.appimages",
@@ -69,6 +69,20 @@
       "types": [
         "launcher"
       ]
+    },
+    {
+      "id": "a-b.eyebreak",
+      "name": "Eye Break",
+      "metadataHash": "2d2899453ec91cde24f46d28d081eb861e5f7a28ce8d731fccaf190957a7a231",
+      "types": [
+        "notifications"
+      ]
+    },
+    {
+      "id": "a-b.other-monitor-workspaces",
+      "name": "Other Monitor Workspaces",
+      "metadataHash": "7ae55158622b627c5ae58795dfa0039c7912c3bddb8d1d14d24be9d15d294009",
+      "types": []
     },
     {
       "id": "a-weather-app.weather",
@@ -388,9 +402,7 @@
       "id": "agileautomation.omafloat",
       "name": "OmaFloat",
       "metadataHash": "7961678b5e7c0a28494d948b09a37bdfb69bc8bb7deacca98095323a747edadc",
-      "types": [
-        "mail"
-      ]
+      "types": []
     },
     {
       "id": "agileautomation.workspace-bands",
@@ -651,9 +663,7 @@
       "id": "alebairos.mx-quick-control",
       "name": "MX Quick Control",
       "metadataHash": "920534fdbc21c277d4b68c68436eb5d480e214f5c268fcc2c3d656668b9a4c0c",
-      "types": [
-        "battery"
-      ]
+      "types": []
     },
     {
       "id": "alertxsto.overview",
@@ -724,7 +734,7 @@
     {
       "id": "almorus.workspace-apps",
       "name": "Workspace Apps",
-      "metadataHash": "1d6c42733f0fef8b99e892abb9e838c8af3b5f249ecb2d4f0be2836512b5c20f",
+      "metadataHash": "a6fec48a75c3dce44ed8e5064979ceed73cae7b162d1f5d420ab17714b783ed8",
       "types": [
         "workspaces"
       ]
@@ -818,6 +828,12 @@
       "types": [
         "vpn"
       ]
+    },
+    {
+      "id": "anavarre.apple-podcasts",
+      "name": "Apple Podcasts",
+      "metadataHash": "fd720b1e1f78cadbdb5be85f3846494e4f0016d0afa1dc28403a4e7c196efa24",
+      "types": []
     },
     {
       "id": "anavarre.jira-search",
@@ -1206,6 +1222,14 @@
       ]
     },
     {
+      "id": "apach.notifications",
+      "name": "Notification Center",
+      "metadataHash": "6b33c3294bab8593e2ed4f6468068774c61651e0c8c10efa4bfdde14af011cd0",
+      "types": [
+        "notifications"
+      ]
+    },
+    {
       "id": "aperture",
       "name": "Aperture",
       "metadataHash": "e32ff1bd0c2f18d8f01de54cd478942d0ceaf9459d71706700a2c276cf52a58f",
@@ -1259,6 +1283,15 @@
       "metadataHash": "72ba0beecdf0f48106dce86b7aa75019e1bdbbc496d9abb5d3f079cce491e8ef",
       "types": [
         "notifications"
+      ]
+    },
+    {
+      "id": "apuyana.companion-display",
+      "name": "Companion Display",
+      "metadataHash": "4b4cb20d125bcde55d6e24a1332b61d40141726be6561edb9e76a1a8eccbd464",
+      "types": [
+        "ai-api-usage",
+        "phone-integration"
       ]
     },
     {
@@ -1527,9 +1560,7 @@
       "id": "ashis.satellite",
       "name": "Satellite",
       "metadataHash": "726499381a93096850f104dcc18436039c2c40bf159b3b2d4948057dad55a7be",
-      "types": [
-        "weather"
-      ]
+      "types": []
     },
     {
       "id": "ashmortar.zmk",
@@ -1709,6 +1740,15 @@
       ]
     },
     {
+      "id": "avb7.omarchy-controller",
+      "name": "omarchy-controller",
+      "metadataHash": "ab268dc7a268ba532cf0d600ad6285038261fbdf8bf6dfca68f9860b73c27a6b",
+      "types": [
+        "bluetooth",
+        "peripheral-battery"
+      ]
+    },
+    {
       "id": "avibarit.snappy",
       "name": "Snappy",
       "metadataHash": "860194a836dc35bc09bcb8feb43b007ffac866aedd3b008208e14f3be3a0b439",
@@ -1783,6 +1823,15 @@
       "types": []
     },
     {
+      "id": "axpico.clock",
+      "name": "Clock & Agenda",
+      "metadataHash": "bd3bd4676fda3feb146f8ecfd9d3948176d8d14b3b83bdc7d48a55efa442eeb1",
+      "types": [
+        "calendar",
+        "clock-timer"
+      ]
+    },
+    {
       "id": "ayan.nordvpn",
       "name": "OmaNord",
       "metadataHash": "600f8390f6b9ac12e55d2af29af8c24734389712d1d246fb7bb56a2bfa50aeb9",
@@ -1791,7 +1840,7 @@
     {
       "id": "ayman.football-matches",
       "name": "Football Matches",
-      "metadataHash": "c9c38f8b0a9f9c84fd066c9b193835c4fe17a18168e24c1309e283caf65383b0",
+      "metadataHash": "ac240bb9812318ad07497112b5da1ecb0ced377498e17a04dd613a66aa48ed85",
       "types": [
         "sports-scores"
       ]
@@ -2028,6 +2077,12 @@
       "types": []
     },
     {
+      "id": "bakugo.simplex",
+      "name": "SimpleX Chat",
+      "metadataHash": "155a57f564dae33b398678a055eb72b7a6d0fb816bbad89b8f09ab85b0e6355c",
+      "types": []
+    },
+    {
       "id": "bakugo.videostorebar",
       "name": "VideoStoreBar",
       "metadataHash": "352cf8debd0f1c091f9338a9d6e98e305fde1a5d471d251441a8491fb4224d92",
@@ -2207,6 +2262,14 @@
       "types": []
     },
     {
+      "id": "berat.analog-clock",
+      "name": "Analog Clock",
+      "metadataHash": "585c88fa8421dc0662328310ffa11612a8b531becab382d5886c12fede6ba91a",
+      "types": [
+        "clock-timer"
+      ]
+    },
+    {
       "id": "bergdahlchi.omari",
       "name": "Omari",
       "metadataHash": "36be13147731b0eb9b258afba7f1cdb03377acb1c7b6ddb942994b05cfb304ae",
@@ -2351,6 +2414,18 @@
       "types": []
     },
     {
+      "id": "billy79.auratrace",
+      "name": "AuraTrace",
+      "metadataHash": "656c6c144904097312ab4547370ac313d61f985af700651ceb8eecacd83108b9",
+      "types": []
+    },
+    {
+      "id": "billybonks.microsandbox-monitor",
+      "name": "Microsandbox Monitor",
+      "metadataHash": "844d3e33cbe5f128ad7fb56dc8aded3b8315283f2cfc1cfeb1aafabe034af3e8",
+      "types": []
+    },
+    {
       "id": "binaryclock.clock",
       "name": "Binary Clock",
       "metadataHash": "2fe40b2d0c482b5bc5561c82c58c3db0277d0c49b53ba6d39a245cfcefda5c29",
@@ -2455,12 +2530,32 @@
       "types": []
     },
     {
+      "id": "blackcode.omacolorbar",
+      "name": "OmaColorBar",
+      "metadataHash": "4041768dec0a93b466436be035fa1c5f0efbd4d517693e0b7ef6800a4406e78d",
+      "types": [
+        "weather"
+      ]
+    },
+    {
+      "id": "blackcode.omadbngin",
+      "name": "OmaDBngin",
+      "metadataHash": "b5b71712b8675d6ca93c67ecd9740de49bf0e95add5e8e31e904d24e91f9d87f",
+      "types": []
+    },
+    {
       "id": "blackcode.omalangy",
       "name": "OmaLangy",
       "metadataHash": "d01709cc43329c527612620517947bd2c6b855f9f84f85647f122b82a276ff59",
       "types": [
         "keyboard-layouts"
       ]
+    },
+    {
+      "id": "blackcode.omatableplus",
+      "name": "OmaTablePlus",
+      "metadataHash": "aa44828d41d500d3ecd8fcb18d7b136db16a0020ecac80847cf48a9561fb83e7",
+      "types": []
     },
     {
       "id": "blackcode.power-menu",
@@ -2480,8 +2575,9 @@
     {
       "id": "blacksheep.calendar",
       "name": "Datebook",
-      "metadataHash": "dacc15385232444e95847294fcddbc76ac72dcd67b57df5483adb91cc0e284f7",
+      "metadataHash": "19865b8ea4bd9dfc5cdb3de85da66b76d54c9f4dfe62389b8e4e43aea60a0854",
       "types": [
+        "mail",
         "calendar",
         "clock-timer"
       ]
@@ -2753,6 +2849,12 @@
       "types": []
     },
     {
+      "id": "bramvanoploo.omarchy-lumine-capture",
+      "name": "OmaLumineCapture",
+      "metadataHash": "c6ba1fef72c99f22b93520f003608f86852fdd6b785c26d58e7c43264463f9d5",
+      "types": []
+    },
+    {
       "id": "bramvanoploo.omarchy-t2-linux",
       "name": "OmApple",
       "metadataHash": "26d7d9f28c03854266fbde1744102d4b18b1e0104601ef42dc7b12d7121fd4fa",
@@ -2937,6 +3039,12 @@
       "types": []
     },
     {
+      "id": "bruce.debt-ledger",
+      "name": "Debt Ledger",
+      "metadataHash": "aafee46355162192ac085266fe4a3a775f54a975a333240470ffea937dbc239c",
+      "types": []
+    },
+    {
       "id": "brunosilveira.soundcloud",
       "name": "SoundCloud",
       "metadataHash": "18a4755435a0375559b5c85b50f6b9860b1155d4b34d7f9dad0efa43f9f0825d",
@@ -2981,6 +3089,12 @@
       "types": [
         "lock-idle"
       ]
+    },
+    {
+      "id": "busabase",
+      "name": "Busabase",
+      "metadataHash": "d8d985d174c66949b25430d2a989f49198841a6e13b1d4192cb972e2509b02a4",
+      "types": []
     },
     {
       "id": "buschbrian.night-sky",
@@ -3032,6 +3146,12 @@
       "id": "c4pt0r.vortex",
       "name": "Vortex",
       "metadataHash": "c95fd576612b1a79f1ad2d87d260f02bf993541db81b741dfd4cce5227fe52c6",
+      "types": []
+    },
+    {
+      "id": "c622.camilladsp",
+      "name": "CamillaDSP",
+      "metadataHash": "fb864fa19cad6860a958aea30b82dcc8d07cdac0863ef843c63557fc2dcfe0e4",
       "types": []
     },
     {
@@ -3564,6 +3684,18 @@
       ]
     },
     {
+      "id": "cikr-repos.anyconnect-sso",
+      "name": "AnyConnect SSO",
+      "metadataHash": "64b2c2b7f9270b26b93e95d052578b4c85ea8be574ca8f322c127bb77f32e9c8",
+      "types": []
+    },
+    {
+      "id": "cikr-repos.remote-access",
+      "name": "Remote Access",
+      "metadataHash": "595feb9080d7c38056080b66a6bd1dbdf64fe209e18edff00a635452df59afa7",
+      "types": []
+    },
+    {
       "id": "cinco.5bars",
       "name": "5bars",
       "metadataHash": "101698b9a8b650ab7dbdc7943c8e2b9c8d2a3cdc8e8d1b2ba6a360a37682edbc",
@@ -3682,6 +3814,14 @@
       "name": "Cobalt Download",
       "metadataHash": "33290b9845d57035e9b79d9a1cd355dfacc913fdc524c6b86ea001a3a5407a0c",
       "types": []
+    },
+    {
+      "id": "clouddown.fast-lid",
+      "name": "Fast Lid",
+      "metadataHash": "7de54d182cdeadd3095596792a67ad921aca6a69fdca9e30e9b23b65dc4b90cc",
+      "types": [
+        "lock-idle"
+      ]
     },
     {
       "id": "clumzeez.reader",
@@ -4204,6 +4344,12 @@
       "types": []
     },
     {
+      "id": "com.sipstack.pulse-phone",
+      "name": "Pulse Phone",
+      "metadataHash": "206ec17fb71bd3321264440cf8f271b1137a624fad5ea3502ad5498031faed2f",
+      "types": []
+    },
+    {
       "id": "com.sovchat.omarchy",
       "name": "SovChat",
       "metadataHash": "6f014b01a231ec26910b4bdaff3e7b2274c540a2fe70b96bb2bea67f4410ed4c",
@@ -4609,7 +4755,7 @@
     {
       "id": "crmne.files",
       "name": "Files",
-      "metadataHash": "a5bf38251dac276b9441dbb05aab064727828ff62a0007348b074441f1898b68",
+      "metadataHash": "6ae8c80cc63b6c89ee6ac5af05c65634dabd3fa0ba95fd67a0f396581a461863",
       "types": [
         "themes-appearance",
         "file-search"
@@ -4655,7 +4801,7 @@
     {
       "id": "crmne.omastats",
       "name": "OmaStats",
-      "metadataHash": "c01f238357b12aa1872239d84d827734e955148b96e83fac7f0a5f4a8370da43",
+      "metadataHash": "8697e637b3f9adbae4e46b860aef58acf5217bdf1c8cb5cbf6b6ef55f88a872e",
       "types": [
         "system-monitor",
         "battery",
@@ -4697,7 +4843,7 @@
     {
       "id": "crucialjun.aula-f75",
       "name": "AULA F75",
-      "metadataHash": "42d009dbe439f7c5b2bffda705583e7d25dd10e24a164e85a5c3d0d867b97081",
+      "metadataHash": "c6f03abf70216f5a4ca8066f9df58b2c489f44a350e15556017df0e60715fc6a",
       "types": []
     },
     {
@@ -4835,6 +4981,12 @@
       "types": []
     },
     {
+      "id": "cybercivizen.clawdius",
+      "name": "Clawdius",
+      "metadataHash": "751b8a4960129f111c8cba2b9ed37cc2906994b0a8e8db5709cfc78c09116ad8",
+      "types": []
+    },
+    {
       "id": "cyberdyne.battery",
       "name": "Battery",
       "metadataHash": "ac27d0a4869949a7b78b0ecde30376351c2c16e1e601c672371ba94230261b35",
@@ -4910,6 +5062,14 @@
       "types": []
     },
     {
+      "id": "dagelf.vampireslayer",
+      "name": "Vampire Slayer",
+      "metadataHash": "9a6133dffc20f3679e6f767be83cb86a11c20db1f15d2163d5e6bd0a884a3762",
+      "types": [
+        "gaming"
+      ]
+    },
+    {
       "id": "dagnele.network",
       "name": "Network",
       "metadataHash": "5469cd960635655d299e2503cd383e54077868ffeefa3c55b93d8a40b8fb6dd9",
@@ -4952,6 +5112,12 @@
       "types": []
     },
     {
+      "id": "dakai.omapager",
+      "name": "Omapager AI",
+      "metadataHash": "19159120a5632586fcb4c15ce10a70c52221a07862ca7086ccbe8550ae779eef",
+      "types": []
+    },
+    {
       "id": "damir.ytmusic",
       "name": "YouTube Music",
       "metadataHash": "f245abac5ba8bba7118e7060722e5d80e17bd95a7142b30d15e37af805e9dd4d",
@@ -4974,7 +5140,7 @@
     {
       "id": "dandiccf.battery-care",
       "name": "Battery Care",
-      "metadataHash": "fd0e6bec80c9402a43a91d676df5dfae416210a3f9d4cf75ae0204ff77619233",
+      "metadataHash": "c8c01abf2714a5ab02d86e25b8c7f768c107e9ddd57667b20766382746ca5bef",
       "types": [
         "battery"
       ]
@@ -5333,6 +5499,12 @@
       "types": []
     },
     {
+      "id": "ddrglazer.ytdlp",
+      "name": "yt-dlp Downloads",
+      "metadataHash": "01e4e39b36d364c199d7ff94daa507e5ace89089f2b56cab4d082ac5362ca216",
+      "types": []
+    },
+    {
       "id": "de.gransoftware.jumpy",
       "name": "Jumpy",
       "metadataHash": "12226f033be469f5833905e361d1aefc134ff089595c1ef227c9f7850ac20149",
@@ -5475,6 +5647,14 @@
       "name": "Volumio",
       "metadataHash": "b41191db8860c12820b41dec435c6adb6cb7e4305107190bd45226555dac27fb",
       "types": []
+    },
+    {
+      "id": "demiurg.system-meters",
+      "name": "System meters",
+      "metadataHash": "bf2277a5af96b3e80d65cade65131afb9e61922f2f87eb97e292a3ba5604b0c6",
+      "types": [
+        "system-monitor"
+      ]
     },
     {
       "id": "denialbb.beeper-relay",
@@ -6056,6 +6236,12 @@
       "types": []
     },
     {
+      "id": "dinuphan.omaboy",
+      "name": "OmaBoy",
+      "metadataHash": "751ebb41ce9ae1c4e32c5fa5764ee9b7ba0a51524075c081f5e7bf6f961ea540",
+      "types": []
+    },
+    {
       "id": "diogocezar.aeolus",
       "name": "Aeolus",
       "metadataHash": "d6a5275a55f8a49963db902cf3f0bd595bae907bd9f3148a355792f24b7ac1d4",
@@ -6141,6 +6327,14 @@
       "metadataHash": "6f8941c2f59181c1f49243bf6bb42451db4e163d738cbe26461e5bef76bc9a92",
       "types": [
         "system-updates"
+      ]
+    },
+    {
+      "id": "dj.music",
+      "name": "Music",
+      "metadataHash": "867e963421437edf724dd79f5e5c2606fe43b1f17c5adf2cda9091286179088c",
+      "types": [
+        "music"
       ]
     },
     {
@@ -6367,6 +6561,12 @@
       "types": []
     },
     {
+      "id": "dorneles.convert-orb",
+      "name": "Morph",
+      "metadataHash": "30e5325b74d0eb7087c0eeddb3c3fa901a0820c437e0eb346131274e36b3c51c",
+      "types": []
+    },
+    {
       "id": "dorneles.countdown",
       "name": "Countdown",
       "metadataHash": "6cf246ed62c8b5ad0b3a2dca3c41218a8390caf15b5cafdd4a42b787089ecb42",
@@ -6497,6 +6697,20 @@
       "types": []
     },
     {
+      "id": "dpetrariu.omafin",
+      "name": "Omafin",
+      "metadataHash": "1149a3d9bc2464ffcced8447a57b1d09ee287e8c794aef9cfa9ab17f992814af",
+      "types": [
+        "music-players"
+      ]
+    },
+    {
+      "id": "dpetrariu.omamich",
+      "name": "Omamich",
+      "metadataHash": "60b39c33ab0c976063b88e298ee876bbf0882ef8f97871f9b8cd9be33aeb88fe",
+      "types": []
+    },
+    {
       "id": "dphov.omarchy-moergo-companion",
       "name": "Omarchy Moergo Companion",
       "metadataHash": "ee17ffb577e7c1243774712018c096d0f783e4f40b2928cbf98f177ffb093f71",
@@ -6516,9 +6730,7 @@
       "id": "drace3000.bottom-dock",
       "name": "EZ Docker",
       "metadataHash": "4e8261c4fca7434f4539a150067889df7b57a2eb03ffa262938cec1309cfd410",
-      "types": [
-        "containers"
-      ]
+      "types": []
     },
     {
       "id": "drakahari.dlms",
@@ -6785,6 +6997,15 @@
       "types": []
     },
     {
+      "id": "eh0.headphones",
+      "name": "Headphones",
+      "metadataHash": "d7211f73fbb0a6f203e5d8020c24ed9301ec7bbc96c2a2482e4ee3d656064ece",
+      "types": [
+        "audio",
+        "peripheral-battery"
+      ]
+    },
+    {
       "id": "eikenes.appdrawer",
       "name": "App Drawer",
       "metadataHash": "da38db5bd2f986b85510ed86407c028fbe7622cba70bfde2f64451b40e4b4dbc",
@@ -6915,6 +7136,12 @@
       ]
     },
     {
+      "id": "entroit.omacam",
+      "name": "OmaCam",
+      "metadataHash": "1d3474fb12873ac7405d1877041fcfb12b0792a40792fce26904d3863ebd5a52",
+      "types": []
+    },
+    {
       "id": "entroit.omaflow",
       "name": "OmaFlow",
       "metadataHash": "f89b03da4abe2334063e29b6ac8361a6504c30d4b820b72a2c0cf9a5ac9e8bfe",
@@ -6933,6 +7160,22 @@
       "name": "Fcitx5 input method",
       "metadataHash": "63e377e6e4dbb535ca2fb06d6bd5f06ee2ae86a66dcd29d0e9e640532a0037cf",
       "types": []
+    },
+    {
+      "id": "eric.power",
+      "name": "Power",
+      "metadataHash": "730497eff4316e5b87f8420e62ddc7c68a2094062e30a14e1532d08b6e965807",
+      "types": [
+        "peripheral-battery"
+      ]
+    },
+    {
+      "id": "eric.session-restore",
+      "name": "Session Restore",
+      "metadataHash": "7042ef420feb9a42e210ad4efbe205707ac00feba2b936f039012c7929ce44bd",
+      "types": [
+        "display-monitors"
+      ]
     },
     {
       "id": "eric.tempest",
@@ -7360,6 +7603,12 @@
       "types": []
     },
     {
+      "id": "fenrirrhogar.omarchy360",
+      "name": "Omarchy360 for SSL 12",
+      "metadataHash": "68a53a37a775f9a565ce243407797e660df5d2212ce73f8a9044e2fe03abe887",
+      "types": []
+    },
+    {
       "id": "fernando.jarvis-ai-monitor",
       "name": "Jarvis AI Monitor",
       "metadataHash": "7317f01c82d98bac50f6246c99230a84a8206939ddbd6a8e5176592c08630d93",
@@ -7479,6 +7728,14 @@
         "timers-alarms",
         "focus",
         "tasks"
+      ]
+    },
+    {
+      "id": "flpems.device-battery",
+      "name": "Device Battery",
+      "metadataHash": "7ae640b9578c4079769fc5bdb70f026bb78775d713d3354c44417be8375ea2c9",
+      "types": [
+        "peripheral-battery"
       ]
     },
     {
@@ -7853,6 +8110,22 @@
       ]
     },
     {
+      "id": "gabodev.bg-rotate",
+      "name": "Background Rotation",
+      "metadataHash": "0307b681f49550769ec71daf64f290bf20f7ac6097184b10f8dd977832adc2ee",
+      "types": [
+        "themes-appearance"
+      ]
+    },
+    {
+      "id": "gabodev.notification-center",
+      "name": "Notification History",
+      "metadataHash": "ea0f714122acd2005c3e45387fd65953cdf8fcc7391df964d3d3c31da4934cc8",
+      "types": [
+        "notifications"
+      ]
+    },
+    {
       "id": "gabox.cliamp-now-playing",
       "name": "cliamp Now Playing",
       "metadataHash": "fed5074463e30cb3690838ef99b8576c17727129748f19a07a50786e2e27808e",
@@ -8112,6 +8385,12 @@
       "types": []
     },
     {
+      "id": "germanviter.openvpn",
+      "name": "OpenVPN",
+      "metadataHash": "85e79802a6587e9b8d5c1381a7a708a26bc5efed3fb472e83fed0e9fba330b2f",
+      "types": []
+    },
+    {
       "id": "gerritwanderer.keycade-lazyvim",
       "name": "Keycade LazyVim",
       "metadataHash": "6ed74283e7e4e20945d8fc453d12df7822cd8f2a9a593db959fc26db720e5a2b",
@@ -8176,6 +8455,14 @@
       "name": "Heart Rate",
       "metadataHash": "964abacb44572b70e2c4ff7518c395a8ec53aec9ef5a64f210350e4d87a07e20",
       "types": []
+    },
+    {
+      "id": "gig3m.claude-api-usage",
+      "name": "Claude API Usage",
+      "metadataHash": "4e23fd3b00aabdff02b653adb5ec9cac3a11b930c02fc193b22b9e11fcbf4c0e",
+      "types": [
+        "ai-api-usage"
+      ]
     },
     {
       "id": "gigasolo.fizzy",
@@ -8316,6 +8603,14 @@
         "screen-recording",
         "ocr",
         "gaming"
+      ]
+    },
+    {
+      "id": "gleasonmt.live-wallpaper",
+      "name": "Live wallpaper",
+      "metadataHash": "47a2ac3b2ab5e744270bc7eaa4abe12363521bc761ad5fa631830a35673be03a",
+      "types": [
+        "wallpaper"
       ]
     },
     {
@@ -8709,8 +9004,10 @@
     {
       "id": "grvc.stonks",
       "name": "Stonks",
-      "metadataHash": "d21deabf86ad256f16508038cf366767cd2c7031a57afb99b31400e21a1c10d1",
-      "types": []
+      "metadataHash": "4ede5f7bcaa1be85161e1640c50178e5b50218641e3411b9f36fc5e800086811",
+      "types": [
+        "screenshots"
+      ]
     },
     {
       "id": "gshulga.dashboard",
@@ -9143,6 +9440,14 @@
       ]
     },
     {
+      "id": "hello-lock",
+      "name": "Hello Lock",
+      "metadataHash": "2396e3d7ac2ff783b7162fc39b52387a9ddace0ba59a7ae7cae1f4d1f5afd796",
+      "types": [
+        "lock-idle"
+      ]
+    },
+    {
       "id": "hendkai.omarchy-mercedes",
       "name": "Mercedes SoC",
       "metadataHash": "bae5214325b7723a884e5174e6849bd8835c0b933d68a0043951d5d45e5730b2",
@@ -9261,6 +9566,16 @@
       "name": "Netmount",
       "metadataHash": "f6a5b665b76a957ecb90d403294c07b0b81883b2e2f795440832d0f876cef053",
       "types": []
+    },
+    {
+      "id": "honor.shutdown-timer",
+      "name": "Shutdown Timer",
+      "metadataHash": "89d917696355b9dd46e378fdb1d8d653aa7055d400f1136d0034a421aafc7e6e",
+      "types": [
+        "lock-idle",
+        "timers-alarms",
+        "power-menu"
+      ]
     },
     {
       "id": "hooji.expose",
@@ -9429,6 +9744,14 @@
       "metadataHash": "49247d873fb7518e340f3534fcfd396c20ce2cba0852d7e63e870f232bf933bd",
       "types": [
         "system-monitor"
+      ]
+    },
+    {
+      "id": "iaeluk.omawall",
+      "name": "omaWall",
+      "metadataHash": "6242047b88d18053a4b2890df372a7143c70fcd39fec1f7a7676ec40c9c82107",
+      "types": [
+        "wallpaper"
       ]
     },
     {
@@ -10040,6 +10363,12 @@
       ]
     },
     {
+      "id": "io.github.88srzh.token-monitor",
+      "name": "Token Monitor Hub",
+      "metadataHash": "f688e48584eead2daa2fe96d7fa597b5d5ba173ed242ab176f4787d70545000c",
+      "types": []
+    },
+    {
       "id": "io.github.9khaledsayed.task-manager",
       "name": "Task Manager",
       "metadataHash": "318a2481a6439d3513877e2bf0bc022a633b22794d2baecdfa0407423faed39b",
@@ -10389,6 +10718,14 @@
       ]
     },
     {
+      "id": "io.github.ahmadrun.temp-mail",
+      "name": "Temp Mail",
+      "metadataHash": "9c98be0c32d07d6504811ec7b7e396b3585198f3472f30d5c6f0eb444a022411",
+      "types": [
+        "mail"
+      ]
+    },
+    {
       "id": "io.github.aholbreich.systemd-user-services",
       "name": "Systemd User Services",
       "metadataHash": "b75bf83664b92199c9c76a663a406588b9a58e0f8d59c682faec5672e40524c0",
@@ -10462,9 +10799,11 @@
     },
     {
       "id": "io.github.akton1.background-worker-talk-to-me",
-      "name": "Background Worker Talk To Me",
-      "metadataHash": "bb84df059977fd3bcb83a179ed20ab13e2a533120615b05e922460f6e1860b77",
-      "types": []
+      "name": "Agent Handshake",
+      "metadataHash": "fc3d1c1e8ee54d174f8037562c0991f623fda30ea0ef58907259cb6f6adab611",
+      "types": [
+        "system-monitor"
+      ]
     },
     {
       "id": "io.github.akton1.copyfx",
@@ -10483,7 +10822,7 @@
     {
       "id": "io.github.akton1.omashaders",
       "name": "OmaShaders",
-      "metadataHash": "7091f505b8c870556b040806ada14162bbd9bcd660d765328947709706edfb63",
+      "metadataHash": "a00d66233bf5d72154574c9681849e1d5a35c4d6f703ce7304a1698c529a1a2d",
       "types": [
         "wallpaper"
       ]
@@ -10673,6 +11012,12 @@
       "types": [
         "clock-timer"
       ]
+    },
+    {
+      "id": "io.github.allankayan.omahorn",
+      "name": "Omahorn",
+      "metadataHash": "9939605321a975d189cda6f0af882d4191af5a0f85f1a3f4c8a7852c25fa712f",
+      "types": []
     },
     {
       "id": "io.github.allstars101-sudo.dyson-air",
@@ -11076,6 +11421,12 @@
       "types": []
     },
     {
+      "id": "io.github.apachaiz.quay",
+      "name": "Quay",
+      "metadataHash": "15864236932268577ec67a2c31ce1b722b613c0f6baacfdffee2afae5f5f816e",
+      "types": []
+    },
+    {
       "id": "io.github.aphelion-studios.omamoodist",
       "name": "OmaMoodist",
       "metadataHash": "97b7503cba630239b0099cded067a5c505b1ed0229707585b97e23a12e25c45f",
@@ -11094,6 +11445,12 @@
       "types": [
         "keyboard-layouts"
       ]
+    },
+    {
+      "id": "io.github.arbabmujtaba.memdive",
+      "name": "Memdive",
+      "metadataHash": "d4854554d2ba303f445aebdef50a7f0e5ecb701b53b8377aa626c475cbc5f449",
+      "types": []
     },
     {
       "id": "io.github.arcanavox.colorhistory",
@@ -11408,6 +11765,12 @@
       "types": []
     },
     {
+      "id": "io.github.avillagran.omarchy-mailbox",
+      "name": "Mailbox",
+      "metadataHash": "3e641c570d3c3dc5b180b4984339a310be18305ec33c0b51ad4d894690309e6a",
+      "types": []
+    },
+    {
       "id": "io.github.avillagran.omarchy-supernotch",
       "name": "SuperNotch",
       "metadataHash": "4af1573266dcd689ce5fee1995697f66d2a31916716a225fc26d023691986b80",
@@ -11429,7 +11792,7 @@
     {
       "id": "io.github.avillagran.omarchy-x-panel",
       "name": "X Panel",
-      "metadataHash": "894345359efd825e6e6bb4ec848d9a740ed0f4cc8cf59fdcfb70372b57dbc5b0",
+      "metadataHash": "0d7c0d8e077b775d5650afa2d05b6d68923a8449bda797397cd5d8523370d5c4",
       "types": []
     },
     {
@@ -11652,6 +12015,15 @@
       "types": []
     },
     {
+      "id": "io.github.bblicke1.omarkdash",
+      "name": "omarkDash",
+      "metadataHash": "2e8159f9ed2190e7714c3785281c69afeab4d22b248ebf423f1a61ad7be23bf5",
+      "types": [
+        "system-monitor",
+        "clock-timer"
+      ]
+    },
+    {
       "id": "io.github.bborncr.d30-label",
       "name": "D30 Label Printer",
       "metadataHash": "39c3c4f7f62f11856ed257abf8218583233c8a06224136d3eee9b7d85b76ae04",
@@ -11706,6 +12078,12 @@
       "types": []
     },
     {
+      "id": "io.github.beresn.process-killer",
+      "name": "Process Killer",
+      "metadataHash": "db47cf0cf26835d140e7d5eae2c6371fd8e0bb91c6c8de7d40e649d30e6f0d28",
+      "types": []
+    },
+    {
       "id": "io.github.berrimi.omacursor",
       "name": "omacursor",
       "metadataHash": "1d3f88582bbd952f16484ade3314cb0f01c4c169b6bca520816f6bc132a80c3a",
@@ -11733,6 +12111,12 @@
         "music",
         "phone-integration"
       ]
+    },
+    {
+      "id": "io.github.beyonddreadful.omatrix",
+      "name": "Omatrix",
+      "metadataHash": "61d0f39016ee6cee8542294edc14afab807bc867897e8be0f8096e8e2562be46",
+      "types": []
     },
     {
       "id": "io.github.bhanuprassad.cricket",
@@ -11801,6 +12185,12 @@
       "id": "io.github.bjarkimg.yamaha-avr",
       "name": "Yamaha AVR",
       "metadataHash": "31db33c8317fae8c6bd29406989dc590ac3e64a97e1a64ae529290c39429849b",
+      "types": []
+    },
+    {
+      "id": "io.github.bjornramberg.omarchy-power-flow",
+      "name": "Omarchy Power Flow",
+      "metadataHash": "4af502cda498db9674b21a7f612fd30ecfa547318c1ef05b1f9ace564bdbc149",
       "types": []
     },
     {
@@ -11926,6 +12316,18 @@
       "id": "io.github.borferkic.katana",
       "name": "Sound BlasterX Katana",
       "metadataHash": "d4229b3bf32fec34b079ee50dfba0efd2377e4e44552dbd1ae30b73e7e8fd2e8",
+      "types": []
+    },
+    {
+      "id": "io.github.borferkic.minimized-windows-bar",
+      "name": "Minimized Windows Bar",
+      "metadataHash": "cad5968a297b51610923aa9f95cb167f901a235f718a15ec6eb7aeb7c4fef96e",
+      "types": []
+    },
+    {
+      "id": "io.github.borferkic.obs-status-guard",
+      "name": "OBS Status & Guard",
+      "metadataHash": "418db74a528ef1a73627515a597d50eab3d018e7e425b3afd14a07305ef15214",
       "types": []
     },
     {
@@ -12072,6 +12474,12 @@
       "id": "io.github.broken-branch.atlas",
       "name": "Markdown Atlas",
       "metadataHash": "1ad57bfbd517ab09785c58dead126e2e37e5bec594ab852bb3e9500b368dfc9a",
+      "types": []
+    },
+    {
+      "id": "io.github.broken-branch.dvb",
+      "name": "dvb",
+      "metadataHash": "481707ee47f838b87d5a126bf036b277f81efe8c649e097a01b279051aec0b63",
       "types": []
     },
     {
@@ -12671,6 +13079,15 @@
       ]
     },
     {
+      "id": "io.github.clear-built-dev.london-motion",
+      "name": "London Motion",
+      "metadataHash": "0746cd0a3585e602b78f0d9fcd75431600a5a3547d738466e42a08b081ddd454",
+      "types": [
+        "weather",
+        "clock-timer"
+      ]
+    },
+    {
       "id": "io.github.closetheloop-dev.token-fish",
       "name": "Token Fish",
       "metadataHash": "ce7a00e7d869f4176acde6530d9099f89af4ae7ab2353b1faedfd978e1c4d4d2",
@@ -12919,6 +13336,15 @@
       "types": []
     },
     {
+      "id": "io.github.cylon58.boot-wake",
+      "name": "Boot & Wake",
+      "metadataHash": "2097138dd17f03fb18c937278b79bf0e30f9a7460febf55f75a33dd37418d8f5",
+      "types": [
+        "launcher",
+        "lock-idle"
+      ]
+    },
+    {
       "id": "io.github.cylon58.codex-crash-model-picker",
       "name": "Codex Crash Diagnostic Model Picker",
       "metadataHash": "2b8178e07a2b9bd95b633b7aee8219ab19be5f8fe4a0dbe5f0555889296b0f69",
@@ -13119,9 +13545,21 @@
       "types": []
     },
     {
+      "id": "io.github.dankestrick.omacircuitlab",
+      "name": "OmaCircuitLab",
+      "metadataHash": "c6a1442fbf8025245e8c87be0733aa3cfcd5591c5f81eeb8672465e019d12e8a",
+      "types": []
+    },
+    {
       "id": "io.github.dankestrick.omagravastar",
       "name": "OmaGravastar",
       "metadataHash": "0e994f580e3490a32862c3692485bb310fda34c97d6a71b0b5fcbeee5e587a6c",
+      "types": []
+    },
+    {
+      "id": "io.github.dankestrick.omaiphone",
+      "name": "OmaiPhone",
+      "metadataHash": "e69ae99d10481f4ec7e076b0f631ccf524989edf97923b00c3ec6391d2b85e70",
       "types": []
     },
     {
@@ -14082,6 +14520,20 @@
       ]
     },
     {
+      "id": "io.github.duarte-gui.camguard",
+      "name": "CamGuard",
+      "metadataHash": "8e7065a516a41bb45386013893f951a1b396ea24c1388de851c8b0ba5c5f760f",
+      "types": []
+    },
+    {
+      "id": "io.github.duarte-gui.ha-overview",
+      "name": "HA Overview",
+      "metadataHash": "4594c862ad81eddfad362ba228c6f23fa32296a8c5e678a51247aad219595390",
+      "types": [
+        "smart-home"
+      ]
+    },
+    {
       "id": "io.github.dubearte.scratchpad",
       "name": "Scratchpad for Obsidian",
       "metadataHash": "a8ca4e10d54ecb13fe7bf56871e888b142f2478a72041bc876771acd6e476031",
@@ -14117,6 +14569,12 @@
       "id": "io.github.duketopceo.pplx",
       "name": "Perplexity Search",
       "metadataHash": "086eb8c3602428260c84693c1590b77363abf8d1d3a3eab31d5841f3e59b9855",
+      "types": []
+    },
+    {
+      "id": "io.github.dumpsteredition.owarchy",
+      "name": "OWARCHY",
+      "metadataHash": "d344216eb8070b5b3b45eb00bbaf404dc9e8f7b53220988def9c96f58391e858",
       "types": []
     },
     {
@@ -14477,6 +14935,12 @@
       "types": []
     },
     {
+      "id": "io.github.elliotalien.tide",
+      "name": "Tide",
+      "metadataHash": "e4dfe9ce9c160458019cbdbc196ab93572fa5738a0f94b32cb97b331b425b815",
+      "types": []
+    },
+    {
       "id": "io.github.elvis-christian.homelab-launcher",
       "name": "HomeLab Launcher",
       "metadataHash": "0d76092024c9b27abce5d7c9c420f07dc3439f109eaf25d5a710b841f07c0741",
@@ -14539,7 +15003,13 @@
     {
       "id": "io.github.enobale.kneadra",
       "name": "Kneadra",
-      "metadataHash": "c64cd4ad38ff2fe7017b9e76293576f251379b8e38a991b973016c69a31fd6ee",
+      "metadataHash": "4331eddeeaff13d287eb28798441c7afce13f7187463f5ce0c30199b9a1df447",
+      "types": []
+    },
+    {
+      "id": "io.github.enoceli26-oss.biblia-es",
+      "name": "Biblia en español",
+      "metadataHash": "a5e674f1a064f5b87764991a7e296d09553ec1847ee9f29d5df9ac6a8c2941f9",
       "types": []
     },
     {
@@ -15239,6 +15709,12 @@
       "types": []
     },
     {
+      "id": "io.github.gabrielforster.big-cursor",
+      "name": "Big Cursor",
+      "metadataHash": "bd6f67db1e0a2eb92f96033278976b4565f6310509da6d5c814e54c3ef0904f5",
+      "types": []
+    },
+    {
       "id": "io.github.gabrielharfield.protondrive-backup",
       "name": "Proton Drive Backup",
       "metadataHash": "b58f19f6b5944a3a64dfedcc232811eb409e2c50b582f8f0804265e5b3a6fadb",
@@ -15550,7 +16026,7 @@
     {
       "id": "io.github.gsus67.omarchy-taskbar",
       "name": "Omarchy Taskbar",
-      "metadataHash": "b0697e147feaeb697bc47a1f83c890b6f0dd6aa73596f91e4b2e2b7299fccda2",
+      "metadataHash": "f1384447cf70deb20a0e0666ec72ab76f55a809c91868a2c68392530b1c2a00a",
       "types": []
     },
     {
@@ -15772,6 +16248,12 @@
       "id": "io.github.hcduller.vpn",
       "name": "VPN",
       "metadataHash": "5e87cb732c6dd884462876a43addcdd450e8d580142cea1234b9b5be85cb749f",
+      "types": []
+    },
+    {
+      "id": "io.github.heast13.kyrr",
+      "name": "kyrr",
+      "metadataHash": "23bd24a4c8fc7298f3758f30fe3a02e7d9b178f2df51ff3af1915471bed63717",
       "types": []
     },
     {
@@ -16048,6 +16530,41 @@
       "types": []
     },
     {
+      "id": "io.github.hugorolimf.audio",
+      "name": "Island Sound",
+      "metadataHash": "0563a2f0dd492927e1313211f416b48651a152f45f31373dff0ba09cc594952a",
+      "types": []
+    },
+    {
+      "id": "io.github.hugorolimf.bluetooth",
+      "name": "Island Bluetooth",
+      "metadataHash": "69099a598f3ca97ad196f65071cb0479b2362e8975fa70f08d9fd69bf2a72fab",
+      "types": []
+    },
+    {
+      "id": "io.github.hugorolimf.clock",
+      "name": "Island Clock",
+      "metadataHash": "1f6dca378cfe4015d3095395fa60a06dcde0d8cc1ea1b069a83cf30e534693e9",
+      "types": [
+        "calendar",
+        "clock-timer"
+      ]
+    },
+    {
+      "id": "io.github.hugorolimf.dock",
+      "name": "Glass Dock",
+      "metadataHash": "a19bad07c18ae3ea5913f3a11087cc18b1f307abbc6e7c53f52006fda8159e79",
+      "types": [
+        "docks"
+      ]
+    },
+    {
+      "id": "io.github.hugorolimf.kit",
+      "name": "Island Kit",
+      "metadataHash": "b1bc608a736cc163c02a4ac847df22a47f1a3f992f49de835655bfc216da5a4c",
+      "types": []
+    },
+    {
       "id": "io.github.huligabuliga.omagoocal",
       "name": "Omagoocal",
       "metadataHash": "674e466d813c101041e912c86341d7169e54c6bc9e19c0e5cde1c6f4481334e6",
@@ -16079,6 +16596,12 @@
       "types": [
         "ai-api-usage"
       ]
+    },
+    {
+      "id": "io.github.hussainanjar.gcal",
+      "name": "Google Calendar",
+      "metadataHash": "7a7cb7922655bd915fa4eee3f1653e5d4468317e051d468df5ca0ece3f800dc4",
+      "types": []
     },
     {
       "id": "io.github.hussainanjar.precious-metals",
@@ -16516,6 +17039,12 @@
       ]
     },
     {
+      "id": "io.github.jagrat7.omarchy-tts-local",
+      "name": "Text to Speech Local",
+      "metadataHash": "17782f603ae1ba1038e7b2849b57e436a5a76f108b934e5fc6141a1ace41b07d",
+      "types": []
+    },
+    {
       "id": "io.github.jakeelamb.omarchy-life",
       "name": "Omarchy Life",
       "metadataHash": "765e5533955e440546dc3b239032223bfcc3987ffafe0e7e6ffaf952109fca13",
@@ -16596,7 +17125,7 @@
     {
       "id": "io.github.jasonlnheath.mount-monitor",
       "name": "Mount Monitor",
-      "metadataHash": "408d38981466945504b7a488c3eda955548fdbd55a794c5aa5b781caa971074c",
+      "metadataHash": "88ebe075df76d256f4deaae311a3e1a8701095b8f580b28d27c4e98ca09edb80",
       "types": []
     },
     {
@@ -17014,10 +17543,7 @@
       "id": "io.github.jkro.miners",
       "name": "GPU Fleet",
       "metadataHash": "08a3fa7e48eccfb82b7f47433e60d75f6d275589dc7f663fa30d37eb7a640dbb",
-      "types": [
-        "system-monitor",
-        "music-players"
-      ]
+      "types": []
     },
     {
       "id": "io.github.jlescanog.open-with",
@@ -17185,6 +17711,12 @@
       "id": "io.github.jonhenshaw.voxtype-prism",
       "name": "Voxtype Prism",
       "metadataHash": "287a2282b1a9f3fdd73e848bf3dd7229f8d2f56c3d6bfbab0694c67e8b783707",
+      "types": []
+    },
+    {
+      "id": "io.github.jordan-alcock.ask-agent",
+      "name": "Ask agent",
+      "metadataHash": "88432c1517cfb628e50c8ab71682b72fea51742648f11add8f1a1a39f954ce8d",
       "types": []
     },
     {
@@ -17490,12 +18022,26 @@
       ]
     },
     {
+      "id": "io.github.kaplanhalil.quickdrawer",
+      "name": "Quick Drawer",
+      "metadataHash": "b9d72a01bf4c139c6d44ce77e819151517eaa4d98b0933d51f8d31fb5688395e",
+      "types": []
+    },
+    {
       "id": "io.github.kaplanhalil.topstats",
       "name": "TopStats",
       "metadataHash": "5e1f564e72305d24df2d2cb5885d72b553b152d8c2e4808d97e384e64f922c2e",
       "types": [
         "system-monitor",
         "network-diagnostics"
+      ]
+    },
+    {
+      "id": "io.github.karpage.oma-year",
+      "name": "Oma Year Planner",
+      "metadataHash": "928c9717db60d9a737f5ed0de5dcbfc4d191e4c482fd94b17fe1c29c2a6d1143",
+      "types": [
+        "calendar"
       ]
     },
     {
@@ -17638,6 +18184,14 @@
       "metadataHash": "79a48e5c99379fb1de0b0d8687f4fb107b7a09ec2bb8d326d57f835e1eb16b60",
       "types": [
         "dev-ports"
+      ]
+    },
+    {
+      "id": "io.github.kingokeke.audio-boost",
+      "name": "Audio Boost",
+      "metadataHash": "3363b1a1e50c0a6f3b78d72ca51a0116ec8f8edf31802e1362a250b740e6947a",
+      "types": [
+        "audio"
       ]
     },
     {
@@ -18083,6 +18637,12 @@
       "types": []
     },
     {
+      "id": "io.github.lekonidus.offline-translate",
+      "name": "Offline Translate",
+      "metadataHash": "0986548e7f0b39e03d4499310530b89062f5529a9770ae766720a730699700e8",
+      "types": []
+    },
+    {
       "id": "io.github.lemonade-sdk.lemonade",
       "name": "Lemonade",
       "metadataHash": "3f432bb36e645d57960e28cc75b945276ffde454e7906941b8bfa41ce0e95b0c",
@@ -18258,6 +18818,14 @@
       "metadataHash": "43e5310f1415811eeaef86d5cdd1b5dded9d15c9e6743d0f5903106a5e05e8b8",
       "types": [
         "notes"
+      ]
+    },
+    {
+      "id": "io.github.londelo.tsnake",
+      "name": "tsnake",
+      "metadataHash": "13ad8ada7b288e6a1db059fe1f14d4c356cb70e7e69034c6b29388dc99e73524",
+      "types": [
+        "mini-games"
       ]
     },
     {
@@ -18931,6 +19499,12 @@
       ]
     },
     {
+      "id": "io.github.mattbudde.kata",
+      "name": "Katana GO Monitor",
+      "metadataHash": "916ab8ae3c4ae0bf528f03c5b2d6b720e0d98bbc246e5d00e075e013ffaa8b19",
+      "types": []
+    },
+    {
       "id": "io.github.mattflower.ddc-input-select",
       "name": "Monitor Input",
       "metadataHash": "1376269091921fcf0adbd14dbcf646ba02ad5f9ed59ea65bf8c9dcefd6580501",
@@ -18942,6 +19516,20 @@
       "metadataHash": "fff13d7eea65ed34a1e954af9564b99f5302b348680f7237684b02b96144bfe9",
       "types": [
         "weather"
+      ]
+    },
+    {
+      "id": "io.github.mattwolfgang.plugin-guard",
+      "name": "Plugin Guard",
+      "metadataHash": "d51ae347728fc8df031f2dd554ede70276f5b11b123cd04fbf3bac8cba037f1d",
+      "types": []
+    },
+    {
+      "id": "io.github.mattwolfgang.simple-cliamp-bar-controls",
+      "name": "Simple CLIAmp Bar Controls",
+      "metadataHash": "2dd608d8f75458733dd651a8e9744f9d83d2390a827356aa38d8672b82883c5e",
+      "types": [
+        "music"
       ]
     },
     {
@@ -19097,8 +19685,9 @@
     {
       "id": "io.github.mewset.omajuice",
       "name": "omajuice",
-      "metadataHash": "7bda22e220ab46729766e532d3870979152fcc7b92c8aec73ab0079f79a9c72a",
+      "metadataHash": "832cc43274823c69638456a02114454db2d9c86adfa57c3634e366645da3201d",
       "types": [
+        "audio",
         "peripheral-battery"
       ]
     },
@@ -19280,6 +19869,12 @@
       "id": "io.github.moerdowo.mayar",
       "name": "Mayar",
       "metadataHash": "557351812ef4e54f1fec8b4ddc509211eee864a21f4f39372351102bc573625e",
+      "types": []
+    },
+    {
+      "id": "io.github.mohiitp.pocus",
+      "name": "Pocus",
+      "metadataHash": "95367e2a82e269593ca66dd94aa1cad96447f4d7e5879ebc8ba082cf61e0fda8",
       "types": []
     },
     {
@@ -19499,6 +20094,12 @@
       ]
     },
     {
+      "id": "io.github.mudiam.patchwatch",
+      "name": "Patchwatch",
+      "metadataHash": "7bc099e0e585f944a928732301d15de72ebeb88e675e8423b7e033cc98286805",
+      "types": []
+    },
+    {
       "id": "io.github.mug31.wacom-bamboo",
       "name": "Wacom Bamboo",
       "metadataHash": "be623cd8bc31adc40ca0296022687490ee3551b642a94fd809594bc6d6b0b80d",
@@ -19624,6 +20225,14 @@
       "metadataHash": "d5c65936c6129fa690e4e58923b23ac84a5eea7960cc5de9a610d97b74de3ffa",
       "types": [
         "weather"
+      ]
+    },
+    {
+      "id": "io.github.nathankramm.kanso-disk-space",
+      "name": "Kanso Disk Space",
+      "metadataHash": "c717d76e126e10290f9a15dd2c2ab2ce2af2c1684569caef014a54138cd6d863",
+      "types": [
+        "system-monitor"
       ]
     },
     {
@@ -20477,7 +21086,7 @@
     {
       "id": "io.github.peterholko.math",
       "name": "Math Time",
-      "metadataHash": "434a49b113517e289f89a2fd479543e866f0eba2c186730389cbf0a9ce053c9b",
+      "metadataHash": "9ee7d7fe5eebec41b9f8d8c420b932bc600f5919276aeeccb1ec110c11d2866e",
       "types": []
     },
     {
@@ -20502,6 +21111,12 @@
       "id": "io.github.peterholko.school-mode",
       "name": "School / Free Time",
       "metadataHash": "2dfe3f38f831386f46d47cb6e7257d602f507c942c7cadff1953049b962e013b",
+      "types": []
+    },
+    {
+      "id": "io.github.peterszarvas94.omaquery",
+      "name": "omaquery",
+      "metadataHash": "f68d1a5f0c89c83b9c76afd3fb5103912d54b3f180fbf671d57e98d8bb2a35e5",
       "types": []
     },
     {
@@ -20906,6 +21521,12 @@
       ]
     },
     {
+      "id": "io.github.pughouselabs.maestro",
+      "name": "Maestro",
+      "metadataHash": "7924484f0d75ac6acc5e6a0c82f6235074d475f252f3674c6f995b42707d8448",
+      "types": []
+    },
+    {
       "id": "io.github.pulsebrowser.pomodoro",
       "name": "Pomodoro",
       "metadataHash": "285dd6b62a099c4d56ccb191be6fadf87373ec21823aa947511927019f8113f3",
@@ -20927,6 +21548,12 @@
       "types": []
     },
     {
+      "id": "io.github.pushmotta.penna",
+      "name": "Penna",
+      "metadataHash": "e1c8360bdfea36ff1de1701ebdd7b5649dc5ec7994483e57600c4c827c517b06",
+      "types": []
+    },
+    {
       "id": "io.github.qadram.nvme-health",
       "name": "NVMe Health",
       "metadataHash": "60ecad5d78dbd3759f2ba60bfc361e06931536313c24d30a975a0d3f5b68c009",
@@ -20943,7 +21570,7 @@
     {
       "id": "io.github.qempexe.altscape",
       "name": "Altscape",
-      "metadataHash": "8eb0bd3c4da93fd0cd9c133e86d83a1b127c3c1e36b7351cb6e477a068390113",
+      "metadataHash": "da5c2857e880b7866440313a2c15060c837cc82dd98460dae6eb2afd51f14a0e",
       "types": [
         "workspaces",
         "window-management"
@@ -20964,7 +21591,7 @@
     {
       "id": "io.github.qempexe.hangman",
       "name": "Hangman",
-      "metadataHash": "b44d1b345d240006442c8fcabc14f12358b9513dee71ad1ec1001db3a0896fb7",
+      "metadataHash": "c6f9586d60fc474d96e3e333a36bef4cd8f9db89990a21cc0d890a690352bfa8",
       "types": []
     },
     {
@@ -20989,8 +21616,8 @@
     },
     {
       "id": "io.github.qempexe.omaotp",
-      "name": "omaotp",
-      "metadataHash": "2085f8e90dd877723aa83123103e8bba0fa4fac28bb74fe39dc959ee7eed2e83",
+      "name": "Omaotp",
+      "metadataHash": "2c4f6be0a092f4bfb6aa09412112221ee40f058319d2e8e1092a19eeeaff1bd9",
       "types": [
         "password-manager"
       ]
@@ -21004,7 +21631,7 @@
     {
       "id": "io.github.qempexe.omatune",
       "name": "Omatune",
-      "metadataHash": "4755555f2a3a4ad6a982212e76e98b5364bc5ae75b912614bcb4e2954fc4f9d7",
+      "metadataHash": "cb1d3b6b074c582f04b99423f8baa684b82e9ad2975eeff13e3ac28847c7df3e",
       "types": []
     },
     {
@@ -21171,6 +21798,14 @@
       "types": []
     },
     {
+      "id": "io.github.rajshimpi.sports-hub",
+      "name": "Sports Hub",
+      "metadataHash": "90e504222f9a7c064168051856befb45e52e093fec11ad4b13ec788f10f5d8e7",
+      "types": [
+        "sports-scores"
+      ]
+    },
+    {
       "id": "io.github.ralphk-86.omarchy-proton",
       "name": "Proton VPN + Kill Switch + Torrent Tunnel",
       "metadataHash": "c64ab457328d9df92eead8730cd126bb780e5f5b8ffc9b444903db3fdf07918c",
@@ -21180,6 +21815,20 @@
       "id": "io.github.ramackersjp.agenttalk",
       "name": "AgentTalk",
       "metadataHash": "33cc6835f3fe8f32d4a8246520e2f5338a4e3e4fdbb941f85a09a7fc2551047c",
+      "types": []
+    },
+    {
+      "id": "io.github.ramoncardena.omaisessions",
+      "name": "omAiSessions",
+      "metadataHash": "509fce7fae5f4b2cf7c7e7dbe73a2774729e3da037ea3d0648cd1c0ed5cafcd0",
+      "types": [
+        "ai-assistant"
+      ]
+    },
+    {
+      "id": "io.github.ramoncardena.omason",
+      "name": "omaSon",
+      "metadataHash": "61d5e6ae64599767250d4333e1ede1fdfd3472571479d2876320e7378fd926e0",
       "types": []
     },
     {
@@ -21630,6 +22279,12 @@
       "types": []
     },
     {
+      "id": "io.github.robertg761.dualsense",
+      "name": "DualSense desktop control",
+      "metadataHash": "bd19344793a61b91a33632b0c408504938ce438b6fbc4c2046b5d0cb040cfc98",
+      "types": []
+    },
+    {
       "id": "io.github.robin0315.omanetease",
       "name": "NetEase Cloud Music",
       "metadataHash": "7de61815cb599dc83b7a9d015711b6d5badfd83adfb4e0b4f0bb72bdb66cc5fb",
@@ -21910,6 +22565,14 @@
       "metadataHash": "a24113f8516a42a85a87bf1df13c8599faf219ea2a9867361bdd62d628116ac5",
       "types": [
         "battery"
+      ]
+    },
+    {
+      "id": "io.github.ruuts.studio-display",
+      "name": "Studio Display",
+      "metadataHash": "46841c2295d1bacdbfb8c3110fa34790ab7cb5cdbd5ab0ef1273e02836d673fe",
+      "types": [
+        "brightness"
       ]
     },
     {
@@ -22280,6 +22943,12 @@
       "types": []
     },
     {
+      "id": "io.github.schmittcn.keybloom",
+      "name": "Keybloom",
+      "metadataHash": "06f8892e5805fd369a2c89e36ce40c6dc21e8c1ee79cd1dad60713f10a2cf8a1",
+      "types": []
+    },
+    {
       "id": "io.github.schmunk42.shortkeyz",
       "name": "Shortkeyz",
       "metadataHash": "f73df941308a1efef0ca26abd526eced722c073a2b54bd4cff730969d075d72b",
@@ -22335,6 +23004,15 @@
       "types": []
     },
     {
+      "id": "io.github.sebas200702.wallhub",
+      "name": "WallHub",
+      "metadataHash": "45ddc482e9c5e72ff6f458abbab70ba07d1a6efc49784c62b16821b7ee8484a8",
+      "types": [
+        "wallpaper",
+        "gaming"
+      ]
+    },
+    {
       "id": "io.github.second-state.omarchy-remote",
       "name": "Omarchy Remote",
       "metadataHash": "9e3d124ce4015908af925cefeb8d20bd05dac060df0db13c0ea9f7304d3ad54d",
@@ -22375,6 +23053,14 @@
       "types": [
         "vpn",
         "network"
+      ]
+    },
+    {
+      "id": "io.github.selfcrypto.worklog",
+      "name": "Freelance Worklog",
+      "metadataHash": "3d49a31e06a5803eb224df2c1490dcf7eb6b1c93749d5fc50cc4b99e7fdeb903",
+      "types": [
+        "ai-assistant"
       ]
     },
     {
@@ -22536,6 +23222,12 @@
       ]
     },
     {
+      "id": "io.github.shinobix9x.linksy",
+      "name": "Linksy",
+      "metadataHash": "85986d67ed5abcd4e49028d8b2fdb801213b8c7f145820de2bed8afb2dd25e1e",
+      "types": []
+    },
+    {
       "id": "io.github.shirak-semonian.bibletales",
       "name": "BibleTales",
       "metadataHash": "3256932e999582d58ab515e347102d2c1ceb2757a15130679ff651026ad0e3e7",
@@ -22623,6 +23315,12 @@
       "id": "io.github.signaldirective.radial-menu",
       "name": "Radial Menu",
       "metadataHash": "a2bfb4a1f391a57919d1d73bcf360c279544e475bbff01d92ae3cf195e26b698",
+      "types": []
+    },
+    {
+      "id": "io.github.silentjay.monzoglance",
+      "name": "Monzo Glance",
+      "metadataHash": "f2995278316ddbfe4d217d16daf02809e3398a096b5a0fa5802151e46b899ba0",
       "types": []
     },
     {
@@ -23010,6 +23708,12 @@
       ]
     },
     {
+      "id": "io.github.spalencsar.omarchy-files",
+      "name": "Omarchy Files",
+      "metadataHash": "04389b825dfd30808f21681f84782afe7aff9b59ec6cea49afd12f7d1af98801",
+      "types": []
+    },
+    {
       "id": "io.github.spiramirabilis.autoperf",
       "name": "Auto Performance",
       "metadataHash": "d3f6754a3f20a5e176d7e6f2254ed52b1ecf2e46ea346d0466166cd9057aefe5",
@@ -23120,6 +23824,14 @@
       "name": "OBSBOT Center",
       "metadataHash": "dab91f766782488287cdae7203b7904833d1bc86169aa418b195ae3b187cdb0a",
       "types": []
+    },
+    {
+      "id": "io.github.steveb98.segue",
+      "name": "Segue",
+      "metadataHash": "ef70b0fcf48ec072f1945c2c021dcb8b523b9373128176dff491468ccc04b327",
+      "types": [
+        "music-players"
+      ]
     },
     {
       "id": "io.github.steveclarke.headroom",
@@ -23615,10 +24327,9 @@
     {
       "id": "io.github.terrifiedbug.omacast",
       "name": "OmaCast",
-      "metadataHash": "28963e40ea7b4168c9673742954f43fb2091694f487f131a865c580f2cffc79f",
+      "metadataHash": "baea37815aa2b28f476025ca3d3082df018c89b4a89e04e469d7d4cc3bb55ba1",
       "types": [
-        "launcher",
-        "clock-timer"
+        "launcher"
       ]
     },
     {
@@ -23631,9 +24342,7 @@
       "id": "io.github.terrifiedbug.omascreensaver",
       "name": "OmaScreensaver",
       "metadataHash": "976cc765337a81fac55bf6e355f61d96712e5b7298c9a31bb80a9befc378fc63",
-      "types": [
-        "screensavers"
-      ]
+      "types": []
     },
     {
       "id": "io.github.terrifiedbug.omaspaces",
@@ -23998,6 +24707,12 @@
       "id": "io.github.tomtorggler.asana",
       "name": "Asana",
       "metadataHash": "9e948b57e8ab0e7d83d4801f1a97823e70a7096d7e26d528edf5f5b83a7b328b",
+      "types": []
+    },
+    {
+      "id": "io.github.tonciz.agents-budget",
+      "name": "Agents Budget",
+      "metadataHash": "b1f886fa1e7a28f5a1eb2c6fbf3f369ccf030af1aefa4e4da301cb742bf29392",
       "types": []
     },
     {
@@ -25414,6 +26129,22 @@
       ]
     },
     {
+      "id": "ismoil.ai-limits",
+      "name": "AI limits",
+      "metadataHash": "7177d854f523f4c6d3f665acfe2c487bdcf297a02fd3b7ee7f13a5251d7f5abb",
+      "types": [
+        "ai-api-usage"
+      ]
+    },
+    {
+      "id": "ismoil.memory",
+      "name": "Memory",
+      "metadataHash": "6b6d07aafcd1203c3d29ea1698a9db811100abf81e198a40484d706e4871665b",
+      "types": [
+        "system-monitor"
+      ]
+    },
+    {
       "id": "itcaat.easy-calendar",
       "name": "Easy Calendar",
       "metadataHash": "548bacdea6be17d660b681305877794f22247bb903a7e2b7be9b48e0c97cc282",
@@ -25571,12 +26302,34 @@
       ]
     },
     {
+      "id": "jaideepo7.now-playing",
+      "name": "Now Playing",
+      "metadataHash": "39072819428658b01336972d17fab224a97b2b73c07c055c4f01a359af71695f",
+      "types": []
+    },
+    {
       "id": "jaj.tidal",
       "name": "Tidal Music",
       "metadataHash": "89cf05f8037ce2f1d01d94f84da966fb9d937f43c209b8f1ad7d4a89138972b7",
       "types": [
         "music",
         "music-players"
+      ]
+    },
+    {
+      "id": "jakubkozera.audio-mixer",
+      "name": "Audio Mixer",
+      "metadataHash": "9646ca7066d8af767baadc2e69b129f29d74677095c7f3f95adaf7418e797e54",
+      "types": [
+        "audio"
+      ]
+    },
+    {
+      "id": "jakubkozera.window-switcher",
+      "name": "Window Switcher",
+      "metadataHash": "7d38f286ad701131ff0b0dce81e0354e01eae777aee796a41ac5c36fa7b34789",
+      "types": [
+        "window-management"
       ]
     },
     {
@@ -26004,9 +26757,9 @@
       "types": []
     },
     {
-      "id": "jfarr.drawer",
-      "name": "Bar Drawer",
-      "metadataHash": "c6555367cf4697d1c1cbcc62006239ca84c03d0fe4d839d79ccb2d929378ed1b",
+      "id": "jgarza.clinic",
+      "name": "Clinic",
+      "metadataHash": "933f614353115d6e594cb0e0aa0967ad1f85fabb5204978c02473b4c71bdfbd3",
       "types": []
     },
     {
@@ -26024,9 +26777,35 @@
       ]
     },
     {
+      "id": "jgarza.hlsovpp",
+      "name": "Scroll Overview (hlsovpp)",
+      "metadataHash": "f83688eec96d1e1d3be64fdbcbb27ebe64fa7c3e969d633453f09e1c0c501060",
+      "types": []
+    },
+    {
+      "id": "jgarza.hyprripple",
+      "name": "HyprRipple",
+      "metadataHash": "0ebd5fa80528a72405f03534de88130a9711e50f673489622e0e0c0ef8b09976",
+      "types": []
+    },
+    {
       "id": "jgarza.joyride",
       "name": "Joyride",
       "metadataHash": "fbce1f9c5477a3f98743fe7e807e8739049843bc32dda6590b9ac4bf2b6854f4",
+      "types": [
+        "workspaces"
+      ]
+    },
+    {
+      "id": "jgarza.loadout",
+      "name": "Loadout",
+      "metadataHash": "bf014a160f444d41aeb0c5ce18ea8e39f51ef4c3adf6b159a77f25c1b706bc7a",
+      "types": []
+    },
+    {
+      "id": "jgarza.minimap",
+      "name": "Minimap",
+      "metadataHash": "1fce2a88cfb9bcbf4384f388fbbab71053ba9e735546d3adeace74459eec6670",
       "types": [
         "workspaces"
       ]
@@ -26503,6 +27282,12 @@
       "types": []
     },
     {
+      "id": "jonathan.dutch-tax-calculator",
+      "name": "Dutch Tax Calculator",
+      "metadataHash": "25b1baa144e38866bf76e3e13a81e80d05c30ee566bd1d009068a013368cd236",
+      "types": []
+    },
+    {
       "id": "jonathan.gospel-of-the-day",
       "name": "Gospel of the Day",
       "metadataHash": "0fa71c73925e8f8529ab2de7c8b13a19fcc823013b5d75bd9ea229b4bd1068a7",
@@ -26717,6 +27502,12 @@
       ]
     },
     {
+      "id": "juangalt.seafile",
+      "name": "Seafile",
+      "metadataHash": "eb81a8e803726f18e196e0dcf74effa9f86521db5920f281aa52c9a5dae993fb",
+      "types": []
+    },
+    {
       "id": "juanmanueldaza.yoga260-fold",
       "name": "Yoga 260 Fold",
       "metadataHash": "21bd3cea5595331d55cc631e957a7fa09ff220d5105b7bea8bec47b7d60ccaf1",
@@ -26913,6 +27704,14 @@
       "types": []
     },
     {
+      "id": "kamendcz.focus-border",
+      "name": "Focus border",
+      "metadataHash": "ad64e724ee343965a1abfa36f16fadd1013f1168f705ac72e6ab367e53f97e14",
+      "types": [
+        "workspaces"
+      ]
+    },
+    {
       "id": "karamble.demarchy",
       "name": "Demarchy",
       "metadataHash": "d3c08570358cd38f9f44e86267488e6eeee6d1aaa2886388f9ea1015a3fa549f",
@@ -26981,12 +27780,27 @@
       "types": []
     },
     {
+      "id": "kazu.clock-i18n",
+      "name": "Multilingual Clock",
+      "metadataHash": "191b1cdc2d42f0e461a1ebec615027cd0f888e9430e480068172afbec29e41b5",
+      "types": [
+        "calendar",
+        "clock-timer"
+      ]
+    },
+    {
       "id": "kazu.touchbar",
       "name": "Touch Bar",
       "metadataHash": "0ec078486617c5fb14b52bcc4c2ac82303a0a0d0615dbed61f89f1683d7bb163",
       "types": [
         "brightness"
       ]
+    },
+    {
+      "id": "kazu.usage-credits",
+      "name": "Agents — Usage credits",
+      "metadataHash": "6f351acc937b615fc11d6816a81a272908e519fc92b27777f3f12cdb11d90d8d",
+      "types": []
     },
     {
       "id": "kb.calculator",
@@ -27231,9 +28045,7 @@
       "id": "keybind-manager",
       "name": "Keybind Manager",
       "metadataHash": "84d9ba1cf6860573db5670d37657176472ce28a1f32b196992e87ab4baa5fc75",
-      "types": [
-        "keybinding-managers"
-      ]
+      "types": []
     },
     {
       "id": "keybindings.king",
@@ -27596,6 +28408,14 @@
       ]
     },
     {
+      "id": "ksolomon.omasolid",
+      "name": "OmaSolid",
+      "metadataHash": "642285dc97f872a4cea91758e09ea1652f2470b5691c9a550f7088938bb916e6",
+      "types": [
+        "timers-alarms"
+      ]
+    },
+    {
       "id": "ksxx.liftoff",
       "name": "LiftOff",
       "metadataHash": "72a2968bcadd321ad62217889b562c0f734a1bf05a9e84cc1646f29b5debf51c",
@@ -27737,6 +28557,12 @@
       ]
     },
     {
+      "id": "larrynz.backitup",
+      "name": "BackIt Up",
+      "metadataHash": "c5f3cad792d833133138517fe275652e367d568eebcdc1556b4b362d60896a97",
+      "types": []
+    },
+    {
       "id": "larrywcox.site-thread",
       "name": "UniFi SiteThread",
       "metadataHash": "da1627801697042ff98d5c9b27dfaa97cc62b746e534a94d70bb1905e42ed659",
@@ -27766,6 +28592,30 @@
       "id": "lbarto12.omarchy-wpe",
       "name": "Wallpaper Engine",
       "metadataHash": "719d3d9c4f120983baf7bf0c9a88e51d623bebb20100646c6a4bb569e6500240",
+      "types": []
+    },
+    {
+      "id": "lbssousa.fingerprint",
+      "name": "Fingerprints",
+      "metadataHash": "b4d638a5be0545afe11ded4624d797de21b4c320cbbe9286bb7076770bb3a999",
+      "types": []
+    },
+    {
+      "id": "lbssousa.omapin",
+      "name": "Omapin",
+      "metadataHash": "dfc45beef0ac939069094e3960684a65ba9f66f416a7fe7e1a626ae0f14f5c6d",
+      "types": []
+    },
+    {
+      "id": "lbssousa.omaskpass",
+      "name": "Omaskpass",
+      "metadataHash": "cc3838a78283f763d48f50ecfe26d5922b270e84438b6c58e630c6770e159034",
+      "types": []
+    },
+    {
+      "id": "lbssousa.security-key",
+      "name": "Security Key",
+      "metadataHash": "d91a30647b577e86a822d43a656978811be6f1bec0d1cf0afc5a37457ab0cac5",
       "types": []
     },
     {
@@ -27822,6 +28672,26 @@
       "name": "Next UFC",
       "metadataHash": "7f805dc497e68357816a7d104682c38bd3bb1d8137f96243788c3931546e37c0",
       "types": []
+    },
+    {
+      "id": "leewynne.omacombat",
+      "name": "OmaCombat",
+      "metadataHash": "edb8693c849d3de75238cbe86de4f37742bbc6c14f4aa027e6e1a948d9edf791",
+      "types": []
+    },
+    {
+      "id": "leewynne.omanym",
+      "name": "Omanym",
+      "metadataHash": "dcbe6b7f603c3c4d1d225554bc049c41d4b7f4c507040524093e731bb3c4a3c1",
+      "types": []
+    },
+    {
+      "id": "leewynne.omapaddock",
+      "name": "OmaPaddock",
+      "metadataHash": "cf047b88f76bd4ad521e866d945900430ad66f73bc7c5c629011aa388ccc12ea",
+      "types": [
+        "clock-timer"
+      ]
     },
     {
       "id": "lef.keyboard-layout",
@@ -28160,6 +29030,15 @@
       "name": "YouTube Music TUI (lisim)",
       "metadataHash": "0baa8708d3b8fd14f0d9072f9cfaf9dca90afa6cb349e5717f56aa60d1fda18d",
       "types": []
+    },
+    {
+      "id": "lj.window-switcher",
+      "name": "Window Switcher",
+      "metadataHash": "96ebb96b9d9b073e35421de3efd8ab40e910ebc4ad47b5f4c45dcacadf7a1bae",
+      "types": [
+        "workspaces",
+        "window-management"
+      ]
     },
     {
       "id": "lkzwieder.opencode-usage",
@@ -28763,6 +29642,12 @@
       "types": []
     },
     {
+      "id": "manchunx7.ai-passport-voice",
+      "name": "AI Passport Voice",
+      "metadataHash": "5cf32283f2da6c6b8ee66a687d1dcd47062c1040333e300abf8efe7cfc9c2134",
+      "types": []
+    },
+    {
       "id": "mandavkarpranjal.cam-preview",
       "name": "Camera Preview",
       "metadataHash": "ddde02fc9188591a5e44278c8e8bb115ab0268a060ef5269e58370a6cf53968f",
@@ -28807,6 +29692,12 @@
       "types": []
     },
     {
+      "id": "mani4.todo-lists",
+      "name": "To-Do Lists",
+      "metadataHash": "59ebc1f31b539257d84f1b6b21c54279f782648056cd6132260c596b60ccbea3",
+      "types": []
+    },
+    {
       "id": "manyfold.per-workspace-backgrounds",
       "name": "Per-Workspace Backgrounds",
       "metadataHash": "45318da90cc801f8d99d926c99ad0dfd135a872802e67b1a8eaec2384ed4c480",
@@ -28838,6 +29729,12 @@
       "id": "marcford.gmessages",
       "name": "Google Messages",
       "metadataHash": "a0b2243a01c842a4e9ec7144f056cab2f87d4259aeb6dac598a865750564a29d",
+      "types": []
+    },
+    {
+      "id": "marcho78.hillchart",
+      "name": "Hill Chart",
+      "metadataHash": "62ee208c506b2e9f9e3958d3a6d0610199869f1b15fb5c8f8e719ef7cf220dbd",
       "types": []
     },
     {
@@ -28945,6 +29842,12 @@
       ]
     },
     {
+      "id": "mark.notch",
+      "name": "Omarchy Notch",
+      "metadataHash": "7d673fe2fe4ad1bfdd2897b947d87c6b176a834910b9f46bc8f4c8b6607c90a1",
+      "types": []
+    },
+    {
       "id": "mark.retina-screenshot",
       "name": "Retina Screenshot",
       "metadataHash": "d802db5f0444b69ceafa111309910e03197e2a651edfbc1ff7c99ebb723dc200",
@@ -29029,6 +29932,12 @@
         "network",
         "network-diagnostics"
       ]
+    },
+    {
+      "id": "martellj.thermoslop",
+      "name": "ThermoSlop",
+      "metadataHash": "f47b7e80ffae4735fb33d016e1b3a69060decde4b6efb54927cc0ec06e120e22",
+      "types": []
     },
     {
       "id": "martinsel.omabattcap",
@@ -29361,8 +30270,10 @@
     {
       "id": "meperdonas.devstack",
       "name": "devstack",
-      "metadataHash": "d88582ba934583aad8283ffb6075b6e0fa296178dc53e1beca97e732b57c7822",
-      "types": []
+      "metadataHash": "995a8ca04bbc1fccbd2d416d4989ac226fdb9dd8e2a4eaea5623a1c1a2b7ad58",
+      "types": [
+        "containers"
+      ]
     },
     {
       "id": "meperdonas.looknfeel",
@@ -29449,7 +30360,7 @@
     {
       "id": "meviusisback.ente-auth",
       "name": "Ente Auth dropdown",
-      "metadataHash": "65d9127e30ca8847d2bf3bd8485c765add6e09fed2092912643efa28731740cd",
+      "metadataHash": "75c2b59bd49ab39dfb5bc91a5643512861801f39311e73ba1c19139d9c790149",
       "types": []
     },
     {
@@ -29466,6 +30377,14 @@
       "metadataHash": "5def78eae2e011e26533e65a8246c93408506dc7d6425079d860edec7159f4eb",
       "types": [
         "keybinding-managers"
+      ]
+    },
+    {
+      "id": "meviusisback.live-scores",
+      "name": "Live Scores",
+      "metadataHash": "9c46e0733d12d0f2f515d7548f4213ebb132a4dd680e3af770ad6677c11884f4",
+      "types": [
+        "sports-scores"
       ]
     },
     {
@@ -29634,8 +30553,9 @@
     {
       "id": "min-launcher",
       "name": "Min Launcher",
-      "metadataHash": "d871a3c103bc9273daf7757c7830c4e2a827325898e9f40404f898aa73189f3d",
+      "metadataHash": "1868427d6d7899c7362dded6515164ba2cedd13634a5155699f4348f4cf19676",
       "types": [
+        "system-monitor",
         "launcher"
       ]
     },
@@ -30649,6 +31569,14 @@
       "types": []
     },
     {
+      "id": "nertwork.drawer",
+      "name": "Bar Drawer",
+      "metadataHash": "c6555367cf4697d1c1cbcc62006239ca84c03d0fe4d839d79ccb2d929378ed1b",
+      "types": [
+        "containers"
+      ]
+    },
+    {
       "id": "nertwork.ip-info",
       "name": "IP Info",
       "metadataHash": "df15a6d6b9075d49f6242db4ac8eb55016cb730c004fc80d45349d51007659ba",
@@ -30683,6 +31611,14 @@
       "name": "Homepage Shortcuts",
       "metadataHash": "4fd97aeb998419f11334ff2cf28630410e76ef5782c1239b39925d482a6cfe66",
       "types": []
+    },
+    {
+      "id": "net.fidelramos.venice",
+      "name": "Venice Balance",
+      "metadataHash": "6b70f4916bae459baffca84c228b201e7454a6b63e5b21afaeaffd2eb605c08d",
+      "types": [
+        "ai-api-usage"
+      ]
     },
     {
       "id": "net.moggia.voyager-layouts",
@@ -30811,6 +31747,14 @@
       "types": []
     },
     {
+      "id": "nick.somafm",
+      "name": "SomaFM",
+      "metadataHash": "c36eb7de63d2b260d36f7ead27949abd91e10f86aec389244beabb0bb2d5f706",
+      "types": [
+        "radio"
+      ]
+    },
+    {
       "id": "nick.spotify",
       "name": "Spotify Controls",
       "metadataHash": "334939dae16cbee681781f732e0674ac9157d6b767bd7b6db336e06476c27756",
@@ -30836,10 +31780,11 @@
     },
     {
       "id": "nickmdrummer.timer",
-      "name": "Timer",
-      "metadataHash": "3a91cd9a0a4d8252decbfe333ec8f26e7b43796b5764e7676ed5e65fd617dba8",
+      "name": "Looper: Timer, Pomodoro & Alarms",
+      "metadataHash": "e2ea953c8a2b68e7eccce60ff154baa5f6af7f5ab36ae5d03363fd7d260a4264",
       "types": [
-        "timers-alarms"
+        "timers-alarms",
+        "focus"
       ]
     },
     {
@@ -31248,6 +32193,12 @@
       "id": "nosignal.omasend",
       "name": "Omasend",
       "metadataHash": "761869b831a17691b6398bff7849d5ba2de89dc3ac9bf31db98011ca2e1cb800",
+      "types": []
+    },
+    {
+      "id": "nosignal.omatether",
+      "name": "omatether",
+      "metadataHash": "e01fa39ab87adc13af8557a00a1051686418cf32dc07e38232203c74baa1cbf3",
       "types": []
     },
     {
@@ -31762,6 +32713,12 @@
       "types": []
     },
     {
+      "id": "omaherdrbar",
+      "name": "omaherdrbar",
+      "metadataHash": "0ce3983e4faa9d9b4b6058c9a770dc1e0af3b6d8a84a5b8d7cbefc755241be87",
+      "types": []
+    },
+    {
       "id": "omahide",
       "name": "Omahide",
       "metadataHash": "dc3d304010da934f6193f250dd0a84ecfb69be1fc1a95dc3fddc483adfde8fb0",
@@ -32167,6 +33124,14 @@
       ]
     },
     {
+      "id": "omarchy-power.idle-sleep",
+      "name": "Idle sleep",
+      "metadataHash": "7ac527402ccc853cdefc34730c7e3e24382b6a24b344bc6dfe2fc380518331ce",
+      "types": [
+        "lock-idle"
+      ]
+    },
+    {
       "id": "omarchy-protonvpn",
       "name": "Proton VPN",
       "metadataHash": "ec0810bf2a473195075fe75bf4035d79d742184d2886f91dec6fc50283a98353",
@@ -32244,6 +33209,12 @@
       "id": "omarchy-voice.marvin",
       "name": "Marvin",
       "metadataHash": "f751811581dd9f2d522ea24e8d6bec2775a6881967e70061f6fabbd6d7b1f271",
+      "types": []
+    },
+    {
+      "id": "omarchy-vpn",
+      "name": "VPN",
+      "metadataHash": "a3694f019546d631b3098532c992fba5f7387366494b77564970c9f22004de79",
       "types": []
     },
     {
@@ -32791,6 +33762,12 @@
       "types": []
     },
     {
+      "id": "opencode-go",
+      "name": "OpenCode Go",
+      "metadataHash": "05633fd17244bd5feb65a0eb799958b62064745e71b69c830de7c543d9bec02d",
+      "types": []
+    },
+    {
       "id": "openzoo",
       "name": "openzoo",
       "metadataHash": "59162005284687ac9f871485f26ba264c5645d526a43bdf4741fe1639b8d8a69",
@@ -32827,7 +33804,7 @@
     {
       "id": "org.fosswire.news",
       "name": "FOSSWire",
-      "metadataHash": "63943e360aedabbc3f979ad826c6f6c436d41f99ebd59fd1aee967e7d2ed93f9",
+      "metadataHash": "8836740445cd700728d2987b58ed393e957f25a49c999c69e41aa09856e55fa0",
       "types": []
     },
     {
@@ -33353,6 +34330,14 @@
       ]
     },
     {
+      "id": "paudelsamir.nowplaying",
+      "name": "Now Playing",
+      "metadataHash": "bc748bde1f60f1db2d42cd6dd734da7be8855e80d1b4e46a145a5e81923bad88",
+      "types": [
+        "music"
+      ]
+    },
+    {
       "id": "paudelsamir.opencode-usage",
       "name": "OpenCode Usage",
       "metadataHash": "ad2afb7c0c927d144a6fcab08983cc9bc8d807702c43be37be70f4f74fad81fe",
@@ -33384,6 +34369,14 @@
       ]
     },
     {
+      "id": "paulbob.super-battery",
+      "name": "Super Battery",
+      "metadataHash": "6a5ded9871eb43170f86e5a09f2f69646363cb261579252cd0d647c831b5cedb",
+      "types": [
+        "battery"
+      ]
+    },
+    {
       "id": "paulhocker.omarchy-plugin-chuck",
       "name": "Chuck Norris",
       "metadataHash": "ee8f801359c67b7dcc4ef4c1d5d2723a0ebd77b9564022f7bdf5047a50c5056c",
@@ -33405,6 +34398,18 @@
         "vpn",
         "network"
       ]
+    },
+    {
+      "id": "paulorivera27.omaelk",
+      "name": "OmaElk",
+      "metadataHash": "0b45aa646657e92a0fbf49fe53f42a22ae720fd77efa3961937ffadf9e2d9d52",
+      "types": []
+    },
+    {
+      "id": "pauwelz.whisker",
+      "name": "whisker",
+      "metadataHash": "19b480b2e329347cf9f20a4243f8ccccfc4487c9fa013bd9df44f4650dd69e83",
+      "types": []
     },
     {
       "id": "pavelsimo.anime-schedule",
@@ -33481,6 +34486,14 @@
       "name": "OmaIP",
       "metadataHash": "f277fa32ab0aad7a6cae90a0d4bf55c44852e54ade3c2d6804d5009e30f9df6c",
       "types": []
+    },
+    {
+      "id": "pbojan.remote-stats",
+      "name": "Remote Stats",
+      "metadataHash": "a6eb002b0fe61c68d417eab0d4fa1ff2bb63dd2e0f53ce21c3e6076bd11519d6",
+      "types": [
+        "system-monitor"
+      ]
     },
     {
       "id": "pdaether.ploi",
@@ -33650,6 +34663,12 @@
       ]
     },
     {
+      "id": "phenome.app-scaling",
+      "name": "App Scaling",
+      "metadataHash": "fc00719c1de3f21714bea77961723b1f803b5c99be3064046ffba0277c4c87f5",
+      "types": []
+    },
+    {
       "id": "pia.omarchy",
       "name": "PIA VPN for Omarchy",
       "metadataHash": "17913ee3ef32ac541d8527d6101f0fec908c00efa184a4c8bcb044f009c7c5af",
@@ -33738,7 +34757,7 @@
     {
       "id": "pixel-buds",
       "name": "Pixel Buds",
-      "metadataHash": "281acc0ca60b407702001a1de3362179b6e05bde41f5a2d68c1b98f7b25f934c",
+      "metadataHash": "89325ef8610f12a5e036e8856e994706accac4d04c3a852d00e97738abcd9a51",
       "types": []
     },
     {
@@ -34031,6 +35050,14 @@
       "name": "Light Table",
       "metadataHash": "fb81c0bca3b99512c25da5de3b58f376b735e65f431530e0428ea172e5ad2092",
       "types": []
+    },
+    {
+      "id": "psamoluk.totp",
+      "name": "Authenticator",
+      "metadataHash": "5d2fc2b87a7b43915872c33a55baaa0dd796efb9626ec4c3ff315012eb255c60",
+      "types": [
+        "password-manager"
+      ]
     },
     {
       "id": "ptrck.quattro-stats",
@@ -34553,6 +35580,12 @@
       ]
     },
     {
+      "id": "redragon-m908",
+      "name": "Redragon M908",
+      "metadataHash": "49146026591764d5abba0e1e366b65e329741b00595eec817af9adf2eebf0e8e",
+      "types": []
+    },
+    {
       "id": "reedme.blackshark",
       "name": "BlackShark V3",
       "metadataHash": "a93697d14f80edcadc3d7be80bd529443fb1fde299e71d4dd3dd2e6f99cd74fd",
@@ -34942,6 +35975,12 @@
       ]
     },
     {
+      "id": "ricardo-ti.pip-solver",
+      "name": "PiP Solver",
+      "metadataHash": "44e4de3c61915a8adb63d45c11c8766835d81ccdca8d08e05f00b4cca97d8b42",
+      "types": []
+    },
+    {
       "id": "ricardo.app-scale",
       "name": "App Scale",
       "metadataHash": "73b94cbc87fe2d36c5eac70e7e78b932a19461e2d7eebc170969b6e77f7ece78",
@@ -35052,6 +36091,12 @@
       "types": [
         "notifications"
       ]
+    },
+    {
+      "id": "rmarchei.openvpn",
+      "name": "OpenVPN Profiles",
+      "metadataHash": "2dafe486f893b7a84edb8c6e9cb489a422e9f6f0d7e17e3c37d5fb1c008e01e9",
+      "types": []
     },
     {
       "id": "rob.scratchpad",
@@ -35325,6 +36370,27 @@
       "id": "rohirik.nanoclaw",
       "name": "NanoClaw",
       "metadataHash": "2fd39483b9571bdc4b7a34d8db4a8856213d98c35e4e5667ad99dc53e57fc7c1",
+      "types": []
+    },
+    {
+      "id": "rohirik.oma-caffe",
+      "name": "oma-caffe",
+      "metadataHash": "186cb6519440ee83fc8da2ae9410febe7160d667211696383a7be3c46f67644e",
+      "types": [
+        "lock-idle",
+        "wallpaper"
+      ]
+    },
+    {
+      "id": "rohirik.oma-server",
+      "name": "Oma Server",
+      "metadataHash": "7084d6b4f8e91fb0f743e8e2f7b9128da4c5c8347e8fe0bc2df34196ba4c1d11",
+      "types": []
+    },
+    {
+      "id": "rohirik.plugin-lab",
+      "name": "Plugin Lab",
+      "metadataHash": "b4d1d11e510f0d1ee5f340101c69259691b32eb8dddafe26a3f53eaf3ec48d06",
       "types": []
     },
     {
@@ -35623,6 +36689,14 @@
       ]
     },
     {
+      "id": "s.omacrono",
+      "name": "Omacrono",
+      "metadataHash": "02e3e932b25891f36733c2d7165caa835c5e13cb062a646677f7e8ac49c50bf5",
+      "types": [
+        "timers-alarms"
+      ]
+    },
+    {
       "id": "s3pp3ku.mlb",
       "name": "MLB",
       "metadataHash": "f5313dae80d2a514f8a3ef75fe8cf638479fa006e63a3050cddc57b76af57ba0",
@@ -35835,7 +36909,7 @@
     {
       "id": "samara-hub-ro.quick-apps",
       "name": "Quick Apps",
-      "metadataHash": "b764765d229853ca3776bdbfc8db58bc2ae30ca8b11376fb6d3f42bd8ccec0ac",
+      "metadataHash": "a288f78efa414b29ae103eb7022dc991fc135b84db5c5bfdaffaa4e6bef16c2b",
       "types": []
     },
     {
@@ -35926,6 +37000,14 @@
       "name": "Window Shelf",
       "metadataHash": "61a8b82201d0665fd7a2988bc690192196ca373f0d7e7aa8a6c6f7164626c259",
       "types": []
+    },
+    {
+      "id": "sastr.siriusxm",
+      "name": "SiriusXM",
+      "metadataHash": "ad1d6eb0ffc39c35aa8446e38b719f2d58e29e68a4483d872735a23e06e77972",
+      "types": [
+        "music"
+      ]
     },
     {
       "id": "sauron",
@@ -36405,6 +37487,12 @@
       "types": []
     },
     {
+      "id": "si.omarchy-look-and-feel",
+      "name": "Omarchy Look & Feel",
+      "metadataHash": "f81d02e610d1b0ee157154402f080f3b5c73b4cf4b0914d91cd48bf31144a011",
+      "types": []
+    },
+    {
       "id": "sid.boot-macos",
       "name": "Boot macOS",
       "metadataHash": "7908ffc2d91b963d462c1371ca28a5115f5c45733082c39ec5dd3d2709cb5593",
@@ -36806,6 +37894,24 @@
       "name": "Display Switch",
       "metadataHash": "f0c124bbfbf0f9db707123aa62c728e1f413aeea46073091cc89ebd75dad501d",
       "types": []
+    },
+    {
+      "id": "slylem0.locked-in",
+      "name": "Locked In",
+      "metadataHash": "f99b80371c4448f5bba28bd5b5bd461ab37535731479d914a9fba40151c7a94c",
+      "types": [
+        "notifications",
+        "timers-alarms",
+        "focus"
+      ]
+    },
+    {
+      "id": "slylem0.screenshot-clip",
+      "name": "Screenshot Clip",
+      "metadataHash": "98e60ae9a26808fc1b2ef0046f7de15073a237ab097e281190fa9f5ec865674a",
+      "types": [
+        "screenshots"
+      ]
     },
     {
       "id": "smartalb.autostart",
@@ -37422,6 +38528,14 @@
       "types": []
     },
     {
+      "id": "supercleanse.airpods",
+      "name": "Audio + AirPods",
+      "metadataHash": "d5ee99711b83e5574f0f6879f22bf8c3faeac200729f63d3568b77157fdb29a8",
+      "types": [
+        "audio"
+      ]
+    },
+    {
       "id": "supercleanse.expressvpn",
       "name": "ExpressVPN",
       "metadataHash": "b11991b2024e33f8a48935b5922af24dd60724386d9615ac996acb231a451341",
@@ -37440,6 +38554,15 @@
       "types": []
     },
     {
+      "id": "supercleanse.vitals",
+      "name": "Vitals",
+      "metadataHash": "42b98cacef4e9fe874d0318e89311da59fc86c45b66cef8ab56f50c1e07e9065",
+      "types": [
+        "system-monitor",
+        "network-diagnostics"
+      ]
+    },
+    {
       "id": "surface.tablet",
       "name": "Omarchy Tablet",
       "metadataHash": "9de57767567c2f051cdc55259489fafc61344a4d674716ba757e75a7fd37b50b",
@@ -37452,6 +38575,12 @@
       "types": [
         "network"
       ]
+    },
+    {
+      "id": "sviat.gpu-mode",
+      "name": "GPU Mode",
+      "metadataHash": "d93ce80eb17c9b34864f990a2df49104940f5c0bba28d695a09cabac033cc65f",
+      "types": []
     },
     {
       "id": "sviat.nightlight",
@@ -37722,6 +38851,12 @@
       ]
     },
     {
+      "id": "tarax.blip",
+      "name": "Blip",
+      "metadataHash": "0903d26a7b9726a6feea8366f87ad9e78962aa63153fe9877f783d275c7db699",
+      "types": []
+    },
+    {
       "id": "tarik.focus-timer",
       "name": "Focus Timer",
       "metadataHash": "0838ca2aa5e245e6edc09d94b70e2f21dad9c01be98c88838c1e0c251b210dff",
@@ -37873,6 +39008,36 @@
       "name": "Luddite PXE Dust",
       "metadataHash": "e6afc1064a057cb3dd488ed3ffc7ebdb66a2378d4f12e554fa7036729ea06dc5",
       "types": []
+    },
+    {
+      "id": "techspawn.cliphistory",
+      "name": "Clipboard History",
+      "metadataHash": "ecc09940b09f67383d43c8e423cfa859636afb53f94cc5913d985efb88d3dd0f",
+      "types": [
+        "clipboard"
+      ]
+    },
+    {
+      "id": "techspawn.news",
+      "name": "Headlines",
+      "metadataHash": "d9bc05557bdfcc627388b17b996dc29779c918aeaeb920597319d64ebbf614f0",
+      "types": [
+        "feed-readers"
+      ]
+    },
+    {
+      "id": "techspawn.projects",
+      "name": "Projects",
+      "metadataHash": "d93ebee8b29b714f282ca59d4628ecb3082fc1d5407f27e23a863412b53cb133",
+      "types": []
+    },
+    {
+      "id": "techspawn.updates",
+      "name": "Updates",
+      "metadataHash": "39489b4942be632d581983117dea8bb04061b9b1961ddf95bd0a7cd5adfb6765",
+      "types": [
+        "themes-appearance"
+      ]
     },
     {
       "id": "techywilbur.pomodoro",
@@ -38036,6 +39201,18 @@
       "metadataHash": "37e5761998c77bb4a4c1a800b68ef25f8f428b68bb48f91bb8e6439183b5aad4",
       "types": [
         "keybinding-managers"
+      ]
+    },
+    {
+      "id": "thealejandro.island",
+      "name": "Island",
+      "metadataHash": "0de0b72a3ae814add4904a02f096a9de6c451931d476d90a3bdb4a98af34478c",
+      "types": [
+        "music",
+        "weather",
+        "calendar",
+        "timers-alarms",
+        "focus"
       ]
     },
     {
@@ -38625,7 +39802,7 @@
     {
       "id": "turbinebmw.omaview",
       "name": "Omaview",
-      "metadataHash": "84dee802e1fcccc604b463f686d731de5589736d30afca9a0075ff82f6b103c5",
+      "metadataHash": "739f3b54e8b4ca6c081ee54ad356695efd91e9d386930d4bdbd5fdac1eaf1d4e",
       "types": []
     },
     {
@@ -38641,6 +39818,12 @@
       "types": [
         "radio"
       ]
+    },
+    {
+      "id": "turntable",
+      "name": "Turntable",
+      "metadataHash": "2ac077d9f45c43bdfb07e3d16bba9bf476789eb370e81fba391e143d344e5db2",
+      "types": []
     },
     {
       "id": "tylersw1ft.arrange",
@@ -38797,7 +39980,7 @@
     {
       "id": "ubruckhaus.wlan-monitor",
       "name": "WLAN Monitor",
-      "metadataHash": "a06b119ecc8d06cc9d0029ee5505a863de1bed6a80e05651278d85aa5c165939",
+      "metadataHash": "991e8f39e2bf27a04b01c9f9761ddd9c6ccbb807d062d3ffd9eb06949fd6b841",
       "types": []
     },
     {
@@ -39101,6 +40284,12 @@
       ]
     },
     {
+      "id": "vesp.omasnitch",
+      "name": "OmaSnitch",
+      "metadataHash": "3a5979370ef357ae214d53ed17e81ac86e55e51aed360d01a0f192d358a80499",
+      "types": []
+    },
+    {
       "id": "vex-system-monitor",
       "name": "Vex System Monitor",
       "metadataHash": "853e1345c4e080153bb118cbb7dff968f2821f6a00e39c183151e08efa75847e",
@@ -39391,6 +40580,12 @@
       ]
     },
     {
+      "id": "voxel",
+      "name": "Voxel",
+      "metadataHash": "a95cb99a37ad5ef930ff15cec9c393e249e3a5c9c1aba388e098750b93185e88",
+      "types": []
+    },
+    {
       "id": "voyagen.flight-tracker",
       "name": "Flight Tracker",
       "metadataHash": "2dcdb53f49f9296eed98db35888422ed5479ebba7cf64624e21366d6019954af",
@@ -39417,6 +40612,12 @@
       "types": [
         "ai-assistant"
       ]
+    },
+    {
+      "id": "vpacher.mixfeed",
+      "name": "Mixfeed",
+      "metadataHash": "11b7908fff2182e7fa7e05fb6435c99f48ce71230ee5c96af1a83923b21d1c4e",
+      "types": []
     },
     {
       "id": "vpn.toggle",
@@ -39576,6 +40777,12 @@
       "id": "wbarakat.trace",
       "name": "Trace",
       "metadataHash": "5cd43d042744ec8ce5b040ecb51f818d70709ec56d39c0a089cfd317937ae91a",
+      "types": []
+    },
+    {
+      "id": "wdb.shell-scratchpad",
+      "name": "Shell Scratchpad",
+      "metadataHash": "85e0c63e96a0cbc44efa2881acff56264fe612dcdf816fe5af5422b5f59a0109",
       "types": []
     },
     {
@@ -40011,6 +41218,12 @@
       ]
     },
     {
+      "id": "xvvhang.herdr-theme-sync",
+      "name": "Herdr Theme Sync",
+      "metadataHash": "45be3c39ba06ce8525fed97a1caa57cf15a0c0a3e11351ee13cb89740f92816e",
+      "types": []
+    },
+    {
       "id": "xyz.degendev.flipper",
       "name": "Flipper Companion",
       "metadataHash": "8bb81925d31767d2630e65a62b62ebdbbedf5d1fc602d8b6acbd60fc8b4c894f",
@@ -40110,12 +41323,20 @@
       "id": "yamz8.snake",
       "name": "Snake",
       "metadataHash": "7d01d10cfafaac101091e7de259b7cc2a952cb8ee04a75a7a21c5bfa737b3f70",
-      "types": []
+      "types": [
+        "mini-games"
+      ]
     },
     {
       "id": "yamz8.touchsynth",
       "name": "TouchSynth",
       "metadataHash": "cb5e89dd41a0492c2858996ce9a9e627a99766bc9fb3b6e3293f6bd0db1c5ed3",
+      "types": []
+    },
+    {
+      "id": "yangkang5303.audio-cast",
+      "name": "Audio Cast",
+      "metadataHash": "8379471d502681e400dce59b7c8565a73a081118c8ea40f50d4113e4985d6bb4",
       "types": []
     },
     {
@@ -40130,6 +41351,12 @@
       "id": "yaqyn.counter",
       "name": "Counter",
       "metadataHash": "3fb58aa4c4fc56c4dd16e4b8b277419742fada35ef0f403df5dc5d4adea93c70",
+      "types": []
+    },
+    {
+      "id": "yardquit.mega",
+      "name": "MEGA",
+      "metadataHash": "e2c7ae174d0c8cae0df278a645a5490176d70fa67ffdfe223dc28cb9e5169ed8",
       "types": []
     },
     {
@@ -40310,6 +41537,12 @@
       "types": []
     },
     {
+      "id": "yoyo.throttle",
+      "name": "Throttle",
+      "metadataHash": "de02927563338b1b48e85867750e15db68446cbe608c99e1b6b333cb78151ce6",
+      "types": []
+    },
+    {
       "id": "yozniax.flolinr",
       "name": "Flolinr",
       "metadataHash": "d1d839e8cb626dfd73c5b4312c20ed2bd1d6410b1aaef270faa8e5201133982c",
@@ -40389,6 +41622,14 @@
       "name": "Open In Terminal",
       "metadataHash": "ab8e4e47117413a4fc9eb07eccd74e7e4d2920b568d68f93c2275831b2eae50e",
       "types": []
+    },
+    {
+      "id": "zaheen4.opencode-usage",
+      "name": "OpenCode Usage",
+      "metadataHash": "1c32f2e53945a38d73ebf4891c692d4dda053bd40d19738870c3c64abdb2c170",
+      "types": [
+        "ai-api-usage"
+      ]
     },
     {
       "id": "zai.agent-usage",
@@ -40564,6 +41805,12 @@
       "id": "zmanbar",
       "name": "ZmanBar",
       "metadataHash": "a2a273cb1409941f2a1469e73fcdcd8b93fff25bc3ecac038504ae7c091f5f7c",
+      "types": []
+    },
+    {
+      "id": "zonectl",
+      "name": "Per-Screen Zones",
+      "metadataHash": "6d0e6f5d0b49df78e2b37ac56880a69c9ab77c02a2b8ac99e9aab942e3976e91",
       "types": []
     },
     {
