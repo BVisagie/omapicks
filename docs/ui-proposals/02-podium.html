@@ -1,0 +1,1117 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OmaPicks — Proposal 02: Podium</title>
+  <meta name="description" content="Design proposal mockup: an editorial bento-grid issue of the weekly OmaPicks rankings.">
+  <meta name="color-scheme" content="dark light">
+  <style>
+    /* =========================================================
+       Proposal 02 — "Podium"
+       Each weekly snapshot is an issue. Editorial bento grid,
+       oversized display type, kinetic numerals, tactile tiles.
+       Self-contained: no network requests, no external fonts.
+       ========================================================= */
+
+    /* ---------- Tokens ---------- */
+    :root {
+      color-scheme: dark;
+      --bg: #121214;
+      --surface: #1a1a1e;
+      --surface-2: #202026;
+      --ink: #f2efe9;
+      --muted: #a3a09a;
+      --line: rgba(242, 239, 233, 0.12);
+      --line-strong: rgba(242, 239, 233, 0.32);
+      --accent: #ff6a3d;
+      --accent-text: #ff6a3d;
+      --accent-ink: #121214;
+      --teal: #8bd5ca;
+      --glow-a: rgba(255, 106, 61, 0.16);
+      --glow-b: rgba(139, 213, 202, 0.12);
+      --shadow: 0 24px 60px -28px rgba(0, 0, 0, 0.75);
+      --radius: 20px;
+      --radius-sm: 12px;
+      --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+      --sans: "Inter", system-ui, "Segoe UI", sans-serif;
+      --mono: "CaskaydiaMono NF", "Cascadia Mono", "JetBrainsMono NF", "JetBrains Mono", ui-monospace, monospace;
+    }
+
+    :root[data-theme="light"] {
+      color-scheme: light;
+      --bg: #f4f1ea;
+      --surface: #fbfaf7;
+      --surface-2: #f1eee6;
+      --ink: #15151a;
+      --muted: #5e5c58;
+      --line: rgba(21, 21, 26, 0.12);
+      --line-strong: rgba(21, 21, 26, 0.32);
+      --accent: #e2501f;
+      --accent-text: #c43d10;
+      --accent-ink: #15151a;
+      --teal: #166d67;
+      --glow-a: rgba(226, 80, 31, 0.12);
+      --glow-b: rgba(22, 109, 103, 0.10);
+      --shadow: 0 24px 50px -30px rgba(21, 21, 26, 0.45);
+    }
+
+    /* ---------- Base ---------- */
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(60vw 40vh at 85% -10%, var(--glow-a), transparent 60%),
+        radial-gradient(50vw 40vh at 0% 20%, var(--glow-b), transparent 60%);
+    }
+    a { color: inherit; text-decoration: none; }
+    a:hover { color: var(--accent-text); }
+    button, input { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+    img { display: block; max-width: 100%; }
+    h1, h2, h3, h4, p, ul, dl { margin: 0; }
+    ul { padding: 0; list-style: none; }
+
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+    }
+    .skip-link {
+      position: fixed; z-index: 50; left: 1rem; top: 1rem;
+      padding: 0.6rem 0.9rem; border-radius: 999px;
+      background: var(--ink); color: var(--bg); font-weight: 600;
+      transform: translateY(-200%);
+    }
+    .skip-link:focus { transform: none; }
+
+    .wrap { width: min(1240px, calc(100% - 2.5rem)); margin: 0 auto; }
+
+    .mono { font-family: var(--mono); }
+    .kicker {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--mono); font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+    }
+    .kicker::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+    .kicker.plain::before { display: none; }
+
+    .pill {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      padding: 0.5rem 0.95rem; border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      font-family: var(--mono); font-size: 0.8rem; font-weight: 600;
+      background: transparent; color: var(--ink);
+      transition: background-color 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease), transform 0.4s var(--ease);
+    }
+    .pill:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+    .pill.solid { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+    .pill.solid:hover { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+
+    .chip {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.2rem 0.55rem; border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      font-family: var(--mono); font-size: 0.66rem; font-weight: 600; letter-spacing: 0.04em;
+      color: var(--muted); white-space: nowrap;
+    }
+    .chip.ok { color: var(--teal); border-color: color-mix(in srgb, var(--teal) 55%, transparent); }
+    .chip.stale { border-style: dashed; }
+    .chip.accent { color: var(--accent-text); border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
+
+    /* ---------- Masthead bar ---------- */
+    .bar {
+      position: sticky; top: 0; z-index: 30;
+      backdrop-filter: blur(14px) saturate(140%);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      background: color-mix(in srgb, var(--bg) 72%, transparent);
+      border-bottom: 1px solid var(--line);
+    }
+    .bar .wrap {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      min-height: 4.25rem;
+    }
+    .brand { display: inline-flex; align-items: center; gap: 0.6rem; font-weight: 800; letter-spacing: -0.03em; font-size: 1.25rem; }
+    .brand svg { width: 28px; height: 28px; }
+    .brand:hover { color: inherit; }
+    .bar nav { display: flex; align-items: center; gap: clamp(0.6rem, 2vw, 1.4rem); font-family: var(--mono); font-size: 0.86rem; }
+    .bar nav a { color: var(--muted); white-space: nowrap; }
+    .bar nav a:hover, .bar nav a[aria-current="page"] { color: var(--ink); }
+    .proposal-tag { display: none; }
+    @media (min-width: 760px) { .proposal-tag { display: inline-flex; } }
+    .theme-toggle {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      min-height: 2.2rem; padding: 0 0.85rem; border-radius: 999px;
+      border: 1px solid var(--line-strong); background: transparent;
+      font-family: var(--mono); font-size: 0.78rem;
+    }
+    .theme-toggle:hover { background: var(--surface); }
+    .theme-toggle .sun { display: none; }
+    :root[data-theme="light"] .theme-toggle .sun { display: inline; }
+    :root[data-theme="light"] .theme-toggle .moon { display: none; }
+
+    /* ---------- Views & reveal ---------- */
+    [data-view][hidden] { display: none; }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.7s var(--ease), transform 0.9s var(--ease); transition-delay: calc(var(--i, 0) * 70ms); }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* ---------- Hero ---------- */
+    .hero { position: relative; padding: clamp(3.5rem, 8vw, 6.5rem) 0 clamp(2rem, 5vw, 3.5rem); }
+    .hero .eyebrow {
+      display: flex; flex-wrap: wrap; gap: 0.4rem 0.9rem;
+      margin-bottom: 1.5rem; font-family: var(--mono); font-size: 0.78rem; color: var(--muted);
+    }
+    .hero .eyebrow strong { color: var(--ink); font-weight: 600; }
+    .hero h1 {
+      position: relative; z-index: 1;
+      max-width: 13ch;
+      font-size: clamp(3rem, 7vw, 6.5rem);
+      font-weight: 800; letter-spacing: -0.035em; line-height: 0.98;
+    }
+    .hero h1 em { font-style: normal; color: var(--accent-text); }
+    .hero .sub { position: relative; z-index: 1; max-width: 36rem; margin-top: 1.4rem; font-size: 1.12rem; color: var(--muted); }
+    .hero .sub strong { color: var(--ink); font-weight: 600; }
+    .hero .actions { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.8rem; }
+    .numeral {
+      position: absolute; right: -2vw; top: -1.5rem; z-index: 0;
+      font-family: var(--sans); font-weight: 800; letter-spacing: -0.06em; line-height: 0.85;
+      font-size: clamp(12rem, 34vw, 30rem);
+      color: transparent; -webkit-text-stroke: 1px var(--line-strong);
+      opacity: 0.8; user-select: none; pointer-events: none; will-change: transform;
+    }
+    .numeral span { display: block; font-size: 0.11em; letter-spacing: 0.3em; text-align: right; -webkit-text-stroke: 0; color: var(--muted); opacity: 0.8; margin-right: 0.4em; font-family: var(--mono); font-weight: 600; line-height: 1; margin-top: -0.3em; }
+
+    /* ---------- Marquee ---------- */
+    .marquee { position: relative; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); overflow: hidden; }
+    .marquee .track { display: flex; width: max-content; animation: marquee 70s linear infinite; }
+    .marquee.paused .track { animation-play-state: paused; }
+    .marquee .track:hover { animation-play-state: paused; }
+    .marquee ul { display: flex; gap: 2.2rem; padding: 0.8rem 1.1rem; margin: 0; white-space: nowrap; font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+    .marquee li::before { content: "✦"; margin-right: 2.2rem; color: var(--accent-text); opacity: 0.7; }
+    .marquee .pause { position: absolute; right: 0.6rem; top: 50%; transform: translateY(-50%); padding: 0.25rem 0.6rem; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); font-family: var(--mono); font-size: 0.66rem; color: var(--muted); }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+
+    /* ---------- Bento grid ---------- */
+    .bento {
+      display: grid; gap: 1rem; margin: 2.5rem 0 0;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-auto-rows: minmax(120px, auto);
+    }
+    .tile {
+      position: relative; display: flex; flex-direction: column; min-width: 0;
+      padding: 1.4rem; border-radius: var(--radius);
+      background: var(--surface); border: 1px solid var(--line);
+      transition: transform 0.55s var(--ease), border-color 0.35s var(--ease), box-shadow 0.55s var(--ease);
+    }
+    .tile:hover { transform: translateY(-3px); border-color: var(--line-strong); box-shadow: var(--shadow); }
+    .tile h2, .tile h3 { font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; }
+    .tile .foot { margin-top: auto; padding-top: 1rem; }
+
+    .t-featured { grid-column: 1 / 9; grid-row: 1 / 4; }
+    .t-finder { grid-column: 9 / 13; grid-row: 1 / 4; }
+    .t-stat-1 { grid-column: 1 / 3; grid-row: 4 / 5; }
+    .t-stat-2 { grid-column: 3 / 5; grid-row: 4 / 5; }
+    .t-stat-3 { grid-column: 5 / 7; grid-row: 4 / 5; }
+    .t-changed { grid-column: 7 / 13; grid-row: 4 / 6; }
+    .t-method { grid-column: 1 / 7; grid-row: 5 / 6; }
+    .t-newcomer { grid-column: 1 / 13; grid-row: 6 / 7; }
+    .t-pick-1 { grid-column: 1 / 4; grid-row: 7 / 10; }
+    .t-pick-2 { grid-column: 4 / 7; grid-row: 7 / 10; }
+    .t-pick-3 { grid-column: 7 / 10; grid-row: 7 / 10; }
+    .t-pick-4 { grid-column: 10 / 13; grid-row: 7 / 10; }
+
+    /* Featured showdown */
+    .t-featured .head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 0.8rem 1.4rem; }
+    .t-featured h2 { margin-top: 0.5rem; font-size: clamp(1.6rem, 2.6vw, 2.3rem); max-width: 24ch; }
+    .t-featured h2 a { color: var(--accent-text); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.18em; text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent); }
+    .t-featured .note { font-family: var(--mono); font-size: 0.76rem; color: var(--muted); margin-top: 0.4rem; }
+    .pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.1rem; margin-top: 1.3rem; }
+    .entry { min-width: 0; }
+    .entry .rank { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+    .entry.champion .rank { color: var(--accent-text); }
+    .media { position: relative; display: block; overflow: hidden; margin-top: 0.7rem; border-radius: var(--radius-sm); aspect-ratio: 16 / 10; background: var(--surface-2); border: 1px solid var(--line); }
+    .media img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.001); transition: transform 1.1s var(--ease); }
+    .tile:hover .media img { transform: scale(1.05); }
+    .entry h3 { margin-top: 0.75rem; font-size: 1.25rem; }
+    .entry .by { margin-top: 0.15rem; font-family: var(--mono); font-size: 0.76rem; color: var(--muted); }
+    .entry .blurb { margin-top: 0.5rem; font-size: 0.92rem; color: var(--muted); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
+    .t-featured .foot { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1.4rem; border-top: 1px solid var(--line); margin-top: 1.2rem; font-family: var(--mono); font-size: 0.82rem; color: var(--muted); }
+    .t-featured .foot .delta { color: var(--accent-text); font-weight: 700; font-size: 0.95rem; }
+    .t-featured .foot .pill { margin-left: auto; }
+
+    /* Finder */
+    .t-finder label { font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+    .finder-input { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.6rem; margin-top: 0.6rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--line-strong); }
+    .finder-input:focus-within { border-bottom-color: var(--accent); }
+    .finder-input .glyph { color: var(--accent-text); font-family: var(--mono); font-weight: 800; }
+    .finder-input input { width: 100%; padding: 0.35rem 0; border: 0; background: transparent; font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; outline: 0; }
+    .finder-input input::placeholder { color: var(--muted); font-weight: 500; }
+    .finder-input .count { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .finder-list { margin-top: 0.4rem; }
+    .finder-list li a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.8rem; padding: 0.55rem 0.3rem; border-bottom: 1px solid var(--line); font-size: 0.92rem; border-radius: 6px; transition: background-color 0.2s var(--ease), padding 0.3s var(--ease); }
+    .finder-list li a:hover, .finder-list li a:focus-visible { background: var(--surface-2); padding-left: 0.6rem; color: inherit; }
+    .finder-list li a span { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .finder-list li a strong { font-family: var(--mono); font-size: 0.74rem; font-weight: 600; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 14ch; }
+    .finder-list li a:hover strong { color: var(--accent-text); }
+    .finder-empty { margin-top: 0.8rem; font-size: 0.88rem; color: var(--muted); }
+    .t-finder .hint { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); }
+    .t-finder .hint kbd { padding: 0.05rem 0.35rem; border: 1px solid var(--line-strong); border-radius: 5px; font-family: inherit; }
+
+    /* Method tile */
+    .t-method { justify-content: center; gap: 0.35rem; }
+    .t-method a { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.55rem 0; border-bottom: 1px solid var(--line); font-weight: 600; }
+    .t-method a:last-child { border-bottom: 0; }
+    .t-method a span:last-child { font-family: var(--mono); color: var(--accent-text); transition: transform 0.4s var(--ease); }
+    .t-method a:hover span:last-child { transform: translateX(4px); }
+
+    /* Stat tiles */
+    .t-stat { justify-content: end; }
+    .t-stat .num { font-size: clamp(2.4rem, 4vw, 3.6rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+    .t-stat .lbl { margin-top: 0.4rem; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+    .t-stat-3 .num { color: var(--accent-text); }
+
+    /* Changed tile */
+    .t-changed h3 { margin-top: 0.6rem; font-size: clamp(1.5rem, 2.4vw, 2rem); }
+    .changes { margin-top: 1rem; }
+    .changes li { display: grid; grid-template-columns: 1.6rem minmax(0, 1fr); gap: 0.6rem; padding: 0.7rem 0; border-top: 1px solid var(--line); font-size: 0.95rem; }
+    .changes li .n { font-family: var(--mono); font-size: 0.72rem; color: var(--accent-text); font-weight: 700; padding-top: 0.25rem; }
+    .changes li a { font-weight: 600; text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 0.16em; }
+    .changes li em { font-style: normal; color: var(--muted); }
+    .changes li b { font-weight: 600; }
+    .t-changed .foot { display: flex; flex-wrap: wrap; gap: 0.5rem 1.2rem; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); border-top: 1px solid var(--line); }
+    .t-changed .foot a { color: var(--accent-text); }
+
+    /* Newcomer tile */
+    .t-newcomer h3 { margin-top: 0.5rem; font-size: clamp(1.4rem, 2.2vw, 1.8rem); }
+    .t-newcomer .intro { margin-top: 0.4rem; color: var(--muted); font-size: 0.93rem; max-width: 46rem; }
+    .t-newcomer .intro a { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 0.16em; }
+    .starters { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 1rem; }
+    .starter { padding: 0.9rem; border-radius: var(--radius-sm); background: var(--surface-2); border: 1px solid var(--line); }
+    .starter h4 { font-size: 0.95rem; font-weight: 700; letter-spacing: -0.01em; }
+    .starter p { margin-top: 0.2rem; font-size: 0.8rem; color: var(--muted); }
+    .starter ul { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.6rem; }
+    .starter li a { display: inline-block; padding: 0.22rem 0.55rem; border-radius: 999px; border: 1px solid var(--line-strong); font-family: var(--mono); font-size: 0.7rem; transition: background-color 0.2s var(--ease), color 0.2s var(--ease); }
+    .starter li a:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+    /* Pick tiles */
+    .t-pick { padding: 0.6rem 0.6rem 1.2rem; --px: 0; --py: 0; }
+    .t-pick .media { margin: 0; aspect-ratio: 16 / 10; border-radius: 14px; }
+    .t-pick .media img { transform: translate(calc(var(--px) * 7px), calc(var(--py) * 7px)) scale(1.02); transition: transform 0.9s var(--ease); }
+    .t-pick:hover .media img { transform: translate(calc(var(--px) * 7px), calc(var(--py) * 7px)) scale(1.08); }
+    .t-pick .delta-chip { position: absolute; left: 0.7rem; top: 0.7rem; padding: 0.25rem 0.6rem; border-radius: 999px; background: color-mix(in srgb, var(--bg) 78%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); font-family: var(--mono); font-size: 0.68rem; font-weight: 700; color: var(--ink); border: 1px solid var(--line); }
+    .t-pick .body { padding: 0.9rem 0.7rem 0; }
+    .t-pick h3 { margin-top: 0.35rem; font-size: 1.2rem; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
+    .t-pick .by { margin-top: 0.3rem; font-size: 0.82rem; color: var(--muted); }
+    .t-pick .compare { position: absolute; right: 0.9rem; bottom: 0.9rem; opacity: 0; transform: translateY(8px); }
+    .t-pick:hover .compare, .t-pick:focus-within .compare { opacity: 1; transform: none; }
+    .t-pick .cover { position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
+    .t-pick .cover:focus-visible { outline-offset: -3px; }
+
+    /* ---------- Shelf ---------- */
+    .section-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 1rem; margin: 4rem 0 1.3rem; }
+    .section-head h2 { font-size: clamp(1.9rem, 3.4vw, 2.8rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; }
+    .section-head p { margin-top: 0.4rem; color: var(--muted); }
+    .shelf-nav { display: flex; gap: 0.5rem; }
+    .shelf-nav button { width: 2.6rem; height: 2.6rem; border-radius: 50%; border: 1px solid var(--line-strong); background: var(--surface); font-family: var(--mono); font-size: 1rem; transition: background-color 0.2s var(--ease), color 0.2s var(--ease); }
+    .shelf-nav button:hover { background: var(--ink); color: var(--bg); }
+    .shelf { display: flex; gap: 0.9rem; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0.3rem 0 1rem; scrollbar-width: thin; scrollbar-color: var(--line-strong) transparent; margin: 0 -0.3rem; padding-inline: 0.3rem; }
+    .shelf-card { flex: 0 0 min(272px, 76vw); scroll-snap-align: start; display: flex; flex-direction: column; gap: 0.3rem; min-height: 184px; padding: 1.1rem 1.15rem; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); transition: transform 0.5s var(--ease), border-color 0.3s var(--ease), box-shadow 0.5s var(--ease); }
+    .shelf-card:hover { transform: translateY(-3px); border-color: var(--line-strong); box-shadow: var(--shadow); color: inherit; }
+    .shelf-card .cat { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+    .shelf-card .champ { font-size: 1.22rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
+    .shelf-card .author { font-size: 0.84rem; color: var(--muted); }
+    .shelf-card .meta { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; padding-top: 0.8rem; font-family: var(--mono); font-size: 0.72rem; color: var(--muted); }
+    .shelf-card .meta .dots { display: inline-flex; gap: 3px; }
+    .shelf-card .meta .dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--line-strong); }
+    .shelf-card .meta .dots i:first-child { background: var(--accent); }
+    .shelf-card .meta .dots i:nth-child(2) { background: var(--teal); }
+
+    /* Alphabetical list */
+    .cat-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 1.5rem; margin-top: 1.4rem; border-top: 1px solid var(--line-strong); }
+    .cat-list a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.5rem; align-items: baseline; padding: 0.75rem 0.2rem; border-bottom: 1px solid var(--line); border-radius: 6px; transition: background-color 0.2s var(--ease); }
+    .cat-list a:hover { background: var(--surface); color: inherit; }
+    .cat-list a span { display: block; min-width: 0; }
+    .cat-list .cat { font-size: 0.95rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .cat-list .champ { font-family: var(--mono); font-size: 0.74rem; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .cat-list a:hover .champ { color: var(--accent-text); }
+    .cat-list .count { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+    /* ---------- Category view ---------- */
+    .crumbs { margin-top: 1.6rem; font-family: var(--mono); font-size: 0.8rem; color: var(--muted); }
+    .crumbs a { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 0.16em; }
+    .cat-hero { position: relative; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(16rem, 0.8fr); gap: 2rem; align-items: end; padding: 2.4rem 0 2.2rem; }
+    .cat-hero h1 { font-size: clamp(3.2rem, 9vw, 7.5rem); font-weight: 800; letter-spacing: -0.045em; line-height: 0.95; }
+    .cat-hero .eyebrow { display: flex; flex-wrap: wrap; gap: 0.4rem 0.9rem; margin-bottom: 1rem; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
+    .cat-hero .lede { color: var(--muted); font-size: 1.05rem; }
+    .cat-hero .share { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+
+    .builtin { display: grid; grid-template-columns: 11rem minmax(0, 1fr); gap: 1.4rem; align-items: start; padding: 1.2rem 1.4rem; border-radius: var(--radius); border: 1px dashed var(--line-strong); background: color-mix(in srgb, var(--surface) 60%, transparent); }
+    .builtin h2 { font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; }
+    .builtin .sub { font-size: 0.82rem; color: var(--muted); margin-top: 0.2rem; }
+    .builtin p { color: var(--muted); font-size: 0.92rem; }
+    .builtin strong a { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 0.16em; }
+
+    .cmd { display: flex; margin-top: 0.7rem; border: 1px solid var(--line-strong); border-radius: 10px; overflow: hidden; background: var(--bg); }
+    .cmd code { flex: 1; min-width: 0; padding: 0.65rem 0.8rem; font-family: var(--mono); font-size: 0.74rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .cmd button { border: 0; border-left: 1px solid var(--line-strong); background: var(--surface-2); padding: 0 0.95rem; font-family: var(--mono); font-size: 0.76rem; font-weight: 600; transition: background-color 0.2s var(--ease), color 0.2s var(--ease); }
+    .cmd button:hover { background: var(--ink); color: var(--bg); }
+
+    /* Versus split */
+    .versus { position: relative; margin-top: 2.4rem; border-radius: var(--radius); border: 1px solid var(--line); background: var(--surface); }
+    .versus::before {
+      content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
+      background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 16%, var(--surface)), color-mix(in srgb, var(--accent) 5%, var(--surface)));
+      clip-path: polygon(0 0, 55% 0, 45% 100%, 0 100%);
+    }
+    .versus .panels { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .panel { display: flex; flex-direction: column; gap: 0.7rem; padding: 1.6rem; min-width: 0; }
+    .panel.runner { padding-left: 2.2rem; }
+    .panel .top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .panel .rank { font-family: var(--mono); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+    .panel.champion .rank { color: var(--accent-text); }
+    .panel .media { margin-top: 0.2rem; aspect-ratio: 16 / 9; }
+    .panel h2 { font-size: clamp(1.6rem, 2.6vw, 2.2rem); font-weight: 800; letter-spacing: -0.03em; }
+    .panel h2 a { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 0.18em; text-decoration-thickness: 2px; }
+    .panel .by { font-family: var(--mono); font-size: 0.76rem; color: var(--muted); }
+    .fit { padding: 0.85rem 1rem; border-radius: var(--radius-sm); background: color-mix(in srgb, var(--bg) 55%, transparent); border: 1px solid var(--line); font-size: 0.92rem; }
+    .fit strong { font-weight: 700; }
+    .fit .src { margin-top: 0.3rem; font-family: var(--mono); font-size: 0.72rem; color: var(--muted); }
+    .fit .src a { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 0.16em; }
+    .why-won { font-weight: 600; color: var(--accent-text); font-size: 0.98rem; }
+    .panel .desc { color: var(--muted); font-size: 0.92rem; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; line-clamp: 4; overflow: hidden; }
+    .panel .links { display: flex; flex-wrap: wrap; gap: 1rem; font-family: var(--mono); font-size: 0.78rem; }
+    .panel .links a { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 0.16em; }
+    .panel .disclaimer { font-size: 0.76rem; color: var(--muted); line-height: 1.45; }
+    .panel .disclaimer a { text-decoration: underline; }
+    .placeholder { display: grid; place-items: center; width: 100%; height: 100%; background: repeating-linear-gradient(135deg, var(--surface-2) 0 12px, var(--surface) 12px 24px); }
+    .placeholder span { padding: 0.5rem 0.8rem; border: 1px solid var(--line-strong); border-radius: 8px; background: var(--bg); font-family: var(--mono); font-size: 0.74rem; color: var(--muted); }
+
+    .dial { display: inline-grid; place-items: center; width: 84px; height: 84px; flex: 0 0 auto; }
+    .dial svg { grid-area: 1 / 1; width: 84px; height: 84px; transform: rotate(-90deg); }
+    .dial circle { fill: none; stroke-width: 6; stroke-linecap: round; }
+    .dial .track { stroke: var(--line); }
+    .dial .fill { stroke: var(--teal); stroke-dasharray: 276.46; stroke-dashoffset: 276.46; transition: stroke-dashoffset 1.4s var(--ease); }
+    .panel.champion .dial .fill { stroke: var(--accent); }
+    .dial .val { grid-area: 1 / 1; font-family: var(--mono); font-size: 0.82rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .dial .lbl { position: absolute; }
+    .apart { position: absolute; left: 50%; top: 0; z-index: 2; transform: translate(-50%, -50%); padding: 0.45rem 0.85rem; border-radius: 999px; background: var(--ink); color: var(--bg); font-family: var(--mono); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; white-space: nowrap; box-shadow: var(--shadow); }
+
+    /* Comparison bars */
+    .compare-sec { margin-top: 3.2rem; }
+    .compare-head { display: grid; grid-template-columns: minmax(12rem, 0.7fr) minmax(16rem, 1fr); gap: 2rem; align-items: end; }
+    .compare-head h2 { margin-top: 0.4rem; font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; }
+    .compare-head p { color: var(--muted); font-size: 0.92rem; }
+    .compare-head p a { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 0.16em; }
+    .bars { margin-top: 1.4rem; border-top: 1px solid var(--line-strong); }
+    .bars .legend, .bars .row { display: grid; grid-template-columns: minmax(0, 1fr) 11rem minmax(0, 1fr); gap: 1rem; align-items: center; }
+    .bars .legend { padding: 0.7rem 0; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+    .bars .legend span:first-child { text-align: right; color: var(--accent-text); }
+    .bars .legend span:nth-child(2) { text-align: center; }
+    .bars .row { padding: 0.75rem 0; border-top: 1px solid var(--line); }
+    .bars .metric { text-align: center; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
+    .bar { display: grid; align-items: center; gap: 0.7rem; grid-template-columns: 3.4rem minmax(0, 1fr); }
+    .bar.l { grid-template-columns: 3.4rem minmax(0, 1fr); direction: rtl; }
+    .bar .num { font-family: var(--mono); font-size: 0.86rem; font-weight: 700; font-variant-numeric: tabular-nums; direction: ltr; }
+    .bar.l .num { text-align: left; }
+    .bar .trk { height: 10px; border-radius: 999px; background: var(--surface-2); overflow: hidden; }
+    .bar .trk i { display: block; height: 100%; width: 0; border-radius: inherit; background: var(--teal); transition: width 1.2s var(--ease); }
+    .bar.l .trk i { background: var(--accent); }
+    .bars.in .trk i { width: var(--w); }
+
+    /* More choices + explore */
+    .more { margin-top: 3rem; }
+    .more h2, .explore h2 { font-size: clamp(1.5rem, 2.6vw, 2rem); font-weight: 800; letter-spacing: -0.03em; }
+    .more-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 1rem; }
+    .more-grid .tile h3 { font-size: 1.2rem; }
+    .more-grid .tile h3 a { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 0.16em; }
+    .more-grid .fit { margin-top: 0.8rem; }
+    .note { margin-top: 2rem; padding: 1.1rem 1.3rem; border-radius: var(--radius-sm); border: 1px solid var(--line); color: var(--muted); font-size: 0.88rem; }
+    .note a { text-decoration: underline; }
+    .explore { margin-top: 3rem; }
+    .explore .head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 1rem; }
+    .explore .head a { font-family: var(--mono); font-size: 0.8rem; color: var(--accent-text); }
+    .explore-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; margin-top: 1rem; }
+    .explore-grid a { display: flex; flex-direction: column; gap: 0.2rem; padding: 1rem 1.1rem; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); transition: transform 0.45s var(--ease), border-color 0.3s var(--ease); }
+    .explore-grid a:hover { transform: translateY(-3px); border-color: var(--line-strong); color: inherit; }
+    .explore-grid span { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+    .explore-grid strong { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em; }
+    .explore-grid a:hover strong { color: var(--accent-text); }
+    .pager { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 1.4rem; }
+    .pager a { display: flex; flex-direction: column; padding: 0.8rem 0; }
+    .pager a:last-child { align-items: end; text-align: right; }
+    .pager span { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+    .pager strong { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.02em; }
+
+    /* ---------- Footer ---------- */
+    footer { margin: 4rem 0 2.5rem; padding-top: 1.6rem; border-top: 1px solid var(--line); display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 1.5rem 3rem; color: var(--muted); font-size: 0.84rem; }
+    footer a { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 0.16em; }
+    footer .links { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; font-family: var(--mono); font-size: 0.78rem; }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 1000px) {
+      .bento { grid-template-columns: repeat(6, minmax(0, 1fr)); grid-auto-rows: auto; }
+      .bento .tile { grid-row: auto; }
+      .t-featured { grid-column: 1 / -1; }
+      .t-finder { grid-column: 1 / 4; }
+      .t-method { grid-column: 4 / 7; }
+      .t-stat-1, .t-stat-2, .t-stat-3 { grid-column: span 2; min-height: 130px; }
+      .t-changed { grid-column: 1 / -1; }
+      .t-newcomer { grid-column: 1 / -1; }
+      .t-pick { grid-column: span 3; }
+      .cat-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .cat-hero { grid-template-columns: 1fr; }
+      .compare-head { grid-template-columns: 1fr; gap: 0.8rem; }
+      .explore-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      footer { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .wrap { width: calc(100% - 1.6rem); }
+      .bento { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.8rem; }
+      .bento .tile { grid-column: 1 / -1; }
+      .bento .t-stat-1, .bento .t-stat-2, .bento .t-stat-3 { grid-column: span 2; min-height: 0; padding: 1rem 0.9rem; }
+      .t-stat .num { font-size: 2rem; }
+      .t-stat .lbl { font-size: 0.62rem; }
+      .pair { grid-template-columns: 1fr; }
+      .starters { grid-template-columns: 1fr; }
+      .cat-list { grid-template-columns: 1fr; }
+      .numeral { right: -3vw; top: -0.6rem; font-size: 8.5rem; opacity: 0.4; }
+      .numeral span { display: none; }
+      .bar nav a, .theme-word { display: none; }
+      .hero h1 { max-width: none; }
+      .versus::before { clip-path: polygon(0 0, 100% 0, 100% 46%, 0 54%); }
+      .versus .panels { grid-template-columns: 1fr; }
+      .panel.runner { padding-left: 1.6rem; padding-top: 2.4rem; }
+      .panel .top > div:first-child { min-width: 0; flex: 1; }
+      .panel .top .chip { white-space: normal; text-align: left; }
+      .dial, .dial svg { width: 72px; height: 72px; }
+      .bars .legend, .bars .row { grid-template-columns: minmax(0, 1fr) 6rem minmax(0, 1fr); gap: 0.5rem; }
+      .bar, .bar.l { grid-template-columns: 1fr; gap: 0.25rem; direction: ltr; }
+      .bar .num { font-size: 0.78rem; }
+      .builtin { grid-template-columns: 1fr; gap: 0.6rem; }
+      .more-grid, .explore-grid { grid-template-columns: 1fr; }
+      .marquee .pause { display: none; }
+      .t-finder, .t-method { grid-column: 1 / -1; }
+    }
+
+    /* ---------- Reduced motion ---------- */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .marquee .track { animation: none; }
+      .marquee { overflow-x: auto; }
+      .numeral { transform: none !important; }
+      .tile, .shelf-card, .explore-grid a, .media img, .pill, .t-pick .compare, .dial .fill, .bar .trk i { transition: none !important; }
+      .t-pick .media img, .tile:hover .media img { transform: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ===================== Masthead bar ===================== -->
+  <header class="bar">
+    <div class="wrap">
+      <a class="brand" href="#home" aria-label="OmaPicks home">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="var(--accent)"/><path d="m16 20 12 12-12 12" fill="none" stroke="var(--accent-ink)" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"/><path d="M33 44h17" fill="none" stroke="var(--accent-ink)" stroke-linecap="round" stroke-width="6"/></svg>
+        OmaPicks
+      </a>
+      <nav aria-label="Primary navigation">
+        <span class="chip proposal-tag">Proposal 02 · Podium</span>
+        <a href="#home" data-nav="home" aria-current="page">Issue W44</a>
+        <a href="#method">Method</a>
+        <a href="#changes">Changes</a>
+        <a href="#rss">RSS</a>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="true" aria-label="Switch to light theme">
+          <span class="moon" aria-hidden="true">◐</span><span class="sun" aria-hidden="true">◑</span>
+          <span class="theme-word">Theme</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ===================== HOME VIEW ===================== -->
+    <section data-view="home" aria-label="This week's issue">
+      <div class="wrap">
+        <!-- Hero -->
+        <section class="hero">
+          <div class="numeral" aria-hidden="true">44<span>ISSUE · 2026</span></div>
+          <p class="eyebrow reveal in" style="--i:0">
+            <strong>Issue W44</strong>
+            <span>Published Monday, October 26, 2026</span>
+            <span>64 categories</span>
+            <span>255 reviewed entries</span>
+          </p>
+          <h1 class="reveal in" style="--i:1">The best Omarchy plugin for <em>every</em> job.</h1>
+          <p class="sub reveal in" style="--i:2">One champion and one runner-up per category, qualified by task evidence and rescored every Monday. <strong>No votes. No sponsorships.</strong></p>
+          <p class="actions reveal in" style="--i:3">
+            <a class="pill solid" href="#browse">Browse 64 categories <span aria-hidden="true">↓</span></a>
+            <a class="pill" href="#method">How rankings work</a>
+            <a class="pill" href="#category">Open a sample category <span aria-hidden="true">→</span></a>
+          </p>
+        </section>
+      </div>
+
+      <!-- Marquee of category names -->
+      <div class="marquee" aria-label="Category names">
+        <div class="track" data-marquee>
+          <ul data-marquee-list aria-hidden="true"></ul>
+          <ul data-marquee-list aria-hidden="true"></ul>
+        </div>
+        <button class="pause" type="button" data-marquee-pause aria-pressed="false">Pause</button>
+      </div>
+
+      <div class="wrap">
+        <!-- Bento grid -->
+        <section class="bento" aria-label="This week at a glance">
+
+          <!-- Featured showdown -->
+          <article class="tile t-featured reveal" style="--i:0">
+            <div class="head">
+              <div>
+                <p class="kicker">Featured today</p>
+                <h2>Best <a href="#category">Screen Recording</a> plugin this week</h2>
+                <p class="note">A different category each day. Rankings refresh Monday.</p>
+              </div>
+              <span class="chip">7 plugins competed</span>
+            </div>
+            <div class="pair">
+              <div class="entry champion">
+                <p class="rank">01 Champion <span class="chip ok">Snapshot verified</span></p>
+                <a class="media" href="#category" tabindex="-1" aria-hidden="true"><img src="../../data/assets/plugins/chyld.easy-capture-353026d0d7.webp" alt="" width="577" height="720" loading="eager"></a>
+                <h3><a href="#category">Easy Capture</a></h3>
+                <p class="by">By chyld</p>
+                <p class="blurb">Capture your screen in a few clicks, without memorizing hotkeys. Screenshot or record regions, apps, or monitors straight from your Omarchy bar.</p>
+              </div>
+              <div class="entry">
+                <p class="rank">02 Runner-up <span class="chip ok">Snapshot verified</span></p>
+                <a class="media" href="#category" tabindex="-1" aria-hidden="true"><img src="../../data/assets/plugins/glasschan.oma-swiss-e9b871e055.webp" alt="" width="720" height="345" loading="eager"></a>
+                <h3><a href="#category">OmaSwiss</a></h3>
+                <p class="by">By Glass Chan</p>
+                <p class="blurb">One bar icon, six Hyprland tools: Super⇄Alt swap, aspect ratio, gaming mode, IME theming, screenshots, OCR, QR scan &amp; recording.</p>
+              </div>
+            </div>
+            <p class="foot">
+              <span class="delta">1.3% ahead on score</span>
+              <span>Rescored Monday</span>
+              <a class="pill" href="#category">Compare <span aria-hidden="true">→</span></a>
+            </p>
+          </article>
+
+          <!-- Finder -->
+          <div class="tile t-finder reveal" style="--i:1" role="search">
+            <label for="finder">Find a category</label>
+            <div class="finder-input">
+              <span class="glyph" aria-hidden="true">&gt;</span>
+              <input id="finder" type="search" placeholder="weather, clipboard, spotify…" autocomplete="off" spellcheck="false" aria-describedby="finder-count" aria-controls="finder-list" data-finder>
+              <span class="count" id="finder-count" data-finder-count aria-live="polite">8/64</span>
+            </div>
+            <ul class="finder-list" id="finder-list" data-finder-list aria-label="Suggested categories"></ul>
+            <p class="finder-empty" data-finder-empty hidden>No categories match.</p>
+            <p class="foot hint"><kbd>Enter</kbd> opens the first match · <kbd>Esc</kbd> clears</p>
+          </div>
+
+          <!-- Method / RSS -->
+          <div class="tile t-method reveal" style="--i:2">
+            <a href="#method" id="method"><span>How rankings work</span><span aria-hidden="true">→</span></a>
+            <a href="#rss" id="rss"><span>Subscribe with RSS</span><span aria-hidden="true">→</span></a>
+            <a href="#changes"><span>All weekly changes</span><span aria-hidden="true">→</span></a>
+          </div>
+
+          <!-- Stats -->
+          <div class="tile t-stat t-stat-1 reveal" style="--i:3">
+            <p class="num" data-count="64">0</p>
+            <p class="lbl">Categories</p>
+          </div>
+          <div class="tile t-stat t-stat-2 reveal" style="--i:4">
+            <p class="num" data-count="255">0</p>
+            <p class="lbl">Reviewed entries</p>
+          </div>
+          <div class="tile t-stat t-stat-3 reveal" style="--i:5">
+            <p class="num" data-count="3">0</p>
+            <p class="lbl">Champion changes</p>
+          </div>
+
+          <!-- What changed -->
+          <article class="tile t-changed reveal" style="--i:6" id="changes">
+            <p class="kicker">2026-W44 · What changed</p>
+            <h3>3 categories have a new champion this week.</h3>
+            <ul class="changes">
+              <li><span class="n">01</span><span><a href="#category">Network Traffic &amp; Diagnostics</a>: <b>OmaStats</b> <em>replaces Vitals.</em></span></li>
+              <li><span class="n">02</span><span><a href="#category">Keyboard Layouts</a>: <b>Keyboard Layout Switcher</b> <em>replaces Keyboard Layout Pulse.</em></span></li>
+              <li><span class="n">03</span><span><a href="#category">Uptime Monitoring</a>: <b>Omastatus</b> <em>replaces Is It Down?.</em></span></li>
+            </ul>
+            <p class="foot">
+              <span>0 new listings in ranked categories since October 19</span>
+              <a href="#changes">See all weekly changes</a>
+              <a href="#rss">Subscribe with RSS</a>
+            </p>
+          </article>
+
+          <!-- Newcomer -->
+          <article class="tile t-newcomer reveal" style="--i:7">
+            <p class="kicker">New to Omarchy?</p>
+            <h3>Start with a task, not a plugin list.</h3>
+            <p class="intro"><a href="https://omarchy.org/">Omarchy</a> is a Linux desktop built around the keyboard. Plugins add tools and shortcuts. Explore a task, compare this week's picks, and visit the original listing for setup and version requirements.</p>
+            <div class="starters">
+              <div class="starter">
+                <h4>Get through your day</h4>
+                <p>Capture a thought, keep track of plans, make room to focus.</p>
+                <ul><li><a href="#category">Notes</a></li><li><a href="#category">Calendar</a></li><li><a href="#category">Clipboard</a></li><li><a href="#category">Focus Sessions</a></li><li><a href="#category">Task Lists</a></li></ul>
+              </div>
+              <div class="starter">
+                <h4>Make your desktop yours</h4>
+                <p>Find your colors, change the view, move between windows.</p>
+                <ul><li><a href="#category">Themes &amp; Appearance</a></li><li><a href="#category">Wallpaper</a></li><li><a href="#category">Workspaces</a></li><li><a href="#category">Window Management</a></li></ul>
+              </div>
+              <div class="starter">
+                <h4>Keep your laptop ready</h4>
+                <p>Check power, manage sound, see what needs attention.</p>
+                <ul><li><a href="#category">Battery</a></li><li><a href="#category">Audio</a></li><li><a href="#category">Network Connections</a></li><li><a href="#category">System Updates</a></li></ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- Pick tiles -->
+          <article class="tile t-pick t-pick-1 reveal" style="--i:8" data-pick>
+            <div class="media"><img src="../../data/assets/plugins/crmne.hyprmoncfg-4972c1b7dd.webp" alt="hyprmoncfg preview" width="720" height="450" loading="lazy"><span class="delta-chip">51.8% ahead</span></div>
+            <div class="body">
+              <p class="kicker plain">Screen Brightness</p>
+              <h3>hyprmoncfg: Multi-Monitor Manager</h3>
+              <p class="by">Champion by Carmine Paolino · runner-up Display Settings</p>
+            </div>
+            <span class="pill compare" aria-hidden="true">Compare →</span>
+            <a class="cover" href="#category" aria-label="Compare Screen Brightness picks"></a>
+          </article>
+          <article class="tile t-pick t-pick-2 reveal" style="--i:9" data-pick>
+            <div class="media"><img src="../../data/assets/plugins/harshith.system-monitor-24f4439676.webp" alt="System Monitor preview" width="720" height="480" loading="lazy"><span class="delta-chip">9.6% ahead</span></div>
+            <div class="body">
+              <p class="kicker plain">System Monitor</p>
+              <h3>System Monitor</h3>
+              <p class="by">Champion by Harshith · runner-up Activity Monitor</p>
+            </div>
+            <span class="pill compare" aria-hidden="true">Compare →</span>
+            <a class="cover" href="#category" aria-label="Compare System Monitor picks"></a>
+          </article>
+          <article class="tile t-pick t-pick-3 reveal" style="--i:10" data-pick>
+            <div class="media"><img src="../../data/assets/plugins/io.github.atif-1402.ai-panel-eaab0b66a1.webp" alt="AI Panel preview" width="720" height="405" loading="lazy"><span class="delta-chip">Champion</span></div>
+            <div class="body">
+              <p class="kicker plain">AI Chat &amp; Models</p>
+              <h3>AI Panel</h3>
+              <p class="by">Champion by atif-1402 · runner-up Jarvis</p>
+            </div>
+            <span class="pill compare" aria-hidden="true">Compare →</span>
+            <a class="cover" href="#category" aria-label="Compare AI Chat and Models picks"></a>
+          </article>
+          <article class="tile t-pick t-pick-4 reveal" style="--i:11" data-pick>
+            <div class="media"><img src="../../data/assets/plugins/io.github.jeremylanger.omaspotify-43ce9f9eb9.webp" alt="OmaSpotify preview" width="720" height="405" loading="lazy"><span class="delta-chip">Champion</span></div>
+            <div class="body">
+              <p class="kicker plain">Music Players</p>
+              <h3>OmaSpotify</h3>
+              <p class="by">Champion by jeremylanger · runner-up Yandex Music</p>
+            </div>
+            <span class="pill compare" aria-hidden="true">Compare →</span>
+            <a class="cover" href="#category" aria-label="Compare Music Players picks"></a>
+          </article>
+        </section>
+
+        <!-- Shelf + list -->
+        <section id="browse" aria-labelledby="browse-heading">
+          <div class="section-head reveal">
+            <div>
+              <p class="kicker">Catalog</p>
+              <h2 id="browse-heading">Browse all 64 categories</h2>
+              <p>Champion first, runner-up beside it. Every pick is qualified by reviewed task evidence.</p>
+            </div>
+            <div class="shelf-nav">
+              <button type="button" data-shelf-prev aria-label="Scroll categories backwards">←</button>
+              <button type="button" data-shelf-next aria-label="Scroll categories forwards">→</button>
+            </div>
+          </div>
+          <div class="shelf reveal" data-shelf tabindex="0" aria-label="Category shelf, scroll horizontally"></div>
+          <div class="cat-list reveal" data-cat-list aria-label="All categories"></div>
+        </section>
+      </div>
+    </section>
+
+    <!-- ===================== CATEGORY VIEW ===================== -->
+    <section data-view="category" aria-label="Clipboard category" hidden>
+      <div class="wrap">
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="#home">All picks</a> / Clipboard</nav>
+        <section class="cat-hero">
+          <div class="reveal" style="--i:0">
+            <p class="eyebrow"><strong>Week of October 26, 2026</strong><span>2026-W44</span><span>4 plugins competed</span></p>
+            <h1>Clipboard</h1>
+          </div>
+          <div class="reveal" style="--i:1">
+            <p class="lede">Clipboard history, reusable snippets, and paste management. Four plugins competed this week after task capability review. This page shows the champion and runner-up.</p>
+            <p class="share">
+              <a class="pill" href="#category">Share on X</a>
+              <a class="pill" href="#category">Email</a>
+              <button class="pill" type="button" data-copy="https://omapicks.com/picks/clipboard/">Copy link</button>
+            </p>
+          </div>
+        </section>
+
+        <aside class="builtin reveal" aria-labelledby="builtin-heading">
+          <div>
+            <h2 id="builtin-heading">Included with Omarchy</h2>
+            <p class="sub">Built into Omarchy Quattro; not ranked.</p>
+          </div>
+          <div>
+            <p><strong><a href="https://github.com/omacom/omarchy">Clipboard</a></strong> — A clipboard manager to view and paste history. Try it before installing a plugin.</p>
+            <div class="cmd"><code>omarchy plugin enable omarchy.clipboard</code><button type="button" data-copy="omarchy plugin enable omarchy.clipboard">Copy</button></div>
+          </div>
+        </aside>
+
+        <!-- Versus split -->
+        <section class="versus reveal" aria-label="Champion versus runner-up">
+          <span class="apart" aria-label="Scores are 53.9 percent apart">53.9% apart</span>
+          <div class="panels">
+            <article class="panel champion">
+              <div class="top">
+                <div>
+                  <p class="rank">01 Champion</p>
+                  <span class="chip stale">Verified snapshot · update unverified</span>
+                </div>
+                <div class="dial" data-dial="0.933" role="img" aria-label="Combined score 0.933">
+                  <svg viewBox="0 0 100 100" aria-hidden="true"><circle class="track" cx="50" cy="50" r="44"/><circle class="fill" cx="50" cy="50" r="44"/></svg>
+                  <span class="val" data-dial-val>0.000</span>
+                </div>
+              </div>
+              <div class="media"><img src="../../data/assets/plugins/io.github.maajix.spotlight-46e0d18218.webp" alt="Spotlight preview" width="720" height="405" loading="lazy"></div>
+              <h2><a href="https://plugins.omarchy.org/plugin.html?id=io.github.maajix.spotlight">Spotlight</a></h2>
+              <p class="by">Max Randhahn · v1.7.6 · release v1.7.0 · MIT · listed 47 days before this snapshot</p>
+              <div class="fit">
+                <p><strong>Why it fits:</strong> Lets you browse saved clipboard history and reuse a selected entry. Native task controls within a wider plugin.</p>
+                <p class="src"><a href="https://github.com/maajix/omarchy-spotlight#readme">Capability evidence</a> · Reviewed 2026-10-12</p>
+              </div>
+              <p class="why-won">It won mainly because more people copied the install command, and it received more marketplace hearts.</p>
+              <p class="desc">A Raycast-style launcher for Omarchy. Spotlight launches applications, switches windows, finds files, searches clipboard history, runs Omarchy commands and toggles system settings from a single input.</p>
+              <div class="cmd"><code>omarchy plugin add https://github.com/maajix/omarchy-spotlight.git --enable</code><button type="button" data-copy="omarchy plugin add https://github.com/maajix/omarchy-spotlight.git --enable">Copy</button></div>
+              <p class="links"><a href="https://plugins.omarchy.org/plugin.html?id=io.github.maajix.spotlight">Original listing</a><a href="https://github.com/maajix/omarchy-spotlight">Repository</a></p>
+              <p class="disclaimer">A ranking is not an endorsement or a safety review. The command installs the repository's current code, not a verified snapshot. Inspect the plugin yourself and install it at your own risk. <a href="#method">Read the full note</a></p>
+            </article>
+
+            <article class="panel runner">
+              <div class="top">
+                <div>
+                  <p class="rank">02 Runner-up</p>
+                  <span class="chip stale">Verified snapshot · update unverified</span>
+                </div>
+                <div class="dial" data-dial="0.606" role="img" aria-label="Combined score 0.606">
+                  <svg viewBox="0 0 100 100" aria-hidden="true"><circle class="track" cx="50" cy="50" r="44"/><circle class="fill" cx="50" cy="50" r="44"/></svg>
+                  <span class="val" data-dial-val>0.000</span>
+                </div>
+              </div>
+              <div class="media"><div class="placeholder" role="img" aria-label="Clipboard Manager preview unavailable"><span>&gt;_ preview unavailable</span></div></div>
+              <h2><a href="https://plugins.omarchy.org/plugin.html?id=io.github.vuhuy.clipboard-manager">Clipboard Manager</a></h2>
+              <p class="by">Huy Vu Quang · v0.1.1 · MIT</p>
+              <div class="fit">
+                <p><strong>Why it fits:</strong> Lets you browse saved clipboard history and reuse a selected entry.</p>
+                <p class="src"><a href="https://plugins.omarchy.org/plugin.html?id=io.github.vuhuy.clipboard-manager">Capability evidence</a> · Reviewed 2026-10-12</p>
+              </div>
+              <p class="desc">A native Omarchy bar panel for browsing and reusing clipboard history.</p>
+              <div class="cmd"><code>omarchy plugin add https://github.com/huyhuyvu01/omarchy-clipboard.git --enable</code><button type="button" data-copy="omarchy plugin add https://github.com/huyhuyvu01/omarchy-clipboard.git --enable">Copy</button></div>
+              <p class="links"><a href="https://plugins.omarchy.org/plugin.html?id=io.github.vuhuy.clipboard-manager">Original listing</a><a href="https://github.com/huyhuyvu01/omarchy-clipboard">Repository</a></p>
+              <p class="disclaimer">A ranking is not an endorsement or a safety review. The command installs the repository's current code, not a verified snapshot. Inspect the plugin yourself and install it at your own risk. <a href="#method">Read the full note</a></p>
+            </article>
+          </div>
+        </section>
+
+        <!-- Comparison bars -->
+        <section class="compare-sec reveal" aria-labelledby="compare-heading">
+          <div class="compare-head">
+            <div>
+              <p class="kicker">Marketplace counts</p>
+              <h2 id="compare-heading">How they compare</h2>
+            </div>
+            <p>Raw public counts for these two plugins, not the ranking itself. Install-command copies count most. Copies per detail view is an engagement proxy, capped at 100%, not a measured install rate. Combined scores: Spotlight 0.933, Clipboard Manager 0.606. <a href="#method">How the ranking is calculated</a></p>
+          </div>
+          <div class="bars" data-bars>
+            <div class="legend"><span>Spotlight</span><span>Signal</span><span>Clipboard Manager</span></div>
+            <div class="row"><div class="bar l"><span class="num">627</span><span class="trk"><i style="--w:100%"></i></span></div><span class="metric">Copies</span><div class="bar"><span class="num">256</span><span class="trk"><i style="--w:41%"></i></span></div></div>
+            <div class="row"><div class="bar l"><span class="num">31</span><span class="trk"><i style="--w:100%"></i></span></div><span class="metric">Hearts</span><div class="bar"><span class="num">10</span><span class="trk"><i style="--w:32%"></i></span></div></div>
+            <div class="row"><div class="bar l"><span class="num">44</span><span class="trk"><i style="--w:100%"></i></span></div><span class="metric">Stars</span><div class="bar"><span class="num">5</span><span class="trk"><i style="--w:11%"></i></span></div></div>
+            <div class="row"><div class="bar l"><span class="num">2,217</span><span class="trk"><i style="--w:100%"></i></span></div><span class="metric">Views</span><div class="bar"><span class="num">825</span><span class="trk"><i style="--w:37%"></i></span></div></div>
+            <div class="row"><div class="bar l"><span class="num">28.3%</span><span class="trk"><i style="--w:91%"></i></span></div><span class="metric">Copies per view</span><div class="bar"><span class="num">31.0%</span><span class="trk"><i style="--w:100%"></i></span></div></div>
+            <div class="row"><div class="bar l"><span class="num">98%</span><span class="trk"><i style="--w:100%"></i></span></div><span class="metric">Freshness</span><div class="bar"><span class="num">86%</span><span class="trk"><i style="--w:88%"></i></span></div></div>
+          </div>
+        </section>
+
+        <!-- More choices -->
+        <section class="more reveal" aria-labelledby="more-heading">
+          <h2 id="more-heading">More choices for this task</h2>
+          <div class="more-grid">
+            <article class="tile">
+              <h3><a href="https://plugins.omarchy.org/">Clipbasket</a></h3>
+              <div class="fit"><p><strong>Why it fits:</strong> Lets you browse saved clipboard history and reuse a selected entry.</p><p class="src"><a href="https://plugins.omarchy.org/">Capability evidence</a> · Reviewed 2026-10-12</p></div>
+            </article>
+            <article class="tile">
+              <h3><a href="https://plugins.omarchy.org/">Clipboard History</a></h3>
+              <div class="fit"><p><strong>Why it fits:</strong> Lets you browse saved clipboard history and reuse a selected entry.</p><p class="src"><a href="https://plugins.omarchy.org/">Capability evidence</a> · Reviewed 2026-10-12</p></div>
+            </article>
+          </div>
+          <p class="note">Recommendations first need reviewed evidence that they complete this category's task. Install-command copies count most, then hearts and GitHub stars; recently updated repositories rank higher. <strong>A ranking is not an endorsement or a safety review.</strong> <a href="#method">Full scoring notes</a></p>
+        </section>
+
+        <!-- Explore more -->
+        <section class="explore reveal" aria-labelledby="explore-heading">
+          <div class="head">
+            <h2 id="explore-heading">Explore more categories</h2>
+            <a href="#browse">Browse all categories →</a>
+          </div>
+          <div class="explore-grid">
+            <a href="#category"><span>Agent Sessions</span><strong>Agent Orchestrator</strong></a>
+            <a href="#category"><span>AI Chat &amp; Models</span><strong>AI Panel</strong></a>
+            <a href="#category"><span>Calendar</span><strong>Calendar</strong></a>
+            <a href="#category"><span>Clocks &amp; Time Zones</span><strong>Timezones</strong></a>
+            <a href="#category"><span>Dictionary &amp; Thesaurus</span><strong>Dictionary</strong></a>
+            <a href="#category"><span>Focus Sessions</span><strong>Omodoro</strong></a>
+          </div>
+          <div class="pager">
+            <a href="#category"><span>Previous</span><strong>Battery</strong></a>
+            <a href="#category"><span>Next</span><strong>Launcher</strong></a>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <div class="wrap">
+      <footer>
+        <p>Plugin metadata, engagement signals, and previews come from <a href="https://plugins.omarchy.org/?sort=copies">Omarchy Plugins</a>. OmaPicks calculates the rankings independently and is not affiliated with Omarchy, 37signals, or omarchyplugins.com.</p>
+        <p class="links"><a href="#method">Data and methodology</a><a href="#home">Privacy</a><a href="https://github.com/BVisagie/omapicks">Open-source code</a><a href="https://github.com/sponsors/BVisagie">Sponsor on GitHub</a></p>
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    /* =========================================================
+       Behaviour. Everything is progressive: the page reads fine
+       without JS; these enhancements add motion and the demo
+       router.
+       ========================================================= */
+    (() => {
+      "use strict";
+      const root = document.documentElement;
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      /* ---------- Data (catalog subset for the demo) ---------- */
+      const CATALOG = [
+        ["Agent Sessions", "Agent Orchestrator", "meviusisback", "Session Browser", "Sudhanshu Gautam", 3],
+        ["AI & API Usage", "AI Usage", "AkitaOnRails", "Agent Usage Plus", "Gabriele Vigano", 4],
+        ["AI Chat & Models", "AI Panel", "atif-1402", "Jarvis", "Gustavo von Atzingen", 5],
+        ["Application Docks", "Dock", "rosakodu", "Arc Dock", "Claudson", 4],
+        ["Audio", "Advanced Audio Control", "ssupt", "Advanced Bluetooth Audio", "ssupt", 4],
+        ["Battery", "OmaStats", "Carmine Paolino", "Argus", "Diego Peter", 4],
+        ["Bluetooth", "Advanced Bluetooth Audio", "ssupt", "Better Bluetooth", "aryan-techie", 4],
+        ["Calendar", "Calendar", "tmn73", "Chronica", "promaaa", 4],
+        ["Clipboard", "Spotlight", "Max Randhahn", "Clipboard Manager", "Huy Vu Quang", 4],
+        ["Clocks & Time Zones", "Timezones", "Simon Späti", "OmaClock", "ubeyidah", 4],
+        ["Color Picker", "Chroma", "Ajan Raj", "Omarchy Color Picker", "Andy Stewart", 4],
+        ["Containers", "Omarchy X-Ray", "randazraik", "Docker", "majkelll", 3],
+        ["Dev Ports", "Port Watch", "zerubbabelt", "OmaPorts", "Mich Nduka", 3],
+        ["Dictionary & Thesaurus", "Dictionary", "Triston Armstrong", "Dictionary & Thesaurus", "DLP Waters", 3],
+        ["Display & Monitors", "hyprmoncfg", "Carmine Paolino", "Omarchy Display Manager", "Bryan Montgomery", 5],
+        ["File Search", "Omarchy Find", "Jesse Burlamaque", "Spotlight", "Max Randhahn", 4],
+        ["Firewall", "Omawall", "Sahzudin Mahmic", "Snitch", "Chris", 3],
+        ["Focus Sessions", "Omodoro", "pnkm0nk", "Clockwork", "Pieter Geutjens", 4],
+        ["Gaming", "Game Mode Switcher", "silvaio", "OmaSwiss", "Glass Chan", 4],
+        ["GitHub", "GitHub", "Rob Zolkos", "Git", "ariadev", 4],
+        ["Launcher", "Keystroke", "Arseniy Zarechnev", "App Launcher", "tyrsolution", 5],
+        ["Mail", "Omamail", "huacnlee", "Gmail Inbox", "jankees", 3],
+        ["Media Controls", "Media Controls + Album Art", "Carmine Paolino", "OmaConnect", "Jitendra Dara", 4],
+        ["Music Players", "OmaSpotify", "jeremylanger", "Yandex Music", "vornashev", 4],
+        ["Network Connections", "Network Manager", "Gunesh Bari", "OmaltBar", "Ángel Durán", 4],
+        ["Screen Recording", "Easy Capture", "chyld", "OmaSwiss", "Glass Chan", 7],
+        ["System Monitor", "System Monitor", "Harshith", "Activity Monitor", "Kristoffer Haugland", 5]
+      ].map(([category, champion, author, runner, runnerAuthor, competed]) => ({ category, champion, author, runner, runnerAuthor, competed }));
+      const SUGGESTED = ["Clipboard", "Screen Recording", "System Monitor", "AI Chat & Models", "Music Players", "Launcher", "Battery", "Calendar"];
+      const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+      /* ---------- Theme ---------- */
+      const KEY = "omapicks-proposal-2-theme";
+      const toggle = document.querySelector("[data-theme-toggle]");
+      function setTheme(theme) {
+        root.dataset.theme = theme;
+        toggle.setAttribute("aria-pressed", String(theme === "dark"));
+        toggle.setAttribute("aria-label", `Switch to ${theme === "dark" ? "light" : "dark"} theme`);
+      }
+      let stored = null;
+      try { stored = localStorage.getItem(KEY); } catch {}
+      setTheme(stored === "light" || stored === "dark" ? stored : (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"));
+      toggle.addEventListener("click", () => {
+        const next = root.dataset.theme === "dark" ? "light" : "dark";
+        setTheme(next);
+        try { localStorage.setItem(KEY, next); } catch {}
+      });
+
+      /* ---------- Reveal on scroll ---------- */
+      const revealIO = new IntersectionObserver((entries) => {
+        for (const e of entries) if (e.isIntersecting) { e.target.classList.add("in"); revealIO.unobserve(e.target); }
+      }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+      function watchReveals(scope) {
+        for (const el of scope.querySelectorAll(".reveal:not(.in)")) reduce ? el.classList.add("in") : revealIO.observe(el);
+      }
+
+      /* ---------- Count-ups ---------- */
+      const ease = (t) => 1 - Math.pow(1 - t, 3);
+      function countUp(el, to, decimals = 0, ms = 1100) {
+        if (reduce) { el.textContent = to.toLocaleString("en-US", { minimumFractionDigits: decimals, maximumFractionDigits: decimals }); return; }
+        const start = performance.now();
+        const tick = (now) => {
+          const p = Math.min(1, (now - start) / ms);
+          el.textContent = (to * ease(p)).toLocaleString("en-US", { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }
+      const countIO = new IntersectionObserver((entries) => {
+        for (const e of entries) if (e.isIntersecting) { countUp(e.target, Number(e.target.dataset.count)); countIO.unobserve(e.target); }
+      }, { threshold: 0.4 });
+      for (const el of document.querySelectorAll("[data-count]")) countIO.observe(el);
+
+      /* ---------- Dials and bars (category view) ---------- */
+      const C = 276.46;
+      const dialIO = new IntersectionObserver((entries) => {
+        for (const e of entries) if (e.isIntersecting) {
+          const v = Number(e.target.dataset.dial);
+          e.target.querySelector(".fill").style.strokeDashoffset = String(C * (1 - v));
+          countUp(e.target.querySelector("[data-dial-val]"), v, 3, 1400);
+          dialIO.unobserve(e.target);
+        }
+      }, { threshold: 0.5 });
+      for (const el of document.querySelectorAll("[data-dial]")) dialIO.observe(el);
+      const barsIO = new IntersectionObserver((entries) => {
+        for (const e of entries) if (e.isIntersecting) { e.target.classList.add("in"); barsIO.unobserve(e.target); }
+      }, { threshold: 0.3 });
+      for (const el of document.querySelectorAll("[data-bars]")) barsIO.observe(el);
+
+      /* ---------- Hero numeral parallax ---------- */
+      const numeral = document.querySelector(".numeral");
+      if (numeral && !reduce) {
+        let ticking = false;
+        const update = () => { numeral.style.transform = `translate3d(0, ${scrollY * -0.14}px, 0) rotate(${Math.min(scrollY / 180, 4)}deg)`; ticking = false; };
+        addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+        update();
+      }
+
+      /* ---------- Marquee ---------- */
+      for (const list of document.querySelectorAll("[data-marquee-list]")) {
+        list.innerHTML = CATALOG.map((c) => `<li>${esc(c.category)}</li>`).join("");
+      }
+      const marquee = document.querySelector(".marquee");
+      const pause = document.querySelector("[data-marquee-pause]");
+      pause.addEventListener("click", () => {
+        const paused = marquee.classList.toggle("paused");
+        pause.textContent = paused ? "Play" : "Pause";
+        pause.setAttribute("aria-pressed", String(paused));
+      });
+
+      /* ---------- Finder ---------- */
+      const finder = document.querySelector("[data-finder]");
+      const finderList = document.querySelector("[data-finder-list]");
+      const finderCount = document.querySelector("[data-finder-count]");
+      const finderEmpty = document.querySelector("[data-finder-empty]");
+      function renderFinder() {
+        const q = finder.value.trim().toLocaleLowerCase();
+        const rows = q
+          ? CATALOG.filter((c) => `${c.category} ${c.champion} ${c.author} ${c.runner}`.toLocaleLowerCase().includes(q))
+          : CATALOG.filter((c) => SUGGESTED.includes(c.category));
+        const shown = rows.slice(0, 8);
+        finderList.innerHTML = shown.map((c) => `<li><a href="#category"><span>${esc(c.category)}</span><strong>${esc(c.champion)}</strong></a></li>`).join("");
+        finderCount.textContent = `${rows.length}/64`;
+        finderCount.setAttribute("aria-label", q ? `${rows.length} of 64 categories match` : `${rows.length} suggested categories`);
+        finderEmpty.hidden = !(q && rows.length === 0);
+      }
+      finder.addEventListener("input", renderFinder);
+      finder.addEventListener("keydown", (ev) => {
+        if (ev.key === "Enter") { const a = finderList.querySelector("a"); if (a) { ev.preventDefault(); location.hash = a.getAttribute("href"); } }
+        if (ev.key === "Escape") { finder.value = ""; renderFinder(); }
+      });
+      renderFinder();
+
+      /* ---------- Shelf + list ---------- */
+      const shelf = document.querySelector("[data-shelf]");
+      shelf.innerHTML = CATALOG.map((c) => `
+        <a class="shelf-card" href="#category">
+          <span class="cat">${esc(c.category)}</span>
+          <span class="champ">${esc(c.champion)}</span>
+          <span class="author">by ${esc(c.author)} · runner-up ${esc(c.runner)}</span>
+          <span class="meta"><span>${c.competed} competed</span><span class="dots" aria-hidden="true">${"<i></i>".repeat(c.competed)}</span></span>
+        </a>`).join("");
+      const step = () => (shelf.querySelector(".shelf-card")?.getBoundingClientRect().width || 272) * 3 + 44;
+      document.querySelector("[data-shelf-prev]").addEventListener("click", () => shelf.scrollBy({ left: -step(), behavior: reduce ? "auto" : "smooth" }));
+      document.querySelector("[data-shelf-next]").addEventListener("click", () => shelf.scrollBy({ left: step(), behavior: reduce ? "auto" : "smooth" }));
+      shelf.addEventListener("keydown", (ev) => {
+        if (ev.key === "ArrowRight") { ev.preventDefault(); shelf.scrollBy({ left: 300, behavior: "smooth" }); }
+        if (ev.key === "ArrowLeft") { ev.preventDefault(); shelf.scrollBy({ left: -300, behavior: "smooth" }); }
+      });
+      document.querySelector("[data-cat-list]").innerHTML = CATALOG.map((c) => `
+        <a href="#category"><span><span class="cat">${esc(c.category)}</span><span class="champ">${esc(c.champion)} · ${esc(c.runner)}</span></span><span class="count">${c.competed}</span></a>`).join("");
+
+      /* ---------- Pick tile parallax ---------- */
+      if (!reduce && matchMedia("(hover: hover)").matches) {
+        for (const tile of document.querySelectorAll("[data-pick]")) {
+          tile.addEventListener("mousemove", (ev) => {
+            const r = tile.getBoundingClientRect();
+            tile.style.setProperty("--px", String(((ev.clientX - r.left) / r.width - 0.5) * -2));
+            tile.style.setProperty("--py", String(((ev.clientY - r.top) / r.height - 0.5) * -2));
+          });
+          tile.addEventListener("mouseleave", () => { tile.style.setProperty("--px", "0"); tile.style.setProperty("--py", "0"); });
+        }
+      }
+
+      /* ---------- Copy buttons ---------- */
+      async function copyText(text) {
+        if (navigator.clipboard?.writeText) { try { await navigator.clipboard.writeText(text); return; } catch {} }
+        const area = document.createElement("textarea");
+        area.value = text; area.style.position = "fixed"; area.style.opacity = "0";
+        document.body.append(area); area.select();
+        let ok = false;
+        try { ok = document.execCommand("copy"); } finally { area.remove(); }
+        if (!ok) throw new Error("Copy failed");
+      }
+      for (const btn of document.querySelectorAll("[data-copy]")) {
+        btn.addEventListener("click", async () => {
+          const original = btn.textContent;
+          try { await copyText(btn.dataset.copy); btn.textContent = "Copied"; }
+          catch { btn.textContent = "Select"; }
+          setTimeout(() => { btn.textContent = original; }, 1600);
+        });
+      }
+
+      /* ---------- Hash router (demo only) ---------- */
+      const views = { home: document.querySelector('[data-view="home"]'), category: document.querySelector('[data-view="category"]') };
+      const navHome = document.querySelector('[data-nav="home"]');
+      function route() {
+        const name = location.hash === "#category" ? "category" : "home";
+        for (const [k, el] of Object.entries(views)) el.hidden = k !== name;
+        navHome.toggleAttribute("aria-current", name === "home");
+        document.title = name === "category" ? "Clipboard — OmaPicks (Proposal 02)" : "OmaPicks — Proposal 02: Podium";
+        if (name === "category" || location.hash === "#home" || location.hash === "") scrollTo({ top: 0, behavior: "instant" });
+        else { const target = document.querySelector(location.hash); if (target) target.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" }); }
+        watchReveals(views[name]);
+      }
+      addEventListener("hashchange", route);
+      route();
+    })();
+  </script>
+</body>
+</html>
