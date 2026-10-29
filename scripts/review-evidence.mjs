@@ -13,7 +13,7 @@ const save = async (file, value) => { await mkdir(path.dirname(file), { recursiv
 export async function stageCandidate({ root, output, result }) {
   await rm(output, { recursive: true, force: true });
   await mkdir(output, { recursive: true });
-  for (const name of ["build", "scripts", "site", "data", "test", "e2e", ".github", ".nvmrc", ".node-version", "package.json", "package-lock.json", "playwright.config.mjs"]) await cp(path.join(root, name), path.join(output, name), { recursive: true });
+  for (const name of ["build", "scripts", "site", "data", "workers", "test", "e2e", ".github", ".nvmrc", ".node-version", "package.json", "package-lock.json", "playwright.config.mjs"]) await cp(path.join(root, name), path.join(output, name), { recursive: true });
   await symlink(path.join(root, "node_modules"), path.join(output, "node_modules"), "dir");
   const rankings = structuredClone(result.rankings);
   const previousImages = new Map((result.auditInputs.previous?.types ?? []).flatMap((type) => [type.winner, type.runnerUp, ...(type.alternatives ?? [])].filter(Boolean)).map((pick) => [pick.id, pick]));

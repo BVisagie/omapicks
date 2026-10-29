@@ -66,7 +66,8 @@ test("restoration searches past incompatible artifacts and surfaces API failures
 test("research stages candidate pages separately without mutating published inputs", async (t) => {
   const root = await mkdtemp(path.join(os.tmpdir(), "omapicks-review-stage-"));
   t.after(() => rm(root, { recursive: true, force: true }));
-  for (const directory of ["build", "scripts", "site", "data/history", "test", "e2e", ".github", "node_modules"]) await mkdir(path.join(root, directory), { recursive: true });
+  for (const directory of ["build", "scripts", "site", "data/history", "workers", "test", "e2e", ".github", "node_modules"]) await mkdir(path.join(root, directory), { recursive: true });
+  await writeFile(path.join(root, "workers/index.mjs"), "export default {};\n");
   for (const file of [".nvmrc", ".node-version", "package.json", "package-lock.json", "playwright.config.mjs"]) await writeFile(path.join(root, file), "{}");
   const before = { week: "2026-W43", types: [] }, candidate = { week: "2026-W44", generatedAt: "2026-10-29T12:00:00Z", types: [] };
   await writeFile(path.join(root, "data/rankings.json"), JSON.stringify(before));
@@ -76,4 +77,5 @@ test("research stages candidate pages separately without mutating published inpu
   assert.deepEqual(JSON.parse(await readFile(path.join(root, "data/rankings.json"), "utf8")), before);
   assert.deepEqual(JSON.parse(await readFile(path.join(output, "data/rankings.json"), "utf8")), candidate);
   assert.equal(JSON.parse(await readFile(path.join(output, "data/availability.json"), "utf8")).rankingsGeneratedAt, candidate.generatedAt);
+  assert.equal(await readFile(path.join(output, "workers/index.mjs"), "utf8"), "export default {};\n");
 });
