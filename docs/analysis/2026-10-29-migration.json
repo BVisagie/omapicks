@@ -4,7 +4,7 @@
   "inputHash": "714a5b2bac128f191dcaf4fded9597999f16d2a3d7f76c2a5c0152707c6d8075",
   "taxonomyHash": "8914d9ef61f66e5a5edd7a1fcc354a5746b552ad1c20a73da0e1ae05ed0657bd",
   "taskReviewsHash": "9f266d78be1f26782518d8e1160a55bfaa45f7fa45806233dba6fc4e232d18aa",
-  "pluginProfilesHash": "569902d884ef65be21bd0119dc4d59cd03dd3bfbc3e0733ae85dc248792a0710",
+  "pluginProfilesHash": "b08999dbb41c7d0d23dc2ff1d97ce68fd1c05308205628871d8af254eac84a23",
   "evidenceObservationsHash": "16da3bef4c80192582f0ec2ebd8523530c239da77f43774c3999389d9a4330aa",
   "methodologyBefore": "1.2.0",
   "methodologyAfter": "1.3.0",
@@ -1879,7 +1879,7 @@
   ],
   "capture": {
     "file": "test/fixtures/recommendation-migration.json.gz",
-    "sha256": "1e353cb6809da6de978dff035f230f23175f7a69c376dfed13e83e5aae46f3c7",
+    "sha256": "547abc34d4d4cfa451226ed6dbdef1ba9674c110d2b3e83e30d6499dd8db2ecc",
     "catalogCount": 273,
     "scope": "Lossless ranking projection: every plugin with a baseline or proposed task decision. Unreviewed plugins cannot enter either scored cohort. Queue totals require the full original capture."
   }

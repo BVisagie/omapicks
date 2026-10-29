@@ -82,9 +82,13 @@ export async function captureEvidence({ catalog, taskReviews, pluginProfiles, ta
   validateProfiles(pluginProfiles);
   const byId = new Map(catalog.map((p) => [p.id, p]));
   const groups = new Map();
+  const expected = new Set();
   const contracts = new Map((taxonomy?.types ?? []).map((type) => [type.id, type.contract?.version]));
   for (const review of taskReviews.assignments) if (review.decision === "qualified" && review.provenance === "repository-evidence") {
     if (taxonomy && contracts.get(review.typeId) !== review.contractVersion) continue;
+    // Count prerequisites/revision failures too: losing all profiles must not
+    // turn a failed observation run into a successfully published empty set.
+    if (byId.has(review.pluginId)) expected.add(review.pluginId);
     // One plugin observation follows its shared requirements review. An older
     // category review cannot poison newer reviews for the same plugin; it will
     // independently fail the revision match in observationCurrent.
@@ -114,5 +118,5 @@ export async function captureEvidence({ catalog, taskReviews, pluginProfiles, ta
       } catch (error) { plugins[id] = { ...base, status: "unavailable", reason: error.message }; }
     }
   }));
-  return { schemaVersion: 1, generatedAt: now.toISOString(), attempted, completed, plugins: Object.fromEntries(Object.entries(plugins).sort(([a], [b]) => a.localeCompare(b))) };
+  return { schemaVersion: 1, generatedAt: now.toISOString(), expected: expected.size, attempted, completed, plugins: Object.fromEntries(Object.entries(plugins).sort(([a], [b]) => a.localeCompare(b))) };
 }

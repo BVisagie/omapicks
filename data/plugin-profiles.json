@@ -784,7 +784,7 @@
       "repository": "https://github.com/devgtv/omarchy-docker",
       "requirementsStatus": "reviewed",
       "requirements": [
-        "Requires an accessible Docker daemon and docker-group membership for unprivileged CLI access. Memory-limit changes affect running containers."
+        "Requires an accessible Docker daemon and docker-group membership. This grants root-equivalent host access even when CLI commands run without sudo. Memory-limit changes affect running containers."
       ],
       "reviewedAt": "2026-10-29",
       "sources": [

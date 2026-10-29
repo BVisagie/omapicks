@@ -1176,7 +1176,7 @@ function changelogPage(history) {
         <dd><strong>${escapeHtml(change.current.name)}</strong></dd>
       </div>`).join("")}</dl>` : ""}
       ${updates.length ? `<ul class="change-list">${updates.map((change) => {
-        const why = removalSentence(change);
+        const why = removalSentence(change, { atPublication: entry.modern });
         const reason = why ? ` ${escapeHtml(why)}` : "";
         if (change.kind === "displaced") {
           return `<li><strong>${escapeHtml(change.current.name)}</strong> replaced ${escapeHtml(change.previous.name)} in ${escapeHtml(change.typeName)}.${reason}</li>`;
@@ -1192,7 +1192,7 @@ function changelogPage(history) {
     const label = entry.modern ? "second reviewed option" : "runner-up";
     return `<h3 class="timeline-subhead">${entry.modern ? "Other reviewed option changes" : "Runner-up changes"}</h3>
       <ul class="change-list">${entry.runnerUpChanges.map((change) => {
-        const why = removalSentence(change);
+        const why = removalSentence(change, { atPublication: entry.modern });
         const reason = why ? ` ${escapeHtml(why)}` : "";
         if (change.kind === "displaced") {
           return `<li><strong>${escapeHtml(change.current.name)}</strong> replaced ${escapeHtml(change.previous.name)} as the ${escapeHtml(change.typeName)} ${label}.${reason}</li>`;

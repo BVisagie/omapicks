@@ -153,3 +153,15 @@ test("history keeps its original labels and never acquires a current availabilit
     assert.match(output, /New Pick is the Weather leading reviewed option/);
   }
 });
+
+test("retained modern history describes qualification holds at their publication, not as current state", () => {
+  const rankings = snapshot();
+  rankings.runnerUpChanges = [
+    { typeId: "weather", typeName: "Weather", kind: "displaced", previous: { id: "rain", name: "Rain" }, current: { id: "other", name: "Other" }, reason: "awaiting-task-qualification" },
+    { typeId: "weather", typeName: "Weather", kind: "displaced", previous: { id: "other", name: "Other" }, current: { id: "rain", name: "Rain" } }
+  ];
+  const html = renderFixtureChangelog([rankings]);
+  assert.match(html, /At that publication, Rain was awaiting task qualification before it could compete/);
+  assert.doesNotMatch(html, /Rain is awaiting/);
+  assert.match(html, /Rain<\/strong> replaced Other/);
+});

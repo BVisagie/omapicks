@@ -150,4 +150,15 @@ test("1.3 refresh captures deterministic evidence, freezes shared requirements a
   assert.deepEqual(await Promise.all(files.map((file) => readFile(path.join(root, "data", file), "utf8"))), before);
   const failed = JSON.parse(await readFile(path.join(root, "tmp/classification-audit/inputs.json")));
   assert.equal(failed.evidenceObservations.plugins.capture.status, "unavailable");
+  for (const brokenProfiles of [
+    { schemaVersion: 1, plugins: {} },
+    { schemaVersion: 1, plugins: { capture: { ...pluginProfiles.plugins.capture, sources: [{ ...source, revision: currentRevision, url: source.url.replace(revision, currentRevision) }] } } }
+  ]) {
+    await writeFile(path.join(root, "data/plugin-profiles.json"), JSON.stringify(brokenProfiles));
+    await assert.rejects(refresh({ root, now, republish: true, minimumCatalogSize: 1, fetchImpl }), /coverage fell below/);
+    const missing = JSON.parse(await readFile(path.join(root, "tmp/classification-audit/inputs.json")));
+    assert.equal(missing.evidenceObservations.expected, 1);
+    assert.equal(missing.evidenceObservations.attempted, 0);
+    assert.deepEqual(await Promise.all(files.map((file) => readFile(path.join(root, "data", file), "utf8"))), before);
+  }
 });

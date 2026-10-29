@@ -643,9 +643,19 @@ export const REMOVAL_REASONS = Object.freeze({
   "awaiting-task-qualification": "is awaiting task qualification before it can compete"
 });
 
-export function removalSentence(change) {
-  const phrase = REMOVAL_REASONS[change?.reason];
-  return phrase && change.previous ? `${change.previous.name} ${phrase}.` : "";
+export function removalSentence(change, { atPublication = false } = {}) {
+  const historical = {
+    "missing-from-catalog": "was no longer in the marketplace catalog",
+    "built-in": "was listed as an Omarchy built-in",
+    "not-installable": "had no marketplace install command",
+    "invalid-repository": "had no valid HTTPS repository",
+    "invalid-id": "had an invalid catalog ID",
+    "no-longer-in-category": "did not match this category",
+    "related-task-scope": "was recorded as a related tool with a narrower task scope",
+    "awaiting-task-qualification": "was awaiting task qualification before it could compete"
+  };
+  const phrase = (atPublication && historical[change?.reason]) || REMOVAL_REASONS[change?.reason];
+  return phrase && change.previous ? `${atPublication ? "At that publication, " : ""}${change.previous.name} ${phrase}.` : "";
 }
 
 // `context` explains removals with catalog/retirement IDs, global exclusions,

@@ -341,9 +341,12 @@ function withoutLocalImages(snapshot) {
   return copy;
 }
 
-// Same-week reruns append to the week's recorded events for that slot ("changes" for champions,
-// "runnerUpChanges" for runner-ups) instead of replacing them.
-function weekChangeLog(previous, week, existingHistory, computedChanges, key = "changes") {
+// Append only within one methodology. A migration starts its own event set so
+// earlier judgments cannot acquire the new methodology's meaning or labels.
+function weekChangeLog(previous, rankings, existingHistory, computedChanges, key = "changes") {
+  const week = rankings.week;
+  if ((previous?.methodologyVersion ?? LEGACY_METHODOLOGY_VERSION) !== rankings.methodologyVersion ||
+      (existingHistory?.methodologyVersion ?? LEGACY_METHODOLOGY_VERSION) !== rankings.methodologyVersion) return computedChanges;
   const prior = existingHistory?.[key];
   if (previous?.week !== week || !Array.isArray(prior) || prior.length === 0) return computedChanges;
   if (computedChanges.length === 0) return prior;
@@ -457,7 +460,9 @@ export function formatRefreshLog(result, { dryRun = false } = {}) {
   if (result.republished) {
     lines.push(dryRun
       ? "Republish requested: recalculated despite the weekly freeze, but this dry run still writes nothing."
-      : "Deliberate republish: recalculated this week's snapshot despite the weekly freeze; earlier events this week are retained.");
+      : result.publishedMethodologyVersion !== result.rankings.methodologyVersion
+        ? "Deliberate republish: recalculated this week's snapshot under a new methodology; the changelog starts with this migration's events."
+        : "Deliberate republish: recalculated this week's snapshot despite the weekly freeze; earlier events under this methodology are retained.");
   }
   lines.push(formatMethodology(result));
   if (result.validation) lines.push(result.validation);
@@ -621,7 +626,8 @@ export async function refresh({
   // Retain the evidence even if a malformed contract or review blocks publication.
   const output = path.join(root, "tmp", "classification-audit");
   await writeJsonAtomic(path.join(output, "inputs.json"), auditInputs);
-  if (methodology.eligibility.repositoryEvidence && evidenceObservations.attempted > 0 && evidenceObservations.completed < Math.ceil(evidenceObservations.attempted * 0.75)) throw new Error("Source observation coverage fell below 75%; publication stopped. Replay inputs retain the failed observations.");
+  const expectedObservations = evidenceObservations.expected ?? evidenceObservations.attempted;
+  if (methodology.eligibility.repositoryEvidence && expectedObservations > 0 && evidenceObservations.completed < Math.ceil(expectedObservations * 0.75)) throw new Error("Source observation coverage fell below 75%; publication stopped. Replay inputs retain failed and missing observations.");
   const { rankings, report, decisions, exclusions, typeIdsById, taskStatusByAssignment } = rankPlugins({
     catalog: catalogResult.body.plugins,
     stats: statsResult.body.plugins,
@@ -641,9 +647,9 @@ export async function refresh({
   const existingHistory = await readJson(historyFile, null);
   const context = changeContext({ catalog: catalogResult.body.plugins, registry, exclusions, typeIdsById, taskStatusByAssignment });
   const computedChanges = changesBetween(previous, rankings, context);
-  const changes = weekChangeLog(previous, week, existingHistory, computedChanges);
+  const changes = weekChangeLog(previous, rankings, existingHistory, computedChanges);
   const runnerUpChanges = runnerUpChangesBetween(previous, rankings, context);
-  const weeklyRunnerUpChanges = weekChangeLog(previous, week, existingHistory, runnerUpChanges, "runnerUpChanges");
+  const weeklyRunnerUpChanges = weekChangeLog(previous, rankings, existingHistory, runnerUpChanges, "runnerUpChanges");
   const previousReport = await readJson(path.join(root, "data", "unclassified-report.json"), null);
   const classificationAudit = auditClassifications({ catalog: catalogResult.body.plugins, stats: statsResult.body.plugins, taxonomy, taskReviews, pluginProfiles, evidenceObservations, previous, previousState, previousReviewQueue, now, methodology });
   classificationAudit.inputsHash = checksum(auditInputs);
