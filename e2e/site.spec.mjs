@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { renderFixtureType, withAvailability } from "../build/render.mjs";
 
 // Rankings change every Monday and search also covers champion and runner-up names, so
 // expectations come from the rendered page and its snapshot rather than hard-coded counts.
@@ -14,10 +15,11 @@ async function searchMatches(page, query) {
 }
 
 test("RSS navigation opens the HTML feed and keeps the XML subscription link", async ({ page, request }) => {
+  const snapshot = await (await request.get("/rankings.json")).json();
   await page.goto("/");
   await page.getByRole("navigation", { name: "Primary navigation" }).getByRole("link", { name: "RSS" }).click();
   await expect(page).toHaveURL(/\/feed\/$/);
-  await expect(page.getByRole("heading", { name: "Weekly champion changes" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: snapshot.methodologyVersion === "1.3.0" ? "Weekly selection changes" : "Weekly champion changes" })).toBeVisible();
   await expect(page.getByRole("navigation", { name: "Primary navigation" }).getByRole("link", { name: "RSS", exact: true })).toHaveAttribute("aria-current", "page");
   const firstEntry = page.locator(".feed-entries article").first().getByRole("link");
   await expect(firstEntry).toHaveAttribute("href", /^\/picks\//);
@@ -60,6 +62,7 @@ test("search handles no results and restores suggestions on clearing", async ({ 
 
 test("comparison tables expose headers and related navigation is bounded", async ({ page, request }) => {
   const contested = (await rankedTypes(request)).find((type) => type.winner && type.runnerUp);
+  test.skip(!contested, "No task currently has two qualified reviewed options.");
   await page.goto(`/picks/${contested.id}/`);
   const table = page.getByRole("table", { name: "Marketplace signals by plugin" });
   await expect(table.getByRole("columnheader")).toHaveCount(3);
@@ -73,7 +76,9 @@ test("comparison tables expose headers and related navigation is bounded", async
 });
 
 test("copy link, install command, email and native sharing use the correct payload", async ({ page, context, request }) => {
-  const { id } = (await rankedTypes(request)).find((type) => type.winner);
+  const type = (await rankedTypes(request)).find((entry) => entry.winner);
+  test.skip(!type, "No task has a qualified reviewed option in this snapshot.");
+  const { id } = type;
   const url = `https://omapicks.com/picks/${id}/`;
   await context.grantPermissions(["clipboard-read", "clipboard-write"]);
   await page.addInitScript(() => {
@@ -168,18 +173,25 @@ test("discovery and email remain usable without JavaScript", async ({ browser })
 
 test("recommendation cards expose their task evidence and related tools stay outside the podium", async ({ page, request }) => {
   const types = await rankedTypes(request);
-  const type = types.find((t) => t.winner?.taskFit?.qualified && t.alternatives?.length && t.relatedTools?.length);
-  expect(type, "published snapshot includes reviewed choices and related integrations").toBeTruthy();
+  const type = types.find((t) => t.winner?.taskFit?.qualified && t.relatedTools?.length) ?? types.find((t) => t.winner?.taskFit?.qualified);
+  test.skip(!type, "No task has a qualified reviewed option in this snapshot.");
   await page.goto(`/picks/${type.id}/`);
   for (const [slot, candidate] of [["champion", type.winner], ["runner-up", type.runnerUp]]) {
     if (!candidate) continue;
     const card = slot === "champion" ? page.locator(".pick-card.champion") : page.locator(".pick-card:not(.champion)");
     await expect(card.locator(".task-fit-note")).toContainText(candidate.taskFit.reason);
-    await expect(card.getByRole("link", { name: "Capability evidence" })).toHaveAttribute("href", candidate.taskFit.source.url);
+    const details = card.locator(".capability-evidence");
+    if (await details.count()) {
+      await details.locator("summary").click();
+      await expect(card.getByRole("link", { name: "Capability evidence" }).first()).toHaveAttribute("href", new RegExp(`/blob/${candidate.taskFit.source.revision}/`));
+      for (const requirement of candidate.taskFit.pluginRequirements ?? []) await expect(card.locator(".task-fit-note")).toContainText(requirement);
+    } else {
+      await expect(card.getByRole("link", { name: "Capability evidence" })).toHaveAttribute("href", candidate.taskFit.source.url);
+    }
     for (const constraint of candidate.taskFit.constraints) await expect(card.locator(".task-fit-note")).toContainText(constraint);
   }
-  await expect(page.getByRole("heading", { name: "More choices for this task" })).toBeVisible();
-  for (const candidate of type.relatedTools) {
+  if (type.alternatives?.length || type.relatedTools?.length) await expect(page.getByRole("heading", { name: "More choices for this task" })).toBeVisible();
+  for (const candidate of type.relatedTools ?? []) {
     await expect(page.locator(".task-alternatives")).toContainText(candidate.taskFit.reason);
     expect([type.winner.id, type.runnerUp?.id]).not.toContain(candidate.id);
   }
@@ -196,4 +208,39 @@ test("snapshot age reports the last successful publication when a refresh is ove
   await expect(page.locator("[data-snapshot-at]")).toContainText("This snapshot is 10 days old");
   await page.goto("/picks/screenshots/");
   await expect(page.locator("[data-snapshot-at]")).toContainText("last successful publication");
+});
+
+test("reviewed evidence opens by keyboard and unavailable selections stay readable on small screens", async ({ page }) => {
+  const revision = "a".repeat(40);
+  const source = { url: "https://github.com/example/forecast", revision, path: "README.md", evidence: `Shows local weather. ${"source-passage-".repeat(25)}` };
+  const winner = {
+    id: "forecast", name: "Forecast", description: "Local weather", author: "Example",
+    repository: source.url, detailUrl: "https://plugins.omarchy.org/plugin.html?id=forecast",
+    installCommand: "omarchy plugin add https://github.com/example/forecast.git", score: 0.8, metrics: { copies: 12, hearts: 3, stars: 4, views: 40 }, normalized: { freshness: 0.8 },
+    taskFit: { qualified: true, reason: "Shows local conditions and a forecast.", role: "core", provenance: "repository-evidence",
+      reviewedAt: "2026-10-26", lastValidatedAt: "2026-10-28T06:00:00Z", requirementsStatus: "reviewed",
+      pluginRequirements: ["Requires an API key."], constraints: [], source, sources: [source], evidenceStatus: "current" }
+  };
+  const rankings = { methodologyVersion: "1.3.0", week: "2026-W44", generatedAt: "2026-10-26T06:00:00Z",
+    types: [{ id: "weather", name: "Weather", description: "Current conditions and forecasts", eligibleCount: 1, pendingCount: 6, winner, runnerUp: null }] };
+  const current = withAvailability(rankings, { schemaVersion: 1, rankingsGeneratedAt: rankings.generatedAt, generatedAt: "2026-10-28T06:00:00Z",
+    plugins: { forecast: { status: "unavailable", reason: "Repository could not be reached", checkedAt: "2026-10-28T06:00:00Z" } } });
+  await page.route("**/reviewed-fixture/", (route) => route.fulfill({ contentType: "text/html", body: renderFixtureType(current.types[0], current) }));
+  await page.clock.install({ time: new Date("2026-10-30T06:00:00Z") });
+  for (const width of [320, 768, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/reviewed-fixture/");
+    const card = page.locator(".pick-card.champion");
+    await expect(card).toContainText("01 Leading reviewed option");
+    await expect(card).toContainText("Currently unavailable");
+    await expect(card.locator('[data-copy-label="install command"]')).toHaveCount(0);
+    await expect(page.locator(".availability-summary")).toContainText("2 days ago");
+    const evidence = card.locator(".capability-evidence");
+    await expect(evidence.locator("blockquote")).toBeHidden();
+    await evidence.locator("summary").focus();
+    await page.keyboard.press("Enter");
+    await expect(evidence.locator("blockquote")).toBeVisible();
+    await expect(evidence.getByRole("link", { name: "Capability evidence" })).toHaveAttribute("href", `https://github.com/example/forecast/blob/${revision}/README.md`);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `reviewed evidence at ${width}px`).toBe(true);
+  }
 });

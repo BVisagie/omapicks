@@ -13,7 +13,8 @@ import {
   renderFixtureMethodology,
   renderFixtureType,
   weekLabel,
-  winningReason
+  winningReason,
+  withAvailability
 } from "../build/render.mjs";
 import { methodologyFor, snapshotMethodology } from "../build/methodology.mjs";
 
@@ -259,8 +260,8 @@ test("winning reasons describe the score gap in plain language", () => {
     verificationStatus: "unverified",
     contributions: { copies: 0.12, hearts: 0.12, stars: 0.08, views: 0.04, freshness: 0.1, verified: 0 }
   });
-  assert.equal(winningReason(winner, runnerUp), "It won mainly because more people copied the install command.");
-  assert.equal(winningReason(winner, null), "It was the only eligible plugin in this category this week.");
+  assert.equal(winningReason(winner, runnerUp, null, methodologyFor("1.0.0")), "It won mainly because more people copied the install command.");
+  assert.equal(winningReason(winner, null, null, methodologyFor("1.0.0")), "It was the only eligible plugin in this category this week.");
   const close = fixtureCandidate({
     contributions: { copies: 0.2, hearts: 0.2, stars: 0.1, views: 0.05, freshness: 0.1, verified: 0.05 }
   });
@@ -380,22 +381,23 @@ test("rejected plugin URLs stay as inert in-page hashes", () => {
 
 test("production render emits the offline site, SEO files, RSS, and immutable badges", async () => {
   const rankings = JSON.parse(await readFile(new URL("../data/rankings.json", import.meta.url), "utf8"));
+  const modern = rankings.methodologyVersion === "1.3.0";
   const result = await render();
   assert.equal(result.typeCount, rankings.types.length);
-  const weather = rankings.types.find((type) => type.id === "weather");
+  const pickType = rankings.types.find((type) => type.id === "weather" && type.winner) ?? rankings.types.find((type) => type.winner) ?? rankings.types[0];
   const [home, methodology, changelog, feedPage, privacy, pick, sitemap, feed, headers, routes, manifestSource, badge] = await Promise.all([
     readFile(new URL("../dist/index.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/methodology/index.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/changelog/index.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/feed/index.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/privacy/index.html", import.meta.url), "utf8"),
-    readFile(new URL("../dist/picks/weather/index.html", import.meta.url), "utf8"),
+    readFile(new URL(`../dist/picks/${pickType.id}/index.html`, import.meta.url), "utf8"),
     readFile(new URL("../dist/sitemap.xml", import.meta.url), "utf8"),
     readFile(new URL("../dist/feed.xml", import.meta.url), "utf8"),
     readFile(new URL("../dist/_headers", import.meta.url), "utf8"),
     readFile(new URL("../dist/_routes.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/site.webmanifest", import.meta.url), "utf8"),
-    readFile(new URL(`../dist/badges/${rankings.week}/weather/${encodeURIComponent(weather.winner.id)}.svg`, import.meta.url), "utf8")
+    pickType.winner ? readFile(new URL(`../dist/badges/${rankings.week}/${pickType.id}/${encodeURIComponent(pickType.winner.id)}.svg`, import.meta.url), "utf8") : Promise.resolve("")
   ]);
   const typeCount = rankings.types.length;
   const featured = featuredTypes(rankings, 5);
@@ -406,20 +408,20 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.match(feedPage, /rel="icon" href="\/assets\/icon-192\.png" type="image\/png" sizes="192x192"/);
   assert.match(feedPage, /rel="icon" href="\/favicon\.ico" sizes="48x48"/);
   assert.match(feedPage, /rel="apple-touch-icon" href="\/apple-touch-icon\.png" sizes="180x180"/);
-  assert.match(home, /Find the best Omarchy plugin for the job/);
+  assert.match(home, modern ? /Find an Omarchy plugin that fits your task/ : /Find the best Omarchy plugin for the job/);
   assert.match(home, /Find a category/);
   assert.match(home, new RegExp(`Browse ${typeCount} categories`));
   assert.match(home, new RegExp(`Browse all ${typeCount} categories`));
-  assert.match(home, /Compare champion and runner-up/);
+  if (featured.length) assert.match(home, modern ? /Compare reviewed options/ : /Compare champion and runner-up/);
   assert.match(home, /data-pick-filter/);
   assert.match(home, /catalog-row/);
-  assert.match(home, /showdown/);
-  assert.match(home, /Featured today/);
+  if (featured.length) assert.match(home, /showdown/);
+  if (featured.length) assert.match(home, /Featured today/);
   assert.doesNotMatch(home, /Featured this week/);
-  assert.match(home, /A different category each day\. Rankings refresh Monday\./);
-  assert.match(home, /01 Champion/);
-  assert.match(home, /02 Runner-up/);
-  assert.match(home, /runner-up /);
+  if (featured.length) assert.match(home, /A different category each day\. Rankings refresh Monday\./);
+  if (featured.length) assert.match(home, modern ? /01 Leading reviewed option/ : /01 Champion/);
+  if (featured.length) assert.match(home, modern ? /02 Another reviewed option/ : /02 Runner-up/);
+  if (featured.some((type) => type.runnerUp)) assert.match(home, modern ? /alternative / : /runner-up /);
   assert.match(home, /Week of [A-Z][a-z]+ \d{1,2}, \d{4}/);
   assert.match(home, snapshotMethodology(rankings).eligibility.reviewedTaskEvidence ? /Reviewed category entries/ : /Category entries/);
   assert.equal([...home.matchAll(/data-catalog-row/g)].length, typeCount);
@@ -427,16 +429,16 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.equal([...home.matchAll(/data-suggested/g)].length, featured.length);
   assert.equal([...home.matchAll(/<article class="showdown" data-slot="/g)].length, featured.length);
   assert.equal([...home.matchAll(/data-feature data-slot="/g)].length, featured.length > 1 ? featured.length : 0);
-  assert.match(home, /dataset\.featuredIndex/);
-  assert.match(home, /html\[data-featured-index="0"\]/);
+  if (featured.length > 1) assert.match(home, /dataset\.featuredIndex/);
+  if (featured.length > 1) assert.match(home, /html\[data-featured-index="0"\]/);
   assert.doesNotMatch(methodology, /dataset\.featuredIndex/);
   assert.doesNotMatch(methodology, /html\[data-featured-index/);
   assert.doesNotMatch(changelog, /dataset\.featuredIndex/);
   assert.doesNotMatch(privacy, /dataset\.featuredIndex/);
   assert.doesNotMatch(pick, /dataset\.featuredIndex/);
   assert.doesNotMatch(pick, /<article class="showdown"/);
-  assert.ok(home.includes(`<article class="showdown" data-slot="0">`));
-  assert.ok(home.includes(`Best <a href="/picks/${featured[0].id}/">${escapeHtml(featured[0].name)}</a> plugin this week`));
+  if (featured.length) assert.ok(home.includes(`<article class="showdown" data-slot="0">`));
+  if (featured.length) assert.ok(home.includes(modern ? `Reviewed options for <a href="/picks/${featured[0].id}/">${escapeHtml(featured[0].name)}</a>` : `Best <a href="/picks/${featured[0].id}/">${escapeHtml(featured[0].name)}</a> plugin this week`));
   assert.deepEqual(
     catalogNames(home),
     rankings.types
@@ -444,10 +446,10 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
       .sort((a, b) => a.name.localeCompare(b.name, "en"))
       .map((type) => escapeHtml(type.name))
   );
-  assert.ok(home.includes(`alt="${escapeHtml(featured[0].winner.name)} preview"`));
+  if (featured.length) assert.ok(home.includes(`alt="${escapeHtml(featured[0].winner.name)} preview"`));
   assert.match(home, /og:image" content="https:\/\/omapicks\.com\/og\/terminal\.jpg"/);
-  assert.ok(pick.includes(`og:image" content="https://omapicks.com/og/${rankings.week}/weather.png"`));
-  await stat(new URL(`../dist/og/${rankings.week}/weather.png`, import.meta.url));
+  assert.ok(pick.includes(`og:image" content="https://omapicks.com/og/${rankings.week}/${pickType.id}.png"`));
+  await stat(new URL(`../dist/og/${rankings.week}/${pickType.id}.png`, import.meta.url));
   assert.match(home, /Plugin metadata, engagement signals, and previews come from/);
   assert.match(home, /target="_blank" rel="noopener noreferrer">Open-source code<\/a>/);
   assert.match(feedPage, /target="_blank" rel="noopener noreferrer">Open-source code<\/a>/);
@@ -461,7 +463,7 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.match(methodology, /weight-track/);
   assert.match(methodology, /id="data-sources"/);
   assert.match(methodology, /id="safety"/);
-  assert.match(methodology, /not an endorsement/);
+  assert.match(methodology, modern ? /not an installation test or warranty/ : /not an endorsement/);
   assert.match(methodology, /https:\/\/plugins\.omarchy\.org\/catalog\.json/);
   assert.match(methodology, /https:\/\/api\.omarchyplugins\.com\/v1\/stats/);
   assert.match(changelog, /class="page-section"/);
@@ -486,42 +488,43 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
     )
   );
   assert.match(home, /Share this week on X/);
-  assert.ok(
+  if (pickType.winner) assert.ok(
     pick.includes(
       xShareHref(
-        `${weather.winner.name} is this week's Weather champion on OmaPicks.`,
-        "https://omapicks.com/picks/weather/"
+        modern ? `Compare ${pickType.winner.name} and other reviewed ${pickType.name} options on OmaPicks.` : `${pickType.winner.name} is this week's ${pickType.name} champion on OmaPicks.`,
+        `https://omapicks.com/picks/${pickType.id}/`
       )
     )
   );
-  assert.match(pick, /Share this ranking on X/);
+  if (pickType.winner) assert.match(pick, /Share this ranking on X/);
   assert.doesNotMatch(methodology, /x\.com\/intent\/post/);
   assert.doesNotMatch(privacy, /x\.com\/intent\/post/);
   assert.doesNotMatch(changelog, /x\.com\/intent\/post/);
   assert.doesNotMatch(home, /platform\.twitter\.com/);
   assert.doesNotMatch(pick, /platform\.twitter\.com/);
   assert.doesNotMatch(home, /widgets\.js/);
-  assert.match(pick, /How they compare/);
-  assert.match(pick, /These bars are raw public counts/);
+  if (pickType.winner) assert.match(pick, modern ? /Marketplace popularity/ : /How they compare/);
+  if (pickType.winner) assert.match(pick, /These bars are raw public counts/);
   // The live Weather race may be a clear win, a close race, or a champion held by the
   // stability rule; each sentence has its own fixture test above.
-  assert.ok(pick.includes(`<p class="why-won">${escapeHtml(winningReason(weather.winner, weather.runnerUp, weather.topScorer, snapshotMethodology(rankings)))}</p>`));
+  if (modern) assert.doesNotMatch(pick, /class="why-won"/);
+  else if (pickType.winner) assert.ok(pick.includes(`<p class="why-won">${escapeHtml(winningReason(pickType.winner, pickType.runnerUp, pickType.topScorer, snapshotMethodology(rankings)))}</p>`));
   assert.match(pick, /How we pick/);
-  assert.match(pick, /01 Champion/);
-  assert.match(pick, /target="_blank" rel="noopener noreferrer">Original listing<\/a>/);
-  assert.match(pick, /target="_blank" rel="noopener noreferrer">Repository<\/a>/);
-  assert.match(pick, /For plugin authors/);
-  assert.match(pick, /Copy this markdown into your README/);
+  if (pickType.winner) assert.match(pick, modern ? /01 Leading reviewed option/ : /01 Champion/);
+  if (pickType.winner) assert.match(pick, /target="_blank" rel="noopener noreferrer">Original listing<\/a>/);
+  if (pickType.winner) assert.match(pick, /target="_blank" rel="noopener noreferrer">Repository<\/a>/);
+  if (pickType.winner) assert.match(pick, /For plugin authors/);
+  if (pickType.winner) assert.match(pick, /Copy this markdown into your README/);
   assert.doesNotMatch(pick, /Winner badge/);
   assert.doesNotMatch(pick, /href="#winner-badge"/);
   assert.doesNotMatch(pick, /<a href="\/badges\//);
   assert.match(pick, /og:image:type" content="image\/png"/);
-  assert.match(pick, /A ranking is not an endorsement or a safety review/);
+  if (pickType.winner) assert.match(pick, /A ranking is not an endorsement or a safety review/);
   assert.match(sitemap, /https:\/\/omapicks\.com\/privacy\//);
   assert.doesNotMatch(feed, /<\?xml-stylesheet/);
   assert.match(feed, /<rss version="2.0">/);
   assert.match(feed, /<\/channel><\/rss>/);
-  assert.match(feedPage, /Weekly champion changes/);
+  assert.match(feedPage, modern ? /Weekly selection changes/ : /Weekly champion changes/);
   assert.match(feedPage, /class="page-section"/);
   assert.match(feedPage, /class="page-lede"/);
   assert.match(feedPage, /class="page-wrap"/);
@@ -587,8 +590,8 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   ]);
   assert.doesNotMatch(home, /beacon\.min\.js/);
   assert.doesNotMatch(home, /cookie (popup|banner|consent)/i);
-  assert.ok(badge.includes(escapeHtml(weather.winner.name)));
-  assert.match(badge, /height="20"/);
+  if (pickType.winner) assert.ok(badge.includes(escapeHtml(pickType.winner.name)));
+  if (pickType.winner) assert.match(badge, /height="20"/);
   await stat(new URL("../dist/og/home.jpg", import.meta.url));
   await stat(new URL("../dist/og/terminal.jpg", import.meta.url));
   await assert.rejects(() => stat(new URL("../dist/feed.xsl", import.meta.url)));

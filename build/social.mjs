@@ -21,7 +21,8 @@ function lines(value, width, limit) {
   return result.slice(0, limit);
 }
 
-export function socialSvg(type, week) {
+export function socialSvg(type, week, { methodologyVersion } = {}) {
+  const reviewed = methodologyVersion === "1.3.0";
   const text = (value, x, y, size, color) => `<text x="${x}" y="${y}" font-size="${size}" fill="${color}">${escape(value)}</text>`;
   const title = lines(type.name, 26, 2);
   const pick = (label, name, y) => text(label, 66, y, 18, "#8bd5ca") +
@@ -34,17 +35,17 @@ export function socialSvg(type, week) {
       ${text(week ?? "Weekly picks", 944, 88, 22, "#a4abc5")}
       <path d="M66 119H1134" stroke="#414868"/>
       ${title.map((line, index) => text(line, 66, 194 + index * 68, 62, "#c0caf5")).join("")}
-      ${pick("01 CHAMPION", type.winner?.name ?? "No champion yet", 334)}
-      ${pick("02 RUNNER-UP", type.runnerUp?.name ?? "No runner-up yet", 440)}
+      ${pick(reviewed ? "01 LEADING REVIEWED OPTION" : "01 CHAMPION", type.winner?.name ?? (reviewed ? "No reviewed option yet" : "No champion yet"), 334)}
+      ${pick(reviewed ? "02 ANOTHER REVIEWED OPTION" : "02 RUNNER-UP", type.runnerUp?.name ?? (reviewed ? "No additional reviewed option yet" : "No runner-up yet"), 440)}
       <path d="M66 518H1134" stroke="#414868"/>
-      ${text("Independent weekly Omarchy plugin rankings", 66, 564, 22, "#a4abc5")}
+      ${text(reviewed ? "Reviewed Omarchy plugin shortlists" : "Independent weekly Omarchy plugin rankings", 66, 564, 22, "#a4abc5")}
       ${text("omapicks.com", 940, 564, 22, "#8bd5ca")}
     </g>
   </svg>`;
 }
 
-export function renderSocialImage(type, week) {
-  return new Resvg(socialSvg(type, week), {
+export function renderSocialImage(type, week, options) {
+  return new Resvg(socialSvg(type, week, options), {
     font: { fontFiles: [fontFile], loadSystemFonts: false, defaultFontFamily: "Liberation Mono" }
   }).render().asPng();
 }
