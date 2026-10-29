@@ -160,6 +160,60 @@ for (const theme of ["light", "dark"]) {
   });
 }
 
+test("the hero finder doubles as a command palette and returns to the hero on close", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  const palette = page.locator("[data-palette]");
+  await expect(page.locator(".hero-aside .hero-finder")).toHaveCount(1);
+  await expect(palette).toBeHidden();
+  await page.keyboard.press("/");
+  await expect(palette).toBeVisible();
+  await expect(palette.locator(".hero-finder")).toHaveCount(1);
+  await expect(page.getByRole("searchbox")).toBeFocused();
+  await page.getByRole("searchbox").fill("clipboard");
+  await page.keyboard.press("ArrowDown");
+  await expect(page.locator("[data-finder-item]:visible a").first()).toBeFocused();
+  await page.keyboard.press("ArrowUp");
+  await expect(page.getByRole("searchbox")).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(palette).toBeHidden();
+  await expect(page.locator(".hero-aside .hero-finder")).toHaveCount(1);
+  const trigger = page.locator(".site-header [data-open-palette]");
+  await expect(trigger).toBeVisible();
+  await trigger.click();
+  await expect(palette).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(trigger).toBeFocused();
+  await page.keyboard.press("Control+k");
+  await expect(palette).toBeVisible();
+  await page.getByRole("searchbox").fill("clipboard");
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL(/\/picks\/clipboard\/$/);
+});
+
+test("the radar and headline decode are enhancements that leave the content intact", async ({ page, browser, request }) => {
+  const html = await (await request.get("/")).text();
+  const heading = html.match(/<h1>([^<]+)<\/h1>/)[1];
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  await expect(page.locator("[data-radar]")).toBeVisible();
+  expect(await page.locator("[data-radar] canvas").evaluate((canvas) => canvas.width > 0)).toBe(true);
+  await page.locator("[data-radar] canvas").hover({ position: { x: 145, y: 60 } });
+  await expect(page.locator("[data-radar-pick]")).not.toHaveText("—");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(heading, { timeout: 3000 });
+  expect(await page.locator(".hero h1 .decode").count()).toBe(0);
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const plain = await context.newPage();
+  await plain.goto("http://127.0.0.1:4173/");
+  await expect(plain.locator("[data-radar]")).toBeHidden();
+  await expect(plain.locator("[data-palette]")).toBeHidden();
+  await expect(plain.locator("[data-open-palette]")).toHaveCount(2);
+  await expect(plain.locator("[data-open-palette]:visible")).toHaveCount(0);
+  await expect(plain.getByRole("searchbox")).toBeVisible();
+  await context.close();
+});
+
 test("discovery and email remain usable without JavaScript", async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();

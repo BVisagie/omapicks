@@ -984,6 +984,7 @@ function homePage(rankings, history = []) {
       <p class="hero-trust"># no votes. no sponsorships. just a reproducible weekly snapshot from omarchy plugins.</p>
       <p class="hero-actions">
         <a class="button" href="#catalog">${escapeHtml(browseLabel(categoryCount))}</a>
+        <button class="button ghost" type="button" data-open-palette hidden>find a category <kbd>⌘K</kbd></button>
         <a class="text-link" href="/methodology/">How rankings work</a>
         ${shareLinks(
           "This week's Omarchy plugin rankings, independently scored from Omarchy Plugins.",
@@ -993,7 +994,12 @@ function homePage(rankings, history = []) {
       </p>
     </div>
     <aside class="hero-aside">
-      <div class="hero-finder" role="search">
+      <div class="glass radar-panel" data-radar hidden>
+        <p class="radar-head"><span class="live"><span class="live-dot" aria-hidden="true"></span>signal · ${categoryCount} ${categoryNoun(categoryCount)}</span><span>sweep ${escapeHtml(String(rankings.week ?? "pending").toLowerCase())}</span></p>
+        <canvas class="radar" role="img" aria-label="Radar of ${categoryCount} ${categoryNoun(categoryCount)}. Move the pointer over a node to read its ${escapeHtml(labels.first.toLowerCase())}; click to open the category."></canvas>
+        <p class="radar-readout" aria-live="polite"><span data-radar-category>hover a node</span><strong data-radar-pick>—</strong></p>
+      </div>
+      <div class="hero-finder glass" role="search">
         <label id="finder-label" for="pick-filter">Find a category</label>
         <div class="finder-command">
           <span class="finder-prompt" aria-hidden="true">&gt;</span>
@@ -1004,6 +1010,7 @@ function homePage(rankings, history = []) {
           ${catalogTypes.map((type) => finderItem(type, suggestedIds.has(type.id))).join("")}
         </ul>
         <p class="filter-empty" data-finder-empty hidden>No categories match.</p>
+        <p class="finder-hint" data-finder-hint hidden>↑↓ move · ↵ open · esc close</p>
       </div>
       <dl class="hero-meta">
         <div><dt>Categories</dt><dd>${categoryCount}</dd></div>
@@ -1038,7 +1045,12 @@ function homePage(rankings, history = []) {
       ${catalogTypes.map((type) => catalogRow(type, method)).join("")}
     </div>
     <p class="filter-empty" data-filter-empty hidden>No categories match.</p>
-  </section>`;
+  </section>
+  <!-- The palette is an overlay slot: app.js moves the hero finder into it on / or Ctrl/⌘ K and back on close. -->
+  <div class="palette" role="dialog" aria-modal="true" aria-labelledby="finder-label" data-palette hidden>
+    <button class="palette-backdrop" type="button" tabindex="-1" aria-label="Close the category finder" data-palette-close></button>
+    <div class="palette-panel" data-palette-slot></div>
+  </div>`;
   return shell({
     title: "OmaPicks",
     description: modern ? "Reviewed Omarchy plugin options with task evidence, requirements, and weekly popularity comparisons." : "Independent weekly rankings of Omarchy plugins, one champion and one runner-up per app type.",

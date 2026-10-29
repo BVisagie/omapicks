@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
-import { BADGE_PALETTE, PALETTE, renderFixtureBadge, renderFixtureHome } from "../build/render.mjs";
+import { BADGE_PALETTE, PALETTE, renderFixtureBadge, renderFixtureHome, renderFixtureMethodology } from "../build/render.mjs";
 
 const styles = readFileSync(new URL("../site/styles.css", import.meta.url), "utf8");
 
@@ -38,6 +38,20 @@ test("site palette constants mirror the stylesheet tokens and drive theme-color"
   const html = renderFixtureHome(fixtureRankings());
   assert.match(html, new RegExp(`<meta name="theme-color" content="${PALETTE.bg}" media="\\(prefers-color-scheme: dark\\)">`));
   assert.match(html, new RegExp(`<meta name="theme-color" content="${PALETTE.lightBg}" media="\\(prefers-color-scheme: light\\)">`));
+});
+
+test("hero enhancements ship inert: plain heading, hidden radar, palette and triggers, finder intact", () => {
+  const html = renderFixtureHome(fixtureRankings());
+  assert.match(html, /<h1>Find an Omarchy plugin that fits your task\.<\/h1>/);
+  assert.doesNotMatch(html, /class="decode"/);
+  assert.match(html, /<div class="glass radar-panel" data-radar hidden>/);
+  assert.match(html, /<canvas class="radar" role="img" aria-label="Radar of 1 category\. Move the pointer over a node to read its leading reviewed option; click to open the category\.">/);
+  assert.match(html, /<div class="palette" role="dialog" aria-modal="true" aria-labelledby="finder-label" data-palette hidden>/);
+  assert.equal([...html.matchAll(/data-open-palette hidden/g)].length, 2);
+  assert.match(html, /<div class="hero-finder glass" role="search">/);
+  assert.match(html, /<input id="pick-filter" type="search"[^>]*data-pick-filter>/);
+  // Non-home pages carry neither the palette nor its trigger.
+  assert.doesNotMatch(renderFixtureMethodology(fixtureRankings()), /data-palette|data-open-palette/);
 });
 
 test("contrast-probed tokens stay opaque in both themes", () => {
