@@ -1,15 +1,42 @@
+/* Tokens. Dark is Signal (Tokyo Night lineage pushed darker, teal/violet glow); light is Podium's
+   bone paper with teal kept as the only accent. --surface and --well stay opaque: the e2e
+   contrast probe reads them as solid colours and the glass tiles fall back to them when
+   backdrop-filter is unavailable. Translucent tile fills live in --glass-bg. */
 :root {
   color-scheme: dark;
-  --bg: #1a1b26;
-  --surface: #24283b;
+  --bg: #0b0d14;
+  --bg-2: #121626;
+  --surface: #141724;
+  --surface-2: #1c2033;
+  --well: var(--surface-2);
+  --glass-bg: rgba(255, 255, 255, 0.04);
   --ink: #c0caf5;
-  --muted: #949bb5;
-  --line: #414868;
+  --muted: #8a93b8;
+  --line: rgba(192, 202, 245, 0.14);
+  --line-strong: rgba(192, 202, 245, 0.34);
   --accent: #8bd5ca;
-  --well: #1f2335;
+  --accent-text: #8bd5ca;
+  --accent-ink: #0b0d14;
+  --violet: #7aa2f7;
+  --magenta: #bb9af7;
+  --glow: rgba(139, 213, 202, 0.38);
+  --aurora-a: #8bd5ca;
+  --aurora-b: #7aa2f7;
+  --aurora-c: #bb9af7;
+  --aurora-opacity: 0.42;
+  --grain-opacity: 0.06;
+  --tile-shadow: none;
+  --tile-shadow-hover: 0 24px 60px -30px rgba(0, 0, 0, 0.55);
+  --shadow: rgba(0, 0, 0, 0.55);
   --sans: system-ui, "Inter", "Segoe UI", sans-serif;
   --mono: "CaskaydiaMono NF", "Cascadia Mono", ui-monospace, "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
-  --radius: 0;
+  --r-tile: 20px;
+  --r-inner: 12px;
+  --r-pill: 999px;
+  --radius: var(--r-inner);
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   font-family: var(--sans);
   background: var(--bg);
   color: var(--ink);
@@ -18,36 +45,84 @@
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
     color-scheme: light;
-    --bg: #e9e9ec;
-    --surface: #f4f4f5;
-    --ink: #343b58;
-    --muted: #495a80;
-    --line: #a8aec2;
+    --bg: #f4f1ea;
+    --bg-2: #ece8df;
+    --surface: #fbfaf7;
+    --surface-2: #f1eee6;
+    --glass-bg: rgba(251, 250, 247, 0.92);
+    --ink: #15151a;
+    --muted: #5e5c58;
+    --line: rgba(21, 21, 26, 0.12);
+    --line-strong: rgba(21, 21, 26, 0.32);
     --accent: #166d67;
-    --well: #d7dae5;
+    --accent-text: #0f5a55;
+    --accent-ink: #f4f1ea;
+    --violet: #3d59a1;
+    --magenta: #8a5fb8;
+    --glow: rgba(22, 109, 103, 0.22);
+    --aurora-a: #cfe8e2;
+    --aurora-b: #f3c9a8;
+    --aurora-c: #e6d9f2;
+    --aurora-opacity: 0.55;
+    --grain-opacity: 0.04;
+    --tile-shadow: 0 1px 2px rgba(21, 21, 26, 0.06), 0 14px 36px -14px rgba(21, 21, 26, 0.22);
+    --tile-shadow-hover: 0 1px 2px rgba(21, 21, 26, 0.06), 0 24px 50px -20px rgba(21, 21, 26, 0.3);
+    --shadow: rgba(21, 21, 26, 0.35);
   }
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #1a1b26;
-  --surface: #24283b;
+  --bg: #0b0d14;
+  --bg-2: #121626;
+  --surface: #141724;
+  --surface-2: #1c2033;
+  --glass-bg: rgba(255, 255, 255, 0.04);
   --ink: #c0caf5;
-  --muted: #949bb5;
-  --line: #414868;
+  --muted: #8a93b8;
+  --line: rgba(192, 202, 245, 0.14);
+  --line-strong: rgba(192, 202, 245, 0.34);
   --accent: #8bd5ca;
-  --well: #1f2335;
+  --accent-text: #8bd5ca;
+  --accent-ink: #0b0d14;
+  --violet: #7aa2f7;
+  --magenta: #bb9af7;
+  --glow: rgba(139, 213, 202, 0.38);
+  --aurora-a: #8bd5ca;
+  --aurora-b: #7aa2f7;
+  --aurora-c: #bb9af7;
+  --aurora-opacity: 0.42;
+  --grain-opacity: 0.06;
+  --tile-shadow: none;
+  --tile-shadow-hover: 0 24px 60px -30px rgba(0, 0, 0, 0.55);
+  --shadow: rgba(0, 0, 0, 0.55);
 }
 
 :root[data-theme="light"] {
   color-scheme: light;
-  --bg: #e9e9ec;
-  --surface: #f4f4f5;
-  --ink: #343b58;
-  --muted: #495a80;
-  --line: #a8aec2;
+  --bg: #f4f1ea;
+  --bg-2: #ece8df;
+  --surface: #fbfaf7;
+  --surface-2: #f1eee6;
+  --glass-bg: rgba(251, 250, 247, 0.92);
+  --ink: #15151a;
+  --muted: #5e5c58;
+  --line: rgba(21, 21, 26, 0.12);
+  --line-strong: rgba(21, 21, 26, 0.32);
   --accent: #166d67;
-  --well: #d7dae5;
+  --accent-text: #0f5a55;
+  --accent-ink: #f4f1ea;
+  --violet: #3d59a1;
+  --magenta: #8a5fb8;
+  --glow: rgba(22, 109, 103, 0.22);
+  --aurora-a: #cfe8e2;
+  --aurora-b: #f3c9a8;
+  --aurora-c: #e6d9f2;
+  --aurora-opacity: 0.55;
+  --grain-opacity: 0.04;
+  --tile-shadow: 0 1px 2px rgba(21, 21, 26, 0.06), 0 14px 36px -14px rgba(21, 21, 26, 0.22);
+  --tile-shadow-hover: 0 1px 2px rgba(21, 21, 26, 0.06), 0 24px 50px -20px rgba(21, 21, 26, 0.3);
+  --shadow: rgba(21, 21, 26, 0.35);
 }
 
 * {
@@ -73,7 +148,7 @@ a {
 }
 
 a:hover {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 button,
@@ -89,6 +164,16 @@ button {
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
+  border-radius: 6px;
+}
+
+kbd {
+  padding: 0.08rem 0.4rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 0.68rem;
 }
 
 .visually-hidden {
@@ -108,7 +193,8 @@ button {
   z-index: 20;
   left: 1rem;
   top: 1rem;
-  padding: 0.55rem 0.8rem;
+  padding: 0.55rem 0.9rem;
+  border-radius: var(--r-pill);
   background: var(--ink);
   color: var(--bg);
   transform: translateY(-180%);
@@ -150,21 +236,39 @@ button {
 }
 
 .site-header nav a {
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--r-pill);
+  color: var(--muted);
   text-decoration: none;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+.site-header nav a:hover {
+  color: var(--ink);
+  background: var(--surface-2);
 }
 
 .site-header nav a[aria-current="page"] {
-  color: var(--accent);
+  color: var(--accent-text);
+  background: var(--surface-2);
 }
 
 .theme-toggle {
-  min-height: 2.2rem;
+  min-height: 2.3rem;
   padding: 0 0.85rem;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: transparent;
-  color: var(--ink);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-pill);
+  background: var(--glass-bg);
+  color: var(--muted);
+  font-family: var(--mono);
   font-size: 0.8rem;
+  transition: border-color 200ms ease, color 200ms ease, box-shadow 200ms ease;
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent);
+  color: var(--ink);
+  box-shadow: 0 0 0 1px var(--glow);
 }
 
 .theme-label-light {
@@ -182,7 +286,7 @@ button {
 .eyebrow,
 .kicker {
   margin: 0 0 0.7rem;
-  color: var(--accent);
+  color: var(--accent-text);
   font-family: var(--mono);
   font-size: 0.78rem;
   font-weight: 700;
@@ -259,7 +363,7 @@ button {
 
 .prompt-mark,
 .finder-prompt {
-  color: var(--accent);
+  color: var(--accent-text);
   font-weight: 800;
 }
 
@@ -316,26 +420,50 @@ button {
   margin: 1.6rem 0 0;
 }
 
-.button {
+.button,
+.pill {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.55rem;
   min-height: 2.5rem;
-  padding: 0 1.05rem;
+  padding: 0 1.15rem;
   border: 1px solid var(--accent);
-  border-radius: var(--radius);
+  border-radius: var(--r-pill);
   background: var(--accent);
-  color: var(--bg);
+  color: var(--accent-ink);
   font-family: var(--mono);
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 650;
+  box-shadow: 0 0 0 0 var(--glow);
+  transition: transform 300ms var(--ease-spring), box-shadow 300ms ease, background-color 200ms ease, color 200ms ease, border-color 200ms ease;
 }
 
 .button:hover {
-  border-color: var(--ink);
-  background: var(--ink);
-  color: var(--surface);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 30px -10px var(--glow), 0 0 0 1px var(--accent);
+  color: var(--accent-ink);
+}
+
+.button.ghost,
+.pill {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--line-strong);
+}
+
+.button.ghost:hover,
+.pill:hover {
+  border-color: var(--accent);
+  color: var(--accent-text);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.pill {
+  min-height: 2.1rem;
+  padding: 0 0.9rem;
+  font-size: 0.78rem;
 }
 
 .hero-aside {
@@ -354,7 +482,7 @@ button {
 .hero-finder label {
   display: block;
   margin: 0 0 0.45rem;
-  color: var(--accent);
+  color: var(--accent-text);
   font-family: var(--mono);
   font-size: 0.78rem;
   font-weight: 700;
@@ -459,7 +587,7 @@ button {
 .finder-results a:hover strong,
 .finder-results a:focus-visible span,
 .finder-results a:focus-visible strong {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .finder-results a:hover,
@@ -571,7 +699,7 @@ button {
 }
 
 .showdown-entry.champion .rank {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .showdown-entry .feature-media {
@@ -629,7 +757,7 @@ button {
 }
 
 .showdown-gap .delta {
-  color: var(--accent);
+  color: var(--accent-text);
   font-size: 1.05rem;
 }
 
@@ -699,7 +827,7 @@ button {
 }
 
 .text-link {
-  color: var(--accent);
+  color: var(--accent-text);
   font-family: var(--mono);
   font-size: 0.92rem;
   font-weight: 650;
@@ -729,7 +857,7 @@ button {
 }
 
 .support:hover h3 {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .support .feature-media {
@@ -754,7 +882,7 @@ button {
 
 .feature-action {
   margin: 0.5rem 0 0;
-  color: var(--accent);
+  color: var(--accent-text);
   font-size: 0.82rem;
   font-weight: 650;
 }
@@ -819,7 +947,7 @@ button {
 }
 
 .catalog-row:hover .champ {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .catalog-row .type {
@@ -942,12 +1070,14 @@ button {
 }
 
 .pick-card.champion .delta {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .status {
-  padding: 0.12rem 0.45rem;
+  display: inline-block;
+  padding: 0.14rem 0.6rem;
   border: 1px solid currentcolor;
+  border-radius: var(--r-pill);
   font-family: var(--mono);
   font-weight: 650;
   letter-spacing: 0.04em;
@@ -1008,7 +1138,7 @@ button {
 }
 
 .pick-card.champion .why-won {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .signal-bar {
@@ -1206,7 +1336,7 @@ button {
 }
 
 .category-directory-head > a {
-  color: var(--accent);
+  color: var(--accent-text);
   font-size: 0.84rem;
   font-weight: 650;
 }
@@ -1251,7 +1381,7 @@ button {
 }
 
 .category-grid a:hover strong {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .category-pagination {
@@ -1373,7 +1503,7 @@ button {
 .prose code {
   font-family: var(--mono);
   font-size: 0.88em;
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .source-list {
@@ -1855,7 +1985,7 @@ footer p a {
   border: 0;
   padding: 0;
   background: none;
-  color: var(--accent);
+  color: var(--accent-text);
   text-decoration: underline;
   cursor: pointer;
 }
@@ -1966,7 +2096,7 @@ footer p a {
 }
 .capability-evidence summary {
   cursor: pointer;
-  color: var(--accent);
+  color: var(--accent-text);
   font-weight: 600;
 }
 .capability-evidence summary:focus-visible {

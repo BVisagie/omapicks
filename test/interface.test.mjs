@@ -1,0 +1,75 @@
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import test from "node:test";
+import { BADGE_PALETTE, PALETTE, renderFixtureBadge, renderFixtureHome } from "../build/render.mjs";
+
+const styles = readFileSync(new URL("../site/styles.css", import.meta.url), "utf8");
+
+// The first `:root { … }` block holds the dark tokens; `:root[data-theme="light"]` holds light.
+function token(block, name) {
+  const source = styles.match(new RegExp(`${block.replace(/[[\]]/g, "\\$&")}\\s*\\{([^}]*)\\}`))?.[1] ?? "";
+  return source.match(new RegExp(`${name}:\\s*([^;]+);`))?.[1].trim();
+}
+
+function fixtureRankings() {
+  return {
+    schemaVersion: 1,
+    methodologyVersion: "1.3.0",
+    week: "2026-W44",
+    generatedAt: "2026-10-26T06:00:00Z",
+    types: [{
+      id: "clipboard", name: "Clipboard", description: "Clipboard history", eligibleCount: 1,
+      winner: { id: "spotlight", name: "Spotlight", description: "Launcher", author: "Max", repository: "https://github.com/maajix/omarchy-spotlight",
+        detailUrl: "https://plugins.omarchy.org/plugin.html?id=spotlight", installCommand: "omarchy plugin add https://github.com/maajix/omarchy-spotlight.git",
+        metrics: { copies: 10, hearts: 4, stars: 3, views: 30 }, normalized: { freshness: 0.9 }, score: 0.9,
+        taskFit: { qualified: true, reason: "Browses clipboard history.", role: "core", provenance: "repository-evidence", reviewedAt: "2026-10-12", constraints: [],
+          source: { url: "https://github.com/maajix/omarchy-spotlight", revision: "a".repeat(40), path: "README.md", evidence: "Clipboard history." } } },
+      runnerUp: null
+    }]
+  };
+}
+
+test("site palette constants mirror the stylesheet tokens and drive theme-color", () => {
+  assert.equal(token(":root", "--bg"), PALETTE.bg);
+  assert.equal(token(":root", "--ink"), PALETTE.ink);
+  assert.equal(token(":root", "--muted"), PALETTE.muted);
+  assert.equal(token(":root", "--accent"), PALETTE.accent);
+  assert.equal(token(':root[data-theme="light"]', "--bg"), PALETTE.lightBg);
+  const html = renderFixtureHome(fixtureRankings());
+  assert.match(html, new RegExp(`<meta name="theme-color" content="${PALETTE.bg}" media="\\(prefers-color-scheme: dark\\)">`));
+  assert.match(html, new RegExp(`<meta name="theme-color" content="${PALETTE.lightBg}" media="\\(prefers-color-scheme: light\\)">`));
+});
+
+test("contrast-probed tokens stay opaque in both themes", () => {
+  // e2e reads --muted against --bg, --surface and --well as solid colours; translucent values
+  // would be parsed as their first three channels and report a false contrast.
+  for (const block of [":root", ':root[data-theme="light"]']) {
+    for (const name of ["--bg", "--surface", "--surface-2", "--muted", "--ink"]) {
+      assert.match(token(block, name), /^#[0-9a-f]{6}$/i, `${block} ${name}`);
+    }
+  }
+  assert.equal(token(":root", "--well"), "var(--surface-2)");
+});
+
+test("badges are frozen artifacts: palette pinned and bytes unchanged from the pre-interface output", () => {
+  assert.deepEqual(BADGE_PALETTE, { bg: "#1a1b26", ink: "#c0caf5", accent: "#8bd5ca" });
+  assert.notEqual(BADGE_PALETTE.bg, PALETTE.bg, "badge colours must not follow the site theme");
+  const type = { id: "clipboard", name: "Clipboard", winner: { id: "spotlight", name: "Spotlight" } };
+  const expected = (week, label) => `<svg xmlns="http://www.w3.org/2000/svg" width="309" height="20" role="img" aria-label="OmaPicks Clipboard ${label}: Spotlight">
+  <title>OmaPicks Clipboard ${label}: Spotlight</title>
+  <defs>
+    <clipPath id="badge">
+      <rect width="309" height="20" rx="3"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#badge)">
+    <rect width="78" height="20" fill="#c0caf5"/>
+    <rect x="78" width="231" height="20" fill="#8bd5ca"/>
+  </g>
+  <text x="10" y="14.5" fill="#1a1b26" font-family="'Cascadia Mono',ui-monospace,monospace" font-size="11" font-weight="700">OmaPicks</text>
+  <text x="86" y="14.5" fill="#1a1b26" font-family="'Cascadia Mono',ui-monospace,monospace" font-size="11">Spotlight · Clipboard · ${week}</text>
+</svg>
+`;
+  assert.equal(renderFixtureBadge(type, { week: "2026-W44", methodologyVersion: "1.3.0" }), expected("2026-W44", "leading reviewed option"));
+  assert.equal(renderFixtureBadge(type, { week: "2026-W43", methodologyVersion: "1.2.0" }), expected("2026-W43", "champion"));
+});

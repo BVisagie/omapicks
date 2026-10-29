@@ -29,11 +29,20 @@ const FUNCTION_ROUTES = {
     "/apple-touch-icon.png"
   ]
 };
-const PALETTE = Object.freeze({
-  bg: "#1a1b26",
-  lightBg: "#e9e9ec",
+// Site theme colours, mirrored from the tokens in site/styles.css (theme-color, manifest).
+export const PALETTE = Object.freeze({
+  bg: "#0b0d14",
+  lightBg: "#f4f1ea",
   ink: "#c0caf5",
-  muted: "#7f849c",
+  muted: "#8a93b8",
+  accent: "#8bd5ca"
+});
+// Badges are dated artifacts embedded in third-party READMEs and served immutable for a year,
+// so their colours are pinned here and never follow the site theme. A redesign would ship
+// under a new /badges/ path rather than changing bytes behind existing URLs.
+export const BADGE_PALETTE = Object.freeze({
+  bg: "#1a1b26",
+  ink: "#c0caf5",
   accent: "#8bd5ca"
 });
 const SOCIAL_IMAGE = Object.freeze({
@@ -1268,11 +1277,11 @@ function badgeSvg(type, candidate, week, method) {
     </clipPath>
   </defs>
   <g clip-path="url(#badge)">
-    <rect width="${leftWidth}" height="20" fill="${PALETTE.ink}"/>
-    <rect x="${leftWidth}" width="${rightWidth}" height="20" fill="${PALETTE.accent}"/>
+    <rect width="${leftWidth}" height="20" fill="${BADGE_PALETTE.ink}"/>
+    <rect x="${leftWidth}" width="${rightWidth}" height="20" fill="${BADGE_PALETTE.accent}"/>
   </g>
-  <text x="10" y="14.5" fill="${PALETTE.bg}" font-family="'Cascadia Mono',ui-monospace,monospace" font-size="11" font-weight="700">${escapeHtml(left)}</text>
-  <text x="${leftWidth + 8}" y="14.5" fill="${PALETTE.bg}" font-family="'Cascadia Mono',ui-monospace,monospace" font-size="11">${escapeHtml(right)}</text>
+  <text x="10" y="14.5" fill="${BADGE_PALETTE.bg}" font-family="'Cascadia Mono',ui-monospace,monospace" font-size="11" font-weight="700">${escapeHtml(left)}</text>
+  <text x="${leftWidth + 8}" y="14.5" fill="${BADGE_PALETTE.bg}" font-family="'Cascadia Mono',ui-monospace,monospace" font-size="11">${escapeHtml(right)}</text>
 </svg>
 `;
 }
