@@ -174,7 +174,7 @@
     {
       "id": "battery",
       "name": "Battery",
-      "description": "Computer battery level, charging, power draw, and battery health",
+      "description": "Read the computer battery level, charging state, power draw and health",
       "include": [
         "\\b(battery (?:status|stats|health|care|charge|level|widget|panel|warnings?|alerts?|diagnostics|draw|limit|protection|readouts?)|charge[- ](?:limit|threshold)|charging profiles?|power[- ]profile (?:switcher|settings|picker)|upower.{0,25}charge limit|pack watts|multi-battery|battery.{0,50}system (?:stats|panel))\\b",
         "\\bbattery[^.]{0,55}\\b(?:stats|readouts|monitor|panel)\\b",
@@ -188,24 +188,18 @@
       "nameInclude": [
         "\\b(batter(?:y|ies)|charge (?:cap|limit)|power profiles?)\\b"
       ],
-      "task": "Computer battery level, charging, power draw, and battery health. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "task": "Read the computer battery level, charging state, power draw and health. Computer battery readings are required. Charge-limit and power-profile controls are optional extras; peripheral batteries are a separate task.",
       "builtIns": [
         "omarchy.battery",
         "omarchy.power"
       ],
       "exclusionScope": "clause",
       "contract": {
-        "version": 1,
-        "outcome": "Computer battery level, charging, power draw, and battery health",
+        "version": 2,
+        "outcome": "Read the computer battery level, charging state, power draw and health",
         "capabilitySets": [
           [
             "read-computer-battery"
-          ],
-          [
-            "control-charge-limit"
-          ],
-          [
-            "manage-power-profiles"
           ]
         ]
       }
@@ -687,7 +681,7 @@
     {
       "id": "notes",
       "name": "Notes",
-      "description": "Note-taking, scratchpads, and quick capture tools",
+      "description": "Create notes and retrieve them for reading",
       "include": [
         "\\b(scratch note|quick[- ]note|sticky notes?|note-?taking|bullet journal|daily notes?|note capture|notepad|note pad|markdown scratchpad|text scratchpad)\\b",
         "\\b(?:write|capture|create|edit|browse|search|manage)\\w*[^.]{0,35}\\bnotes\\b",
@@ -704,15 +698,13 @@
       "nameInclude": [
         "\\b(notes|obsidian)\\b"
       ],
-      "task": "Note-taking, scratchpads, and quick capture tools. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "task": "Create notes and retrieve them for reading. Both note capture and retrieval are required. A read-only viewer or launcher alone is related; task-specific note formats must be disclosed.",
       "contract": {
-        "version": 1,
-        "outcome": "Note-taking, scratchpads, and quick capture tools",
+        "version": 2,
+        "outcome": "Create notes and retrieve them for reading",
         "capabilitySets": [
           [
-            "capture-notes"
-          ],
-          [
+            "capture-notes",
             "read-notes"
           ]
         ]
@@ -924,19 +916,17 @@
     {
       "id": "color-picker",
       "name": "Color Picker",
-      "description": "On-screen color picking and palette tools",
+      "description": "Pick a color from the screen and copy or export its value",
       "include": [
         "\\b(color picker|colour picker|eyedropper|hyprpicker)\\b"
       ],
-      "task": "On-screen color picking and palette tools. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "task": "Pick a color from the screen and copy or export its value. Both screen sampling and reuse of the sampled value are required. A palette display alone is related.",
       "contract": {
-        "version": 1,
-        "outcome": "On-screen color picking and palette tools",
+        "version": 2,
+        "outcome": "Pick a color from the screen and copy or export its value",
         "capabilitySets": [
           [
-            "pick-screen-color"
-          ],
-          [
+            "pick-screen-color",
             "reuse-picked-colors"
           ]
         ]
@@ -1073,7 +1063,7 @@
     {
       "id": "containers",
       "name": "Containers",
-      "description": "Docker, Podman, and container management",
+      "description": "Inspect containers and perform container operations",
       "include": [
         "\\b(?:docker|podman|container|containers|kubernetes|k8s)\\b[^.]{0,55}\\b(?:status|manage|control|monitor|start|stop|restart|logs|dashboard|panel|projects|stats)\\b",
         "\\b(?:docker|podman) in the omarchy bar\\b",
@@ -1085,15 +1075,13 @@
       "nameInclude": [
         "\\b(docker|podman|container|containers|kubernetes|k8s)\\b"
       ],
-      "task": "Docker, Podman, and container management. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "task": "Inspect containers and perform container operations. Both inspection and a native operation are required. Disclose runtime and operation scope; read-only remote dashboards are related.",
       "contract": {
-        "version": 1,
-        "outcome": "Docker, Podman, and container management",
+        "version": 2,
+        "outcome": "Inspect containers and perform container operations",
         "capabilitySets": [
           [
-            "inspect-containers"
-          ],
-          [
+            "inspect-containers",
             "manage-containers"
           ]
         ]
@@ -1549,7 +1537,7 @@
     {
       "id": "firewall",
       "name": "Firewall",
-      "description": "Firewall rules and outbound connection control",
+      "description": "Inspect and manage firewall rules or per-app network blocks",
       "include": [
         "\\b(firewall|ufw|iptables|nftables)\\b[^.]{0,45}\\b(?:rules?|controls?|manager|toggle|status|panel|allow|block|counters)\\b",
         "\\boutbound connections?\\b",
@@ -1563,16 +1551,13 @@
       "nameInclude": [
         "\\b(firewall|ufw|iptables|nftables)\\b"
       ],
-      "task": "Firewall rules and outbound connection control. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "task": "Inspect and manage firewall rules or per-app network blocks. Native rule or blocking controls are required. Connection maps and read-only firewall counters alone are related.",
       "contract": {
-        "version": 1,
-        "outcome": "Firewall rules and outbound connection control",
+        "version": 2,
+        "outcome": "Inspect and manage firewall rules or per-app network blocks",
         "capabilitySets": [
           [
             "manage-firewall"
-          ],
-          [
-            "inspect-outbound-connections"
           ]
         ]
       }
