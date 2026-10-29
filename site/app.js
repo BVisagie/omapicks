@@ -20,13 +20,17 @@ document.addEventListener("pointermove", (event) => {
     tile.style.setProperty("--rx", `${((0.5 - y / rect.height) * 8).toFixed(2)}deg`);
     tile.style.setProperty("--ry", `${((x / rect.width - 0.5) * 8).toFixed(2)}deg`);
   }
+  if (tile.classList.contains("parallax") && finePointer && !reduceMotion) {
+    // The preview drifts a few pixels against the cursor.
+    tile.style.setProperty("--px", ((x / rect.width - 0.5) * -2).toFixed(3));
+    tile.style.setProperty("--py", ((y / rect.height - 0.5) * -2).toFixed(3));
+  }
 }, { passive: true });
 
 document.addEventListener("pointerout", (event) => {
   const tile = event.target.closest?.(".glass");
   if (!tile || tile.contains(event.relatedTarget)) return;
-  tile.style.removeProperty("--rx");
-  tile.style.removeProperty("--ry");
+  for (const name of ["--rx", "--ry", "--px", "--py"]) tile.style.removeProperty(name);
 });
 
 // Numbers count up and sections reveal as they scroll into view; reduced motion shows final values.

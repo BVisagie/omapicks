@@ -47,7 +47,7 @@ test("hero enhancements ship inert: plain heading, hidden radar, palette and tri
   assert.match(html, /<div class="glass radar-panel" data-radar hidden>/);
   assert.match(html, /<canvas class="radar" role="img" aria-label="Radar of 1 category\. Move the pointer over a node to read its leading reviewed option; click to open the category\.">/);
   assert.match(html, /<div class="palette" role="dialog" aria-modal="true" aria-labelledby="finder-label" data-palette hidden>/);
-  assert.equal([...html.matchAll(/data-open-palette hidden/g)].length, 2);
+  assert.equal([...html.matchAll(/data-open-palette hidden/g)].length, 3);
   assert.match(html, /<div class="hero-finder glass" role="search">/);
   assert.match(html, /<input id="pick-filter" type="search"[^>]*data-pick-filter>/);
   // Non-home pages carry neither the palette nor its trigger.

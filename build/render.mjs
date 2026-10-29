@@ -400,8 +400,8 @@ function featuredSlotStyle(count) {
   for (let slot = 0; slot < count; slot += 1) {
     rules.push(`html[data-featured-index="${slot}"] .showdown[data-slot]:not([data-slot="${slot}"]){display:none}`);
     rules.push(`html[data-featured-index="${slot}"] .showdown[data-slot="${slot}"]{display:block}`);
-    rules.push(`html[data-featured-index="${slot}"] .support[data-slot="${slot}"]{display:none}`);
-    rules.push(`html[data-featured-index="${slot}"] .support[data-slot]:not([data-slot="${slot}"]){display:block}`);
+    rules.push(`html[data-featured-index="${slot}"] .support-wrap[data-slot="${slot}"]{display:none}`);
+    rules.push(`html[data-featured-index="${slot}"] .support-wrap[data-slot]:not([data-slot="${slot}"]){display:block}`);
   }
   return `<style>${rules.join("")}</style>`;
 }
@@ -790,38 +790,52 @@ function snapshotNotice(rankings) {
 function showdownEntry(candidate, place, href, method) {
   const labels = pickLabels(method);
   if (!candidate) {
-    return `<div class="showdown-entry empty"><p class="rank">02 ${labels.second}</p><p>${reviewedPresentation(method) ? "No additional reviewed option this week." : "No runner-up this week."}</p></div>`;
+    return `<div class="glass card showdown-entry empty"><p class="rank">02 ${labels.second}</p><p>${reviewedPresentation(method) ? "No additional reviewed option this week." : "No runner-up this week."}</p></div>`;
   }
   const champion = place === "winner";
-  return `<div class="showdown-entry${champion ? " champion" : ""}">
-    <p class="rank">${champion ? `01 ${labels.first}` : `02 ${labels.second}`} ${statusPill(candidate)}</p>
-    <a class="feature-media" href="${href}" tabindex="-1">${mediaImage(candidate)}</a>
-    <h3><a href="${href}">${escapeHtml(candidate.name)}</a></h3>
-    <p class="byline">By ${escapeHtml(candidate.author || "Unknown author")}</p>
-    <p class="lede">${escapeHtml(candidate.description)}</p>
-    ${availabilityNote(candidate)}
-  </div>`;
+  return `<article class="glass tilt card showdown-entry${champion ? " champion" : ""}">
+    <p class="rank"><span class="live">${champion ? '<span class="live-dot" aria-hidden="true"></span>' : ""}${champion ? `01 ${labels.first}` : `02 ${labels.second}`}</span> ${statusPill(candidate)}</p>
+    <a class="media feature-media" href="${href}" tabindex="-1">${mediaImage(candidate)}</a>
+    <div class="card-body">
+      <h3><a href="${href}">${escapeHtml(candidate.name)}</a></h3>
+      <p class="byline">By ${escapeHtml(candidate.author || "Unknown author")}</p>
+      <p class="lede">${escapeHtml(candidate.description)}</p>
+      ${availabilityNote(candidate)}
+      <p class="card-foot"><a class="pill" href="${href}">${labels.compare} →</a></p>
+    </div>
+  </article>`;
+}
+
+// The winner's share of the pair's combined score, for the signal meter. Shown only where the
+// delta is shown: legacy snapshots. Reviewed snapshots de-emphasise the score on the home page.
+function scoreShare(type) {
+  const winner = Number(type.winner?.score);
+  const runnerUp = Number(type.runnerUp?.score);
+  if (!Number.isFinite(winner) || !Number.isFinite(runnerUp) || winner + runnerUp <= 0) return null;
+  return Math.round((winner / (winner + runnerUp)) * 1000) / 10;
 }
 
 function showdownSection(type, slot = 0, method) {
   const modern = reviewedPresentation(method);
   const href = `/picks/${encodeURIComponent(type.id)}/`;
   const gap = scoreGapLabel(type);
+  const share = gap && !modern ? scoreShare(type) : null;
   return `<article class="showdown" data-slot="${slot}">
-    <header class="showdown-head">
+    <header class="showdown-head reveal">
       <p class="kicker">Featured today</p>
-      <p class="showdown-note">A different category each day. Rankings refresh Monday.</p>
       <h2>${modern ? "Reviewed options for" : "Best"} <a href="${href}">${escapeHtml(type.name)}</a>${modern ? "" : " plugin this week"}</h2>
+      <p class="showdown-note">A different category each day. Rankings refresh Monday.</p>
     </header>
     <div class="showdown-pair">
-      ${showdownEntry(type.winner, "winner", href, method)}
-      ${showdownEntry(type.runnerUp, "runner-up", href, method)}
+      <div class="reveal">${showdownEntry(type.winner, "winner", href, method)}</div>
+      <div class="reveal" style="--d: 120ms">${showdownEntry(type.runnerUp, "runner-up", href, method)}</div>
     </div>
-    <p class="showdown-gap">
-      ${gap && !modern ? `<span class="delta">${gap}</span>` : ""}
+    <div class="showdown-gap reveal" data-animate>
+      ${gap && !modern ? `<div class="signal"><span class="delta">${gap}</span>${share !== null ? `<div class="meter" role="img" aria-label="${escapeHtml(type.winner.name)} holds ${share}% of the combined score"><span style="--v: ${share}%"></span></div>
+        <div class="meter-legend"><span>${escapeHtml(type.winner.name.toLowerCase())}</span><span>${escapeHtml(type.runnerUp.name.toLowerCase())}</span></div>` : ""}</div>` : ""}
       <span>${modern ? `${type.eligibleCount} qualified options` : competedLabel(type.eligibleCount)}</span>
-      <a class="text-link" href="${href}">${pickLabels(method).compare}</a>
-    </p>
+      <a class="text-link" href="${href}">${pickLabels(method).compare} →</a>
+    </div>
   </article>`;
 }
 
@@ -832,16 +846,16 @@ function featureArticle(type, slot = 0, method) {
   const runner = type.runnerUp?.name
     ? ` · ${reviewedPresentation(method) ? "alternative" : "runner-up"} ${type.runnerUp.name} by ${type.runnerUp.author || "Unknown author"}`
     : "";
-  return `<a class="feature support" href="${href}" data-feature data-slot="${slot}">
-    <span class="feature-media" aria-hidden="true">${mediaImage(winner, { decorative: true })}</span>
+  return `<div class="support-wrap reveal" data-slot="${slot}" style="--d: ${slot * 90}ms"><a class="glass tilt parallax feature support" href="${href}" data-feature data-slot="${slot}">
+    <span class="media feature-media" aria-hidden="true">${mediaImage(winner, { decorative: true })}<span class="badge">${statusPill(winner)}</span></span>
     <div class="support-copy">
       <p class="kicker">${escapeHtml(type.name)}</p>
       <h3>${escapeHtml(winner.name)}</h3>
       <p class="support-meta">${labels.first} by ${escapeHtml(winner.author || "Unknown author")}${escapeHtml(runner)}</p>
       ${winner.availability?.status === "unavailable" ? '<p class="install-unavailable">Currently unavailable</p>' : ""}
-      <p class="feature-action">${labels.compare}</p>
+      <p class="feature-action pill">${labels.compare} →</p>
     </div>
-  </a>`;
+  </a></div>`;
 }
 
 function catalogRow(type, method) {
@@ -1065,14 +1079,17 @@ function homePage(rankings, history = []) {
       : ""
   }
   <section class="catalog" id="catalog" aria-labelledby="catalog-heading">
-    <div class="catalog-header">
-      <h2 id="catalog-heading">${escapeHtml(browseLabel(categoryCount, { all: true }))}</h2>
+    <div class="catalog-header reveal">
+      <div><p class="kicker">readout</p><h2 id="catalog-heading">${escapeHtml(browseLabel(categoryCount, { all: true }))}</h2></div>
+      <button class="button ghost" type="button" data-open-palette hidden>filter <kbd>/</kbd></button>
     </div>
-    <div class="catalog-table">
-      <div class="catalog-head" aria-hidden="true" data-catalog-head><span>Category</span><span>${labels.first} · Author</span><span>${labels.second} · Author</span><span>${modern ? "Qualified" : "Competed"}</span></div>
-      ${catalogTypes.map((type) => catalogRow(type, method)).join("")}
+    <div class="glass readout-panel reveal">
+      <div class="catalog-table">
+        <div class="catalog-head" aria-hidden="true" data-catalog-head><span>Category</span><span>${labels.first} · Author</span><span>${labels.second} · Author</span><span>${modern ? "Qualified" : "Competed"}</span></div>
+        ${catalogTypes.map((type) => catalogRow(type, method)).join("")}
+      </div>
+      <p class="filter-empty" data-filter-empty hidden>No categories match.</p>
     </div>
-    <p class="filter-empty" data-filter-empty hidden>No categories match.</p>
   </section>
   <!-- The palette is an overlay slot: app.js moves the hero finder into it on / or Ctrl/⌘ K and back on close. -->
   <div class="palette" role="dialog" aria-modal="true" aria-labelledby="finder-label" data-palette hidden>

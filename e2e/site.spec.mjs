@@ -208,7 +208,7 @@ test("the radar and headline decode are enhancements that leave the content inta
   await plain.goto("http://127.0.0.1:4173/");
   await expect(plain.locator("[data-radar]")).toBeHidden();
   await expect(plain.locator("[data-palette]")).toBeHidden();
-  await expect(plain.locator("[data-open-palette]")).toHaveCount(2);
+  await expect(plain.locator("[data-open-palette]")).toHaveCount(3);
   await expect(plain.locator("[data-open-palette]:visible")).toHaveCount(0);
   await expect(plain.getByRole("searchbox")).toBeVisible();
   await context.close();
