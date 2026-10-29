@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
-import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { cp, mkdtemp, readFile, rm, symlink, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import { gunzipSync } from "node:zlib";
 import test from "node:test";
 import {
   CURRENT_METHODOLOGY_VERSION,
@@ -14,6 +16,7 @@ import {
 import { METHODOLOGY, rankPlugins } from "../build/rank.mjs";
 import { renderFixtureMethodology, renderFixtureType } from "../build/render.mjs";
 import { compareMethodologies, renderComparison, runComparison } from "../scripts/compare-methodologies.mjs";
+import { assertTaskQualifiedSnapshot } from "../build/task-fit.mjs";
 
 test("every registered methodology is frozen, sums to one, and unknown versions fail clearly", () => {
   for (const version of methodologyVersions()) {
@@ -39,6 +42,49 @@ test("the published 1.0.0 definition keeps its original rules", () => {
   assert.equal(legacy.verification.rule, "status");
   assert.equal(legacy.installRate, null);
   assert.equal(legacy.eligibility.upstreamHealth, false);
+});
+
+test("later registered methodologies retain evidence guards, configured age limits and reviewed presentation", async (context) => {
+  // Add a later definition in an isolated copy, without registering a fictional
+  // version in production or bypassing the registry used by real snapshots.
+  const directory = await mkdtemp(path.join(os.tmpdir(), "omapicks-next-methodology-"));
+  context.after(() => rm(directory, { recursive: true, force: true }));
+  for (const name of ["build", "site"]) await cp(new URL(`../${name}/`, import.meta.url), path.join(directory, name), { recursive: true });
+  await symlink(fileURLToPath(new URL("../node_modules/", import.meta.url)), path.join(directory, "node_modules"), "dir");
+  const next = { ...structuredClone(methodologyFor("1.3.0")), version: "999.0.0-test", eligibility: { ...methodologyFor("1.3.0").eligibility, sourceMaxAgeDays: 2 } };
+  const registryFile = path.join(directory, "build/methodology.mjs");
+  const registry = await readFile(registryFile, "utf8");
+  const marker = "const REGISTRY = new Map(";
+  assert.ok(registry.includes(marker));
+  await writeFile(registryFile, registry.replace(marker, `DEFINITIONS.push(${JSON.stringify(next)});\n\n${marker}`));
+  const { assertTaskQualifiedSnapshot: assertNextSnapshot } = await import(pathToFileURL(path.join(directory, "build/task-fit.mjs")));
+  const { renderFixtureType: renderNextType, withAvailability: withNextAvailability } = await import(pathToFileURL(path.join(directory, "build/render.mjs")));
+  const { socialSvg } = await import(pathToFileURL(path.join(directory, "build/social.mjs")));
+  const capture = JSON.parse(gunzipSync(await readFile(new URL("./fixtures/recommendation-migration.json.gz", import.meta.url))));
+  const { rankings: snapshot } = rankPlugins({ catalog: capture.inputs.catalog.body.plugins, stats: capture.inputs.stats.body.plugins,
+    taxonomy: capture.taxonomy, taskReviews: capture.taskReviews, pluginProfiles: capture.pluginProfiles, evidenceObservations: capture.evidenceObservations,
+    now: new Date(capture.inputs.now), methodology: methodologyFor("1.3.0") });
+  snapshot.methodologyVersion = next.version;
+  snapshot.types = [{ ...snapshot.types[0], runnerUp: null, alternatives: [] }];
+  assert.throws(() => assertTaskQualifiedSnapshot(snapshot), /Unknown methodology version/);
+  assertNextSnapshot(snapshot);
+  for (const field of ["profileSources", "evidenceObservation"]) {
+    const broken = structuredClone(snapshot);
+    delete broken.types[0].winner.taskFit[field];
+    assert.throws(() => assertNextSnapshot(broken), /Missing reviewed requirements|Invalid recommendation/);
+  }
+  const dated = structuredClone(snapshot);
+  const fit = dated.types[0].winner.taskFit;
+  fit.lastValidatedAt = fit.evidenceObservation.checkedAt = new Date(Date.parse(dated.generatedAt) - 3 * 86400000).toISOString();
+  assert.throws(() => assertNextSnapshot(dated), /Invalid recommendation observation/);
+  fit.lastValidatedAt = fit.evidenceObservation.checkedAt = new Date(Date.parse(dated.generatedAt) - 86400000).toISOString();
+  assertNextSnapshot(dated);
+  assert.match(renderNextType(snapshot.types[0], snapshot), /01 Leading reviewed option/);
+  assert.match(socialSvg(snapshot.types[0], snapshot.week, { methodologyVersion: next.version }), /01 LEADING REVIEWED OPTION/);
+  assert.match(socialSvg(snapshot.types[0], snapshot.week, { methodologyVersion: "1.2.0" }), /01 CHAMPION/);
+  assert.throws(() => socialSvg(snapshot.types[0], snapshot.week, { methodologyVersion: "9.9.9" }), /Unknown methodology version/);
+  const projected = withNextAvailability(snapshot, null);
+  assert.equal(projected.types[0].winner.availability.status, "unknown");
 });
 
 const taxonomy = { schemaVersion: 1, types: [{ id: "weather", name: "Weather", description: "Forecasts", include: ["\\bweather\\b"] }] };

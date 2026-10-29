@@ -36,7 +36,7 @@ export function reviewProposal(inputs, decisions, { taxonomy = inputs.taxonomy, 
       source: decision.source ?? catalogReviewSource(inputs.catalog.body, plugin),
       provenance: decision.provenance ?? "catalog-evidence" });
   }
-  const reviews = { schemaVersion: 1, assignments: [...records.values()].sort((a, b) => a.typeId.localeCompare(b.typeId) || a.pluginId.localeCompare(b.pluginId)) };
+  const reviews = { schemaVersion: existing.schemaVersion ?? 1, assignments: [...records.values()].sort((a, b) => a.typeId.localeCompare(b.typeId) || a.pluginId.localeCompare(b.pluginId)) };
   prepareTaskReviews(reviews, taxonomy.types);
   return reviews;
 }

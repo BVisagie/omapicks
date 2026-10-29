@@ -9,6 +9,15 @@ for (const notice of document.querySelectorAll("[data-snapshot-at]")) {
   }
 }
 
+for (const notice of document.querySelectorAll("[data-availability-at]")) {
+  const hours = Math.floor((Date.now() - Date.parse(notice.dataset.availabilityAt)) / 3_600_000);
+  if (!Number.isFinite(hours) || hours < 0) continue;
+  const days = Math.floor(hours / 24);
+  notice.textContent = hours < 1 ? " (less than an hour ago)" : days > 0
+    ? ` (${days} ${days === 1 ? "day" : "days"} ago)`
+    : ` (${hours} ${hours === 1 ? "hour" : "hours"} ago)`;
+}
+
 function storedTheme() {
   try {
     return localStorage.getItem("omapicks-theme");

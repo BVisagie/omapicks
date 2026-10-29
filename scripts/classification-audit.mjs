@@ -6,6 +6,8 @@ import { LEGACY_METHODOLOGY_VERSION, methodologyVersions, methodologyFor } from 
 import { CLASSIFICATION_VERSION, METHODOLOGY } from "../build/rank.mjs";
 import { boundedFetch, codeRevision, fetchJson, validateFeeds } from "../build/refresh.mjs";
 
+import { captureEvidence } from "../build/evidence.mjs";
+
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 async function json(file, fallback) {
   try { return JSON.parse(await readFile(file, "utf8")); }
@@ -32,7 +34,10 @@ export async function runAudit({ root = ROOT, inputFile, baselineFile, baselineV
       json(path.join(root, "data", "classification-state.json"), null),
       json(path.join(root, "data", "task-review-queue.json"), null)
     ]);
-    inputs = { schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, methodologyVersion: METHODOLOGY.version, codeRevision: codeRevision(root), now: new Date().toISOString(), catalog, stats, taxonomy, taskReviews, previous, previousState, previousReviewQueue,
+    const pluginProfiles = await json(path.join(root, "data", "plugin-profiles.json"), { schemaVersion: 1, plugins: {} });
+    const now = new Date();
+    const evidenceObservations = await captureEvidence({ catalog: catalog.body.plugins, taskReviews, pluginProfiles, taxonomy, now, fetchImpl });
+    inputs = { pluginProfiles, evidenceObservations, schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, methodologyVersion: METHODOLOGY.version, codeRevision: codeRevision(root), now: now.toISOString(), catalog, stats, taxonomy, taskReviews, previous, previousState, previousReviewQueue,
       baselineTaxonomy: baselineFile ? await json(baselineFile) : null, baselineVersion };
   }
   validateFeeds(inputs.catalog.body, inputs.stats.body, 1000, inputs.previous);

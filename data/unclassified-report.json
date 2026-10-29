@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-26T07:36:52.835Z",
-  "catalogCount": 5941,
-  "eligibleClassifiedCount": 2208,
-  "classificationAssignments": 2739,
-  "qualifiedAssignments": 255,
-  "pendingAssignments": 2468,
-  "uniqueUnclassifiedCount": 2479,
+  "generatedAt": "2026-10-29T19:35:18.101Z",
+  "catalogCount": 6122,
+  "eligibleClassifiedCount": 2277,
+  "classificationAssignments": 2831,
+  "qualifiedAssignments": 164,
+  "pendingAssignments": 2641,
+  "uniqueUnclassifiedCount": 2535,
   "excluded": {
-    "not-installable": 1152,
-    "compatibility-failed": 18,
-    "repository-unreachable": 45,
+    "not-installable": 1203,
+    "compatibility-failed": 19,
+    "repository-unreachable": 49,
     "built-in": 39
   },
   "excludedIncumbents": [],
@@ -2853,6 +2853,11 @@
       "category": "System"
     },
     {
+      "id": "yamz8.omanki",
+      "name": "omanki",
+      "category": "Productivity"
+    },
+    {
       "id": "patrickfanella.superproductivity",
       "name": "Super Productivity",
       "category": "Productivity"
@@ -3168,6 +3173,21 @@
       "category": "System"
     },
     {
+      "id": "yamz8.npichy",
+      "name": "npichy",
+      "category": "Productivity"
+    },
+    {
+      "id": "yamz8.coveragechy",
+      "name": "coveragechy",
+      "category": "Productivity"
+    },
+    {
+      "id": "yamz8.icd10chy",
+      "name": "icd10chy",
+      "category": "Productivity"
+    },
+    {
       "id": "skuthus.hidden-om-bar",
       "name": "Hidden Om-Bar",
       "category": "Widgets"
@@ -3223,6 +3243,11 @@
       "category": "Developer Tools"
     },
     {
+      "id": "yamz8.touchsynth",
+      "name": "TouchSynth",
+      "category": "Hardware"
+    },
+    {
       "id": "context-switcher",
       "name": "Context Switcher",
       "category": "Desktop"
@@ -3231,6 +3256,16 @@
       "id": "io.github.nousd.voxbox",
       "name": "Voxbox",
       "category": "Productivity"
+    },
+    {
+      "id": "yamz8.pubmedchy",
+      "name": "pubmedchy",
+      "category": "Productivity"
+    },
+    {
+      "id": "yamz8.clinical-trialchy",
+      "name": "clinical-trialchy",
+      "category": "Widgets"
     },
     {
       "id": "ianm.scratchpad",
@@ -4395,11 +4430,6 @@
     {
       "id": "jankeesvw.downloads",
       "name": "Downloads",
-      "category": "Productivity"
-    },
-    {
-      "id": "io.github.pooriaarab.content-rabbit",
-      "name": "Content Rabbit",
       "category": "Productivity"
     },
     {
@@ -5911,11 +5941,6 @@
       "id": "rubenassink.tally",
       "name": "Tally",
       "category": "Widgets"
-    },
-    {
-      "id": "io.github.terrifiedbug.omaspaces",
-      "name": "OmaSpaces",
-      "category": "Desktop"
     },
     {
       "id": "io.github.mfilm77.keypad",
@@ -7958,6 +7983,11 @@
       "category": "Widgets"
     },
     {
+      "id": "agileautomation.omafloat",
+      "name": "OmaFloat",
+      "category": "Desktop"
+    },
+    {
       "id": "io.github.bramvera.haptic-touchpad",
       "name": "ASUS ExpertBook Ultra Haptic Touchpad",
       "category": "Hardware"
@@ -8226,6 +8256,11 @@
       "id": "nodrej.plexamp",
       "name": "Plexamp",
       "category": "Widgets"
+    },
+    {
+      "id": "drace3000.bottom-dock",
+      "name": "EZ Docker",
+      "category": "Desktop"
     },
     {
       "id": "io.github.tdemers218.hyprworld",
@@ -8551,6 +8586,11 @@
       "id": "io.github.iampoul.hackernews",
       "name": "Hacker News",
       "category": "Widgets"
+    },
+    {
+      "id": "alebairos.mx-quick-control",
+      "name": "MX Quick Control",
+      "category": "Hardware"
     },
     {
       "id": "io.github.metachow.local-drop",
@@ -9015,6 +9055,11 @@
     {
       "id": "io.github.andrecards.pjeoffice",
       "name": "PJe Office Pro",
+      "category": "Widgets"
+    },
+    {
+      "id": "ashis.satellite",
+      "name": "Satellite",
       "category": "Widgets"
     },
     {
@@ -11163,11 +11208,6 @@
       "category": "Productivity"
     },
     {
-      "id": "io.github.saurasanchezpablo.moonraker-plus",
-      "name": "Moonraker Printer Plus",
-      "category": "Widgets"
-    },
-    {
       "id": "yasserdo.laser",
       "name": "Laser",
       "category": "Productivity"
@@ -11191,11 +11231,6 @@
       "id": "io.github.richfeather-cpu.omarchy-owww",
       "name": "Owww",
       "category": "Hardware"
-    },
-    {
-      "id": "io.github.akton1.background-worker-talk-to-me",
-      "name": "Background Worker Talk To Me",
-      "category": "Desktop"
     },
     {
       "id": "io.github.tomtorggler.asana",
@@ -11638,11 +11673,6 @@
       "category": "Other"
     },
     {
-      "id": "meperdonas.devstack",
-      "name": "devstack",
-      "category": "Developer Tools"
-    },
-    {
       "id": "com.eldtechnologies.govee",
       "name": "Govee Lights",
       "category": "Hardware"
@@ -11830,11 +11860,6 @@
     {
       "id": "yozniax.flolinr",
       "name": "Flolinr",
-      "category": "Productivity"
-    },
-    {
-      "id": "io.github.0w3n-n.inkcast",
-      "name": "Inkcast",
       "category": "Productivity"
     },
     {
@@ -12051,11 +12076,6 @@
       "id": "mikelon797.omatinta",
       "name": "Omatinta",
       "category": "Appearance"
-    },
-    {
-      "id": "grvc.stonks",
-      "name": "Stonks",
-      "category": "Widgets"
     },
     {
       "id": "pym.omareach",
@@ -12378,11 +12398,6 @@
       "category": "Developer Tools"
     },
     {
-      "id": "leewynne.next-ufc",
-      "name": "Next UFC",
-      "category": "Other"
-    },
-    {
       "id": "psamoluk.light-table",
       "name": "Light Table",
       "category": "Productivity"
@@ -12410,6 +12425,271 @@
     {
       "id": "gnosis.tide",
       "name": "OmaTide",
+      "category": "Widgets"
+    },
+    {
+      "id": "omaherdrbar",
+      "name": "omaherdrbar",
+      "category": "Widgets"
+    },
+    {
+      "id": "rohirik.plugin-lab",
+      "name": "Plugin Lab",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "jonathan.dutch-tax-calculator",
+      "name": "Dutch Tax Calculator",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.elliotalien.tide",
+      "name": "Tide",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.mattbudde.kata",
+      "name": "Katana GO Monitor",
+      "category": "Desktop"
+    },
+    {
+      "id": "juangalt.seafile",
+      "name": "Seafile",
+      "category": "Widgets"
+    },
+    {
+      "id": "blackcode.omadbngin",
+      "name": "OmaDBngin",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "voxel",
+      "name": "Voxel",
+      "category": "Widgets"
+    },
+    {
+      "id": "entroit.omacam",
+      "name": "OmaCam",
+      "category": "Widgets"
+    },
+    {
+      "id": "zonectl",
+      "name": "Per-Screen Zones",
+      "category": "Widgets"
+    },
+    {
+      "id": "blackcode.omatableplus",
+      "name": "OmaTablePlus",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "busabase",
+      "name": "Busabase",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.beresn.process-killer",
+      "name": "Process Killer",
+      "category": "System"
+    },
+    {
+      "id": "io.github.jordan-alcock.ask-agent",
+      "name": "Ask agent",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.beyonddreadful.omatrix",
+      "name": "Omatrix",
+      "category": "Appearance"
+    },
+    {
+      "id": "phenome.app-scaling",
+      "name": "App Scaling",
+      "category": "Appearance"
+    },
+    {
+      "id": "ricardo-ti.pip-solver",
+      "name": "PiP Solver",
+      "category": "System"
+    },
+    {
+      "id": "io.github.silentjay.monzoglance",
+      "name": "Monzo Glance",
+      "category": "Widgets"
+    },
+    {
+      "id": "paulorivera27.omaelk",
+      "name": "OmaElk",
+      "category": "Hardware"
+    },
+    {
+      "id": "leewynne.omacombat",
+      "name": "OmaCombat",
+      "category": "Widgets"
+    },
+    {
+      "id": "lbssousa.security-key",
+      "name": "Security Key",
+      "category": "Hardware"
+    },
+    {
+      "id": "marcho78.hillchart",
+      "name": "Hill Chart",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.apachaiz.quay",
+      "name": "Quay",
+      "category": "Desktop"
+    },
+    {
+      "id": "io.github.bjornramberg.omarchy-power-flow",
+      "name": "Omarchy Power Flow",
+      "category": "Hardware"
+    },
+    {
+      "id": "pauwelz.whisker",
+      "name": "whisker",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.dankestrick.omacircuitlab",
+      "name": "OmaCircuitLab",
+      "category": "Other"
+    },
+    {
+      "id": "xvvhang.herdr-theme-sync",
+      "name": "Herdr Theme Sync",
+      "category": "Appearance"
+    },
+    {
+      "id": "kazu.usage-credits",
+      "name": "Agents — Usage credits",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.gabrielforster.big-cursor",
+      "name": "Big Cursor",
+      "category": "Desktop"
+    },
+    {
+      "id": "io.github.kaplanhalil.quickdrawer",
+      "name": "Quick Drawer",
+      "category": "System"
+    },
+    {
+      "id": "techspawn.projects",
+      "name": "Projects",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "wdb.shell-scratchpad",
+      "name": "Shell Scratchpad",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.tonciz.agents-budget",
+      "name": "Agents Budget",
+      "category": "Widgets"
+    },
+    {
+      "id": "leewynne.omanym",
+      "name": "Omanym",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.borferkic.obs-status-guard",
+      "name": "OBS Status & Guard",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.arbabmujtaba.memdive",
+      "name": "Memdive",
+      "category": "System"
+    },
+    {
+      "id": "io.github.borferkic.minimized-windows-bar",
+      "name": "Minimized Windows Bar",
+      "category": "Desktop"
+    },
+    {
+      "id": "dpetrariu.omamich",
+      "name": "Omamich",
+      "category": "Other"
+    },
+    {
+      "id": "io.github.mudiam.patchwatch",
+      "name": "Patchwatch",
+      "category": "System"
+    },
+    {
+      "id": "ddrglazer.ytdlp",
+      "name": "yt-dlp Downloads",
+      "category": "Widgets"
+    },
+    {
+      "id": "jgarza.loadout",
+      "name": "Loadout",
+      "category": "System"
+    },
+    {
+      "id": "jgarza.clinic",
+      "name": "Clinic",
+      "category": "System"
+    },
+    {
+      "id": "bruce.debt-ledger",
+      "name": "Debt Ledger",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.allankayan.omahorn",
+      "name": "Omahorn",
+      "category": "Widgets"
+    },
+    {
+      "id": "dorneles.convert-orb",
+      "name": "Morph",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.mattwolfgang.plugin-guard",
+      "name": "Plugin Guard",
+      "category": "System"
+    },
+    {
+      "id": "dakai.omapager",
+      "name": "Omapager AI",
+      "category": "System"
+    },
+    {
+      "id": "anavarre.apple-podcasts",
+      "name": "Apple Podcasts",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.enoceli26-oss.biblia-es",
+      "name": "Biblia en español",
+      "category": "Desktop"
+    },
+    {
+      "id": "io.github.mohiitp.pocus",
+      "name": "Pocus",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.hugorolimf.kit",
+      "name": "Island Kit",
+      "category": "Appearance"
+    },
+    {
+      "id": "com.sipstack.pulse-phone",
+      "name": "Pulse Phone",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.duarte-gui.camguard",
+      "name": "CamGuard",
       "category": "Widgets"
     }
   ]

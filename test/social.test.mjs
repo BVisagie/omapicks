@@ -13,3 +13,16 @@ test("social images are category-specific, escaped 1200x630 PNGs", () => {
   assert.equal(png.readUInt32BE(20), 630);
   assert.notDeepEqual(png, renderSocialImage({ name: "Weather" }, "2026-W37"));
 });
+
+test("reviewed shortlists use dated selection labels while historical images retain their labels", () => {
+  const type = { name: "Weather", winner: { name: "Forecast" } };
+  const modern = socialSvg(type, "2026-W44", { methodologyVersion: "1.3.0" });
+  assert.match(modern, /01 LEADING REVIEWED OPTION/);
+  assert.match(modern, /02 ANOTHER REVIEWED OPTION/);
+  assert.match(modern, /No additional reviewed option yet/);
+  assert.doesNotMatch(modern, /CHAMPION|RUNNER-UP/);
+  assert.match(socialSvg(type, "2026-W43", { methodologyVersion: "1.2.0" }), /01 CHAMPION/);
+  const png = renderSocialImage(type, "2026-W44", { methodologyVersion: "1.3.0" });
+  assert.equal(png.readUInt32BE(16), 1200);
+  assert.equal(png.readUInt32BE(20), 630);
+});

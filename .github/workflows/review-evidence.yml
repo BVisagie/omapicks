@@ -1,0 +1,81 @@
+name: Review evidence
+
+on:
+  schedule:
+    - cron: '43 6 * * 2'
+    - cron: '17 6 * * 4'
+  workflow_dispatch:
+    inputs:
+      discovery:
+        description: Include category discovery and its persistence observation
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: review-evidence-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+      WITH_DISCOVERY: ${{ github.event.schedule == '43 6 * * 2' || (github.event_name == 'workflow_dispatch' && inputs.discovery) }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+        with:
+          browser: 'true'
+      - name: Restore compatible discovery observations
+        if: env.WITH_DISCOVERY == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/restore-review-state.mjs
+      - name: Capture feeds and prepare the review handoff
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [[ "$WITH_DISCOVERY" == 'true' ]]; then
+            node scripts/review-evidence.mjs
+          else
+            node scripts/review-evidence.mjs --without-discovery
+          fi
+      - name: Test and render the proposed snapshot
+        working-directory: tmp/review-evidence/site
+        run: npm run check
+      - name: Check proposed recommendation pages
+        working-directory: tmp/review-evidence/site
+        run: npm run test:e2e
+      - name: Archive replay inputs and available diagnostics
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: review-evidence
+          path: |
+            tmp/classification-audit/
+            tmp/review-evidence/*.json
+            tmp/review-evidence/*.md
+            tmp/review-evidence/site/test-results/
+            tmp/category-discovery/
+          if-no-files-found: ignore
+          retention-days: 90
+      - name: Preserve successful default-branch discovery observations
+        if: success() && env.WITH_DISCOVERY == 'true' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: category-discovery-state
+          path: tmp/category-discovery/state.json
+          if-no-files-found: error
+          retention-days: 90
+      - name: Explain failure
+        if: failure()
+        run: |
+          echo '### Evidence review did not complete' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Inspect the failed step and archived evidence. No recommendations were published and this run is not a successful discovery observation.' >> "$GITHUB_STEP_SUMMARY"

@@ -908,6 +908,8 @@ button {
 
 .card-label {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   align-items: center;
   justify-content: space-between;
   min-height: 2.8rem;
@@ -1745,7 +1747,7 @@ footer p a {
   }
 
   .catalog-row .count::after {
-    content: " competed";
+    content: attr(data-count-label);
     font-weight: 500;
   }
 
@@ -1957,6 +1959,45 @@ footer p a {
 .task-fit-source {
   color: var(--muted);
   font-size: 0.82rem;
+}
+.capability-evidence {
+  margin-top: 0.9rem;
+  overflow-wrap: anywhere;
+}
+.capability-evidence summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-weight: 600;
+}
+.capability-evidence summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+.capability-evidence > div {
+  margin-top: 1rem;
+}
+.capability-evidence blockquote {
+  margin: 0.5rem 0;
+  padding-left: 0.8rem;
+  border-left: 2px solid var(--line);
+  white-space: pre-wrap;
+}
+.capability-evidence code {
+  white-space: normal;
+}
+.availability-note,
+.availability-summary {
+  color: var(--muted);
+  font-size: 0.85rem;
+  overflow-wrap: anywhere;
+}
+.availability-note[data-availability="unavailable"],
+.install-unavailable {
+  border-left: 3px solid var(--accent);
+  padding-left: 0.75rem;
+}
+.review-coverage {
+  overflow-wrap: anywhere;
 }
 .snapshot-status {
   color: var(--muted);

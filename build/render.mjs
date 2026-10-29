@@ -190,12 +190,24 @@ function percentLabel(fraction) {
 }
 
 // Explanations describe the methodology the snapshot was calculated with, never newer code.
+function reviewedPresentation(method) {
+  return method?.eligibility.repositoryEvidence === true;
+}
+
+function pickLabels(method) {
+  return reviewedPresentation(method)
+    ? { first: "Leading reviewed option", second: "Another reviewed option", compare: "Compare reviewed options" }
+    : { first: "Champion", second: "Runner-up", compare: "Compare champion and runner-up" };
+}
+
 function methodologyCopy(method) {
   const stability = percentLabel(method.hysteresis);
   const graded = method.verification.rule === "coverage";
   const rate = method.installRate;
   const taskQualified = method.eligibility.reviewedTaskEvidence === true;
-  const selection = method.hysteresis === 0
+  const selection = reviewedPresentation(method)
+    ? "The leading reviewed option has the highest popularity score among the qualified candidates. Requirements and task scope determine whether it fits your setup. Scores stay frozen until the next weekly publication."
+    : method.hysteresis === 0
     ? "The highest-scoring task-qualified plugin is champion, followed by the strongest remaining alternative. Picks stay frozen until the next weekly publication."
     : `A champion keeps the title until someone beats their score by more than ${stability}.`;
   const taskEvidence = taskQualified ? "Recommendations first need reviewed evidence that they complete this category's task. Core and substantial secondary capabilities qualify equally; integrations and unreviewed claims do not compete. " : "";
@@ -208,7 +220,7 @@ function methodologyCopy(method) {
   return {
     stability,
     lede: `In plain terms: ${taskEvidence}We rank the public evidence of use and upkeep. Copying the install command counts most, then hearts and GitHub stars. ${viewsClause} ${verifiedClause} ${selection}`,
-    note: `${taskEvidence}Install-command copies count most, then hearts and GitHub stars. ${viewsClause} Recently updated repositories rank higher than abandoned ones, and ${graded ? "a verified snapshot" : "a verified listing"} is only a small bonus. Sparse engagement is pulled toward the middle. ${method.hysteresis === 0 ? selection : `A champion stays until a challenger is more than ${stability} ahead on the combined score.`}`,
+    note: `${taskEvidence}Install-command copies count most, then hearts and GitHub stars. ${viewsClause} ${reviewedPresentation(method) ? "Recent repository pushes contribute to the score" : "Recently updated repositories rank higher than abandoned ones"}, and ${graded ? "a verified snapshot" : "a verified listing"} is only a small bonus. Sparse engagement is pulled toward the middle. ${method.hysteresis === 0 ? selection : `A champion stays until a challenger is more than ${stability} ahead on the combined score.`}`,
     comparison: rate
       ? `Copies per detail view divides two anonymous counters and is capped at 100%, because copies can also come from listing cards; it is not a measured install rate. Plugins with fewer than ${rate.minimumViews} detail views are not rated.`
       : "",
@@ -276,6 +288,9 @@ function meaningfulLead(delta, metric, usedContributions) {
 }
 
 export function winningReason(winner, runnerUp, topScorer = null, method = METHODOLOGY) {
+  if (reviewedPresentation(method)) return !winner ? "No reviewed option this week." : !runnerUp
+    ? "It is the only qualified option in the reviewed shortlist this week."
+    : "It has the highest marketplace popularity score among this week's qualified reviewed options.";
   if (!winner) return "No champion this week.";
   if (!runnerUp) return "It was the only eligible plugin in this category this week.";
   const copy = methodologyCopy(method);
@@ -472,6 +487,9 @@ function shell({ title, description, pathname, image, body, structuredData = nul
 // Badges describe the verification evidence, not the score, so they use the shared resolver for
 // every snapshot. The visible text carries the distinction; nothing relies on a title attribute.
 function statusPill(candidate) {
+  if (candidate.availability?.status === "unavailable") return '<span class="status">Currently unavailable</span>';
+  if (candidate.availability?.status === "unknown") return '<span class="status">Availability unknown</span>';
+  if (candidate.availability?.verificationCoverage) candidate = { ...candidate, verificationCoverage: candidate.availability.verificationCoverage };
   const coverage = candidate.verificationCoverage ?? verificationCoverage(candidate);
   if (coverage === "snapshot-verified") return `<span class="status verified">Snapshot verified</span>`;
   if (coverage === "update-unverified") return `<span class="status verified-stale">Verified snapshot; update unverified</span>`;
@@ -542,9 +560,9 @@ function scoreComparison(type, method) {
     <div class="comparison-heading">
       <div>
         <p class="kicker">Marketplace counts</p>
-        <h2 id="comparison-heading">How they compare</h2>
+        <h2 id="comparison-heading">${reviewedPresentation(method) ? "Marketplace popularity" : "How they compare"}</h2>
       </div>
-      <p>These bars are raw public counts for these two plugins, not the ranking itself. Install-command copies count most. Freshness is how recently the repository was updated.${recordedMetric(candidates, "copyViewRatio") && methodologyCopy(method).comparison ? ` ${escapeHtml(methodologyCopy(method).comparison)}` : ""} ${scores}${hiddenNote} <a href="/methodology/">How the ranking is calculated</a></p>
+      <p>These bars are raw public counts for ${runnerUp ? "these two plugins" : "this plugin"}, not the ranking itself.${reviewedPresentation(method) ? " The combined score orders this reviewed shortlist; it is not a quality grade, confidence percentage, or measure of task success." : ""} Install-command copies count most. Freshness is how recently the repository was updated.${recordedMetric(candidates, "copyViewRatio") && methodologyCopy(method).comparison ? ` ${escapeHtml(methodologyCopy(method).comparison)}` : ""} ${scores}${hiddenNote} <a href="/methodology/">How the ranking is calculated</a></p>
     </div>
     <table class="comparison-table">
       <caption class="visually-hidden">Marketplace signals by plugin</caption>
@@ -595,13 +613,14 @@ function listingAge(candidate, generatedAt) {
   return `<p class="listing-age">Listed ${age} before this snapshot</p>`;
 }
 
-function builtInNote(type) {
+function builtInNote(type, method) {
   const builtIns = (type.builtIns ?? []).filter((entry) => entry?.id);
   if (!builtIns.length) return "";
   return `<aside class="builtin-note" aria-labelledby="builtin-heading">
       <h2 id="builtin-heading">Included with Omarchy</h2>
       <div>
         <p>Built into Omarchy Quattro; not ranked. Try ${builtIns.length === 1 ? "it" : "them"} before installing a plugin.</p>
+        ${reviewedPresentation(method) ? "<p>Compare the documented built-in capabilities below with each option’s task scope and requirements. If the built-in covers your task, an extra plugin may be unnecessary.</p>" : ""}
         <ul>${builtIns.map((entry) => `<li>
           <strong>${entry.sourceUrl ? outboundLink(entry.sourceUrl, escapeHtml(entry.name)) : escapeHtml(entry.name)}</strong>
           ${entry.description ? `<p>${escapeHtml(entry.description)}</p>` : ""}
@@ -621,10 +640,11 @@ function previewFrame(candidate) {
 function candidateCard(candidate, place, type, week, { runnerUp = null, topScorer = null, method = METHODOLOGY, generatedAt = null } = {}) {
   if (!candidate) return `<article class="pick-card empty"><p>${method.eligibility.reviewedTaskEvidence ? "No reviewed recommendation for this place yet." : "No eligible plugin this week."}</p></article>`;
   const badgePath = `/badges/${encodeURIComponent(week)}/${encodeURIComponent(type.id)}/${encodeURIComponent(candidate.id)}.svg`;
-  const rank = place === "winner" ? "01 Champion" : "02 Runner-up";
+  const labels = pickLabels(method);
+  const rank = place === "winner" ? `01 ${labels.first}` : `02 ${labels.second}`;
   const extras = [statusPill(candidate)];
-  const badgeMarkdown = `[![OmaPicks ${type.name} champion](${ORIGIN}${badgePath})](${ORIGIN}/picks/${type.id}/)`;
-  const reason = place === "winner" ? winningReason(candidate, runnerUp, topScorer, method) : "";
+  const badgeMarkdown = `[![OmaPicks ${type.name} ${labels.first.toLowerCase()}](${ORIGIN}${badgePath})](${ORIGIN}/picks/${type.id}/)`;
+  const reason = place === "winner" && !reviewedPresentation(method) ? winningReason(candidate, runnerUp, topScorer, method) : "";
   return `<article class="pick-card ${place === "winner" ? "champion" : ""}">
     <div class="card-label"><span>${rank}</span><span class="card-flags">${extras.join("")}</span></div>
     ${previewFrame(candidate)}
@@ -632,13 +652,14 @@ function candidateCard(candidate, place, type, week, { runnerUp = null, topScore
       <h3>${outboundLink(candidate.detailUrl, escapeHtml(candidate.name))}</h3>
       <p class="byline">${byline(candidate)}</p>
       ${listingAge(candidate, generatedAt)}
-      ${taskFitNote(candidate)}
+      ${taskFitNote(candidate, method)}
       ${reason ? `<p class="why-won">${escapeHtml(reason)}</p>` : ""}
       <p>${escapeHtml(candidate.description)}</p>
-      <div class="command-row">
+      ${availabilityNote(candidate)}
+      ${candidate.availability?.status === "unavailable" ? `<p class="install-unavailable">Installation is unavailable in the latest marketplace check. Recheck the original listing before choosing this option.</p>` : `<div class="command-row">
         <code>${escapeHtml(candidate.installCommand)}</code>
         <button type="button" data-copy-command data-copy-label="install command">Copy</button>
-      </div>
+      </div>`}
       <div class="card-links">
         ${outboundLink(candidate.detailUrl, "Original listing")}
         ${outboundLink(candidate.repository, "Repository")}
@@ -646,9 +667,9 @@ function candidateCard(candidate, place, type, week, { runnerUp = null, topScore
       <p class="install-disclaimer">A ranking is not an endorsement or a safety review. The command installs the repository's current code, not a verified snapshot. Inspect the plugin yourself and install it at your own risk. <a href="/methodology/#safety">Read the full note</a></p>
       ${place === "winner" ? `<div class="badge-embed">
         <p class="kicker">For plugin authors</p>
-        <p>Copy this markdown into your README to show that you won this category this week.</p>
+        <p>Copy this markdown into your README to ${reviewedPresentation(method) ? "identify this dated reviewed selection" : "show that you won this category this week"}.</p>
         <div class="badge-preview">
-          <img src="${badgePath}" alt="OmaPicks ${escapeHtml(type.name)} champion: ${escapeHtml(candidate.name)}" loading="lazy">
+          <img src="${badgePath}" alt="OmaPicks ${escapeHtml(type.name)} ${escapeHtml(labels.first.toLowerCase())}: ${escapeHtml(candidate.name)}" loading="lazy">
         </div>
         <div class="command-row">
           <code>${escapeHtml(badgeMarkdown)}</code>
@@ -659,25 +680,75 @@ function candidateCard(candidate, place, type, week, { runnerUp = null, topScore
   </article>`;
 }
 
-function taskFitNote(candidate) {
-  const fit = candidate.taskFit;
-  if (!fit?.qualified) return "";
-  return `<div class="task-fit-note"><p><strong>Why it fits:</strong> ${escapeHtml(fit.reason)}</p>
-    ${fit.role === "substantial-secondary" ? "<p>Native task controls within a wider plugin.</p>" : ""}
-    ${fit.constraints.length ? `<p><strong>Before you choose:</strong> ${fit.constraints.map(escapeHtml).join(" ")}</p>` : ""}
-    <p class="task-fit-source">${outboundLink(fit.source.url, "Capability evidence")} · Reviewed ${escapeHtml(fit.reviewedAt)}</p></div>`;
+function evidenceSourceLink(source, label = "Capability evidence") {
+  // Repository evidence carries a reviewed commit. Link to that immutable document when
+  // possible; a catalog digest is not a GitHub commit and keeps its original source URL.
+  let url = source.url;
+  try {
+    const parsed = new URL(url);
+    const parts = parsed.pathname.split("/").filter(Boolean);
+    if (parsed.hostname === "github.com" && parts.length >= 2 && /^[a-f0-9]{40}$/i.test(source.revision) &&
+        typeof source.path === "string" && source.path && !source.path.split("/").includes("..")) {
+      url = `https://github.com/${parts[0]}/${parts[1].replace(/\.git$/, "")}/blob/${source.revision}/${source.path.split("/").map(encodeURIComponent).join("/")}`;
+    }
+  } catch { /* outboundLink rejects unsafe links */ }
+  return outboundLink(url, label);
 }
 
-function moreTaskChoices(type) {
+const AVAILABILITY_REASONS = Object.freeze({
+  "missing-from-catalog": "This plugin is no longer listed in the marketplace",
+  "repository-changed": "The listing now points to a different repository",
+  "compatibility-failed": "The latest marketplace compatibility check failed",
+  "repository-unreachable": "The marketplace could not reach the repository",
+  retired: "The marketplace has retired this plugin",
+  "not-installable": "The marketplace no longer provides an install command",
+  "built-in": "This plugin is now included with Omarchy",
+  "check-unavailable": "The marketplace has not reported a current check",
+  "invalid-repository": "The listing no longer has a valid HTTPS repository",
+  "invalid-id": "The listing has an invalid plugin ID",
+  "missing-observation": "No current observation is available for this weekly snapshot"
+});
+
+function availabilityNote(candidate) {
+  const observation = candidate.availability;
+  if (!observation) return "";
+  const state = observation.status === "available" ? "Marketplace check passed" : observation.status === "unavailable" ? "Currently unavailable" : "Current availability unknown";
+  const reason = observation.reason ? AVAILABILITY_REASONS[observation.reason] ?? "No additional availability details are available" : null;
+  return `<p class="availability-note" data-availability="${escapeHtml(observation.status)}"><strong>${state}.</strong>
+    ${reason ? `${escapeHtml(reason)}. ` : ""}${observation.checkedAt ? `Checked ${escapeHtml(dateLabel(observation.checkedAt) ?? observation.checkedAt)}.` : "No successful current observation."}
+    Weekly selection is unchanged.</p>`;
+}
+
+function taskFitNote(candidate, method) {
+  const fit = candidate.taskFit;
+  const modern = reviewedPresentation(method);
+  if (!fit?.qualified && !(modern && fit?.status === "related")) return "";
+  const sources = fit.sources?.length ? fit.sources : fit.source ? [fit.source] : [];
+  const constraints = [...new Set([...(modern ? fit.pluginRequirements ?? [] : []), ...(fit.constraints ?? [])])];
+  const tier = fit.provenance === "repository-evidence" ? "Repository evidence reviewed" : "Listing claim reviewed";
+  return `<div class="task-fit-note"><p><strong>${fit.qualified ? "Why it fits:" : "Narrower scope:"}</strong> ${escapeHtml(fit.reason)}</p>
+    ${fit.role === "substantial-secondary" ? "<p>Native task controls within a wider plugin.</p>" : ""}
+    ${constraints.length ? `<p><strong>Before you choose:</strong> ${constraints.map(escapeHtml).join(" ")}</p>` : ""}
+    ${modern ? `<p class="requirements-status">${fit.requirementsStatus === "reviewed" ? "Known installation requirements reviewed." : "Installation requirements have not been fully reviewed."}</p>
+    <p class="task-fit-source">${tier} · Reviewed ${escapeHtml(fit.reviewedAt)}${fit.lastValidatedAt ? ` · Evidence checked ${escapeHtml(dateLabel(fit.lastValidatedAt) ?? fit.lastValidatedAt)}` : ""}. Installation and task completion have not been tested.</p>
+    ${fit.evidenceStatus && fit.evidenceStatus !== "current" ? `<p class="evidence-status">${({ changed: "Source evidence changed; re-review is pending.", unavailable: "Current source evidence could not be checked.", "metadata-reconciliation": "Listing metadata changed; reconciliation is pending." })[fit.evidenceStatus] ?? "Evidence requires review."}</p>` : ""}
+    ${sources.length ? `<details class="capability-evidence"><summary>Read the supporting evidence</summary>${[
+      ...sources.map(source => ({ source, label: "Capability evidence" })),
+      ...(fit.profileSources ?? []).map(source => ({ source, label: "Requirements evidence" }))
+    ].map(({ source, label }) => `<div>${evidenceSourceLink(source, label)}<p class="task-fit-source">${escapeHtml(source.path ?? "Source")} · Revision <code>${escapeHtml(source.revision)}</code></p><blockquote>${escapeHtml(source.evidence)}</blockquote></div>`).join("")}</details>` : ""}` :
+    `<p class="task-fit-source">${outboundLink(fit.source.url, "Capability evidence")} · Reviewed ${escapeHtml(fit.reviewedAt)}</p>`}</div>`;
+}
+
+function moreTaskChoices(type, method) {
   const alternatives = type.alternatives ?? [];
   const related = type.relatedTools ?? [];
   if (!alternatives.length && !related.length) return "";
   return `<section class="task-alternatives" aria-labelledby="task-alternatives-heading">
     <h2 id="task-alternatives-heading">More choices for this task</h2>
-    ${alternatives.length ? `<ul>${alternatives.map((candidate) => `<li><h3>${outboundLink(candidate.detailUrl, escapeHtml(candidate.name))}</h3>${taskFitNote(candidate)}</li>`).join("")}</ul>` : ""}
-    ${related.length ? `<h3>Related tools with a narrower scope</h3><ul>${related.map((candidate) => `<li><strong>${outboundLink(candidate.detailUrl, escapeHtml(candidate.name))}</strong><p>${escapeHtml(candidate.taskFit.reason)}</p>
+    ${alternatives.length ? `<ul>${alternatives.map((candidate) => `<li><h3>${outboundLink(candidate.detailUrl, escapeHtml(candidate.name))}</h3>${taskFitNote(candidate, method)}${availabilityNote(candidate)}</li>`).join("")}</ul>` : ""}
+    ${related.length ? `<h3>Related tools with a narrower scope</h3><ul>${related.map((candidate) => `<li><strong>${outboundLink(candidate.detailUrl, escapeHtml(candidate.name))}</strong>${reviewedPresentation(method) ? taskFitNote(candidate, method) : `<p>${escapeHtml(candidate.taskFit.reason)}</p>
       ${candidate.taskFit.constraints.length ? `<p>${candidate.taskFit.constraints.map(escapeHtml).join(" ")}</p>` : ""}
-      <p class="task-fit-source">${outboundLink(candidate.taskFit.source.url, "Capability evidence")}</p></li>`).join("")}</ul>` : ""}
+      <p class="task-fit-source">${outboundLink(candidate.taskFit.source.url, "Capability evidence")}</p>`}</li>`).join("")}</ul>` : ""}
   </section>`;
 }
 
@@ -686,71 +757,77 @@ function snapshotNotice(rankings) {
     ? `<p class="snapshot-status" data-snapshot-at="${escapeHtml(rankings.generatedAt)}" hidden></p>` : "";
 }
 
-function showdownEntry(candidate, place, href) {
+function showdownEntry(candidate, place, href, method) {
+  const labels = pickLabels(method);
   if (!candidate) {
-    return `<div class="showdown-entry empty"><p class="rank">02 Runner-up</p><p>No runner-up this week.</p></div>`;
+    return `<div class="showdown-entry empty"><p class="rank">02 ${labels.second}</p><p>${reviewedPresentation(method) ? "No additional reviewed option this week." : "No runner-up this week."}</p></div>`;
   }
   const champion = place === "winner";
   return `<div class="showdown-entry${champion ? " champion" : ""}">
-    <p class="rank">${champion ? "01 Champion" : "02 Runner-up"} ${statusPill(candidate)}</p>
+    <p class="rank">${champion ? `01 ${labels.first}` : `02 ${labels.second}`} ${statusPill(candidate)}</p>
     <a class="feature-media" href="${href}" tabindex="-1">${mediaImage(candidate)}</a>
     <h3><a href="${href}">${escapeHtml(candidate.name)}</a></h3>
     <p class="byline">By ${escapeHtml(candidate.author || "Unknown author")}</p>
     <p class="lede">${escapeHtml(candidate.description)}</p>
+    ${availabilityNote(candidate)}
   </div>`;
 }
 
-function showdownSection(type, slot = 0) {
+function showdownSection(type, slot = 0, method) {
+  const modern = reviewedPresentation(method);
   const href = `/picks/${encodeURIComponent(type.id)}/`;
   const gap = scoreGapLabel(type);
   return `<article class="showdown" data-slot="${slot}">
     <header class="showdown-head">
       <p class="kicker">Featured today</p>
       <p class="showdown-note">A different category each day. Rankings refresh Monday.</p>
-      <h2>Best <a href="${href}">${escapeHtml(type.name)}</a> plugin this week</h2>
+      <h2>${modern ? "Reviewed options for" : "Best"} <a href="${href}">${escapeHtml(type.name)}</a>${modern ? "" : " plugin this week"}</h2>
     </header>
     <div class="showdown-pair">
-      ${showdownEntry(type.winner, "winner", href)}
-      ${showdownEntry(type.runnerUp, "runner-up", href)}
+      ${showdownEntry(type.winner, "winner", href, method)}
+      ${showdownEntry(type.runnerUp, "runner-up", href, method)}
     </div>
     <p class="showdown-gap">
-      ${gap ? `<span class="delta">${gap}</span>` : ""}
-      <span>${competedLabel(type.eligibleCount)}</span>
-      <a class="text-link" href="${href}">Compare champion and runner-up</a>
+      ${gap && !modern ? `<span class="delta">${gap}</span>` : ""}
+      <span>${modern ? `${type.eligibleCount} qualified options` : competedLabel(type.eligibleCount)}</span>
+      <a class="text-link" href="${href}">${pickLabels(method).compare}</a>
     </p>
   </article>`;
 }
 
-function featureArticle(type, slot = 0) {
+function featureArticle(type, slot = 0, method) {
+  const labels = pickLabels(method);
   const winner = type.winner;
   const href = `/picks/${encodeURIComponent(type.id)}/`;
   const runner = type.runnerUp?.name
-    ? ` · runner-up ${type.runnerUp.name} by ${type.runnerUp.author || "Unknown author"}`
+    ? ` · ${reviewedPresentation(method) ? "alternative" : "runner-up"} ${type.runnerUp.name} by ${type.runnerUp.author || "Unknown author"}`
     : "";
   return `<a class="feature support" href="${href}" data-feature data-slot="${slot}">
     <span class="feature-media" aria-hidden="true">${mediaImage(winner, { decorative: true })}</span>
     <div class="support-copy">
       <p class="kicker">${escapeHtml(type.name)}</p>
       <h3>${escapeHtml(winner.name)}</h3>
-      <p class="support-meta">Champion by ${escapeHtml(winner.author || "Unknown author")}${escapeHtml(runner)}</p>
-      <p class="feature-action">Compare champion and runner-up</p>
+      <p class="support-meta">${labels.first} by ${escapeHtml(winner.author || "Unknown author")}${escapeHtml(runner)}</p>
+      ${winner.availability?.status === "unavailable" ? '<p class="install-unavailable">Currently unavailable</p>' : ""}
+      <p class="feature-action">${labels.compare}</p>
     </div>
   </a>`;
 }
 
-function catalogRow(type) {
+function catalogRow(type, method) {
+  const labels = pickLabels(method);
   const winner = type.winner
-    ? `${type.winner.name} · ${type.winner.author || "Unknown author"}`
+    ? `${type.winner.name} · ${type.winner.author || "Unknown author"}${type.winner.availability?.status === "unavailable" ? " · Currently unavailable" : ""}`
     : "No pick yet";
   const runnerUp = type.runnerUp
-    ? `${type.runnerUp.name} · ${type.runnerUp.author || "Unknown author"}`
+    ? `${type.runnerUp.name} · ${type.runnerUp.author || "Unknown author"}${type.runnerUp.availability?.status === "unavailable" ? " · Currently unavailable" : ""}`
     : "—";
-  const aria = `${type.name}: champion ${winner}; runner-up ${runnerUp}; ${competedLabel(type.eligibleCount)}`;
+  const aria = `${type.name}: ${labels.first.toLowerCase()} ${winner}; ${labels.second.toLowerCase()} ${runnerUp}; ${reviewedPresentation(method) ? `${type.eligibleCount} qualified options` : competedLabel(type.eligibleCount)}`;
   return `<a class="catalog-row" href="/picks/${encodeURIComponent(type.id)}/" aria-label="${escapeHtml(aria)}" data-catalog-row data-search="${escapeHtml(searchBlob(type))}">
     <span class="type">${escapeHtml(type.name)}</span>
-    <span class="champ"><span class="field-label">Champion</span> ${escapeHtml(winner)}</span>
-    <span class="runner"><span class="field-label">Runner-up</span> ${escapeHtml(runnerUp)}</span>
-    <span class="count">${type.eligibleCount}</span>
+    <span class="champ"><span class="field-label">${labels.first}</span> ${escapeHtml(winner)}</span>
+    <span class="runner"><span class="field-label">${labels.second}</span> ${escapeHtml(runnerUp)}</span>
+    <span class="count" data-count-label="${reviewedPresentation(method) ? " qualified" : " competed"}">${type.eligibleCount}</span>
   </a>`;
 }
 
@@ -761,7 +838,7 @@ function finderItem(type, suggested) {
   return `<li data-finder-item data-search="${escapeHtml(searchBlob(type))}"${suggestedAttr}${hiddenAttr}>
     <a href="/picks/${encodeURIComponent(type.id)}/">
       <span>${escapeHtml(type.name)}</span>
-      <strong>${escapeHtml(champion)}</strong>
+      <strong>${escapeHtml(champion)}${type.winner?.availability?.status === "unavailable" ? " · Currently unavailable" : ""}</strong>
     </a>
   </li>`;
 }
@@ -835,6 +912,7 @@ function newListingsNote(rankings) {
 }
 
 function weeklySummary(rankings, history) {
+  const modern = reviewedPresentation(snapshotMethodology(rankings));
   const previous = history.filter((snapshot) => snapshot.week < rankings.week)
     .sort((a, b) => b.week.localeCompare(a.week))[0];
   const current = history.find((snapshot) => snapshot.week === rankings.week);
@@ -842,18 +920,21 @@ function weeklySummary(rankings, history) {
   const count = changes.length;
   const summary = !previous && !current
     ? "The first weekly snapshot is ready to explore."
-    : count ? `${count} ${count === 1 ? "category has" : "categories have"} a champion change in this snapshot.`
-      : "No champion changes in this snapshot. The current picks kept their titles.";
+    : count ? `${count} ${count === 1 ? "category has" : "categories have"} a ${modern ? "leading-option" : "champion"} change in this snapshot.`
+      : modern ? "The leading reviewed options are unchanged in this snapshot." : "No champion changes in this snapshot. The current picks kept their titles.";
   return `<section class="weekly-summary" aria-labelledby="weekly-summary-heading">
     <div><p class="kicker">${escapeHtml(rankings.week ?? "Latest snapshot")}</p>
       <h2 id="weekly-summary-heading">What changed this week</h2><p>${summary}</p></div>
-    <div>${count ? `<ul>${changes.slice(0, 3).map((change) => `<li><a href="/picks/${encodeURIComponent(change.typeId)}/">${escapeHtml(change.typeName)}</a>: ${change.current ? `${escapeHtml(change.current.name)} ${change.previous ? `replaces ${escapeHtml(change.previous.name)}` : "is the first champion"}` : "the champion spot is vacant"}.</li>`).join("")}</ul>` : ""}
+    <div>${count ? `<ul>${changes.slice(0, 3).map((change) => `<li><a href="/picks/${encodeURIComponent(change.typeId)}/">${escapeHtml(change.typeName)}</a>: ${change.current ? `${escapeHtml(change.current.name)} ${change.previous ? `replaces ${escapeHtml(change.previous.name)}` : modern ? "is the first leading reviewed option" : "is the first champion"}` : modern ? "has no leading reviewed option" : "the champion spot is vacant"}.</li>`).join("")}</ul>` : ""}
       ${newListingsNote(rankings)}
       <p><a href="/changelog/">See all weekly changes</a> · <a href="/feed/">Subscribe with RSS</a></p></div>
   </section>`;
 }
 
 function homePage(rankings, history = []) {
+  const method = snapshotMethodology(rankings);
+  const modern = reviewedPresentation(method);
+  const labels = pickLabels(method);
   const types = rankings.types ?? [];
   const categoryCount = types.length;
   const eligibleEntries = types.reduce((sum, type) => sum + Number(type.eligibleCount || 0), 0);
@@ -866,9 +947,10 @@ function homePage(rankings, history = []) {
         <span aria-hidden="true"><span class="prompt-mark">$</span> omapicks rank --week ${escapeHtml(rankings.week ?? "pending")}<span class="terminal-cursor"></span></span>
         <span class="visually-hidden">${weekLabel(rankings.week, rankings.generatedAt)}</span>
       </p>
-      <h1>Find the best Omarchy plugin for the job.</h1>
-      <p class="hero-lede">A champion and a runner-up in each category, ${snapshotMethodology(rankings).eligibility.reviewedTaskEvidence ? "qualified by task evidence and " : ""}rescored every Monday from Omarchy Plugins.</p>
+      <h1>${modern ? "Find an Omarchy plugin that fits your task." : "Find the best Omarchy plugin for the job."}</h1>
+      <p class="hero-lede">${modern ? "Compare reviewed capabilities, requirements, and alternatives. Marketplace popularity orders the weekly shortlist." : `A champion and a runner-up in each category, ${method.eligibility.reviewedTaskEvidence ? "qualified by task evidence and " : ""}rescored every Monday from Omarchy Plugins.`}</p>
       ${snapshotNotice(rankings)}
+      ${currentAvailabilityNotice(rankings)}
       <p class="hero-trust"># no votes. no sponsorships. just a reproducible weekly snapshot from omarchy plugins.</p>
       <p class="hero-actions">
         <a class="button" href="#catalog">${escapeHtml(browseLabel(categoryCount))}</a>
@@ -906,11 +988,11 @@ function homePage(rankings, history = []) {
   ${
     featured.length
       ? `<section class="showcase" aria-label="Featured picks">
-    ${featured.map((type, slot) => showdownSection(type, slot)).join("")}
+    ${featured.map((type, slot) => showdownSection(type, slot, method)).join("")}
     ${
       featured.length > 1
         ? `<div class="supporting">
-      ${featured.map((type, slot) => featureArticle(type, slot)).join("")}
+      ${featured.map((type, slot) => featureArticle(type, slot, method)).join("")}
     </div>`
         : ""
     }
@@ -922,14 +1004,14 @@ function homePage(rankings, history = []) {
       <h2 id="catalog-heading">${escapeHtml(browseLabel(categoryCount, { all: true }))}</h2>
     </div>
     <div class="catalog-table">
-      <div class="catalog-head" aria-hidden="true" data-catalog-head><span>Category</span><span>Champion · Author</span><span>Runner-up · Author</span><span>Competed</span></div>
-      ${catalogTypes.map((type) => catalogRow(type)).join("")}
+      <div class="catalog-head" aria-hidden="true" data-catalog-head><span>Category</span><span>${labels.first} · Author</span><span>${labels.second} · Author</span><span>${modern ? "Qualified" : "Competed"}</span></div>
+      ${catalogTypes.map((type) => catalogRow(type, method)).join("")}
     </div>
     <p class="filter-empty" data-filter-empty hidden>No categories match.</p>
   </section>`;
   return shell({
     title: "OmaPicks",
-    description: "Independent weekly rankings of Omarchy plugins, one champion and one runner-up per app type.",
+    description: modern ? "Reviewed Omarchy plugin options with task evidence, requirements, and weekly popularity comparisons." : "Independent weekly rankings of Omarchy plugins, one champion and one runner-up per app type.",
     pathname: "/",
     image: socialImage("OmaPicks weekly picks for Omarchy plugins"),
     body,
@@ -939,14 +1021,15 @@ function homePage(rankings, history = []) {
       "@type": "WebSite",
       name: "OmaPicks",
       url: ORIGIN,
-      description: "Independent weekly rankings of Omarchy plugins, one champion and one runner-up per app type."
+      description: modern ? "Reviewed Omarchy plugin options with task evidence, requirements, and weekly popularity comparisons." : "Independent weekly rankings of Omarchy plugins, one champion and one runner-up per app type."
     }
   });
 }
 
 function typePage(type, rankings) {
   const method = snapshotMethodology(rankings);
-  const description = `${type.winner ? type.winner.name : "No champion yet"} leads this week's ${type.name.toLowerCase()} ranking for Omarchy.`;
+  const modern = reviewedPresentation(method);
+  const description = modern ? `Compare reviewed ${type.name.toLowerCase()} options for Omarchy, their task evidence and requirements.` : `${type.winner ? type.winner.name : "No champion yet"} leads this week's ${type.name.toLowerCase()} ranking for Omarchy.`;
   const itemList = [type.winner, type.runnerUp].filter(Boolean).map((candidate, index) => ({
     "@type": "ListItem",
     position: index + 1,
@@ -960,12 +1043,14 @@ function typePage(type, rankings) {
         <h1>${escapeHtml(type.name)}</h1>
       </div>
       <div class="type-intro-copy">
-        <p>${escapeHtml(type.description)}. ${competedLabel(type.eligibleCount)} this week${method.eligibility.reviewedTaskEvidence ? " after task capability review" : ""}. This page shows the champion and runner-up.</p>
+        <p>${escapeHtml(type.description)}. ${modern ? "Compare the reviewed options below and check their requirements for your setup." : `${competedLabel(type.eligibleCount)} this week${method.eligibility.reviewedTaskEvidence ? " after task capability review" : ""}. This page shows the champion and runner-up.`}</p>
+        ${modern ? `<p class="review-coverage"><strong>${type.eligibleCount} qualified ${type.eligibleCount === 1 ? "option" : "options"}</strong>; ${Number(type.pendingCount ?? 0)} pending research ${Number(type.pendingCount ?? 0) === 1 ? "lead" : "leads"}. Pending matches have not been established as suitable alternatives. This is a reviewed shortlist, not an assessment of every marketplace listing.</p>` : ""}
         ${snapshotNotice(rankings)}
+        ${currentAvailabilityNotice(rankings)}
         ${
           type.winner
             ? shareLinks(
-                `${type.winner.name} is this week's ${type.name} champion on OmaPicks.`,
+                modern ? `Compare ${type.winner.name} and other reviewed ${type.name} options on OmaPicks.` : `${type.winner.name} is this week's ${type.name} champion on OmaPicks.`,
                 `${ORIGIN}/picks/${encodeURIComponent(type.id)}/`,
                 "Share this ranking on X"
               )
@@ -973,13 +1058,14 @@ function typePage(type, rankings) {
         }
       </div>
     </section>
-    ${builtInNote(type)}
+    ${builtInNote(type, method)}
     <div class="podium">
       ${candidateCard(type.winner, "winner", type, rankings.week, { runnerUp: type.runnerUp, topScorer: type.topScorer, method, generatedAt: rankings.generatedAt })}
       ${candidateCard(type.runnerUp, "runner-up", type, rankings.week, { method, generatedAt: rankings.generatedAt })}
     </div>
+    ${modern ? moreTaskChoices(type, method) : ""}
     ${scoreComparison(type, method)}
-    ${moreTaskChoices(type)}
+    ${modern ? "" : moreTaskChoices(type, method)}
     <aside class="method-note">
       <h2>How we pick</h2>
       <p>${escapeHtml(methodologyCopy(method).note)} <a href="/methodology/">Full scoring notes</a></p>
@@ -990,7 +1076,7 @@ function typePage(type, rankings) {
     description,
     pathname: `/picks/${type.id}/`,
     image: { url: `/${categoryImagePath(type, rankings.week)}`, type: "image/png", width: 1200, height: 630,
-      alt: `${type.name}: ${type.winner?.name ?? "No champion yet"}, ${type.runnerUp?.name ?? "no runner-up yet"} — OmaPicks ${rankings.week}` },
+      alt: `${type.name}: ${type.winner?.name ?? (modern ? "No reviewed option yet" : "No champion yet")}, ${type.runnerUp?.name ?? (modern ? "no additional reviewed option yet" : "no runner-up yet")} — OmaPicks ${rankings.week}` },
     body,
     structuredData: {
       "@context": "https://schema.org",
@@ -1015,12 +1101,12 @@ function methodologyPage(rankings) {
     <p class="eyebrow">Methodology v${escapeHtml(rankings.methodologyVersion)}</p>
     <h1>How the rankings work</h1>
     <p class="page-lede">${escapeHtml(copy.lede)}</p>
-    <p>OmaPicks refreshes once per ISO week. Your browser never calls the source APIs. Each page is built from that week's published snapshot.</p>
-    <p class="pullout">A plugin can win on evidence, not on being first to the registry.</p>
-    <h2>Who can compete</h2>
-    <p>${escapeHtml(copy.eligibility)} Only plugins matching at least one focused app type compete; unmatched listings remain unranked instead of being forced into a catch-all category. Category eligibility requires evidence that the plugin directly performs the stated task. Names and descriptions supply that evidence; tags, supporting technologies, and incidental alerts do not qualify on their own. A plugin can appear in several app types when it directly performs each task. Computer batteries, peripheral batteries, and phone integration have separate categories; Bluetooth means device discovery, pairing, connections, or adapter controls. Audio codecs belong under Audio. Assignments awaiting review remain unranked.</p>
+    <p>OmaPicks refreshes its rankings once per ISO week. Your browser never calls the source APIs. ${reviewedPresentation(method) ? "Current availability is checked separately and can suppress an install action without changing the dated ranking." : "Each page is built from that week’s published snapshot."}</p>
+    <p class="pullout">${reviewedPresentation(method) ? "Task evidence establishes scope. Requirements establish suitability. Popularity orders the reviewed options." : "A plugin can win on evidence, not on being first to the registry."}</p>
+    <h2>${reviewedPresentation(method) ? "Which options qualify" : "Who can compete"}</h2>
+    <p>${escapeHtml(copy.eligibility)} Only plugins matching at least one focused app type compete; unmatched listings remain unranked instead of being forced into a catch-all category. Category eligibility requires evidence that the plugin directly performs the stated task. ${reviewedPresentation(method) ? "Names, descriptions and tags supply research leads. Qualification requires repository evidence at a recorded revision, reviewed installation requirements and current source checks; keyword matches alone never qualify." : "Names and descriptions supply that evidence; tags, supporting technologies, and incidental alerts do not qualify on their own."} A plugin can appear in several app types when it directly performs each task. Computer batteries, peripheral batteries, and phone integration have separate categories; Bluetooth means device discovery, pairing, connections, or adapter controls. Audio codecs belong under Audio. Assignments awaiting review remain unranked.</p>
     <h2>The score</h2>
-    ${method.eligibility.reviewedTaskEvidence ? `<p>Category matching supplies research leads. A recommendation needs a source-backed task decision in <code>data/task-reviews.json</code> that satisfies the category's minimum capabilities. Native core and substantial secondary capabilities qualify equally. Thin integrations are shown as related tools; pending, rejected and stale decisions cannot enter the podium. A changed name, description, repository or task contract invalidates the decision until review. Reviews describe publicly documented capabilities, not installation testing. Requirements and limitations appear with each choice.</p>
+    ${method.eligibility.reviewedTaskEvidence ? `<p>Category matching supplies research leads. A recommendation needs a source-backed task decision in <code>data/task-reviews.json</code> that satisfies the category's minimum capabilities. Native core and substantial secondary capabilities qualify equally. Thin integrations are shown as related tools; pending, rejected and stale decisions cannot enter the podium. ${reviewedPresentation(method) ? "Repository identity, task contracts, and the recorded evidence determine validity. Listing changes enter reconciliation; changed supporting evidence needs re-review. Shared plugin requirements accompany every task assignment." : "A changed name, description, repository or task contract invalidates the decision until review."} Reviews describe publicly documented capabilities, not installation testing. Requirements and limitations appear with each choice.</p>
     <p>Each capture includes the complete review file and its checksum. The priority queue includes new claims, previous picks with changed evidence and prospective challengers. These research scores cannot confer eligibility. Popularity is normalized within the reviewed cohort; it remains evidence about the whole plugin, not measured adoption of an individual capability.</p>` : ""}
     <p>${copy.score}</p>
     <ul class="weight-list">${weights}</ul>
@@ -1028,7 +1114,7 @@ function methodologyPage(rankings) {
     <h2>Stability</h2>
     <p>${escapeHtml(copy.stabilityRule)}</p>
     <h2 id="data-sources">Data sources</h2>
-    <p>OmaPicks calculates its rankings from two public feeds operated by Omarchy Plugins. The source services do not select, approve, or sponsor OmaPicks winners.</p>
+    <p>OmaPicks calculates its rankings from two public feeds operated by Omarchy Plugins. The source services do not select, approve, or sponsor OmaPicks ${reviewedPresentation(method) ? "selections" : "winners"}.</p>
     <ul class="source-list">
       <li><strong><a href="https://plugins.omarchy.org/catalog.json">Plugin catalog</a></strong> — names, descriptions, authors, repositories, licenses, GitHub stars, maintenance dates, verification status, install availability, and preview locations.</li>
       <li><strong><a href="https://api.omarchyplugins.com/v1/stats">Engagement statistics</a></strong> — install-command copies, hearts, and views by plugin ID.</li>
@@ -1041,7 +1127,7 @@ function methodologyPage(rankings) {
     <p>Each pick in the snapshot records its raw <code>metrics</code>, <code>normalized</code> signals, weighted <code>contributions</code>, <code>score</code>, <code>evidence</code> weight and <code>freshnessDays</code> (days since the last repository push). Newer snapshots also record <code>upstreamCheckStatus</code> (the latest marketplace check), <code>verificationCoverage</code> and <code>verificationMethod</code>, <code>metrics.copyViewRatio</code> (copies per detail view, capped at 100%) and <code>metrics.installRateLowerBound</code> (its Wilson lower bound, <code>null</code> below 20 views), <code>version</code>, <code>releaseTag</code>, <code>shippedAt</code> (the latest version-change or release observation, which is not the push date) and <code>listedAt</code>. Categories list Omarchy <code>builtIns</code>; <code>newListings</code> and <code>newListingsInterval</code> count eligible, classified listings added since the previous week's snapshot; and <code>source</code> records the catalog schema, upstream warning and built-in counts, and the retirement registry's status, count and checksum.</p>
     <h2 id="safety">Safety and responsibility</h2>
     <p>OmaPicks ranks public evidence of use and upkeep. It does not audit plugin source code, maintainers, or install behavior, and it does not certify that a plugin is safe, high quality, compatible, licensed for your use, or still maintained.</p>
-    <p>A champion or runner-up listing is not an endorsement, recommendation, or warranty. Before you install anything, inspect the repository, permissions, and marketplace listing yourself. You are responsible for what you run on your machine.</p>
+    <p>${reviewedPresentation(method) ? "A reviewed option describes documented capabilities; it is not an installation test or warranty." : "A champion or runner-up listing is not an endorsement, recommendation, or warranty."} Before you install anything, inspect the repository, permissions, and marketplace listing yourself. You are responsible for what you run on your machine.</p>
     <p>Install commands fetch the repository's current code at the moment you run them. They are not bound to the commit the marketplace verified, even when that commit matched the latest upstream check, so a verification badge describes a past snapshot rather than what you will install. <a href="${VERIFICATION_POLICY_URL}">Marketplace verification policy</a>.</p>
   </section>`;
   return shell({
@@ -1060,6 +1146,7 @@ function historyChanges(history) {
     .map((snapshot) => ({
       week: snapshot.week,
       generatedAt: snapshot.generatedAt,
+      modern: reviewedPresentation(snapshotMethodology(snapshot)),
       changes: snapshot.changes ?? [],
       // Snapshots before runner-up events were persisted have none recorded, not "no changes".
       runnerUpChanges: snapshot.runnerUpChanges ?? []
@@ -1092,46 +1179,49 @@ function privacyPage() {
 
 function changelogPage(history) {
   const weeks = historyChanges(history);
+  const modern = weeks.some((entry) => entry.modern);
   const changeList = (entry) => {
-    if (!entry.changes.length) return "<p>No champion changes.</p>";
+    const label = entry.modern ? "leading reviewed option" : "champion";
+    if (!entry.changes.length) return `<p>${entry.modern ? "The leading reviewed options are unchanged." : "No champion changes."}</p>`;
     const firsts = entry.changes.filter((change) => change.current && change.kind !== "displaced" && !change.previous);
     const updates = entry.changes.filter((change) => !firsts.includes(change));
-    return `${firsts.length ? `<p class="timeline-summary">${firsts.length} categories received their first champion.</p>
+    return `${firsts.length ? `<p class="timeline-summary">${firsts.length} categories received their first ${label}.</p>
       <dl class="first-champions">${firsts.map((change) => `<div>
         <dt>${escapeHtml(change.typeName)}</dt>
         <dd><strong>${escapeHtml(change.current.name)}</strong></dd>
       </div>`).join("")}</dl>` : ""}
       ${updates.length ? `<ul class="change-list">${updates.map((change) => {
-        const why = removalSentence(change);
+        const why = removalSentence(change, { atPublication: entry.modern });
         const reason = why ? ` ${escapeHtml(why)}` : "";
         if (change.kind === "displaced") {
           return `<li><strong>${escapeHtml(change.current.name)}</strong> replaced ${escapeHtml(change.previous.name)} in ${escapeHtml(change.typeName)}.${reason}</li>`;
         }
         if (change.current) {
-          return `<li><strong>${escapeHtml(change.current.name)}</strong> became the ${escapeHtml(change.typeName)} champion.${reason}</li>`;
+          return `<li><strong>${escapeHtml(change.current.name)}</strong> became the ${escapeHtml(change.typeName)} ${label}.${reason}</li>`;
         }
-        return `<li>${escapeHtml(change.typeName)} has no champion this week.${reason}</li>`;
+        return `<li>${escapeHtml(change.typeName)} has no ${label} this week.${reason}</li>`;
       }).join("")}</ul>` : ""}`;
   };
   const runnerUpList = (entry) => {
     if (!entry.runnerUpChanges.length) return "";
-    return `<h3 class="timeline-subhead">Runner-up changes</h3>
+    const label = entry.modern ? "second reviewed option" : "runner-up";
+    return `<h3 class="timeline-subhead">${entry.modern ? "Other reviewed option changes" : "Runner-up changes"}</h3>
       <ul class="change-list">${entry.runnerUpChanges.map((change) => {
-        const why = removalSentence(change);
+        const why = removalSentence(change, { atPublication: entry.modern });
         const reason = why ? ` ${escapeHtml(why)}` : "";
         if (change.kind === "displaced") {
-          return `<li><strong>${escapeHtml(change.current.name)}</strong> replaced ${escapeHtml(change.previous.name)} as the ${escapeHtml(change.typeName)} runner-up.${reason}</li>`;
+          return `<li><strong>${escapeHtml(change.current.name)}</strong> replaced ${escapeHtml(change.previous.name)} as the ${escapeHtml(change.typeName)} ${label}.${reason}</li>`;
         }
         if (change.current) {
-          return `<li><strong>${escapeHtml(change.current.name)}</strong> became the ${escapeHtml(change.typeName)} runner-up.${reason}</li>`;
+          return `<li><strong>${escapeHtml(change.current.name)}</strong> became the ${escapeHtml(change.typeName)} ${label}.${reason}</li>`;
         }
-        return `<li>${escapeHtml(change.typeName)} has no runner-up this week.${reason}</li>`;
+        return `<li>${escapeHtml(change.typeName)} has no ${label} this week.${reason}</li>`;
       }).join("")}</ul>`;
   };
   const body = `<section class="page-section">
     <p class="eyebrow">Change log</p>
     <h1>What changed</h1>
-    <p class="page-lede">When a champion is replaced, the previous week stays on disk. This page is built from those snapshots.</p>
+    <p class="page-lede">${modern ? "Each weekly selection stays on disk. Historical entries keep the terminology and rules used when they were published." : "When a champion is replaced, the previous week stays on disk. This page is built from those snapshots."}</p>
     <div class="timeline">
       ${
         weeks.length
@@ -1149,27 +1239,27 @@ function changelogPage(history) {
     </div>
     <aside class="rss-callout">
       <p class="kicker">Follow the ranking</p>
-      <h2>Get champion changes in your reader</h2>
+      <h2>Get ${modern ? "weekly selection" : "champion"} changes in your reader</h2>
       <p>The RSS feed only publishes meaningful changes, so quiet weeks stay quiet.</p>
       <a class="text-link" href="/feed/">Subscribe via RSS</a>
     </aside>
   </section>`;
   return shell({
     title: "What changed",
-    description: "Champion replacements in the weekly OmaPicks rankings.",
+    description: modern ? "Changes to the weekly OmaPicks reviewed selections." : "Champion replacements in the weekly OmaPicks rankings.",
     pathname: "/changelog/",
     image: socialImage(),
     body
   });
 }
 
-function badgeSvg(type, candidate, week) {
+function badgeSvg(type, candidate, week, method) {
   const left = "OmaPicks";
   const right = `${candidate.name} · ${type.name} · ${week}`;
   const leftWidth = 78;
   const rightWidth = Math.max(140, Math.min(520, Math.round(20 + right.length * 6.6)));
   const width = leftWidth + rightWidth;
-  const label = `${left} ${type.name} champion: ${candidate.name}`;
+  const label = `${left} ${type.name} ${pickLabels(method).first.toLowerCase()}: ${candidate.name}`;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="20" role="img" aria-label="${escapeHtml(label)}">
   <title>${escapeHtml(label)}</title>
   <defs>
@@ -1210,6 +1300,7 @@ function feedEntries(history) {
       snapshot.changes.map((change) => ({
         ...change,
         week: snapshot.week,
+        modern: snapshot.modern,
         generatedAt: snapshot.generatedAt
       }))
     )
@@ -1217,15 +1308,17 @@ function feedEntries(history) {
     .map((entry) => {
       const date = new Date(entry.generatedAt ?? NaN);
       const dated = !Number.isNaN(date.getTime());
+      const label = entry.modern ? "leading reviewed option" : "champion";
       return {
+        modern: entry.modern,
         title: entry.current
-          ? `${entry.current.name} is the ${entry.typeName} champion`
-          : `${entry.typeName} champion spot is vacant`,
+          ? `${entry.current.name} is the ${entry.typeName} ${label}`
+          : `${entry.typeName} ${label} spot is vacant`,
         description: !entry.current
-          ? `${entry.typeName} has no champion this week.`
+          ? `${entry.typeName} has no ${label} this week.`
           : entry.previous
             ? `${entry.current.name} replaced ${entry.previous.name}.`
-            : `${entry.current.name} became the first champion.`,
+            : `${entry.current.name} became the first ${label}.`,
         path: `/picks/${encodeURIComponent(entry.typeId)}/`,
         guid: `${entry.week}:${entry.typeId}:${entry.current?.id ?? "vacant"}`,
         publishedAt: dated ? date.toISOString() : "",
@@ -1234,35 +1327,37 @@ function feedEntries(history) {
     });
 }
 
-function feedPage(entries) {
+function feedPage(entries, modern = entries.some((entry) => entry.modern)) {
+  const title = modern ? "Weekly selection changes" : "Weekly champion changes";
+  const description = modern ? "Changes to the weekly OmaPicks reviewed selections." : "Champion changes in the weekly OmaPicks rankings.";
   const body = `<section class="page-section">
     <p class="eyebrow">RSS feed</p>
-    <h1>Weekly champion changes</h1>
-    <p class="page-lede">Champion changes in the weekly OmaPicks rankings. Feed readers receive the same RSS 2.0 entries.</p>
+    <h1>${title}</h1>
+    <p class="page-lede">${description} Feed readers receive the same RSS 2.0 entries.</p>
     <p class="feed-subscribe"><strong>Subscribe:</strong> copy <a href="/feed.xml">${ORIGIN}/feed.xml</a> into your feed reader.</p>
     <section class="feed-entries" aria-label="Recent changes">
       ${entries.length ? entries.map((entry) => `<article>
         ${entry.published ? `<time datetime="${escapeHtml(entry.publishedAt)}">${escapeHtml(entry.published)}</time>` : "<span></span>"}
         <div><h2><a href="${escapeHtml(entry.path)}">${escapeHtml(entry.title)}</a></h2>
         <p>${escapeHtml(entry.description)}</p></div>
-      </article>`).join("") : "<p class=\"feed-empty\">No champion changes have been published yet.</p>"}
+      </article>`).join("") : `<p class="feed-empty">No ${modern ? "selection" : "champion"} changes have been published yet.</p>`}
     </section>
   </section>`;
   return shell({
-    title: "Weekly champion changes",
-    description: "Champion changes in the weekly OmaPicks rankings.",
+    title,
+    description,
     pathname: "/feed/",
     image: socialImage(),
     body
   });
 }
 
-function rss(entries) {
+function rss(entries, modern = entries.some((entry) => entry.modern)) {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"><channel>
   <title>OmaPicks weekly changes</title>
   <link>${ORIGIN}/changelog/</link>
-  <description>Champion changes in the weekly OmaPicks rankings.</description>
+  <description>${modern ? "Changes to the weekly OmaPicks reviewed selections." : "Champion changes in the weekly OmaPicks rankings."}</description>
   <language>en</language>
   ${entries
     .map((entry) => `<item><title>${xml(entry.title)}</title><link>${ORIGIN}${xml(entry.path)}</link><guid isPermaLink="false">${xml(entry.guid)}</guid>${entry.published ? `<pubDate>${xml(entry.published)}</pubDate>` : ""}<description>${xml(entry.description)}</description></item>`)
@@ -1277,6 +1372,29 @@ async function copyOptionalDirectory(source, destination) {
   } catch (error) {
     if (error.code !== "ENOENT") throw error;
   }
+}
+
+export function withAvailability(rankings, availability) {
+  const projected = structuredClone(rankings);
+  if (!reviewedPresentation(snapshotMethodology(rankings))) return projected;
+  const valid = availability?.schemaVersion === 1 && availability.rankingsGeneratedAt === rankings.generatedAt &&
+    Number.isFinite(Date.parse(availability.generatedAt)) && availability.plugins && typeof availability.plugins === "object" && !Array.isArray(availability.plugins);
+  projected.currentAvailability = valid ? { generatedAt: availability.generatedAt, catalogGeneratedAt: availability.catalogGeneratedAt } : null;
+  for (const type of projected.types) {
+    for (const candidate of [type.winner, type.runnerUp, ...(type.alternatives ?? [])].filter(Boolean)) {
+      const observation = valid ? availability.plugins[candidate.id] : null;
+      candidate.availability = observation && ["available", "unavailable", "unknown"].includes(observation.status) && Number.isFinite(Date.parse(observation.checkedAt))
+        ? structuredClone(observation)
+        : { status: "unknown", reason: "missing-observation", checkedAt: null };
+    }
+  }
+  return projected;
+}
+
+function currentAvailabilityNotice(rankings) {
+  if (!reviewedPresentation(snapshotMethodology(rankings))) return "";
+  const at = rankings.currentAvailability?.generatedAt;
+  return `<p class="availability-summary">${at ? `Current availability observed <time datetime="${escapeHtml(at)}">${escapeHtml(dateLabel(at) ?? at)}</time><span data-availability-at="${escapeHtml(at)}"></span>.` : "Current availability has not been observed for this snapshot."} Availability observations are separate from the dated weekly ranking.</p>`;
 }
 
 export async function render({ root = ROOT } = {}) {
@@ -1313,22 +1431,27 @@ export async function render({ root = ROOT } = {}) {
   await cp(path.join(ROOT, "site", "og-home.jpg"), path.join(DIST, "og", "terminal.jpg"));
   await copyOptionalDirectory(path.join(ROOT, "data", "assets", "plugins"), path.join(DIST, "assets", "plugins"));
 
+  let availability = null;
+  try { availability = JSON.parse(await readFile(path.join(ROOT, "data", "availability.json"), "utf8")); }
+  catch (error) { if (error.code !== "ENOENT") throw error; }
+  const currentRankings = withAvailability(rankings, availability);
   const entries = feedEntries(history);
-  await write("index.html", homePage(rankings, history));
+  await write("index.html", homePage(currentRankings, history));
   await write("methodology/index.html", methodologyPage(rankings));
   await write("privacy/index.html", privacyPage());
   await write("changelog/index.html", changelogPage(history));
-  await write("feed/index.html", feedPage(entries));
-  for (const type of rankings.types) {
-    await write(`picks/${encodeURIComponent(type.id)}/index.html`, typePage(type, rankings));
-    await write(categoryImagePath(type, rankings.week), renderSocialImage(type, rankings.week));
+  await write("feed/index.html", feedPage(entries, reviewedPresentation(snapshotMethodology(rankings))));
+  for (const type of currentRankings.types) {
+    await write(`picks/${encodeURIComponent(type.id)}/index.html`, typePage(type, currentRankings));
+    const weeklyType = rankings.types.find((entry) => entry.id === type.id);
+    await write(categoryImagePath(type, rankings.week), renderSocialImage(weeklyType, rankings.week, { methodologyVersion: rankings.methodologyVersion }));
   }
   for (const snapshot of history) {
     for (const type of snapshot.types ?? []) {
       if (!type.winner) continue;
       await write(
         `badges/${encodeURIComponent(snapshot.week)}/${encodeURIComponent(type.id)}/${encodeURIComponent(type.winner.id)}.svg`,
-        badgeSvg(type, type.winner, snapshot.week)
+        badgeSvg(type, type.winner, snapshot.week, snapshotMethodology(snapshot))
       );
     }
   }
@@ -1337,7 +1460,7 @@ export async function render({ root = ROOT } = {}) {
       if (type.winner) {
         await write(
           `badges/${encodeURIComponent(rankings.week)}/${encodeURIComponent(type.id)}/${encodeURIComponent(type.winner.id)}.svg`,
-          badgeSvg(type, type.winner, rankings.week)
+          badgeSvg(type, type.winner, rankings.week, snapshotMethodology(rankings))
         );
       }
     }
@@ -1351,7 +1474,7 @@ export async function render({ root = ROOT } = {}) {
       .join("")}</urlset>\n`
   );
   await write("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${ORIGIN}/sitemap.xml\n`);
-  await write("feed.xml", rss(entries));
+  await write("feed.xml", rss(entries, reviewedPresentation(snapshotMethodology(rankings))));
   await write("rankings.json", `${JSON.stringify(rankings, null, 2)}\n`);
   await write(
     "site.webmanifest",
@@ -1400,7 +1523,12 @@ export function renderFixtureChangelog(history) {
 
 export function renderFixtureFeed(history) {
   const entries = feedEntries(history);
-  return { page: feedPage(entries), rss: rss(entries) };
+  const modern = history.some((snapshot) => reviewedPresentation(snapshotMethodology(snapshot)));
+  return { page: feedPage(entries, modern), rss: rss(entries, modern) };
+}
+
+export function renderFixtureBadge(type, rankings) {
+  return badgeSvg(type, type.winner, rankings.week, snapshotMethodology(rankings));
 }
 
 export function renderFixtureMethodology(rankings) {

@@ -3,6 +3,8 @@ import { appendFile, mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { classifyPlugin, eligibilityReason, explainClassification, isoWeek, prepareTaxonomy, rankPlugins } from "../build/rank.mjs";
+import { captureEvidence } from "../build/evidence.mjs";
+import { METHODOLOGY } from "../build/rank.mjs";
 import { prepareTaskReviews } from "../build/task-fit.mjs";
 import { boundedFetch, fetchJson, validateFeeds } from "../build/refresh.mjs";
 
@@ -10,7 +12,7 @@ export { boundedFetch };
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const VERSION = 1;
-export const ALGORITHM_VERSION = 5; // Bump when evidence or clustering rules change.
+export const ALGORITHM_VERSION = 6; // Bump when evidence or clustering rules change.
 const EXPLORER_URL = "https://plugins.omarchy.org/explorer-data.json";
 const NEIGHBOUR_SIMILARITY = 0.25;
 const NEAR_MISS_LIMIT = 10;
@@ -165,10 +167,10 @@ function analyzeExplorer(explorer, eligible, prepared, catalog, catalogGenerated
   };
 }
 
-export function analyze({ catalog, stats, taxonomy, config, taskReviews = null, previousRankings = null, previousReviewQueue = null, previous = null, now = new Date(), explorer = null, catalogGeneratedAt = null }) {
+export function analyze({ catalog, stats, taxonomy, config, taskReviews = null, pluginProfiles = { schemaVersion: 1, plugins: {} }, evidenceObservations = { schemaVersion: 1, plugins: {} }, previousRankings = null, previousReviewQueue = null, previous = null, now = new Date(), explorer = null, catalogGeneratedAt = null }) {
   validateConfig(config);
   const prepared = prepareTaxonomy(taxonomy);
-  const reviews = taskReviews ? prepareTaskReviews(taskReviews, prepared.types) : null;
+  const reviews = taskReviews ? prepareTaskReviews(taskReviews, prepared.types, { methodology: METHODOLOGY, pluginProfiles, evidenceObservations, now }) : null;
   const settingsHash = hash({ version: ALGORITHM_VERSION, taxonomy, config: { ...config, decisions: [] } });
   if (previous && (previous.schemaVersion !== VERSION || !Array.isArray(previous.observations) || previous.observations.some((o) => !Number.isFinite(Date.parse(o.at)) || !Array.isArray(o.groups) || o.groups.some((g) => typeof g.id !== "string" || !Array.isArray(g.repositories) || !g.repositories.every((r) => typeof r === "string"))))) throw new Error("Invalid prior discovery state");
   const observations = (previous?.observations ?? []).filter((o) => o.settingsHash === settingsHash && now - new Date(o.at) >= 0 && now - new Date(o.at) <= 21 * DAY);
@@ -254,7 +256,7 @@ export function analyze({ catalog, stats, taxonomy, config, taskReviews = null, 
   };
   const suggestions = diverse(distinct.filter((g) => g.status === "ready-for-probe"));
   const watchlist = diverse(distinct.filter((g) => g.status === "watchlist"));
-  const taskReviewQueue = taskReviews ? rankPlugins({ catalog, stats, taxonomy, taskReviews, previous: previousRankings, previousReviewQueue, now }).reviewQueue : [];
+  const taskReviewQueue = taskReviews ? rankPlugins({ catalog, stats, taxonomy, taskReviews, pluginProfiles, evidenceObservations, previous: previousRankings, previousReviewQueue, now }).reviewQueue : [];
   const observation = { at: now.toISOString(), settingsHash, groups: candidates.map((g) => ({ id: g.id, repositories: g.evidenceRepositories })) };
   // Retain the first observation of each ISO week; manual reruns cannot manufacture persistence.
   const priorWeeks = observations.filter((o) => isoWeek(new Date(o.at)) !== isoWeek(now));
@@ -368,8 +370,11 @@ async function captureInputs({ root, previous, now, fetchImpl }) {
     fetchJson("https://api.omarchyplugins.com/v1/stats", { fetchImpl: (url, options) => boundedFetch(fetchImpl, url, options) }),
     fetchExplorer(fetchImpl)
   ]);
+  let pluginProfiles = { schemaVersion: 1, plugins: {} };
+  try { pluginProfiles = await read("data/plugin-profiles.json"); } catch (error) { if (error.code !== "ENOENT") throw error; }
+  const evidenceObservations = taskReviews ? await captureEvidence({ catalog: catalog.body.plugins, taskReviews, pluginProfiles, taxonomy, now, fetchImpl }) : { schemaVersion: 1, plugins: {} };
   const validation = { minimumCatalogSize: Math.max(1000, Math.ceil(rankings.source.catalog.count * 0.75)), previousStatsCount: rankings.source?.stats?.count ?? null };
-  return { algorithmVersion: ALGORITHM_VERSION, catalog, stats, explorer, taxonomy, config, taskReviews, previousRankings: rankings, previousReviewQueue, validation, now: now.toISOString(), previous, commit: process.env.GITHUB_SHA ?? null };
+  return { algorithmVersion: ALGORITHM_VERSION, catalog, stats, explorer, taxonomy, config, taskReviews, pluginProfiles, evidenceObservations, previousRankings: rankings, previousReviewQueue, validation, now: now.toISOString(), previous, commit: process.env.GITHUB_SHA ?? null };
 }
 
 // `inputFile` replays a previous run's inputs.json offline: nothing is fetched or read from data/.
@@ -379,7 +384,7 @@ export async function run({ root = ROOT, output = path.join(root, "tmp/category-
   const { catalog, stats } = inputs;
   if (catalog.body.plugins?.length > 20000 || Object.keys(stats.body.plugins ?? {}).length > 30000) throw new Error("Discovery input exceeds the bounded catalog/stats budget");
   validateFeeds(catalog.body, stats.body, inputs.validation?.minimumCatalogSize ?? 1000, { source: { stats: { count: inputs.validation?.previousStatsCount ?? null } } });
-  const report = analyze({ catalog: catalog.body.plugins, stats: stats.body.plugins, taxonomy: inputs.taxonomy, config: inputs.config, taskReviews: inputs.taskReviews, previousRankings: inputs.previousRankings, previousReviewQueue: inputs.previousReviewQueue, previous: inputs.previous,
+  const report = analyze({ catalog: catalog.body.plugins, stats: stats.body.plugins, taxonomy: inputs.taxonomy, config: inputs.config, taskReviews: inputs.taskReviews, pluginProfiles: inputs.pluginProfiles, evidenceObservations: inputs.evidenceObservations, previousRankings: inputs.previousRankings, previousReviewQueue: inputs.previousReviewQueue, previous: inputs.previous,
     now: new Date(inputs.now), explorer: inputs.explorer ?? null, catalogGeneratedAt: catalog.body.generatedAt ?? null });
   report.inputsHash = hash(inputs);
   const markdown = renderReport(report);

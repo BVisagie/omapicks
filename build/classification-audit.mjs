@@ -19,11 +19,11 @@ function legacyTypes(plugin, prepared) {
 
 // `methodology` decides eligibility and ranking. Replays pass the one recorded with their inputs so
 // captured evidence is never silently reinterpreted under newer rules.
-export function auditClassifications({ catalog, taxonomy, taskReviews = { schemaVersion: 1, assignments: [] }, classificationVersion = CLASSIFICATION_VERSION, previousState = null, baselineTaxonomy = null, baselineVersion = classificationVersion, stats = null, previous = null, previousReviewQueue = null, now = new Date(), methodology = METHODOLOGY }) {
+export function auditClassifications({ catalog, taxonomy, taskReviews = { schemaVersion: 1, assignments: [] }, pluginProfiles = { schemaVersion: 1, plugins: {} }, evidenceObservations = { schemaVersion: 1, plugins: {} }, classificationVersion = CLASSIFICATION_VERSION, previousState = null, baselineTaxonomy = null, baselineVersion = classificationVersion, stats = null, previous = null, previousReviewQueue = null, now = new Date(), methodology = METHODOLOGY }) {
   const prepared = prepareTaxonomy(taxonomy);
   const reviewed = methodology.eligibility.reviewedTaskEvidence === true;
   if (reviewed && baselineTaxonomy) throw new Error("Task qualification migrations require captured baseline decisions and methodology; use compare:task-fit with the baseline inputs.json");
-  const reviews = reviewed ? prepareTaskReviews(taskReviews, prepared.types) : null;
+  const reviews = reviewed ? prepareTaskReviews(taskReviews, prepared.types, { methodology, pluginProfiles, evidenceObservations, now }) : null;
   const baseline = baselineTaxonomy ? prepareTaxonomy(baselineTaxonomy) : null;
   const prior = new Map((previousState?.plugins ?? []).map((p) => [p.id, p]));
   const records = [...catalog].sort(compare).map((plugin) => {
@@ -53,7 +53,7 @@ export function auditClassifications({ catalog, taxonomy, taskReviews = { schema
   let picks = [];
   let reviewQueue = [];
   if (stats) {
-    const ranked = rankPlugins({ catalog, stats, taxonomy, taskReviews, classificationVersion, previous, previousReviewQueue, now, methodology });
+    const ranked = rankPlugins({ catalog, stats, taxonomy, taskReviews, pluginProfiles, evidenceObservations, classificationVersion, previous, previousReviewQueue, now, methodology });
     const after = ranked.rankings;
     reviewQueue = ranked.reviewQueue;
     const byId = new Map(records.map((p) => [p.id, p]));

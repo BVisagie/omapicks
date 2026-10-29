@@ -1,73 +1,104 @@
-name: Weekly rankings
+name: Publish recommendations
 
 on:
   schedule:
-    - cron: "17 6 * * 1"
+    - cron: '17 6 * * 1'
   workflow_dispatch:
     inputs:
       republish:
-        description: "Deliberately recalculate this week's existing snapshot (for example after a methodology change)"
+        description: Deliberately republish this week's recommendations
         type: boolean
         default: false
 
 permissions:
-  contents: write
+  contents: read
 
+# Both data publishers share this queue. Human pushes still require a base-SHA check.
 concurrency:
-  group: ranking-refresh
+  group: recommendation-publication
+  queue: max
   cancel-in-progress: false
 
 jobs:
-  refresh:
+  prepare:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
+    outputs:
+      base_sha: ${{ steps.package.outputs.base_sha }}
+      changed: ${{ steps.package.outputs.changed }}
     steps:
-      - name: Check out repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Require the default branch
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: test "$GITHUB_REF" = "refs/heads/$DEFAULT_BRANCH" || { echo 'Publishing must run from the default branch.' >&2; exit 1; }
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.event.repository.default_branch }}
-      - name: Use Node.js
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+          persist-credentials: false
+      - uses: ./.github/actions/setup
         with:
-          node-version-file: .nvmrc
-          check-latest: true
-      - name: Install build dependencies
-        run: npm ci
-      - name: Refresh validated snapshot
-        # Scheduled runs and default dispatches keep the same-week freeze; republishing is opt-in.
+          browser: 'true'
+      - name: Generate recommendations
         env:
+          GH_TOKEN: ${{ github.token }}
           REPUBLISH: ${{ inputs.republish == true }}
-        shell: bash
         run: |
-          if [[ "$REPUBLISH" == "true" ]]; then
+          if [[ "$REPUBLISH" == 'true' ]]; then
             node build/refresh.mjs --republish
           else
             node build/refresh.mjs
           fi
-      - name: Archive classification evidence
+      - name: Observe availability for this snapshot
+        run: node build/availability.mjs
+      - name: Validate generated data and pages
+        run: npm run check
+      - name: Validate generated browser behavior
+        run: npm run test:e2e
+      - name: Package validated changes
+        id: package
+        run: node scripts/publication.mjs pack weekly tmp/publication/manifest.json
+      - name: Archive validated publication
+        if: steps.package.outputs.changed == 'true'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: validated-weekly-publication
+          path: tmp/publication/manifest.json
+          if-no-files-found: error
+          retention-days: 7
+      - name: Archive replay evidence and diagnostics
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: classification-audit
-          path: tmp/classification-audit/
+          name: recommendation-evidence
+          path: |
+            tmp/classification-audit/
+            test-results/
           if-no-files-found: ignore
           retention-days: 90
-      - name: Test refreshed data and render
-        run: npm run check
-      - name: Install Chromium for recommendation checks
-        run: npx playwright install --with-deps chromium
-      - name: Verify recommendation pages and browser interactions
-        run: npm run test:e2e
-      - name: Commit snapshot when changed
-        shell: bash
-        run: |
-          git add data/rankings.json data/changelog.json data/unclassified-report.json data/classification-state.json data/task-review-queue.json data/history data/assets
-          if git diff --cached --quiet; then
-            echo "No validated ranking changes to commit."
-            exit 0
-          fi
-          WEEK="$(node -p "JSON.parse(require('fs').readFileSync('data/rankings.json')).week")"
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "chore: refresh OmaPicks rankings for ${WEEK}"
-          git push
+      - name: Explain a no-op
+        if: steps.package.outputs.changed == 'false'
+        run: echo 'No validated data changed; no commit or deployment requested.' >> "$GITHUB_STEP_SUMMARY"
+  publish:
+    needs: prepare
+    if: needs.prepare.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ needs.prepare.outputs.base_sha }}
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          package-manager-cache: false
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          name: validated-weekly-publication
+          path: tmp/publication
+      - name: Publish the validated artifact
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: node scripts/publication.mjs publish weekly tmp/publication/manifest.json

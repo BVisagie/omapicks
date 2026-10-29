@@ -4,13 +4,17 @@ import { fileURLToPath } from "node:url";
 
 export async function findStateFile(directory) {
   const matches = [];
-  async function visit(current) {
+  let visited = 0;
+  async function visit(current, depth = 0) {
+    if (depth > 8) throw new Error("Discovery artifact exceeds directory depth limit");
     let entries;
     try { entries = await readdir(current, { withFileTypes: true }); }
     catch (error) { if (error.code === "ENOENT") return; throw error; }
     for (const entry of entries) {
+      if (++visited > 1000) throw new Error("Discovery artifact exceeds file count limit");
+      if (entry.isSymbolicLink()) throw new Error("Discovery artifact may not contain symlinks");
       const file = path.join(current, entry.name);
-      if (entry.isDirectory()) await visit(file);
+      if (entry.isDirectory()) await visit(file, depth + 1);
       else if (entry.isFile() && entry.name === "state.json") matches.push(file);
     }
   }

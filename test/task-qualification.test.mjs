@@ -3,13 +3,18 @@ import { readFile, mkdtemp, mkdir, writeFile, rm } from "node:fs/promises";
 import path from "node:path";
 import os from "node:os";
 import test from "node:test";
-import { classifyPlugin, prepareTaxonomy, rankPlugins, methodologyFor, pickWithHysteresis } from "../build/rank.mjs";
+import { classifyPlugin, prepareTaxonomy, rankPlugins as rankLatest, methodologyFor, pickWithHysteresis } from "../build/rank.mjs";
 import { assertTaskQualifiedSnapshot, explainTaskFit, prepareTaskReviews, taskMetadataHash, updateTaskReviewQueue } from "../build/task-fit.mjs";
-import { auditClassifications, checksum, renderClassificationAudit } from "../build/classification-audit.mjs";
-import { refresh, replayChanges, validateFeeds } from "../build/refresh.mjs";
+import { auditClassifications as auditLatest, checksum, renderClassificationAudit } from "../build/classification-audit.mjs";
+import { refresh as refreshLatest, replayChanges, validateFeeds } from "../build/refresh.mjs";
 import { renderFixtureType, renderFixtureMethodology, renderFixtureChangelog } from "../build/render.mjs";
 import { reviewProposal } from "../scripts/task-review.mjs";
 import { compareTaskFit } from "../scripts/compare-task-fit.mjs";
+
+// Published 1.2 qualification remains replayable. New evidence policy is in evidence.test.mjs.
+const rankPlugins = (options) => rankLatest({ methodology: methodologyFor("1.2.0"), ...options });
+const auditClassifications = (options) => auditLatest({ methodology: methodologyFor("1.2.0"), ...options });
+const refresh = (options) => refreshLatest({ methodology: methodologyFor("1.2.0"), ...options });
 
 const now = new Date("2026-10-12T15:00:00Z");
 const taxonomy = { schemaVersion: 1, types: [{ id: "capture", name: "Screen Capture", description: "Take and save a screen image", include: ["\\bscreenshot\\b"],
@@ -168,7 +173,7 @@ test("review proposal binds an explicit judgment to captured evidence and never 
 test("fixed-input comparison keeps feeds and time while changing qualification and selection", () => {
   const good = plugin("good"), unknown = plugin("unknown");
   const capture = { classificationVersion: 2, methodologyVersion: "1.1.0", catalog: { body: { plugins: [good, unknown] } }, stats: { body: { plugins: { good: { copies: 10, hearts: 1, views: 50 }, unknown: { copies: 10000, hearts: 1000, views: 10000 } } } }, taxonomy, now: now.toISOString(), previous: null };
-  const compared = compareTaskFit(capture, taxonomy, { schemaVersion: 1, assignments: [review(good)] });
+  const compared = compareTaskFit(capture, taxonomy, { schemaVersion: 1, assignments: [review(good)] }, { methodology: methodologyFor("1.2.0") });
   assert.equal(compared.types[0].beforeWinner.id, unknown.id);
   assert.equal(compared.types[0].afterWinner.id, good.id);
 });
@@ -241,11 +246,11 @@ test("production task reviews cover every category and unrelated winner examples
   assert.ok(prepared.size > 250);
 });
 
-test("captured counterexamples and missed primary tasks have explicit recommendation outcomes", async () => {
+test("captured 1.2 counterexamples and missed primary tasks replay their explicit outcomes", async () => {
   const json = async (file) => JSON.parse(await readFile(new URL(file, import.meta.url), "utf8"));
   const fixtures = await json("./fixtures/recommendation-fit.json");
-  const productionTaxonomy = await json("../data/app-types.json");
-  const productionReviews = await json("../data/task-reviews.json");
+  const productionTaxonomy = fixtures.taxonomy;
+  const productionReviews = fixtures.taskReviews;
   const catalog = fixtures.cases.map((c) => c.plugin);
   const result = rankPlugins({ catalog, stats: {}, taxonomy: productionTaxonomy, taskReviews: productionReviews, now });
   for (const { plugin: p, qualified, rejected, related = [] } of fixtures.cases) {
@@ -291,7 +296,7 @@ test("source evidence reflects the related scope instead of a qualified category
   const decisions = JSON.parse(await readFile(new URL("../data/task-reviews.json", import.meta.url)));
   for (const r of decisions.assignments.filter((r) => r.decision !== "qualified")) {
     assert.ok(!decisions.assignments.some((q) => q.typeId === r.typeId && q.decision === "qualified" && q.source.evidence === r.source.evidence), `${r.pluginId}/${r.typeId}`);
-    assert.match(r.source.evidence, r.provenance === "catalog-evidence" ? /^plugins\[\d+\]\.(?:description|name) / : /^README\.md, line \d+: /);
+    assert.match(r.source.evidence, r.provenance === "catalog-evidence" ? /^plugins\[\d+\]\.(?:description|name) / : /^.+(?:, line \d+| lines \d+(?:-\d+)?):\s/);
   }
   const manager = decisions.assignments.find((r) => r.pluginId === "io.github.sahzudin.omarchy-screenshot-manager" && r.typeId === "screenshots");
   assert.match(manager.source.evidence, /Browse, preview, copy, and delete screenshots taken with omarchy capture/);
@@ -308,7 +313,7 @@ test("the VPN contract requires connection controls and its reviewed tools docum
   for (const r of assignments) {
     assert.deepEqual(r.capabilities, ["read-vpn-status", "control-vpn-connection"]);
     assert.equal(r.provenance, "repository-evidence");
-    assert.match(r.source.evidence, /^README\.md, line \d+: /);
+    assert.match(r.source.evidence, /^.+(?:, line \d+| lines \d+(?:-\d+)?):\s/);
     assert.throws(() => prepareTaskReviews({ schemaVersion: 1, assignments: [{ ...r, capabilities: ["read-vpn-status"] }] }, [vpn]), /does not meet task contract/);
   }
 });

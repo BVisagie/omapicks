@@ -1,0 +1,1886 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-10-29T18:24:18.075Z",
+  "inputHash": "714a5b2bac128f191dcaf4fded9597999f16d2a3d7f76c2a5c0152707c6d8075",
+  "taxonomyHash": "8914d9ef61f66e5a5edd7a1fcc354a5746b552ad1c20a73da0e1ae05ed0657bd",
+  "taskReviewsHash": "9f266d78be1f26782518d8e1160a55bfaa45f7fa45806233dba6fc4e232d18aa",
+  "pluginProfilesHash": "b08999dbb41c7d0d23dc2ff1d97ce68fd1c05308205628871d8af254eac84a23",
+  "evidenceObservationsHash": "16da3bef4c80192582f0ec2ebd8523530c239da77f43774c3999389d9a4330aa",
+  "methodologyBefore": "1.2.0",
+  "methodologyAfter": "1.3.0",
+  "summary": {
+    "categories": 64,
+    "newCategories": 0,
+    "changedExistingChampions": 5,
+    "changedExistingRunnerUps": 14,
+    "categoriesWithLeadingOption": 64,
+    "categoriesWithRunnerUp": 64,
+    "beforeQualifiedAssignments": 252,
+    "qualifiedAssignments": 164,
+    "queuedAssignments": 2640
+  },
+  "types": [
+    {
+      "id": "system-monitor",
+      "name": "System Monitor",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 5,
+      "matchedCount": 213,
+      "qualifiedCount": 4,
+      "beforeWinner": {
+        "id": "harshith.system-monitor",
+        "name": "System Monitor",
+        "score": 0.897208
+      },
+      "afterWinner": {
+        "id": "harshith.system-monitor",
+        "name": "System Monitor",
+        "score": 0.916555
+      },
+      "beforeRunnerUp": {
+        "id": "stappmus.activity-monitor",
+        "name": "Activity Monitor",
+        "score": 0.810944
+      },
+      "afterRunnerUp": {
+        "id": "stappmus.activity-monitor",
+        "name": "Activity Monitor",
+        "score": 0.775233
+      }
+    },
+    {
+      "id": "vpn",
+      "name": "VPN",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 84,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "io.github.grichard99.omaproton-vpn",
+        "name": "OmaProton VPN",
+        "score": 0.995058
+      },
+      "afterWinner": {
+        "id": "io.github.grichard99.omaproton-vpn",
+        "name": "OmaProton VPN",
+        "score": 0.995058
+      },
+      "beforeRunnerUp": {
+        "id": "jkoestinger.vpn",
+        "name": "VPN",
+        "score": 0.682118
+      },
+      "afterRunnerUp": {
+        "id": "jkoestinger.vpn",
+        "name": "VPN",
+        "score": 0.323584
+      }
+    },
+    {
+      "id": "mail",
+      "name": "Mail",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 3,
+      "matchedCount": 24,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "omamail",
+        "name": "Omamail",
+        "score": 0.948323
+      },
+      "afterWinner": {
+        "id": "omamail",
+        "name": "Omamail",
+        "score": 0.948323
+      },
+      "beforeRunnerUp": {
+        "id": "jankeesvw.gmail-inbox",
+        "name": "Gmail Inbox",
+        "score": 0.586627
+      },
+      "afterRunnerUp": {
+        "id": "jankeesvw.gmail-inbox",
+        "name": "Gmail Inbox",
+        "score": 0.586627
+      }
+    },
+    {
+      "id": "music",
+      "name": "Media Controls",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 99,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "crmne.mpris",
+        "name": "Media Controls + Album Art",
+        "score": 0.880661
+      },
+      "afterWinner": {
+        "id": "crmne.mpris",
+        "name": "Media Controls + Album Art",
+        "score": 0.688645
+      },
+      "beforeRunnerUp": {
+        "id": "omaconnect",
+        "name": "OmaConnect",
+        "score": 0.836978
+      },
+      "afterRunnerUp": {
+        "id": "omaconnect",
+        "name": "OmaConnect",
+        "score": 0.669926
+      }
+    },
+    {
+      "id": "music-players",
+      "name": "Music Players",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 5,
+      "matchedCount": 60,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "io.github.jeremylanger.omaspotify",
+        "name": "OmaSpotify",
+        "score": 0.910938
+      },
+      "afterWinner": {
+        "id": "io.github.jeremylanger.omaspotify",
+        "name": "OmaSpotify",
+        "score": 0.8227
+      },
+      "beforeRunnerUp": {
+        "id": "vornashev.yandex-music",
+        "name": "Yandex Music",
+        "score": 0.665454
+      },
+      "afterRunnerUp": {
+        "id": "vornashev.yandex-music",
+        "name": "Yandex Music",
+        "score": 0.642284
+      }
+    },
+    {
+      "id": "weather",
+      "name": "Weather",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 83,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "eduardodallecort.weather-radar",
+        "name": "Weather Radar",
+        "score": 0.944712
+      },
+      "afterWinner": {
+        "id": "eduardodallecort.weather-radar",
+        "name": "Weather Radar",
+        "score": 0.938897
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.calebhat.weather",
+        "name": "Detailed Weather",
+        "score": 0.737344
+      },
+      "afterRunnerUp": {
+        "id": "io.github.calebhat.weather",
+        "name": "Detailed Weather",
+        "score": 0.670697
+      }
+    },
+    {
+      "id": "battery",
+      "name": "Battery",
+      "newCategory": false,
+      "changed": true,
+      "beforeCount": 3,
+      "matchedCount": 74,
+      "qualifiedCount": 5,
+      "beforeWinner": {
+        "id": "io.github.diegopluna.argus",
+        "name": "Argus",
+        "score": 0.877662
+      },
+      "afterWinner": {
+        "id": "crmne.omastats",
+        "name": "OmaStats",
+        "score": 0.941249
+      },
+      "beforeRunnerUp": {
+        "id": "patcastle.power",
+        "name": "Power + Battery Health",
+        "score": 0.626564
+      },
+      "afterRunnerUp": {
+        "id": "io.github.diegopluna.argus",
+        "name": "Argus",
+        "score": 0.778611
+      }
+    },
+    {
+      "id": "clipboard",
+      "name": "Clipboard",
+      "newCategory": false,
+      "changed": true,
+      "beforeCount": 4,
+      "matchedCount": 30,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "io.github.maajix.spotlight",
+        "name": "Spotlight",
+        "score": 0.935088
+      },
+      "afterWinner": {
+        "id": "io.github.maajix.spotlight",
+        "name": "Spotlight",
+        "score": 0.938197
+      },
+      "beforeRunnerUp": {
+        "id": "clipbasket.clipboard",
+        "name": "Clipbasket",
+        "score": 0.642516
+      },
+      "afterRunnerUp": {
+        "id": "io.github.vuhuy.clipboard-manager",
+        "name": "Clipboard Manager",
+        "score": 0.366409
+      }
+    },
+    {
+      "id": "launcher",
+      "name": "Launcher",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 39,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "evindor.keystroke",
+        "name": "Keystroke",
+        "score": 0.846128
+      },
+      "afterWinner": {
+        "id": "evindor.keystroke",
+        "name": "Keystroke",
+        "score": 0.821968
+      },
+      "beforeRunnerUp": {
+        "id": "tyrsolution.app-launcher",
+        "name": "App Launcher",
+        "score": 0.746411
+      },
+      "afterRunnerUp": {
+        "id": "tyrsolution.app-launcher",
+        "name": "App Launcher",
+        "score": 0.782595
+      }
+    },
+    {
+      "id": "docks",
+      "name": "Application Docks",
+      "newCategory": false,
+      "changed": true,
+      "beforeCount": 3,
+      "matchedCount": 38,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "rosakodu.dock",
+        "name": "Dock",
+        "score": 0.951921
+      },
+      "afterWinner": {
+        "id": "rosakodu.dock",
+        "name": "Dock",
+        "score": 0.951921
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.claudsondouglas.arcdock",
+        "name": "Arc Dock",
+        "score": 0.639226
+      },
+      "afterRunnerUp": {
+        "id": "omadock",
+        "name": "Dock (OmaDock)",
+        "score": 0.655386
+      }
+    },
+    {
+      "id": "network",
+      "name": "Network Connections",
+      "newCategory": false,
+      "changed": true,
+      "beforeCount": 4,
+      "matchedCount": 60,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "community.network",
+        "name": "Network Manager (with Repeater & Hotspot)",
+        "score": 0.892927
+      },
+      "afterWinner": {
+        "id": "io.github.shivamnarkar47.omarchy-hotspot",
+        "name": "Mobile Hotspot",
+        "score": 0.785115
+      },
+      "beforeRunnerUp": {
+        "id": "angeeeld.omaltbar",
+        "name": "Omaltbar",
+        "score": 0.729791
+      },
+      "afterRunnerUp": {
+        "id": "community.network",
+        "name": "Network Manager (with Repeater & Hotspot)",
+        "score": 0.663481
+      }
+    },
+    {
+      "id": "network-diagnostics",
+      "name": "Network Traffic & Diagnostics",
+      "newCategory": false,
+      "changed": true,
+      "beforeCount": 3,
+      "matchedCount": 90,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "vitals",
+        "name": "Vitals",
+        "score": 0.81942
+      },
+      "afterWinner": {
+        "id": "crmne.omastats",
+        "name": "OmaStats",
+        "score": 0.817132
+      },
+      "beforeRunnerUp": {
+        "id": "davedes.omcontrol",
+        "name": "OmaControl",
+        "score": 0.683539
+      },
+      "afterRunnerUp": {
+        "id": "vitals",
+        "name": "Vitals",
+        "score": 0.510936
+      }
+    },
+    {
+      "id": "bluetooth",
+      "name": "Bluetooth",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 14,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "ssupt.bluetooth-audio",
+        "name": "Advanced Bluetooth Audio",
+        "score": 0.954133
+      },
+      "afterWinner": {
+        "id": "ssupt.bluetooth-audio",
+        "name": "Advanced Bluetooth Audio",
+        "score": 0.948242
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.aryan-techie.bluetooth",
+        "name": "Better Bluetooth",
+        "score": 0.607111
+      },
+      "afterRunnerUp": {
+        "id": "io.github.aryan-techie.bluetooth",
+        "name": "Better Bluetooth",
+        "score": 0.511196
+      }
+    },
+    {
+      "id": "audio",
+      "name": "Audio",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 84,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "ssupt.audio-control",
+        "name": "Advanced Audio Control",
+        "score": 0.96005
+      },
+      "afterWinner": {
+        "id": "ssupt.audio-control",
+        "name": "Advanced Audio Control",
+        "score": 0.974395
+      },
+      "beforeRunnerUp": {
+        "id": "ssupt.bluetooth-audio",
+        "name": "Advanced Bluetooth Audio",
+        "score": 0.693007
+      },
+      "afterRunnerUp": {
+        "id": "ssupt.bluetooth-audio",
+        "name": "Advanced Bluetooth Audio",
+        "score": 0.370119
+      }
+    },
+    {
+      "id": "brightness",
+      "name": "Screen Brightness",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 6,
+      "matchedCount": 23,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "crmne.hyprmoncfg",
+        "name": "hyprmoncfg: Multi-Monitor Manager for Omarchy",
+        "score": 0.978428
+      },
+      "afterWinner": {
+        "id": "crmne.hyprmoncfg",
+        "name": "hyprmoncfg: Multi-Monitor Manager for Omarchy",
+        "score": 0.978428
+      },
+      "beforeRunnerUp": {
+        "id": "omarchy-display",
+        "name": "Display Settings",
+        "score": 0.64301
+      },
+      "afterRunnerUp": {
+        "id": "omarchy-display",
+        "name": "Display Settings",
+        "score": 0.455178
+      }
+    },
+    {
+      "id": "night-light",
+      "name": "Night Light",
+      "newCategory": false,
+      "changed": true,
+      "beforeCount": 5,
+      "matchedCount": 20,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "io.github.deunnis.lacquer",
+        "name": "Omarchy Lacquer",
+        "score": 0.952084
+      },
+      "afterWinner": {
+        "id": "io.github.deunnis.lacquer",
+        "name": "Omarchy Lacquer",
+        "score": 0.943402
+      },
+      "beforeRunnerUp": {
+        "id": "kenny.nightlight",
+        "name": "Night Light",
+        "score": 0.648255
+      },
+      "afterRunnerUp": {
+        "id": "omarchy-display",
+        "name": "Display Settings",
+        "score": 0.524458
+      }
+    },
+    {
+      "id": "display-monitors",
+      "name": "Display & Monitors",
+      "newCategory": false,
+      "changed": true,
+      "beforeCount": 3,
+      "matchedCount": 42,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "crmne.hyprmoncfg",
+        "name": "hyprmoncfg: Multi-Monitor Manager for Omarchy",
+        "score": 0.978428
+      },
+      "afterWinner": {
+        "id": "crmne.hyprmoncfg",
+        "name": "hyprmoncfg: Multi-Monitor Manager for Omarchy",
+        "score": 0.978428
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.bmontythe3rd.display-manager",
+        "name": "Omarchy Display Manager",
+        "score": 0.553006
+      },
+      "afterRunnerUp": {
+        "id": "im0001gt.screens",
+        "name": "Screens",
+        "score": 0.635814
+      }
+    },
+    {
+      "id": "notifications",
+      "name": "Notifications",
+      "newCategory": false,
+      "changed": true,
+      "beforeCount": 2,
+      "matchedCount": 32,
+      "qualifiedCount": 5,
+      "beforeWinner": {
+        "id": "jankeesvw.notification-center",
+        "name": "Notification Center",
+        "score": 0.978676
+      },
+      "afterWinner": {
+        "id": "jankeesvw.notification-center",
+        "name": "Notification Center",
+        "score": 0.946193
+      },
+      "beforeRunnerUp": {
+        "id": "shavanced.notification-center",
+        "name": "Notification Center",
+        "score": 0.301991
+      },
+      "afterRunnerUp": {
+        "id": "njpatel.omapager",
+        "name": "Omapager",
+        "score": 0.704776
+      }
+    },
+    {
+      "id": "lock-idle",
+      "name": "Lock & Idle",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 86,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "io.github.sirjul1337.lock-explorer",
+        "name": "Lock Screen Explorer",
+        "score": 0.986268
+      },
+      "afterWinner": {
+        "id": "io.github.sirjul1337.lock-explorer",
+        "name": "Lock Screen Explorer",
+        "score": 0.998565
+      },
+      "beforeRunnerUp": {
+        "id": "onlyvishesh.power-manager",
+        "name": "Omarchy Power Manager",
+        "score": 0.630263
+      },
+      "afterRunnerUp": {
+        "id": "onlyvishesh.power-manager",
+        "name": "Omarchy Power Manager",
+        "score": 0.34271
+      }
+    },
+    {
+      "id": "password-manager",
+      "name": "Password Manager",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 17,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "io.github.elevate08.qs-bitwarden-cli",
+        "name": "Bitwarden",
+        "score": 0.995399
+      },
+      "afterWinner": {
+        "id": "io.github.elevate08.qs-bitwarden-cli",
+        "name": "Bitwarden",
+        "score": 0.995399
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.salemsayed.omawarden",
+        "name": "OmaWarden",
+        "score": 0.67999
+      },
+      "afterRunnerUp": {
+        "id": "io.github.salemsayed.omawarden",
+        "name": "OmaWarden",
+        "score": 0.353152
+      }
+    },
+    {
+      "id": "calendar",
+      "name": "Calendar",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 103,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "tmn73.calendar",
+        "name": "Calendar",
+        "score": 0.977422
+      },
+      "afterWinner": {
+        "id": "tmn73.calendar",
+        "name": "Calendar",
+        "score": 0.977422
+      },
+      "beforeRunnerUp": {
+        "id": "promaa.clock",
+        "name": "Chronica",
+        "score": 0.703541
+      },
+      "afterRunnerUp": {
+        "id": "promaa.clock",
+        "name": "Chronica",
+        "score": 0.653928
+      }
+    },
+    {
+      "id": "clock-timer",
+      "name": "Clocks & Time Zones",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 3,
+      "matchedCount": 99,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "io.github.sspaeti.timezones",
+        "name": "Timezones",
+        "score": 0.805487
+      },
+      "afterWinner": {
+        "id": "io.github.sspaeti.timezones",
+        "name": "Timezones",
+        "score": 0.681959
+      },
+      "beforeRunnerUp": {
+        "id": "ubeyidah.omaclock",
+        "name": "OmaClock",
+        "score": 0.718324
+      },
+      "afterRunnerUp": {
+        "id": "ubeyidah.omaclock",
+        "name": "OmaClock",
+        "score": 0.639003
+      }
+    },
+    {
+      "id": "timers-alarms",
+      "name": "Timers & Alarms",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 75,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "pnkm0nk.omodoro",
+        "name": "Omodoro",
+        "score": 0.899002
+      },
+      "afterWinner": {
+        "id": "pnkm0nk.omodoro",
+        "name": "Omodoro",
+        "score": 0.804712
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.pjgeutjens.clockwork",
+        "name": "Clockwork",
+        "score": 0.768358
+      },
+      "afterRunnerUp": {
+        "id": "io.github.pjgeutjens.clockwork",
+        "name": "Clockwork",
+        "score": 0.552675
+      }
+    },
+    {
+      "id": "focus",
+      "name": "Focus Sessions",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 3,
+      "matchedCount": 53,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "pnkm0nk.omodoro",
+        "name": "Omodoro",
+        "score": 0.884117
+      },
+      "afterWinner": {
+        "id": "pnkm0nk.omodoro",
+        "name": "Omodoro",
+        "score": 0.804712
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.pjgeutjens.clockwork",
+        "name": "Clockwork",
+        "score": 0.744955
+      },
+      "afterRunnerUp": {
+        "id": "io.github.pjgeutjens.clockwork",
+        "name": "Clockwork",
+        "score": 0.552675
+      }
+    },
+    {
+      "id": "tasks",
+      "name": "Task Lists",
+      "newCategory": false,
+      "changed": true,
+      "beforeCount": 3,
+      "matchedCount": 35,
+      "qualifiedCount": 4,
+      "beforeWinner": {
+        "id": "io.github.aryan-techie.todoist",
+        "name": "Todoist",
+        "score": 0.955922
+      },
+      "afterWinner": {
+        "id": "io.github.aryan-techie.todoist",
+        "name": "Todoist",
+        "score": 0.974321
+      },
+      "beforeRunnerUp": {
+        "id": "maduki-tech.omado",
+        "name": "Omado",
+        "score": 0.56896
+      },
+      "afterRunnerUp": {
+        "id": "crmne.todoist",
+        "name": "OmaTasks for Todoist",
+        "score": 0.633439
+      }
+    },
+    {
+      "id": "notes",
+      "name": "Notes",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 60,
+      "qualifiedCount": 6,
+      "beforeWinner": {
+        "id": "io.github.huligabuliga.omasticky",
+        "name": "Omasticky",
+        "score": 0.87073
+      },
+      "afterWinner": {
+        "id": "io.github.huligabuliga.omasticky",
+        "name": "Omasticky",
+        "score": 0.900827
+      },
+      "beforeRunnerUp": {
+        "id": "luca.obsidian-daily",
+        "name": "Obsidian Daily",
+        "score": 0.773808
+      },
+      "afterRunnerUp": {
+        "id": "luca.obsidian-daily",
+        "name": "Obsidian Daily",
+        "score": 0.851814
+      }
+    },
+    {
+      "id": "screen-time",
+      "name": "Screen Time",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 18,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "agx.screen-time",
+        "name": "Screen Time",
+        "score": 0.951661
+      },
+      "afterWinner": {
+        "id": "agx.screen-time",
+        "name": "Screen Time",
+        "score": 0.928162
+      },
+      "beforeRunnerUp": {
+        "id": "rimuru.screentime",
+        "name": "Screen Time",
+        "score": 0.66583
+      },
+      "afterRunnerUp": {
+        "id": "rimuru.screentime",
+        "name": "Screen Time",
+        "score": 0.340017
+      }
+    },
+    {
+      "id": "workspaces",
+      "name": "Workspaces",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 150,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "tornikegomareli.spaces",
+        "name": "Spaces",
+        "score": 0.989384
+      },
+      "afterWinner": {
+        "id": "tornikegomareli.spaces",
+        "name": "Spaces",
+        "score": 0.9859
+      },
+      "beforeRunnerUp": {
+        "id": "mirador",
+        "name": "Mirador",
+        "score": 0.735106
+      },
+      "afterRunnerUp": {
+        "id": "mirador",
+        "name": "Mirador",
+        "score": 0.665777
+      }
+    },
+    {
+      "id": "window-management",
+      "name": "Window Management",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 5,
+      "matchedCount": 76,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "expose.window-overview",
+        "name": "Exposé",
+        "score": 0.900907
+      },
+      "afterWinner": {
+        "id": "expose.window-overview",
+        "name": "Exposé",
+        "score": 0.975619
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.pablo-merino.altswitch",
+        "name": "Alt-tab switcher",
+        "score": 0.660928
+      },
+      "afterRunnerUp": {
+        "id": "io.github.pablo-merino.altswitch",
+        "name": "Alt-tab switcher",
+        "score": 0.359503
+      }
+    },
+    {
+      "id": "screenshots",
+      "name": "Screen Capture",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 5,
+      "matchedCount": 20,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "chyld.easy-capture",
+        "name": "Easy Capture",
+        "score": 0.802803
+      },
+      "afterWinner": {
+        "id": "chyld.easy-capture",
+        "name": "Easy Capture",
+        "score": 0.662131
+      },
+      "beforeRunnerUp": {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss",
+        "score": 0.768279
+      },
+      "afterRunnerUp": {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss",
+        "score": 0.657727
+      }
+    },
+    {
+      "id": "screen-recording",
+      "name": "Screen Recording",
+      "newCategory": false,
+      "changed": true,
+      "beforeCount": 7,
+      "matchedCount": 13,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss",
+        "score": 0.843438
+      },
+      "afterWinner": {
+        "id": "chyld.easy-capture",
+        "name": "Easy Capture",
+        "score": 0.662131
+      },
+      "beforeRunnerUp": {
+        "id": "chyld.easy-capture",
+        "name": "Easy Capture",
+        "score": 0.83784
+      },
+      "afterRunnerUp": {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss",
+        "score": 0.657727
+      }
+    },
+    {
+      "id": "ocr",
+      "name": "Screen Text Extraction",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 12,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss",
+        "score": 0.868092
+      },
+      "afterWinner": {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss",
+        "score": 0.789521
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.diyaclanker.omacapture",
+        "name": "Omacapture",
+        "score": 0.70511
+      },
+      "afterRunnerUp": {
+        "id": "io.github.diyaclanker.omacapture",
+        "name": "Omacapture",
+        "score": 0.524766
+      }
+    },
+    {
+      "id": "wallpaper",
+      "name": "Wallpaper",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 114,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "io.github.deunnis.lacquer",
+        "name": "Omarchy Lacquer",
+        "score": 0.852932
+      },
+      "afterWinner": {
+        "id": "io.github.deunnis.lacquer",
+        "name": "Omarchy Lacquer",
+        "score": 0.799842
+      },
+      "beforeRunnerUp": {
+        "id": "nosignal.motion-wallpaper",
+        "name": "Motion Wallpaper",
+        "score": 0.78201
+      },
+      "afterRunnerUp": {
+        "id": "nosignal.motion-wallpaper",
+        "name": "Motion Wallpaper",
+        "score": 0.555197
+      }
+    },
+    {
+      "id": "themes-appearance",
+      "name": "Themes & Appearance",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 49,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "gotar.omarchy-themes",
+        "name": "Themes Gallery",
+        "score": 0.814747
+      },
+      "afterWinner": {
+        "id": "gotar.omarchy-themes",
+        "name": "Themes Gallery",
+        "score": 0.821219
+      },
+      "beforeRunnerUp": {
+        "id": "pretty.omagen",
+        "name": "Omagen",
+        "score": 0.670179
+      },
+      "afterRunnerUp": {
+        "id": "pretty.omagen",
+        "name": "Omagen",
+        "score": 0.516444
+      }
+    },
+    {
+      "id": "color-picker",
+      "name": "Color Picker",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 4,
+      "qualifiedCount": 4,
+      "beforeWinner": {
+        "id": "io.github.ajanraj.chroma",
+        "name": "Chroma",
+        "score": 0.753755
+      },
+      "afterWinner": {
+        "id": "io.github.ajanraj.chroma",
+        "name": "Chroma",
+        "score": 0.753755
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.manateelazycat.color-picker",
+        "name": "Omarchy Color Picker",
+        "score": 0.613442
+      },
+      "afterRunnerUp": {
+        "id": "io.github.manateelazycat.color-picker",
+        "name": "Omarchy Color Picker",
+        "score": 0.613442
+      }
+    },
+    {
+      "id": "ai-assistant",
+      "name": "Agent Sessions",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 3,
+      "matchedCount": 32,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "meviusisback.agent-orchestr",
+        "name": "Agent Orchestrator",
+        "score": 0.938952
+      },
+      "afterWinner": {
+        "id": "meviusisback.agent-orchestr",
+        "name": "Agent Orchestrator",
+        "score": 0.941557
+      },
+      "beforeRunnerUp": {
+        "id": "sid.sessions",
+        "name": "Session Browser",
+        "score": 0.614559
+      },
+      "afterRunnerUp": {
+        "id": "sid.sessions",
+        "name": "Session Browser",
+        "score": 0.403785
+      }
+    },
+    {
+      "id": "ai-chat",
+      "name": "AI Chat & Models",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 5,
+      "matchedCount": 14,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "io.github.atif-1402.ai-panel",
+        "name": "AI Panel",
+        "score": 0.868446
+      },
+      "afterWinner": {
+        "id": "io.github.atif-1402.ai-panel",
+        "name": "AI Panel",
+        "score": 0.77398
+      },
+      "beforeRunnerUp": {
+        "id": "atzingen.jarvis",
+        "name": "Jarvis",
+        "score": 0.74207
+      },
+      "afterRunnerUp": {
+        "id": "atzingen.jarvis",
+        "name": "Jarvis",
+        "score": 0.523554
+      }
+    },
+    {
+      "id": "ai-api-usage",
+      "name": "AI & API Usage",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 75,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "akitaonrails.ai-usagebar",
+        "name": "AI Usage",
+        "score": 0.920382
+      },
+      "afterWinner": {
+        "id": "akitaonrails.ai-usagebar",
+        "name": "AI Usage",
+        "score": 0.912499
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.viganogabriele.agent-usage-plus",
+        "name": "Agent Usage Plus",
+        "score": 0.573919
+      },
+      "afterRunnerUp": {
+        "id": "io.github.viganogabriele.agent-usage-plus",
+        "name": "Agent Usage Plus",
+        "score": 0.368706
+      }
+    },
+    {
+      "id": "smart-home",
+      "name": "Smart Home",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 28,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "hass",
+        "name": "Home Assistant",
+        "score": 0.97198
+      },
+      "afterWinner": {
+        "id": "hass",
+        "name": "Home Assistant",
+        "score": 0.97198
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.amitcpatel.elgato-control",
+        "name": "Elgato Control",
+        "score": 0.582629
+      },
+      "afterRunnerUp": {
+        "id": "io.github.amitcpatel.elgato-control",
+        "name": "Elgato Control",
+        "score": 0.308752
+      }
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 32,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "robzolkos.github",
+        "name": "GitHub",
+        "score": 0.955864
+      },
+      "afterWinner": {
+        "id": "robzolkos.github",
+        "name": "GitHub",
+        "score": 0.955864
+      },
+      "beforeRunnerUp": {
+        "id": "dev.git",
+        "name": "Git",
+        "score": 0.715239
+      },
+      "afterRunnerUp": {
+        "id": "dev.git",
+        "name": "Git",
+        "score": 0.339951
+      }
+    },
+    {
+      "id": "containers",
+      "name": "Containers",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 23,
+      "qualifiedCount": 4,
+      "beforeWinner": {
+        "id": "io.github.randazraik.xray",
+        "name": "Omarchy X-Ray",
+        "score": 0.972258
+      },
+      "afterWinner": {
+        "id": "io.github.randazraik.xray",
+        "name": "Omarchy X-Ray",
+        "score": 0.972258
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.majkelll.omarchy-docker",
+        "name": "Docker",
+        "score": 0.622749
+      },
+      "afterRunnerUp": {
+        "id": "io.github.majkelll.omarchy-docker",
+        "name": "Docker",
+        "score": 0.716171
+      }
+    },
+    {
+      "id": "gaming",
+      "name": "Gaming",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 3,
+      "matchedCount": 27,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "silvaio.gamemode",
+        "name": "Game Mode Switcher",
+        "score": 0.928007
+      },
+      "afterWinner": {
+        "id": "silvaio.gamemode",
+        "name": "Game Mode Switcher",
+        "score": 0.917871
+      },
+      "beforeRunnerUp": {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss",
+        "score": 0.656944
+      },
+      "afterRunnerUp": {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss",
+        "score": 0.394575
+      }
+    },
+    {
+      "id": "mini-games",
+      "name": "Mini-Games",
+      "newCategory": false,
+      "changed": true,
+      "beforeCount": 4,
+      "matchedCount": 65,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "slcode777.omagotchi",
+        "name": "Omagotchi",
+        "score": 0.859783
+      },
+      "afterWinner": {
+        "id": "slcode777.omagotchi",
+        "name": "Omagotchi",
+        "score": 0.877333
+      },
+      "beforeRunnerUp": {
+        "id": "jankeesvw.omasweeper",
+        "name": "Omasweeper",
+        "score": 0.583516
+      },
+      "afterRunnerUp": {
+        "id": "io.github.ejuro.blow-off-some-steam",
+        "name": "Blow off some steam",
+        "score": 0.579252
+      }
+    },
+    {
+      "id": "keybinding-managers",
+      "name": "Keybinding Managers",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 11,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "meviusisback.keybinds",
+        "name": "Keybindings",
+        "score": 0.906894
+      },
+      "afterWinner": {
+        "id": "meviusisback.keybinds",
+        "name": "Keybindings",
+        "score": 0.940542
+      },
+      "beforeRunnerUp": {
+        "id": "davedes.mouse-keybind-settings",
+        "name": "Mouse & Keybind Settings",
+        "score": 0.701456
+      },
+      "afterRunnerUp": {
+        "id": "davedes.mouse-keybind-settings",
+        "name": "Mouse & Keybind Settings",
+        "score": 0.423292
+      }
+    },
+    {
+      "id": "shortcut-guides",
+      "name": "Shortcut Guides",
+      "newCategory": false,
+      "changed": true,
+      "beforeCount": 4,
+      "matchedCount": 16,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "huacnlee.which-key",
+        "name": "Which Key",
+        "score": 0.780285
+      },
+      "afterWinner": {
+        "id": "fkcodes.key-promoter",
+        "name": "Omarchy Key Promoter",
+        "score": 0.789583
+      },
+      "beforeRunnerUp": {
+        "id": "slw.keyarchy",
+        "name": "Keyarchy",
+        "score": 0.632955
+      },
+      "afterRunnerUp": {
+        "id": "huacnlee.which-key",
+        "name": "Which Key",
+        "score": 0.588551
+      }
+    },
+    {
+      "id": "translation",
+      "name": "Translation",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 16,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "b7s.googletranslate",
+        "name": "Google Translate",
+        "score": 0.774401
+      },
+      "afterWinner": {
+        "id": "b7s.googletranslate",
+        "name": "Google Translate",
+        "score": 0.722641
+      },
+      "beforeRunnerUp": {
+        "id": "jankeesvw.text-transform",
+        "name": "Text Transform",
+        "score": 0.642551
+      },
+      "afterRunnerUp": {
+        "id": "jankeesvw.text-transform",
+        "name": "Text Transform",
+        "score": 0.522884
+      }
+    },
+    {
+      "id": "dictionary",
+      "name": "Dictionary & Thesaurus",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 13,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "tristonarmstrong.dictionary",
+        "name": "Dictionary",
+        "score": 0.950179
+      },
+      "afterWinner": {
+        "id": "tristonarmstrong.dictionary",
+        "name": "Dictionary",
+        "score": 0.950179
+      },
+      "beforeRunnerUp": {
+        "id": "dlpwaters.thesaurus",
+        "name": "Dictionary & Thesaurus",
+        "score": 0.553653
+      },
+      "afterRunnerUp": {
+        "id": "dlpwaters.thesaurus",
+        "name": "Dictionary & Thesaurus",
+        "score": 0.301516
+      }
+    },
+    {
+      "id": "prayer-times",
+      "name": "Prayer Times",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 19,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "local.prayer-times",
+        "name": "Prayer times",
+        "score": 0.914374
+      },
+      "afterWinner": {
+        "id": "local.prayer-times",
+        "name": "Prayer times",
+        "score": 0.914374
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.salemsayed.omaprayers",
+        "name": "OmaPrayers",
+        "score": 0.700988
+      },
+      "afterRunnerUp": {
+        "id": "io.github.salemsayed.omaprayers",
+        "name": "OmaPrayers",
+        "score": 0.358926
+      }
+    },
+    {
+      "id": "keyboard-lighting",
+      "name": "Keyboard Lighting",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 3,
+      "matchedCount": 33,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "io.github.anes-03.keyboard-brightness",
+        "name": "Keyboard Brightness",
+        "score": 0.889559
+      },
+      "afterWinner": {
+        "id": "io.github.anes-03.keyboard-brightness",
+        "name": "Keyboard Brightness",
+        "score": 0.826743
+      },
+      "beforeRunnerUp": {
+        "id": "tedwester.legion",
+        "name": "Legion Toolkit",
+        "score": 0.589336
+      },
+      "afterRunnerUp": {
+        "id": "tedwester.legion",
+        "name": "Legion Toolkit",
+        "score": 0.527714
+      }
+    },
+    {
+      "id": "keyboard-layouts",
+      "name": "Keyboard Layouts",
+      "newCategory": false,
+      "changed": true,
+      "beforeCount": 4,
+      "matchedCount": 26,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "jesusarchive.keyboard-layout-switcher",
+        "name": "Keyboard Layout Switcher",
+        "score": 0.817244
+      },
+      "afterWinner": {
+        "id": "jesusarchive.keyboard-layout-switcher",
+        "name": "Keyboard Layout Switcher",
+        "score": 0.817233
+      },
+      "beforeRunnerUp": {
+        "id": "xarishark.language-input",
+        "name": "Language & Input",
+        "score": 0.640623
+      },
+      "afterRunnerUp": {
+        "id": "io.github.ilyazar.keyboard-layout",
+        "name": "Keyboard Layout Pulse",
+        "score": 0.517313
+      }
+    },
+    {
+      "id": "file-search",
+      "name": "File Search",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 15,
+      "qualifiedCount": 4,
+      "beforeWinner": {
+        "id": "jesseburlamaque.omarchy-find",
+        "name": "Omarchy Find",
+        "score": 0.897069
+      },
+      "afterWinner": {
+        "id": "jesseburlamaque.omarchy-find",
+        "name": "Omarchy Find",
+        "score": 0.897069
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.maajix.spotlight",
+        "name": "Spotlight",
+        "score": 0.826501
+      },
+      "afterRunnerUp": {
+        "id": "io.github.maajix.spotlight",
+        "name": "Spotlight",
+        "score": 0.826501
+      }
+    },
+    {
+      "id": "file-sync",
+      "name": "File Synchronization",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 4,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "io.github.ilyazar.syncthing",
+        "name": "Syncthing",
+        "score": 0.993508
+      },
+      "afterWinner": {
+        "id": "io.github.ilyazar.syncthing",
+        "name": "Syncthing",
+        "score": 0.993508
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.vitorpacheco.mega",
+        "name": "MEGA Sync",
+        "score": 0.589503
+      },
+      "afterRunnerUp": {
+        "id": "io.github.vitorpacheco.mega",
+        "name": "MEGA Sync",
+        "score": 0.378463
+      }
+    },
+    {
+      "id": "feed-readers",
+      "name": "RSS & News Readers",
+      "newCategory": false,
+      "changed": true,
+      "beforeCount": 4,
+      "matchedCount": 19,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "io.github.sanjyay.rss-reeder",
+        "name": "RSS-Reeder",
+        "score": 0.696856
+      },
+      "afterWinner": {
+        "id": "io.github.sanjyay.rss-reeder",
+        "name": "RSS-Reeder",
+        "score": 0.631339
+      },
+      "beforeRunnerUp": {
+        "id": "mghizdavet.rss",
+        "name": "RSS news",
+        "score": 0.634523
+      },
+      "afterRunnerUp": {
+        "id": "io.github.alejandro-llanes.news",
+        "name": "News",
+        "score": 0.617244
+      }
+    },
+    {
+      "id": "sports-scores",
+      "name": "Sports Scores",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 36,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "devbook.futbar",
+        "name": "FutBar",
+        "score": 0.94634
+      },
+      "afterWinner": {
+        "id": "devbook.futbar",
+        "name": "FutBar",
+        "score": 0.94634
+      },
+      "beforeRunnerUp": {
+        "id": "sportsbar",
+        "name": "Sportsbar",
+        "score": 0.647132
+      },
+      "afterRunnerUp": {
+        "id": "sportsbar",
+        "name": "Sportsbar",
+        "score": 0.371131
+      }
+    },
+    {
+      "id": "uptime-monitoring",
+      "name": "Uptime Monitoring",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 15,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "io.github.dupontbertrand.omastatus",
+        "name": "Omastatus",
+        "score": 0.736571
+      },
+      "afterWinner": {
+        "id": "io.github.dupontbertrand.omastatus",
+        "name": "Omastatus",
+        "score": 0.744896
+      },
+      "beforeRunnerUp": {
+        "id": "bottelet.is-it-down",
+        "name": "Is It Down?",
+        "score": 0.708879
+      },
+      "afterRunnerUp": {
+        "id": "bottelet.is-it-down",
+        "name": "Is It Down?",
+        "score": 0.548022
+      }
+    },
+    {
+      "id": "system-updates",
+      "name": "System Updates",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 10,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "dizziee.system-updates",
+        "name": "System Updates",
+        "score": 0.9732
+      },
+      "afterWinner": {
+        "id": "dizziee.system-updates",
+        "name": "System Updates",
+        "score": 0.9732
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.saiiiiiph.update-center",
+        "name": "Update Center",
+        "score": 0.686142
+      },
+      "afterRunnerUp": {
+        "id": "io.github.saiiiiiph.update-center",
+        "name": "Update Center",
+        "score": 0.317381
+      }
+    },
+    {
+      "id": "radio",
+      "name": "Radio",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 28,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "akshar.radio-atlas",
+        "name": "Radio Atlas",
+        "score": 0.935735
+      },
+      "afterWinner": {
+        "id": "akshar.radio-atlas",
+        "name": "Radio Atlas",
+        "score": 0.935507
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.kaibur02.omarchy-world-radio",
+        "name": "World Radio",
+        "score": 0.612201
+      },
+      "afterRunnerUp": {
+        "id": "io.github.kaibur02.omarchy-world-radio",
+        "name": "World Radio",
+        "score": 0.317199
+      }
+    },
+    {
+      "id": "screensavers",
+      "name": "Screensavers",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 34,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "omarchy-undercover",
+        "name": "Omarchy Undercover",
+        "score": 0.960312
+      },
+      "afterWinner": {
+        "id": "omarchy-undercover",
+        "name": "Omarchy Undercover",
+        "score": 0.937032
+      },
+      "beforeRunnerUp": {
+        "id": "brianirish.screensaver",
+        "name": "Screensaver",
+        "score": 0.643695
+      },
+      "afterRunnerUp": {
+        "id": "brianirish.screensaver",
+        "name": "Screensaver",
+        "score": 0.383456
+      }
+    },
+    {
+      "id": "power-menu",
+      "name": "Power & Session",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 13,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "io.github.edgarsilva.power-button",
+        "name": "Power Button",
+        "score": 0.883684
+      },
+      "afterWinner": {
+        "id": "io.github.edgarsilva.power-button",
+        "name": "Power Button",
+        "score": 0.872131
+      },
+      "beforeRunnerUp": {
+        "id": "blackcode.power-menu",
+        "name": "Power Menu",
+        "score": 0.680296
+      },
+      "afterRunnerUp": {
+        "id": "blackcode.power-menu",
+        "name": "Power Menu",
+        "score": 0.419203
+      }
+    },
+    {
+      "id": "plugin-manager",
+      "name": "Plugin Manager",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 25,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "omaplug",
+        "name": "Plugin Manager",
+        "score": 0.979336
+      },
+      "afterWinner": {
+        "id": "omaplug",
+        "name": "Plugin Manager",
+        "score": 0.979336
+      },
+      "beforeRunnerUp": {
+        "id": "b.okomart",
+        "name": "Okomart",
+        "score": 0.656965
+      },
+      "afterRunnerUp": {
+        "id": "b.okomart",
+        "name": "Okomart",
+        "score": 0.344586
+      }
+    },
+    {
+      "id": "firewall",
+      "name": "Firewall",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 5,
+      "qualifiedCount": 4,
+      "beforeWinner": {
+        "id": "io.github.sahzudin.omawall",
+        "name": "Omawall",
+        "score": 0.849607
+      },
+      "afterWinner": {
+        "id": "io.github.sahzudin.omawall",
+        "name": "Omawall",
+        "score": 0.849607
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.chris.snitch",
+        "name": "Snitch",
+        "score": 0.759202
+      },
+      "afterRunnerUp": {
+        "id": "io.github.chris.snitch",
+        "name": "Snitch",
+        "score": 0.759202
+      }
+    },
+    {
+      "id": "dev-ports",
+      "name": "Dev Ports",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 3,
+      "matchedCount": 21,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "zeru.portwatch",
+        "name": "Port Watch",
+        "score": 0.897175
+      },
+      "afterWinner": {
+        "id": "zeru.portwatch",
+        "name": "Port Watch",
+        "score": 0.828381
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.mich-nduka.omaports",
+        "name": "Omaports",
+        "score": 0.659853
+      },
+      "afterRunnerUp": {
+        "id": "io.github.mich-nduka.omaports",
+        "name": "Omaports",
+        "score": 0.483345
+      }
+    },
+    {
+      "id": "phone-integration",
+      "name": "Phone Integration",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 3,
+      "matchedCount": 13,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "omaconnect",
+        "name": "OmaConnect",
+        "score": 0.94206
+      },
+      "afterWinner": {
+        "id": "omaconnect",
+        "name": "OmaConnect",
+        "score": 0.924578
+      },
+      "beforeRunnerUp": {
+        "id": "omakdeconnect",
+        "name": "OmaKDEConnect",
+        "score": 0.613621
+      },
+      "afterRunnerUp": {
+        "id": "omakdeconnect",
+        "name": "OmaKDEConnect",
+        "score": 0.352687
+      }
+    },
+    {
+      "id": "peripheral-battery",
+      "name": "Peripheral Batteries",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 69,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "io.github.r-witz.nothing-ear",
+        "name": "Nothing Audio",
+        "score": 0.928254
+      },
+      "afterWinner": {
+        "id": "io.github.r-witz.nothing-ear",
+        "name": "Nothing Audio",
+        "score": 0.927984
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.69harold69.gadget-batteries",
+        "name": "Gadget Batteries",
+        "score": 0.7169
+      },
+      "afterRunnerUp": {
+        "id": "io.github.69harold69.gadget-batteries",
+        "name": "Gadget Batteries",
+        "score": 0.412975
+      }
+    }
+  ],
+  "capture": {
+    "file": "test/fixtures/recommendation-migration.json.gz",
+    "sha256": "547abc34d4d4cfa451226ed6dbdef1ba9674c110d2b3e83e30d6499dd8db2ecc",
+    "catalogCount": 273,
+    "scope": "Lossless ranking projection: every plugin with a baseline or proposed task decision. Unreviewed plugins cannot enter either scored cohort. Queue totals require the full original capture."
+  }
+}

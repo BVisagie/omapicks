@@ -8,6 +8,8 @@ import { LEGACY_METHODOLOGY_VERSION, methodologyFor } from "./methodology.mjs";
 import { auditClassifications, renderClassificationAudit } from "./classification-audit.mjs";
 import { assertTaskQualifiedSnapshot, taskReviewsHash, updateTaskReviewQueue } from "./task-fit.mjs";
 
+import { captureEvidence, evidenceHash } from "./evidence.mjs";
+
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CATALOG_URL = "https://plugins.omarchy.org/catalog.json";
 const STATS_URL = "https://api.omarchyplugins.com/v1/stats";
@@ -126,6 +128,8 @@ export function replayChanges(inputs) {
     stats: inputs.stats.body.plugins,
     taxonomy: inputs.taxonomy,
     taskReviews: inputs.taskReviews,
+    pluginProfiles: inputs.pluginProfiles,
+    evidenceObservations: inputs.evidenceObservations,
     classificationVersion: inputs.classificationVersion ?? 2,
     previous: inputs.previous,
     previousReviewQueue: inputs.previousReviewQueue,
@@ -337,9 +341,12 @@ function withoutLocalImages(snapshot) {
   return copy;
 }
 
-// Same-week reruns append to the week's recorded events for that slot ("changes" for champions,
-// "runnerUpChanges" for runner-ups) instead of replacing them.
-function weekChangeLog(previous, week, existingHistory, computedChanges, key = "changes") {
+// Append only within one methodology. A migration starts its own event set so
+// earlier judgments cannot acquire the new methodology's meaning or labels.
+function weekChangeLog(previous, rankings, existingHistory, computedChanges, key = "changes") {
+  const week = rankings.week;
+  if ((previous?.methodologyVersion ?? LEGACY_METHODOLOGY_VERSION) !== rankings.methodologyVersion ||
+      (existingHistory?.methodologyVersion ?? LEGACY_METHODOLOGY_VERSION) !== rankings.methodologyVersion) return computedChanges;
   const prior = existingHistory?.[key];
   if (previous?.week !== week || !Array.isArray(prior) || prior.length === 0) return computedChanges;
   if (computedChanges.length === 0) return prior;
@@ -453,7 +460,9 @@ export function formatRefreshLog(result, { dryRun = false } = {}) {
   if (result.republished) {
     lines.push(dryRun
       ? "Republish requested: recalculated despite the weekly freeze, but this dry run still writes nothing."
-      : "Deliberate republish: recalculated this week's snapshot despite the weekly freeze; earlier events this week are retained.");
+      : result.publishedMethodologyVersion !== result.rankings.methodologyVersion
+        ? "Deliberate republish: recalculated this week's snapshot under a new methodology; the changelog starts with this migration's events."
+        : "Deliberate republish: recalculated this week's snapshot despite the weekly freeze; earlier events under this methodology are retained.");
   }
   lines.push(formatMethodology(result));
   if (result.validation) lines.push(result.validation);
@@ -552,12 +561,15 @@ export async function refresh({
   const previous = await readJson(rankingsFile, null);
   const taxonomy = await readJson(taxonomyFile);
   const taskReviews = await readJson(path.join(root, "data", "task-reviews.json"), { schemaVersion: 1, assignments: [] });
+  const pluginProfiles = await readJson(path.join(root, "data", "plugin-profiles.json"), { schemaVersion: 1, plugins: {} });
+  const profilesSha = evidenceHash(pluginProfiles);
   const reviewsSha = taskReviewsHash(taskReviews);
   const taxonomySha = checksum(taxonomy);
   const week = isoWeek(now);
   const publishedMethodologyVersion = previous?.week ? previous.methodologyVersion ?? LEGACY_METHODOLOGY_VERSION : null;
   if (!dryRun && !republish && previous?.week === week && previous.source?.taxonomy?.sha256 === taxonomySha && previous.source?.taxonomy?.classificationVersion === CLASSIFICATION_VERSION &&
-      (!methodology.eligibility.reviewedTaskEvidence || previous.source?.taskReviews?.sha256 === reviewsSha)) {
+      (!methodology.eligibility.reviewedTaskEvidence || previous.source?.taskReviews?.sha256 === reviewsSha) &&
+      (!methodology.eligibility.repositoryEvidence || previous.source?.pluginProfiles?.sha256 === profilesSha)) {
     return {
       changed: false,
       week,
@@ -574,6 +586,9 @@ export async function refresh({
   ]);
   validateFeeds(catalogResult.body, statsResult.body, minimumCatalogSize, previous);
 
+  const evidenceObservations = methodology.eligibility.repositoryEvidence
+    ? await captureEvidence({ catalog: catalogResult.body.plugins, taskReviews, pluginProfiles, taxonomy, now, fetchImpl })
+    : { schemaVersion: 1, plugins: {} };
   const source = {
     catalog: {
       url: CATALOG_URL,
@@ -601,20 +616,25 @@ export async function refresh({
       typeCount: Array.isArray(taxonomy?.types) ? taxonomy.types.length : 0
     },
     ...(methodology.eligibility.reviewedTaskEvidence ? { taskReviews: { sha256: reviewsSha, schemaVersion: taskReviews.schemaVersion, count: taskReviews.assignments.length } } : {}),
+    ...(methodology.eligibility.repositoryEvidence ? { pluginProfiles: { sha256: profilesSha, schemaVersion: pluginProfiles.schemaVersion }, evidenceObservations: { sha256: evidenceHash(evidenceObservations), generatedAt: evidenceObservations.generatedAt } } : {}),
     registry: registrySource(registry)
   };
 
   const previousState = await readJson(path.join(root, "data", "classification-state.json"), null);
   const previousReviewQueue = await readJson(path.join(root, "data", "task-review-queue.json"), null);
-  const auditInputs = { schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, methodologyVersion: methodology.version, codeRevision: revision, now: now.toISOString(), catalog: catalogResult, stats: statsResult, registry, taxonomy, ...(methodology.eligibility.reviewedTaskEvidence ? { taskReviews, previousReviewQueue } : {}), previous, previousState };
+  const auditInputs = { schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, methodologyVersion: methodology.version, codeRevision: revision, now: now.toISOString(), catalog: catalogResult, stats: statsResult, registry, taxonomy, ...(methodology.eligibility.reviewedTaskEvidence ? { taskReviews, previousReviewQueue } : {}), ...(methodology.eligibility.repositoryEvidence ? { pluginProfiles, evidenceObservations } : {}), previous, previousState };
   // Retain the evidence even if a malformed contract or review blocks publication.
   const output = path.join(root, "tmp", "classification-audit");
   await writeJsonAtomic(path.join(output, "inputs.json"), auditInputs);
+  const expectedObservations = evidenceObservations.expected ?? evidenceObservations.attempted;
+  if (methodology.eligibility.repositoryEvidence && expectedObservations > 0 && evidenceObservations.completed < Math.ceil(expectedObservations * 0.75)) throw new Error("Source observation coverage fell below 75%; publication stopped. Replay inputs retain failed and missing observations.");
   const { rankings, report, decisions, exclusions, typeIdsById, taskStatusByAssignment } = rankPlugins({
     catalog: catalogResult.body.plugins,
     stats: statsResult.body.plugins,
     taxonomy,
     taskReviews,
+    pluginProfiles,
+    evidenceObservations,
     methodology,
     previous,
     previousReviewQueue,
@@ -627,13 +647,13 @@ export async function refresh({
   const existingHistory = await readJson(historyFile, null);
   const context = changeContext({ catalog: catalogResult.body.plugins, registry, exclusions, typeIdsById, taskStatusByAssignment });
   const computedChanges = changesBetween(previous, rankings, context);
-  const changes = weekChangeLog(previous, week, existingHistory, computedChanges);
+  const changes = weekChangeLog(previous, rankings, existingHistory, computedChanges);
   const runnerUpChanges = runnerUpChangesBetween(previous, rankings, context);
-  const weeklyRunnerUpChanges = weekChangeLog(previous, week, existingHistory, runnerUpChanges, "runnerUpChanges");
+  const weeklyRunnerUpChanges = weekChangeLog(previous, rankings, existingHistory, runnerUpChanges, "runnerUpChanges");
   const previousReport = await readJson(path.join(root, "data", "unclassified-report.json"), null);
-  const classificationAudit = auditClassifications({ catalog: catalogResult.body.plugins, stats: statsResult.body.plugins, taxonomy, taskReviews, previous, previousState, previousReviewQueue, now, methodology });
+  const classificationAudit = auditClassifications({ catalog: catalogResult.body.plugins, stats: statsResult.body.plugins, taxonomy, taskReviews, pluginProfiles, evidenceObservations, previous, previousState, previousReviewQueue, now, methodology });
   classificationAudit.inputsHash = checksum(auditInputs);
-  const reviewQueue = { ...updateTaskReviewQueue(classificationAudit.reviewQueue ?? [], previousReviewQueue, now.toISOString()), taxonomyHash: taxonomySha, taskReviewsHash: reviewsSha };
+  const reviewQueue = { ...updateTaskReviewQueue(classificationAudit.reviewQueue ?? [], previousReviewQueue, now.toISOString()), taxonomyHash: taxonomySha, taskReviewsHash: reviewsSha, ...(methodology.eligibility.repositoryEvidence ? { pluginProfilesHash: profilesSha, evidenceObservationsHash: evidenceHash(evidenceObservations) } : {}) };
   const summary = {
     changed: true,
     week,

@@ -524,7 +524,7 @@ test("classification state publishes with refresh, dry runs are read-only, and c
   assert.deepEqual(JSON.parse(await readFile(stateFile, "utf8")).plugins[0].types, []);
 });
 
-test("a methodology-only change keeps the weekly freeze; --republish recalculates with validation and keeps weekly events", async (context) => {
+test("a methodology-only change keeps the weekly freeze; --republish starts a new method's event set", async (context) => {
   const root = await mkdtemp(path.join(os.tmpdir(), "omapicks-republish-"));
   context.after(() => rm(root, { recursive: true, force: true }));
   await mkdir(path.join(root, "data"), { recursive: true });
@@ -553,6 +553,11 @@ test("a methodology-only change keeps the weekly freeze; --republish recalculate
   const published = JSON.parse(await readFile(rankingsFile, "utf8"));
   published.methodologyVersion = "0.9.0";
   await writeFile(rankingsFile, JSON.stringify(published));
+  const historyFile = path.join(root, "data", "history", "2026-W36.json");
+  const oldHistory = JSON.parse(await readFile(historyFile, "utf8"));
+  oldHistory.methodologyVersion = "0.9.0";
+  oldHistory.runnerUpChanges = [{ typeId: "weather", typeName: "Weather", kind: "vacated", previous: { id: "first", name: "first" }, current: null, reason: "awaiting-task-qualification" }];
+  await writeFile(historyFile, JSON.stringify(oldHistory));
   const frozen = await refresh(options);
   assert.equal(frozen.changed, false);
   assert.equal(fetchCalls, 3);
@@ -581,7 +586,10 @@ test("a methodology-only change keeps the weekly freeze; --republish recalculate
   assert.match(log, /Deliberate republish/);
   assert.match(log, /Methodology 1\.\d+\.\d+ replaces published methodology 0\.9\.0/);
   const history = JSON.parse(await readFile(path.join(root, "data", "history", "2026-W36.json"), "utf8"));
-  assert.deepEqual(history.changes.map((change) => change.kind), ["new-champion", "displaced"]);
+  assert.deepEqual(history.changes.map((change) => change.kind), ["displaced"]);
+  assert.deepEqual(history.runnerUpChanges, republished.runnerUpChanges);
+  assert.equal(history.types[0].runnerUp.id, "first");
+  assert.ok(!history.runnerUpChanges.some((change) => change.reason === "awaiting-task-qualification"));
   assert.equal(JSON.parse(await readFile(rankingsFile, "utf8")).methodologyVersion, republished.rankings.methodologyVersion);
 });
 

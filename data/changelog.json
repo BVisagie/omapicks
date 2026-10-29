@@ -1,73 +1,73 @@
 {
   "schemaVersion": 1,
   "week": "2026-W44",
-  "generatedAt": "2026-10-26T07:36:52.835Z",
+  "generatedAt": "2026-10-29T19:35:18.101Z",
   "changes": [
     {
-      "typeId": "network-diagnostics",
-      "typeName": "Network Traffic & Diagnostics",
+      "typeId": "network",
+      "typeName": "Network Connections",
       "kind": "displaced",
       "previous": {
-        "id": "vitals",
-        "name": "Vitals"
+        "id": "community.network",
+        "name": "Network Manager (with Repeater & Hotspot)"
       },
       "current": {
-        "id": "crmne.omastats",
-        "name": "OmaStats"
+        "id": "io.github.shivamnarkar47.omarchy-hotspot",
+        "name": "Mobile Hotspot"
       }
     },
     {
-      "typeId": "keyboard-layouts",
-      "typeName": "Keyboard Layouts",
+      "typeId": "shortcut-guides",
+      "typeName": "Shortcut Guides",
       "kind": "displaced",
       "previous": {
-        "id": "io.github.ilyazar.keyboard-layout",
-        "name": "Keyboard Layout Pulse"
+        "id": "huacnlee.which-key",
+        "name": "Which Key"
       },
       "current": {
-        "id": "jesusarchive.keyboard-layout-switcher",
-        "name": "Keyboard Layout Switcher"
-      }
-    },
-    {
-      "typeId": "uptime-monitoring",
-      "typeName": "Uptime Monitoring",
-      "kind": "displaced",
-      "previous": {
-        "id": "bottelet.is-it-down",
-        "name": "Is It Down?"
-      },
-      "current": {
-        "id": "io.github.dupontbertrand.omastatus",
-        "name": "Omastatus"
+        "id": "fkcodes.key-promoter",
+        "name": "Omarchy Key Promoter"
       }
     }
   ],
   "runnerUpChanges": [
     {
-      "typeId": "music-players",
-      "typeName": "Music Players",
+      "typeId": "docks",
+      "typeName": "Application Docks",
       "kind": "displaced",
       "previous": {
-        "id": "funcoder.spotify",
-        "name": "Spotify Vinyl"
+        "id": "io.github.claudsondouglas.arcdock",
+        "name": "Arc Dock"
       },
       "current": {
-        "id": "vornashev.yandex-music",
-        "name": "Yandex Music"
+        "id": "omadock",
+        "name": "Dock (OmaDock)"
       }
     },
     {
-      "typeId": "network-diagnostics",
-      "typeName": "Network Traffic & Diagnostics",
+      "typeId": "network",
+      "typeName": "Network Connections",
       "kind": "displaced",
       "previous": {
-        "id": "crmne.omastats",
-        "name": "OmaStats"
+        "id": "angeeeld.omaltbar",
+        "name": "Omaltbar"
       },
       "current": {
-        "id": "vitals",
-        "name": "Vitals"
+        "id": "community.network",
+        "name": "Network Manager (with Repeater & Hotspot)"
+      }
+    },
+    {
+      "typeId": "night-light",
+      "typeName": "Night Light",
+      "kind": "displaced",
+      "previous": {
+        "id": "kenny.nightlight",
+        "name": "Night Light"
+      },
+      "current": {
+        "id": "omarchy-display",
+        "name": "Display Settings"
       }
     },
     {
@@ -75,39 +75,38 @@
       "typeName": "Display & Monitors",
       "kind": "displaced",
       "previous": {
-        "id": "im0001gt.screens",
-        "name": "Screens"
-      },
-      "current": {
         "id": "io.github.bmontythe3rd.display-manager",
         "name": "Omarchy Display Manager"
       },
-      "reason": "awaiting-task-qualification"
-    },
-    {
-      "typeId": "color-picker",
-      "typeName": "Color Picker",
-      "kind": "displaced",
-      "previous": {
-        "id": "io.github.arcanavox.colorhistory",
-        "name": "Color History"
-      },
       "current": {
-        "id": "io.github.manateelazycat.color-picker",
-        "name": "Omarchy Color Picker"
+        "id": "im0001gt.screens",
+        "name": "Screens"
       }
     },
     {
-      "typeId": "containers",
-      "typeName": "Containers",
+      "typeId": "notifications",
+      "typeName": "Notifications",
       "kind": "displaced",
       "previous": {
-        "id": "devgtv.docker",
-        "name": "Omarchy Control Docker"
+        "id": "shavanced.notification-center",
+        "name": "Notification Center"
       },
       "current": {
-        "id": "io.github.majkelll.omarchy-docker",
-        "name": "Docker"
+        "id": "njpatel.omapager",
+        "name": "Omapager"
+      }
+    },
+    {
+      "typeId": "tasks",
+      "typeName": "Task Lists",
+      "kind": "displaced",
+      "previous": {
+        "id": "maduki-tech.omado",
+        "name": "Omado"
+      },
+      "current": {
+        "id": "crmne.todoist",
+        "name": "OmaTasks for Todoist"
       }
     },
     {
@@ -115,51 +114,25 @@
       "typeName": "Mini-Games",
       "kind": "displaced",
       "previous": {
-        "id": "nosignal.quattrolitaire",
-        "name": "Quattrolitaire"
-      },
-      "current": {
         "id": "jankeesvw.omasweeper",
         "name": "Omasweeper"
+      },
+      "current": {
+        "id": "io.github.ejuro.blow-off-some-steam",
+        "name": "Blow off some steam"
       }
     },
     {
-      "typeId": "dictionary",
-      "typeName": "Dictionary & Thesaurus",
+      "typeId": "shortcut-guides",
+      "typeName": "Shortcut Guides",
       "kind": "displaced",
       "previous": {
-        "id": "io.github.keegan-sucks.lookup",
-        "name": "Look Up"
+        "id": "slw.keyarchy",
+        "name": "Keyarchy"
       },
       "current": {
-        "id": "dlpwaters.thesaurus",
-        "name": "Dictionary & Thesaurus"
-      }
-    },
-    {
-      "typeId": "keyboard-layouts",
-      "typeName": "Keyboard Layouts",
-      "kind": "displaced",
-      "previous": {
-        "id": "jesusarchive.keyboard-layout-switcher",
-        "name": "Keyboard Layout Switcher"
-      },
-      "current": {
-        "id": "io.github.ilyazar.keyboard-layout",
-        "name": "Keyboard Layout Pulse"
-      }
-    },
-    {
-      "typeId": "uptime-monitoring",
-      "typeName": "Uptime Monitoring",
-      "kind": "displaced",
-      "previous": {
-        "id": "io.github.dupontbertrand.omastatus",
-        "name": "Omastatus"
-      },
-      "current": {
-        "id": "bottelet.is-it-down",
-        "name": "Is It Down?"
+        "id": "huacnlee.which-key",
+        "name": "Which Key"
       }
     }
   ]
