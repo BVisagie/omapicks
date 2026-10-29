@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { availabilityFor } from "../build/availability.mjs";
 import {
   renderFixtureBadge, renderFixtureChangelog, renderFixtureFeed, renderFixtureHome,
   renderFixtureMethodology, renderFixtureType, withAvailability
@@ -101,24 +102,51 @@ test("current availability suppresses only unavailable installs, without changin
   const rankings = snapshot();
   const before = structuredClone(rankings);
   const badge = renderFixtureBadge(rankings.types[0], rankings);
-  const current = withAvailability(rankings, observation(rankings, {
-    forecast: { status: "unavailable", reason: "Repository could not be reached", checkedAt: "2026-10-29T05:00:00Z", verificationCoverage: "update-unverified" },
-    rain: { status: "available", reason: "Latest check passed", checkedAt: "2026-10-29T05:00:00Z", verificationCoverage: "update-unverified" },
-    snow: { status: "unavailable", reason: "No longer listed", checkedAt: "2026-10-29T05:00:00Z" }
-  }));
+  const catalog = { stateSchemaVersion: 2, generatedAt: "2026-10-29T05:00:00Z", plugins: ["forecast", "rain"].map((id) => ({
+    id, repo: candidate(id).repository, installAvailable: true, installCommand: candidate(id).installCommand,
+    upstreamCheckStatus: id === "forecast" ? "unreachable" : "passed", verificationCoverage: "update-unverified"
+  })) };
+  const current = withAvailability(rankings, availabilityFor(rankings, catalog, { now: new Date("2026-10-29T06:00:00Z"), minimumCatalogSize: 0 }));
   assert.deepEqual(rankings, before);
   assert.equal(current.types[0].winner.id, rankings.types[0].winner.id);
   assert.equal(current.types[0].winner.score, rankings.types[0].winner.score);
   assert.equal(renderFixtureBadge(current.types[0], current), badge);
   const html = renderFixtureType(current.types[0], current);
-  assert.match(html, /Current availability observed <time datetime="2026-10-29T06:00:00Z"/);
+  assert.match(html, /Current availability observed <time datetime="2026-10-29T06:00:00\.000Z">October 29, 2026<\/time>/);
   assert.match(html, /Currently unavailable/);
   assert.match(html, /Weekly selection is unchanged/);
   assert.match(html, /Verified snapshot; update unverified/);
   assert.doesNotMatch(html, /<code>omarchy plugin add https:\/\/github\.com\/example\/forecast\.git<\/code>/);
   assert.match(html, /<code>omarchy plugin add https:\/\/github\.com\/example\/rain\.git<\/code>/);
-  assert.match(html, /No longer listed/);
+  assert.match(html, /This plugin is no longer listed in the marketplace/);
+  assert.match(html, /The marketplace could not reach the repository/);
   assert.match(renderFixtureHome(current), /Forecast forecast · Example · Currently unavailable/);
+});
+
+test("availability producer reason codes render as readable explanations", () => {
+  const rankings = snapshot();
+  const plugin = { id: "forecast", repo: candidate().repository, installAvailable: true, installCommand: candidate().installCommand, upstreamCheckStatus: "passed" };
+  for (const [patch, expected] of [
+    [null, "This plugin is no longer listed in the marketplace"],
+    [{ repo: "https://github.com/other/weather" }, "The listing now points to a different repository"],
+    [{ upstreamCheckStatus: "failed" }, "The latest marketplace compatibility check failed"],
+    [{ upstreamCheckStatus: "unreachable" }, "The marketplace could not reach the repository"],
+    [{ status: "retired" }, "The marketplace has retired this plugin"],
+    [{ installAvailable: false }, "The marketplace no longer provides an install command"],
+    [{ sourceType: "builtin" }, "This plugin is now included with Omarchy"],
+    [{ upstreamCheckStatus: undefined }, "The marketplace has not reported a current check"]
+  ]) {
+    const availability = availabilityFor(rankings, { stateSchemaVersion: 2, generatedAt: "2026-10-29T05:00:00Z", plugins: patch ? [{ ...plugin, ...patch }] : [] },
+      { now: new Date("2026-10-29T06:00:00Z"), minimumCatalogSize: 0 });
+    const current = withAvailability(rankings, availability);
+    const html = renderFixtureType(current.types[0], current);
+    assert.ok(html.includes(expected), availability.plugins.forecast.reason);
+    assert.ok(!html.includes(` ${availability.plugins.forecast.reason}. `));
+  }
+  const unknown = withAvailability(rankings, observation(rankings, { forecast: { status: "unknown", reason: "new-internal-code", checkedAt: "2026-10-29T05:00:00Z" } }));
+  const html = renderFixtureType(unknown.types[0], unknown);
+  assert.match(html, /No additional availability details are available/);
+  assert.doesNotMatch(html, /new-internal-code/);
 });
 
 test("mismatched, absent or malformed observations cannot masquerade as current passed checks", () => {

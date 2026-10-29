@@ -381,7 +381,7 @@ test("rejected plugin URLs stay as inert in-page hashes", () => {
 
 test("production render emits the offline site, SEO files, RSS, and immutable badges", async () => {
   const rankings = JSON.parse(await readFile(new URL("../data/rankings.json", import.meta.url), "utf8"));
-  const modern = rankings.methodologyVersion === "1.3.0";
+  const modern = snapshotMethodology(rankings).eligibility.repositoryEvidence === true;
   const result = await render();
   assert.equal(result.typeCount, rankings.types.length);
   const pickType = rankings.types.find((type) => type.id === "weather" && type.winner) ?? rankings.types.find((type) => type.winner) ?? rankings.types[0];

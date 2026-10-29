@@ -191,7 +191,7 @@ function percentLabel(fraction) {
 
 // Explanations describe the methodology the snapshot was calculated with, never newer code.
 function reviewedPresentation(method) {
-  return method?.version === "1.3.0";
+  return method?.eligibility.repositoryEvidence === true;
 }
 
 function pickLabels(method) {
@@ -695,12 +695,27 @@ function evidenceSourceLink(source, label = "Capability evidence") {
   return outboundLink(url, label);
 }
 
+const AVAILABILITY_REASONS = Object.freeze({
+  "missing-from-catalog": "This plugin is no longer listed in the marketplace",
+  "repository-changed": "The listing now points to a different repository",
+  "compatibility-failed": "The latest marketplace compatibility check failed",
+  "repository-unreachable": "The marketplace could not reach the repository",
+  retired: "The marketplace has retired this plugin",
+  "not-installable": "The marketplace no longer provides an install command",
+  "built-in": "This plugin is now included with Omarchy",
+  "check-unavailable": "The marketplace has not reported a current check",
+  "invalid-repository": "The listing no longer has a valid HTTPS repository",
+  "invalid-id": "The listing has an invalid plugin ID",
+  "missing-observation": "No current observation is available for this weekly snapshot"
+});
+
 function availabilityNote(candidate) {
   const observation = candidate.availability;
   if (!observation) return "";
   const state = observation.status === "available" ? "Marketplace check passed" : observation.status === "unavailable" ? "Currently unavailable" : "Current availability unknown";
+  const reason = observation.reason ? AVAILABILITY_REASONS[observation.reason] ?? "No additional availability details are available" : null;
   return `<p class="availability-note" data-availability="${escapeHtml(observation.status)}"><strong>${state}.</strong>
-    ${observation.reason ? `${escapeHtml(observation.reason)}. ` : ""}${observation.checkedAt ? `Checked ${escapeHtml(dateLabel(observation.checkedAt) ?? observation.checkedAt)}.` : "No successful current observation."}
+    ${reason ? `${escapeHtml(reason)}. ` : ""}${observation.checkedAt ? `Checked ${escapeHtml(dateLabel(observation.checkedAt) ?? observation.checkedAt)}.` : "No successful current observation."}
     Weekly selection is unchanged.</p>`;
 }
 
@@ -1370,7 +1385,7 @@ export function withAvailability(rankings, availability) {
       const observation = valid ? availability.plugins[candidate.id] : null;
       candidate.availability = observation && ["available", "unavailable", "unknown"].includes(observation.status) && Number.isFinite(Date.parse(observation.checkedAt))
         ? structuredClone(observation)
-        : { status: "unknown", reason: "No current observation for this weekly snapshot", checkedAt: null };
+        : { status: "unknown", reason: "missing-observation", checkedAt: null };
     }
   }
   return projected;
@@ -1379,7 +1394,7 @@ export function withAvailability(rankings, availability) {
 function currentAvailabilityNotice(rankings) {
   if (!reviewedPresentation(snapshotMethodology(rankings))) return "";
   const at = rankings.currentAvailability?.generatedAt;
-  return `<p class="availability-summary">${at ? `Current availability observed <time datetime="${escapeHtml(at)}">${escapeHtml(at)}</time><span data-availability-at="${escapeHtml(at)}"></span>.` : "Current availability has not been observed for this snapshot."} Availability observations are separate from the dated weekly ranking.</p>`;
+  return `<p class="availability-summary">${at ? `Current availability observed <time datetime="${escapeHtml(at)}">${escapeHtml(dateLabel(at) ?? at)}</time><span data-availability-at="${escapeHtml(at)}"></span>.` : "Current availability has not been observed for this snapshot."} Availability observations are separate from the dated weekly ranking.</p>`;
 }
 
 export async function render({ root = ROOT } = {}) {

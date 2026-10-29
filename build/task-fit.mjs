@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { observationCurrent, pinnedSource, repositoryKey, reviewSources, validateProfiles } from "./evidence.mjs";
+import { snapshotMethodology } from "./methodology.mjs";
 
 export const TASK_REVIEW_SCHEMA_VERSION = 2;
 export const taskMetadataHash = (plugin) => createHash("sha256")
@@ -79,6 +80,7 @@ export function explainTaskFit(plugin, type, reviews) {
 }
 
 export function assertTaskQualifiedSnapshot(snapshot) {
+  const { eligibility } = snapshotMethodology(snapshot);
   for (const type of snapshot.types) {
     validateTaskContracts([{ id: type.id, contract: type.taskContract }]);
     for (const candidate of [type.winner, type.runnerUp, ...(type.alternatives ?? [])].filter(Boolean)) {
@@ -86,13 +88,13 @@ export function assertTaskQualifiedSnapshot(snapshot) {
       assert(fit?.qualified && fit.status === "qualified" && ["core", "substantial-secondary"].includes(fit.role), `Unqualified recommendation: ${type.id}/${candidate.id}`);
       assert(fit.contractVersion === type.taskContract.version && meetsContract(fit, { contract: type.taskContract }), `Recommendation does not meet contract: ${type.id}/${candidate.id}`);
       assert(fit.metadataHash === taskMetadataHash({ name: candidate.name, description: candidate.description, repo: candidate.repository }), `Recommendation metadata changed: ${type.id}/${candidate.id}`);
-      if (snapshot.methodologyVersion === "1.3.0") {
+      if (eligibility.repositoryEvidence) {
         assert(fit.provenance === "repository-evidence" && fit.requirementsStatus === "reviewed" && Array.isArray(fit.pluginRequirements) && Array.isArray(fit.profileSources) && fit.profileSources.length, `Missing reviewed requirements: ${candidate.id}`);
         validateProfiles({ schemaVersion: 1, plugins: { [candidate.id]: { requirementsStatus: fit.requirementsStatus, requirements: fit.pluginRequirements, sources: fit.profileSources, reviewedAt: fit.profileReviewedAt } } });
         assert(Date.parse(fit.reviewedAt) <= Date.parse(snapshot.generatedAt) && Date.parse(fit.profileReviewedAt) <= Date.parse(snapshot.generatedAt) && fit.lastValidatedAt === fit.evidenceObservation?.checkedAt, `Invalid recommendation dates: ${candidate.id}`);
         const sources = [...reviewSources(fit), ...fit.profileSources];
         assert(sources.every((s) => pinnedSource(s, candidate.repository)), `Unpinned recommendation evidence: ${candidate.id}`);
-        assert(repositoryKey(fit.reviewedRepository) === repositoryKey(candidate.repository) && observationCurrent(fit.evidenceObservation, { repo: candidate.repository, upstreamObservedCommit: candidate.upstreamObservedCommit }, sources, new Date(snapshot.generatedAt)), `Invalid recommendation observation: ${candidate.id}`);
+        assert(repositoryKey(fit.reviewedRepository) === repositoryKey(candidate.repository) && observationCurrent(fit.evidenceObservation, { repo: candidate.repository, upstreamObservedCommit: candidate.upstreamObservedCommit }, sources, new Date(snapshot.generatedAt), eligibility.sourceMaxAgeDays), `Invalid recommendation observation: ${candidate.id}`);
       }
       prepareTaskReviews({ schemaVersion: TASK_REVIEW_SCHEMA_VERSION, assignments: [{ ...fit, pluginId: candidate.id, typeId: type.id, decision: "qualified" }] }, [{ ...type, contract: type.taskContract }]);
     }

@@ -1,5 +1,6 @@
 import { Resvg } from "@resvg/resvg-js";
 import { fileURLToPath } from "node:url";
+import { methodologyFor } from "./methodology.mjs";
 
 const fontFile = fileURLToPath(new URL("./fonts/LiberationMono-Regular.ttf", import.meta.url));
 const escape = (value) => String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;")
@@ -22,7 +23,7 @@ function lines(value, width, limit) {
 }
 
 export function socialSvg(type, week, { methodologyVersion } = {}) {
-  const reviewed = methodologyVersion === "1.3.0";
+  const reviewed = methodologyFor(methodologyVersion).eligibility.repositoryEvidence === true;
   const text = (value, x, y, size, color) => `<text x="${x}" y="${y}" font-size="${size}" fill="${color}">${escape(value)}</text>`;
   const title = lines(type.name, 26, 2);
   const pick = (label, name, y) => text(label, 66, y, 18, "#8bd5ca") +

@@ -1,5 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { renderFixtureType, withAvailability } from "../build/render.mjs";
+import { availabilityFor } from "../build/availability.mjs";
+import { snapshotMethodology } from "../build/methodology.mjs";
 
 // Rankings change every Monday and search also covers champion and runner-up names, so
 // expectations come from the rendered page and its snapshot rather than hard-coded counts.
@@ -19,7 +21,7 @@ test("RSS navigation opens the HTML feed and keeps the XML subscription link", a
   await page.goto("/");
   await page.getByRole("navigation", { name: "Primary navigation" }).getByRole("link", { name: "RSS" }).click();
   await expect(page).toHaveURL(/\/feed\/$/);
-  await expect(page.getByRole("heading", { name: snapshot.methodologyVersion === "1.3.0" ? "Weekly selection changes" : "Weekly champion changes" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: snapshotMethodology(snapshot).eligibility.repositoryEvidence ? "Weekly selection changes" : "Weekly champion changes" })).toBeVisible();
   await expect(page.getByRole("navigation", { name: "Primary navigation" }).getByRole("link", { name: "RSS", exact: true })).toHaveAttribute("aria-current", "page");
   const firstEntry = page.locator(".feed-entries article").first().getByRole("link");
   await expect(firstEntry).toHaveAttribute("href", /^\/picks\//);
@@ -223,8 +225,9 @@ test("reviewed evidence opens by keyboard and unavailable selections stay readab
   };
   const rankings = { methodologyVersion: "1.3.0", week: "2026-W44", generatedAt: "2026-10-26T06:00:00Z",
     types: [{ id: "weather", name: "Weather", description: "Current conditions and forecasts", eligibleCount: 1, pendingCount: 6, winner, runnerUp: null }] };
-  const current = withAvailability(rankings, { schemaVersion: 1, rankingsGeneratedAt: rankings.generatedAt, generatedAt: "2026-10-28T06:00:00Z",
-    plugins: { forecast: { status: "unavailable", reason: "Repository could not be reached", checkedAt: "2026-10-28T06:00:00Z" } } });
+  const current = withAvailability(rankings, availabilityFor(rankings, { stateSchemaVersion: 2, generatedAt: "2026-10-28T05:00:00Z",
+    plugins: [{ id: winner.id, repo: winner.repository, installAvailable: true, installCommand: winner.installCommand, upstreamCheckStatus: "unreachable" }] },
+    { now: new Date("2026-10-28T06:00:00Z"), minimumCatalogSize: 0 }));
   await page.route("**/reviewed-fixture/", (route) => route.fulfill({ contentType: "text/html", body: renderFixtureType(current.types[0], current) }));
   await page.clock.install({ time: new Date("2026-10-30T06:00:00Z") });
   for (const width of [320, 768, 1440]) {
@@ -233,8 +236,11 @@ test("reviewed evidence opens by keyboard and unavailable selections stay readab
     const card = page.locator(".pick-card.champion");
     await expect(card).toContainText("01 Leading reviewed option");
     await expect(card).toContainText("Currently unavailable");
+    await expect(card).toContainText("The marketplace could not reach the repository");
     await expect(card.locator('[data-copy-label="install command"]')).toHaveCount(0);
     await expect(page.locator(".availability-summary")).toContainText("2 days ago");
+    await expect(page.locator(".availability-summary time")).toHaveText("October 28, 2026");
+    await expect(page.locator(".availability-summary time")).toHaveAttribute("datetime", "2026-10-28T06:00:00.000Z");
     const evidence = card.locator(".capability-evidence");
     await expect(evidence.locator("blockquote")).toBeHidden();
     await evidence.locator("summary").focus();
