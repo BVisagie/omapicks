@@ -291,6 +291,7 @@ function publicCandidate(plugin, metrics, score, normalized, contributions, now,
     author: String(plugin.author || ""),
     category: String(plugin.category || ""),
     repository: plugin.repo,
+    upstreamObservedCommit: plugin.upstreamObservedCommit ?? null,
     detailUrl: `https://plugins.omarchy.org/plugin.html?id=${encodeURIComponent(plugin.id)}`,
     installCommand: plugin.installCommand.trim(),
     verificationStatus: String(plugin.verificationStatus || "unverified"),
@@ -436,14 +437,14 @@ function builtInRef(plugin) {
 // `methodology` defaults to the current rules; offline comparisons pass alternatives. `detail`
 // additionally returns every scored cohort for research reports; snapshots never contain it.
 // `newListingsBaseline` is the latest snapshot from an earlier ISO week ({ week, generatedAt }).
-export function rankPlugins({ catalog, stats, taxonomy, taskReviews = { schemaVersion: 1, assignments: [] }, classificationVersion = CLASSIFICATION_VERSION, previous = null, previousReviewQueue = null, now = new Date(), source = null, methodology = METHODOLOGY, detail = false, newListingsBaseline = null }) {
+export function rankPlugins({ catalog, stats, taxonomy, taskReviews = { schemaVersion: 1, assignments: [] }, pluginProfiles = { schemaVersion: 1, plugins: {} }, evidenceObservations = { schemaVersion: 1, plugins: {} }, classificationVersion = CLASSIFICATION_VERSION, previous = null, previousReviewQueue = null, now = new Date(), source = null, methodology = METHODOLOGY, detail = false, newListingsBaseline = null }) {
   assert(Array.isArray(catalog), "Catalog must be an array");
   assert(stats && typeof stats === "object" && !Array.isArray(stats), "Stats must be an object");
   assert(now instanceof Date && Number.isFinite(now.getTime()), "now must be a valid Date");
   const prepared = prepareTaxonomy(taxonomy);
   const reviewed = methodology.eligibility.reviewedTaskEvidence === true;
   if (reviewed) validateTaskContracts(prepared.types);
-  const reviews = reviewed ? prepareTaskReviews(taskReviews, prepared.types) : null;
+  const reviews = reviewed ? prepareTaskReviews(taskReviews, prepared.types, { methodology, pluginProfiles, evidenceObservations, now }) : null;
   const fits = new Map();
   const reviewQueue = [];
   const cohorts = new Map(prepared.types.map((type) => [type.id, []]));
@@ -497,10 +498,10 @@ export function rankPlugins({ catalog, stats, taxonomy, taskReviews = { schemaVe
       const research = scoreCohort(members.filter((plugin) => !["related", "rejected"].includes(fits.get(`${plugin.id}/${type.id}`).status)), stats, now, methodology);
       for (const candidate of research) {
         const fit = fits.get(`${candidate.id}/${type.id}`);
-        if (fit.status === "qualified" || fit.status === "rejected" || fit.status === "related") continue;
+        if ((fit.status === "qualified" && fit.evidenceStatus !== "metadata-reconciliation") || fit.status === "rejected" || fit.status === "related") continue;
         const prior = previousByType.get(type.id);
         reviewQueue.push({ pluginId: candidate.id, name: candidate.name, repository: candidate.repository, description: candidate.description,
-          typeId: type.id, typeName: type.name, status: fit.status, reason: fit.reason, prospectiveScore: candidate.score,
+          typeId: type.id, typeName: type.name, status: fit.evidenceStatus === "metadata-reconciliation" ? "metadata-reconciliation" : fit.status, reason: fit.evidenceStatus === "metadata-reconciliation" ? "Listing metadata changed; reviewed repository evidence remains unchanged. Reconcile the description without inferring a lost capability." : fit.reason, prospectiveScore: candidate.score,
           contractVersion: type.contract.version, metadataHash: taskMetadataHash(members.find((p) => p.id === candidate.id)),
           previousPick: [prior?.winner?.id, prior?.runnerUp?.id].includes(candidate.id),
           wouldEnterPodium: research.slice(0, 2).some((p) => p.id === candidate.id),
@@ -551,7 +552,7 @@ export function rankPlugins({ catalog, stats, taxonomy, taskReviews = { schemaVe
         const held = prepared.overrides.review[plugin.id]?.includes(type.id);
         if (fits.has(key) || prepared.overrides.exclude[plugin.id]?.includes(type.id) || (!held && !reviews.has(key))) continue;
         const fit = explainTaskFit(plugin, type, reviews);
-        if (!held && !fit.status.startsWith("stale-")) continue;
+        if (!held && !fit.status.startsWith("stale-") && !["pending-source", "pending-requirements", "source-unavailable"].includes(fit.status)) continue;
         const prior = previousByType.get(type.id);
         reviewQueue.push({ pluginId: plugin.id, name: plugin.name, repository: plugin.repo, description: plugin.description,
           typeId: type.id, typeName: type.name, status: held ? "held" : fit.status,

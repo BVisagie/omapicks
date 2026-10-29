@@ -61,12 +61,24 @@ const DEFINITIONS = [
     installRate: { minimumViews: 20, z: 1.96 },
     eligibility: { upstreamHealth: true, reviewedTaskEvidence: true },
     weights: { copies: 0.36, hearts: 0.2, stars: 0.18, views: 0.03, installRateLowerBound: 0.05, freshness: 0.13, verified: 0.05 }
+  },
+  {
+    version: "1.3.0",
+    hysteresis: 0,
+    priorStrength: 12,
+    evidence: { viewWeight: 0.05, viewCap: 50 },
+    normalization: { percentileShare: 0.7, scaleQuantile: 0.95 },
+    freshness: { halfLifeDays: 180, shippingBonus: null },
+    verification: { rule: "coverage", updateUnverifiedCredit: 0.6 },
+    installRate: { minimumViews: 20, z: 1.96 },
+    eligibility: { upstreamHealth: true, reviewedTaskEvidence: true, repositoryEvidence: true, sourceMaxAgeDays: 8 },
+    weights: { copies: 0.36, hearts: 0.2, stars: 0.18, views: 0.03, installRateLowerBound: 0.05, freshness: 0.13, verified: 0.05 }
   }
 ];
 
 const REGISTRY = new Map(DEFINITIONS.map((definition) => [definition.version, deepFreeze(definition)]));
 
-export const CURRENT_METHODOLOGY_VERSION = "1.2.0";
+export const CURRENT_METHODOLOGY_VERSION = "1.3.0";
 
 export function methodologyVersions() {
   return [...REGISTRY.keys()];

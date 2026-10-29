@@ -392,8 +392,9 @@ test("discovery captures durable former-pick history and replays it without read
   const fetchImpl = async (url) => new Response(JSON.stringify(url.includes("/stats") ? { schemaVersion: 1, plugins: stats }
     : url.includes("explorer-data") ? {} : { plugins: feed }));
   const live = await run({ root, now: laterDate, summaryFile: null, fetchImpl, output: path.join(root, "live") });
-  assert.equal(live.taskReviewQueue[0].previousPick, true);
-  assert.equal(live.taskReviewQueue[0].firstSeenAt, firstDate.toISOString());
+  const formerEntry = live.taskReviewQueue.find((entry) => entry.pluginId === former.id);
+  assert.equal(formerEntry.previousPick, true);
+  assert.equal(formerEntry.firstSeenAt, firstDate.toISOString());
   const inputs = JSON.parse(await readFile(path.join(root, "live/inputs.json")));
   assert.deepEqual(inputs.previousReviewQueue, previousReviewQueue);
   await rm(path.join(root, "data"), { recursive: true });

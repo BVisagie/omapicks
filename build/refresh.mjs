@@ -8,6 +8,8 @@ import { LEGACY_METHODOLOGY_VERSION, methodologyFor } from "./methodology.mjs";
 import { auditClassifications, renderClassificationAudit } from "./classification-audit.mjs";
 import { assertTaskQualifiedSnapshot, taskReviewsHash, updateTaskReviewQueue } from "./task-fit.mjs";
 
+import { captureEvidence, evidenceHash } from "./evidence.mjs";
+
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CATALOG_URL = "https://plugins.omarchy.org/catalog.json";
 const STATS_URL = "https://api.omarchyplugins.com/v1/stats";
@@ -126,6 +128,8 @@ export function replayChanges(inputs) {
     stats: inputs.stats.body.plugins,
     taxonomy: inputs.taxonomy,
     taskReviews: inputs.taskReviews,
+    pluginProfiles: inputs.pluginProfiles,
+    evidenceObservations: inputs.evidenceObservations,
     classificationVersion: inputs.classificationVersion ?? 2,
     previous: inputs.previous,
     previousReviewQueue: inputs.previousReviewQueue,
@@ -552,12 +556,15 @@ export async function refresh({
   const previous = await readJson(rankingsFile, null);
   const taxonomy = await readJson(taxonomyFile);
   const taskReviews = await readJson(path.join(root, "data", "task-reviews.json"), { schemaVersion: 1, assignments: [] });
+  const pluginProfiles = await readJson(path.join(root, "data", "plugin-profiles.json"), { schemaVersion: 1, plugins: {} });
+  const profilesSha = evidenceHash(pluginProfiles);
   const reviewsSha = taskReviewsHash(taskReviews);
   const taxonomySha = checksum(taxonomy);
   const week = isoWeek(now);
   const publishedMethodologyVersion = previous?.week ? previous.methodologyVersion ?? LEGACY_METHODOLOGY_VERSION : null;
   if (!dryRun && !republish && previous?.week === week && previous.source?.taxonomy?.sha256 === taxonomySha && previous.source?.taxonomy?.classificationVersion === CLASSIFICATION_VERSION &&
-      (!methodology.eligibility.reviewedTaskEvidence || previous.source?.taskReviews?.sha256 === reviewsSha)) {
+      (!methodology.eligibility.reviewedTaskEvidence || previous.source?.taskReviews?.sha256 === reviewsSha) &&
+      (!methodology.eligibility.repositoryEvidence || previous.source?.pluginProfiles?.sha256 === profilesSha)) {
     return {
       changed: false,
       week,
@@ -574,6 +581,9 @@ export async function refresh({
   ]);
   validateFeeds(catalogResult.body, statsResult.body, minimumCatalogSize, previous);
 
+  const evidenceObservations = methodology.eligibility.repositoryEvidence
+    ? await captureEvidence({ catalog: catalogResult.body.plugins, taskReviews, pluginProfiles, now, fetchImpl })
+    : { schemaVersion: 1, plugins: {} };
   const source = {
     catalog: {
       url: CATALOG_URL,
@@ -601,20 +611,24 @@ export async function refresh({
       typeCount: Array.isArray(taxonomy?.types) ? taxonomy.types.length : 0
     },
     ...(methodology.eligibility.reviewedTaskEvidence ? { taskReviews: { sha256: reviewsSha, schemaVersion: taskReviews.schemaVersion, count: taskReviews.assignments.length } } : {}),
+    ...(methodology.eligibility.repositoryEvidence ? { pluginProfiles: { sha256: profilesSha, schemaVersion: pluginProfiles.schemaVersion }, evidenceObservations: { sha256: evidenceHash(evidenceObservations), generatedAt: evidenceObservations.generatedAt } } : {}),
     registry: registrySource(registry)
   };
 
   const previousState = await readJson(path.join(root, "data", "classification-state.json"), null);
   const previousReviewQueue = await readJson(path.join(root, "data", "task-review-queue.json"), null);
-  const auditInputs = { schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, methodologyVersion: methodology.version, codeRevision: revision, now: now.toISOString(), catalog: catalogResult, stats: statsResult, registry, taxonomy, ...(methodology.eligibility.reviewedTaskEvidence ? { taskReviews, previousReviewQueue } : {}), previous, previousState };
+  const auditInputs = { schemaVersion: 1, classificationVersion: CLASSIFICATION_VERSION, methodologyVersion: methodology.version, codeRevision: revision, now: now.toISOString(), catalog: catalogResult, stats: statsResult, registry, taxonomy, ...(methodology.eligibility.reviewedTaskEvidence ? { taskReviews, previousReviewQueue } : {}), ...(methodology.eligibility.repositoryEvidence ? { pluginProfiles, evidenceObservations } : {}), previous, previousState };
   // Retain the evidence even if a malformed contract or review blocks publication.
   const output = path.join(root, "tmp", "classification-audit");
   await writeJsonAtomic(path.join(output, "inputs.json"), auditInputs);
+  if (methodology.eligibility.repositoryEvidence && evidenceObservations.attempted > 0 && evidenceObservations.completed < Math.ceil(evidenceObservations.attempted * 0.75)) throw new Error("Source observation coverage fell below 75%; publication stopped. Replay inputs retain the failed observations.");
   const { rankings, report, decisions, exclusions, typeIdsById, taskStatusByAssignment } = rankPlugins({
     catalog: catalogResult.body.plugins,
     stats: statsResult.body.plugins,
     taxonomy,
     taskReviews,
+    pluginProfiles,
+    evidenceObservations,
     methodology,
     previous,
     previousReviewQueue,
@@ -631,9 +645,9 @@ export async function refresh({
   const runnerUpChanges = runnerUpChangesBetween(previous, rankings, context);
   const weeklyRunnerUpChanges = weekChangeLog(previous, week, existingHistory, runnerUpChanges, "runnerUpChanges");
   const previousReport = await readJson(path.join(root, "data", "unclassified-report.json"), null);
-  const classificationAudit = auditClassifications({ catalog: catalogResult.body.plugins, stats: statsResult.body.plugins, taxonomy, taskReviews, previous, previousState, previousReviewQueue, now, methodology });
+  const classificationAudit = auditClassifications({ catalog: catalogResult.body.plugins, stats: statsResult.body.plugins, taxonomy, taskReviews, pluginProfiles, evidenceObservations, previous, previousState, previousReviewQueue, now, methodology });
   classificationAudit.inputsHash = checksum(auditInputs);
-  const reviewQueue = { ...updateTaskReviewQueue(classificationAudit.reviewQueue ?? [], previousReviewQueue, now.toISOString()), taxonomyHash: taxonomySha, taskReviewsHash: reviewsSha };
+  const reviewQueue = { ...updateTaskReviewQueue(classificationAudit.reviewQueue ?? [], previousReviewQueue, now.toISOString()), taxonomyHash: taxonomySha, taskReviewsHash: reviewsSha, ...(methodology.eligibility.repositoryEvidence ? { pluginProfilesHash: profilesSha, evidenceObservationsHash: evidenceHash(evidenceObservations) } : {}) };
   const summary = {
     changed: true,
     week,
