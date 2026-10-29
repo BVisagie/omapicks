@@ -54,6 +54,8 @@ try {
 function applyMotion() {
   const enabled = !reducedMotion.matches && motionPreference === "on";
   root.dataset.motion = enabled ? "on" : "off";
+  // Cancelling an entrance must reveal everything immediately, without replaying later.
+  if (!enabled) delete root.dataset.entrance;
   if (!motionButton) return;
   motionButton.hidden = false;
   motionButton.disabled = reducedMotion.matches;
@@ -75,6 +77,32 @@ motionButton?.addEventListener("click", () => {
     // Keep the selected motion setting for this page even without storage.
   }
 });
+
+const hero = document.querySelector(".hero");
+const heroArt = document.querySelector(".hero-art");
+if (hero && root.dataset.motion === "on") {
+  root.dataset.entrance = "on";
+  hero.addEventListener("animationend", (event) => {
+    if (event.animationName === "orbital-enter" && event.target.matches(".hero-actions")) {
+      delete root.dataset.entrance;
+    }
+  });
+}
+
+// Observe one decorative region, not the catalog. No scroll/pointer handlers or frame loop.
+// Browsers without IntersectionObserver retain the static artwork.
+if (heroArt && "IntersectionObserver" in window) {
+  let inView = false;
+  const updateHeroActivity = () => {
+    heroArt.dataset.active = String(inView && !document.hidden);
+  };
+  const observer = new IntersectionObserver(([entry]) => {
+    inView = entry.isIntersecting;
+    updateHeroActivity();
+  });
+  observer.observe(heroArt);
+  document.addEventListener("visibilitychange", updateHeroActivity);
+}
 
 const filter = document.querySelector("[data-pick-filter]");
 const catalogRows = [...document.querySelectorAll("[data-catalog-row]")];

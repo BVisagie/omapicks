@@ -110,3 +110,71 @@ test("theme and motion controls remain functional when storage is denied", async
   await expect(page.locator('html')).toHaveAttribute("data-theme", before === "dark" ? "light" : "dark");
   expect(errors).toEqual([]);
 });
+
+test("decorative motion pauses offscreen and in background tabs without replaying the entrance", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  const art = page.locator('.hero-art');
+  const orbit = page.locator('.orbit-track');
+  await expect(art).toHaveAttribute('data-active', 'true');
+  await expect.poll(() => orbit.evaluate(el => getComputedStyle(el).animationPlayState)).toBe('running');
+  await expect.poll(() => page.locator('html').getAttribute('data-entrance')).toBeNull();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveCSS('opacity', '1');
+
+  await page.locator('#catalog-heading').scrollIntoViewIfNeeded();
+  await expect(art).toHaveAttribute('data-active', 'false');
+  await expect.poll(() => orbit.evaluate(el => getComputedStyle(el).animationPlayState)).toBe('paused');
+  await art.scrollIntoViewIfNeeded();
+  await expect(art).toHaveAttribute('data-active', 'true');
+
+  // Deterministically exercise Page Visibility events even in headless test runners.
+  await page.evaluate(() => {
+    Object.defineProperty(document, 'hidden', { configurable: true, value: true });
+    document.dispatchEvent(new Event('visibilitychange'));
+  });
+  await expect(art).toHaveAttribute('data-active', 'false');
+  await expect(orbit).toHaveCSS('animation-play-state', 'paused');
+  await page.evaluate(() => {
+    delete document.hidden;
+    document.dispatchEvent(new Event('visibilitychange'));
+  });
+  await expect(art).toHaveAttribute('data-active', 'true');
+  await page.locator('[data-motion-toggle]').click();
+  await page.locator('[data-motion-toggle]').click();
+  await expect(page.locator('html')).not.toHaveAttribute('data-entrance');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveCSS('animation-name', 'none');
+});
+
+test("motion opt-out removes spatial hover effects and reduced motion cancels loops", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  await page.locator('[data-motion-toggle]').click();
+  const card = page.locator('[data-catalog-row]').first();
+  await card.hover();
+  await expect(card).toHaveCSS('transform', 'none');
+  await expect(card.locator('img')).toHaveCSS('transform', 'none');
+  await card.focus();
+  // Enter keyboard modality; programmatic focus after a pointer click is not :focus-visible.
+  await page.keyboard.press('Tab');
+  await page.keyboard.press('Shift+Tab');
+  await expect(card).toBeFocused();
+  await expect(card).toHaveCSS('outline-style', 'solid');
+  await page.locator('[data-motion-toggle]').click();
+  await card.hover();
+  await expect.poll(() => card.evaluate(el => getComputedStyle(el).transform)).not.toBe('none');
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(card).toHaveCSS('transform', 'none');
+  await expect(card.locator('img')).toHaveCSS('transform', 'none');
+  for (const selector of ['.orbit-track', '.orbital-tag-top', '.orbital-tag-bottom']) {
+    await expect(page.locator(selector)).toHaveCSS('animation-name', 'none');
+  }
+});
+
+test("missing visibility observer leaves artwork static and discovery functional", async ({ page }) => {
+  await page.addInitScript(() => { delete window.IntersectionObserver; });
+  await page.goto("/");
+  await expect(page.locator('.orbit-track')).toHaveCSS('animation-play-state', 'paused');
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  await page.getByRole('searchbox').fill('clipboard');
+  await expect(page.locator('[data-finder-item]:visible a').first()).toBeVisible();
+});

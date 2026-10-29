@@ -28,6 +28,8 @@ To explore a local build, run `npm run build` followed by `python -m http.server
 
 The Orbital interface includes visual category previews, task collection filters, and keyboard discovery: `/` or Ctrl/⌘+K focuses search, ↓ focuses the first match, Enter opens it, and Escape clears the search while preserving the selected collection. Reset filters clears both. Light/dark and motion preferences are stored locally; the system reduced-motion preference always takes precedence. Category links, evidence, and starter collections remain usable without JavaScript.
 
+Motion is deliberately limited: a brief homepage entrance, slowly floating orbital labels, and small hover/focus/press responses. One IntersectionObserver pauses decorative loops when the artwork leaves view, and tab visibility pauses them in the background. Motion off removes spatial effects while preserving focus and selection feedback. No animation library, scroll listener, pointer tracking, or per-card observer is needed.
+
 ## Ranking method
 
 Plugins must be installable and point to an HTTPS repository. Failed or unreachable marketplace checks exclude a listing immediately; built-ins never rank. Category patterns discover research leads. A recommendation additionally needs a source-backed decision in `data/task-reviews.json` satisfying the category's versioned minimum capabilities. Native core and substantial secondary capabilities qualify equally; limited integrations appear as related tools. Missing or changed evidence awaits review and cannot compete. Cards explain task fit, requirements and source evidence. See [classification and review](docs/classification.md) and the [methodology 1.2.0 decision record](docs/methodology-1.2.0.md). A ranking is not an endorsement or safety review.
