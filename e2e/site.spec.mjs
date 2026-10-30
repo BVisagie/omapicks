@@ -297,17 +297,17 @@ test("the radar and headline decode are enhancements that leave the content inta
   await expect(page.locator("[data-radar-pick]")).not.toHaveText("—");
   // The sweep runs while motion is allowed, freezes when the preference changes, and resumes.
   const capture = () => page.locator("[data-radar] canvas").evaluate((canvas) => canvas.toDataURL());
+  // Polled rather than sampled at a fixed interval: a loaded CI runner can take longer than a
+  // frame or two to paint the next sweep position.
+  const changesFrom = (frame) => expect.poll(async () => (await capture()) !== frame, { timeout: 5000 }).toBe(true);
   await page.mouse.move(5, 5);
-  const moving = [await capture(), await page.waitForTimeout(250).then(capture)];
-  expect(moving[0]).not.toBe(moving[1]);
+  await changesFrom(await capture());
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.waitForTimeout(150);
-  const frozen = [await capture(), await page.waitForTimeout(250).then(capture)];
+  await page.waitForTimeout(300);
+  const frozen = [await capture(), await page.waitForTimeout(400).then(capture)];
   expect(frozen[0]).toBe(frozen[1]);
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.waitForTimeout(150);
-  const resumed = [await capture(), await page.waitForTimeout(250).then(capture)];
-  expect(resumed[0]).not.toBe(resumed[1]);
+  await changesFrom(await capture());
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(heading, { timeout: 3000 });
   expect(await page.locator(".hero h1 .decode").count()).toBe(0);
   const context = await browser.newContext({ javaScriptEnabled: false });
