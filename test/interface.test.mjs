@@ -129,23 +129,84 @@ test("glass cards keep their lit edge, badges are opaque and the radar does not 
   assert.match(block(".media .badge .status"), /background:\s*var\(--bg\);/);
 });
 
-test("card grids never size a flexible track from its content", () => {
+// Splits at top-level separators only, so the commas and spaces inside minmax(), repeat(), calc()
+// or :not() stay with their token.
+function splitTopLevel(source, separator) {
+  const parts = [];
+  let depth = 0;
+  let current = "";
+  for (const char of source) {
+    if (char === "(") depth += 1;
+    else if (char === ")") depth -= 1;
+    if (depth === 0 && separator.test(char)) {
+      if (current.trim()) parts.push(current.trim());
+      current = "";
+    } else {
+      current += char;
+    }
+  }
+  if (current.trim()) parts.push(current.trim());
+  return parts;
+}
+
+// The minimum of every column track, with repeat() expanded and line names skipped. A bare fr
+// track has an auto minimum.
+function trackMinimums(columns) {
+  return splitTopLevel(columns.replace(/!important/i, ""), /\s/).filter((track) => !track.startsWith("[")).flatMap((track) => {
+    const call = track.match(/^([a-z-]+)\((.*)\)$/is);
+    const name = call?.[1].toLowerCase();
+    if (name === "repeat") return trackMinimums(splitTopLevel(call[2], /,/).slice(1).join(" "));
+    if (name === "minmax") return [splitTopLevel(call[2], /,/)[0]];
+    return [/fr$/i.test(track) ? "auto" : track];
+  });
+}
+
+// A minimum that never depends on content: zero, a length or percentage, or a math function of them.
+function fixedMinimum(value) {
+  return /^(0|[\d.]+(px|r?em|ch|ex|vw|vh|vmin|vmax|%))$/i.test(value)
+    || (/^(calc|min|max|clamp)\(/i.test(value) && !/auto|content/i.test(value));
+}
+
+// The simple selectors of a selector's subject: the compound after its last combinator, with
+// anything in parentheses dropped, so `.podium:not(:where(:has(.scoreboard)))` yields .podium.
+function subjectParts(selector) {
+  let flat = selector;
+  while (/\([^()]*\)/.test(flat)) flat = flat.replace(/\([^()]*\)/g, "");
+  return flat.trim().split(/\s*[\s>+~]\s*/).pop().split(/(?=[.#:[])/);
+}
+
+test("card grids never size a column track from its content", () => {
   // Safari and WebKitGTK size a card's 16:10 media well from its last height plus its margins. A
   // bare 1fr track (an auto minimum) fed that size back, so the featured card widened on every
   // layout pass and iOS zoomed the page out without end. Playwright's WebKit build does not
-  // reproduce it, so the stylesheet is checked directly: every fr track has a fixed minimum,
-  // minmax(0, …) or a length, never a bare fr or an auto/min-content/max-content minimum.
+  // reproduce it, so the stylesheet is checked directly: every track minimum is a fixed length.
+  for (const columns of ["1fr", "auto", "repeat(2, 1fr)", "minmax( auto, 1fr)", "MINMAX(AUTO,1FR)", "minmax(min-content , 1fr)", "fit-content(20rem)"]) {
+    assert.equal(trackMinimums(columns).every(fixedMinimum), false, columns);
+  }
+  for (const columns of ["minmax(0, 1fr)", "repeat(2, minmax(0, 1fr))", "minmax(0, 1fr) minmax(13rem, 0.5fr) minmax(0, 1fr)",
+    "minmax(calc(1rem + 1px), 1fr)", "repeat(auto-fit, minmax(min(100%, 24rem), 1fr))"]) {
+    assert.equal(trackMinimums(columns).every(fixedMinimum), true, columns);
+  }
+  assert.deepEqual(subjectParts(".podium:not(:where(:has(.scoreboard)))"), [".podium", ":not"]);
+  assert.deepEqual(subjectParts(".first-champions div"), ["div"]);
+
   const cardGrids = [".showdown-pair", ".supporting", ".podium", ".first-champions"];
-  const fixedMinimum = /minmax\(\s*(?!auto|min-content|max-content)[^,()]+,\s*[^)]+\)/g;
   const declared = new Set();
+  const checked = [];
   for (const [, prelude, body] of styles.replace(/\/\*[\s\S]*?\*\//g, "").matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
-    const columns = body.match(/grid-template-columns:\s*([^;]+);/)?.[1];
-    const grids = prelude.split(",").map((selector) => selector.trim()).filter((selector) => cardGrids.includes(selector));
-    if (!columns || !grids.length) continue;
-    for (const grid of grids) declared.add(grid);
-    assert.doesNotMatch(columns.replace(fixedMinimum, ""), /\dfr/, `${prelude.trim()}: ${columns}`);
+    const selectors = splitTopLevel(prelude, /,/).filter((selector) => cardGrids.some((grid) => subjectParts(selector).includes(grid)));
+    const declarations = [...body.matchAll(/grid-template-columns:\s*([^;]+);/g)].map(([, columns]) => columns.trim());
+    if (!selectors.length || !declarations.length) continue;
+    for (const selector of selectors) {
+      checked.push(selector);
+      for (const grid of cardGrids) if (subjectParts(selector).includes(grid)) declared.add(grid);
+    }
+    for (const columns of declarations) {
+      assert.ok(trackMinimums(columns).every(fixedMinimum), `${selectors.join(", ")}: ${columns}`);
+    }
   }
   assert.deepEqual([...declared].sort(), [...cardGrids].sort());
+  assert.ok(checked.includes(".podium:not(:where(:has(.scoreboard)))"), "qualified selectors are checked");
 });
 
 test("contrast-probed tokens stay opaque in both themes", () => {
