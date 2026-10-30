@@ -220,7 +220,11 @@ test("the palette makes the rest of the page inert and tall sections still revea
     await page.locator("#catalog").scrollIntoViewIfNeeded();
     await expect(page.locator(".readout-panel")).toHaveClass(/is-in/);
     await expect(page.locator(".readout-panel")).toHaveCSS("opacity", "1");
+    // Narrow catalog cells wrap instead of ellipsizing the availability note.
+    await expect(page.locator(".catalog-row .champ").first()).toHaveCSS("white-space", "normal");
   }
+  // Status badges sit on preview images, so their background must be opaque.
+  expect(await page.locator(".support .badge .status").first().evaluate((node) => getComputedStyle(node).backgroundColor)).toMatch(/^rgb\(/);
   // Status badges on pick tiles must stay in the accessibility tree (not inside an aria-hidden media wrapper).
   expect(await page.locator(".support .badge .status").first().evaluate((node) => Boolean(node.closest("[aria-hidden='true']")))).toBe(false);
   expect(await page.locator(".support .badge .status").first().textContent()).toMatch(/Snapshot verified|Verified snapshot; update unverified|Community|Currently unavailable|Availability unknown/);
@@ -243,7 +247,22 @@ test("reduced motion shows every section in its final state without waiting for 
   for (const layer of [".aurora", ".grain"]) {
     expect(await page.locator(layer).first().evaluate((node) => getComputedStyle(node).display), layer).toBe("none");
   }
+  // Hover animations collapse to a single instant frame as well.
+  const row = page.locator(".catalog-row").first();
+  await row.scrollIntoViewIfNeeded();
+  await row.hover();
+  const durations = await row.evaluate((node) => [getComputedStyle(node).animationDuration, getComputedStyle(node, "::before").animationDuration]);
+  for (const duration of durations) expect(parseFloat(duration)).toBeLessThan(0.001);
   await context.close();
+});
+
+test("print uses paper and ink without translucent tiles", async ({ page }) => {
+  await page.goto("/");
+  await page.emulateMedia({ media: "print" });
+  expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe("rgb(255, 255, 255)");
+  expect(await page.evaluate(() => getComputedStyle(document.body).color)).toBe("rgb(17, 17, 17)");
+  expect(await page.locator(".glass").first().evaluate((node) => getComputedStyle(node).backdropFilter)).toBe("none");
+  expect(await page.locator(".atmosphere").evaluate((node) => getComputedStyle(node).display)).toBe("none");
 });
 
 test("the compare pill sits below the tile metadata and never covers it on hover", async ({ page }) => {
@@ -405,7 +424,7 @@ for (const theme of ["dark", "light"]) {
     page.on("response", (response) => { if (response.status() >= 400) problems.push(`${response.status()} ${response.url()}`); });
     for (const width of [320, 390, 768, 1024, 1440]) {
       await page.setViewportSize({ width, height: 900 });
-      for (const route of ["/", "/picks/clipboard/", "/picks/network/", "/methodology/", "/changelog/", "/feed/"]) {
+      for (const route of ["/", "/picks/clipboard/", "/picks/network/", "/picks/file-sync/", "/picks/notifications/", "/methodology/", "/changelog/", "/feed/"]) {
         await page.goto(route);
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${route} at ${width}px`).toBe(true);
       }

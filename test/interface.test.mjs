@@ -122,6 +122,13 @@ test("the atmosphere paints above the opaque body background", () => {
   assert.match(block(".atmosphere"), /z-index:\s*-1;/);
 });
 
+test("glass cards keep their lit edge, badges are opaque and the radar does not block scrolling", () => {
+  // The cursor-lit edge is a ::before at inset -1px; overflow: hidden on the card would clip it.
+  for (const selector of [".card", ".pick-card"]) assert.doesNotMatch(block(selector), /overflow:\s*hidden/, selector);
+  assert.doesNotMatch(block(".radar"), /touch-action/);
+  assert.match(block(".media .badge .status"), /background:\s*var\(--bg\);/);
+});
+
 test("contrast-probed tokens stay opaque in both themes", () => {
   // e2e reads --muted against --bg, --surface and --well as solid colours; translucent values
   // would be parsed as their first three channels and report a false contrast.

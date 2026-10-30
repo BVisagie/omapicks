@@ -383,7 +383,9 @@ kbd {
   top: 0;
   z-index: 30;
   border-bottom: 1px solid var(--line);
-  /* 92% keeps --muted nav links at AA over any content scrolling beneath the bar. */
+  /* Solid first for engines without color-mix(); 92% keeps --muted nav links at AA over any
+     content scrolling beneath the bar. */
+  background: var(--bg);
   background: color-mix(in srgb, var(--bg) 92%, transparent);
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
@@ -607,7 +609,6 @@ kbd {
   aspect-ratio: 1;
   margin: 0.6rem auto 0;
   cursor: crosshair;
-  touch-action: none;
 }
 
 .radar-readout {
@@ -647,6 +648,7 @@ kbd {
   inset: 0;
   border: 0;
   padding: 0;
+  background: var(--bg);
   background: color-mix(in srgb, var(--bg) 62%, transparent);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -973,10 +975,6 @@ kbd {
   font-size: 0.85rem;
 }
 
-.hero-aside .hero-meta {
-  margin-top: 0;
-}
-
 /* Bento band: Podium's tile system on Signal's glass. 12 columns on desktop, collapsing to a
    3-up stat row, then single tiles, on narrow screens. */
 .bento {
@@ -1198,11 +1196,15 @@ kbd {
 }
 
 /* Cards: glass tiles with a rounded media well inset from the edge. */
+/* min-width: 0 keeps a card at its grid track even when a nowrap command inside is wider; clip
+   with a margin so stray content is cut while the 1px lit edge (::before at inset -1px) paints. */
 .card {
   display: flex;
   flex-direction: column;
+  min-width: 0;
   height: 100%;
-  overflow: hidden;
+  overflow: clip;
+  overflow-clip-margin: 2px;
 }
 
 .card .rank {
@@ -1399,26 +1401,12 @@ kbd {
   display: grid;
   place-items: center;
   overflow: hidden;
-  background: var(--well);
 }
 
 .preview-frame img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.lead {
-  display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(16rem, 0.85fr);
-  gap: 2rem;
-  align-items: center;
-  padding-bottom: 1.8rem;
-  border-bottom: 1px solid var(--line);
-}
-
-.feature-copy h2 {
-  font-size: clamp(2rem, 4vw, 3.1rem);
 }
 
 .feature-copy h2 a,
@@ -1512,9 +1500,8 @@ kbd {
 .media .badge .status {
   padding: 0.25rem 0.65rem;
   border-color: var(--line);
-  background: color-mix(in srgb, var(--bg) 78%, transparent);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  /* Opaque: a scrim over a preview image cannot guarantee contrast for 10px text. */
+  background: var(--bg);
   color: var(--ink);
   font-size: 0.66rem;
   font-weight: 700;
@@ -1731,6 +1718,7 @@ kbd {
 
 .type-intro h1 {
   font-size: clamp(2.6rem, 6vw, 4.6rem);
+  overflow-wrap: anywhere;
 }
 
 .type-intro-copy {
@@ -1766,8 +1754,10 @@ kbd {
 .pick-card {
   display: flex;
   flex-direction: column;
+  min-width: 0;
   height: 100%;
-  overflow: hidden;
+  overflow: clip;
+  overflow-clip-margin: 2px;
 }
 
 .pick-card.empty {
@@ -2778,17 +2768,12 @@ footer p a {
   }
 
   .podium {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .category-grid,
   .first-champions {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-
-  .podium {
-    grid-template-columns: 1fr;
   }
 
   .scoreboard {
@@ -2843,6 +2828,7 @@ footer p a {
   }
 
   .hero h1,
+  .type-intro h1,
   .page-section h1 {
     font-size: clamp(2.15rem, 10vw, 3.1rem);
   }
@@ -2892,6 +2878,7 @@ footer p a {
   .catalog-row .champ,
   .catalog-row .runner {
     grid-column: 1 / -1;
+    white-space: normal;
   }
 
   .catalog-row .runner {
@@ -3004,6 +2991,8 @@ footer p a {
   *::after {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 
   .terminal-cursor,
@@ -3152,8 +3141,43 @@ footer p a {
 }
 
 @media print {
-  .atmosphere {
+  /* Paper and ink: browsers drop background graphics by default, so light-on-dark would vanish. */
+  :root,
+  :root[data-theme="dark"],
+  :root[data-theme="light"] {
+    --bg: #ffffff;
+    --bg-2: #f3f3f3;
+    --surface: #ffffff;
+    --surface-2: #f3f3f3;
+    --glass-bg: #ffffff;
+    --ink: #111111;
+    --muted: #444444;
+    --line: rgba(0, 0, 0, 0.25);
+    --line-strong: rgba(0, 0, 0, 0.45);
+    --accent: #0f5a55;
+    --accent-text: #0f5a55;
+    --accent-ink: #ffffff;
+    --glow: transparent;
+    --tile-shadow: none;
+    --tile-shadow-hover: none;
+  }
+
+  .atmosphere,
+  .palette,
+  .finder-trigger,
+  .theme-toggle {
     display: none;
+  }
+
+  .glass,
+  .site-header {
+    background: #ffffff;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .site-header {
+    position: static;
   }
 }
 

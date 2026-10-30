@@ -373,7 +373,7 @@ if (radarPanel && radarCanvas && radarContext && finderItems.length) {
   const css = () => getComputedStyle(root);
   const readColors = () => {
     const style = css();
-    colors = { accent: style.getPropertyValue("--accent").trim(), ink: style.getPropertyValue("--ink").trim(), line: style.getPropertyValue("--line").trim() };
+    colors = { accent: style.getPropertyValue("--accent").trim(), ink: style.getPropertyValue("--ink").trim(), line: style.getPropertyValue("--line").trim(), mono: style.getPropertyValue("--mono") };
   };
   const rgba = (hex, alpha) => {
     const n = parseInt(hex.slice(1), 16);
@@ -427,7 +427,7 @@ if (radarPanel && radarCanvas && radarContext && finderItems.length) {
       ctx.beginPath(); ctx.moveTo(c, c); ctx.lineTo(nearest.x, nearest.y); ctx.stroke();
       ctx.setLineDash([]);
       ctx.fillStyle = colors.ink;
-      ctx.font = `600 11px ${css().getPropertyValue("--mono")}`;
+      ctx.font = `600 11px ${colors.mono}`;
       ctx.textAlign = nearest.x > c ? "right" : "left";
       ctx.fillText(nearest.name.toLowerCase(), nearest.x + (nearest.x > c ? -12 : 12), nearest.y + 4);
     }
