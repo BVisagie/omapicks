@@ -2942,11 +2942,13 @@ footer p a {
     gap: 0.25rem;
   }
 
+  /* minmax(0, …), not 1fr: Safari and WebKitGTK size a card's 16:10 media well from its last
+     height plus its margins, so an auto track minimum widened the card on every layout pass. */
   .supporting,
   .showdown-pair,
   .podium,
   .first-champions {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .catalog-header {

@@ -129,6 +129,25 @@ test("glass cards keep their lit edge, badges are opaque and the radar does not 
   assert.match(block(".media .badge .status"), /background:\s*var\(--bg\);/);
 });
 
+test("card grids never size a flexible track from its content", () => {
+  // Safari and WebKitGTK size a card's 16:10 media well from its last height plus its margins. A
+  // bare 1fr track (an auto minimum) fed that size back, so the featured card widened on every
+  // layout pass and iOS zoomed the page out without end. Playwright's WebKit build does not
+  // reproduce it, so the stylesheet is checked directly: every fr track has a fixed minimum,
+  // minmax(0, …) or a length, never a bare fr or an auto/min-content/max-content minimum.
+  const cardGrids = [".showdown-pair", ".supporting", ".podium", ".first-champions"];
+  const fixedMinimum = /minmax\(\s*(?!auto|min-content|max-content)[^,()]+,\s*[^)]+\)/g;
+  const declared = new Set();
+  for (const [, prelude, body] of styles.replace(/\/\*[\s\S]*?\*\//g, "").matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+    const columns = body.match(/grid-template-columns:\s*([^;]+);/)?.[1];
+    const grids = prelude.split(",").map((selector) => selector.trim()).filter((selector) => cardGrids.includes(selector));
+    if (!columns || !grids.length) continue;
+    for (const grid of grids) declared.add(grid);
+    assert.doesNotMatch(columns.replace(fixedMinimum, ""), /\dfr/, `${prelude.trim()}: ${columns}`);
+  }
+  assert.deepEqual([...declared].sort(), [...cardGrids].sort());
+});
+
 test("contrast-probed tokens stay opaque in both themes", () => {
   // e2e reads --muted against --bg, --surface and --well as solid colours; translucent values
   // would be parsed as their first three channels and report a false contrast.
