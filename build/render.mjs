@@ -7,6 +7,7 @@ import { METHODOLOGY, changesBetween, removalSentence, scoreLeader, snapshotMeth
 import { assertTaskQualifiedSnapshot } from "./task-fit.mjs";
 import { renderSocialImage } from "./social.mjs";
 import { migrationsForSnapshot } from "./category-migrations.mjs";
+import { historyPublications, publicationAnchor } from "./publication-history.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DIST = path.join(ROOT, "dist");
@@ -813,16 +814,22 @@ function taskFitNote(candidate, method) {
     `<p class="task-fit-source">${outboundLink(fit.source.url, "Capability evidence")} · Reviewed ${escapeHtml(fit.reviewedAt)}</p>`}</div>`;
 }
 
-function moreTaskChoices(type, method) {
+function moreTaskChoices(type, method, rankings) {
   const alternatives = type.alternatives ?? [];
   const related = type.relatedTools ?? [];
   if (!alternatives.length && !related.length) return "";
+  const siblingLinks = (candidate) => {
+    if (!method.eligibility.taskCoherence) return "";
+    const tasks = (rankings?.types ?? []).filter((other) => other.id !== type.id &&
+      [other.winner, other.runnerUp, ...(other.alternatives ?? [])].some((pick) => pick?.id === candidate.id && pick.taskFit?.qualified));
+    return tasks.length ? `<p>Reviewed for: ${tasks.map((task) => `<a href="/picks/${encodeURIComponent(task.id)}/">${escapeHtml(task.name)}</a>`).join(", ")}.</p>` : "";
+  };
   return `<section class="task-alternatives" aria-labelledby="task-alternatives-heading">
     <h2 id="task-alternatives-heading">${alternatives.length ? "More choices for this task" : "Related tools"}</h2>
     ${alternatives.length ? `<ul>${alternatives.map((candidate) => `<li><h3>${outboundLink(candidate.detailUrl, escapeHtml(candidate.name))}</h3>${taskFitNote(candidate, method)}${availabilityNote(candidate)}</li>`).join("")}</ul>` : ""}
-    ${related.length ? `<h3>Related tools with a narrower scope</h3><ul>${related.map((candidate) => `<li><strong>${outboundLink(candidate.detailUrl, escapeHtml(candidate.name))}</strong>${reviewedPresentation(method) ? taskFitNote(candidate, method) : `<p>${escapeHtml(candidate.taskFit.reason)}</p>
+    ${related.length ? `${alternatives.length ? "<h3>Related tools with a narrower scope</h3>" : ""}<ul>${related.map((candidate) => `<li><strong>${outboundLink(candidate.detailUrl, escapeHtml(candidate.name))}</strong>${reviewedPresentation(method) ? taskFitNote(candidate, method) : `<p>${escapeHtml(candidate.taskFit.reason)}</p>
       ${candidate.taskFit.constraints.length ? `<p>${candidate.taskFit.constraints.map(escapeHtml).join(" ")}</p>` : ""}
-      <p class="task-fit-source">${outboundLink(candidate.taskFit.source.url, "Capability evidence")}</p>`}</li>`).join("")}</ul>` : ""}
+      <p class="task-fit-source">${outboundLink(candidate.taskFit.source.url, "Capability evidence")}</p>`}${siblingLinks(candidate)}</li>`).join("")}</ul>` : ""}
   </section>`;
 }
 
@@ -1022,7 +1029,8 @@ function weeklySummary(rankings, history) {
     <p class="kicker">${escapeHtml(rankings.week ?? "Latest snapshot")}</p>
     <h2 id="weekly-summary-heading">What changed this week</h2>
     <p class="summary">${summary}</p>
-    ${(rankings.categoryChanges ?? current?.categoryChanges ?? []).length ? '<p class="category-update-note">Category tasks were clarified in this publication. <a href="/changelog/">Read the category corrections</a> before comparing selections across snapshots.</p>' : ""}
+    ${publicationBaselineNote(rankings.publicationBaseline)}
+    ${(rankings.categoryChanges ?? current?.categoryChanges ?? []).length ? '<p class="category-update-note">Category boundaries or descriptions were updated in this publication. <a href="/changelog/">Read the category corrections</a> before comparing selections across snapshots.</p>' : ""}
     ${count ? `<ol class="changes">${changes.slice(0, 3).map((change, index) => `<li><span class="n">${String(index + 1).padStart(2, "0")}</span><span><a href="/picks/${encodeURIComponent(change.typeId)}/">${escapeHtml(change.typeName)}</a>: ${change.current ? `<b>${escapeHtml(change.current.name)}</b> <em>${change.reason === "task-definition-changed" ? "is selected under the updated task definition" : change.previous ? `replaces ${escapeHtml(change.previous.name)}` : modern ? "is the first leading reviewed option" : "is the first champion"}.</em>` : `<em>${modern ? "has no leading reviewed option" : "the champion spot is vacant"}${change.reason === "task-definition-changed" ? " under the updated task definition" : ""}.</em>`}</span></li>`).join("")}</ol>` : ""}
     ${newListingsNote(rankings)}
     <p class="tile-foot"><span>Snapshot ${escapeHtml(dateLabel(rankings.generatedAt) ?? rankings.week ?? "pending")}</span><span><a href="/changelog/">See all weekly changes</a> · <a href="/feed/">Subscribe with RSS</a></span></p>
@@ -1227,9 +1235,9 @@ function typePage(type, rankings) {
       ${modern && !type.runnerUp ? "" : candidateCard(type.runnerUp, "runner-up", type, rankings.week, { method, generatedAt: rankings.generatedAt })}
     </div>`}
     ${modern && type.winner && !type.runnerUp ? '<p class="shortlist-note">One option currently qualifies for this task. Additional options appear after they meet the same task requirements.</p>' : ""}
-    ${modern ? moreTaskChoices(type, method) : ""}
+    ${modern ? moreTaskChoices(type, method, rankings) : ""}
     ${scoreComparison(type, method, rankings.week)}
-    ${modern ? "" : moreTaskChoices(type, method)}
+    ${modern ? "" : moreTaskChoices(type, method, rankings)}
     <aside class="method-note reveal">
       <h2>How we pick</h2>
       <p>${escapeHtml(methodologyCopy(method).note)} <a href="/methodology/">Full scoring notes</a></p>
@@ -1335,12 +1343,16 @@ function methodologyPage(rankings) {
 }
 
 function historyChanges(history) {
-  return history
+  return historyPublications(history)
     .slice()
-    .sort((a, b) => String(b.week).localeCompare(String(a.week)))
+    .sort((a, b) => String(b.week).localeCompare(String(a.week)) || String(b.generatedAt).localeCompare(String(a.generatedAt)))
     .map((snapshot) => ({
       week: snapshot.week,
       generatedAt: snapshot.generatedAt,
+      methodologyVersion: snapshotMethodology(snapshot).version,
+      anchor: publicationAnchor(snapshot),
+      superseded: Boolean(snapshot.superseded),
+      publicationBaseline: snapshot.publicationBaseline,
       modern: reviewedPresentation(snapshotMethodology(snapshot)),
       taskCoherence: Boolean(snapshotMethodology(snapshot).eligibility.taskCoherence),
       changes: snapshot.changes ?? [],
@@ -1348,6 +1360,11 @@ function historyChanges(history) {
       // Snapshots before runner-up events were persisted have none recorded, not "no changes".
       runnerUpChanges: snapshot.runnerUpChanges ?? []
     }));
+}
+
+function publicationBaselineNote(baseline) {
+  if (!baseline) return "";
+  return `<p class="publication-baseline">This event set compares with the <a href="/changelog/#${publicationAnchor(baseline)}">${escapeHtml(baseline.week)} publication from ${escapeHtml(dateLabel(baseline.generatedAt) ?? baseline.generatedAt)}</a> (methodology ${escapeHtml(baseline.methodologyVersion)}).</p>`;
 }
 
 function privacyPage() {
@@ -1430,9 +1447,11 @@ function changelogPage(history) {
         weeks.length
           ? weeks
               .map(
-                (entry) => `<section class="glass reveal">
+                (entry) => `<section class="glass reveal" id="${entry.anchor}">
                   <h2>${weekLabel(entry.week, entry.generatedAt)}</h2>
-                  ${entry.categoryChanges.length ? `<section class="category-corrections"><h3 class="timeline-subhead">Category corrections</h3><p>Task boundaries or descriptions were updated in this publication. Each entry distinguishes changed requirements from wording clarifications.</p><ul class="change-list">${entry.categoryChanges.map((change) => `<li><strong>${escapeHtml(change.from.name)}</strong>: ${change.retired ? "separated into" : change.kind === "split" ? "now distinguishes" : "clarified as"} ${change.to.map((type) => `<a href="/picks/${encodeURIComponent(type.id)}/">${escapeHtml(type.name)}</a>`).join(", ")}. ${escapeHtml(change.reason)}</li>`).join("")}</ul></section>` : ""}
+                  <p class="publication-label">${entry.superseded ? "Superseded publication" : "Published snapshot"} · ${escapeHtml(dateLabel(entry.generatedAt) ?? entry.generatedAt ?? entry.week)} · methodology ${escapeHtml(entry.methodologyVersion)}${entry.superseded ? ". These events retain the judgments recorded at that publication; they do not describe current qualification." : ""}</p>
+                  ${publicationBaselineNote(entry.publicationBaseline)}
+                  ${entry.categoryChanges.length ? `<section class="category-corrections"><h3 class="timeline-subhead">Category corrections</h3><p>Task boundaries or descriptions were updated in this publication. Each entry distinguishes changed requirements from wording clarifications.</p><ul class="change-list">${entry.categoryChanges.map((change) => `<li><strong>${escapeHtml(change.from.name)}</strong>: ${change.kind === "split" ? `${change.retired ? "separated into" : "now distinguishes"} ${change.to.map((type) => `<a href="/picks/${encodeURIComponent(type.id)}/">${escapeHtml(type.name)}</a>`).join(", ")}` : change.kind === "clarified" ? "description clarified" : "minimum requirements updated"}. ${escapeHtml(change.reason)}</li>`).join("")}</ul></section>` : ""}
                   ${changeList(entry)}
                   ${runnerUpList(entry)}
                 </section>`
@@ -1500,56 +1519,46 @@ async function readHistory() {
 
 function feedEntries(history) {
   return historyChanges(history)
-    .flatMap((snapshot) => [
-      ...snapshot.categoryChanges.map((change) => ({
-        categoryChange: change,
-        week: snapshot.week,
-        modern: snapshot.modern,
-        generatedAt: snapshot.generatedAt
-      })),
-      ...snapshot.changes.map((change) => ({
-        ...change,
-        week: snapshot.week,
-        modern: snapshot.modern,
-        generatedAt: snapshot.generatedAt
-      })),
-      ...(snapshot.taskCoherence ? snapshot.runnerUpChanges.map((change) => ({
-        ...change,
-        slot: "runner-up",
-        week: snapshot.week,
-        modern: snapshot.modern,
-        generatedAt: snapshot.generatedAt
-      })) : [])
-    ])
+    .flatMap((snapshot) => {
+      const context = { week: snapshot.week, modern: snapshot.modern, generatedAt: snapshot.generatedAt,
+        methodologyVersion: snapshot.methodologyVersion, superseded: snapshot.superseded, anchor: snapshot.anchor };
+      return [
+        ...(snapshot.categoryChanges.length ? [{ ...context, categoryChanges: snapshot.categoryChanges }] : []),
+        ...snapshot.changes.map((change) => ({ ...change, ...context })),
+        ...(snapshot.taskCoherence ? snapshot.runnerUpChanges.map((change) => ({ ...change, ...context, slot: "runner-up" })) : [])
+      ];
+    })
     .slice(0, 100)
     .map((entry) => {
       const date = new Date(entry.generatedAt ?? NaN);
       const dated = !Number.isNaN(date.getTime());
       const label = entry.slot === "runner-up" ? "second reviewed option" : entry.modern ? "leading reviewed option" : "champion";
-      if (entry.categoryChange) {
-        const change = entry.categoryChange;
+      if (entry.categoryChanges) {
+        const changes = entry.categoryChanges;
+        const count = (kind) => changes.filter((change) => change.kind === kind).length;
         return {
           modern: entry.modern,
-          title: `${change.from.name}: category tasks updated`,
-          description: `${change.reason} Current tasks: ${change.to.map((type) => type.name).join(", ")}. Earlier snapshots retain their recorded definitions.`,
-          path: `/picks/${encodeURIComponent(change.from.id)}/`,
-          guid: `${entry.week}:category:${change.migrationId ?? "update"}:${change.from.id}`,
+          title: changes.length === 1 ? `${changes[0].from.name}: category tasks updated` : `Task categories updated: methodology ${entry.methodologyVersion}`,
+          description: changes.length === 1 ? changes[0].reason
+            : `${changes.length} category updates: ${count("split")} splits, ${count("narrowed")} minimum-requirement changes and ${count("clarified")} wording clarifications. Affected categories: ${changes.map((change) => change.from.name).join(", ")}. The publication history records every decision and preserves earlier definitions.`,
+          path: `/changelog/#${entry.anchor}`,
+          guid: `${entry.week}:categories:${entry.methodologyVersion}`,
           publishedAt: dated ? date.toISOString() : "",
           published: dated ? date.toUTCString() : ""
         };
       }
       return {
         modern: entry.modern,
-        title: entry.current
+        title: (entry.current
           ? `${entry.current.name} is the ${entry.typeName} ${label}`
-          : `${entry.typeName} ${label} spot is vacant`,
-        description: entry.reason === "task-definition-changed"
+          : `${entry.typeName} ${label} spot is vacant`) + (entry.superseded ? " (superseded publication)" : ""),
+        description: (entry.superseded ? `Recorded at the superseded ${dateLabel(entry.generatedAt) ?? entry.week} publication under methodology ${entry.methodologyVersion}. ` : "") + (entry.reason === "task-definition-changed"
           ? `${entry.current ? `${entry.current.name} is selected${entry.slot === "runner-up" ? " as the second reviewed option" : ""}` : `No ${label} is selected`} under the updated ${entry.typeName} task definition. This publication corrects the category comparison.`
           : !entry.current
           ? `${entry.typeName} has no ${label} this week.`
           : entry.previous
             ? `${entry.current.name} replaced ${entry.previous.name}.`
-            : `${entry.current.name} became the first ${label}.`,
+            : `${entry.current.name} became the first ${label}.`),
         path: `/picks/${encodeURIComponent(entry.typeId)}/`,
         guid: `${entry.week}:${entry.slot === "runner-up" ? "runner-up:" : ""}${entry.typeId}:${entry.current?.id ?? "vacant"}`,
         publishedAt: dated ? date.toISOString() : "",
@@ -1643,7 +1652,8 @@ export async function render({ root = ROOT } = {}) {
     }
   }
   const history = await readHistory();
-  for (const snapshot of history) {
+  const publications = historyPublications(history);
+  for (const snapshot of publications) {
     if (snapshotMethodology(snapshot).eligibility.reviewedTaskEvidence) assertTaskQualifiedSnapshot(snapshot);
   }
   await rm(DIST, { recursive: true, force: true });
@@ -1681,7 +1691,7 @@ export async function render({ root = ROOT } = {}) {
   for (const change of retiredCategories) {
     await write(`picks/${encodeURIComponent(change.from.id)}/index.html`, categoryBridgePage(change, currentRankings));
   }
-  for (const snapshot of history) {
+  for (const snapshot of publications) {
     for (const type of snapshot.types ?? []) {
       if (!type.winner) continue;
       await write(

@@ -190,10 +190,17 @@ test("publication records a task correction once and retains it across same-week
   assert.deepEqual(replayChanges(migrated.auditInputs).categoryChanges, migrated.categoryChanges);
   // The leading identity need not change for a category definition to be corrected.
   assert.equal(migrated.rankings.types[0].winner.id, first.rankings.types[0].winner.id);
+  const migratedHistory = JSON.parse(await readFile(path.join(root, `data/history/${migrated.week}.json`)));
+  assert.equal(migratedHistory.supersededPublications.length, 1);
+  assert.equal(migratedHistory.supersededPublications[0].methodologyVersion, "1.3.0");
+  assert.equal(migratedHistory.supersededPublications[0].generatedAt, first.rankings.generatedAt);
+  assert.equal(migratedHistory.publicationBaseline.methodologyVersion, "1.3.0");
   assert.equal(migrated.computedChanges.length, 0);
   const repeated = await refreshLatest({ root, now, republish: true, minimumCatalogSize: 1, fetchImpl });
   assert.equal(repeated.categoryChanges.length, 0);
   assert.deepEqual(repeated.rankings.categoryChanges, migrated.rankings.categoryChanges);
+  const repeatedHistory = JSON.parse(await readFile(path.join(root, `data/history/${migrated.week}.json`)));
+  assert.deepEqual(repeatedHistory.supersededPublications, migratedHistory.supersededPublications);
   for (const file of ["rankings", "changelog", `history/${migrated.week}`]) {
     const value = JSON.parse(await readFile(path.join(root, `data/${file}.json`), "utf8"));
     assert.deepEqual(value.categoryChanges, migrated.categoryChanges);

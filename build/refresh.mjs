@@ -10,6 +10,7 @@ import { assertTaskQualifiedSnapshot, taskReviewsHash, updateTaskReviewQueue } f
 
 import { captureEvidence, evidenceHash } from "./evidence.mjs";
 import { categoryChangesBetween } from "./category-migrations.mjs";
+import { publicationHistory } from "./publication-history.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CATALOG_URL = "https://plugins.omarchy.org/catalog.json";
@@ -657,7 +658,11 @@ export async function refresh({
   const weeklyRunnerUpChanges = weekChangeLog(previous, rankings, existingHistory, runnerUpChanges, "runnerUpChanges");
   const categoryChanges = categoryChangesBetween(previous, rankings);
   const weeklyCategoryChanges = weekChangeLog(previous, rankings, existingHistory, categoryChanges, "categoryChanges");
-  if (methodology.eligibility.taskCoherence) rankings.categoryChanges = weeklyCategoryChanges;
+  const publications = methodology.eligibility.taskCoherence ? publicationHistory(previous, rankings, existingHistory) : null;
+  if (methodology.eligibility.taskCoherence) {
+    rankings.categoryChanges = weeklyCategoryChanges;
+    rankings.publicationBaseline = publications.publicationBaseline;
+  }
   const previousReport = await readJson(path.join(root, "data", "unclassified-report.json"), null);
   const classificationAudit = auditClassifications({ catalog: catalogResult.body.plugins, stats: statsResult.body.plugins, taxonomy, taskReviews, pluginProfiles, evidenceObservations, previous, previousState, previousReviewQueue, now, methodology });
   classificationAudit.inputsHash = checksum(auditInputs);
@@ -703,7 +708,7 @@ export async function refresh({
     ...withoutLocalImages(rankings),
     changes,
     runnerUpChanges: weeklyRunnerUpChanges,
-    ...(methodology.eligibility.taskCoherence ? { categoryChanges: weeklyCategoryChanges } : {})
+    ...(methodology.eligibility.taskCoherence ? { categoryChanges: weeklyCategoryChanges, supersededPublications: publications.supersededPublications } : {})
   };
   await writeJsonAtomic(historyFile, history);
   await writeJsonAtomic(path.join(root, "data", "changelog.json"), {
@@ -712,7 +717,7 @@ export async function refresh({
     generatedAt: rankings.generatedAt,
     changes,
     runnerUpChanges: weeklyRunnerUpChanges,
-    ...(methodology.eligibility.taskCoherence ? { categoryChanges: weeklyCategoryChanges } : {})
+    ...(methodology.eligibility.taskCoherence ? { categoryChanges: weeklyCategoryChanges, publicationBaseline: publications.publicationBaseline } : {})
   });
   await writeJsonAtomic(path.join(root, "data", "unclassified-report.json"), report);
   await writeJsonAtomic(path.join(root, "data", "classification-state.json"), classificationAudit.state);

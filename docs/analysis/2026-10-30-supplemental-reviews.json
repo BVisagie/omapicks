@@ -54,7 +54,9 @@
       "capabilities": [
         "apply-lock-screen-design"
       ],
-      "scope": [],
+      "scope": [
+        "Replaces the PAM-based password/fingerprint lock screen and exposes Shutdown, Restart and Sleep controls while locked. Its \"Forgot password\" prompt alerts and blanks the screen; it is not password recovery."
+      ],
       "reason": "Replaces the stock lock screen with a configurable date/time layout and additional native lock-screen controls.",
       "sourceClaimSupported": true,
       "completesMinimumTask": true,
@@ -208,6 +210,8 @@
         "resume-idle-policy"
       ],
       "scope": [
+        "Automatic hold triggered by fullscreen windows, detected games or active MPRIS playback. Clicking its indicator toggles automation, not the current hold.",
+        "The documented scope prevents idle locking through the built-in Stay Awake service. This review does not establish whether it also prevents display blanking or every suspend path.",
         "Turning off its automation does not itself clear the current Stay Awake state; manually enabled Stay Awake is preserved."
       ],
       "reason": "Engages Stay Awake while fullscreen windows, detected games or MPRIS playback are active and releases holds it owns after those conditions end.",

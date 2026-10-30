@@ -2784,7 +2784,8 @@
     "bibek.lock": {
       "requirementsStatus": "reviewed",
       "requirements": [
-        "Requires Omarchy Quattro and replaces the built-in omarchy.lock service. Its date/time format is configured in ~/.config/omarchy/lock.json."
+        "Requires Omarchy Quattro and replaces the built-in omarchy.lock service. Its date/time format is configured in ~/.config/omarchy/lock.json.",
+        "Replaces the PAM-based password/fingerprint lock screen and exposes Shutdown, Restart and Sleep controls while locked. Its \"Forgot password\" prompt alerts and blanks the screen; it is not password recovery."
       ],
       "reviewedAt": "2026-10-30",
       "sources": [
@@ -2793,7 +2794,7 @@
           "revision": "68da19058190e4c4edd9365e038d6fa70cbb3a27",
           "path": "README.md",
           "sha256": "5d1919a546b7c055f4b8be7c8aa0a785dae704503597402885605e61919ee436",
-          "evidence": "README.md lines 3-3:\nA custom lock screen service for Omarchy, cloned from the built-in `omarchy.lock`.\n\nREADME.md lines 22-28:\n## Requirements\n\n- Omarchy quattro\n\n## Install\n\nThis is a personal clone of the built-in `omarchy.lock`; on this machine it lives in the shell plugin monorepo and is installed under the id `bibek.lock`. To install from the standalone repo on a fresh system:\n\nREADME.md lines 34-43:\n## Configuration\n\nOptions live in `~/.config/omarchy/lock.json` (watched live, so edits apply instantly):\n\n```json\n{\n  \"timeFormat\": \"hh:mm AP\",\n  \"dateFormat\": \"dddd, MMMM d\"\n}\n```"
+          "evidence": "README.md lines 3-3:\nA custom lock screen service for Omarchy, cloned from the built-in `omarchy.lock`.\n\nREADME.md lines 22-28:\n## Requirements\n\n- Omarchy quattro\n\n## Install\n\nThis is a personal clone of the built-in `omarchy.lock`; on this machine it lives in the shell plugin monorepo and is installed under the id `bibek.lock`. To install from the standalone repo on a fresh system:\n\nREADME.md lines 34-43:\n## Configuration\n\nOptions live in `~/.config/omarchy/lock.json` (watched live, so edits apply instantly):\n\n```json\n{\n  \"timeFormat\": \"hh:mm AP\",\n  \"dateFormat\": \"dddd, MMMM d\"\n}\n```\n\nREADME.md lines 9-20:\nFrom the built-in `omarchy.lock`:\n\n- Password and fingerprint PAM authentication with session lock handling\n\nNew in this clone:\n\n- Big customizable date and time display above the password input field\n- Power action controls at the bottom for Shutdown, Restart, and Sleep\n- Integrated MPRIS media widget showing currently playing track title, artist, and playback controls (previous, play/pause, next)\n- Security prompt for \"Forgot password\" that alerts and blanks the screen\n- Separate password and fingerprint PAM authentication flows\n- Full keyboard navigation across every control"
         }
       ]
     },

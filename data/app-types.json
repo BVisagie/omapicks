@@ -95,7 +95,9 @@
       "name": "Media Controls",
       "description": "View and control playback in a media player on this computer",
       "include": [
-        "\\b(?:mpris|now[- ]playing|media controls?|playback controls?|playerctl)\\b"
+        "\\b(?:mpris|now[- ]playing|media controls?|playback controls?|playerctl)\\b",
+        "\\bmusic controls?\\b",
+        "\\breplaces[^.]{0,40}\\bmedia widget\\b"
       ],
       "exclude": [
         "\\b(?:through|via) (?:omarchy.s |the )?media controls\\b"
@@ -408,7 +410,8 @@
       "description": "Adjust output and microphone volume and select audio devices",
       "include": [
         "\\b(?:audio|sound|volume) (?:mixer|controls?|panel|routing|manager|switcher)\\b",
-        "\\b(?:microphone|input|output)[^.]{0,45}\\b(?:volume|mute|routing|device|source|sink)\\b"
+        "\\b(?:microphone|input|output)[^.]{0,45}\\b(?:volume|mute|routing|device|source|sink)\\b",
+        "\\bvolume slider[^.]{0,60}\\b(?:output picker|mixer)\\b"
       ],
       "exclude": [
         "\\b(audiobook|trading volume|price, volume|volume, velocity)\\b",
@@ -468,7 +471,7 @@
     {
       "id": "night-light",
       "name": "Night Light",
-      "description": "Adjust and schedule computer display color temperature",
+      "description": "Control computer display color temperature for night light",
       "include": [
         "\\b(?:night ?light|blue light|hyprsunset|gammastep|screen temperature)\\b"
       ],
@@ -478,7 +481,7 @@
       "exclusionScope": "clause",
       "contract": {
         "version": 1,
-        "outcome": "Adjust and schedule computer display color temperature",
+        "outcome": "Control computer display color temperature for night light",
         "capabilitySets": [
           [
             "adjust-display-color-temperature"
@@ -488,7 +491,7 @@
           ]
         ]
       },
-      "task": "Adjust and schedule computer display color temperature. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations."
+      "task": "Control computer display color temperature for night light. Native control of the computer display is required. Manual adjustment and automatic scheduling are alternative control modes; each app states which it provides. An incidental mention, preview, transport or status-only integration does not qualify."
     },
     {
       "id": "display-monitors",
@@ -551,7 +554,7 @@
       "name": "Lock Screen Appearance",
       "description": "Apply or customize the interface shown when the session is locked",
       "include": [
-        "\\b(?:lock[- ]screen|screen lock(?:er)?)\\b",
+        "\\b(?:lock[- ]screen|screen lock(?:er)?|session lock)\\b",
         "\\b(?:hyprlock|lock designs?|lock explorer)\\b"
       ],
       "task": "Apply or customize the interface shown when the session is locked. Changing the lock-screen presentation is required. A lock-now action, authentication-only helper or idle timer alone does not qualify.",
@@ -578,7 +581,8 @@
       "description": "Configure automatic inactivity timers and the actions they trigger",
       "include": [
         "\\b(?:idle|screensaver|auto[- ]lock|sleep|suspend)[^.]{0,40}\\b(?:timeouts?|timers?|delays?|settings|profiles?|actions?)\\b",
-        "\\b(?:idle manager|hypridle|lid[- ](?:close|actions?|switch)|sleep[- ]after[- ]idle)\\b"
+        "\\b(?:idle manager|hypridle|lid[- ](?:close|actions?|switch)|sleep[- ]after[- ]idle)\\b",
+        "\\b(?:idle power management|idle[- ](?:settings|configuration)|(?:configure|customize)[^.]{0,30}idle)\\b"
       ],
       "task": "Configure automatic inactivity timers and the actions they trigger. Persistent inactivity timing and action settings are required. Lock-screen appearance, manual sleep buttons and a temporary keep-awake switch alone are separate tasks.",
       "exclusionScope": "clause",
@@ -601,8 +605,9 @@
       "name": "Keep Awake",
       "description": "Temporarily pause automatic inactivity actions and restore the normal policy",
       "include": [
-        "\\b(?:stay awake|keep awake|no sleep|idle inhibit(?:or|ion)?|caffeine)\\b",
-        "\\b(?:prevent|disable|inhibit|pause|suppress)\\w*[^.]{0,30}\\b(?:idle|sleep|screensaver|auto[- ]lock)\\b"
+        "\\b(?:(?:stay(?:s)?|keep(?:s)?)[- ]awake|no[- ]sleep|idle[- ]inhibit(?:or|ion)?|caffeine)\\b",
+        "\\b(?:prevent|disable|inhibit|pause|suppress)\\w*[^.]{0,30}\\b(?:idle|sleep|screensaver|auto[- ]lock)\\b",
+        "\\b(?:keep|hold)[^.]{0,40}\\b(?:screensaver|lock screen|sleep)[^.]{0,15}\\boff\\b"
       ],
       "task": "Temporarily pause automatic inactivity actions and restore the normal policy. A reversible inactivity hold is required. State whether the hold affects display blanking, locking or sleep; it does not imply prevention of every suspend path. Human caffeine intake and permanent timeout settings alone do not qualify.",
       "exclusionScope": "clause",
@@ -666,28 +671,40 @@
     {
       "id": "desktop-clocks",
       "name": "Desktop Clocks",
-      "description": "Display a persistent clock on the desktop",
+      "description": "Display a persistent clock in the bar or on the desktop",
       "include": [
-        "\\b(?:desktop clock|clock widget|wallpaper clock|desktop time|clock overlay)\\b"
+        "\\b(?:(?:desktop|wallpaper|analog|analogue|digital|binary|swiss|bar|calendar|local|pixel|pinned seven-segment)[ -]clocks?|clock widgets?|desktop time|clock overlay|date/time (?:label|pill)|date and time)\\b",
+        "\\b(?:clocks? (?:with|and|in|on|for)|(?:omarchy|stock|community)(?:.s)? (?:bar )?clock|clock/calendar)\\b",
+        "\\b(?:desktop widgets?|wallpapers?|home screen)[^.]{0,70}\\bclock\\b",
+        "\\b(?:overlay|panel|pill|dashboard|shade|nightstand)[^.]{0,70}\\bclock\\b",
+        "\\b(?:sunrise clock|earth clock|clock, calendar|on the clock you)\\b"
       ],
-      "task": "Display a persistent clock on the desktop. A persistent desktop time display is required. Timezone-conversion grids, calendar agenda panels and timer-only widgets do not qualify solely because they show a time.",
+      "task": "Display a persistent clock in the bar or on the desktop. A persistent current-time display in a bar, desktop widget or wallpaper is the shared task; presentation and location are stated per app. A popup-only agenda, lock/saver-only clock, hardware oscillator frequency, fictional stardate or countdown alone does not qualify. A clock for one chosen zone does not establish multi-zone comparison.",
       "exclusionScope": "clause",
       "contract": {
         "version": 2,
-        "outcome": "Display a persistent clock on the desktop",
+        "outcome": "Display a persistent clock in the bar or on the desktop",
         "capabilitySets": [
           [
             "display-desktop-clock"
           ]
         ]
-      }
+      },
+      "nameInclude": [
+        "\\bclocks?\\b"
+      ],
+      "exclude": [
+        "\\b(?:debt clock|stardate|theme clock|game clock|clock speed|clock frequency|audio clock|CPU clock|GPU clock|clock-side|beside the clock|next to the clock)\\b",
+        "\\b(?:CPU|GPU|thermal|temperature|MHz|GHz)[^.]{0,45}\\bclock\\b|\\bclock[^.]{0,35}\\b(?:CPU|GPU|temperature|MHz|GHz)\\b"
+      ]
     },
     {
       "id": "world-clocks",
       "name": "World Clocks & Time Zones",
       "description": "Read multiple time zones and compare the same moment across them",
       "include": [
-        "\\b(?:world clock|time ?zones?|timezone|world time)\\b"
+        "\\b(?:world[- ]clocks?|time[- ]?zones?|world[- ]time)\\b",
+        "\\bclock[^.]{0,90}\\b(?:every location|multiple locations|other cities)\\b"
       ],
       "task": "Read multiple time zones and compare the same moment across them. At least two zones with a comparison view are required. A decorative local clock or a single timezone label alone does not complete the task.",
       "exclusionScope": "clause",
@@ -707,13 +724,14 @@
       "name": "Countdown Timers",
       "description": "Start and run a configurable countdown timer",
       "include": [
-        "\\b(?:countdown|interval timer|pomodoro|focus timer|timer)\\b"
+        "\\b(?:countdowns?|interval timers?|pomodoro|focus timers?|timers?)\\b"
       ],
       "nameInclude": [
         "\\b(?:timers?|alarms?|pomodoro|omodoro|clockwork)\\b"
       ],
       "exclude": [
-        "\\bon a(?: [\\w-]+)? timer\\b"
+        "\\bon a(?: [\\w-]+)? timer\\b",
+        "\\b(?:per-key timers|SolidTime)\\b"
       ],
       "exclusionScope": "clause",
       "contract": {
@@ -851,8 +869,10 @@
       "name": "Window Switching",
       "description": "Find an open window and switch focus to it",
       "include": [
-        "\\b(?:window switch(?:er|ing)?|alt[- ]tab|window overview|switch windows|window search)\\b",
-        "\\bexpos[eé](?:\\s|$|[,:])"
+        "\\b(?:window switch(?:er|ing)?|alt[+ -]?tab|window overview|switch(?:es|ing)? windows|window search|window management|workspace overview)\\b",
+        "\\bexpos[eé](?:\\s|$|[,:])",
+        "\\b(?:live window (?:previews|thumbnails)|windows?[^.]{0,30}click to (?:focus|jump)|focus[^.]{0,25}(?:window|column))\\b",
+        "\\bminimize[^.]{0,50}\\bwindows?[^.]{0,70}\\b(?:chips|previews)\\b"
       ],
       "exclude": [
         "\\bkeyboard layouts?\\b",
@@ -1014,7 +1034,10 @@
       "description": "Inspect running coding agents and focus a local agent session",
       "include": [
         "\\b(?:agent|claude|codex|opencode|hermes|grok)[^.]{0,50}\\b(?:monitor|status|tracking|orchestrator|running|activity)\\b",
-        "\\b(?:agent orchestrator|agent monitor|coding agent status)\\b"
+        "\\b(?:agent orchestrator|agent monitor|coding agent status)\\b",
+        "\\b(?:agent|coding|claude|codex|opencode|hermes|herdr|grok|antigravity)[^.]{0,90}\\b(?:sessions?|threads?|attention|working|waiting|blocked|busy|tool executions?)\\b",
+        "\\b(?:live|busy|working|waiting|blocked)[ -](?:coding[- ]?)?(?:agents?|claude|codex|herdr|hermes)\\b",
+        "\\b(?:sessions?|tool executions?)[^.]{0,90}\\b(?:hermes|claude|codex|herdr|antigravity)\\b"
       ],
       "task": "Inspect running coding agents and focus a local agent session. Live agent activity and a native action to focus a local running session are required. Reading archived conversations and remote read-only dashboards are different scopes.",
       "exclusionScope": "clause",
@@ -1027,7 +1050,11 @@
             "focus-running-agent"
           ]
         ]
-      }
+      },
+      "exclude": [
+        "\\b(?:browse previous sessions|archived conversations?|saved conversation history)\\b",
+        "\\b(?:session limits|usage rings)\\b"
+      ]
     },
     {
       "id": "agent-history",
@@ -1055,7 +1082,10 @@
       "name": "AI Chat",
       "description": "Ask conversational questions and receive AI responses",
       "include": [
-        "\\b(?:ai chat|chat (?:panel|sidebar|assistant)|llm chat|ollama chat|voice assistant|conversational ai|chatgpt|jarvis)\\b"
+        "\\b(?:ai chat|chat (?:panel|sidebar|assistant)|llm chat|ollama chat|voice assistant|conversational ai|chatgpt|jarvis)\\b",
+        "\\b(?:chat|conversation)[^.]{0,70}\\b(?:llm|agents?|ai|assistant|claude|hermes|openrouter)\\b",
+        "\\b(?:ai|llm|agent|hermes|claude)[^.]{0,65}\\b(?:chat|conversation|answers?|responses)\\b",
+        "\\bai assistant\\b"
       ],
       "exclude": [
         "\\b(?:usage monitor|quota monitor|ollama cloud usage)\\b"
@@ -1474,7 +1504,10 @@
       "description": "Inspect health checks for user-configured endpoints or services",
       "include": [
         "\\b(?:uptime|health checks?|endpoint monitor|service monitor|http monitor|uptime kuma|omakuma)\\b",
-        "\\b(?:monitor|check|probe)\\w*[^.]{0,40}\\b(?:endpoints?|services?|servers?|websites?|http|tcp)\\b"
+        "\\b(?:monitor|check|probe)\\w*[^.]{0,40}\\b(?:endpoints?|services?|servers?|websites?|http|tcp)\\b",
+        "\\b(?:watch|monitor|check|probe)(?:es|s|ing)?[^.]{0,40}\\b(?:sites?|endpoints?|services?|servers?|websites?|http|tcp)\\b",
+        "\\b(?:instances?|services?|endpoints?)[^.]{0,70}\\b(?:reachable|reachability|health endpoint)\\b",
+        "/health endpoint\\b"
       ],
       "task": "Inspect health checks for user-configured endpoints or services. Checks must target endpoints selected by the user, locally or through a configured monitoring backend. Provider-published status and incident feeds alone are a different task.",
       "exclusionScope": "clause",
@@ -1822,7 +1855,8 @@
         "themes-appearance",
         "wallpaper",
         "idle-sleep",
-        "night-light"
+        "night-light",
+        "lock-screen"
       ],
       "io.github.jeremylanger.omaspotify": [
         "music-players"
@@ -2127,7 +2161,8 @@
         "themes-appearance": "README documents theme previews, switching, scheduled theme shuffle and appearance controls. Source: https://github.com/Deunnis/omarchy-lacquer (reviewed 2026-09-21).",
         "wallpaper": "README Theme & wallpaper section documents browsing and applying installed theme wallpapers. Source: https://github.com/Deunnis/omarchy-lacquer (reviewed 2026-09-21).",
         "night-light": "README Desktop section documents nightlight configuration and scheduling through hyprsunset. Source: https://github.com/Deunnis/omarchy-lacquer (reviewed 2026-09-21).",
-        "idle-sleep": "README Screens section documents native screensaver and lock idle timing controls, plus lock-explorer integration. Source: https://github.com/Deunnis/omarchy-lacquer (reviewed 2026-09-21)."
+        "idle-sleep": "README Screens section documents native screensaver and lock idle timing controls, plus lock-explorer integration. Source: https://github.com/Deunnis/omarchy-lacquer (reviewed 2026-09-21).",
+        "lock-screen": "README Screens and lockscreen-color sections document lock-screen presentation controls. Keep as a separate research lead; the stale idle review does not qualify this task. Source: https://github.com/Deunnis/omarchy-lacquer (discovery reviewed 2026-10-30)."
       },
       "io.github.jeremylanger.omaspotify": {
         "music-players": "README documents a complete Spotify music client with library and playback controls: https://github.com/jeremylanger/omaspotify (reviewed 2026-10-12)."

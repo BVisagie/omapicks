@@ -43,6 +43,7 @@ test("popular specialist features cannot displace the complete common task", () 
     ["notes", "io.github.huligabuliga.omasticky", "luca.obsidian-daily"],
     ["containers", "io.github.majkelll.omarchy-docker", "io.github.randazraik.xray"],
     ["containers", "io.github.majkelll.omarchy-docker", "devgtv.docker"],
+    ["timers-alarms", "io.github.pjgeutjens.clockwork", "pnkm0nk.omodoro"],
     ["firewall", "io.github.sahzudin.omawall", "io.github.chris.snitch"]
   ];
   for (const [typeId, complete, specialist] of counterexamples) {

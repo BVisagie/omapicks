@@ -780,7 +780,7 @@ test("lock screens, idle configuration and temporary inhibition stay separate in
       name: "LockSigil",
       description: "Quickshell session lock with separate password and fingerprint PAM flows."
     }),
-    []
+    ["lock-screen"]
   );
   assert.deepEqual(typesOf({
     id: "custom-lock-designs",

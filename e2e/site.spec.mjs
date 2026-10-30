@@ -25,7 +25,8 @@ test("RSS navigation opens the HTML feed and keeps the XML subscription link", a
   await expect(page.getByRole("heading", { name: snapshotMethodology(snapshot).eligibility.repositoryEvidence ? "Weekly selection changes" : "Weekly champion changes" })).toBeVisible();
   await expect(page.getByRole("navigation", { name: "Primary navigation" }).getByRole("link", { name: "RSS", exact: true })).toHaveAttribute("aria-current", "page");
   const firstEntry = page.locator(".feed-entries article").first().getByRole("link");
-  await expect(firstEntry).toHaveAttribute("href", /^\/picks\//);
+  await expect(firstEntry).toHaveAttribute("href", /^\/(?:picks\/|changelog\/#publication-)/);
+  const target = new URL(await firstEntry.getAttribute("href"), page.url());
   const subscription = page.getByRole("link", { name: "https://omapicks.com/feed.xml" });
   await expect(subscription).toHaveAttribute("href", "/feed.xml");
   const response = await request.get("/feed.xml");
@@ -33,7 +34,8 @@ test("RSS navigation opens the HTML feed and keeps the XML subscription link", a
   expect(response.headers()["content-type"]).toContain("application/xml");
   expect(await response.text()).not.toContain("xml-stylesheet");
   await firstEntry.click();
-  await expect(page).toHaveURL(/\/picks\/[^/]+\/$/);
+  await expect(page).toHaveURL(target.href);
+  if (target.hash) await expect(page.locator(target.hash)).toBeVisible();
 });
 
 test("advertised searches filter both lists and Enter opens the first match", async ({ page }) => {

@@ -846,7 +846,7 @@ test("the changelog lists runner-up events separately and older weeks without th
     ] },
     { week: "2026-W39", generatedAt: "2026-09-21T06:17:00Z", changes: [{ typeId: "clock", typeName: "Clock", kind: "displaced", previous: { id: "a", name: "A" }, current: { id: "c", name: "C" } }] }
   ]);
-  const [w40, w39] = html.split('<section class="glass reveal">').slice(-2);
+  const [w40, w39] = html.split('<section class="glass reveal"').slice(-2);
   assert.match(w40, /No champion changes\./);
   assert.match(w40, /<h3 class="timeline-subhead">Runner-up changes<\/h3>/);
   assert.match(w40, /Music has no runner-up this week\. YouTube &lt;Music&gt; could not be reached in the latest marketplace check\./);
@@ -904,7 +904,7 @@ test("category corrections and requalification do not masquerade as competitive 
   assert.match(page, /Network Connections has no second reviewed option under the updated task definition/);
   assert.doesNotMatch(page, /Client<\/strong> replaced Hotspot/);
   assert.match(page, /Hotspot<\/strong> replaced Former in Network Connections/);
-  const historicalSection = page.split('<section class="glass reveal">').at(-1);
+  const historicalSection = page.split('<section class="glass reveal"').at(-1);
   assert.doesNotMatch(historicalSection, /Category corrections|updated task definition/);
   const { rss } = renderFixtureFeed([old, current]);
   assert.match(rss, /Network Connections: category tasks updated/);
@@ -931,4 +931,28 @@ test("methodology explains common outcomes without rewriting earlier policy copy
   const old = renderFixtureMethodology({ ...fixtureRankings(), methodologyVersion: "1.3.0" });
   assert.doesNotMatch(old, /same action on the same target/);
   assert.match(old, /Audio codecs belong under Audio/);
+});
+
+test("superseded same-week publications remain dated and independently visible in history and RSS", () => {
+  const old = { methodologyVersion: "1.3.0", week: "2026-W44", generatedAt: "2026-10-29T19:35:18.101Z",
+    changes: [{ typeId: "shortcut-guides", typeName: "Shortcut Guides", previous: { id: "which", name: "Which Key" }, current: { id: "promoter", name: "Key Promoter" }, kind: "displaced" }],
+    runnerUpChanges: [{ typeId: "containers", typeName: "Containers", previous: { id: "control", name: "Control Docker" }, current: { id: "docker", name: "Docker" }, kind: "displaced" }] };
+  const current = { methodologyVersion: "1.4.0", week: "2026-W44", generatedAt: "2026-10-30T12:00:00.000Z", supersededPublications: [old],
+    publicationBaseline: { week: old.week, generatedAt: old.generatedAt, methodologyVersion: old.methodologyVersion },
+    changes: [], runnerUpChanges: [{ typeId: "containers", typeName: "Containers", previous: { id: "docker", name: "Docker" }, current: { id: "monitor", name: "Docker Monitor" }, kind: "displaced", reason: "task-definition-changed" }] };
+  const page = renderFixtureChangelog([current]);
+  assert.match(page, /Superseded publication · October 29, 2026 · methodology 1\.3\.0/);
+  assert.match(page, /Key Promoter<\/strong> replaced Which Key in Shortcut Guides/);
+  assert.match(page, /Docker<\/strong> replaced Control Docker as the Containers second reviewed option/);
+  assert.match(page, /Docker Monitor<\/strong> is the Containers second reviewed option under the updated task definition/);
+  assert.match(page, /id="publication-2026-W44-20261029T193518101Z"/);
+  assert.match(page, /href="\/changelog\/#publication-2026-W44-20261029T193518101Z"/);
+  const { rss } = renderFixtureFeed([current]);
+  assert.match(rss, /Key Promoter is the Shortcut Guides leading reviewed option \(superseded publication\)/);
+  assert.match(rss, /Recorded at the superseded October 29, 2026 publication under methodology 1\.3\.0/);
+  assert.match(rss, /Docker Monitor is the Containers second reviewed option/);
+  const grouped = renderFixtureFeed([{ ...current, changes: [], runnerUpChanges: [], supersededPublications: [], categoryChanges: CATEGORY_MIGRATIONS[0].changes }]);
+  assert.equal([...grouped.rss.matchAll(/<item>/g)].length, 1);
+  assert.match(grouped.rss, /7 category updates: 7 splits/);
+  assert.match(grouped.rss, /\/changelog\/#publication-2026-W44-20261030T120000000Z/);
 });

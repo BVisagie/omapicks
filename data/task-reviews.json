@@ -2705,6 +2705,8 @@
         "resume-idle-policy"
       ],
       "constraints": [
+        "Automatic hold triggered by fullscreen windows, detected games or active MPRIS playback. Clicking its indicator toggles automation, not the current hold.",
+        "The documented scope prevents idle locking through the built-in Stay Awake service. This review does not establish whether it also prevents display blanking or every suspend path.",
         "Turning off its automation does not itself clear the current Stay Awake state; manually enabled Stay Awake is preserved."
       ],
       "reason": "Engages Stay Awake while fullscreen windows, detected games or MPRIS playback are active and releases holds it owns after those conditions end.",
@@ -2715,7 +2717,7 @@
         "revision": "72b58789f3242825b96af691e35a82809783a07f",
         "path": "README.md",
         "sha256": "dae2c0944dab4d9fc84bb3eee812d337f6a400e210501375a3a5e372a8e56522",
-        "evidence": "README.md lines 3-12:\nAn [Omarchy](https://omarchy.org/) shell plugin. Automatically engages the\nbuilt-in **Stay Awake** toggle whenever a window is fullscreen (games,\nfullscreen video players) or any media player is actively playing (a video\nin a browser tab — YouTube included — mpv, VLC, a music app, anything that\nexposes the standard MPRIS interface) — no more the screen locking mid-movie\nor mid-match.\n\nIt shows up as a small coffee-cup indicator on the bar, right next to the\nbuilt-in Stay Awake toggle, so you can see when it has kicked in and turn\nthe automation on or off with a click.\n\nREADME.md lines 18-49:\nAuto Cafe engages Stay Awake while any of these is true:\n\n- **Fullscreen** — any window on any monitor is fullscreen.\n- **A game is running** — for games that run *borderless windowed* (very\n  common for Steam/Proton titles such as Microsoft Flight Simulator), which\n  Hyprland never reports as fullscreen. Two things count as a game, as long\n  as the window is on a workspace currently shown on some monitor:\n  - a Steam/Proton window (window class `steam_app_<id>`), or\n  - any window that exactly covers an entire monitor (rotation and scaling\n    aware). Normal tiled windows never match because the bar and gaps keep\n    them smaller than the monitor.\n- **Media playing** — any [MPRIS](https://specifications.freedesktop.org/mpris-spec/latest/)\n  player reports `Playing`. Firefox and Chromium-based browsers expose this\n  automatically for a tab playing audio/video (so YouTube, Netflix, etc. in\n  a normal window work without needing to be fullscreen); mpv needs its\n  `mpris` script enabled to be seen this way, and VLC supports it natively.\n\nEverything is watched reactively (Hyprland's event stream, MPRIS\nproperty-change signals), with one slow re-check every 15 seconds as a safety\nnet for window changes that emit no event (a game resizing itself to cover\nthe screen after it opens). There's no extra background process; it's part\nof the Omarchy shell like any other plugin.\n\nWhy this matters for games: a joystick, HOTAS, or gamepad never counts as\nkeyboard/mouse activity, so a flight sim or racing game played with a\ncontroller would otherwise let the screen lock mid-session.\n\nIt only ever calls the same `omarchy-shell idle` command the built-in Stay\nAwake indicator itself uses, so that indicator always reflects what\nAuto Cafe is doing. And it only turns Stay Awake back off if it was the\none that turned it on — if you've enabled Stay Awake yourself, closing a\ngame or pausing a video won't touch it."
+        "evidence": "README.md lines 3-12:\nAn [Omarchy](https://omarchy.org/) shell plugin. Automatically engages the\nbuilt-in **Stay Awake** toggle whenever a window is fullscreen (games,\nfullscreen video players) or any media player is actively playing (a video\nin a browser tab — YouTube included — mpv, VLC, a music app, anything that\nexposes the standard MPRIS interface) — no more the screen locking mid-movie\nor mid-match.\n\nIt shows up as a small coffee-cup indicator on the bar, right next to the\nbuilt-in Stay Awake toggle, so you can see when it has kicked in and turn\nthe automation on or off with a click.\n\nREADME.md lines 18-49:\nAuto Cafe engages Stay Awake while any of these is true:\n\n- **Fullscreen** — any window on any monitor is fullscreen.\n- **A game is running** — for games that run *borderless windowed* (very\n  common for Steam/Proton titles such as Microsoft Flight Simulator), which\n  Hyprland never reports as fullscreen. Two things count as a game, as long\n  as the window is on a workspace currently shown on some monitor:\n  - a Steam/Proton window (window class `steam_app_<id>`), or\n  - any window that exactly covers an entire monitor (rotation and scaling\n    aware). Normal tiled windows never match because the bar and gaps keep\n    them smaller than the monitor.\n- **Media playing** — any [MPRIS](https://specifications.freedesktop.org/mpris-spec/latest/)\n  player reports `Playing`. Firefox and Chromium-based browsers expose this\n  automatically for a tab playing audio/video (so YouTube, Netflix, etc. in\n  a normal window work without needing to be fullscreen); mpv needs its\n  `mpris` script enabled to be seen this way, and VLC supports it natively.\n\nEverything is watched reactively (Hyprland's event stream, MPRIS\nproperty-change signals), with one slow re-check every 15 seconds as a safety\nnet for window changes that emit no event (a game resizing itself to cover\nthe screen after it opens). There's no extra background process; it's part\nof the Omarchy shell like any other plugin.\n\nWhy this matters for games: a joystick, HOTAS, or gamepad never counts as\nkeyboard/mouse activity, so a flight sim or racing game played with a\ncontroller would otherwise let the screen lock mid-session.\n\nIt only ever calls the same `omarchy-shell idle` command the built-in Stay\nAwake indicator itself uses, so that indicator always reflects what\nAuto Cafe is doing. And it only turns Stay Awake back off if it was the\none that turned it on — if you've enabled Stay Awake yourself, closing a\ngame or pausing a video won't touch it.\n\nREADME.md lines 51-57:\n## The bar indicator\n\n- **Bright** — Auto Cafe has currently engaged Stay Awake.\n- **Dimmed** — standing by (no fullscreen window, game, or playing media right now).\n- Click the icon any time to turn the automation itself off or back on.\n  Turning it off only stops Auto Cafe from acting — it doesn't touch\n  Stay Awake's current state. This choice persists across restarts."
       }
     },
     {
@@ -6793,13 +6795,15 @@
       "typeId": "timers-alarms",
       "contractVersion": 2,
       "metadataHash": "1735a7003563a2842fbc5e7d0f7d094c08b25946cb839827544e0c0700075a98",
-      "decision": "qualified",
+      "decision": "related",
       "role": "core",
       "capabilities": [
-        "run-timer"
+        "manage-focus-sessions"
       ],
-      "constraints": [],
-      "reason": "Runs configurable focus and break countdown timers with optional alerts.",
+      "constraints": [
+        "Countdowns are tied to configured Pomodoro work and break sessions."
+      ],
+      "reason": "Runs Pomodoro focus and break sessions; the reviewed source does not establish a standalone general-purpose countdown.",
       "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {

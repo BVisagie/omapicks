@@ -35,6 +35,6 @@ test("the 1.4 task migration replays every scored cohort, score and selection of
     assert.deepEqual(cohort.map(({ id, name, score }) => ({ id, name, score })), expected.cohorts[id], id);
   }
   assert.deepEqual(ranked.rankings.types.filter((t) => t.eligibleCount === 1).map((t) => t.id).sort(),
-    ["agent-monitoring", "app-network-blocking", "desktop-clocks", "weather-radar"]);
+    ["agent-monitoring", "ai-api-usage", "app-network-blocking", "desktop-clocks", "docks", "phone-integration", "timers-alarms", "weather-radar"]);
   assert.ok(ranked.rankings.types.every((t) => t.winner));
 });
