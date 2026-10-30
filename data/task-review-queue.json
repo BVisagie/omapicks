@@ -186,21 +186,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "io.github.sspaeti.timezones",
-      "typeId": "desktop-clocks",
-      "name": "Timezones",
-      "repository": "https://github.com/sspaeti/omarchy-timezones-plugin",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "93f57f8a2066322f3e057a76fcea2d28beef26534c808e1809eb94c84e2f0c08",
-      "contractVersion": 2,
-      "prospectiveScore": 0.959251,
-      "previousPick": false,
-      "wouldEnterPodium": true,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "io.github.thetrueferret.decent-workspaces",
       "typeId": "workspaces",
       "name": "Decent Workspaces",
@@ -210,6 +195,21 @@
       "metadataHash": "d2db4bb14c1806c31f466ddac14b86b58fe192b031fffc3dd5acb81a36617cfe",
       "contractVersion": 2,
       "prospectiveScore": 0.958212,
+      "previousPick": false,
+      "wouldEnterPodium": true,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "io.github.sspaeti.timezones",
+      "typeId": "desktop-clocks",
+      "name": "Timezones",
+      "repository": "https://github.com/sspaeti/omarchy-timezones-plugin",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "93f57f8a2066322f3e057a76fcea2d28beef26534c808e1809eb94c84e2f0c08",
+      "contractVersion": 2,
+      "prospectiveScore": 0.957902,
       "previousPick": false,
       "wouldEnterPodium": true,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -344,7 +344,7 @@
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "182e4e0030f678191f766d3d658f5e5fd24a024a4bbdbbcc05d5922fa9713b30",
       "contractVersion": 2,
-      "prospectiveScore": 0.9234,
+      "prospectiveScore": 0.924679,
       "previousPick": false,
       "wouldEnterPodium": true,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -846,21 +846,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "io.github.guiestrela.omarchy-google-calendar-clock",
-      "typeId": "desktop-clocks",
-      "name": "Omarchy Google Calendar and Clock Refresh",
-      "repository": "https://github.com/guiestrela/omarchy-google-calendar-clock-refresh",
-      "status": "stale-contract",
-      "reason": "The task definition changed after this capability review.",
-      "metadataHash": "2a4ecbcc554209bbe72b8755381fee1bb38daa5fcbbe05c5876db2b6eb34be25",
-      "contractVersion": 2,
-      "prospectiveScore": 0.934029,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "vbrosseau.alttab",
       "typeId": "window-management",
       "name": "Alt+Tab",
@@ -870,6 +855,21 @@
       "metadataHash": "e1912b16cceb73d256495ef11354755951b2da1a9cfe2306152dfd019917f102",
       "contractVersion": 2,
       "prospectiveScore": 0.933113,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "io.github.guiestrela.omarchy-google-calendar-clock",
+      "typeId": "desktop-clocks",
+      "name": "Omarchy Google Calendar and Clock Refresh",
+      "repository": "https://github.com/guiestrela/omarchy-google-calendar-clock-refresh",
+      "status": "stale-contract",
+      "reason": "The task definition changed after this capability review.",
+      "metadataHash": "2a4ecbcc554209bbe72b8755381fee1bb38daa5fcbbe05c5876db2b6eb34be25",
+      "contractVersion": 2,
+      "prospectiveScore": 0.933098,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -1116,6 +1116,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "io.github.ofa14-prog.dynamic-island",
+      "typeId": "agent-monitoring",
+      "name": "Dynamic Island",
+      "repository": "https://github.com/ofa14-prog/omarchy-dynamic-island",
+      "status": "stale-contract",
+      "reason": "The task definition changed after this capability review.",
+      "metadataHash": "ca431f8b591cfddf73fd6db3e7ffd801cbb9e571c4a6f2631f8057c2f119b7b7",
+      "contractVersion": 2,
+      "prospectiveScore": 0.912628,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "dizziee.auto-wallpaper",
       "typeId": "wallpaper",
       "name": "Auto Wallpaper",
@@ -1143,21 +1158,6 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "io.github.ofa14-prog.dynamic-island",
-      "typeId": "agent-monitoring",
-      "name": "Dynamic Island",
-      "repository": "https://github.com/ofa14-prog/omarchy-dynamic-island",
-      "status": "stale-contract",
-      "reason": "The task definition changed after this capability review.",
-      "metadataHash": "ca431f8b591cfddf73fd6db3e7ffd801cbb9e571c4a6f2631f8057c2f119b7b7",
-      "contractVersion": 2,
-      "prospectiveScore": 0.91073,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -1416,6 +1416,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "sirwizardlizard.calendar",
+      "typeId": "desktop-clocks",
+      "name": "CalDav Calendar",
+      "repository": "https://github.com/SirWizardLizard/omarchy-caldav-calendar",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "070035b1a01ea2d04f2acd1a0c329f2ba4d3f88882cfd8885f64b3caddffc96e",
+      "contractVersion": 2,
+      "prospectiveScore": 0.896042,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "io.github.rodrix2000.chess",
       "typeId": "mini-games",
       "name": "Omarchy Chess",
@@ -1428,21 +1443,6 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "sirwizardlizard.calendar",
-      "typeId": "desktop-clocks",
-      "name": "CalDav Calendar",
-      "repository": "https://github.com/SirWizardLizard/omarchy-caldav-calendar",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "070035b1a01ea2d04f2acd1a0c329f2ba4d3f88882cfd8885f64b3caddffc96e",
-      "contractVersion": 2,
-      "prospectiveScore": 0.895721,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -1469,7 +1469,7 @@
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "1cd2f31645e47c0922d390f48ac04dedb5e4b49d6c9805a4bc6f514aa467e63a",
       "contractVersion": 2,
-      "prospectiveScore": 0.893976,
+      "prospectiveScore": 0.894289,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -1731,21 +1731,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "io.github.lunanoir21.dynamic-island",
-      "typeId": "desktop-clocks",
-      "name": "Dynamic Island",
-      "repository": "https://github.com/lunanoir21/dynamic-island-omarchy",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "4c4228bfe019b75f22ae3f7dc558735ae3963a4d0978ec7ba652b8633a6e86b2",
-      "contractVersion": 2,
-      "prospectiveScore": 0.884262,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "modib.activity-monitor",
       "typeId": "system-monitor",
       "name": "Activity Monitor",
@@ -1755,6 +1740,21 @@
       "metadataHash": "adcce13148731466faafd9c53a2bececa5958c399b2a8831a581570c25836942",
       "contractVersion": 2,
       "prospectiveScore": 0.883838,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "io.github.lunanoir21.dynamic-island",
+      "typeId": "desktop-clocks",
+      "name": "Dynamic Island",
+      "repository": "https://github.com/lunanoir21/dynamic-island-omarchy",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "4c4228bfe019b75f22ae3f7dc558735ae3963a4d0978ec7ba652b8633a6e86b2",
+      "contractVersion": 2,
+      "prospectiveScore": 0.883612,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -1785,21 +1785,6 @@
       "metadataHash": "26d92baa1d0f271e36bb4549cd207d84bf26b5bf613478a70c2b475af9e4eeda",
       "contractVersion": 2,
       "prospectiveScore": 0.882575,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "jesseburlamaque.antigravity-usage",
-      "typeId": "agent-monitoring",
-      "name": "Antigravity Usage",
-      "repository": "https://github.com/jesseburlamaque/antigravity-usage",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "4976d5bcf7109fdf0c525c071c7feae8d660305cdc3540671bf7bbd59b4cb7cf",
-      "contractVersion": 2,
-      "prospectiveScore": 0.880408,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -1866,6 +1851,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "jesseburlamaque.antigravity-usage",
+      "typeId": "agent-monitoring",
+      "name": "Antigravity Usage",
+      "repository": "https://github.com/jesseburlamaque/antigravity-usage",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "4976d5bcf7109fdf0c525c071c7feae8d660305cdc3540671bf7bbd59b4cb7cf",
+      "contractVersion": 2,
+      "prospectiveScore": 0.878251,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "io.github.gardnmi.window-shelf",
       "typeId": "window-management",
       "name": "Minimize",
@@ -1904,7 +1904,7 @@
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "155bba676511a0e31d232ef565fa5dc3417f221aeae78243f379ab660813a680",
       "contractVersion": 2,
-      "prospectiveScore": 0.875786,
+      "prospectiveScore": 0.876133,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -2121,21 +2121,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "whimsy",
-      "typeId": "desktop-clocks",
-      "name": "Whimsy",
-      "repository": "https://github.com/rover-001/whimsy",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "02433a6d4e01255993105364ca8d68ee9cde2712db50d43efe8ee888ff3fe866",
-      "contractVersion": 2,
-      "prospectiveScore": 0.865042,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "omarchy-menu-omni",
       "typeId": "launcher",
       "name": "Omarchy Menu Omni",
@@ -2160,6 +2145,21 @@
       "metadataHash": "0f0d65ad30e1f8e5f0c16580b2217265afaf1d463828b618b267f9a811d91015",
       "contractVersion": 2,
       "prospectiveScore": 0.864773,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "whimsy",
+      "typeId": "desktop-clocks",
+      "name": "Whimsy",
+      "repository": "https://github.com/rover-001/whimsy",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "02433a6d4e01255993105364ca8d68ee9cde2712db50d43efe8ee888ff3fe866",
+      "contractVersion": 2,
+      "prospectiveScore": 0.863509,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -2331,6 +2331,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "omarchy-google-calendar-clock",
+      "typeId": "desktop-clocks",
+      "name": "Omarchy Google Calendar and Clock",
+      "repository": "https://github.com/NachoRodriguezM/omarchy-google-calendar-clock",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "464b5474ab71e0996fdc0de0d57b25ce08c6bf5193c6d7a6c54541c9bb861dd2",
+      "contractVersion": 2,
+      "prospectiveScore": 0.85915,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "io.github.sotoaugusto.ticktick",
       "typeId": "tasks",
       "name": "TickTick",
@@ -2376,21 +2391,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "omarchy-google-calendar-clock",
-      "typeId": "desktop-clocks",
-      "name": "Omarchy Google Calendar and Clock",
-      "repository": "https://github.com/NachoRodriguezM/omarchy-google-calendar-clock",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "464b5474ab71e0996fdc0de0d57b25ce08c6bf5193c6d7a6c54541c9bb861dd2",
-      "contractVersion": 2,
-      "prospectiveScore": 0.857744,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "omapaper",
       "typeId": "wallpaper",
       "name": "Omapaper",
@@ -2418,6 +2418,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-29T19:20:24.170Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "omapets",
+      "typeId": "agent-monitoring",
+      "name": "OmaPets",
+      "repository": "https://github.com/yesmeck/OmaPets",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "c62416fec2a3a49e17cf990a6571730a42d91fd217e62df39c058dd8f7a528fc",
+      "contractVersion": 2,
+      "prospectiveScore": 0.857034,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -2481,21 +2496,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "omapets",
-      "typeId": "agent-monitoring",
-      "name": "OmaPets",
-      "repository": "https://github.com/yesmeck/OmaPets",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "c62416fec2a3a49e17cf990a6571730a42d91fd217e62df39c058dd8f7a528fc",
-      "contractVersion": 2,
-      "prospectiveScore": 0.85415,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "melonamin.apple-music",
       "typeId": "music-players",
       "name": "Apple Music",
@@ -2535,6 +2535,21 @@
       "metadataHash": "6ef2f105d6d0df401053b7f89f39b3d103f00a49c054bf0b72f02b320cf9261a",
       "contractVersion": 2,
       "prospectiveScore": 0.852011,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "io.github.qempexe.vitrine",
+      "typeId": "desktop-clocks",
+      "name": "Vitrine",
+      "repository": "https://github.com/qempexe/omarchy-vitrine",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "0e6e6f6762a35445df03ea0962a0711114c07f4c5c5c976f21f6b39259019069",
+      "contractVersion": 2,
+      "prospectiveScore": 0.851661,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -3149,7 +3164,7 @@
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "5118aab25dda48f2de4fc8a5a9cde5e268760bcf2b2714d671edb432455045c5",
       "contractVersion": 2,
-      "prospectiveScore": 0.83057,
+      "prospectiveScore": 0.830604,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -3599,7 +3614,7 @@
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "045b9a0ca77375732f3df54451e9701c9cfe1da9ad0a59e2985e54bd913dd27b",
       "contractVersion": 2,
-      "prospectiveScore": 0.816219,
+      "prospectiveScore": 0.815974,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -3801,21 +3816,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "io.github.nimbleaininja.omachron",
-      "typeId": "desktop-clocks",
-      "name": "Omachron World Clock",
-      "repository": "https://github.com/NimbleAINinja/omarchy-omachron",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "8d21eea1618fe01ea22d1c41905b0db86378807c3c052ff7f4b6a508e7a7da54",
-      "contractVersion": 2,
-      "prospectiveScore": 0.807782,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "com.leafbox.f1",
       "typeId": "timers-alarms",
       "name": "Formula 1",
@@ -3858,6 +3858,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "io.github.nimbleaininja.omachron",
+      "typeId": "desktop-clocks",
+      "name": "Omachron World Clock",
+      "repository": "https://github.com/NimbleAINinja/omarchy-omachron",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "8d21eea1618fe01ea22d1c41905b0db86378807c3c052ff7f4b6a508e7a7da54",
+      "contractVersion": 2,
+      "prospectiveScore": 0.805691,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -4026,21 +4041,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "io.github.nousd.chime",
-      "typeId": "desktop-clocks",
-      "name": "Chime",
-      "repository": "https://github.com/nousd/chime",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "45eef37a4a45960dc031a7e64c410db46233771424c031044778e303ee821952",
-      "contractVersion": 2,
-      "prospectiveScore": 0.798198,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "tomv.battery-usage",
       "typeId": "battery",
       "name": "Battery Usage",
@@ -4065,6 +4065,21 @@
       "metadataHash": "9c825b437a9455505b5dea08b195c2f4e613634ad91be1be0c09451c86b04c44",
       "contractVersion": 2,
       "prospectiveScore": 0.797693,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "io.github.nousd.chime",
+      "typeId": "desktop-clocks",
+      "name": "Chime",
+      "repository": "https://github.com/nousd/chime",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "45eef37a4a45960dc031a7e64c410db46233771424c031044778e303ee821952",
+      "contractVersion": 2,
+      "prospectiveScore": 0.797211,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -4341,21 +4356,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "blacksheep.calendar",
-      "typeId": "desktop-clocks",
-      "name": "Datebook",
-      "repository": "https://github.com/jonspinks/omarchy-calendar",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "6a22735e6e23f99a4fc6871287614f54538b278097e20fcbfac74d3eda80e76b",
-      "contractVersion": 2,
-      "prospectiveScore": 0.790189,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "io.github.amikeal.battery-plus",
       "typeId": "battery",
       "name": "Battery+",
@@ -4455,6 +4455,21 @@
       "metadataHash": "d9fe46091b3f1bb34f39010c94c569468c8e813c2505e2c67dff9754d0c8510b",
       "contractVersion": 2,
       "prospectiveScore": 0.786508,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "blacksheep.calendar",
+      "typeId": "desktop-clocks",
+      "name": "Datebook",
+      "repository": "https://github.com/jonspinks/omarchy-calendar",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "6a22735e6e23f99a4fc6871287614f54538b278097e20fcbfac74d3eda80e76b",
+      "contractVersion": 2,
+      "prospectiveScore": 0.786376,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -5279,7 +5294,7 @@
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "84793eaac560211df72ceea36168d0be90e2e6a0d65f225ea1f5171ca93e72f0",
       "contractVersion": 2,
-      "prospectiveScore": 0.765691,
+      "prospectiveScore": 0.765882,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -6516,21 +6531,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "njpatel.omaherdr",
-      "typeId": "agent-monitoring",
-      "name": "Omaherdr",
-      "repository": "https://github.com/njpatel/omaherdr",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "68b8508bdce80785e964144f5ee5e2af9460617e5a3429418bee0a8045bdba39",
-      "contractVersion": 2,
-      "prospectiveScore": 0.735026,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "angeeeld.omaltbar",
       "typeId": "notifications",
       "name": "Omaltbar",
@@ -6585,6 +6585,21 @@
       "metadataHash": "97cce1b0f130ef628a2bbbaf4df32f0f310be3ce4574b474b85e3b94ecc5e201",
       "contractVersion": 2,
       "prospectiveScore": 0.73464,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "njpatel.omaherdr",
+      "typeId": "agent-monitoring",
+      "name": "Omaherdr",
+      "repository": "https://github.com/njpatel/omaherdr",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "68b8508bdce80785e964144f5ee5e2af9460617e5a3429418bee0a8045bdba39",
+      "contractVersion": 2,
+      "prospectiveScore": 0.734558,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -6966,21 +6981,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "paudelsamir.notch-island",
-      "typeId": "desktop-clocks",
-      "name": "Notch Island",
-      "repository": "https://github.com/paudelsamir/notch-island",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "18558f9e17549f4c8df38e6ec261a09b7589e64f0a8ddcad80e493bf36f791dc",
-      "contractVersion": 2,
-      "prospectiveScore": 0.727659,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "io.github.whiskeytangofussell.screensavermanager",
       "typeId": "screensavers",
       "name": "Screensaver Manager",
@@ -7260,6 +7260,21 @@
       "metadataHash": "9001a140e02f71dc475cd1e1e3186156b80d2c3c994433f207e3e0439da726b4",
       "contractVersion": 2,
       "prospectiveScore": 0.721338,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "paudelsamir.notch-island",
+      "typeId": "desktop-clocks",
+      "name": "Notch Island",
+      "repository": "https://github.com/paudelsamir/notch-island",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "18558f9e17549f4c8df38e6ec261a09b7589e64f0a8ddcad80e493bf36f791dc",
+      "contractVersion": 2,
+      "prospectiveScore": 0.721269,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -8076,6 +8091,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "adam.codex-threads",
+      "typeId": "agent-monitoring",
+      "name": "Agent Threads",
+      "repository": "https://github.com/adamritter/omarchy-agent-threads",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "f1f052be9d27d01c3b862a043111335818aec2f28b6a6af5239bcfd9a4f5858f",
+      "contractVersion": 2,
+      "prospectiveScore": 0.708608,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "dev.jotpin",
       "typeId": "notes",
       "name": "JotPin",
@@ -8085,21 +8115,6 @@
       "metadataHash": "95e27695058c365ef33d68c5fa6cc523b23ee3234f1258d99c028df34b70ae4a",
       "contractVersion": 3,
       "prospectiveScore": 0.708274,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "adam.codex-threads",
-      "typeId": "agent-monitoring",
-      "name": "Agent Threads",
-      "repository": "https://github.com/adamritter/omarchy-agent-threads",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "f1f052be9d27d01c3b862a043111335818aec2f28b6a6af5239bcfd9a4f5858f",
-      "contractVersion": 2,
-      "prospectiveScore": 0.708257,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -8223,6 +8238,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-29T19:20:24.170Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "io.github.lunanoir21.desktop-widget-control",
+      "typeId": "desktop-clocks",
+      "name": "Desktop Widget Control",
+      "repository": "https://github.com/lunanoir21/desktop-widget-control-omarchy",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "6118f0807cfc017bd13817ec5481bc58e3851bb6725a3184631d54753a24eb57",
+      "contractVersion": 2,
+      "prospectiveScore": 0.70526,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -8706,21 +8736,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "io.github.pow3r-droid.omatiles",
-      "typeId": "desktop-clocks",
-      "name": "OmaTiles",
-      "repository": "https://github.com/pow3r-droid/omatiles",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "840241a65ebadbc440e2974e137e377270b2790e2bb71713a8ff1cce102e0d72",
-      "contractVersion": 2,
-      "prospectiveScore": 0.69845,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "kairos.theme-forge",
       "typeId": "wallpaper",
       "name": "Theme Forge",
@@ -8871,21 +8886,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "leomoon-studios.omarchy-world-clock",
-      "typeId": "desktop-clocks",
-      "name": "Omarchy World Clock",
-      "repository": "https://github.com/leomoon-studios/omarchy-world-clock",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "c86292610a40d7e8c63657ce9d3556b820233710156093866428d01adee15074",
-      "contractVersion": 2,
-      "prospectiveScore": 0.695462,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "dejan94.todos",
       "typeId": "tasks",
       "name": "Todo List",
@@ -9021,21 +9021,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "george.omarkmeter",
-      "typeId": "desktop-clocks",
-      "name": "Omark Meter",
-      "repository": "https://github.com/Compourri/omarkmeter",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "de31fdd9e376c8cf65885db7765903acf0643fdbd61a75d2b76477c278d4b635",
-      "contractVersion": 2,
-      "prospectiveScore": 0.693339,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "io.github.nobledoodle.omission",
       "typeId": "window-management",
       "name": "Omission",
@@ -9060,6 +9045,21 @@
       "metadataHash": "5bc7496f781729737fc20bd516b8d505c4e1594353d94b1e224a91a2a36dfc1e",
       "contractVersion": 2,
       "prospectiveScore": 0.692185,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "io.github.pow3r-droid.omatiles",
+      "typeId": "desktop-clocks",
+      "name": "OmaTiles",
+      "repository": "https://github.com/pow3r-droid/omatiles",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "840241a65ebadbc440e2974e137e377270b2790e2bb71713a8ff1cce102e0d72",
+      "contractVersion": 2,
+      "prospectiveScore": 0.69195,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -9105,6 +9105,21 @@
       "metadataHash": "5a9988e117e99fbce017f74caecb8c0fef9fd2f7a63627d33bdc2731943e649e",
       "contractVersion": 2,
       "prospectiveScore": 0.690555,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "leomoon-studios.omarchy-world-clock",
+      "typeId": "desktop-clocks",
+      "name": "Omarchy World Clock",
+      "repository": "https://github.com/leomoon-studios/omarchy-world-clock",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "c86292610a40d7e8c63657ce9d3556b820233710156093866428d01adee15074",
+      "contractVersion": 2,
+      "prospectiveScore": 0.690177,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -9261,21 +9276,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "salah.prayer-times",
-      "typeId": "desktop-clocks",
-      "name": "Salah",
-      "repository": "https://github.com/durak1frt-cyber/omarchy-salah",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "1fb2adf5e2cd272d6cd72efdb8179251d9346057c0d4a360036b21bd6507d4fe",
-      "contractVersion": 2,
-      "prospectiveScore": 0.688463,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "konochi.konostat",
       "typeId": "network-diagnostics",
       "name": "Konostat",
@@ -9288,6 +9288,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-26T07:36:52.835Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "george.omarkmeter",
+      "typeId": "desktop-clocks",
+      "name": "Omark Meter",
+      "repository": "https://github.com/Compourri/omarkmeter",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "de31fdd9e376c8cf65885db7765903acf0643fdbd61a75d2b76477c278d4b635",
+      "contractVersion": 2,
+      "prospectiveScore": 0.68819,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -9726,6 +9741,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "salah.prayer-times",
+      "typeId": "desktop-clocks",
+      "name": "Salah",
+      "repository": "https://github.com/durak1frt-cyber/omarchy-salah",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "1fb2adf5e2cd272d6cd72efdb8179251d9346057c0d4a360036b21bd6507d4fe",
+      "contractVersion": 2,
+      "prospectiveScore": 0.680918,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "io.github.howdyitskyle.weathering",
       "typeId": "weather",
       "name": "Weathering",
@@ -9798,6 +9828,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "stappmus.udder",
+      "typeId": "agent-monitoring",
+      "name": "Udder",
+      "repository": "https://github.com/stappmus/Udder",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "4bd43576620cf181197bb79d2d17a6030a3e71a5c876526098eaeecc32ce06d9",
+      "contractVersion": 2,
+      "prospectiveScore": 0.67903,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -10566,21 +10611,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "com.mwhuss.omarchy-hermes-api",
-      "typeId": "agent-monitoring",
-      "name": "Hermes API",
-      "repository": "https://github.com/mwhuss/omarchy-hermes-api",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "ef8feb806b64698f1da7b5363b442cc5686b7b0b4c73e13bd874ea218a6f5267",
-      "contractVersion": 2,
-      "prospectiveScore": 0.667344,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "io.github.amitcpatel.homearchy",
       "typeId": "smart-home",
       "name": "Homearchy",
@@ -10593,21 +10623,6 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "io.github.ptgamr.world-clock",
-      "typeId": "desktop-clocks",
-      "name": "World Clock",
-      "repository": "https://github.com/ptgamr/oma-world-clock",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "e9a713eed136494c34d3d3abdabd5cb9311a32f77265b3dff22f37bb9cd79e41",
-      "contractVersion": 2,
-      "prospectiveScore": 0.666686,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -10626,15 +10641,15 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "angelv.clock",
-      "typeId": "desktop-clocks",
-      "name": "Clock, Zones & Calendar",
-      "repository": "https://github.com/angel-ventura/omarchy-clock-zones-calendar",
+      "pluginId": "com.mwhuss.omarchy-hermes-api",
+      "typeId": "agent-monitoring",
+      "name": "Hermes API",
+      "repository": "https://github.com/mwhuss/omarchy-hermes-api",
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "edd8112fdde7883535d90e0374480ba18ea42b8229dc9ee179d2fdde14c69ee2",
+      "metadataHash": "ef8feb806b64698f1da7b5363b442cc5686b7b0b4c73e13bd874ea218a6f5267",
       "contractVersion": 2,
-      "prospectiveScore": 0.665575,
+      "prospectiveScore": 0.66629,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -10836,6 +10851,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "io.github.ptgamr.world-clock",
+      "typeId": "desktop-clocks",
+      "name": "World Clock",
+      "repository": "https://github.com/ptgamr/oma-world-clock",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "e9a713eed136494c34d3d3abdabd5cb9311a32f77265b3dff22f37bb9cd79e41",
+      "contractVersion": 2,
+      "prospectiveScore": 0.662487,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "io.github.hominluo.ostat-menus",
       "typeId": "network-diagnostics",
       "name": "Ostat Menus",
@@ -10893,6 +10923,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-29T19:20:24.170Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "angelv.clock",
+      "typeId": "desktop-clocks",
+      "name": "Clock, Zones & Calendar",
+      "repository": "https://github.com/angel-ventura/omarchy-clock-zones-calendar",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "edd8112fdde7883535d90e0374480ba18ea42b8229dc9ee179d2fdde14c69ee2",
+      "contractVersion": 2,
+      "prospectiveScore": 0.661208,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -13686,21 +13731,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "chagel.alternative-clock",
-      "typeId": "desktop-clocks",
-      "name": "Alternative Clock",
-      "repository": "https://github.com/chagel/omarchy-alternative-clock",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "aa84375c525e9397dd024f3fbbcbea2125d01d1ebee8f42289511aea79a8e320",
-      "contractVersion": 2,
-      "prospectiveScore": 0.624788,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "io.github.pedroolivy.ci-ping",
       "typeId": "github",
       "name": "CI Ping",
@@ -13740,21 +13770,6 @@
       "metadataHash": "edd8112fdde7883535d90e0374480ba18ea42b8229dc9ee179d2fdde14c69ee2",
       "contractVersion": 2,
       "prospectiveScore": 0.624577,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "mrpbennett.herdr-agents",
-      "typeId": "agent-monitoring",
-      "name": "Herdr Agents",
-      "repository": "https://github.com/mrpbennett/qs-herdr-agents",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "d92a3f33370ac62d8fc16c618208bdd4f7ea2b9988b8e38e3c3b9b927ada9411",
-      "contractVersion": 2,
-      "prospectiveScore": 0.624533,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -13836,6 +13851,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "mrpbennett.herdr-agents",
+      "typeId": "agent-monitoring",
+      "name": "Herdr Agents",
+      "repository": "https://github.com/mrpbennett/qs-herdr-agents",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "d92a3f33370ac62d8fc16c618208bdd4f7ea2b9988b8e38e3c3b9b927ada9411",
+      "contractVersion": 2,
+      "prospectiveScore": 0.62362,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "nathanp.game-awake",
       "typeId": "keep-awake",
       "name": "Game Awake",
@@ -13845,21 +13875,6 @@
       "metadataHash": "3ac13a9576b7cb4bd708ac64e743c27e98acffc809c668bc8175995d7451869c",
       "contractVersion": 2,
       "prospectiveScore": 0.6234,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "io.github.aryan-techie.clock",
-      "typeId": "desktop-clocks",
-      "name": "Better Clock",
-      "repository": "https://github.com/AROICE-HQ/omarchy-clock",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "9b9f6e2e730c3ed8308bd3543ee5a5a2eae3395fd30d81bb173ee4f3ddf243c4",
-      "contractVersion": 2,
-      "prospectiveScore": 0.623296,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -13908,21 +13923,6 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "binaryclock.clock",
-      "typeId": "desktop-clocks",
-      "name": "Binary Clock",
-      "repository": "https://github.com/WarmTies/omarchy-binary-clock",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "f90cad54381e4438caac75cdf1fe10ada5d2930cae63004b593d3b45db8d13e0",
-      "contractVersion": 2,
-      "prospectiveScore": 0.621687,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -14136,6 +14136,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "chagel.alternative-clock",
+      "typeId": "desktop-clocks",
+      "name": "Alternative Clock",
+      "repository": "https://github.com/chagel/omarchy-alternative-clock",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "aa84375c525e9397dd024f3fbbcbea2125d01d1ebee8f42289511aea79a8e320",
+      "contractVersion": 2,
+      "prospectiveScore": 0.618751,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "omalive",
       "typeId": "wallpaper",
       "name": "OmaLive",
@@ -14148,6 +14163,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "io.github.aryan-techie.clock",
+      "typeId": "desktop-clocks",
+      "name": "Better Clock",
+      "repository": "https://github.com/AROICE-HQ/omarchy-clock",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "9b9f6e2e730c3ed8308bd3543ee5a5a2eae3395fd30d81bb173ee4f3ddf243c4",
+      "contractVersion": 2,
+      "prospectiveScore": 0.618073,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -14178,6 +14208,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "binaryclock.clock",
+      "typeId": "desktop-clocks",
+      "name": "Binary Clock",
+      "repository": "https://github.com/WarmTies/omarchy-binary-clock",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "f90cad54381e4438caac75cdf1fe10ada5d2930cae63004b593d3b45db8d13e0",
+      "contractVersion": 2,
+      "prospectiveScore": 0.617322,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -14313,21 +14358,6 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "crazybadger.split-clock",
-      "typeId": "desktop-clocks",
-      "name": "Apple-like Clock aka Better Calendar",
-      "repository": "https://github.com/crazybadger/omarchy-split-clock",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "f0d30c15c0a359333483c8dc1e909508f798de67ac8107aa44faa89298daca01",
-      "contractVersion": 2,
-      "prospectiveScore": 0.615977,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -14796,21 +14826,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "samirpokharel.patro-clock",
-      "typeId": "desktop-clocks",
-      "name": "Patro Clock",
-      "repository": "https://github.com/samirpokharel/omarchy-patro-clock",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "1985211fa1ffa6b4af9ff38c17006e93678d1cc7df5d4e954f9e5dad8643f313",
-      "contractVersion": 2,
-      "prospectiveScore": 0.611352,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "io.github.aphelion-studios.omamoodist",
       "typeId": "audio",
       "name": "OmaMoodist",
@@ -14976,6 +14991,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "crazybadger.split-clock",
+      "typeId": "desktop-clocks",
+      "name": "Apple-like Clock aka Better Calendar",
+      "repository": "https://github.com/crazybadger/omarchy-split-clock",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "f0d30c15c0a359333483c8dc1e909508f798de67ac8107aa44faa89298daca01",
+      "contractVersion": 2,
+      "prospectiveScore": 0.608706,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "io.github.oidium.system-monitor",
       "typeId": "network-diagnostics",
       "name": "System Monitor",
@@ -15051,6 +15081,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "samirpokharel.patro-clock",
+      "typeId": "desktop-clocks",
+      "name": "Patro Clock",
+      "repository": "https://github.com/samirpokharel/omarchy-patro-clock",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "1985211fa1ffa6b4af9ff38c17006e93678d1cc7df5d4e954f9e5dad8643f313",
+      "contractVersion": 2,
+      "prospectiveScore": 0.60739,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "voyagen.oma-orca-monitor",
       "typeId": "agent-monitoring",
       "name": "Orca Monitor",
@@ -15059,7 +15104,7 @@
       "reason": "Task capability evidence has not been reviewed for this assignment.",
       "metadataHash": "fbd0903367cb2c52b36b37181e22928382584fa42815574d35737f84077c58fb",
       "contractVersion": 2,
-      "prospectiveScore": 0.60724,
+      "prospectiveScore": 0.606425,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -15108,21 +15153,6 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "ngnk.glass-clock",
-      "typeId": "desktop-clocks",
-      "name": "Glass Clock",
-      "repository": "https://github.com/indibyte/NGNK-glass-clock",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "d8ea2d17291c79ccbfd88d29c21230b8fcbb94fbe0e5af26169b83ef689eb8af",
-      "contractVersion": 2,
-      "prospectiveScore": 0.60575,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -15576,6 +15606,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "ngnk.glass-clock",
+      "typeId": "desktop-clocks",
+      "name": "Glass Clock",
+      "repository": "https://github.com/indibyte/NGNK-glass-clock",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "d8ea2d17291c79ccbfd88d29c21230b8fcbb94fbe0e5af26169b83ef689eb8af",
+      "contractVersion": 2,
+      "prospectiveScore": 0.599592,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "simulnetdevice",
       "typeId": "network",
       "name": "SimulNetDevice",
@@ -15750,21 +15795,6 @@
       "metadataHash": "26a3ae3e62808207098d5617f0889daec76df6f32ec85297072cdd8f7bd4b672",
       "contractVersion": 2,
       "prospectiveScore": 0.597068,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "grivera.agents",
-      "typeId": "agent-monitoring",
-      "name": "Agent Sessions",
-      "repository": "https://github.com/grivera82/omarchy-agents",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "56c320c864f9ab4b98e66e5b7d0e5f2283ad17b2ccb539171ab210e9d60a58d1",
-      "contractVersion": 2,
-      "prospectiveScore": 0.596998,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -16161,21 +16191,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "garyliu.lunar-calendar",
-      "typeId": "desktop-clocks",
-      "name": "Lunar Calendar",
-      "repository": "https://github.com/GaryLiuGTA/omarchy_chinese_lunar_calendar",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "a46852ed0b880540e278701f450bd22e116fd25d303b115465b81e615983d33a",
-      "contractVersion": 2,
-      "prospectiveScore": 0.593079,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "jampick.protonvpn",
       "typeId": "vpn",
       "name": "Proton VPN",
@@ -16353,6 +16368,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "grivera.agents",
+      "typeId": "agent-monitoring",
+      "name": "Agent Sessions",
+      "repository": "https://github.com/grivera82/omarchy-agents",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "56c320c864f9ab4b98e66e5b7d0e5f2283ad17b2ccb539171ab210e9d60a58d1",
+      "contractVersion": 2,
+      "prospectiveScore": 0.590598,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -16731,6 +16761,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "garyliu.lunar-calendar",
+      "typeId": "desktop-clocks",
+      "name": "Lunar Calendar",
+      "repository": "https://github.com/GaryLiuGTA/omarchy_chinese_lunar_calendar",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "a46852ed0b880540e278701f450bd22e116fd25d303b115465b81e615983d33a",
+      "contractVersion": 2,
+      "prospectiveScore": 0.586264,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "shahin.daybook",
       "typeId": "timers-alarms",
       "name": "Daybook Focus",
@@ -17076,21 +17121,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "io.github.salemsayed.omaherd",
-      "typeId": "agent-monitoring",
-      "name": "Omaherd",
-      "repository": "https://github.com/salemsayed/omaherd",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "92367694fb47c8ee662e185e2ec2faed544dfe86b4a2ea309407c6819517da2d",
-      "contractVersion": 2,
-      "prospectiveScore": 0.58295,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "hadijaveed.omareel",
       "typeId": "screen-recording",
       "name": "Omareel",
@@ -17421,21 +17451,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "sofos.clock",
-      "typeId": "desktop-clocks",
-      "name": "Calendar Plus",
-      "repository": "https://github.com/elixirblend/omarchy-calendar-plus",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "85123fffc035e2472d2389d25adfb2e7c7c48201758d06008a1c7c702928211a",
-      "contractVersion": 2,
-      "prospectiveScore": 0.579517,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "igoroh.omaraoke",
       "typeId": "wallpaper",
       "name": "Omaraoke",
@@ -17535,21 +17550,6 @@
       "metadataHash": "be97ae16efc38e72a13ffc13bbd719c9bc85a78897aa5112f35c512ae736b25b",
       "contractVersion": 2,
       "prospectiveScore": 0.578644,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "io.github.ericyhm80.agent-pipeline",
-      "typeId": "agent-monitoring",
-      "name": "Agent Pipeline",
-      "repository": "https://github.com/ericyhm80/omarchy-agent-pipeline",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "d15e39d2ba355b1b41258405872b868248eca17363a168d30ad065278e0b090b",
-      "contractVersion": 2,
-      "prospectiveScore": 0.57855,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -17658,6 +17658,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-26T07:36:52.835Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "io.github.salemsayed.omaherd",
+      "typeId": "agent-monitoring",
+      "name": "Omaherd",
+      "repository": "https://github.com/salemsayed/omaherd",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "92367694fb47c8ee662e185e2ec2faed544dfe86b4a2ea309407c6819517da2d",
+      "contractVersion": 2,
+      "prospectiveScore": 0.57729,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -17868,6 +17883,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "sofos.clock",
+      "typeId": "desktop-clocks",
+      "name": "Calendar Plus",
+      "repository": "https://github.com/elixirblend/omarchy-calendar-plus",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "85123fffc035e2472d2389d25adfb2e7c7c48201758d06008a1c7c702928211a",
+      "contractVersion": 2,
+      "prospectiveScore": 0.575287,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -18096,6 +18126,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "io.github.ericyhm80.agent-pipeline",
+      "typeId": "agent-monitoring",
+      "name": "Agent Pipeline",
+      "repository": "https://github.com/ericyhm80/omarchy-agent-pipeline",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "d15e39d2ba355b1b41258405872b868248eca17363a168d30ad065278e0b090b",
+      "contractVersion": 2,
+      "prospectiveScore": 0.57331,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "io.github.dbachelder.istats",
       "typeId": "system-monitor",
       "name": "iStats",
@@ -18105,21 +18150,6 @@
       "metadataHash": "3848d25b8f8945e845b2563d5582d242c231813e2f50de35f882a824bd20e509",
       "contractVersion": 2,
       "prospectiveScore": 0.573134,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "io.github.dankestrick.omajournal",
-      "typeId": "desktop-clocks",
-      "name": "OmaJournal",
-      "repository": "https://github.com/Dankestrick/OmaJournal",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "deabe60d7d81c9e6d65280dfcdbd2f994a734ded8716b6d89f5b883fdf63129d",
-      "contractVersion": 2,
-      "prospectiveScore": 0.572904,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -18591,6 +18621,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "io.github.dankestrick.omajournal",
+      "typeId": "desktop-clocks",
+      "name": "OmaJournal",
+      "repository": "https://github.com/Dankestrick/OmaJournal",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "deabe60d7d81c9e6d65280dfcdbd2f994a734ded8716b6d89f5b883fdf63129d",
+      "contractVersion": 2,
+      "prospectiveScore": 0.567694,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "mush.cricket",
       "typeId": "sports-scores",
       "name": "Live Cricket Scores",
@@ -18696,21 +18741,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "kaktyc.liquid-widgets",
-      "typeId": "desktop-clocks",
-      "name": "Liquid Widgets",
-      "repository": "https://github.com/kaktycgmd/omarchy-liquid-widgets",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "0a4a0643b64fea9c88dec669736f8d2813e188859b05ba10af6ec7c71ce8f390",
-      "contractVersion": 2,
-      "prospectiveScore": 0.566466,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "de.gransoftware.sesame",
       "typeId": "password-manager",
       "name": "Sesame",
@@ -18771,21 +18801,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "sergiotapia.omarchy-timezone-bar",
-      "typeId": "desktop-clocks",
-      "name": "Timezone Bar",
-      "repository": "https://github.com/sergiotapia/omarchy-timezone-bar",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "9f9845b4722f3dbfc0177efbc47fcc9714d15fc2b6781348673bb75fa64d2559",
-      "contractVersion": 2,
-      "prospectiveScore": 0.565451,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "olivgrau.netviz3d",
       "typeId": "network-diagnostics",
       "name": "Netviz 3D",
@@ -18798,21 +18813,6 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "user.ethiopian-calendar",
-      "typeId": "desktop-clocks",
-      "name": "Ethiopian Calendar & Fidel Suite",
-      "repository": "https://github.com/yaredow/ethiopian-calendar",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "6841a947b721f2942f289296ea1d1225e27b20d3854414aec7863b068532a312",
-      "contractVersion": 2,
-      "prospectiveScore": 0.565082,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -18966,6 +18966,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "user.ethiopian-calendar",
+      "typeId": "desktop-clocks",
+      "name": "Ethiopian Calendar & Fidel Suite",
+      "repository": "https://github.com/yaredow/ethiopian-calendar",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "6841a947b721f2942f289296ea1d1225e27b20d3854414aec7863b068532a312",
+      "contractVersion": 2,
+      "prospectiveScore": 0.562221,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "chupe.lid-suspend",
       "typeId": "keep-awake",
       "name": "Lid Suspend",
@@ -18993,6 +19008,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "kaktyc.liquid-widgets",
+      "typeId": "desktop-clocks",
+      "name": "Liquid Widgets",
+      "repository": "https://github.com/kaktycgmd/omarchy-liquid-widgets",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "0a4a0643b64fea9c88dec669736f8d2813e188859b05ba10af6ec7c71ce8f390",
+      "contractVersion": 2,
+      "prospectiveScore": 0.561929,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -19311,6 +19341,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "sergiotapia.omarchy-timezone-bar",
+      "typeId": "desktop-clocks",
+      "name": "Timezone Bar",
+      "repository": "https://github.com/sergiotapia/omarchy-timezone-bar",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "9f9845b4722f3dbfc0177efbc47fcc9714d15fc2b6781348673bb75fa64d2559",
+      "contractVersion": 2,
+      "prospectiveScore": 0.559139,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "io.github.boyoyooo.proxmarchy",
       "typeId": "system-monitor",
       "name": "Proxmarchy",
@@ -19398,21 +19443,6 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "more-time",
-      "typeId": "desktop-clocks",
-      "name": "More Time",
-      "repository": "https://github.com/T-The-Coder/more-time",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "f23f926d1f94e1a3df8c6eae6d67a76c07bc0560c04b80231e6f72ba06db44a4",
-      "contractVersion": 2,
-      "prospectiveScore": 0.558106,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -19986,21 +20016,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "angelherman.cronos-calendar",
-      "typeId": "desktop-clocks",
-      "name": "Cronos-Calendar",
-      "repository": "https://github.com/angelherman0130-cell/omarchy-cronos-calendar",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "3152df50b3f04179baab32b1a62a7c72624af37bbb80be57afdcf1cd66a9b00b",
-      "contractVersion": 2,
-      "prospectiveScore": 0.553666,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "io.github.grynov.cert-wifi",
       "typeId": "network",
       "name": "Certificate Wi-Fi",
@@ -20253,6 +20268,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "more-time",
+      "typeId": "desktop-clocks",
+      "name": "More Time",
+      "repository": "https://github.com/T-The-Coder/more-time",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "f23f926d1f94e1a3df8c6eae6d67a76c07bc0560c04b80231e6f72ba06db44a4",
+      "contractVersion": 2,
+      "prospectiveScore": 0.550963,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -20631,6 +20661,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "angelherman.cronos-calendar",
+      "typeId": "desktop-clocks",
+      "name": "Cronos-Calendar",
+      "repository": "https://github.com/angelherman0130-cell/omarchy-cronos-calendar",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "3152df50b3f04179baab32b1a62a7c72624af37bbb80be57afdcf1cd66a9b00b",
+      "contractVersion": 2,
+      "prospectiveScore": 0.547738,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "io.github.corck.filesearch",
       "typeId": "file-search",
       "name": "File search",
@@ -20796,21 +20841,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "fstander.omoliday",
-      "typeId": "desktop-clocks",
-      "name": "Omoliday",
-      "repository": "https://github.com/badgetobytes/omoliday",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "c3f5d78071ba372f8388740eec9f9d04170b0547e587d1d097c8e270ca4b1f99",
-      "contractVersion": 2,
-      "prospectiveScore": 0.545946,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "avb7.omarchy-controller",
       "typeId": "bluetooth",
       "name": "omarchy-controller",
@@ -20823,21 +20853,6 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-29T19:20:24.170Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "chthollyphile.agent-pet",
-      "typeId": "agent-monitoring",
-      "name": "Agent Pet",
-      "repository": "https://github.com/chthollyphile/omarchy-agent-pet",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "f6c5be3d720fa30fdb1c322e3166add5acdb4f0b9bd52ad4638648151d372ffa",
-      "contractVersion": 2,
-      "prospectiveScore": 0.545092,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -21573,6 +21588,36 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-26T07:36:52.835Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "chthollyphile.agent-pet",
+      "typeId": "agent-monitoring",
+      "name": "Agent Pet",
+      "repository": "https://github.com/chthollyphile/omarchy-agent-pet",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "f6c5be3d720fa30fdb1c322e3166add5acdb4f0b9bd52ad4638648151d372ffa",
+      "contractVersion": 2,
+      "prospectiveScore": 0.539529,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "fstander.omoliday",
+      "typeId": "desktop-clocks",
+      "name": "Omoliday",
+      "repository": "https://github.com/badgetobytes/omoliday",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "c3f5d78071ba372f8388740eec9f9d04170b0547e587d1d097c8e270ca4b1f99",
+      "contractVersion": 2,
+      "prospectiveScore": 0.539358,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -22446,21 +22491,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "io.github.houtvongsak.herdr-sessions",
-      "typeId": "agent-monitoring",
-      "name": "Herdr Session Manager",
-      "repository": "https://github.com/houtvongsak/omarchy-herdr-sessions",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "9dae94654d9a28f08f1c77c31af14fd90a73fe14af8a99df0fb2980f16604db9",
-      "contractVersion": 2,
-      "prospectiveScore": 0.529999,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "harshith.dynamic-island",
       "typeId": "music",
       "name": "Dynamic Island Pro",
@@ -22896,6 +22926,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "io.github.houtvongsak.herdr-sessions",
+      "typeId": "agent-monitoring",
+      "name": "Herdr Session Manager",
+      "repository": "https://github.com/houtvongsak/omarchy-herdr-sessions",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "9dae94654d9a28f08f1c77c31af14fd90a73fe14af8a99df0fb2980f16604db9",
+      "contractVersion": 2,
+      "prospectiveScore": 0.525902,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "lj.window-switcher",
       "typeId": "window-management",
       "name": "Window Switcher",
@@ -23151,21 +23196,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "kazu.clock-i18n",
-      "typeId": "desktop-clocks",
-      "name": "Multilingual Clock",
-      "repository": "https://github.com/kazuhidet/omarchy-clock-i18n",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "b3475f33515c236be651834589cbaa071201dc6594220051d2475b1318b49a65",
-      "contractVersion": 2,
-      "prospectiveScore": 0.522692,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "nenadjokic.navibeat",
       "typeId": "music",
       "name": "NaviBeat",
@@ -23175,6 +23205,21 @@
       "metadataHash": "89b75d8b240213d4a9545f6b9fd189a73fe39bb0a1395d38803b962c2a476eff",
       "contractVersion": 2,
       "prospectiveScore": 0.522425,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "kazu.clock-i18n",
+      "typeId": "desktop-clocks",
+      "name": "Multilingual Clock",
+      "repository": "https://github.com/kazuhidet/omarchy-clock-i18n",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "b3475f33515c236be651834589cbaa071201dc6594220051d2475b1318b49a65",
+      "contractVersion": 2,
+      "prospectiveScore": 0.522396,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -23706,21 +23751,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "apollo.agent-cockpit",
-      "typeId": "agent-monitoring",
-      "name": "Agent Cockpit",
-      "repository": "https://github.com/apollopower/omarchy-agent-cockpit",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "7432e4021a0fba4bb074a2fa1f194fd18513f7d45eaf1a5925032128c5bd02ca",
-      "contractVersion": 2,
-      "prospectiveScore": 0.517348,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "io.github.itsgg.headset",
       "typeId": "peripheral-battery",
       "name": "Headset",
@@ -23925,21 +23955,6 @@
       "metadataHash": "1969827f3c7e9707021f220907076b79cfc9e22be0b8284a7cdeca97a99ef683",
       "contractVersion": 2,
       "prospectiveScore": 0.516051,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "io.github.humcrush-joe.compact-clock",
-      "typeId": "desktop-clocks",
-      "name": "Compact Clock",
-      "repository": "https://github.com/humcrush-joe/omarchy-compact-clock",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "583efa338cfd2bca0cb64a9c6e6498dd0f68241ee7e406a870bef59da68ac5ba",
-      "contractVersion": 2,
-      "prospectiveScore": 0.515845,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -24426,15 +24441,15 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "axpico.clock",
-      "typeId": "desktop-clocks",
-      "name": "Clock & Agenda",
-      "repository": "https://github.com/axpico/omarchy-clock-agenda",
+      "pluginId": "apollo.agent-cockpit",
+      "typeId": "agent-monitoring",
+      "name": "Agent Cockpit",
+      "repository": "https://github.com/apollopower/omarchy-agent-cockpit",
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "509e5d2b1dc17b38f13405419d72c81a23020272d497e0d4393a43abed54a297",
+      "metadataHash": "7432e4021a0fba4bb074a2fa1f194fd18513f7d45eaf1a5925032128c5bd02ca",
       "contractVersion": 2,
-      "prospectiveScore": 0.512339,
+      "prospectiveScore": 0.512321,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -24450,21 +24465,6 @@
       "metadataHash": "6dfe797ab6d880f12472d4f4eeae1610e9ed8763157cef4a80e6baa5097c7482",
       "contractVersion": 2,
       "prospectiveScore": 0.51206,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "foamy.clock",
-      "typeId": "desktop-clocks",
-      "name": "Foamy Clock",
-      "repository": "https://github.com/foamrider/foamy-clock",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "deebd3047e341edfccce82238d3f2a164d08787757afe11442d267611dec0bee",
-      "contractVersion": 2,
-      "prospectiveScore": 0.511988,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -24621,6 +24621,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "io.github.humcrush-joe.compact-clock",
+      "typeId": "desktop-clocks",
+      "name": "Compact Clock",
+      "repository": "https://github.com/humcrush-joe/omarchy-compact-clock",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "583efa338cfd2bca0cb64a9c6e6498dd0f68241ee7e406a870bef59da68ac5ba",
+      "contractVersion": 2,
+      "prospectiveScore": 0.511247,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "glunk.ai-agent",
       "typeId": "screen-time",
       "name": "AI Agent Assistant",
@@ -24678,21 +24693,6 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-26T07:36:52.835Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "andreconde.herdr",
-      "typeId": "agent-monitoring",
-      "name": "Herdr",
-      "repository": "https://github.com/andreconde21/omarchy-herdr",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "2dcf377455ea208bbe7fd8f4c4c6f3039b8c93abf537c95181564984539fbf89",
-      "contractVersion": 2,
-      "prospectiveScore": 0.51099,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -24828,6 +24828,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "axpico.clock",
+      "typeId": "desktop-clocks",
+      "name": "Clock & Agenda",
+      "repository": "https://github.com/axpico/omarchy-clock-agenda",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "509e5d2b1dc17b38f13405419d72c81a23020272d497e0d4393a43abed54a297",
+      "contractVersion": 2,
+      "prospectiveScore": 0.510062,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -25026,21 +25041,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "fred.clock",
-      "typeId": "desktop-clocks",
-      "name": "Clock",
-      "repository": "https://github.com/greenermoose/clock-fred-tamlinux",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "ee3b8f2c2d5fe3a572c57a60dc4b43f0ea0ba33e2c05cd15e9a3da8757b2d315",
-      "contractVersion": 2,
-      "prospectiveScore": 0.508434,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "jnodavid.omarkey",
       "typeId": "shortcut-guides",
       "name": "Omarkey",
@@ -25110,6 +25110,21 @@
       "metadataHash": "5f724d2850b7f8781875fcbf126ab2a4f4cff5510896e6c618dacddff4b3729e",
       "contractVersion": 2,
       "prospectiveScore": 0.508008,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "foamy.clock",
+      "typeId": "desktop-clocks",
+      "name": "Foamy Clock",
+      "repository": "https://github.com/foamrider/foamy-clock",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "deebd3047e341edfccce82238d3f2a164d08787757afe11442d267611dec0bee",
+      "contractVersion": 2,
+      "prospectiveScore": 0.507993,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -25431,21 +25446,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "io.github.ajanraj.itsy-calendar",
-      "typeId": "desktop-clocks",
-      "name": "Itsy Calendar",
-      "repository": "https://github.com/ajanraj/itsy-calendar",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "aae35f5616e36db94cf626d26d8e2f027bc1e8c17ac63511540f9a00c2bb8861",
-      "contractVersion": 2,
-      "prospectiveScore": 0.506006,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "atsokolas.kickoff",
       "typeId": "sports-scores",
       "name": "Kickoff",
@@ -25458,21 +25458,6 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-19T04:00:44.411Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "berat.analog-clock",
-      "typeId": "desktop-clocks",
-      "name": "Analog Clock",
-      "repository": "https://github.com/beraterkek121122/omarchy-analog-timer",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "cf2b567f7187b8705f6f8a3a706bc4258a791dcfe69da109c194e9a891726dbd",
-      "contractVersion": 2,
-      "prospectiveScore": 0.505812,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -25515,21 +25500,6 @@
       "metadataHash": "2c21e3e7815ac05382a2e55beed92ab2374ea9922c1967687222ccfab97adb09",
       "contractVersion": 2,
       "prospectiveScore": 0.505662,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "io.github.clear-built-dev.london-motion",
-      "typeId": "desktop-clocks",
-      "name": "London Motion",
-      "repository": "https://github.com/clear-built-dev/omarchy-london-motion",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "624abf03c9846d4922a8a0fd8fd7f8ef4bc395131604c75cbc69584f8c6e6f34",
-      "contractVersion": 2,
-      "prospectiveScore": 0.505542,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -25581,6 +25551,36 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "berat.analog-clock",
+      "typeId": "desktop-clocks",
+      "name": "Analog Clock",
+      "repository": "https://github.com/beraterkek121122/omarchy-analog-timer",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "cf2b567f7187b8705f6f8a3a706bc4258a791dcfe69da109c194e9a891726dbd",
+      "contractVersion": 2,
+      "prospectiveScore": 0.505375,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "andreconde.herdr",
+      "typeId": "agent-monitoring",
+      "name": "Herdr",
+      "repository": "https://github.com/andreconde21/omarchy-herdr",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "2dcf377455ea208bbe7fd8f4c4c6f3039b8c93abf537c95181564984539fbf89",
+      "contractVersion": 2,
+      "prospectiveScore": 0.505345,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "azterisk.indicators",
       "typeId": "idle-sleep",
       "name": "My Indicators",
@@ -25590,21 +25590,6 @@
       "metadataHash": "2bda72d3b479323103711d467a69170b4586254875b4d22a95a162ac61ad2a6c",
       "contractVersion": 2,
       "prospectiveScore": 0.50534,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "seconds.clock",
-      "typeId": "desktop-clocks",
-      "name": "Seconds Clock",
-      "repository": "https://github.com/cubedtear/omarchy-seconds-clock",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "712fd65a05cb72a53d0026c311e3546296c18d0657cbdbb6358616c28191c066",
-      "contractVersion": 2,
-      "prospectiveScore": 0.505142,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -25776,21 +25761,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "io.github.jeremylongshore.crew-chief",
-      "typeId": "agent-monitoring",
-      "name": "Crew Chief",
-      "repository": "https://github.com/jeremylongshore/omarchy-crew-chief-entry",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "eff7ca0214750cac00858509ba9c2780c7e1a498d4b364c7f73f8526ed4850e9",
-      "contractVersion": 2,
-      "prospectiveScore": 0.504002,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "io.github.buildscript-dev.oneplus-experience",
       "typeId": "battery",
       "name": "OnePlus Experience",
@@ -25815,6 +25785,21 @@
       "metadataHash": "6bc1f71f2120901f1f928806be2e6825bf38f791e7404d7076b56f36c48f54b2",
       "contractVersion": 2,
       "prospectiveScore": 0.503847,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "fred.clock",
+      "typeId": "desktop-clocks",
+      "name": "Clock",
+      "repository": "https://github.com/greenermoose/clock-fred-tamlinux",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "ee3b8f2c2d5fe3a572c57a60dc4b43f0ea0ba33e2c05cd15e9a3da8757b2d315",
+      "contractVersion": 2,
+      "prospectiveScore": 0.503772,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -26196,21 +26181,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "io.github.mrdulasolutions.solar-clock",
-      "typeId": "desktop-clocks",
-      "name": "Solar Clock",
-      "repository": "https://github.com/mrdulasolutions/solar-clock",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "2609d7206c8abcc1c71197ed709c2de377ea4e7b7a0e61e12d38c2594a5dfc44",
-      "contractVersion": 2,
-      "prospectiveScore": 0.501468,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "io.github.5h3rd1l.soundpeats",
       "typeId": "gaming",
       "name": "Omapeats",
@@ -26241,6 +26211,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "io.github.ajanraj.itsy-calendar",
+      "typeId": "desktop-clocks",
+      "name": "Itsy Calendar",
+      "repository": "https://github.com/ajanraj/itsy-calendar",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "aae35f5616e36db94cf626d26d8e2f027bc1e8c17ac63511540f9a00c2bb8861",
+      "contractVersion": 2,
+      "prospectiveScore": 0.501243,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "io.github.guruthechosen.translateonthego",
       "typeId": "translation",
       "name": "TranslateOnTheGo",
@@ -26268,6 +26253,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "io.github.clear-built-dev.london-motion",
+      "typeId": "desktop-clocks",
+      "name": "London Motion",
+      "repository": "https://github.com/clear-built-dev/omarchy-london-motion",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "624abf03c9846d4922a8a0fd8fd7f8ef4bc395131604c75cbc69584f8c6e6f34",
+      "contractVersion": 2,
+      "prospectiveScore": 0.500986,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -26316,15 +26316,15 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "omaherdrbar",
-      "typeId": "agent-monitoring",
-      "name": "omaherdrbar",
-      "repository": "https://github.com/minerado/omaherdrbar",
+      "pluginId": "seconds.clock",
+      "typeId": "desktop-clocks",
+      "name": "Seconds Clock",
+      "repository": "https://github.com/cubedtear/omarchy-seconds-clock",
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "90d546f42ddb297a70c4da0c43dd6acb7cd111a254c4c49901158dd9d702031e",
+      "metadataHash": "712fd65a05cb72a53d0026c311e3546296c18d0657cbdbb6358616c28191c066",
       "contractVersion": 2,
-      "prospectiveScore": 0.500389,
+      "prospectiveScore": 0.500352,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -26421,21 +26421,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "io.github.lavart.hijri-clock",
-      "typeId": "desktop-clocks",
-      "name": "Hijri Clock",
-      "repository": "https://github.com/lAvArt/hijri-clock",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "86662ac7f8e31538d484beace7b216338d65609f98d6269bd1af9756f70c3c26",
-      "contractVersion": 2,
-      "prospectiveScore": 0.49986,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "io.github.zaka53.mawaqit-times",
       "typeId": "prayer-times",
       "name": "Mawaqit Prayer Times",
@@ -26526,15 +26511,15 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "ronnie.swissclock",
-      "typeId": "desktop-clocks",
-      "name": "Swiss Railway Clock",
-      "repository": "https://github.com/Macs9319/omarchy-swissclock",
+      "pluginId": "io.github.jeremylongshore.crew-chief",
+      "typeId": "agent-monitoring",
+      "name": "Crew Chief",
+      "repository": "https://github.com/jeremylongshore/omarchy-crew-chief-entry",
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "43ac8b7c028ee22e4696f18b887058d7c5864b7bb55a4baed921d2be98cdb3ef",
+      "metadataHash": "eff7ca0214750cac00858509ba9c2780c7e1a498d4b364c7f73f8526ed4850e9",
       "contractVersion": 2,
-      "prospectiveScore": 0.499302,
+      "prospectiveScore": 0.499137,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -26613,6 +26598,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "io.github.mrdulasolutions.solar-clock",
+      "typeId": "desktop-clocks",
+      "name": "Solar Clock",
+      "repository": "https://github.com/mrdulasolutions/solar-clock",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "2609d7206c8abcc1c71197ed709c2de377ea4e7b7a0e61e12d38c2594a5dfc44",
+      "contractVersion": 2,
+      "prospectiveScore": 0.498828,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -26781,15 +26781,30 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "spacexrace.worldclock",
-      "typeId": "desktop-clocks",
-      "name": "World Clock (3D Wallpaper)",
-      "repository": "https://github.com/spaceXrace/omarchy-world-clock",
+      "pluginId": "omaherdrbar",
+      "typeId": "agent-monitoring",
+      "name": "omaherdrbar",
+      "repository": "https://github.com/minerado/omaherdrbar",
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "9826f87ddbccc33b22105c2e92b071c2e8cb46f86e4e90c74f5a3977adb55450",
+      "metadataHash": "90d546f42ddb297a70c4da0c43dd6acb7cd111a254c4c49901158dd9d702031e",
       "contractVersion": 2,
-      "prospectiveScore": 0.497725,
+      "prospectiveScore": 0.497718,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "io.github.lavart.hijri-clock",
+      "typeId": "desktop-clocks",
+      "name": "Hijri Clock",
+      "repository": "https://github.com/lAvArt/hijri-clock",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "86662ac7f8e31538d484beace7b216338d65609f98d6269bd1af9756f70c3c26",
+      "contractVersion": 2,
+      "prospectiveScore": 0.49765,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -26880,21 +26895,6 @@
       "metadataHash": "d19deee1e4c5ce407fbee3f22f4c0cdb1a59ff2a2bd457cc63e795f5826e2e6c",
       "contractVersion": 2,
       "prospectiveScore": 0.497361,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "riclib.agentsview",
-      "typeId": "agent-monitoring",
-      "name": "AgentsView",
-      "repository": "https://github.com/riclib/omarchy-agentsview",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "8ea6398d3f48254a1fe08909aba2fd15a9cc49f45877a80e883295327a3554cc",
-      "contractVersion": 2,
-      "prospectiveScore": 0.497349,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -27141,21 +27141,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "intemporel",
-      "typeId": "desktop-clocks",
-      "name": "Intemporel",
-      "repository": "https://github.com/pomartel/intemporel",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "1bebee0f1469f6988db719e17c697bae1bbd469b3b25db1e1206196e9b4d2b69",
-      "contractVersion": 2,
-      "prospectiveScore": 0.495991,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "maeder.youtube-audio",
       "typeId": "music",
       "name": "Omarchy YouTube Audio",
@@ -27276,6 +27261,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "intemporel",
+      "typeId": "desktop-clocks",
+      "name": "Intemporel",
+      "repository": "https://github.com/pomartel/intemporel",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "1bebee0f1469f6988db719e17c697bae1bbd469b3b25db1e1206196e9b4d2b69",
+      "contractVersion": 2,
+      "prospectiveScore": 0.495389,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "hehh2001.tailscale-plus",
       "typeId": "vpn",
       "name": "Tailscale Plus",
@@ -27348,6 +27348,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "ronnie.swissclock",
+      "typeId": "desktop-clocks",
+      "name": "Swiss Railway Clock",
+      "repository": "https://github.com/Macs9319/omarchy-swissclock",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "43ac8b7c028ee22e4696f18b887058d7c5864b7bb55a4baed921d2be98cdb3ef",
+      "contractVersion": 2,
+      "prospectiveScore": 0.495048,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -27546,21 +27561,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "acooper.clock-timer",
-      "typeId": "desktop-clocks",
-      "name": "Clock + Timer",
-      "repository": "https://github.com/ACooperDev/Timer",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "cc4daa6c351bde41abb9ef64cecf255f9d5b2b33b9e8da1ebad10463edb29438",
-      "contractVersion": 2,
-      "prospectiveScore": 0.494105,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "io.github.bbztp.qcy",
       "typeId": "gaming",
       "name": "QCY Earbuds",
@@ -27636,21 +27636,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "alvarosaavedra.dst-clocks",
-      "typeId": "desktop-clocks",
-      "name": "DST Clocks",
-      "repository": "https://github.com/alvarosaavedra/omarchy-dst-clocks",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "4fada619899f65c55dfa95108c90b594a966dd7125adee6450fabf4ce14eab73",
-      "contractVersion": 2,
-      "prospectiveScore": 0.49345,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "org.user.media-awake",
       "typeId": "keep-awake",
       "name": "Media Awake",
@@ -27693,6 +27678,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "riclib.agentsview",
+      "typeId": "agent-monitoring",
+      "name": "AgentsView",
+      "repository": "https://github.com/riclib/omarchy-agentsview",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "8ea6398d3f48254a1fe08909aba2fd15a9cc49f45877a80e883295327a3554cc",
+      "contractVersion": 2,
+      "prospectiveScore": 0.49301,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -27855,6 +27855,21 @@
       "metadataHash": "65a82f71d89ed8f83fd06bfbc4b608d887c3d3cc61e49c9ea14570a03962dec8",
       "contractVersion": 2,
       "prospectiveScore": 0.492137,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "spacexrace.worldclock",
+      "typeId": "desktop-clocks",
+      "name": "World Clock (3D Wallpaper)",
+      "repository": "https://github.com/spaceXrace/omarchy-world-clock",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "9826f87ddbccc33b22105c2e92b071c2e8cb46f86e4e90c74f5a3977adb55450",
+      "contractVersion": 2,
+      "prospectiveScore": 0.492108,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -28113,6 +28128,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "acooper.clock-timer",
+      "typeId": "desktop-clocks",
+      "name": "Clock + Timer",
+      "repository": "https://github.com/ACooperDev/Timer",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "cc4daa6c351bde41abb9ef64cecf255f9d5b2b33b9e8da1ebad10463edb29438",
+      "contractVersion": 2,
+      "prospectiveScore": 0.490715,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -28671,21 +28701,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "io.github.captainawesomedi.omaclock",
-      "typeId": "desktop-clocks",
-      "name": "Omaclock",
-      "repository": "https://github.com/CaptainAwesomeDi/omaclock-widget",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "ea35d13445fd59d2e3ff3464e0cdbcec2b0ad1864cdcd4b85ff32c973a1a43a4",
-      "contractVersion": 2,
-      "prospectiveScore": 0.48863,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "ribattrw.todochy",
       "typeId": "tasks",
       "name": "Todochy",
@@ -28776,21 +28791,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "io.github.mphaxise.keepalive",
-      "typeId": "agent-monitoring",
-      "name": "Keepalive",
-      "repository": "https://github.com/mphaxise/omarchy-keepalive",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "c502101595017253370b7763434754d0bbe1b71445e6d1ae6ba91a1b1e4ca61a",
-      "contractVersion": 2,
-      "prospectiveScore": 0.48798,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "io.github.rclinux.omablackbox",
       "typeId": "system-monitor",
       "name": "OmaBlackbox",
@@ -28800,6 +28800,21 @@
       "metadataHash": "150fb0783f36d5bd2d45a85db33c6834b9b60be181d796dd4b6c17b7a456e808",
       "contractVersion": 2,
       "prospectiveScore": 0.487871,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "alvarosaavedra.dst-clocks",
+      "typeId": "desktop-clocks",
+      "name": "DST Clocks",
+      "repository": "https://github.com/alvarosaavedra/omarchy-dst-clocks",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "4fada619899f65c55dfa95108c90b594a966dd7125adee6450fabf4ce14eab73",
+      "contractVersion": 2,
+      "prospectiveScore": 0.487726,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -28860,6 +28875,21 @@
       "metadataHash": "01d9461faa287e7739614a831a40f481bd06b4f145750f5458df6ede895b0f45",
       "contractVersion": 2,
       "prospectiveScore": 0.487247,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "io.github.mphaxise.keepalive",
+      "typeId": "agent-monitoring",
+      "name": "Keepalive",
+      "repository": "https://github.com/mphaxise/omarchy-keepalive",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "c502101595017253370b7763434754d0bbe1b71445e6d1ae6ba91a1b1e4ca61a",
+      "contractVersion": 2,
+      "prospectiveScore": 0.487194,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -28938,21 +28968,6 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-29T19:20:24.170Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "praefectus.opencode",
-      "typeId": "agent-monitoring",
-      "name": "Praefectus OpenCode",
-      "repository": "https://github.com/jcergolj/praefectus-opencode",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "0312c6ba1184cfeb2390d597d569e5e6c9e314bb16bf4f0176e1ab7bcc24d757",
-      "contractVersion": 2,
-      "prospectiveScore": 0.486732,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -29106,15 +29121,30 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "d3m0nz.clock-fr",
+      "pluginId": "io.github.captainawesomedi.omaclock",
       "typeId": "desktop-clocks",
-      "name": "Clock (French)",
-      "repository": "https://github.com/D3m0nZOnFire/clock-fr",
+      "name": "Omaclock",
+      "repository": "https://github.com/CaptainAwesomeDi/omaclock-widget",
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "05b1c8c698a0760f20bc72689c710f15d9d49ef117aaa785e8fc9ba14e397156",
+      "metadataHash": "ea35d13445fd59d2e3ff3464e0cdbcec2b0ad1864cdcd4b85ff32c973a1a43a4",
       "contractVersion": 2,
-      "prospectiveScore": 0.485431,
+      "prospectiveScore": 0.485439,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "io.github.5d0tal1gat0r.agent-watcher",
+      "typeId": "agent-monitoring",
+      "name": "Agent Watcher",
+      "repository": "https://github.com/5d0tal1gat0r/omarchy-agent-watcher",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "2b81562fda37702d5d1104bc1f32e1a95f83c7f5cf9730a5db26956fc869deda",
+      "contractVersion": 2,
+      "prospectiveScore": 0.485314,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -29301,6 +29331,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "d3m0nz.clock-fr",
+      "typeId": "desktop-clocks",
+      "name": "Clock (French)",
+      "repository": "https://github.com/D3m0nZOnFire/clock-fr",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "05b1c8c698a0760f20bc72689c710f15d9d49ef117aaa785e8fc9ba14e397156",
+      "contractVersion": 2,
+      "prospectiveScore": 0.484185,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "io.github.ruuts.studio-display",
       "typeId": "brightness",
       "name": "Studio Display",
@@ -29316,21 +29361,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "io.github.5d0tal1gat0r.agent-watcher",
-      "typeId": "agent-monitoring",
-      "name": "Agent Watcher",
-      "repository": "https://github.com/5d0tal1gat0r/omarchy-agent-watcher",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "2b81562fda37702d5d1104bc1f32e1a95f83c7f5cf9730a5db26956fc869deda",
-      "contractVersion": 2,
-      "prospectiveScore": 0.484142,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "brenc.newgrounds-radio",
       "typeId": "radio",
       "name": "Newgrounds Radio",
@@ -29343,21 +29373,6 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "omacal",
-      "typeId": "desktop-clocks",
-      "name": "omacal Calendar",
-      "repository": "https://github.com/lama7/omacal",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "d49906ba1e694cccdd23560b38e6ce2f2533a1f15582b5b6a0a1747680b4e41a",
-      "contractVersion": 2,
-      "prospectiveScore": 0.483994,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -29508,6 +29523,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "praefectus.opencode",
+      "typeId": "agent-monitoring",
+      "name": "Praefectus OpenCode",
+      "repository": "https://github.com/jcergolj/praefectus-opencode",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "0312c6ba1184cfeb2390d597d569e5e6c9e314bb16bf4f0176e1ab7bcc24d757",
+      "contractVersion": 2,
+      "prospectiveScore": 0.483034,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -29691,21 +29721,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "edward-kulyk.claude-sessions",
-      "typeId": "agent-monitoring",
-      "name": "Claude Sessions",
-      "repository": "https://github.com/Edward-Kulyk/omarchy-claude-sessions",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "310e9c0d3e8ddb5cb9f64de1382ca6923a8671cbf50ec78fa6b988c216903529",
-      "contractVersion": 2,
-      "prospectiveScore": 0.481583,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "io.github.jfdnet.auto-power",
       "typeId": "keep-awake",
       "name": "Omarchy Auto Power",
@@ -29865,21 +29880,6 @@
       "metadataHash": "807227a222eb0e25be9ca6b5afca2618ff1e95a0b162ebcaf4944ded7b425597",
       "contractVersion": 2,
       "prospectiveScore": 0.48107,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "io.github.houtvongsak.clock-byxax",
-      "typeId": "desktop-clocks",
-      "name": "clock-byxax",
-      "repository": "https://github.com/houtvongsak/clock-byxax",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "afd4c72d69230aedcaf531cd3a5b7c9d86e5e7a67f5bad6eff4e83717730c92b",
-      "contractVersion": 2,
-      "prospectiveScore": 0.481064,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -30231,6 +30231,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "edward-kulyk.claude-sessions",
+      "typeId": "agent-monitoring",
+      "name": "Claude Sessions",
+      "repository": "https://github.com/Edward-Kulyk/omarchy-claude-sessions",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "310e9c0d3e8ddb5cb9f64de1382ca6923a8671cbf50ec78fa6b988c216903529",
+      "contractVersion": 2,
+      "prospectiveScore": 0.479576,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "sjfortin.nts-radio",
       "typeId": "radio",
       "name": "NTS Radio",
@@ -30291,6 +30306,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "io.github.houtvongsak.clock-byxax",
+      "typeId": "desktop-clocks",
+      "name": "clock-byxax",
+      "repository": "https://github.com/houtvongsak/clock-byxax",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "afd4c72d69230aedcaf531cd3a5b7c9d86e5e7a67f5bad6eff4e83717730c92b",
+      "contractVersion": 2,
+      "prospectiveScore": 0.479304,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "local.pomodoro",
       "typeId": "timers-alarms",
       "name": "Pomodoro Timer",
@@ -30333,6 +30363,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-29T19:20:24.170Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "omacal",
+      "typeId": "desktop-clocks",
+      "name": "omacal Calendar",
+      "repository": "https://github.com/lama7/omacal",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "d49906ba1e694cccdd23560b38e6ce2f2533a1f15582b5b6a0a1747680b4e41a",
+      "contractVersion": 2,
+      "prospectiveScore": 0.479108,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -30723,21 +30768,6 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "uvindu.opencode-sessions",
-      "typeId": "agent-monitoring",
-      "name": "Opencode Sessions",
-      "repository": "https://github.com/uvindusl/omarchy-opencode-sessions",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "7db53aa24220f5b8062b3aa2b374a0b9320cb6a7f20f585e785b0184f928cf36",
-      "contractVersion": 2,
-      "prospectiveScore": 0.477035,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -31401,6 +31431,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "uvindu.opencode-sessions",
+      "typeId": "agent-monitoring",
+      "name": "Opencode Sessions",
+      "repository": "https://github.com/uvindusl/omarchy-opencode-sessions",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "7db53aa24220f5b8062b3aa2b374a0b9320cb6a7f20f585e785b0184f928cf36",
+      "contractVersion": 2,
+      "prospectiveScore": 0.474325,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "sastr.siriusxm",
       "typeId": "music",
       "name": "SiriusXM",
@@ -31701,21 +31746,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "dev.pitwall",
-      "typeId": "agent-monitoring",
-      "name": "Pitwall",
-      "repository": "https://github.com/omgxai/pitwall",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "45270792d5e1235b7974930d65159393fa4b1fd5255c51016c98624cfa5c4577",
-      "contractVersion": 2,
-      "prospectiveScore": 0.472313,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "io.github.anujraja.chatgpt-archive",
       "typeId": "ai-chat",
       "name": "ChatGPT Archive",
@@ -31836,6 +31866,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "dev.pitwall",
+      "typeId": "agent-monitoring",
+      "name": "Pitwall",
+      "repository": "https://github.com/omgxai/pitwall",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "45270792d5e1235b7974930d65159393fa4b1fd5255c51016c98624cfa5c4577",
+      "contractVersion": 2,
+      "prospectiveScore": 0.471409,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "io.github.danielsuhett.vivobook-rgb",
       "typeId": "keyboard-lighting",
       "name": "Vivobook RGB",
@@ -31911,21 +31956,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "io.github.ramoncardena.omaisessions",
-      "typeId": "agent-monitoring",
-      "name": "omAiSessions",
-      "repository": "https://github.com/ramoncardena/omaisessions",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "3b7481f1553788042c7351daf4dc35162dde3072c3495c15fec3c4ef3ac557a2",
-      "contractVersion": 2,
-      "prospectiveScore": 0.470899,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "io.github.ferc10110.sysoscope",
       "typeId": "system-monitor",
       "name": "Sysoscope",
@@ -31971,21 +32001,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "kevinbsr.omahub",
-      "typeId": "desktop-clocks",
-      "name": "OmaHub",
-      "repository": "https://github.com/kevinbsr/omahub",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "a1b55d2042bd0bed33083a67f8850788b9f8ead9ec59c824071bf17016f85718",
-      "contractVersion": 2,
-      "prospectiveScore": 0.470756,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "remi.juicebar",
       "typeId": "battery",
       "name": "Animated Battery",
@@ -32028,21 +32043,6 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "oclocky",
-      "typeId": "desktop-clocks",
-      "name": "OClocky",
-      "repository": "https://github.com/kingnickisverycool/oclocky",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "df39da55f6d913f141d2875af3d50b496598d17a2466069219cb43709de2b0ad",
-      "contractVersion": 2,
-      "prospectiveScore": 0.470526,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -32106,21 +32106,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "ys770.clock",
-      "typeId": "desktop-clocks",
-      "name": "Hebrew Date Clock",
-      "repository": "https://github.com/ys770/omarchy-hebrew-date-clock",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "88ec2bfffde668f39edd13e331f79c46d263706ca459d0e8396ac6f61ac20bbb",
-      "contractVersion": 2,
-      "prospectiveScore": 0.469743,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "uvindu.opencode-sessions",
       "typeId": "ai-api-usage",
       "name": "Opencode Sessions",
@@ -32175,6 +32160,21 @@
       "metadataHash": "cd7d68ffd35f63fb51d19e80be52e919f40e1484ebe4c7b4b09b08ebef29a446",
       "contractVersion": 2,
       "prospectiveScore": 0.469543,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "io.github.ramoncardena.omaisessions",
+      "typeId": "agent-monitoring",
+      "name": "omAiSessions",
+      "repository": "https://github.com/ramoncardena/omaisessions",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "3b7481f1553788042c7351daf4dc35162dde3072c3495c15fec3c4ef3ac557a2",
+      "contractVersion": 2,
+      "prospectiveScore": 0.469477,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -32316,6 +32316,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "oclocky",
+      "typeId": "desktop-clocks",
+      "name": "OClocky",
+      "repository": "https://github.com/kingnickisverycool/oclocky",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "df39da55f6d913f141d2875af3d50b496598d17a2466069219cb43709de2b0ad",
+      "contractVersion": 2,
+      "prospectiveScore": 0.468619,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "io.github.berrimi.omaram",
       "typeId": "system-monitor",
       "name": "omaram",
@@ -32343,6 +32358,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "ys770.clock",
+      "typeId": "desktop-clocks",
+      "name": "Hebrew Date Clock",
+      "repository": "https://github.com/ys770/omarchy-hebrew-date-clock",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "88ec2bfffde668f39edd13e331f79c46d263706ca459d0e8396ac6f61ac20bbb",
+      "contractVersion": 2,
+      "prospectiveScore": 0.468376,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -32403,6 +32433,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-29T19:20:24.170Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "kevinbsr.omahub",
+      "typeId": "desktop-clocks",
+      "name": "OmaHub",
+      "repository": "https://github.com/kevinbsr/omahub",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "a1b55d2042bd0bed33083a67f8850788b9f8ead9ec59c824071bf17016f85718",
+      "contractVersion": 2,
+      "prospectiveScore": 0.46736,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -32751,21 +32796,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "nekajcasa.weekdots",
-      "typeId": "desktop-clocks",
-      "name": "Week Dots",
-      "repository": "https://github.com/nekajcasa/omarchy-weekdots",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "618ce87673dffcfd4cef6c81da9317215df022791527e4fe122f8a328ec120a2",
-      "contractVersion": 2,
-      "prospectiveScore": 0.465633,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "io.github.cgaray.mbta",
       "typeId": "timers-alarms",
       "name": "MBTA",
@@ -32835,21 +32865,6 @@
       "metadataHash": "ea35d13445fd59d2e3ff3464e0cdbcec2b0ad1864cdcd4b85ff32c973a1a43a4",
       "contractVersion": 2,
       "prospectiveScore": 0.465313,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "io.github.seunghan91.ainote-clock",
-      "typeId": "desktop-clocks",
-      "name": "AI Note Clock",
-      "repository": "https://github.com/seunghan91/omarchy-ainote-clock",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "dd93abc10a79ad8e85f3ed190b1e7796b6d24d0c4aaa47b76fa777fd35934832",
-      "contractVersion": 2,
-      "prospectiveScore": 0.465131,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -33033,6 +33048,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "io.github.seunghan91.ainote-clock",
+      "typeId": "desktop-clocks",
+      "name": "AI Note Clock",
+      "repository": "https://github.com/seunghan91/omarchy-ainote-clock",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "dd93abc10a79ad8e85f3ed190b1e7796b6d24d0c4aaa47b76fa777fd35934832",
+      "contractVersion": 2,
+      "prospectiveScore": 0.464017,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -33261,6 +33291,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "nekajcasa.weekdots",
+      "typeId": "desktop-clocks",
+      "name": "Week Dots",
+      "repository": "https://github.com/nekajcasa/omarchy-weekdots",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "618ce87673dffcfd4cef6c81da9317215df022791527e4fe122f8a328ec120a2",
+      "contractVersion": 2,
+      "prospectiveScore": 0.463045,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "io.github.adityavijayvargiya01.coverglow",
       "typeId": "music",
       "name": "Coverglow",
@@ -33318,21 +33363,6 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "ignibyte.kids-clock",
-      "typeId": "desktop-clocks",
-      "name": "Sun Clock",
-      "repository": "https://github.com/Ignibyte/omarchy-kids-clock",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "5de50225040bf5e145b94fd5fbdaa22244ccd6e3aa4a966cc182c714777e3e26",
-      "contractVersion": 2,
-      "prospectiveScore": 0.462807,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -33630,6 +33660,21 @@
       "metadataHash": "d68752f9b4f668b36ee623efcc23412d91a61ae13967a743e82b63773ae29801",
       "contractVersion": 2,
       "prospectiveScore": 0.461761,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "ignibyte.kids-clock",
+      "typeId": "desktop-clocks",
+      "name": "Sun Clock",
+      "repository": "https://github.com/Ignibyte/omarchy-kids-clock",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "5de50225040bf5e145b94fd5fbdaa22244ccd6e3aa4a966cc182c714777e3e26",
+      "contractVersion": 2,
+      "prospectiveScore": 0.461744,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -34431,21 +34476,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "io.github.hugorolimf.clock",
-      "typeId": "desktop-clocks",
-      "name": "Island Clock",
-      "repository": "https://github.com/hugorolimf/omarchy-clock",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "77c3813a79d75a8eeb9c61f72007c41e81f9d10005820ef23b926b9e42daade5",
-      "contractVersion": 2,
-      "prospectiveScore": 0.457735,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "io.github.ahmadrun.jbl-control",
       "typeId": "bluetooth",
       "name": "JBL Control",
@@ -34656,21 +34686,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "rickom1.agent-status",
-      "typeId": "agent-monitoring",
-      "name": "Live Agent Status",
-      "repository": "https://github.com/rickndanger-ctrl/omarchy-agent-status",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "3ebe9bc63b81189d02268af1f92fe322f3b81738b0f0113c0f892a6a66f66a2a",
-      "contractVersion": 2,
-      "prospectiveScore": 0.456916,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "a-b.eyebreak",
       "typeId": "notifications",
       "name": "Eye Break",
@@ -34698,6 +34713,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-29T19:20:24.170Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "io.github.hugorolimf.clock",
+      "typeId": "desktop-clocks",
+      "name": "Island Clock",
+      "repository": "https://github.com/hugorolimf/omarchy-clock",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "77c3813a79d75a8eeb9c61f72007c41e81f9d10005820ef23b926b9e42daade5",
+      "contractVersion": 2,
+      "prospectiveScore": 0.456685,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -34986,6 +35016,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "rickom1.agent-status",
+      "typeId": "agent-monitoring",
+      "name": "Live Agent Status",
+      "repository": "https://github.com/rickndanger-ctrl/omarchy-agent-status",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "3ebe9bc63b81189d02268af1f92fe322f3b81738b0f0113c0f892a6a66f66a2a",
+      "contractVersion": 2,
+      "prospectiveScore": 0.455356,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "io.github.qwlp.workspace-apps",
       "typeId": "workspaces",
       "name": "Workspace Apps",
@@ -35121,21 +35166,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "gdeyoung.timepiece",
-      "typeId": "desktop-clocks",
-      "name": "Time Piece",
-      "repository": "https://github.com/gdeyoung/omarchy-timepiece",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "474c02b79e110c8725d67df6061e9eebc870f5e19e748306a48bfca6f348f155",
-      "contractVersion": 2,
-      "prospectiveScore": 0.454114,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "io.github.superb-striker.media-controller",
       "typeId": "music",
       "name": "Now Playing for Omarchy",
@@ -35175,21 +35205,6 @@
       "metadataHash": "f825b0807bd103df017f432805665baba907c6d12925b8c10173eed6de9c5fa5",
       "contractVersion": 2,
       "prospectiveScore": 0.453766,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "orviwan.vibesworldtime",
-      "typeId": "desktop-clocks",
-      "name": "vibesWorldTime",
-      "repository": "https://github.com/orviwan/omarchy-vibes-worldclock",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "c36608927d7bbd89f2aac0afd20d9e29601b88acfe529383d7f8fa1bef01591f",
-      "contractVersion": 2,
-      "prospectiveScore": 0.453756,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -35250,6 +35265,21 @@
       "metadataHash": "0ba302795bedfb38a17a9692be917133c20a2ea3b42b3b75b0271f3870bc5136",
       "contractVersion": 2,
       "prospectiveScore": 0.452542,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "gdeyoung.timepiece",
+      "typeId": "desktop-clocks",
+      "name": "Time Piece",
+      "repository": "https://github.com/gdeyoung/omarchy-timepiece",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "474c02b79e110c8725d67df6061e9eebc870f5e19e748306a48bfca6f348f155",
+      "contractVersion": 2,
+      "prospectiveScore": 0.452405,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -35325,6 +35355,21 @@
       "metadataHash": "a3189787fad02c36c0226ca36d26f4b8dce9b1734f6a1857a96d849b93c63ba9",
       "contractVersion": 2,
       "prospectiveScore": 0.452025,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "orviwan.vibesworldtime",
+      "typeId": "desktop-clocks",
+      "name": "vibesWorldTime",
+      "repository": "https://github.com/orviwan/omarchy-vibes-worldclock",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "c36608927d7bbd89f2aac0afd20d9e29601b88acfe529383d7f8fa1bef01591f",
+      "contractVersion": 2,
+      "prospectiveScore": 0.451627,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -35871,21 +35916,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "io.github.compourri.omatoki",
-      "typeId": "desktop-clocks",
-      "name": "Omatoki",
-      "repository": "https://github.com/Compourri/omatoki",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "a3189787fad02c36c0226ca36d26f4b8dce9b1734f6a1857a96d849b93c63ba9",
-      "contractVersion": 2,
-      "prospectiveScore": 0.448611,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "io.github.smoothpixels.glyph-workspaces",
       "typeId": "workspaces",
       "name": "Glyph Workspaces",
@@ -35913,21 +35943,6 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "bishu.minimalist-worldclock",
-      "typeId": "desktop-clocks",
-      "name": "World Clock (Minimalist Map)",
-      "repository": "https://github.com/bishalber/omarchy-minimalist-worldclock",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "3b408d6f0d3fe9b42b55d3752d36abd28466573d482a607bae820e52e9f09b36",
-      "contractVersion": 2,
-      "prospectiveScore": 0.448249,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -36126,21 +36141,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "lukedaduke.standby",
-      "typeId": "desktop-clocks",
-      "name": "Standby",
-      "repository": "https://github.com/duketopceo/omarchy-standby",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "65a82f71d89ed8f83fd06bfbc4b608d887c3d3cc61e49c9ea14570a03962dec8",
-      "contractVersion": 2,
-      "prospectiveScore": 0.447299,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "yamz8.snake",
       "typeId": "mini-games",
       "name": "Snake",
@@ -36261,21 +36261,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "dorneles.omabeat",
-      "typeId": "desktop-clocks",
-      "name": "OmaBeat",
-      "repository": "https://github.com/jvlianodorneles/omabeat",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "18719b5d96b8c96278f57378ce4a10524cd5f46ae88401eebc9d268f332ce3c4",
-      "contractVersion": 2,
-      "prospectiveScore": 0.445544,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "dell.agents",
       "typeId": "ai-api-usage",
       "name": "My Agents",
@@ -36288,6 +36273,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "io.github.compourri.omatoki",
+      "typeId": "desktop-clocks",
+      "name": "Omatoki",
+      "repository": "https://github.com/Compourri/omatoki",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "a3189787fad02c36c0226ca36d26f4b8dce9b1734f6a1857a96d849b93c63ba9",
+      "contractVersion": 2,
+      "prospectiveScore": 0.445462,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -36336,21 +36336,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "davidcbradleyjr.lanes",
-      "typeId": "desktop-clocks",
-      "name": "Lanes",
-      "repository": "https://github.com/DavidCBradleyJr/omarchy-lanes",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "83809d0a2a6dae684d24e595d7cecd63e77297fdf40c4c91c0e1ef4a193b32e7",
-      "contractVersion": 2,
-      "prospectiveScore": 0.445261,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "confined-.ember",
       "typeId": "battery",
       "name": "Ember-Tray",
@@ -36378,6 +36363,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "bishu.minimalist-worldclock",
+      "typeId": "desktop-clocks",
+      "name": "World Clock (Minimalist Map)",
+      "repository": "https://github.com/bishalber/omarchy-minimalist-worldclock",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "3b408d6f0d3fe9b42b55d3752d36abd28466573d482a607bae820e52e9f09b36",
+      "contractVersion": 2,
+      "prospectiveScore": 0.444796,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -36411,15 +36411,30 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "io.github.marcoripa96.browser-minimap",
-      "typeId": "agent-monitoring",
-      "name": "Browser minimap",
-      "repository": "https://github.com/marcoripa96/omarchy-browser-minimap",
+      "pluginId": "dorneles.omabeat",
+      "typeId": "desktop-clocks",
+      "name": "OmaBeat",
+      "repository": "https://github.com/jvlianodorneles/omabeat",
       "status": "pending",
       "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "0a067f48d7d6b06ec4cfb060bfb96b882b8420ba2abef9a73a3cc904dcafaf31",
+      "metadataHash": "18719b5d96b8c96278f57378ce4a10524cd5f46ae88401eebc9d268f332ce3c4",
       "contractVersion": 2,
-      "prospectiveScore": 0.444479,
+      "prospectiveScore": 0.4445,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "lukedaduke.standby",
+      "typeId": "desktop-clocks",
+      "name": "Standby",
+      "repository": "https://github.com/duketopceo/omarchy-standby",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "65a82f71d89ed8f83fd06bfbc4b608d887c3d3cc61e49c9ea14570a03962dec8",
+      "contractVersion": 2,
+      "prospectiveScore": 0.444422,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -36510,6 +36525,21 @@
       "metadataHash": "eff7ca0214750cac00858509ba9c2780c7e1a498d4b364c7f73f8526ed4850e9",
       "contractVersion": 2,
       "prospectiveScore": 0.444097,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "davidcbradleyjr.lanes",
+      "typeId": "desktop-clocks",
+      "name": "Lanes",
+      "repository": "https://github.com/DavidCBradleyJr/omarchy-lanes",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "83809d0a2a6dae684d24e595d7cecd63e77297fdf40c4c91c0e1ef4a193b32e7",
+      "contractVersion": 2,
+      "prospectiveScore": 0.443808,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -36795,6 +36825,21 @@
       "metadataHash": "2c38f0bcb7919c362946fd0354b4eb3e7a6937af8aefa99dad5a7a1ea0d69801",
       "contractVersion": 2,
       "prospectiveScore": 0.442063,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "io.github.marcoripa96.browser-minimap",
+      "typeId": "agent-monitoring",
+      "name": "Browser minimap",
+      "repository": "https://github.com/marcoripa96/omarchy-browser-minimap",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "0a067f48d7d6b06ec4cfb060bfb96b882b8420ba2abef9a73a3cc904dcafaf31",
+      "contractVersion": 2,
+      "prospectiveScore": 0.442059,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -38316,21 +38361,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "kb2uka.terminal-deck",
-      "typeId": "agent-monitoring",
-      "name": "Terminal Deck",
-      "repository": "https://github.com/Kb2uka/omarchy-terminal-deck",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "4280a5a16b5f373f7b9aa5689e0f7790a23928f6511e33fa2e9ae0766e8b06a5",
-      "contractVersion": 2,
-      "prospectiveScore": 0.4307,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "io.github.baelter.display-arrange",
       "typeId": "display-monitors",
       "name": "Display Arrange",
@@ -38415,21 +38445,6 @@
       "metadataHash": "c205db85350911c278e2b54bd7d38387f3e6b1359a32925c2810252e983ca412",
       "contractVersion": 2,
       "prospectiveScore": 0.430467,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "davidcbradleyjr.lanes",
-      "typeId": "agent-monitoring",
-      "name": "Lanes",
-      "repository": "https://github.com/DavidCBradleyJr/omarchy-lanes",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "83809d0a2a6dae684d24e595d7cecd63e77297fdf40c4c91c0e1ef4a193b32e7",
-      "contractVersion": 2,
-      "prospectiveScore": 0.430268,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -38541,6 +38556,21 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
+      "pluginId": "davidcbradleyjr.lanes",
+      "typeId": "agent-monitoring",
+      "name": "Lanes",
+      "repository": "https://github.com/DavidCBradleyJr/omarchy-lanes",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "83809d0a2a6dae684d24e595d7cecd63e77297fdf40c4c91c0e1ef4a193b32e7",
+      "contractVersion": 2,
+      "prospectiveScore": 0.429251,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
       "pluginId": "kosta.apple-tv",
       "typeId": "music",
       "name": "Apple TV Remote",
@@ -38568,6 +38598,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "kb2uka.terminal-deck",
+      "typeId": "agent-monitoring",
+      "name": "Terminal Deck",
+      "repository": "https://github.com/Kb2uka/omarchy-terminal-deck",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "4280a5a16b5f373f7b9aa5689e0f7790a23928f6511e33fa2e9ae0766e8b06a5",
+      "contractVersion": 2,
+      "prospectiveScore": 0.428856,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -38748,21 +38793,6 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-12T15:32:22.052Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
-      "pluginId": "io.github.giannileggio.agent-deck",
-      "typeId": "agent-monitoring",
-      "name": "Agent Deck",
-      "repository": "https://github.com/giannileggio/omarchy-agent-deck",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "90add475d8a3e22210a1acab4762ec8d4976461d375bbe89bc5064c0eef200e2",
-      "contractVersion": 2,
-      "prospectiveScore": 0.427061,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -38958,6 +38988,21 @@
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-29T19:20:24.170Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "io.github.giannileggio.agent-deck",
+      "typeId": "agent-monitoring",
+      "name": "Agent Deck",
+      "repository": "https://github.com/giannileggio/omarchy-agent-deck",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "90add475d8a3e22210a1acab4762ec8d4976461d375bbe89bc5064c0eef200e2",
+      "contractVersion": 2,
+      "prospectiveScore": 0.425097,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
@@ -40011,21 +40056,6 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     },
     {
-      "pluginId": "hehh2001.lunar-clock",
-      "typeId": "desktop-clocks",
-      "name": "Chinese Lunar Clock",
-      "repository": "https://github.com/hehh2001/omarchy-lunar-clock",
-      "status": "pending",
-      "reason": "Task capability evidence has not been reviewed for this assignment.",
-      "metadataHash": "1099a48d6cc98fa2380c4fcd82ea961ede293020290923ca23feb2c0a01fb2e1",
-      "contractVersion": 2,
-      "prospectiveScore": 0.411858,
-      "previousPick": false,
-      "wouldEnterPodium": false,
-      "firstSeenAt": "2026-10-30T11:21:19.177Z",
-      "lastSeenAt": "2026-10-30T11:21:19.177Z"
-    },
-    {
       "pluginId": "io.github.jeremylongshore.workspace-storyboard",
       "typeId": "workspaces",
       "name": "Workspace Storyboard",
@@ -40035,6 +40065,21 @@
       "metadataHash": "ff823e2c906c3762117730d1b50c1e858b7dc226709606d3282f42dc06390198",
       "contractVersion": 2,
       "prospectiveScore": 0.411682,
+      "previousPick": false,
+      "wouldEnterPodium": false,
+      "firstSeenAt": "2026-10-30T11:21:19.177Z",
+      "lastSeenAt": "2026-10-30T11:21:19.177Z"
+    },
+    {
+      "pluginId": "hehh2001.lunar-clock",
+      "typeId": "desktop-clocks",
+      "name": "Chinese Lunar Clock",
+      "repository": "https://github.com/hehh2001/omarchy-lunar-clock",
+      "status": "pending",
+      "reason": "Task capability evidence has not been reviewed for this assignment.",
+      "metadataHash": "1099a48d6cc98fa2380c4fcd82ea961ede293020290923ca23feb2c0a01fb2e1",
+      "contractVersion": 2,
+      "prospectiveScore": 0.410695,
       "previousPick": false,
       "wouldEnterPodium": false,
       "firstSeenAt": "2026-10-30T11:21:19.177Z",
@@ -41181,7 +41226,7 @@
       "lastSeenAt": "2026-10-30T11:21:19.177Z"
     }
   ],
-  "taxonomyHash": "e9cdd4f89b0415de79e557c32c342f4d1517cea77a8968db45e5ee8940046dac",
+  "taxonomyHash": "562b47d69eb45bf38a3454ee36b8048e5d99e200db9434c7d039d7185802e5e7",
   "taskReviewsHash": "52dd4a4476d9875cad7cf791334396a57aba8378906987abb6418733817f6eb0",
   "pluginProfilesHash": "498e4ae34448fd965e580d3f2dce4f996d8603644742972eae04144e98110d94",
   "evidenceObservationsHash": "3f7963a44a2d8b0b972ec13901b0ff8accf5a475c709e9d375d97421078df9c4"

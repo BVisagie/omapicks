@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import { classifyPlugin, explainClassification, prepareTaxonomy, rankPlugins as rankLatest, methodologyFor } from "../build/rank.mjs";
+import { classifyPlugin, explainClassification, prepareTaxonomy, rankPlugins as rankLatest, methodologyFor, discoveryListingHash } from "../build/rank.mjs";
 import { auditClassifications as auditLatest, renderClassificationAudit } from "../build/classification-audit.mjs";
 
 const legacy = methodologyFor("1.1.0");
@@ -88,6 +88,17 @@ test("audit exposes removed categories and new listings", () => {
   assert.equal(removed.afterCount, 0);
   assert.deepEqual(report.newListings, ["new"]);
   assert.match(renderClassificationAudit(report), /## New listings\n\n- new/);
+});
+
+test("routine audit surfaces expired discovery records for cleanup", () => {
+  const original = eligible("changed");
+  const scoped = { ...taxonomy, overrides: { discoveryExclude: [{ pluginId: original.id, typeId: "battery",
+    listingSha256: discoveryListingHash(original), reason: "An earlier listing advertised a different battery scope." }] } };
+  const report = auditClassifications({ catalog: [{ ...original, description: "battery health and charging controls" }], taxonomy: scoped, now });
+  assert.deepEqual(report.discoveryCuration, { activeIncludes: 0, activeExcludes: 0,
+    expired: [{ pluginId: "changed", typeId: "battery", action: "exclude", reason: "listing-changed" }] });
+  assert.match(renderClassificationAudit(report), /1 expired records requiring cleanup or review/);
+  assert.match(renderClassificationAudit(report), /changed \/ battery \(exclude\): listing-changed/);
 });
 
 test("baseline replay ignores feed changes against the published state", () => {

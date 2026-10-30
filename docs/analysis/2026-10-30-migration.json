@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "capturedAt": "2026-10-30T11:21:19.177Z",
   "inputHash": "741a7ddb65201cad313a71411e589b5325fad668b38942ff4d97465221d3a4cd",
-  "taxonomyHash": "e9cdd4f89b0415de79e557c32c342f4d1517cea77a8968db45e5ee8940046dac",
+  "taxonomyHash": "562b47d69eb45bf38a3454ee36b8048e5d99e200db9434c7d039d7185802e5e7",
   "taskReviewsHash": "52dd4a4476d9875cad7cf791334396a57aba8378906987abb6418733817f6eb0",
   "pluginProfilesHash": "498e4ae34448fd965e580d3f2dce4f996d8603644742972eae04144e98110d94",
   "evidenceObservationsHash": "3f7963a44a2d8b0b972ec13901b0ff8accf5a475c709e9d375d97421078df9c4",
@@ -18,7 +18,7 @@
     "categoriesWithRunnerUp": 64,
     "beforeQualifiedAssignments": 158,
     "qualifiedAssignments": 170,
-    "queuedAssignments": 2745
+    "queuedAssignments": 2748
   },
   "categoryChanges": [
     {
@@ -1226,7 +1226,7 @@
       "newCategory": true,
       "changed": true,
       "beforeCount": 0,
-      "matchedCount": 70,
+      "matchedCount": 72,
       "qualifiedCount": 1,
       "beforeWinner": null,
       "afterWinner": {
@@ -1637,7 +1637,7 @@
       "newCategory": true,
       "changed": true,
       "beforeCount": 0,
-      "matchedCount": 34,
+      "matchedCount": 35,
       "qualifiedCount": 1,
       "beforeWinner": null,
       "afterWinner": {
@@ -2496,9 +2496,12 @@
       }
     }
   ],
-  "proposalCodeRevision": "3860aeff5658a175f4dcc2a8e5fce39fa1e890fd-dirty",
+  "proposalCodeRevision": "b0a085f06451c0404197adbd60de8e21712e29ab-dirty",
   "proposalCodeHashes": {
-    "build/rank.mjs": "58d9620f6afbb2635a5ad574f0e3fbcc68edc9cb5292180824296f18f18578e4",
+    "build/rank.mjs": "0dc4525c6da4a850330c739e2f4d305ab9883d3d680d5a05bb911c08c5865c1d",
+    "build/classification-audit.mjs": "64d02fb9b026e0c1651db44d5a4f8e2b3c5abc1ce6ec7df9078b847ca9b57c44",
+    "scripts/audit-discovery-recall.mjs": "e1af2fc34981405a0fe9693acbb6906dcafac8424464368397879c2306fd30f7",
+    "scripts/review-evidence.mjs": "d8485518548d8ecd24b5c571402e2bec214aab0482861b7fc16857b6df95ff56",
     "build/task-fit.mjs": "8f9a4dfa0af64394472a8f35e2be60f0fc649475e878ef931dc9e486922c0fc5",
     "build/evidence.mjs": "0665019ce4130a685c73df57e6e4a44da45b593fcdab58883effcda75b23995d",
     "build/methodology.mjs": "598f3bde501a1d3035e9bb5409b810b367681d1632de85a94edb72c6823de8c4",
@@ -2510,7 +2513,7 @@
   },
   "capture": {
     "file": "test/fixtures/task-coherence-migration.json.gz",
-    "sha256": "1567cd8424a5ef65e2968624961cecce941cffe6033f604d0419bdc05658775a",
+    "sha256": "0e891fbfd221c4cd840d39014698066871732cac16b1722bea2da3d5c254198c",
     "catalogCount": 285,
     "scope": "Lossless ranking projection of every baseline or proposed reviewed plugin. All scored cohorts and scores replay; full-catalog discovery/queue counts require the complete capture."
   },

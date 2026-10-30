@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { auditDiscoveryRecall, discoveryListingHash, readDiscoveryFixture } from "../scripts/audit-discovery-recall.mjs";
-import { classifyPlugin, prepareTaxonomy, rankPlugins } from "../build/rank.mjs";
+import { classifyPlugin, prepareTaxonomy, rankPlugins, discoveryCurationStatus } from "../build/rank.mjs";
 import { methodologyFor } from "../build/methodology.mjs";
 
 const fixture = await readDiscoveryFixture();
@@ -163,6 +163,50 @@ test("session history means coding conversations, not incidental usage or unrela
   }
 });
 
+test("non-coding sessions and agents are rejected without listing-specific exceptions", () => {
+  const raw = prepareTaxonomy({ ...taxonomy, overrides: {} });
+  for (const subject of ["Pomodoro tracker", "Workout tracker", "tmux", "VPN", "Screen recording indicator", "Backup agent", "SSH agent", "Jenkins agent", "Wazuh agent"]) {
+    for (const action of ["past sessions", "recent sessions", "restore saved sessions", "recent session history", "pause and resume", "past sessions and click to resume"]) {
+      const description = `${subject} with ${action}.`;
+      assert.ok(!classifyPlugin({ id: "fresh.subject", name: "Utility", description }, raw).includes("agent-history"), description);
+    }
+  }
+  for (const description of ["Backup agent fails and waits", "Jenkins agents finish or fail", "Wazuh agents running and reporting status", "SSH agent status and monitoring", "Jenkins dashboard with live agents", "A backup console lists working agents", "Monitor busy agents on an SSH server"]) {
+    assert.ok(!classifyPlugin({ id: "fresh.monitor", name: "Utility", description }, raw).includes("agent-monitoring"), description);
+  }
+  for (const description of ["Microsoft 365 service health", "Read Office 365 service health incidents"]){
+    const matches = classifyPlugin({ id: "fresh.provider", name: "Utility", description }, raw);
+    assert.ok(!matches.includes("endpoint-monitoring"), description);
+    assert.ok(matches.includes("service-status"), description);
+  }
+  for (const description of ["Claude Code with past sessions", "Browse Codex session history", "OpenCode with resume saved sessions", "Herdr agent resume"]) {
+    assert.ok(classifyPlugin({ id: "fresh.coding", name: "Utility", description }, raw).includes("agent-history"), description);
+  }
+});
+
+test("hardware and lock-only clocks are rejected by rules while civil-time displays survive", () => {
+  const raw = prepareTaxonomy({ ...taxonomy, overrides: {} });
+  for (const id of ["brightwalker25.mac-fan", "io.github.bblicke1.omarkdash", "io.github.prostratepossum.starwatch-lock", "dansmith888.cpu"]) {
+    assert.ok(!classifyPlugin({ ...plugins.get(id), id: `fresh.${id}` }, raw).includes("desktop-clocks"), id);
+  }
+  for (const description of ["CPU load, per-core activity, temperature and clock in the Omarchy bar", "Fan control, CPU temperature, clock and throttling", "Lock screen reskinned with a glowing digital clock", "GPU clock frequency and utilization"]) {
+    assert.ok(!classifyPlugin({ id: "fresh.clock", name: "Utility", description }, raw).includes("desktop-clocks"), description);
+  }
+  for (const description of ["Desktop clock widget with date, weather and temperature", "CPU load and a desktop clock showing local time", "Desktop clock widget with CPU telemetry", "Digital clock with date and weather"]) {
+    assert.ok(classifyPlugin({ id: "fresh.clock", name: "Utility", description }, raw).includes("desktop-clocks"), description);
+  }
+});
+
+test("rules-only diagnostics expose curation and expired decisions are visible", () => {
+  assert.ok(report.rulesOnly.unexpectedRoutes > 0, "curated correctness is not presented as rule precision");
+  const first = taxonomy.overrides.discoveryExclude[0];
+  const changed = fixture.plugins.map((p) => p.id === first.pluginId ? { ...p, description: p.description + " Updated." } : p);
+  const status = discoveryCurationStatus(changed, prepared);
+  assert.ok(status.expired.some((r) => r.pluginId === first.pluginId && r.typeId === first.typeId && r.reason === "listing-changed"));
+  const missing = discoveryCurationStatus(changed.filter((p) => p.id !== first.pluginId), prepared);
+  assert.ok(missing.expired.some((r) => r.pluginId === first.pluginId && r.reason === "listing-unavailable"));
+});
+
 test("successor-only gains and losses cannot fall outside the inventory", () => {
   const plugin = { id: "example.sessions", name: "History", description: "Browse past Claude coding sessions." };
   const sample = { ...fixture, plugins: [plugin], baselineAssignments: [], regressionAssignments: [],
@@ -173,6 +217,8 @@ test("successor-only gains and losses cannot fall outside the inventory", () => 
   let result = auditDiscoveryRecall(sample, rules, []);
   assert.ok(result.decisions.some((r) => r.typeId === "ai-assistant" && r.issues.includes("missing-expectation")));
   sample.proposalDiscoveries = [];
+  result = auditDiscoveryRecall(sample, rules, []);
+  assert.ok(result.decisions.some((r) => r.typeId === "ai-assistant" && r.rulesOnlyTargets.includes("agent-history") && r.issues.includes("missing-expectation")), "an exception cannot remove a new raw match from the split inventory");
   result = auditDiscoveryRecall(sample, taxonomy, []);
   assert.ok(result.decisions.some((r) => r.typeId === "ai-assistant" && r.issues.includes("missing-expectation")), "new current matches enter the inventory without a baseline assignment");
 });

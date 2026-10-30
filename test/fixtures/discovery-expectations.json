@@ -1751,6 +1751,19 @@
       "listingSha256": "dfb9ee52583420f58551b069f34786fcc9178f8156f99a299e7d6c4067517687"
     },
     {
+      "pluginId": "devmercenario.antigravity",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Quota reporting, alerts and authentication manage an account; the listing does not describe live coding-agent activity or saved-conversation retrieval.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Google Antigravity CLI integration for Omarchy: usage quotas, status alerts, and 1-click authentication."
+        }
+      ],
+      "listingSha256": "20eb27e91671606efeea2e8cb71adb5494007bc82dcaf888d52a27911a5f906c"
+    },
+    {
       "pluginId": "dimef.network",
       "typeId": "network",
       "expectedTargets": [
@@ -3045,6 +3058,19 @@
       "listingSha256": "e5b5f53540630d6604c65b47d9d20ed17b98c2ae0d0e3fd6d3496dac3179991a"
     },
     {
+      "pluginId": "io.github.88srzh.token-monitor",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "The hub aggregates token usage, spending and account limits; these metrics do not identify running sessions or archived conversations.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Token usage, cost and AI tool limits for your AI coding tools across all your devices, from a Token Monitor hub."
+        }
+      ],
+      "listingSha256": "c1b898a6bc694351153c597f574b9e0c1163cec9ebae533162304aa84b1e4bc4"
+    },
+    {
       "pluginId": "io.github.aashbury.stelline",
       "typeId": "clock-timer",
       "expectedTargets": [],
@@ -4158,6 +4184,19 @@
       "typeId": "ai-assistant",
       "expectedTargets": [],
       "reason": "The endpoint-monitor radar reports AI activity/findings, without identifying local coding-session focus or a saved-conversation browser.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "AI-agent activity radar: live findings and per-agent visibility from Perplexity's numbat endpoint monitor"
+        }
+      ],
+      "listingSha256": "f70a2f5599dbfb4c97f2ef2e4ba645477e3a13cf4e23a65848a371985458b155"
+    },
+    {
+      "pluginId": "io.github.duketopceo.numbat",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "The endpoint monitor is an agent-activity and findings source, not health checks against user-selected service endpoints.",
       "evidence": [
         {
           "field": "description",
@@ -5335,6 +5374,21 @@
     },
     {
       "pluginId": "io.github.lunanoir21.desktop-widget-control",
+      "typeId": "clock-timer",
+      "expectedTargets": [
+        "desktop-clocks"
+      ],
+      "reason": "Clocks placed and styled on the desktop are persistent time-display leads; the listing does not describe multiple time zones.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Live desktop widgets with a full editor for Omarchy — clocks, system monitors, a music player with a live spectrum, calendar and weather, placed and styled on the desktop, in nine themes."
+        }
+      ],
+      "listingSha256": "0d9e40954367607941135e1faa5647223e201247f04312c1788018e4f5daa263"
+    },
+    {
+      "pluginId": "io.github.lunanoir21.desktop-widget-control",
       "typeId": "weather",
       "expectedTargets": [
         "weather"
@@ -6226,6 +6280,21 @@
       "listingSha256": "3057d060dabeb79d122a7c3d09ca095c8c4fa1064bb3f14b646b3638fd34cc0b"
     },
     {
+      "pluginId": "io.github.qempexe.vitrine",
+      "typeId": "clock-timer",
+      "expectedTargets": [
+        "desktop-clocks"
+      ],
+      "reason": "Desktop clock widgets behind windows directly suggest a persistent time display; dates and system readings do not establish time-zone comparison.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Desktop widgets behind your windows: clocks, dates, system readings, now playing and notes, on customizable cards."
+        }
+      ],
+      "listingSha256": "14deaead0faaae3d3fd03049e13747f4e00bc509184c3e02ec6fafd68125d13c"
+    },
+    {
       "pluginId": "io.github.r-witz.nothing-ear",
       "typeId": "audio",
       "expectedTargets": [],
@@ -7081,6 +7150,19 @@
         }
       ],
       "listingSha256": "4461cbad9f80be0a2ed4eb4a9f5e7f7528799e7c98c4b71f2ceb5b4afdbdfb99"
+    },
+    {
+      "pluginId": "io.github.tonciz.agents-budget",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "The described running allowance and five-hour/week pill track budget consumption; an agents-panel location alone does not establish session monitoring or conversation history.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "The Omarchy Agents panel plus a Claude daily budget: a split 5h/week pill in the bar and a running daily allowance with carry-over in the panel."
+        }
+      ],
+      "listingSha256": "663a8d6555734929b26ceb5bbf6aa24cef6c35ad9c7ef07dbf746db85c2bdf86"
     },
     {
       "pluginId": "io.github.tslove923.howdy-face-unlock",
@@ -8047,6 +8129,19 @@
         }
       ],
       "listingSha256": "c06144154612709d0ac05710a83a4210a1205ac9b8bd84e480b07454ff68d887"
+    },
+    {
+      "pluginId": "lkzwieder.opencode-usage",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "The tab prices locally hosted model tokens and estimates savings; running models and an agents-panel location do not establish running-session inspection or saved-conversation retrieval.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Prices the tokens opencode spends on models you host yourself, and shows what running them locally saved, as a tab in the Omarchy agents panel."
+        }
+      ],
+      "listingSha256": "c1d783783032f70282f0fc0ab8ab51c8a8a5cca3a88386945f8e457e172ef9ed"
     },
     {
       "pluginId": "lobo.on-the-minute",
@@ -9569,6 +9664,19 @@
       "listingSha256": "7a2f1d3859ea7d3eb22f57d8a87cd770c1eaaf1ae219d0bcab8dff7016e6a257"
     },
     {
+      "pluginId": "pdaether.ploi",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "A hosting dashboard with server-health sparklines, sites and certificates does not identify endpoint probes or configured service health checks; the existing editorial exclusion retains that distinction.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "ploi.io servers in the Omarchy bar: server health at a glance, a dashboard popup with monitoring sparklines, sites and certificates, and quick actions."
+        }
+      ],
+      "listingSha256": "9eed6e755b35cb8791f1271dbdbf54fbc7e4a726413924fbe79d900513b7b52b"
+    },
+    {
       "pluginId": "penguine.network",
       "typeId": "network",
       "expectedTargets": [
@@ -10604,6 +10712,21 @@
         }
       ],
       "listingSha256": "f71749db93d23ea08ea12d7ccc98eac4f28c4f4692f2216ec2b53a0d202c2292"
+    },
+    {
+      "pluginId": "stappmus.udder",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "Seeing Herdr agents, receiving completion notifications and returning to one is a live-agent inspection lead; no saved-conversation browser is described.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "See all your Herdr agents from the Omarchy bar, get notified when one finishes while you are away, and jump straight back to it."
+        }
+      ],
+      "listingSha256": "8ee6c66532888c7cff421a98611eb36849bc8198d45df1a07ea48dd37534a6c5"
     },
     {
       "pluginId": "stewartjarod.phone-sessions",

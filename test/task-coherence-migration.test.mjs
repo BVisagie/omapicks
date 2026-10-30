@@ -13,6 +13,10 @@ test("the 1.4 task migration replays every scored cohort, score and selection of
   const expected = JSON.parse(await readFile(new URL("../docs/analysis/2026-10-30-migration.json", import.meta.url)));
   assert.equal(createHash("sha256").update(archive).digest("hex"), expected.capture.sha256);
   const capture = JSON.parse(gunzipSync(archive));
+  assert.deepEqual(capture.proposalCodeHashes, expected.proposalCodeHashes);
+  for (const [file, hash] of Object.entries(expected.proposalCodeHashes)) {
+    assert.equal(createHash("sha256").update(await readFile(new URL(`../${file}`, import.meta.url))).digest("hex"), hash, `stale migration code: ${file}`);
+  }
   const { inputs, taxonomy, taskReviews, pluginProfiles, evidenceObservations } = capture;
   const actual = compareTaskFit(inputs, taxonomy, taskReviews, { pluginProfiles, evidenceObservations, methodology: methodologyFor("1.4.0") });
   for (const key of ["taxonomyHash", "taskReviewsHash", "pluginProfilesHash", "evidenceObservationsHash"]) assert.equal(actual[key], expected[key], key);

@@ -76,7 +76,25 @@ test("listing-bound discovery exclusions expire and cannot veto reviewed capabil
   assert.equal(rankPlugins(inputs([p], [related], { taxonomy: scoped })).rankings.types[0].relatedTools[0].id, p.id);
   assert.equal(rankPlugins(inputs([p], [review(p)], { taxonomy: scoped })).rankings.types[0].winner.id, p.id);
   const duplicate = structuredClone(scoped); duplicate.overrides.discoveryExclude.push(duplicate.overrides.discoveryExclude[0]);
-  assert.throws(() => prepareTaxonomy(duplicate), /Duplicate discovery exclusion/);
+  assert.throws(() => prepareTaxonomy(duplicate), /Duplicate discovery override/);
+});
+
+test("listing-bound inclusions discover a candidate without qualifying it and expire on changed text", () => {
+  const p = plugin("pixel-tool", "Select pixels and export a PNG.");
+  const included = { ...taxonomy, overrides: { discoveryInclude: [{ pluginId: p.id, typeId: "capture",
+    listingSha256: discoveryListingHash(p), reason: "A pixel export action is a candidate lead requiring source review." }] } };
+  const prepared = prepareTaxonomy(included);
+  assert.deepEqual(classifyPlugin(p, prepareTaxonomy(taxonomy)), []);
+  assert.deepEqual(classifyPlugin(p, prepared), ["capture"]);
+  assert.deepEqual(classifyPlugin({ ...p, description: "View exported PNG files." }, prepared), []);
+  const result = rankPlugins(inputs([p], [], { taxonomy: included }));
+  assert.equal(result.rankings.types[0].winner, null);
+  assert.equal(result.reviewQueue.find((r) => r.pluginId === p.id).status, "pending");
+  for (const group of ["review", "exclude"]) {
+    const held = { ...included, overrides: { ...included.overrides, [group]: { [p.id]: ["capture"] },
+      reasons: { [p.id]: { capture: "A current hold takes precedence over discovery curation." } } } };
+    assert.deepEqual(classifyPlugin(p, prepareTaxonomy(held)), []);
+  }
 });
 
 test("contract changes, explicit holds and exclusions cannot reuse an old qualification", () => {

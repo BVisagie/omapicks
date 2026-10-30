@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "classificationVersion": 3,
   "generatedAt": "2026-10-30T11:21:19.177Z",
-  "taxonomyHash": "e9cdd4f89b0415de79e557c32c342f4d1517cea77a8968db45e5ee8940046dac",
+  "taxonomyHash": "562b47d69eb45bf38a3454ee36b8048e5d99e200db9434c7d039d7185802e5e7",
   "plugins": [
     {
       "id": "07dcolem.appimages",
@@ -19175,7 +19175,8 @@
       "types": [
         "music-players",
         "weather",
-        "calendar"
+        "calendar",
+        "desktop-clocks"
       ]
     },
     {
@@ -21896,7 +21897,8 @@
       "name": "Vitrine",
       "metadataHash": "d36f3d55079cfa1c4d8fb826605ae6e3c72e2509a571dc7e51f6367f84b9f226",
       "types": [
-        "music"
+        "music",
+        "desktop-clocks"
       ]
     },
     {
@@ -38613,7 +38615,9 @@
       "id": "stappmus.udder",
       "name": "Udder",
       "metadataHash": "101f4f8c316b39976dda8d95079710bd36a2f11b0be89577a55f681d2aab8c93",
-      "types": []
+      "types": [
+        "agent-monitoring"
+      ]
     },
     {
       "id": "staruxian.lifeos",

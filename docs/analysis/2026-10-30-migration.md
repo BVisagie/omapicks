@@ -2,7 +2,7 @@
 
 Captured 2026-10-30T11:21:19.177Z; inputs 741a7ddb65201cad313a71411e589b5325fad668b38942ff4d97465221d3a4cd. Methodology 1.3.0 → 1.4.0.
 
-12 new categories; 4 retired category IDs; 4 existing champion changes; 170 reviewed assignments compete; 2745 assignments await review.
+12 new categories; 4 retired category IDs; 4 existing champion changes; 170 reviewed assignments compete; 2748 assignments await review.
 
 Before counts are the old eligible cohort; after counts are reviewed candidates. Taxonomy, task evidence and selection change together here; feed, engagement and time are held fixed. Popularity cannot replace task qualification.
 

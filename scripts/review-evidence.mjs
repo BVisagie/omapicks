@@ -38,7 +38,7 @@ export async function reviewEvidence({ root = ROOT, now = new Date(), fetchImpl 
   await save(path.join(output, "review-queue.json"), result.reviewQueue);
   const priorities = result.reviewQueue.assignments.filter((entry) => entry.previousPick || entry.wouldEnterPodium || entry.status !== "pending");
   // JSON is authoritative; do not interpolate upstream names into Actions Markdown/commands.
-  const summary = `Review evidence captured ${inputs.now}. ${result.reviewQueue.assignments.length} unresolved research assignments; ${priorities.length} priority assignments. ${result.computedChanges.length} proposed leading-option changes. No recommendations were published.\n\nCandidate pages are staged separately and must pass validation. Captured inputs and explicit review priorities are in the review-evidence artifact. A queue departure is not necessarily an editorial decision.`;
+  const summary = `Review evidence captured ${inputs.now}. ${result.reviewQueue.assignments.length} unresolved research assignments; ${priorities.length} priority assignments. ${result.computedChanges.length} proposed leading-option changes. ${result.classificationAudit?.discoveryCuration?.expired?.length ?? 0} expired discovery decisions need cleanup or review. No recommendations were published.\n\nCandidate pages are staged separately and must pass validation. Captured inputs and explicit review priorities are in the review-evidence artifact. A queue departure is not necessarily an editorial decision.`;
   await save(path.join(output, "priorities.json"), priorities);
   await writeFile(path.join(output, "summary.md"), summary + "\n");
   if (summaryFile) await appendFile(summaryFile, `\n### Evidence review\n\n${summary}\n`);

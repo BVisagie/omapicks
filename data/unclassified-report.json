@@ -2,11 +2,11 @@
   "schemaVersion": 1,
   "generatedAt": "2026-10-30T11:21:19.177Z",
   "catalogCount": 6153,
-  "eligibleClassifiedCount": 2336,
-  "classificationAssignments": 2945,
+  "eligibleClassifiedCount": 2337,
+  "classificationAssignments": 2948,
   "qualifiedAssignments": 170,
-  "pendingAssignments": 2745,
-  "uniqueUnclassifiedCount": 2488,
+  "pendingAssignments": 2748,
+  "uniqueUnclassifiedCount": 2487,
   "excluded": {
     "not-installable": 1218,
     "compatibility-failed": 19,
@@ -351,11 +351,6 @@
       "id": "stappmus.stochi",
       "name": "Stochi",
       "category": "Widgets"
-    },
-    {
-      "id": "stappmus.udder",
-      "name": "Udder",
-      "category": "Developer Tools"
     },
     {
       "id": "3lymn.plugin-drawer",

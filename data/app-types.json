@@ -685,14 +685,17 @@
       "name": "Desktop Clocks",
       "description": "Display a persistent clock in the bar or on the desktop",
       "include": [
-        "\\b(?:(?:desktop|wallpaper|analog|analogue|digital|binary|swiss|bar|calendar|local|pixel|pinned seven-segment)[ -]clocks?|clock widgets?|desktop time|clock overlay|date/time (?:label|pill)|date and time)\\b",
-        "\\b(?:clocks? (?:with|and|in|on|for)|(?:omarchy|stock|community)(?:.s)? (?:bar )?clock|clock/calendar)\\b",
-        "\\b(?:desktop widgets?|wallpapers?|home screen)[^.]{0,70}\\bclock\\b",
-        "\\b(?:overlay|panel|pill|dashboard|shade|nightstand)[^.]{0,70}\\bclock\\b",
+        "\\b(?:(?:desktop|wallpaper|analog|analogue|digital|binary|swiss|bar|calendar|local|pixel|world|multi-timezone|pinned seven-segment)[ -]clocks?|clock widgets?|desktop time|clock overlay|date/time (?:label|pill)|date and time)\\b",
+        "\\b(?:(?:omarchy|stock|community)(?:.s)? (?:bar )?clock|clock/calendar)\\b",
+        "\\b(?:desktop widgets?|wallpapers?|home screen)\\b[^.]{0,120}\\bclocks?\\b",
+        "\\b(?:overlay|panel|pill|dashboard|shade|nightstand)\\b[^.]{0,70}\\bclock\\b",
         "\\b(?:sunrise clock|earth clock|clock, calendar|on the clock you)\\b",
         "\\bworld[- ]clock bar (?:label|pill)\\b",
         "\\binternet time[^;]{0,25}\\bwidget\\b",
-        "\\bworld clocks?\\b[^.]{0,70}\\b(?:visible|bar (?:pill|label|widget))\\b"
+        "\\bworld clocks?\\b[^.]{0,70}\\b(?:visible|bar (?:pill|label|widget))\\b",
+        "\\bclock (?:with|and) (?:the )?(?:date|calendar|alarms?|weather|time zones?)\\b",
+        "\\bclock (?:on|for|in) (?:the |your )?(?:desktop|wallpaper|bar)\\b",
+        "\\bclock with (?:a |the )?world (?:map|globe)\\b"
       ],
       "task": "Display a persistent clock in the bar or on the desktop. A persistent current-time display in a bar, desktop widget or wallpaper is the shared task; presentation and location are stated per app. A popup-only agenda, lock/saver-only clock, hardware oscillator frequency, fictional stardate or countdown alone does not qualify. A clock for one chosen zone does not establish multi-zone comparison.",
       "exclusionScope": "clause",
@@ -710,7 +713,8 @@
       ],
       "exclude": [
         "\\b(?:debt clock|stardate|theme clock|game clock|clock speed|clock frequency|audio clock|CPU clock|GPU clock|clock-side|beside the clock|next to the clock)\\b",
-        "\\b(?:CPU|GPU|processor|oscillator|MHz|GHz)[^.]{0,45}\\bclock\\b|\\bclock[^.]{0,35}\\b(?:CPU|GPU|processor|oscillator|MHz|GHz)\\b"
+        "\\b(?:CPU|GPU|processor|oscillator|SM) clocks?\\b|\\bclocks? (?:speeds?|frequenc(?:y|ies)|cycles?)\\b",
+        "\\block[- ]screen reskinned\\b"
       ]
     },
     {
@@ -1054,15 +1058,11 @@
       "name": "Agent Monitoring",
       "description": "Inspect running coding agents and focus a local agent session",
       "include": [
-        "\\b(?:agent|claude|codex|opencode|hermes|grok)[^.]{0,50}\\b(?:monitor|status|tracking|orchestrator|running|activity)\\b",
-        "\\b(?:agent orchestrator|agent monitor|coding agent status)\\b",
-        "\\b(?:agent|coding|claude|codex|opencode|hermes|herdr|grok|antigravity)[^.]{0,90}\\b(?:sessions?|threads?|attention|working|waiting|blocked|busy|tool executions?)\\b",
-        "\\b(?:live|busy|working|waiting|blocked)[ -](?:coding[- ]?)?(?:agents?|claude|codex|herdr|hermes)\\b",
-        "\\b(?:sessions?|tool executions?)[^.]{0,90}\\b(?:hermes|claude|codex|herdr|antigravity)\\b",
-        "\\blive view[^.]{0,45}agent-browser\\b",
-        "\\blive sessions[^.]{0,35}\\bagents?\\b",
-        "\\bagents?\\b[^.]{0,30}\\b(?:finishes|fails|waits)\\b",
-        "\\bagents?\\b[^.]{0,85}\\b(?:model/tool activity|request paths)\\b"
+        "\\b(?:coding[- ]agents?|AI[- ]agents?|AI[- ]coding(?:[- ]agents?)?|claude(?: code)?|codex|opencode|hermes|grok|mistral vibe|github copilot|antigravity|herdr|agentsview|omaisessions|Verde agent|Orca agent|agent-deck)\\b[^.]{0,110}\\b(?:monitor|status|tracking|orchestrator|running|activity|sessions?|threads?|attention|working|waiting|blocked|busy|tool executions?|finishes|fails|waits|model/tool activity|request paths)\\b",
+        "\\b(?:sessions?|tool executions?)\\b[^.]{0,90}\\b(?:coding[- ]agents?|AI[- ]agents?|AI[- ]coding(?:[- ]agents?)?|claude(?: code)?|codex|opencode|hermes|grok|mistral vibe|github copilot|antigravity|herdr|agentsview|omaisessions|Verde agent|Orca agent|agent-deck)\\b",
+        "\\b(?:live|busy|working|waiting|blocked)[ -](?:coding[- ]agents?|AI[- ]agents?|claude|codex|herdr|hermes)\\b",
+        "\\blive view\\b[^.]{0,45}\\bagent-browser\\b",
+        "\\blive monitor[^.]{0,60}\\b(?:AI )?coding[- ]agents?\\b"
       ],
       "task": "Inspect running coding agents and focus a local agent session. Live agent activity and a native action to focus a local running session are required. Reading archived conversations and remote read-only dashboards are different scopes.",
       "exclusionScope": "clause",
@@ -1088,15 +1088,14 @@
       "name": "Session History & Resume",
       "description": "Browse saved coding-agent conversations and resume a selected session",
       "include": [
-        "\\b(?:coding|ai|claude|codex|opencode|hermes|grok|agents?|vibe|copilot|antigravity|herdr)\\b[^.]{0,100}\\b(?:session|conversation)[ -](?:history|browser|archive|resumer?)\\b",
-        "\\b(?:resume|restore|browse|search|past|previous|archived)\\b[^.]{0,110}\\b(?:coding|ai|claude|codex|opencode|hermes|grok|agents?|vibe|copilot|antigravity|herdr)\\b[^.]{0,45}\\b(?:sessions?|conversations?)\\b",
-        "\\bpast sessions?\\b[^.]{0,70}\\bresume\\b",
-        "\\b(?:claude|codex|coding)\\b[^.]{0,50}\\bsessions that aren.t running\\b",
-        "\\bbrowser for[^.]{0,40}\\b(?:coding|agent) sessions?\\b",
-        "\\b(?:claude|codex|coding|agents?|opencode|herdr|grok)\\b[^.]{0,180}\\bresume\\b[^.]{0,25}\\bsessions?\\b",
-        "\\b(?:previous|past|saved|archived) sessions?\\b[^.]{0,65}\\b(?:coding|agents?|claude|codex|grok|opencode)\\b",
-        "\\b(?:past|previous|recent|resumable|saved) (?:coding[- ]|agent[- ])?sessions?\\b",
-        "\\b(?:herdr|claude|codex|opencode|agents?)\\b[^.]{0,55}\\b(?:resume|resumable)\\b"
+        "\\b(?:coding[- ]agents?|AI[- ]coding(?:[- ]agents?)?|claude(?: code)?|codex|opencode|hermes|grok|mistral vibe|github copilot|antigravity|herdr|agentsview|omaisessions)\\b[^.]{0,180}\\b(?:past|previous|recent|saved|archived|resumable) (?:coding[- ]|agent[- ])?sessions?\\b",
+        "\\b(?:coding[- ]agents?|AI[- ]coding(?:[- ]agents?)?|claude(?: code)?|codex|opencode|hermes|grok|mistral vibe|github copilot|antigravity|herdr|agentsview|omaisessions)\\b[^.]{0,120}\\b(?:session|conversation)[ -](?:history|browser|archive|resumer?)\\b",
+        "\\b(?:resume|restore|browse|search|past|previous|archived)\\b[^.]{0,110}\\b(?:coding[- ]agents?|AI[- ]coding(?:[- ]agents?)?|claude(?: code)?|codex|opencode|hermes|grok|mistral vibe|github copilot|antigravity|herdr|agentsview|omaisessions)\\b[^.]{0,45}\\b(?:sessions?|conversations?)\\b",
+        "\\b(?:coding[- ]agents?|AI[- ]coding(?:[- ]agents?)?|claude(?: code)?|codex|opencode|hermes|grok|mistral vibe|github copilot|antigravity|herdr|agentsview|omaisessions)\\b[^.]{0,180}\\b(?:resume|resumable) (?:any |a |the |selected )?(?:sessions?|conversations?)\\b",
+        "\\b(?:past|previous|recent|saved|archived|resumable) (?:coding[- ]|agent[- ])?sessions?\\b[^.]{0,100}\\b(?:coding[- ]agents?|AI[- ]coding(?:[- ]agents?)?|claude(?: code)?|codex|opencode|hermes|grok|mistral vibe|github copilot|antigravity|herdr|agentsview|omaisessions)\\b",
+        "\\b(?:claude|codex|coding[- ]agent)\\b[^.]{0,50}\\bsessions that aren.t running\\b",
+        "\\bbrowser for\\b[^.]{0,50}\\b(?:AI coding|coding[- ]agents?|claude|codex|opencode)\\b",
+        "\\b(?:herdr|claude(?: code)?|codex|opencode|hermes) (?:agent |session )?resume\\b"
       ],
       "task": "Browse saved coding-agent conversations and resume a selected session. Both saved-conversation discovery and targeted resumption are required. Live process monitoring or opening a generic new chat does not complete the task.",
       "exclusionScope": "clause",
@@ -1543,7 +1542,7 @@
         "\\b(?:watch|monitor|check|probe)(?:es|s|ing)?[^.]{0,40}\\b(?:sites?|endpoints?|services?|servers?|websites?|http|tcp)\\b",
         "\\b(?:instances?|services?|endpoints?)[^.]{0,70}\\b(?:reachable|reachability|health endpoint)\\b",
         "/health endpoint\\b",
-        "\\b(?:service|controller|jenkins) health\\b"
+        "\\b(?:controller|jenkins) health\\b"
       ],
       "task": "Inspect health checks for user-configured endpoints or services. Checks must target endpoints selected by the user, locally or through a configured monitoring backend. Provider-published status and incident feeds alone are a different task.",
       "exclusionScope": "clause",
@@ -1563,7 +1562,8 @@
       "description": "Read provider-published service status and incident reports",
       "include": [
         "\\b(?:status pages?|service status|provider status|incidents?(?: reports?)?)\\b",
-        "\\b(?:game|gaming|online) server status\\b"
+        "\\b(?:game|gaming|online) server status\\b",
+        "\\b(?:microsoft 365|office 365|azure|google workspace|aws) service health\\b"
       ],
       "task": "Read provider-published service status and incident reports. The app must read provider-reported incidents or degradation information. A local reachability probe or a link that only opens an external status page does not establish incident-reading capability.",
       "exclusionScope": "clause",
@@ -2249,12 +2249,6 @@
         "reason": "Opening isolated coding accounts while preserving active work is account switching, without a session-state view or saved-conversation browser."
       },
       {
-        "pluginId": "agf.agent-activity",
-        "typeId": "agent-monitoring",
-        "listingSha256": "8f13c0a30efb5fa3278cc344b9c7e760cf79e58b0c85043673a98be366b48578",
-        "reason": "Historical activity replay summarizes time, tokens and topics; it does not claim live-session focus or resumption of a saved conversation."
-      },
-      {
         "pluginId": "agy.token-usage",
         "typeId": "agent-monitoring",
         "listingSha256": "5bed0f3ef2538d066588c9b3246287add881a2a86f4b8b2f47ed0e0042f4029a",
@@ -2327,12 +2321,6 @@
         "reason": "Incident alerts concern sustained RAM pressure and app resource use, rather than remote service availability or endpoint checks."
       },
       {
-        "pluginId": "brightwalker25.mac-fan",
-        "typeId": "desktop-clocks",
-        "listingSha256": "88b53fc4a9c0d478c490277d619439b4923018dfd3cf5d89b8ac81d1e354298f",
-        "reason": "Clock appears beside CPU temperature and throttling in a fan panel, so it denotes processor frequency rather than civil time."
-      },
-      {
         "pluginId": "cittadhammo.languagetool",
         "typeId": "endpoint-monitoring",
         "listingSha256": "63135c884ddea096523d6e509a9c3634aff1dead893b1c9e0218ea8bf8a3810b",
@@ -2375,18 +2363,6 @@
         "reason": "Screenshots and recording target Android devices in a developer toolkit; recording the host desktop is not claimed."
       },
       {
-        "pluginId": "dansmith888.cpu",
-        "typeId": "desktop-clocks",
-        "listingSha256": "db074fcae43cf93e60a88721b534d8329c4882553ca429434c876339f4f59182",
-        "reason": "Clock is part of CPU telemetry alongside load and temperature, not a civil-time display."
-      },
-      {
-        "pluginId": "dansmith888.gpu",
-        "typeId": "desktop-clocks",
-        "listingSha256": "5448faf3adf5e134fd8ee18a5134b45ad9e088b8383cc2620847522ba9c5a04a",
-        "reason": "GPU clocks are processor frequencies alongside VRAM and power telemetry, not civil-time displays or zone comparisons."
-      },
-      {
         "pluginId": "data-budget",
         "typeId": "hotspots",
         "listingSha256": "8219edff4c47287cdda51e9b437404133c5c1e693abb192b2fd64b2e21759878",
@@ -2405,10 +2381,10 @@
         "reason": "The uptime panel is a host CPU/runtime monitor, with no user-configured service probes or published incident information."
       },
       {
-        "pluginId": "devinblack001.wazuh-view",
+        "pluginId": "devmercenario.antigravity",
         "typeId": "agent-monitoring",
-        "listingSha256": "dfb9ee52583420f58551b069f34786fcc9178f8156f99a299e7d6c4067517687",
-        "reason": "Wazuh agents are host security-monitoring processes; SCA/FIM/rootcheck status is not coding-agent session activity or conversation history."
+        "listingSha256": "20eb27e91671606efeea2e8cb71adb5494007bc82dcaf888d52a27911a5f906c",
+        "reason": "Quota reporting, alerts and authentication manage an account; the listing does not describe live coding-agent activity or saved-conversation retrieval."
       },
       {
         "pluginId": "eduardodallecort.weather-radar",
@@ -2465,12 +2441,6 @@
         "reason": "The stated feature is JMA rain radar/nowcast with warnings, rather than a general current-conditions forecast panel."
       },
       {
-        "pluginId": "hanssound.screencast-indicator",
-        "typeId": "agent-history",
-        "listingSha256": "a6e274f71edbbe48c1f5bef1f98991288b3960e8350eced756f116cb23188f2d",
-        "reason": "Recent session history describes screen capture activity and app attribution, not coding-agent conversations."
-      },
-      {
         "pluginId": "harshith.aura-cycler",
         "typeId": "weather",
         "listingSha256": "cd060302f58cc24ead92578e26e337851f39db1456787b988f098ac69fc78689",
@@ -2513,6 +2483,12 @@
         "reason": "Preventing sleep/lid-close suspend for remote work and timed sessions suggests an awake hold; idle timeout configuration is not stated."
       },
       {
+        "pluginId": "io.github.88srzh.token-monitor",
+        "typeId": "agent-monitoring",
+        "listingSha256": "c1b898a6bc694351153c597f574b9e0c1163cec9ebae533162304aa84b1e4bc4",
+        "reason": "The hub aggregates token usage, spending and account limits; these metrics do not identify running sessions or archived conversations."
+      },
+      {
         "pluginId": "io.github.alexwest1981.sling",
         "typeId": "firewall",
         "listingSha256": "4e3c4e83c1e612bd14f070024a07b9487441961d44d3da7bd8c5475bfd8b6fd5",
@@ -2529,12 +2505,6 @@
         "typeId": "agent-monitoring",
         "listingSha256": "0136468dc6f9ad4e29c46fe8f18ce9ee3168e1a198907a6fa3cd5529279b90b7",
         "reason": "Claude subscription session windows, meters and resets describe usage limits rather than individual coding-conversation state or resumption."
-      },
-      {
-        "pluginId": "io.github.bblicke1.omarkdash",
-        "typeId": "desktop-clocks",
-        "listingSha256": "7b0bbf873c7717b3661d6fe2c1dba1f2da51732c7677f1363ff0a8ac4321e66d",
-        "reason": "SM clock and temperatures are accelerator telemetry alongside GPU utilization and power, not civil time."
       },
       {
         "pluginId": "io.github.blackscaletech.portalprompt",
@@ -2651,12 +2621,6 @@
         "reason": "A curated AI-news brief can mention incidents and survive outages, but it does not describe provider status reports or configured health checks."
       },
       {
-        "pluginId": "io.github.jkro.miners",
-        "typeId": "desktop-clocks",
-        "listingSha256": "5b7de7a941338f406efb1ea5bb040533233471caf857c2ee55568753c6850c8a",
-        "reason": "Fleet GPU clocks are workload frequencies beside utilization and temperature, not current civil-time displays."
-      },
-      {
         "pluginId": "io.github.jonathanintheclouds.omabar",
         "typeId": "weather",
         "listingSha256": "0dc28cf7f063dff4be88df4ca12d4eed8856eb9fafcd7483ff586410ec5969a8",
@@ -2747,28 +2711,10 @@
         "reason": "The plugin sends arranged notes to Herdr sessions; note preparation does not advertise live-session inspection or saved-conversation selection."
       },
       {
-        "pluginId": "io.github.prostratepossum.starwatch-lock",
-        "typeId": "desktop-clocks",
-        "listingSha256": "f6a0e14029bb913a960fb7dd2685fb98a1bdaf2bc636068e5979d1040530b8f6",
-        "reason": "The glowing clock is part of a lock-screen reskin and therefore is not an unlocked desktop or bar clock."
-      },
-      {
-        "pluginId": "io.github.rektyrowdyy.agent-usage",
-        "typeId": "agent-monitoring",
-        "listingSha256": "0a3b6a783a9835c055f9d94d1072fbf5a58c3cf332043f4c54d328e582530254",
-        "reason": "The inline view is explicitly session and weekly usage for the default agent, rather than running-task states or resumable conversations."
-      },
-      {
         "pluginId": "io.github.rsd.power-watch",
         "typeId": "endpoint-monitoring",
         "listingSha256": "5a76593c3d2f190ef489c90ec37ad4f068fbce54df5eb565c2bf1df49cac299b",
         "reason": "Adapter power draw and its historical threshold measurements are energy telemetry, not service availability checks or incident feeds."
-      },
-      {
-        "pluginId": "io.github.sahzudin.omamemo",
-        "typeId": "agent-monitoring",
-        "listingSha256": "4eafcb880034e09816412e4d9d14c021c77a43fea44ad641cac07a86b6ad4704",
-        "reason": "Agents working is the occasion for a memory game; the game does not inspect or resume agent sessions."
       },
       {
         "pluginId": "io.github.saurasanchezpablo.droidcam",
@@ -2813,6 +2759,12 @@
         "reason": "This logs dietary caffeine and predicts sleep timing; correlating cups with agent tokens does not inhibit computer inactivity."
       },
       {
+        "pluginId": "io.github.tonciz.agents-budget",
+        "typeId": "agent-monitoring",
+        "listingSha256": "663a8d6555734929b26ceb5bbf6aa24cef6c35ad9c7ef07dbf746db85c2bdf86",
+        "reason": "The described running allowance and five-hour/week pill track budget consumption; an agents-panel location alone does not establish session monitoring or conversation history."
+      },
+      {
         "pluginId": "io.github.tslove923.howdy-face-unlock",
         "typeId": "endpoint-monitoring",
         "listingSha256": "5a281f5da9d90e7f6d099dc964092c37e4d9444e23fa004f3cca9c22fe3c702a",
@@ -2831,6 +2783,12 @@
         "reason": "Network connections appear as telemetry inside a CPU/RAM/disk monitor, without client-network configuration or joining controls."
       },
       {
+        "pluginId": "io.github.weedwhitesandwine.omazone",
+        "typeId": "desktop-clocks",
+        "listingSha256": "c97ebe2095a0e1b4d4da8db30457eb4de239d0f6d2a21191637358bd5a5c8f34",
+        "reason": "The listing describes a dropdown multi-zone display, without a persistent desktop or bar clock."
+      },
+      {
         "pluginId": "io.github.zangetsu02.fortivpn",
         "typeId": "endpoint-monitoring",
         "listingSha256": "8c964ca61d8a9fc03d5ad9df463db5ccf004d7ae0aff976eea0fcbf5fc4847bd",
@@ -2843,28 +2801,10 @@
         "reason": "Viewing connected devices on a TP-Link mesh inspects a remote router ecosystem, not the host's client connections or hotspot sharing."
       },
       {
-        "pluginId": "jinxnet.inkmode",
-        "typeId": "agent-monitoring",
-        "listingSha256": "f3d8a8972d35030555d07f4807e4e839623bf1e2db54db649f8c1482e96d4070",
-        "reason": "Coding sessions describe when to use a screen-reading filter; Ink Mode does not inspect agents or expose saved conversations."
-      },
-      {
-        "pluginId": "keis.vibe",
-        "typeId": "agent-monitoring",
-        "listingSha256": "b704d33a02fe2d53f7e7cff3ecaf4dd9bf7688cee644a881ab6bc200a956d3c1",
-        "reason": "The listing explicitly resumes named coding-agent sessions, supporting saved-session research; launching alone does not establish a live monitor."
-      },
-      {
         "pluginId": "kenhara.compliantish",
         "typeId": "lock-screen",
         "listingSha256": "b91ef7091db9c924d36c48881dae9c90b417fe3f3195fc3b8ef3afbdf13a6bd2",
         "reason": "Compliantish checks whether screen locking and other security measures exist; compliance inspection does not customize a lock interface or idle policy."
-      },
-      {
-        "pluginId": "khizarimran.fxdesk",
-        "typeId": "desktop-clocks",
-        "listingSha256": "305a4b2e56721e06fb0b716a5f5a74b310fc35691a26a53adaa139abf7129437",
-        "reason": "The clock tracks FX trading sessions alongside economic releases; a general civil-time display or multi-zone comparator is not stated."
       },
       {
         "pluginId": "kiryuuki.oma-immich",
@@ -2907,6 +2847,12 @@
         "typeId": "idle-sleep",
         "listingSha256": "4ff4ea41c6b263ee188f10f65901165ad9582010c8c3ee135baa61c9a61d0ada",
         "reason": "A reversible lid-sleep toggle is a plausible awake-hold lead; it does not describe configuring inactivity timer durations."
+      },
+      {
+        "pluginId": "lkzwieder.opencode-usage",
+        "typeId": "agent-monitoring",
+        "listingSha256": "c1d783783032f70282f0fc0ab8ab51c8a8a5cca3a88386945f8e457e172ef9ed",
+        "reason": "The tab prices locally hosted model tokens and estimates savings; running models and an agents-panel location do not establish running-session inspection or saved-conversation retrieval."
       },
       {
         "pluginId": "lonh.agents-sleep",
@@ -3095,6 +3041,12 @@
         "reason": "Wiki Wait is a Wikipedia reader for downtime, with local activity counts; coding agents working is context rather than a session-management feature."
       },
       {
+        "pluginId": "skh.pibar",
+        "typeId": "agent-monitoring",
+        "listingSha256": "9c025e89ccd91b369a998762fee727a6e1a2265adb75e8e104d8c76311d5cb81",
+        "reason": "A coding-session browser and an account-usage meter do not claim live-agent activity or focus controls."
+      },
+      {
         "pluginId": "slcode777.omaconv",
         "typeId": "agent-monitoring",
         "listingSha256": "b8922b061aafdb6ee1f12900a473d5c9852a93323dd15e2c8f1722c77f537347",
@@ -3105,12 +3057,6 @@
         "typeId": "agent-monitoring",
         "listingSha256": "97604483c3c2d949e5979eadbe4c9d7f5e1d41d3fbd62099351bcdd4c40bcbe4",
         "reason": "The picker explicitly chooses non-running Claude sessions and opens them in a terminal, supporting saved-session resumption rather than live monitoring."
-      },
-      {
-        "pluginId": "supercleanse.agents",
-        "typeId": "agent-monitoring",
-        "listingSha256": "782cf5ba4fa89c13bad387912cb0e19f119c04bedde1bb55e3a6169ee00c2380",
-        "reason": "The specified controls manage the TeamClaude proxy, account quotas and request logs; they do not advertise running coding-session inspection or saved conversations."
       },
       {
         "pluginId": "swheel33.perfwatch",
@@ -3171,6 +3117,38 @@
         "typeId": "network",
         "listingSha256": "6920c541b9b8a362b4b97bb57fbadbea383a53ad17884d4837505ac77c056c9e",
         "reason": "The assistant opens a captive-portal web login after network association; it does not select client networks or host a hotspot."
+      }
+    ],
+    "discoveryInclude": [
+      {
+        "pluginId": "davidcbradleyjr.lanes",
+        "typeId": "agent-monitoring",
+        "listingSha256": "809c924ad741b375d9accfeb0d43164758f90b92a59fd11be9b662856f8e5cbe",
+        "reason": "Workspace taskbar live-agent status is an explicit research lead; the agent domain and native focus controls still need source review."
+      },
+      {
+        "pluginId": "dev.pitwall",
+        "typeId": "agent-history",
+        "listingSha256": "d61babe912dbe801f0fedff6ce90ce1178a0e9abecc9e87262810684781a9d16",
+        "reason": "The workspace-aware bar lists live agent sessions and resume. Retain this ambiguous coding-agent research lead explicitly; source review must confirm task controls."
+      },
+      {
+        "pluginId": "dev.pitwall",
+        "typeId": "agent-monitoring",
+        "listingSha256": "d61babe912dbe801f0fedff6ce90ce1178a0e9abecc9e87262810684781a9d16",
+        "reason": "The workspace-aware bar lists live agent sessions and resume. Retain this ambiguous coding-agent research lead explicitly; source review must confirm task controls."
+      },
+      {
+        "pluginId": "io.github.dayruke.dashbots",
+        "typeId": "agent-monitoring",
+        "listingSha256": "40404aa5e8651adab2b4d8d9737a471890dd58040983e4bc43f58ac37c2c6547",
+        "reason": "A bar marker per live-agent session is an explicit research lead; coding-agent scope and focus controls still need source review."
+      },
+      {
+        "pluginId": "rickom1.agent-status",
+        "typeId": "agent-monitoring",
+        "listingSha256": "31ef0a4a9ab68889f4b4e76b6eac04a875623e9688575154bcb4a7d4737eb3ac",
+        "reason": "Live-agent status and workspace badges are an explicit research lead; the agent domain and local session controls still need source review."
       }
     ]
   }

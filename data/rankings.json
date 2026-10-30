@@ -26,7 +26,7 @@
       "count": 6247
     },
     "taxonomy": {
-      "sha256": "e9cdd4f89b0415de79e557c32c342f4d1517cea77a8968db45e5ee8940046dac",
+      "sha256": "562b47d69eb45bf38a3454ee36b8048e5d99e200db9434c7d039d7185802e5e7",
       "classificationVersion": 3,
       "typeCount": 72
     },
@@ -9209,8 +9209,8 @@
       "name": "Desktop Clocks",
       "description": "Display a persistent clock in the bar or on the desktop",
       "eligibleCount": 1,
-      "matchedCount": 70,
-      "pendingCount": 69,
+      "matchedCount": 72,
+      "pendingCount": 71,
       "taskContract": {
         "version": 2,
         "outcome": "Display a persistent clock in the bar or on the desktop",
@@ -14192,8 +14192,8 @@
       "name": "Agent Monitoring",
       "description": "Inspect running coding agents and focus a local agent session",
       "eligibleCount": 1,
-      "matchedCount": 34,
-      "pendingCount": 33,
+      "matchedCount": 35,
+      "pendingCount": 34,
       "taskContract": {
         "version": 2,
         "outcome": "Inspect running coding agents and focus a local agent session",

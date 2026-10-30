@@ -2,7 +2,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { gunzipSync } from "node:zlib";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
-import { classifyPlugin, prepareTaxonomy, discoveryListingHash } from "../build/rank.mjs";
+import { classifyPlugin, prepareTaxonomy, discoveryListingHash, discoveryCurationStatus } from "../build/rank.mjs";
 import { CATEGORY_MIGRATIONS } from "../build/category-migrations.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -14,10 +14,11 @@ export { discoveryListingHash };
 export function discoveryAuditInventory(fixture, taxonomy) {
   const initial = prepareTaxonomy(fixture.initialTaxonomy);
   const current = prepareTaxonomy(taxonomy);
+  const rulesOnly = prepareTaxonomy({ ...taxonomy, overrides: {} });
   const proposals = (fixture.proposalDiscoveries ?? []).map(({ revision, assignments }) => ({ revision, routes: new Map(assignments.map(({ pluginId, typeIds }) => [pluginId, typeIds])) }));
   const plugins = new Map(fixture.plugins.map((plugin) => [plugin.id, plugin]));
   const matches = new Map(fixture.plugins.map((plugin) => [plugin.id, {
-    initial: classifyPlugin(plugin, initial), current: classifyPlugin(plugin, current),
+    initial: classifyPlugin(plugin, initial), current: classifyPlugin(plugin, current), rulesOnly: classifyPlugin(plugin, rulesOnly),
     proposals: proposals.map(({ revision, routes }) => ({ revision, types: routes.get(plugin.id) ?? [] }))
   }]));
   const assignments = new Map();
@@ -33,6 +34,7 @@ export function discoveryAuditInventory(fixture, taxonomy) {
   const parents = new Map([...successors].flatMap(([from, targets]) => targets.map((id) => [id, from])));
   for (const [pluginId, match] of matches) {
     for (const [origin, types] of [["initial-successor-discovery", match.initial], ["current-successor-discovery", match.current],
+      ["current-rules-only-discovery", match.rulesOnly],
       ...match.proposals.map(({ revision, types }) => [`proposal-${revision}-successor-discovery`, types])]) {
       for (const typeId of types) if (parents.has(typeId)) add(pluginId, parents.get(typeId), origin);
     }
@@ -62,6 +64,7 @@ export function auditDiscoveryRecall(fixture, taxonomy, expectations = [], taskR
     const match = matches.get(assignment.pluginId) ?? { initial: [], current: [] };
     const initialTargets = targets.filter((id) => match.initial.includes(id));
     const currentTargets = targets.filter((id) => match.current.includes(id));
+    const rulesOnlyTargets = targets.filter((id) => (match.rulesOnly ?? []).includes(id));
     // Check every discovered lead in every split, even if it still reaches one successor.
     // Also retain the initial proposal's losses, new losses and named regression cases.
     if (!successors.has(assignment.typeId) && initialTargets.length && currentTargets.length &&
@@ -87,16 +90,21 @@ export function auditDiscoveryRecall(fixture, taxonomy, expectations = [], taskR
     rows.push({ pluginId: assignment.pluginId, typeId: assignment.typeId,
       name: plugin?.name ?? null, description: plugin?.description ?? null,
       inventoryOrigins: assignment.origins, successors: targets, initialTargets, currentTargets, expectedTargets,
-      missingTargets, unexpectedTargets, otherCurrentTasks: match.current.filter((id) => !targets.includes(id)),
+      missingTargets, unexpectedTargets, rulesOnlyTargets,
+      rulesOnlyMissingTargets: expectedTargets.filter((id) => !rulesOnlyTargets.includes(id)),
+      rulesOnlyUnexpectedTargets: rulesOnlyTargets.filter((id) => !expectedTargets.includes(id)), otherCurrentTasks: match.current.filter((id) => !targets.includes(id)),
       reason: judgment?.reason ?? "", evidence: judgment?.evidence ?? [],
       ...(retainedReviews.length ? { retainedEditorialDecisions: retainedReviews } : {}), issues });
   }
   const expected = new Set(rows.map(key));
   const obsoleteExpectations = expectations.filter((entry) => !expected.has(key(entry))).map(key);
-  return { schemaVersion: 3, capturedAt: fixture.capturedAt, catalogGeneratedAt: fixture.catalogGeneratedAt,
+  const ruleEmitted = rows.reduce((n, row) => n + row.rulesOnlyTargets.length, 0);
+  const ruleUnexpected = rows.reduce((n, row) => n + row.rulesOnlyUnexpectedTargets.length, 0);
+  const ruleMissing = rows.reduce((n, row) => n + row.rulesOnlyMissingTargets.length, 0);
+  return { schemaVersion: 4, capturedAt: fixture.capturedAt, catalogGeneratedAt: fixture.catalogGeneratedAt,
     baselineRevision: fixture.baselineRevision, initialProposalRevision: fixture.initialProposalRevision,
     preservedProposals: (fixture.proposalDiscoveries ?? []).map(({ revision, taxonomySha256 }) => ({ revision, taxonomySha256 })),
-    scope: "Per old-category assignment: all seven splits across baseline, initial, preserved proposals and current rules, including successor-only leads; changed routes in retained categories and named regressions. Independently authored target sets are checked against every successor, including unwanted matches. Source-reviewed membership and qualification remain separate. This targeted audit is not catalog-wide recall.",
+    scope: "Per old-category assignment: all seven splits across baseline, initial, preserved proposals and current rules with and without per-plugin overrides, including successor-only leads; changed routes in retained categories and named regressions. Independently authored target sets are checked against every successor, including unwanted matches. Source-reviewed membership and qualification remain separate. This targeted audit is not catalog-wide recall.",
     summary: { catalogListings: fixture.plugins.length, baselineAssignments: fixture.baselineAssignments.length,
       auditedAssignments: rows.length, splitAssignments: rows.filter((row) => successors.has(row.typeId)).length,
       initiallyUnmatchedAssignments: rows.filter((row) => !row.initialTargets.length).length,
@@ -108,6 +116,10 @@ export function auditDiscoveryRecall(fixture, taxonomy, expectations = [], taskR
       retainedEditorialAssignments: rows.filter((row) => row.retainedEditorialDecisions?.length).length,
       absentListings: rows.filter((row) => row.name === null).length,
       unresolvedAssignments: rows.filter((row) => row.issues.length).length },
+    rulesOnly: { scope: "Within this reviewed inventory, without any per-plugin overrides or source decisions; not catalog-wide precision.",
+      emittedRoutes: ruleEmitted, matchedRoutes: ruleEmitted - ruleUnexpected, missingRoutes: ruleMissing, unexpectedRoutes: ruleUnexpected,
+      precisionWithinAudit: ruleEmitted ? Number(((ruleEmitted - ruleUnexpected) / ruleEmitted).toFixed(6)) : null },
+    discoveryCuration: discoveryCurationStatus(fixture.plugins, prepareTaxonomy(taxonomy)),
     obsoleteExpectations, decisions: rows };
 }
 
@@ -123,7 +135,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   const reviews = JSON.parse(await readFile(path.join(ROOT, "data/task-reviews.json"), "utf8"));
   const result = auditDiscoveryRecall(fixture, taxonomy, expectations, reviews);
   if (process.argv.includes("--write")) await writeFile(path.join(ROOT, "docs/analysis/2026-10-30-discovery-recall.json"), JSON.stringify(result, null, 2) + "\n");
-  console.log(JSON.stringify({ ...result.summary, obsoleteExpectations: result.obsoleteExpectations,
+  console.log(JSON.stringify({ ...result.summary, rulesOnly: result.rulesOnly, discoveryCuration: result.discoveryCuration, obsoleteExpectations: result.obsoleteExpectations,
     unresolved: result.decisions.filter((entry) => entry.issues.length).map(({ pluginId, typeId, missingTargets, unexpectedTargets, issues }) => ({ pluginId, typeId, missingTargets, unexpectedTargets, issues })) }, null, 2));
   if (result.summary.unresolvedAssignments || result.obsoleteExpectations.length) process.exitCode = 1;
 }
