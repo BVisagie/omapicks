@@ -6,7 +6,7 @@ import path from "node:path";
 import { captureEvidence, observationCurrent, pinnedSource, relevantTreeFingerprint } from "../build/evidence.mjs";
 import { changesBetween, rankPlugins, methodologyFor } from "../build/rank.mjs";
 import { assertTaskQualifiedSnapshot, taskMetadataHash } from "../build/task-fit.mjs";
-import { refresh, replayChanges } from "../build/refresh.mjs";
+import { refresh as refreshLatest, replayChanges } from "../build/refresh.mjs";
 
 const revision = "a".repeat(40), currentRevision = "b".repeat(40);
 const now = new Date("2026-10-29T12:00:00Z");
@@ -124,7 +124,8 @@ test("1.2 keeps catalog-evidence qualification without modern source observation
   assert.equal(r.types[0].winner.id, plugin.id); assertTaskQualifiedSnapshot(r);
 });
 
-test("1.3 refresh captures deterministic evidence, freezes shared requirements and preserves published data on source outage", async (context) => {
+for (const version of ["1.3.0", "1.4.0"]) test(`${version} refresh captures deterministic evidence, freezes shared requirements and preserves published data on source outage`, async (context) => {
+  const refresh = (options) => refreshLatest({ ...options, methodology: methodologyFor(version) });
   const root = await mkdtemp(path.join(os.tmpdir(), "omapicks-source-refresh-"));
   context.after(() => rm(root, { recursive: true, force: true }));
   await mkdir(path.join(root, "data"));
@@ -135,7 +136,7 @@ test("1.3 refresh captures deterministic evidence, freezes shared requirements a
     ? { schemaVersion: 1, plugins: { capture: { copies: 1, views: 30, hearts: 0 } } }
     : url.endsWith("registry.json") ? { retiredPluginIds: [] } : { plugins: [plugin] }));
   const published = await refresh({ root, now, minimumCatalogSize: 1, fetchImpl });
-  assert.equal(published.rankings.methodologyVersion, "1.3.0");
+  assert.equal(published.rankings.methodologyVersion, version);
   assert.deepEqual(replayChanges(published.auditInputs).changes, published.computedChanges);
   assert.deepEqual(published.auditInputs.evidenceObservations.plugins.capture, observation);
   assert.equal((await refresh({ root, now, minimumCatalogSize: 1, fetchImpl: () => { throw new Error("Frozen run fetched"); } })).changed, false);
@@ -160,5 +161,41 @@ test("1.3 refresh captures deterministic evidence, freezes shared requirements a
     assert.equal(missing.evidenceObservations.expected, 1);
     assert.equal(missing.evidenceObservations.attempted, 0);
     assert.deepEqual(await Promise.all(files.map((file) => readFile(path.join(root, "data", file), "utf8"))), before);
+  }
+});
+
+test("publication records a task correction once and retains it across same-week reruns", async (context) => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "omapicks-contract-publication-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  await mkdir(path.join(root, "data"));
+  const save = (name, value) => writeFile(path.join(root, `data/${name}.json`), JSON.stringify(value));
+  await save("app-types", taxonomy);
+  await save("task-reviews", taskReviews);
+  await save("plugin-profiles", pluginProfiles);
+  const fetchImpl = async (url) => new Response(JSON.stringify(url.includes("api.github.com") ? tree : url.includes("/stats")
+    ? { schemaVersion: 1, plugins: { capture: { copies: 1, views: 30, hearts: 0 } } }
+    : url.endsWith("registry.json") ? { retiredPluginIds: [] } : { plugins: [plugin] }));
+  const first = await refreshLatest({ root, now, minimumCatalogSize: 1, fetchImpl, methodology: methodologyFor("1.3.0") });
+  const revisedTaxonomy = structuredClone(taxonomy);
+  revisedTaxonomy.types[0].contract.version = 2;
+  revisedTaxonomy.types[0].contract.outcome = "Capture a selected screen region and save an image file";
+  const revisedReviews = structuredClone(taskReviews);
+  revisedReviews.assignments[0].contractVersion = 2;
+  await save("app-types", revisedTaxonomy);
+  await save("task-reviews", revisedReviews);
+  const migrated = await refreshLatest({ root, now, minimumCatalogSize: 1, fetchImpl });
+  assert.equal(migrated.rankings.methodologyVersion, "1.4.0");
+  assert.equal(migrated.categoryChanges.length, 1);
+  assert.equal(migrated.categoryChanges[0].kind, "narrowed");
+  assert.deepEqual(replayChanges(migrated.auditInputs).categoryChanges, migrated.categoryChanges);
+  // The leading identity need not change for a category definition to be corrected.
+  assert.equal(migrated.rankings.types[0].winner.id, first.rankings.types[0].winner.id);
+  assert.equal(migrated.computedChanges.length, 0);
+  const repeated = await refreshLatest({ root, now, republish: true, minimumCatalogSize: 1, fetchImpl });
+  assert.equal(repeated.categoryChanges.length, 0);
+  assert.deepEqual(repeated.rankings.categoryChanges, migrated.rankings.categoryChanges);
+  for (const file of ["rankings", "changelog", `history/${migrated.week}`]) {
+    const value = JSON.parse(await readFile(path.join(root, `data/${file}.json`), "utf8"));
+    assert.deepEqual(value.categoryChanges, migrated.categoryChanges);
   }
 });

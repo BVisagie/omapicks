@@ -11,10 +11,11 @@ const auditClassifications = (options) => auditLatest({ methodology: legacy, ...
 const production = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
 const prepared = prepareTaxonomy(production);
 const cases = JSON.parse(await readFile(new URL("fixtures/task-fit.json", import.meta.url)));
-for (const { plugin, accepted, rejected } of cases) test(`task fit: ${plugin.id}`, () => {
+// Lexical discovery supplies review leads; task contracts and pinned evidence decide qualification.
+for (const { plugin, accepted, rejected } of cases) test(`discovery lead: ${plugin.id}`, () => {
   const types = classifyPlugin(plugin, prepared);
-  for (const id of accepted) assert.ok(types.includes(id), `${plugin.name} should provide ${id}; got ${types}`);
-  for (const id of rejected) assert.ok(!types.includes(id), `${plugin.name} should not qualify for ${id}; got ${types}`);
+  for (const id of accepted) assert.ok(types.includes(id), `${plugin.name} should be discovered for ${id}; got ${types}`);
+  for (const id of rejected) assert.ok(!types.includes(id), `${plugin.name} should not match ${id}; got ${types}`);
 });
 
 const taxonomy = { schemaVersion: 1, types: [{ id: "battery", name: "Battery", include: ["battery health"], nameInclude: ["^Battery$"] }] };

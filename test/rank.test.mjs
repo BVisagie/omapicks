@@ -52,7 +52,7 @@ function plugin(id, values = {}) {
 test("the production taxonomy is valid and covers focused tasks", async () => {
   const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
   const prepared = prepareTaxonomy(source);
-  assert.equal(prepared.types.length, 64);
+  assert.equal(prepared.types.length, 72);
   assert.equal(new Set(prepared.types.map((type) => type.id)).size, prepared.types.length);
 });
 
@@ -68,7 +68,7 @@ test("production taxonomy keeps real overlap and rejects accidental keyword hits
       description:
         "Nothing earbuds and headphones in the Omarchy bar: battery, noise control, codec selection, and low-latency mode."
     }),
-    ["audio", "peripheral-battery"]
+    ["peripheral-battery"]
   );
   assert.deepEqual(
     typesOf({
@@ -133,7 +133,7 @@ test("new discovery-backed categories classify representative primary-purpose li
     ["file-search", { id: "file-search", name: "File Search", description: "Full-text file search with a keyboard-driven overlay." }],
     ["feed-readers", { id: "rss-reader", name: "RSS Reader", description: "RSS and Atom reader with OPML and unread tracking." }],
     ["sports-scores", { id: "sports-scores", name: "Sports Scores", description: "Live sports scores, fixtures, and standings." }],
-    ["uptime-monitoring", { id: "uptime-kuma", name: "Uptime Kuma", description: "Show the status of every Uptime Kuma monitor." }]
+    ["endpoint-monitoring", { id: "uptime-kuma", name: "Uptime Kuma", description: "Show the status of every Uptime Kuma monitor." }]
   ];
 
   for (const [expected, values] of cases) {
@@ -193,7 +193,9 @@ test("new categories preserve useful overlap without recurring false positives",
     { id: "gaius-codius.unifi", name: "UniFi", description: "Read-only UniFi Network site health on the Omarchy bar" },
     { id: "io.github.duketopceo.numbat", name: "Numbat", description: "AI-agent activity radar: live findings and per-agent visibility from Perplexity's numbat endpoint monitor" }
   ]) {
-    assert.ok(!typesOf(values).includes("uptime-monitoring"), `${values.name} should not match uptime-monitoring`);
+    for (const typeId of ["endpoint-monitoring", "service-status"]) {
+      assert.ok(!typesOf(values).includes(typeId), `${values.name} should not match ${typeId}`);
+    }
   }
   const sports = typesOf({
     id: "mlb-booth",
@@ -227,7 +229,8 @@ test("new categories hold against the 3,691-listing catalog", async () => {
   for (const [unexpected, values] of [
     ["keyboard-layouts", { id: "sterre.keyboard-hud", name: "Keyboard HUD", description: "On screen key strip and keyboard map for screencasts, stacked in either order and labelled from your actual keyboard layout." }],
     ["shortcut-guides", { id: "io.github.poctek.hyprland-submap", name: "Hyprland Submap Indicator", description: "Shows the active Hyprland keybinding submap in the Omarchy bar." }],
-    ["uptime-monitoring", { id: "pdaether.ploi", name: "Ploi Panel", description: "ploi.io servers in the Omarchy bar: server health at a glance, a dashboard popup with monitoring sparklines, sites and certificates, and quick actions." }]
+    ["endpoint-monitoring", { id: "pdaether.ploi", name: "Ploi Panel", description: "ploi.io servers in the Omarchy bar: server health at a glance, a dashboard popup with monitoring sparklines, sites and certificates, and quick actions." }],
+    ["service-status", { id: "pdaether.ploi", name: "Ploi Panel", description: "ploi.io servers in the Omarchy bar: server health at a glance, a dashboard popup with monitoring sparklines, sites and certificates, and quick actions." }]
   ]) {
     assert.ok(!typesOf(values).includes(unexpected), `${values.name} should not match ${unexpected}`);
   }
@@ -252,7 +255,7 @@ test("new categories hold against the 3,691-listing catalog", async () => {
     ["sports-scores", { id: "tsubaie.next-match", name: "Next Match", description: "Your team's next fixture in the bar: crest, v, crest and the day, with live scores while it plays." }],
     ["sports-scores", { id: "io.github.studioxvii.fantasy-feed", name: "Fantasy Feed", description: "Live NFL plays, fantasy scoring, weekly leaders, and favorite-player alerts." }],
     ["sports-scores", { id: "io.github.weedwhitesandwine.gaffer", name: "FPL Gaffer", description: "The ultimate dashboard for Premier League fans — FPL mode for players and Fan mode for everyone else" }],
-    ["uptime-monitoring", { id: "io.github.ollieedgeley.ai-frontier-status", name: "Frontier Status", description: "Polls official status pages for frontier AI companies and lists their current health in an Omarchy panel." }]
+    ["service-status", { id: "io.github.ollieedgeley.ai-frontier-status", name: "Frontier Status", description: "Polls official status pages for frontier AI companies and lists their current health in an Omarchy panel." }]
   ]) {
     assert.ok(typesOf(values).includes(expected), `${values.name} should match ${expected}`);
   }
@@ -294,7 +297,7 @@ test("production taxonomy covers recurring jobs without bleeding into adjacent c
       name: "Stay Awake",
       description: "Prevent system sleep and suspend while long-running work completes."
     }),
-    ["lock-idle"]
+    ["keep-awake"]
   );
   assert.deepEqual(
     typesOf({
@@ -498,16 +501,21 @@ test("existing types catch focused near-misses without catch-all jobs", async ()
       name: "Manual Backlight Lock",
       description: "The stock Omarchy lock screen, but the keyboard backlight stays under your control."
     }),
-    ["lock-idle"]
+    ["lock-screen"]
   );
 
   assert.ok(
-    typesOf({
+    !typesOf({
       id: "io.github.androydified.omasony",
       name: "Sony Headphones",
       description: "Sony WH-1000XM5 Headphone Manager"
     }).includes("audio")
   );
+  assert.ok(typesOf({
+    id: "system-audio",
+    name: "Audio Mixer",
+    description: "Adjust output and microphone volume and select input and output devices."
+  }).includes("audio"));
 });
 
 
@@ -753,7 +761,7 @@ test("media controls match hyphenated now-playing and recording matches reversed
   );
 });
 
-test("lock-idle covers lid, session-lock and idle-timeout wording", async () => {
+test("lock screens, idle configuration and temporary inhibition stay separate in discovery", async () => {
   const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
   const prepared = prepareTaxonomy(source);
   const typesOf = (values) => classifyPlugin(plugin(values.id, values), prepared);
@@ -764,7 +772,7 @@ test("lock-idle covers lid, session-lock and idle-timeout wording", async () => 
       name: "Sandman",
       description: "Set lid-close actions and when your screen rests, locks, sleeps, and hibernates."
     }),
-    ["lock-idle"]
+    ["idle-sleep"]
   );
   assert.deepEqual(
     typesOf({
@@ -772,16 +780,25 @@ test("lock-idle covers lid, session-lock and idle-timeout wording", async () => 
       name: "LockSigil",
       description: "Quickshell session lock with separate password and fingerprint PAM flows."
     }),
-    ["lock-idle"]
+    []
   );
-  // A screensaver *timing* tool belongs here, not in the Screensavers ranking.
+  assert.deepEqual(typesOf({
+    id: "custom-lock-designs",
+    name: "Lock Designs",
+    description: "Choose and customize the lock-screen interface."
+  }), ["lock-screen"]);
+  // Timing controls cannot supply a lock-screen design or a screensaver.
   const ristretto = typesOf({
     id: "ristretto",
     name: "Ristretto",
     description: "Screensaver, lock, and sleep-after-idle-lock timing control."
   });
-  assert.ok(ristretto.includes("lock-idle"));
-  assert.ok(!ristretto.includes("screensavers"));
+  assert.deepEqual(ristretto, ["idle-sleep"]);
+  assert.deepEqual(typesOf({
+    id: "temporary-caffeine",
+    name: "Caffeine",
+    description: "Temporarily prevent idle lock and sleep, then resume normal idle behavior."
+  }), ["keep-awake"]);
 });
 
 test("ai-api-usage covers agent and subscription usage without swallowing cloud dashboards", async () => {

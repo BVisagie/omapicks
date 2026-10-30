@@ -1,5 +1,6 @@
-import { CURRENT_METHODOLOGY_VERSION, methodologyFor } from "./methodology.mjs";
+import { CURRENT_METHODOLOGY_VERSION, methodologyFor, snapshotMethodology } from "./methodology.mjs";
 import { explainTaskFit, prepareTaskReviews, preserveTaskReviewHistory, taskMetadataHash, validateTaskContracts } from "./task-fit.mjs";
+import { taskDefinitionChanged } from "./category-migrations.mjs";
 
 export { methodologyFor, snapshotMethodology } from "./methodology.mjs";
 
@@ -640,7 +641,8 @@ export const REMOVAL_REASONS = Object.freeze({
   "invalid-id": "has an invalid catalog ID",
   "no-longer-in-category": "no longer matches this category",
   "related-task-scope": "remains a related tool with a narrower task scope",
-  "awaiting-task-qualification": "is awaiting task qualification before it can compete"
+  "awaiting-task-qualification": "is awaiting task qualification before it can compete",
+  "task-definition-changed": "was reviewed against a different task definition"
 });
 
 export function removalSentence(change, { atPublication = false } = {}) {
@@ -694,7 +696,11 @@ function leadershipChanges(previous, current, slot, context) {
       previous: pickRef(oldPick),
       current: pickRef(newPick)
     };
-    const reason = oldId ? removalReason(oldId, type.id, context) : null;
+    let reason = oldId ? removalReason(oldId, type.id, context) : null;
+    if (oldId && snapshotMethodology(current).eligibility.taskCoherence && taskDefinitionChanged(before, type) &&
+        (!reason || ["related-task-scope", "awaiting-task-qualification", "no-longer-in-category"].includes(reason))) {
+      reason = "task-definition-changed";
+    }
     if (reason) change.reason = reason;
     changes.push(change);
   }

@@ -235,15 +235,48 @@ test("version 2 audit captures still replay their classifier evidence under the 
   assert.equal(current.picks.length, 0);
 });
 
-test("production task reviews cover every category and unrelated winner examples stay out of its podium", async () => {
+test("production reviews preserve corrective task boundaries without requiring a minimum shortlist size", async () => {
   const production = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
   const decisions = JSON.parse(await readFile(new URL("../data/task-reviews.json", import.meta.url)));
   const prepared = prepareTaskReviews(decisions, production.types);
-  for (const type of production.types) assert.ok(decisions.assignments.filter((p) => p.typeId === type.id && p.decision === "qualified").length >= 3, type.id);
+  const byType = new Map(production.types.map((type) => [type.id, type]));
+  const byReview = new Map(decisions.assignments.map((record) => [`${record.pluginId}/${record.typeId}`, record]));
+  const retired = new Set(["lock-idle", "clock-timer", "ai-assistant", "uptime-monitoring"]);
+  assert.ok(production.types.every((type) => !retired.has(type.id)));
+  assert.ok(decisions.assignments.every((record) => !retired.has(record.typeId)));
+
+  // Each correction retains the positive review for the task its source establishes.
+  // These are named source judgments, not a quota that encourages unrelated filler.
+  for (const [pluginId, typeId] of [
+    ["io.github.sirjul1337.lock-explorer", "lock-screen"],
+    ["onlyvishesh.power-manager", "idle-sleep"],
+    ["io.github.krongggggg.caffeine", "keep-awake"],
+    ["ubeyidah.omaclock", "desktop-clocks"],
+    ["io.github.sspaeti.timezones", "world-clocks"],
+    ["meviusisback.agent-orchestr", "agent-monitoring"],
+    ["sid.sessions", "agent-history"],
+    ["io.github.dupontbertrand.omastatus", "endpoint-monitoring"],
+    ["bottelet.is-it-down", "service-status"],
+    ["eduardodallecort.weather-radar", "weather-radar"],
+    ["io.github.shivamnarkar47.omarchy-hotspot", "hotspots"],
+    ["io.github.chris.snitch", "app-network-blocking"]
+  ]) {
+    const record = byReview.get(`${pluginId}/${typeId}`);
+    assert.equal(record?.decision, "qualified", `${pluginId}/${typeId}`);
+    assert.equal(record.contractVersion, byType.get(typeId).contract.version, `${pluginId}/${typeId} must have a current scoped review`);
+    assert.equal(record.provenance, "repository-evidence", `${pluginId}/${typeId}`);
+  }
+  for (const [pluginId, typeId] of [
+    ["eduardodallecort.weather-radar", "weather"],
+    ["io.github.shivamnarkar47.omarchy-hotspot", "network"],
+    ["io.github.chris.snitch", "firewall"]
+  ]) {
+    assert.equal(byReview.get(`${pluginId}/${typeId}`)?.decision, "related", `${pluginId} cannot supply the narrowed ${typeId} task`);
+  }
   assert.ok(!decisions.assignments.some((p) => p.pluginId === "io.github.ilyazar.syncthing" && p.typeId === "screenshots" && p.decision === "qualified"));
   const source = decisions.assignments.find((p) => p.pluginId === "io.github.ofa14-prog.dynamic-island" && p.typeId === "screen-recording");
   assert.equal(source.decision, "related");
-  assert.ok(prepared.size > 250);
+  assert.equal(prepared.size, decisions.assignments.length);
 });
 
 test("captured 1.2 counterexamples and missed primary tasks replay their explicit outcomes", async () => {

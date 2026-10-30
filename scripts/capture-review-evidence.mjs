@@ -4,7 +4,7 @@ import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { pinnedSource } from "../build/evidence.mjs";
+import { pinnedSource, reviewSources } from "../build/evidence.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const args = process.argv.slice(2);
@@ -17,12 +17,15 @@ for (let i = 0; i < args.length; i++) {
 }
 const hash = (value) => createHash("sha256").update(value).digest("hex");
 const readJson = async (name) => JSON.parse(await readFile(path.join(root, "data", name), "utf8"));
-const [evaluation, profiles] = await Promise.all([
-  readJson("recommendation-evaluation.json"), readJson("plugin-profiles.json"),
+const [evaluation, profiles, reviews] = await Promise.all([
+  readJson("recommendation-evaluation.json"), readJson("plugin-profiles.json"), readJson("task-reviews.json"),
 ]);
 const citations = [
   ...evaluation.cases.map((entry) => entry.source),
   ...Object.values(profiles.plugins).flatMap((profile) => profile.sources),
+  // Legacy catalog citations cannot qualify current recommendations and are not
+  // immutable repository text. Verify every pinned active task citation too.
+  ...reviews.assignments.flatMap(reviewSources).filter((source) => pinnedSource(source)),
 ];
 const documents = new Map();
 for (const source of citations) {

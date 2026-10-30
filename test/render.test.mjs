@@ -8,6 +8,7 @@ import {
   featuredDayIndex,
   featuredTypes,
   render,
+  renderFixtureCategoryBridge,
   renderFixtureChangelog,
   renderFixtureFeed,
   renderFixtureHome,
@@ -18,6 +19,7 @@ import {
   withAvailability
 } from "../build/render.mjs";
 import { methodologyFor, snapshotMethodology } from "../build/methodology.mjs";
+import { CATEGORY_MIGRATIONS, migrationsForSnapshot } from "../build/category-migrations.mjs";
 
 function fixtureCandidate(values = {}) {
   return {
@@ -401,6 +403,15 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
     pickType.winner ? readFile(new URL(`../dist/badges/${rankings.week}/${pickType.id}/${encodeURIComponent(pickType.winner.id)}.svg`, import.meta.url), "utf8") : Promise.resolve("")
   ]);
   const manifestColours = JSON.parse(manifestSource);
+  for (const change of migrationsForSnapshot(rankings).flatMap((migration) => migration.changes).filter((change) => change.retired)) {
+    const bridge = await readFile(new URL(`../dist/picks/${change.from.id}/index.html`, import.meta.url), "utf8");
+    assert.ok(sitemap.includes(`/picks/${change.from.id}/`));
+    assert.match(bridge, /now has separate tasks/);
+    for (const successor of change.to) {
+      assert.ok(bridge.includes(`href="/picks/${successor.id}/"`));
+      assert.ok((await stat(new URL(`../dist/picks/${successor.id}/index.html`, import.meta.url))).isFile());
+    }
+  }
   assert.equal(manifestColours.background_color, PALETTE.bg);
   assert.equal(manifestColours.theme_color, PALETTE.bg);
   const typeCount = rankings.types.length;
@@ -424,7 +435,7 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.doesNotMatch(home, /Featured this week/);
   if (featured.length) assert.match(home, /A different category each day\. Rankings refresh Monday\./);
   if (featured.length) assert.match(home, modern ? /01 Leading reviewed option/ : /01 Champion/);
-  if (featured.length) assert.match(home, modern ? /02 Another reviewed option/ : /02 Runner-up/);
+  if (featured.some((type) => type.runnerUp) || (!modern && featured.length)) assert.match(home, modern ? /02 Another reviewed option/ : /02 Runner-up/);
   if (featured.some((type) => type.runnerUp)) assert.match(home, modern ? /alternative / : /runner-up /);
   assert.match(home, /Week of [A-Z][a-z]+ \d{1,2}, \d{4}/);
   assert.match(home, snapshotMethodology(rankings).eligibility.reviewedTaskEvidence ? /Reviewed category entries/ : /Category entries/);
@@ -821,4 +832,75 @@ test("the changelog lists runner-up events separately and older weeks without th
   assert.match(w40, /<strong>B<\/strong> became the Clock runner-up\./);
   assert.doesNotMatch(w39, /Runner-up changes/);
   assert.match(w39, /<strong>C<\/strong> replaced A in Clock\./);
+});
+
+test("reviewed shortlists show one real card or a clear abstention without a second-place placeholder", () => {
+  const rankings = { ...fixtureRankings(), methodologyVersion: "1.4.0" };
+  rankings.types[0].taskContract = { outcome: "Read the current conditions and forecast for a location" };
+  const one = renderFixtureType(rankings.types[0], rankings);
+  assert.equal([...one.matchAll(/class="glass tilt pick-card/g)].length, 1);
+  assert.match(one, /class="podium single-option"/);
+  assert.match(one, /One option currently qualifies for this task/);
+  assert.match(one, /<strong>Shared task:<\/strong> Read the current conditions/);
+  assert.doesNotMatch(one, /pick-card empty|02 Another reviewed option|and other reviewed Weather options/);
+  const home = renderFixtureHome(rankings);
+  assert.equal([...home.matchAll(/class="glass tilt card showdown-entry/g)].length, 1);
+  assert.match(home, /showdown-pair single-option/);
+  assert.doesNotMatch(home, /showdown-entry empty/);
+  rankings.types[0].winner = null;
+  rankings.types[0].eligibleCount = 0;
+  const empty = renderFixtureType(rankings.types[0], rankings);
+  assert.match(empty, /<h2 id="shortlist-empty-heading">No reviewed option yet<\/h2>/);
+  assert.doesNotMatch(empty, /class="podium|pick-card|data-copy-command|02 Another reviewed option/);
+  assert.match(empty, /"numberOfItems":0/);
+});
+
+test("retired category pages explain every successor instead of choosing a redirect", () => {
+  const migration = CATEGORY_MIGRATIONS[0];
+  const rankings = { ...fixtureRankings(), methodologyVersion: migration.methodologyVersion, types: [] };
+  for (const change of migration.changes.filter((entry) => entry.retired)) {
+    rankings.types = change.to.map((type) => ({ ...type, description: `Complete the ${type.name} task`, eligibleCount: 0, winner: null, runnerUp: null }));
+    const html = renderFixtureCategoryBridge(change, rankings);
+    assert.match(html, /now has separate tasks/);
+    assert.ok(html.includes(`<link rel="canonical" href="https://omapicks.com/picks/${change.from.id}/">`));
+    for (const type of change.to) assert.ok(html.includes(`href="/picks/${type.id}/"`), type.id);
+    assert.match(html, /Earlier snapshots retain their original category definitions/);
+    assert.doesNotMatch(html, /http-equiv="refresh"|class="podium"/);
+    assert.throws(() => renderFixtureCategoryBridge(change, { ...rankings, types: rankings.types.slice(1) }), /Missing category successor/);
+  }
+  assert.equal(migrationsForSnapshot({ methodologyVersion: "1.3.0" }).length, 0);
+});
+
+test("category corrections and requalification do not masquerade as competitive displacement", () => {
+  const migration = CATEGORY_MIGRATIONS[0];
+  const correction = { ...migration.changes.find((change) => change.from.id === "network"), migrationId: migration.id };
+  const old = { methodologyVersion: "1.3.0", week: "2026-W43", generatedAt: "2026-10-19T06:00:00Z", changes: [{ typeId: "network", typeName: "Network Connections", kind: "displaced", previous: { id: "former", name: "Former" }, current: { id: "hotspot", name: "Hotspot" } }] };
+  const current = { methodologyVersion: "1.4.0", week: "2026-W44", generatedAt: "2026-10-30T06:00:00Z", categoryChanges: [correction], changes: [{ typeId: "network", typeName: "Network Connections", kind: "displaced", reason: "task-definition-changed", previous: { id: "hotspot", name: "Hotspot" }, current: { id: "client", name: "Client" } }], runnerUpChanges: [{ typeId: "network", typeName: "Network Connections", kind: "vacated", reason: "task-definition-changed", previous: { id: "former", name: "Former" }, current: null }] };
+  const page = renderFixtureChangelog([old, current]);
+  assert.match(page, /Category corrections/);
+  assert.match(page, /href="\/picks\/hotspots\/"/);
+  assert.match(page, /Client<\/strong> is the Network Connections leading reviewed option under the updated task definition/);
+  assert.match(page, /Network Connections has no second reviewed option under the updated task definition/);
+  assert.doesNotMatch(page, /Client<\/strong> replaced Hotspot/);
+  assert.match(page, /Hotspot<\/strong> replaced Former in Network Connections/);
+  const historicalSection = page.split('<section class="glass reveal">').at(-1);
+  assert.doesNotMatch(historicalSection, /Category corrections|updated task definition/);
+  const { rss } = renderFixtureFeed([old, current]);
+  assert.match(rss, /Network Connections: category tasks updated/);
+  assert.match(rss, /Client is selected under the updated Network Connections task definition/);
+  assert.doesNotMatch(rss, /Client replaced Hotspot/);
+  assert.match(rss, /Hotspot replaced Former/);
+  const onlyCorrection = renderFixtureFeed([{ ...current, changes: [], runnerUpChanges: [] }]);
+  assert.equal([...onlyCorrection.rss.matchAll(/<item>/g)].length, 1);
+});
+
+test("methodology explains common outcomes without rewriting earlier policy copy", () => {
+  const current = renderFixtureMethodology({ ...fixtureRankings(), methodologyVersion: "1.4.0" });
+  assert.match(current, /same action on the same target/);
+  assert.match(current, /does that capability complete the shared task/);
+  assert.match(current, /one reviewed option or none/);
+  assert.doesNotMatch(current, /Audio codecs belong under Audio/);
+  const old = renderFixtureMethodology({ ...fixtureRankings(), methodologyVersion: "1.3.0" });
+  assert.doesNotMatch(old, /same action on the same target/);
+  assert.match(old, /Audio codecs belong under Audio/);
 });

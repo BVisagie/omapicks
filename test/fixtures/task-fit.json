@@ -56,10 +56,11 @@
       "kind": "Bar widget"
     },
     "accepted": [
-      "bluetooth",
+      "bluetooth"
+    ],
+    "rejected": [
       "audio"
     ],
-    "rejected": [],
     "source": "https://github.com/ssupt/omarchy-bluetooth-audio"
   },
   {
@@ -74,11 +75,10 @@
       ],
       "kind": "Bar widget"
     },
-    "accepted": [
-      "audio"
-    ],
+    "accepted": [],
     "rejected": [
-      "bluetooth"
+      "bluetooth",
+      "audio"
     ],
     "source": "https://github.com/nightdevil00/bt.codecs"
   },
@@ -96,10 +96,11 @@
       "kind": "Bar widget"
     },
     "accepted": [
-      "bluetooth",
+      "bluetooth"
+    ],
+    "rejected": [
       "audio"
     ],
-    "rejected": [],
     "source": "https://github.com/jhaney3/omarchy-bluetooth-modes"
   },
   {
@@ -156,12 +157,12 @@
       "kind": "Bar widget"
     },
     "accepted": [
-      "audio",
       "peripheral-battery"
     ],
     "rejected": [
       "battery",
-      "network"
+      "network",
+      "audio"
     ],
     "source": "https://github.com/r-witz/omarchy-nothing-ear"
   },
@@ -454,9 +455,11 @@
       "kind": "Bar widget"
     },
     "accepted": [
-      "ai-assistant"
+      "agent-monitoring"
     ],
-    "rejected": [],
+    "rejected": [
+      "agent-history"
+    ],
     "source": "https://github.com/meviusisback/agent-orchestr"
   },
   {
@@ -473,9 +476,11 @@
       "kind": "Bar widget"
     },
     "accepted": [
-      "ai-assistant"
+      "agent-history"
     ],
-    "rejected": [],
+    "rejected": [
+      "agent-monitoring"
+    ],
     "source": "https://github.com/Sudhanshugtm/omarchy-session-browser"
   },
   {
@@ -495,7 +500,8 @@
       "ai-api-usage"
     ],
     "rejected": [
-      "ai-assistant"
+      "agent-monitoring",
+      "agent-history"
     ],
     "source": "https://github.com/robzolkos/omarchy-agent-usage"
   },
@@ -1050,7 +1056,8 @@
       "ai-api-usage"
     ],
     "rejected": [
-      "ai-assistant"
+      "agent-monitoring",
+      "agent-history"
     ],
     "source": "https://github.com/LinuxGamerUK/omarchy-ollama-cloud-api"
   },
@@ -1160,10 +1167,10 @@
       ],
       "kind": "Bar widget"
     },
-    "accepted": [
+    "accepted": [],
+    "rejected": [
       "audio"
     ],
-    "rejected": [],
     "source": "https://github.com/gigasolo/omavoice"
   },
   {
@@ -1198,10 +1205,10 @@
       ],
       "kind": "Bar widget"
     },
-    "accepted": [
+    "accepted": [],
+    "rejected": [
       "audio"
     ],
-    "rejected": [],
     "source": "https://github.com/MADS0LADEN/omarchy-multi-output"
   },
   {
@@ -1469,7 +1476,7 @@
       "themes-appearance",
       "wallpaper",
       "night-light",
-      "lock-idle"
+      "idle-sleep"
     ],
     "rejected": [
       "system-monitor"

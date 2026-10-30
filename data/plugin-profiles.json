@@ -2756,6 +2756,289 @@
           "evidence": "README.md lines 9-13:\n- Bar icon shows a live count of ports you started (dev servers, scripts, whatever).\n- Click it to see each port, protocol, process name, pid, and the real command + folder it was launched from (read straight from `/proc`, not guessed).\n- Kill button per row, needs a second click within 3s to confirm.\n- GUI apps (browsers etc., detected via an actual Hyprland window match) and ports owned by other users/root are hidden by default, behind collapsible \"Apps\" / \"System\" sections.\n- Widget hides itself entirely when you have nothing running.\n\nREADME.md lines 45-46:\n- Omarchy on Hyprland\n- `ss` (part of `iproute2`, already installed on Omarchy)\n\nREADME.md lines 50-50:\nOne `ss -tulpn` scan for ports, `hyprctl clients -j` to tell real windowed apps apart from headless processes, and a `/proc/<pid>` read for the exact command and working directory. No polling beyond a 15s background refresh (3s while the popup is open), no sudo, no network calls."
         }
       ]
+    },
+    "io.github.smoothpixels.lock-designs": {
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Replaces the stock Omarchy lock screen; only one lock-screen plugin can be active. Re-enable omarchy.lock after removing this replacement.",
+        "Some designs download third-party video or font assets on demand. Video playback uses Qt Multimedia."
+      ],
+      "reviewedAt": "2026-10-30",
+      "sources": [
+        {
+          "url": "https://github.com/SmoothPixels/lock-designs/blob/2591e6805a6848e6bcc7f3c9372994af37786035/README.md",
+          "revision": "2591e6805a6848e6bcc7f3c9372994af37786035",
+          "path": "README.md",
+          "sha256": "bc5ac891d08b61b1036bcad2f9cf5be6434bf10078ec289fb34eefd904e92e4e",
+          "evidence": "README.md lines 19-19:\nOnly one lock screen plugin can be active at a time, so disable any other lock plugin first (`omarchy plugin list` shows what is enabled). Then open the picker:\n\nREADME.md lines 54-56:\n## Assets and verification\n\nEvery design with a video, image or font fetches it on demand, so a clone of this repository stays small. Each entry in `designs/thirdparty-assets.json` carries the file's SHA-256 and size and points at an immutable source: a full commit of `Darkkal44/qylock` for the qylock ports, or a GitHub release of this repository for the wallsflow videos:\n\nREADME.md lines 73-75:\nThe downloader fetches each file to a `.part` file, hashes it, and only moves it into place when the digest matches. A catalog entry without a digest is refused outright, and a mismatch is reported on the card and the file discarded. Optional `mirrors` are tried in order after `url`; the digest has to match whichever source answered, so a mirror can never weaken the check. The only network access this plugin ever makes is these downloads, and only when you ask for one.\n\nDownloaded assets live in `~/.config/omarchy/lock-designs/<design>-assets/`. The 7 wallsflow videos are served from the `media-1` release of this repository, because wallsflow's own CDN blocks scripted downloads and offers nothing that could be pinned; their digests sit in the same catalog and go through the same check.\n\nREADME.md lines 126-133:\nThen remove the plugin and hand the lock back to Omarchy:\n\n```sh\nomarchy plugin remove io.github.smoothpixels.lock-designs\nomarchy plugin enable omarchy.lock\n```\n\nThe second line matters: removing the active clone leaves the stock lock disabled until you enable it again. Files already copied into `~/.config/omarchy/lock-designs/` are left in place, including downloaded assets and any designs of your own; delete the folder yourself if you want it gone."
+        },
+        {
+          "url": "https://github.com/SmoothPixels/lock-designs/blob/2591e6805a6848e6bcc7f3c9372994af37786035/Warmup.qml",
+          "revision": "2591e6805a6848e6bcc7f3c9372994af37786035",
+          "path": "Warmup.qml",
+          "sha256": "45f222370db095e1ccaf1c84279ee05535eaff263dc85a1a9ae9a231cb005dcd",
+          "evidence": "Warmup.qml lines 1-9:\nimport QtQuick\nimport QtMultimedia\n\n// Loaded a few seconds after the shell starts, purely so Qt's multimedia\n// module is already in memory when the first video design locks the screen.\n// Measured: the first import costs about 700 ms; every later one, a few ms.\nItem {\n  MediaPlayer { }\n}"
+        }
+      ]
+    },
+    "bibek.lock": {
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Requires Omarchy Quattro and replaces the built-in omarchy.lock service. Its date/time format is configured in ~/.config/omarchy/lock.json."
+      ],
+      "reviewedAt": "2026-10-30",
+      "sources": [
+        {
+          "url": "https://github.com/BibekBhusal0/omarchy-better-lock/blob/68da19058190e4c4edd9365e038d6fa70cbb3a27/README.md",
+          "revision": "68da19058190e4c4edd9365e038d6fa70cbb3a27",
+          "path": "README.md",
+          "sha256": "5d1919a546b7c055f4b8be7c8aa0a785dae704503597402885605e61919ee436",
+          "evidence": "README.md lines 3-3:\nA custom lock screen service for Omarchy, cloned from the built-in `omarchy.lock`.\n\nREADME.md lines 22-28:\n## Requirements\n\n- Omarchy quattro\n\n## Install\n\nThis is a personal clone of the built-in `omarchy.lock`; on this machine it lives in the shell plugin monorepo and is installed under the id `bibek.lock`. To install from the standalone repo on a fresh system:\n\nREADME.md lines 34-43:\n## Configuration\n\nOptions live in `~/.config/omarchy/lock.json` (watched live, so edits apply instantly):\n\n```json\n{\n  \"timeFormat\": \"hh:mm AP\",\n  \"dateFormat\": \"dddd, MMMM d\"\n}\n```"
+        }
+      ]
+    },
+    "lgse.sandman": {
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Requires Omarchy Quattro, Python 3, systemd, UPower, GLib gdbus and Polkit for hibernate-delay changes. Hibernation needs working host support.",
+        "The documented setup installs a separate privileged hibernate helper. Managed lid actions edit a block in Hyprland bindings; removing the plugin does not undo the shared idle timeouts or that block automatically."
+      ],
+      "reviewedAt": "2026-10-30",
+      "sources": [
+        {
+          "url": "https://github.com/lgse/sandman/blob/68fd22010b7eea440f760eb6a9fc2b3c9f8067ed/README.md",
+          "revision": "68fd22010b7eea440f760eb6a9fc2b3c9f8067ed",
+          "path": "README.md",
+          "sha256": "81878be2f3f5950a35276b6339b58ee18460c44726f76d9f35aa4d12376497cd",
+          "evidence": "README.md lines 28-35:\nInstall the privileged helper from the user-owned plugin checkout, then\nrestart the shell if it is already running:\n\n```sh\nsudo install -D -o root -g root -m 0755 \\\n  ~/.config/omarchy/plugins/lgse.sandman/sandman-configure-hibernate \\\n  /usr/local/libexec/sandman-configure-hibernate\nomarchy restart shell\n\nREADME.md lines 48-50:\nThe lid controls appear only when UPower reports a laptop lid. **System default** leaves logind in charge. The other actions use a low-level lid-switch inhibitor while Sandman is running, then handle the event without changing system-wide logind configuration. For managed lid actions, Sandman also installs a small managed block in `~/.config/hypr/bindings.lua` that replaces Omarchy's default `switch:on:Lid Switch` binding. Omarchy's default binding locks immediately on lid close, before Sandman can apply **Do nothing** or **Display off**, so Sandman unbinds it and keeps only Omarchy's clamshell monitor reconciliation. Selecting **System default** removes Sandman's managed Hyprland block again. **Display off** targets the internal eDP/LVDS/DSI output and turns it back on when the lid opens. Sandman skips that DPMS call when the output is already disabled, such as by Omarchy's clamshell handling, because Hyprland would otherwise apply it to the external displays too. Hibernate is selectable only when logind reports that it is available.\n\nSandman stores its state in `~/.config/omarchy/sandman.json`. The effective screen-saver and auto-lock values remain in Omarchy's standard `~/.config/omarchy/shell.json`; lid actions and the displays-off, sleep, and hibernate-after-sleep timers are handled by Sandman itself and are not written there. Changing the hibernate delay asks for administrator authorization because systemd's RTC wake timer is configured system-wide.\n\nREADME.md lines 60-62:\nWhen **Hibernate after sleep** is enabled, Sandman instead requests `systemctl suspend-then-hibernate`. systemd sets an RTC wake alarm, wakes after the chosen delay, and hibernates. Sandman stores the delay in `/etc/systemd/sleep.conf.d/90-sandman.conf`; changing or disabling it requires administrator authorization. The option is available only when logind reports that suspend-then-hibernate is supported. When it is unavailable, Sandman disables the positive timeout choices and reports any prerequisite it can detect, including missing disk-backed swap, missing kernel hibernation support, missing resume discovery, or restrictive kernel lockdown. **Off** remains available so an old setting can always be cleared.\n\nWhile an external GPU is attached (a DRM device the kernel marks as removable, such as a Thunderbolt/USB4 eGPU), Sandman requests plain `systemctl suspend` instead of suspend-then-hibernate. eGPUs can fail to resume from hibernation and can hang or reset the computer; plain suspend keeps the low-power state and stays safe if the eGPU is unplugged while the computer is asleep.\n\nREADME.md lines 64-74:\n## Requirements\n\n- Omarchy Quattro\n- Python 3\n- systemd\n- UPower\n- GLib (`gdbus`)\n- Polkit (`pkexec`), to change the systemd hibernate delay\n\nThe helper is deliberately separate from `sandman.py`, because the latter is\nloaded from the user-owned plugin directory and must never be executed as root.\n\nREADME.md lines 93-98:\nRemoving Sandman does not revert the screen-saver and lock timeouts already written to `shell.json`. If Sandman is removed while a managed lid action is selected, remove the managed block between `-- BEGIN Sandman lid action override` and `-- END Sandman lid action override` from `~/.config/hypr/bindings.lua`, or reinstall Sandman and select **System default** before removing it.\n\nThis matters if either setting was left **Off**. Off is stored in `shell.json` as a\nseven-day timeout, so removing Sandman while auto-lock is Off leaves a machine that\neffectively never locks, with no Sandman UI left to notice it. Set anything you want\nback on *before* removing, or restore Omarchy's defaults afterwards:"
+        }
+      ]
+    },
+    "halmylyseas.ristretto": {
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Requires Omarchy 4.0.1–4.0.5, Quickshell 0.3.1–0.3.2 and Python 3; newer host versions need compatibility validation.",
+        "Idle-origin detection on scoped hosts requires access to the Omarchy shell user journal. Suspension uses systemd-logind; unavailable observations disable that operation."
+      ],
+      "reviewedAt": "2026-10-30",
+      "sources": [
+        {
+          "url": "https://github.com/HalmyLyseas/omarchy-ristretto/blob/99ffa15000225fb8582d633f088d3626543c3a91/README.md",
+          "revision": "99ffa15000225fb8582d633f088d3626543c3a91",
+          "path": "README.md",
+          "sha256": "6163a03123e714e06e284f0ea643e45ede7e6a93c6e97665dd00576da4b53689",
+          "evidence": "README.md lines 39-56:\n## Requirements\n\nRistretto uses the installed Omarchy shell, Quickshell, and Python 3.\n\n- **Omarchy 4.0.1 through 4.0.5, Quickshell 0.3.1–0.3.2.** The scoped host\n  path is live-tested on Omarchy 4.0.5; legacy host behavior is covered by\n  contracts and mocked probes for the earlier versions. Older hosts expose\n  live service bindings. On Omarchy 4.0.3 and later, the plugin watches its\n  own entry in `shell.json` and uses IPC plus timestamped host logs for idle\n  and lock observations. Unavailable observations disable suspend safely.\n  Newer host versions require compatibility validation before use.\n- **Python 3** for scoped-host delay edits. The helper updates only the\n  shared idle timing pair in `~/.config/omarchy/shell.json`; no root is needed.\n- **User journal access** for scoped idle observation. Start the shell through\n  Omarchy so its output reaches the journal; a standalone shell with no journal\n  stream cannot establish idle origin.\n- **systemd-logind** for the suspend itself — `systemctl suspend` from the\n  active session, no root and no polkit prompt."
+        }
+      ]
+    },
+    "io.github.krongggggg.caffeine": {
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Requires Omarchy Quattro and its omarchy-toggle-idle helper."
+      ],
+      "reviewedAt": "2026-10-30",
+      "sources": [
+        {
+          "url": "https://github.com/krongggggg/omarchy-caffeine/blob/4c328da89d32578c27e86137b8ee7affc01073d0/README.md",
+          "revision": "4c328da89d32578c27e86137b8ee7affc01073d0",
+          "path": "README.md",
+          "sha256": "f0c56bac3bf1e168b0c9dc1effb8178a99f8470c697e0f5d0b3910d402e907ff",
+          "evidence": "README.md lines 1-4:\n# Caffeine\n\nOmarchy Quattro bar widget that toggles stay-awake via `omarchy-toggle-idle`.\n\n\nREADME.md lines 18-20:\n\n## Dependencies\n"
+        }
+      ]
+    },
+    "air.auto-cafe": {
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Requires Omarchy’s shell idle service and Hyprland event integration. Automatic media detection needs a player exposing MPRIS; mpv needs its MPRIS script enabled."
+      ],
+      "reviewedAt": "2026-10-30",
+      "sources": [
+        {
+          "url": "https://github.com/airenare/omarchy-auto-cafe/blob/72b58789f3242825b96af691e35a82809783a07f/README.md",
+          "revision": "72b58789f3242825b96af691e35a82809783a07f",
+          "path": "README.md",
+          "sha256": "dae2c0944dab4d9fc84bb3eee812d337f6a400e210501375a3a5e372a8e56522",
+          "evidence": "README.md lines 3-8:\nAn [Omarchy](https://omarchy.org/) shell plugin. Automatically engages the\nbuilt-in **Stay Awake** toggle whenever a window is fullscreen (games,\nfullscreen video players) or any media player is actively playing (a video\nin a browser tab — YouTube included — mpv, VLC, a music app, anything that\nexposes the standard MPRIS interface) — no more the screen locking mid-movie\nor mid-match.\n\nREADME.md lines 29-39:\n- **Media playing** — any [MPRIS](https://specifications.freedesktop.org/mpris-spec/latest/)\n  player reports `Playing`. Firefox and Chromium-based browsers expose this\n  automatically for a tab playing audio/video (so YouTube, Netflix, etc. in\n  a normal window work without needing to be fullscreen); mpv needs its\n  `mpris` script enabled to be seen this way, and VLC supports it natively.\n\nEverything is watched reactively (Hyprland's event stream, MPRIS\nproperty-change signals), with one slow re-check every 15 seconds as a safety\nnet for window changes that emit no event (a game resizing itself to cover\nthe screen after it opens). There's no extra background process; it's part\nof the Omarchy shell like any other plugin.\n\nREADME.md lines 45-49:\nIt only ever calls the same `omarchy-shell idle` command the built-in Stay\nAwake indicator itself uses, so that indicator always reflects what\nAuto Cafe is doing. And it only turns Stay Awake back off if it was the\none that turned it on — if you've enabled Stay Awake yourself, closing a\ngame or pausing a video won't touch it."
+        }
+      ]
+    },
+    "ignibyte.stay-awake-sessions": {
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Requires Omarchy 4, bash, Python 3, pgrep, systemd-inhibit and notify-send. The optional command-line wrapper also needs jq and its bin directory on PATH."
+      ],
+      "reviewedAt": "2026-10-30",
+      "sources": [
+        {
+          "url": "https://github.com/Ignibyte/omarchy-stay-awake-sessions/blob/cd76229f8abe89ce39ed256f846b15cc6543d9d6/README.md",
+          "revision": "cd76229f8abe89ce39ed256f846b15cc6543d9d6",
+          "path": "README.md",
+          "sha256": "731660c04de98966185591f67e764eeb6b1b615a3cdca4508a4ef543615c7221",
+          "evidence": "README.md lines 35-38:\nFor the command line, put its `bin` on your `PATH`:\n\n```bash\nln -s ~/.config/omarchy/plugins/ignibyte.stay-awake-sessions/bin/stay-awake ~/.local/bin/stay-awake\n\nREADME.md lines 56-62:\n### Requirements\n\nOmarchy 4 (Quattro). Beyond what Omarchy already installs, it uses `bash`,\n`python3`, `pgrep` (procps-ng), `systemd-inhibit` and `notify-send`\n(libnotify) — all present on a stock Omarchy box. The CLI wrapper also uses\n`jq`. The session logic in `SessionModel.js` runs under node:\n`node test/session-model-test.js`."
+        }
+      ]
+    },
+    "io.github.majkelll.omarchy-uptime": {
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Requires the Omarchy shell, curl, bash and the Omarchy notification/browser helpers. Add reachable site or health-check URLs before monitoring."
+      ],
+      "reviewedAt": "2026-10-30",
+      "sources": [
+        {
+          "url": "https://github.com/Majkelll/omarchy-uptime/blob/f273658f782f77865aac39d9e3ae30498cfed9f5/README.md",
+          "revision": "f273658f782f77865aac39d9e3ae30498cfed9f5",
+          "path": "README.md",
+          "sha256": "d28758c006b8747efc0bd2f27f5e0d587a5404e3d7f8a0a2346a99b9521efb08",
+          "evidence": "README.md lines 46-52:\n```bash\nomarchy plugin add https://github.com/Majkelll/omarchy-uptime.git --enable\n```\n\nClick the pulse icon in the bar and add your first site. There is nothing to\nconfigure by hand before that, and nothing is installed outside your home\ndirectory.\n\nREADME.md lines 275-282:\n## Requirements\n\n- [Omarchy](https://omarchy.org/) with `omarchy-shell` (the Quickshell bar).\n- `curl` and `bash`, plus `omarchy-notification-send` and\n  `omarchy-launch-browser` — all part of a base Omarchy install.\n\nNo package is installed, no daemon is started, and nothing runs with\nelevated privileges."
+        }
+      ]
+    },
+    "daan.uptime-kuma": {
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Requires Omarchy 4.x, curl, jq and an existing Uptime Kuma instance with configured monitors and an API key. The instance must expose /metrics over HTTPS with trusted certificates."
+      ],
+      "reviewedAt": "2026-10-30",
+      "sources": [
+        {
+          "url": "https://github.com/daanlenaerts/omakuma/blob/3bab4db812c8a6c0c7f7c2ca4166775de52c0cf6/README.md",
+          "revision": "3bab4db812c8a6c0c7f7c2ca4166775de52c0cf6",
+          "path": "README.md",
+          "sha256": "64d5903afbc218a668fe40aa8e188a517041c94d8c1d4a538ccb53a32515b01f",
+          "evidence": "README.md lines 15-23:\nThe plugin polls Uptime Kuma's Prometheus endpoint (`GET /metrics`) with an API\nkey. Uptime Kuma drops paused monitors from that endpoint, so the list is\nexactly your active monitors. Status codes map as `0 = down`, `1 = up`,\n`2 = pending`, `3 = maintenance`.\n\n## Requirements\n\n- Omarchy 4.x (Quattro shell plugin system)\n- `curl` and `jq`\n\nREADME.md lines 42-60:\n## Setup\n\nClick the widget. An unconfigured plugin opens straight into its setup form:\n\n- **Instance URL** — e.g. `https://kuma.example.com`\n- **API key** — Uptime Kuma → Profile → Settings → API Keys → Add API Key\n\n**Save & test** writes the config and immediately reconnects, so a bad URL or\nkey shows up right there in the panel. Reopen the form any time with the cog in\nthe panel header or the `S` key.\n\nCredentials are written to `~/.config/omarchy/uptime-kuma.json` with mode\n`600` — deliberately outside the plugin directory, so this repo can be\ncommitted and shared without leaking the key. The key is passed to the writer\nover stdin, never argv, and is never read back into the form: leave the API key\nfield blank to keep the stored one. Polling also supplies the key to `curl` over\nstdin, keeping it out of local process listings. HTTPS with normal certificate\nverification is required so credentials and monitor data are protected in\ntransit.\n\nREADME.md lines 103-112:\nThe panel replaces the monitor list with the failure and offers **Retry** and\n**Settings**:\n\n- **Not configured** — no URL stored yet; the setup form opens on its own\n- **Unreachable** — DNS/network/TLS failure, or the instance is down\n- **Unauthorized** — bad or revoked API key\n- **No /metrics endpoint** — the URL points somewhere other than Uptime Kuma\n- **HTTPS is required** — replace a legacy plain-HTTP instance URL with HTTPS\n- **TLS certificate verification cannot be disabled** — remove the legacy\n  `\"insecure\": true` setting and configure a trusted certificate"
+        }
+      ]
+    },
+    "narbs.betterstack": {
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Requires the Omarchy Quickshell shell, curl and a configured public HTTPS Better Stack status-page URL. No API token is required."
+      ],
+      "reviewedAt": "2026-10-30",
+      "sources": [
+        {
+          "url": "https://github.com/narbs/betterstack-status-bar-omarchy-plugin/blob/fb95e628316691062255ba02fb288692c9277493/README.md",
+          "revision": "fb95e628316691062255ba02fb288692c9277493",
+          "path": "README.md",
+          "sha256": "805b8ae8537b73778927c1a8b4a306e9b0ffe0f0d7b5c4bfbd2593f7e894f3d1",
+          "evidence": "README.md lines 8-16:\nWorks with **any** Better Stack status page — point it at your own domain, no\naccount or API token needed.\n\n![Bar widget and panel](preview.png)\n\n## Requirements\n\n- Omarchy with the Quickshell-based shell (`omarchy-shell`)\n- `curl` — the only external dependency, already present on an Omarchy system\n\nREADME.md lines 20-31:\n```bash\nomarchy plugin add https://github.com/narbs/betterstack-status-bar-omarchy-plugin.git --enable\nomarchy bar set narbs.betterstack url https://status.example.com\n```\n\n`omarchy plugin add` clones the repository into\n`~/.config/omarchy/plugins/narbs.betterstack`, validates the manifest, and\nenables the widget. It never runs plugin code or install hooks.\n\nThe widget lands in the bar's right section and shows a grey dot with setup\ninstructions until you set `url`. Move it with\n`omarchy bar move narbs.betterstack --section center`.\n\nREADME.md lines 147-150:\nThis targets Better Stack's current (v2) status page design, and has been\nchecked against several public pages. Other hosted status page products\n(Atlassian Statuspage, Instatus) serve different markup and will show as\n\"Unknown\"."
+        }
+      ]
+    },
+    "io.github.solkkku.audio-switcher": {
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Requires Omarchy Quattro, PipeWire/WirePlumber, Python 3, util-linux setsid/kill and the documented Omarchy audio helpers. Configured hotkeys are written to a managed Hyprland bindings block."
+      ],
+      "reviewedAt": "2026-10-30",
+      "sources": [
+        {
+          "url": "https://github.com/solkkku/omarchy-audio-switcher/blob/cc3bb1d4d3b40f7f313d3d81dfebc6616fea9c61/README.md",
+          "revision": "cc3bb1d4d3b40f7f313d3d81dfebc6616fea9c61",
+          "path": "README.md",
+          "sha256": "e7dac837965db49be0589d48f6f1a4593b6c8e183e652a68e09622e8d6790e9d",
+          "evidence": "README.md lines 19-25:\n## Requirements\n\n- Omarchy Quattro (the Quickshell-based shell).\n- PipeWire + WirePlumber (the standard Omarchy audio stack).\n- Python 3 (`/usr/bin/python3`) for the bundled hotkey-writer helper.\n- util-linux `setsid` (`/usr/bin/setsid`) and `kill` (`/usr/bin/kill`), used to run helpers in their own process group and to enforce the execution deadline.\n- Uses Omarchy-provided helpers: `omarchy-audio-output-set-default`, `omarchy-audio-input-set-default`, `omarchy-osd`, and `omarchy-notification-send`.\n\nREADME.md lines 39-50:\n## Usage\n\nLeft-click the bar icon to open the panel.\n\n- **Add a profile** — click the **+** in the header and fill in name, icon, output source, input source (optional), and hotkey.\n- **Edit / delete** — use the pencil and X buttons on a row; deletion asks for confirmation.\n- **Reorder** — click and hold a row, then drag it to a new position.\n- **Global keybinds** — open the **Options** (cog) page and assign key combos. While capturing a key, press `Esc` to cancel or `Del` to clear it.\n- **Notifications** — choose off, top-right, or bottom-center on the Options page.\n- **Fallback profile** — on the Options page, pick a profile (or \"None\") to switch to automatically when the active profile's output device disconnects.\n\nHotkeys are written to a managed block in `~/.config/hypr/bindings.lua` and applied automatically."
+        }
+      ]
+    },
+    "videinfra.omaudiopanel": {
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Replaces Omarchy’s built-in audio widget and panel. Requires Omarchy 4+, pactl, pw-metadata and jq.",
+        "Device disabling changes persistent WirePlumber card profiles; re-enable disabled devices before removal if you want them restored. Optional custom volume-key bindings need separate configuration."
+      ],
+      "reviewedAt": "2026-10-30",
+      "sources": [
+        {
+          "url": "https://github.com/thevideinfra/omaudiopanel/blob/66de20e795a980a755bc8a034fb22ae18cf783b3/README.md",
+          "revision": "66de20e795a980a755bc8a034fb22ae18cf783b3",
+          "path": "README.md",
+          "sha256": "52dbfbbdeb852710d696f8d0ca1c29bff02486b5763fec5c1029b9e7c4bf3d61",
+          "evidence": "README.md lines 58-69:\nIt declares itself a replacement for `omarchy.audio`: it takes the stock\naudio widget's place in the bar, and `Super+Ctrl+A` and other callers of the\nbuilt-in panel open this one.\n\nNeeds Omarchy 4+, plus `pactl`, `pw-metadata` and `jq` (all present on a\nstandard install).\n\n### Volume keys (optional)\n\nThe volume keys, and headset or keyboard volume wheels that send them, are\nbound by Omarchy to a fixed 5%. To have them follow the panel's volume step,\nadd this to `~/.config/hypr/bindings.lua`:\n\nREADME.md lines 86-100:\n### Uninstall\n\nTurn disabled devices back on first. Disabling switches a device's card\nprofile, and WirePlumber keeps that profile after the plugin is gone. Click\neach one in the Disabled section, or reset a card by hand with\n`pactl set-card-profile <card> <profile>`.\n\n```bash\nomarchy plugin remove videinfra.omaudiopanel\n```\n\nThe stock audio widget returns to its place in the bar. If you added the\nvolume key binding, remove it from `~/.config/hypr/bindings.lua` too; it\npoints into the plugin folder. Pins are kept in\n`~/.local/state/omaudiopanel/` and can be deleted."
+        }
+      ]
+    },
+    "custom.media": {
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Requires Omarchy with Quickshell/Hyprland, PipeWire and WirePlumber, plus a player exposing supported local playback controls. MPV needs its MPRIS integration configured.",
+        "Audio visualization and artwork helpers use bash, Python 3, pw-record and curl; native marketplace installation does not run the separate installer that configures MPV integration."
+      ],
+      "reviewedAt": "2026-10-30",
+      "sources": [
+        {
+          "url": "https://github.com/Clifford-Baidoo/Omarchy-music-flow/blob/42c312d8ceb6ad9893b28c62c3cf9b5513f60d24/README.md",
+          "revision": "42c312d8ceb6ad9893b28c62c3cf9b5513f60d24",
+          "path": "README.md",
+          "sha256": "7438bde80107303f8c1158db89a4ad2bff4cb4ad7d435cc91822de9fd126c2c4",
+          "evidence": "README.md lines 56-69:\n### Option 2: Clone & Run Installer\n\n```bash\ngit clone https://github.com/Clifford-Baidoo/omarchy-music-flow.git\ncd omarchy-music-flow\nchmod +x install.sh update.sh uninstall.sh\n./install.sh\n```\n\nThe installer will:\n1. Copy the plugin files to `~/.config/omarchy/plugins/custom.media/`.\n2. Automatically enable MPV MPRIS integration for video & media playback.\n3. Automatically configure your bar layout in `~/.config/omarchy/shell.json`.\n4. Restart `omarchy-shell` to apply changes instantly.\n\nREADME.md lines 139-143:\n## 🛠️ Requirements\n\n- [Omarchy](https://omarchy.org/) (Arch Linux + Hyprland + Quickshell)\n- PipeWire / WirePlumber\n- Any media source (Spotify, Zen, Firefox, Chrome, Brave, Seanime, MPV, cliamp, VLC, etc.)"
+        },
+        {
+          "url": "https://github.com/Clifford-Baidoo/Omarchy-music-flow/blob/42c312d8ceb6ad9893b28c62c3cf9b5513f60d24/Service.qml",
+          "revision": "42c312d8ceb6ad9893b28c62c3cf9b5513f60d24",
+          "path": "Service.qml",
+          "sha256": "307e364a8ddb4c2939a8c1771101d8ece1c716e75f9f199a57d7fb349a7062cd",
+          "evidence": "Service.qml lines 136-138:\n  // Runs pw-record piped through a small python3 peak calculator only while\n  // confirmed needed (audioLevelUnreliable), so normal working streams never pay\n  // for an extra process. The node id is validated as a plain non-negative\n\nService.qml lines 176-178:\n      \"bash\", \"-c\",\n      \"set -uo pipefail; NODE_ID=\\\"$1\\\"; if ! [[ \\\"$NODE_ID\\\" =~ ^[0-9]+$ ]]; then exit 1; fi; set -m; pw-record --target=\\\"$NODE_ID\\\" -P '{ format=s16 rate=44100 channels=2 }' - 2>/dev/null | python3 -u -c '\\nimport struct, sys\\nwhile True:\\n    data = sys.stdin.buffer.read(4096)\\n    if not data:\\n        break\\n    n = len(data) // 2\\n    if n == 0:\\n        continue\\n    samples = struct.unpack(\\\"<\\\" + str(n) + \\\"h\\\", data[:n * 2])\\n    peak = max(abs(s) for s in samples) / 32768.0\\n    print(\\\"%.4f\\\" % peak, flush=True)\\n' & JOB_PID=$!; trap 'kill -TERM -- \\\"-$JOB_PID\\\" 2>/dev/null' EXIT TERM INT; wait \\\"$JOB_PID\\\"\",\n      \"--\",\n\nService.qml lines 309-313:\n    artFetchProc.command = [\n      \"bash\", \"-c\",\n      \"set -euo pipefail; URL=\\\"$1\\\"; CACHE_FILE=\\\"$2\\\"; CACHE_DIR=\\\"$(dirname \\\"$CACHE_FILE\\\")\\\"; mkdir -p -m 0700 \\\"$CACHE_DIR\\\"; TMP_FILE=$(mktemp -p \\\"$CACHE_DIR\\\" artwork.XXXXXX); trap 'rm -f \\\"${TMP_FILE:-}\\\"' EXIT; if [[ \\\"$URL\\\" =~ ^https:// ]]; then HTTP_CODE=$(curl -sS --max-time 3 --max-filesize 2097152 --proto \\\"=https\\\" -w \\\"%{http_code}\\\" \\\"$URL\\\" -o \\\"$TMP_FILE\\\" 2>/dev/null || echo \\\"000\\\"); if [[ \\\"$HTTP_CODE\\\" != \\\"200\\\" ]]; then exit 1; fi; elif [[ \\\"$URL\\\" =~ ^file://(/.*) ]] || [[ \\\"$URL\\\" =~ ^(/.*) ]]; then FILE_PATH=\\\"${BASH_REMATCH[1]}\\\"; python3 -c '\\nimport os,stat,sys\\np=sys.argv[1]\\nfd=os.open(p,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK|os.O_CLOEXEC)\\nst=os.fstat(fd)\\nif not(stat.S_ISREG(st.st_mode) and 4<=st.st_size<=2097152):\\n os.close(fd)\\n sys.exit(1)\\nd=os.read(fd,2097152)\\nos.close(fd)\\nsys.stdout.buffer.write(d)\\n' \\\"$FILE_PATH\\\" > \\\"$TMP_FILE\\\" 2>/dev/null; else exit 1; fi; MAGIC=$(od -N 12 -A n -t x1 \\\"$TMP_FILE\\\" 2>/dev/null | tr -d \\\" \\\\n\\\"); if [[ \\\"$MAGIC\\\" =~ ^89504e470d0a1a0a ]] || [[ \\\"$MAGIC\\\" =~ ^ffd8 ]] || [[ \\\"$MAGIC\\\" =~ ^47494638 ]] || [[ \\\"$MAGIC\\\" =~ ^424d ]] || [[ \\\"$MAGIC\\\" =~ ^52494646.{8}57454250 ]]; then mv -f \\\"$TMP_FILE\\\" \\\"$CACHE_FILE\\\"; exit 0; else exit 1; fi\",\n      \"--\",\n      raw,"
+        }
+      ]
+    },
+    "bibek.media": {
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Requires Omarchy Quattro and a local MPRIS player. Optional cliamp support requires cliamp on PATH and its headless daemon running. The plugin is a clone of the stock media widget/service."
+      ],
+      "reviewedAt": "2026-10-30",
+      "sources": [
+        {
+          "url": "https://github.com/BibekBhusal0/omarchy-better-media/blob/7961cdcac344257f07452d83e002c56871919c70/README.md",
+          "revision": "7961cdcac344257f07452d83e002c56871919c70",
+          "path": "README.md",
+          "sha256": "0329d31e57dd73af736167c64dd39eaec56fad8c03569f77eabb5887bcc7a79b",
+          "evidence": "README.md lines 27-36:\n## Requirements\n\n- Omarchy quattro\n- `cliamp` on `PATH` (only for cliamp support)\n\n`fd` and `jq` are not required by this plugin.\n\n## Install\n\nThis is a personal clone of the built-in `omarchy.media`; on this machine it lives in the shell plugin monorepo and is installed under the id `bibek.media`. To install from the standalone repo on a fresh system:\n\nREADME.md lines 73-83:\n## cliamp headless\n\n[Headless daemon mode](https://github.com/bjarneo/cliamp/blob/main/docs/headless.md) runs cliamp with no TUI and no MPRIS bridge. The plugin polls `cliamp status --json` over cliamp's IPC socket and exposes the daemon as a media source, so the bar widget, popup, and `omarchy-shell media ...` commands all control it.\n\nStart the daemon (e.g. as a systemd user unit or login autostart):\n\n```bash\ncliamp --daemon\n```\n\nThe daemon and the widget share one source: while a cliamp MPRIS player is present the CLI player is skipped, so there is never a duplicate cliamp entry in the source list."
+        }
+      ]
+    },
+    "io.github.nimbleaininja.omachron": {
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Requires the Omarchy shell, Python 3 and the system time-zone database. City search uses curl and the Open-Meteo geocoding service."
+      ],
+      "reviewedAt": "2026-10-30",
+      "sources": [
+        {
+          "url": "https://github.com/NimbleAINinja/omarchy-omachron/blob/4dfbbdaa48c21f04c4a1e670f7a75512c09880b0/README.md",
+          "revision": "4dfbbdaa48c21f04c4a1e670f7a75512c09880b0",
+          "path": "README.md",
+          "sha256": "34a289e2bc53be91b9c22874e53b931146b2649bdb0cbc439007122bba97034f",
+          "evidence": "README.md lines 116-124:\n## Dependencies and privacy\n\n- `python3` (standard library only) resolves time-zone offsets from the system\n  zoneinfo database.\n- `curl` is used only when you type in the search field; the query goes to\n  `geocoding-api.open-meteo.com`. Nothing else leaves the machine, and there is\n  no telemetry.\n- Map data is a 1° raster derived from Natural Earth (public domain); see\n  `assets/NOTICE.md`."
+        }
+      ]
+    },
+    "anagrius.resume": {
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Requires Omarchy, Python 3, saved sessions and the corresponding installed coding-agent CLI. Resuming uses Herdr when available or xdg-terminal-exec otherwise.",
+        "Sessions launch with Omarchy’s unattended agent flags; optional keyboard access requires adding the documented binding."
+      ],
+      "reviewedAt": "2026-10-30",
+      "sources": [
+        {
+          "url": "https://github.com/anagrius/omarchy-resume/blob/48883141db0f6031b6a9c0b1b5173051443b40cb/README.md",
+          "revision": "48883141db0f6031b6a9c0b1b5173051443b40cb",
+          "path": "README.md",
+          "sha256": "cddb1bd35d9d3b08d1f49e88bcce7d3ea4309acf4e5d4a255e10e7acdf58dc9f",
+          "evidence": "README.md lines 13-21:\n- A fullscreen overlay with a search field, a session list, and a live\n  transcript preview\n- Sessions from Claude Code, Codex, Grok, OpenCode, and Pi out of the box\n- Resume in the session's original working directory. If a Herdr session is\n  running, Enter opens there. If Herdr is installed but idle, the overlay\n  asks first. Otherwise it uses `xdg-terminal-exec --dir` with the same\n  unattended flags `omarchy agent` already uses\n- Automatic names and default-agent highlighting from Omarchy's existing\n  agent registration (usage records + `~/.config/omarchy/defaults/agent`)\n\nREADME.md lines 35-45:\nOmarchy already has a registration path for coding agents:\n\n- `omarchy default agent <name>` writes `~/.config/omarchy/defaults/agent`\n- `omarchy-agent-usage-<id>` collectors publish a JSON record to\n  `~/.local/state/omarchy/agents/usage/`\n- `omarchy agent` launches the chosen CLI with the right “don't stop to ask”\n  flags and the shared `org.omarchy.agent` window class\n\nResume AI Session reads those same records for display names and resumes with\nthe same launch flags so a resumed session behaves like one started from the\nkeybinding.\n\nREADME.md lines 170-185:\n## Install\n\n```\nomarchy plugin add https://github.com/anagrius/omarchy-resume.git --enable\n```\n\nSummon it with:\n\n```\nomarchy-shell shell toggle anagrius.resume\n```\n\nOptional Super+Alt+A binding in `~/.config/hypr/bindings.lua`:\n\n```\no.bind(\"SUPER + ALT + A\", \"Resume AI Session\", \"omarchy-shell shell toggle anagrius.resume\")"
+        },
+        {
+          "url": "https://github.com/anagrius/omarchy-resume/blob/48883141db0f6031b6a9c0b1b5173051443b40cb/bin/resume",
+          "revision": "48883141db0f6031b6a9c0b1b5173051443b40cb",
+          "path": "bin/resume",
+          "sha256": "69514dba9adee9995cd39ccda39bb2c198af6a29ea669363b17e31b8ff7cb061",
+          "evidence": "bin/resume lines 1-8:\n#!/usr/bin/env python3\n\"\"\"List, preview, and resume AI coding sessions for the Resume overlay.\n\nSession sources are pluggable, the same way Omarchy registers usage\ncollectors. Built-in adapters cover the agents `omarchy-default-agent`\nknows about. A third-party agent appears automatically when someone\nships an executable named `omarchy-agent-sessions-<id>` on PATH, or\ndrops one in `~/.config/omarchy/agents/sessions/<id>`.\n\nbin/resume lines 12-27:\n\nimport argparse\nimport datetime as dt\nimport json\nimport os\nimport re\nimport shlex\nimport shutil\nimport sqlite3\nimport stat\nimport subprocess\nimport sys\nimport time\nimport urllib.parse\nfrom pathlib import Path\nfrom typing import Any, Callable, Iterator"
+        }
+      ]
     }
   }
 }

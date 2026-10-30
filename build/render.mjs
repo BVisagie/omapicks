@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import { METHODOLOGY, changesBetween, removalSentence, scoreLeader, snapshotMethodology, verificationCoverage, verificationCredit } from "./rank.mjs";
 import { assertTaskQualifiedSnapshot } from "./task-fit.mjs";
 import { renderSocialImage } from "./social.mjs";
+import { migrationsForSnapshot } from "./category-migrations.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DIST = path.join(ROOT, "dist");
@@ -817,7 +818,7 @@ function moreTaskChoices(type, method) {
   const related = type.relatedTools ?? [];
   if (!alternatives.length && !related.length) return "";
   return `<section class="task-alternatives" aria-labelledby="task-alternatives-heading">
-    <h2 id="task-alternatives-heading">More choices for this task</h2>
+    <h2 id="task-alternatives-heading">${alternatives.length ? "More choices for this task" : "Related tools"}</h2>
     ${alternatives.length ? `<ul>${alternatives.map((candidate) => `<li><h3>${outboundLink(candidate.detailUrl, escapeHtml(candidate.name))}</h3>${taskFitNote(candidate, method)}${availabilityNote(candidate)}</li>`).join("")}</ul>` : ""}
     ${related.length ? `<h3>Related tools with a narrower scope</h3><ul>${related.map((candidate) => `<li><strong>${outboundLink(candidate.detailUrl, escapeHtml(candidate.name))}</strong>${reviewedPresentation(method) ? taskFitNote(candidate, method) : `<p>${escapeHtml(candidate.taskFit.reason)}</p>
       ${candidate.taskFit.constraints.length ? `<p>${candidate.taskFit.constraints.map(escapeHtml).join(" ")}</p>` : ""}
@@ -870,14 +871,14 @@ function showdownSection(type, slot = 0, method) {
       <h2>${modern ? "Reviewed options for" : "Best"} <a href="${href}">${escapeHtml(type.name)}</a>${modern ? "" : " plugin this week"}</h2>
       <p class="showdown-note">A different category each day. Rankings refresh Monday.</p>
     </header>
-    <div class="showdown-pair">
+    <div class="showdown-pair${modern && !type.runnerUp ? " single-option" : ""}">
       <div class="reveal">${showdownEntry(type.winner, "winner", href, method)}</div>
-      <div class="reveal" style="--d: 120ms">${showdownEntry(type.runnerUp, "runner-up", href, method)}</div>
+      ${modern && !type.runnerUp ? "" : `<div class="reveal" style="--d: 120ms">${showdownEntry(type.runnerUp, "runner-up", href, method)}</div>`}
     </div>
     <div class="showdown-gap reveal" data-animate>
       ${gap && !modern ? `<div class="signal"><span class="delta">${gap}</span>${share !== null ? `<div class="meter" role="img" aria-label="${escapeHtml(type.winner.name)} holds ${share}% of the combined score"><span style="--v: ${share}%"></span></div>
         <div class="meter-legend"><span>${escapeHtml(type.winner.name.toLowerCase())}</span><span>${escapeHtml(type.runnerUp.name.toLowerCase())}</span></div>` : ""}</div>` : ""}
-      <span>${modern ? `${type.eligibleCount} qualified options` : competedLabel(type.eligibleCount)}</span>
+      <span>${modern ? `${type.eligibleCount} qualified ${type.eligibleCount === 1 ? "option" : "options"}` : competedLabel(type.eligibleCount)}</span>
       <a class="text-link" href="${href}">${pickLabels(method).compare} →</a>
     </div>
   </article>`;
@@ -1021,7 +1022,8 @@ function weeklySummary(rankings, history) {
     <p class="kicker">${escapeHtml(rankings.week ?? "Latest snapshot")}</p>
     <h2 id="weekly-summary-heading">What changed this week</h2>
     <p class="summary">${summary}</p>
-    ${count ? `<ol class="changes">${changes.slice(0, 3).map((change, index) => `<li><span class="n">${String(index + 1).padStart(2, "0")}</span><span><a href="/picks/${encodeURIComponent(change.typeId)}/">${escapeHtml(change.typeName)}</a>: ${change.current ? `<b>${escapeHtml(change.current.name)}</b> <em>${change.previous ? `replaces ${escapeHtml(change.previous.name)}` : modern ? "is the first leading reviewed option" : "is the first champion"}.</em>` : `<em>${modern ? "has no leading reviewed option" : "the champion spot is vacant"}.</em>`}</span></li>`).join("")}</ol>` : ""}
+    ${(rankings.categoryChanges ?? current?.categoryChanges ?? []).length ? '<p class="category-update-note">Category tasks were clarified in this publication. <a href="/changelog/">Read the category corrections</a> before comparing selections across snapshots.</p>' : ""}
+    ${count ? `<ol class="changes">${changes.slice(0, 3).map((change, index) => `<li><span class="n">${String(index + 1).padStart(2, "0")}</span><span><a href="/picks/${encodeURIComponent(change.typeId)}/">${escapeHtml(change.typeName)}</a>: ${change.current ? `<b>${escapeHtml(change.current.name)}</b> <em>${change.reason === "task-definition-changed" ? "is selected under the updated task definition" : change.previous ? `replaces ${escapeHtml(change.previous.name)}` : modern ? "is the first leading reviewed option" : "is the first champion"}.</em>` : `<em>${modern ? "has no leading reviewed option" : "the champion spot is vacant"}${change.reason === "task-definition-changed" ? " under the updated task definition" : ""}.</em>`}</span></li>`).join("")}</ol>` : ""}
     ${newListingsNote(rankings)}
     <p class="tile-foot"><span>Snapshot ${escapeHtml(dateLabel(rankings.generatedAt) ?? rankings.week ?? "pending")}</span><span><a href="/changelog/">See all weekly changes</a> · <a href="/feed/">Subscribe with RSS</a></span></p>
   </section>`;
@@ -1183,7 +1185,11 @@ function scoreboard(type, method) {
 function typePage(type, rankings) {
   const method = snapshotMethodology(rankings);
   const modern = reviewedPresentation(method);
-  const description = modern ? `Compare reviewed ${type.name.toLowerCase()} options for Omarchy, their task evidence and requirements.` : `${type.winner ? type.winner.name : "No champion yet"} leads this week's ${type.name.toLowerCase()} ranking for Omarchy.`;
+  const description = modern
+    ? type.runnerUp ? `Compare reviewed ${type.name.toLowerCase()} options for Omarchy, their task evidence and requirements.`
+      : type.winner ? `Review the documented capabilities and requirements of ${type.winner.name} for ${type.name.toLowerCase()} on Omarchy.`
+        : `Follow the review of ${type.name.toLowerCase()} options for Omarchy; no candidate currently qualifies.`
+    : `${type.winner ? type.winner.name : "No champion yet"} leads this week's ${type.name.toLowerCase()} ranking for Omarchy.`;
   const itemList = [type.winner, type.runnerUp].filter(Boolean).map((candidate, index) => ({
     "@type": "ListItem",
     position: index + 1,
@@ -1197,14 +1203,15 @@ function typePage(type, rankings) {
         <h1>${escapeHtml(type.name)}</h1>
       </div>
       <div class="type-intro-copy">
-        <p>${escapeHtml(type.description)}. ${modern ? "Compare the reviewed options below and check their requirements for your setup." : `${competedLabel(type.eligibleCount)} this week${method.eligibility.reviewedTaskEvidence ? " after task capability review" : ""}. This page shows the champion and runner-up.`}</p>
+        <p>${escapeHtml(type.description)}. ${modern ? "Check the reviewed capabilities and requirements for your setup." : `${competedLabel(type.eligibleCount)} this week${method.eligibility.reviewedTaskEvidence ? " after task capability review" : ""}. This page shows the champion and runner-up.`}</p>
+        ${method.eligibility.taskCoherence && type.taskContract?.outcome ? `<p class="task-outcome"><strong>Shared task:</strong> ${escapeHtml(type.taskContract.outcome)}. Every ranked option must complete this outcome; additional features are described separately.</p>` : ""}
         ${modern ? `<p class="review-coverage"><strong>${type.eligibleCount} qualified ${type.eligibleCount === 1 ? "option" : "options"}</strong>; ${Number(type.pendingCount ?? 0)} pending research ${Number(type.pendingCount ?? 0) === 1 ? "lead" : "leads"}. Pending matches have not been established as suitable alternatives. This is a reviewed shortlist, not an assessment of every marketplace listing.</p>` : ""}
         ${snapshotNotice(rankings)}
         ${currentAvailabilityNotice(rankings)}
         ${
           type.winner
             ? shareLinks(
-                modern ? `Compare ${type.winner.name} and other reviewed ${type.name} options on OmaPicks.` : `${type.winner.name} is this week's ${type.name} champion on OmaPicks.`,
+                modern ? type.runnerUp ? `Compare ${type.winner.name} and other reviewed ${type.name} options on OmaPicks.` : `Explore ${type.winner.name}, a reviewed ${type.name} option on OmaPicks.` : `${type.winner.name} is this week's ${type.name} champion on OmaPicks.`,
                 `${ORIGIN}/picks/${encodeURIComponent(type.id)}/`,
                 "Share this ranking on X",
                 "pill"
@@ -1214,11 +1221,12 @@ function typePage(type, rankings) {
       </div>
     </section>
     ${builtInNote(type, method)}
-    <div class="podium" data-animate>
+    ${modern && !type.winner ? `<section class="glass shortlist-empty" aria-labelledby="shortlist-empty-heading"><h2 id="shortlist-empty-heading">No reviewed option yet</h2><p>No candidate currently meets this task's review requirements. Research leads remain unranked until their capabilities and requirements are established.</p></section>` : `<div class="podium${modern && !type.runnerUp ? " single-option" : ""}" data-animate>
       ${candidateCard(type.winner, "winner", type, rankings.week, { runnerUp: type.runnerUp, topScorer: type.topScorer, method, generatedAt: rankings.generatedAt })}
       ${modern ? "" : scoreboard(type, method)}
-      ${candidateCard(type.runnerUp, "runner-up", type, rankings.week, { method, generatedAt: rankings.generatedAt })}
-    </div>
+      ${modern && !type.runnerUp ? "" : candidateCard(type.runnerUp, "runner-up", type, rankings.week, { method, generatedAt: rankings.generatedAt })}
+    </div>`}
+    ${modern && type.winner && !type.runnerUp ? '<p class="shortlist-note">One option currently qualifies for this task. Additional options appear after they meet the same task requirements.</p>' : ""}
     ${modern ? moreTaskChoices(type, method) : ""}
     ${scoreComparison(type, method, rankings.week)}
     ${modern ? "" : moreTaskChoices(type, method)}
@@ -1244,6 +1252,36 @@ function typePage(type, rankings) {
   });
 }
 
+function retiredCategoryChanges(rankings) {
+  const current = new Set(rankings.types.map((type) => type.id));
+  return migrationsForSnapshot(rankings).flatMap((migration) => migration.changes)
+    .filter((change) => change.retired && !current.has(change.from.id));
+}
+
+function categoryBridgePage(change, rankings) {
+  const byId = new Map(rankings.types.map((type) => [type.id, type]));
+  const successors = change.to.map((entry) => {
+    const type = byId.get(entry.id);
+    if (!type) throw new Error(`Missing category successor: ${change.from.id} → ${entry.id}`);
+    return type;
+  });
+  return shell({
+    title: `${change.from.name}: choose a task`,
+    description: `${change.from.name} now has separate recommendations for distinct tasks.`,
+    pathname: `/picks/${change.from.id}/`,
+    image: socialImage(),
+    body: `<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">All picks</a> / ${escapeHtml(change.from.name)}</nav>
+      <section class="page-section category-bridge">
+        <p class="eyebrow">Category update</p>
+        <h1>${escapeHtml(change.from.name)} now has separate tasks</h1>
+        <p class="page-lede">${escapeHtml(change.reason)}</p>
+        <p>Choose the task you want to complete. Each shortlist uses its own reviewed requirements.</p>
+        <div class="category-grid">${successors.map((type) => `<a href="/picks/${encodeURIComponent(type.id)}/"><strong>${escapeHtml(type.name)}</strong><span>${escapeHtml(type.description)}</span></a>`).join("")}</div>
+        <p>Earlier snapshots retain their original category definitions. <a href="/changelog/">Read the publication history</a> or <a href="/#catalog">browse all current categories</a>.</p>
+      </section>`
+  });
+}
+
 function methodologyPage(rankings) {
   const method = snapshotMethodology(rankings);
   const copy = methodologyCopy(method);
@@ -1260,7 +1298,8 @@ function methodologyPage(rankings) {
     <p>OmaPicks refreshes its rankings once per ISO week. Your browser never calls the source APIs. ${reviewedPresentation(method) ? "Current availability is checked separately and can suppress an install action without changing the dated ranking." : "Each page is built from that week’s published snapshot."}</p>
     <p class="pullout">${reviewedPresentation(method) ? "Task evidence establishes scope. Requirements establish suitability. Popularity orders the reviewed options." : "A plugin can win on evidence, not on being first to the registry."}</p>
     <h2>${reviewedPresentation(method) ? "Which options qualify" : "Who can compete"}</h2>
-    <p>${escapeHtml(copy.eligibility)} Only plugins matching at least one focused app type compete; unmatched listings remain unranked instead of being forced into a catch-all category. Category eligibility requires evidence that the plugin directly performs the stated task. ${reviewedPresentation(method) ? "Names, descriptions and tags supply research leads. Qualification requires repository evidence at a recorded revision, reviewed installation requirements and current source checks; keyword matches alone never qualify." : "Names and descriptions supply that evidence; tags, supporting technologies, and incidental alerts do not qualify on their own."} A plugin can appear in several app types when it directly performs each task. Computer batteries, peripheral batteries, and phone integration have separate categories; Bluetooth means device discovery, pairing, connections, or adapter controls. Audio codecs belong under Audio. Assignments awaiting review remain unranked.</p>
+    <p>${escapeHtml(copy.eligibility)} Only plugins matching at least one focused app type compete; unmatched listings remain unranked instead of being forced into a catch-all category. Category eligibility requires evidence that the plugin directly performs the stated task. ${reviewedPresentation(method) ? "Names, descriptions and tags supply research leads. Qualification requires repository evidence at a recorded revision, reviewed installation requirements and current source checks; keyword matches alone never qualify." : "Names and descriptions supply that evidence; tags, supporting technologies, and incidental alerts do not qualify on their own."} A plugin can appear in several app types when it directly performs each task. ${method.eligibility.taskCoherence ? "Every ranked option must perform the same action on the same target and complete the category's minimum outcome. Joining a network is separate from hosting a hotspot; host firewall rules are separate from blocking an app's outbound traffic. Hardware, accounts and provider support remain explicit requirements." : "Computer batteries, peripheral batteries, and phone integration have separate categories; Bluetooth means device discovery, pairing, connections, or adapter controls. Audio codecs belong under Audio."} Assignments awaiting review remain unranked.</p>
+    ${method.eligibility.taskCoherence ? `<p>Review has two distinct questions: does the source support the claimed capability, and does that capability complete the shared task? A narrow feature does not qualify merely because it relates to the same topic. Each assignment of a multipurpose plugin needs its own evidence. A category may show one reviewed option or none; extra places are never filled with tools for a different task. These are checks of documented scope, not installation or task-completion tests.</p>` : ""}
     <h2>The score</h2>
     ${method.eligibility.reviewedTaskEvidence ? `<p>Category matching supplies research leads. A recommendation needs a source-backed task decision in <code>data/task-reviews.json</code> that satisfies the category's minimum capabilities. Native core and substantial secondary capabilities qualify equally. Thin integrations are shown as related tools; pending, rejected and stale decisions cannot enter the podium. ${reviewedPresentation(method) ? "Repository identity, task contracts, and the recorded evidence determine validity. Listing changes enter reconciliation; changed supporting evidence needs re-review. Shared plugin requirements accompany every task assignment." : "A changed name, description, repository or task contract invalidates the decision until review."} Reviews describe publicly documented capabilities, not installation testing. Requirements and limitations appear with each choice.</p>
     <p>Each capture includes the complete review file and its checksum. The priority queue includes new claims, previous picks with changed evidence and prospective challengers. These research scores cannot confer eligibility. Popularity is normalized within the reviewed cohort; it remains evidence about the whole plugin, not measured adoption of an individual capability.</p>` : ""}
@@ -1304,6 +1343,7 @@ function historyChanges(history) {
       generatedAt: snapshot.generatedAt,
       modern: reviewedPresentation(snapshotMethodology(snapshot)),
       changes: snapshot.changes ?? [],
+      categoryChanges: snapshot.categoryChanges ?? [],
       // Snapshots before runner-up events were persisted have none recorded, not "no changes".
       runnerUpChanges: snapshot.runnerUpChanges ?? []
     }));
@@ -1349,6 +1389,9 @@ function changelogPage(history) {
       ${updates.length ? `<ul class="change-list">${updates.map((change) => {
         const why = removalSentence(change, { atPublication: entry.modern });
         const reason = why ? ` ${escapeHtml(why)}` : "";
+        if (change.reason === "task-definition-changed") {
+          return `<li>${change.current ? `<strong>${escapeHtml(change.current.name)}</strong> is the ${escapeHtml(change.typeName)} ${label}` : `${escapeHtml(change.typeName)} has no ${label}`} under the updated task definition. This is a category correction, not a claim that a plugin's capabilities declined.</li>`;
+        }
         if (change.kind === "displaced") {
           return `<li><strong>${escapeHtml(change.current.name)}</strong> replaced ${escapeHtml(change.previous.name)} in ${escapeHtml(change.typeName)}.${reason}</li>`;
         }
@@ -1365,6 +1408,9 @@ function changelogPage(history) {
       <ul class="change-list">${entry.runnerUpChanges.map((change) => {
         const why = removalSentence(change, { atPublication: entry.modern });
         const reason = why ? ` ${escapeHtml(why)}` : "";
+        if (change.reason === "task-definition-changed") {
+          return `<li>${change.current ? `<strong>${escapeHtml(change.current.name)}</strong> is the ${escapeHtml(change.typeName)} ${label}` : `${escapeHtml(change.typeName)} has no ${label}`} under the updated task definition.</li>`;
+        }
         if (change.kind === "displaced") {
           return `<li><strong>${escapeHtml(change.current.name)}</strong> replaced ${escapeHtml(change.previous.name)} as the ${escapeHtml(change.typeName)} ${label}.${reason}</li>`;
         }
@@ -1385,6 +1431,7 @@ function changelogPage(history) {
               .map(
                 (entry) => `<section class="glass reveal">
                   <h2>${weekLabel(entry.week, entry.generatedAt)}</h2>
+                  ${entry.categoryChanges.length ? `<section class="category-corrections"><h3 class="timeline-subhead">Category corrections</h3><p>These task definitions changed in this publication. Earlier selections used their recorded definitions.</p><ul class="change-list">${entry.categoryChanges.map((change) => `<li><strong>${escapeHtml(change.from.name)}</strong>: ${change.retired ? "separated into" : change.kind === "split" ? "now distinguishes" : "clarified as"} ${change.to.map((type) => `<a href="/picks/${encodeURIComponent(type.id)}/">${escapeHtml(type.name)}</a>`).join(", ")}. ${escapeHtml(change.reason)}</li>`).join("")}</ul></section>` : ""}
                   ${changeList(entry)}
                   ${runnerUpList(entry)}
                 </section>`
@@ -1452,25 +1499,45 @@ async function readHistory() {
 
 function feedEntries(history) {
   return historyChanges(history)
-    .flatMap((snapshot) =>
-      snapshot.changes.map((change) => ({
+    .flatMap((snapshot) => [
+      ...snapshot.categoryChanges.map((change) => ({
+        categoryChange: change,
+        week: snapshot.week,
+        modern: snapshot.modern,
+        generatedAt: snapshot.generatedAt
+      })),
+      ...snapshot.changes.map((change) => ({
         ...change,
         week: snapshot.week,
         modern: snapshot.modern,
         generatedAt: snapshot.generatedAt
       }))
-    )
+    ])
     .slice(0, 50)
     .map((entry) => {
       const date = new Date(entry.generatedAt ?? NaN);
       const dated = !Number.isNaN(date.getTime());
       const label = entry.modern ? "leading reviewed option" : "champion";
+      if (entry.categoryChange) {
+        const change = entry.categoryChange;
+        return {
+          modern: entry.modern,
+          title: `${change.from.name}: category tasks updated`,
+          description: `${change.reason} Current tasks: ${change.to.map((type) => type.name).join(", ")}. Earlier snapshots retain their recorded definitions.`,
+          path: `/picks/${encodeURIComponent(change.from.id)}/`,
+          guid: `${entry.week}:category:${change.migrationId ?? "update"}:${change.from.id}`,
+          publishedAt: dated ? date.toISOString() : "",
+          published: dated ? date.toUTCString() : ""
+        };
+      }
       return {
         modern: entry.modern,
         title: entry.current
           ? `${entry.current.name} is the ${entry.typeName} ${label}`
           : `${entry.typeName} ${label} spot is vacant`,
-        description: !entry.current
+        description: entry.reason === "task-definition-changed"
+          ? `${entry.current ? `${entry.current.name} is selected` : "No reviewed option qualifies"} under the updated ${entry.typeName} task definition. This publication corrects the category comparison.`
+          : !entry.current
           ? `${entry.typeName} has no ${label} this week.`
           : entry.previous
             ? `${entry.current.name} replaced ${entry.previous.name}.`
@@ -1591,6 +1658,7 @@ export async function render({ root = ROOT } = {}) {
   try { availability = JSON.parse(await readFile(path.join(ROOT, "data", "availability.json"), "utf8")); }
   catch (error) { if (error.code !== "ENOENT") throw error; }
   const currentRankings = withAvailability(rankings, availability);
+  const retiredCategories = retiredCategoryChanges(rankings);
   const entries = feedEntries(history);
   await write("index.html", homePage(currentRankings, history));
   await write("methodology/index.html", methodologyPage(rankings));
@@ -1601,6 +1669,9 @@ export async function render({ root = ROOT } = {}) {
     await write(`picks/${encodeURIComponent(type.id)}/index.html`, typePage(type, currentRankings));
     const weeklyType = rankings.types.find((entry) => entry.id === type.id);
     await write(categoryImagePath(type, rankings.week), renderSocialImage(weeklyType, rankings.week, { methodologyVersion: rankings.methodologyVersion }));
+  }
+  for (const change of retiredCategories) {
+    await write(`picks/${encodeURIComponent(change.from.id)}/index.html`, categoryBridgePage(change, currentRankings));
   }
   for (const snapshot of history) {
     for (const type of snapshot.types ?? []) {
@@ -1622,7 +1693,7 @@ export async function render({ root = ROOT } = {}) {
     }
   }
 
-  const urls = ["/", "/methodology/", "/privacy/", "/changelog/", "/feed/", ...rankings.types.map((type) => `/picks/${type.id}/`)];
+  const urls = ["/", "/methodology/", "/privacy/", "/changelog/", "/feed/", ...rankings.types.map((type) => `/picks/${type.id}/`), ...retiredCategories.map((change) => `/picks/${change.from.id}/`)];
   await write(
     "sitemap.xml",
     `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls
@@ -1693,6 +1764,10 @@ export function renderFixtureMethodology(rankings) {
 
 export function renderFixtureType(type, rankings) {
   return typePage(type, rankings);
+}
+
+export function renderFixtureCategoryBridge(change, rankings) {
+  return categoryBridgePage(change, rankings);
 }
 
 export function deriveChanges(previous, current) {

@@ -1,0 +1,2926 @@
+{
+  "revision": "abcb9dc5e2f537887e197d4daa4ebb87ba5b5687",
+  "generatedAt": "2026-10-29T19:35:18.101Z",
+  "methodologyVersion": "1.3.0",
+  "categories": [
+    {
+      "id": "system-monitor",
+      "name": "System Monitor",
+      "contract": {
+        "version": 1,
+        "outcome": "CPU, memory, temperature, and resource monitoring",
+        "capabilitySets": [
+          [
+            "inspect-resource-usage"
+          ]
+        ]
+      },
+      "description": "CPU, memory, temperature, and resource monitoring",
+      "eligibleCount": 4,
+      "options": [
+        {
+          "id": "harshith.system-monitor",
+          "name": "System Monitor",
+          "reason": "Shows CPU, memory, disk, network and supported hardware sensor readings.",
+          "capabilities": [
+            "inspect-resource-usage"
+          ],
+          "source": "https://github.com/Harshith292002/omarchy-system-monitor/blob/2cbbbcc5e97096380a9935de08e4ba8a8adb840e/README.md"
+        },
+        {
+          "id": "stappmus.activity-monitor",
+          "name": "Activity Monitor",
+          "reason": "Displays CPU, memory, network and storage activity with a process table.",
+          "capabilities": [
+            "inspect-resource-usage"
+          ],
+          "source": "https://github.com/stappmus/omarchy-activity-monitor/blob/b25a98c7ff2a688ab74d86d2be42249e2db2f9cf/README.md"
+        },
+        {
+          "id": "agnibha.diskspace",
+          "name": "Disk Space",
+          "reason": "Shows mounted filesystems and their used capacity in a native disk-usage panel.",
+          "capabilities": [
+            "inspect-resource-usage"
+          ],
+          "source": "https://github.com/Nexus-Agni/omarchy-diskspace/blob/52d5739720d7836b38abeec3644631a1d7e2b9b4/README.md"
+        },
+        {
+          "id": "abdullahmansoor.omapodman",
+          "name": "OmaPodman",
+          "reason": "Shows per-container CPU, memory and storage usage, scoped to rootless Podman workloads.",
+          "capabilities": [
+            "inspect-resource-usage"
+          ],
+          "source": "https://github.com/i228808/omapodman/blob/f0413a10d07dc508f94eb7c8331e50653cd1f7ae/README.md"
+        }
+      ],
+      "status": "priority",
+      "action": "Tighten eligibility",
+      "finding": "The leading pair monitors the host, but qualified alternatives include disk-capacity-only and Podman-only tools.",
+      "recommendation": "Require host CPU and memory visibility. Treat storage-only and container-only monitors as specialist tools."
+    },
+    {
+      "id": "vpn",
+      "name": "VPN",
+      "contract": {
+        "version": 2,
+        "outcome": "Inspect VPN tunnel state and connect, disconnect or switch VPN connections",
+        "capabilitySets": [
+          [
+            "read-vpn-status",
+            "control-vpn-connection"
+          ]
+        ]
+      },
+      "description": "Inspect VPN tunnel state and connect, disconnect or switch VPN connections",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "io.github.grichard99.omaproton-vpn",
+          "name": "OmaProton VPN",
+          "reason": "Shows Proton VPN tunnel status and provides connection and server-selection controls.",
+          "capabilities": [
+            "read-vpn-status",
+            "control-vpn-connection"
+          ],
+          "source": "https://github.com/grichard99/omaproton-vpn/blob/7db0d72234d38bcc727c261e720c1429e4d81f6e/README.md"
+        },
+        {
+          "id": "jkoestinger.vpn",
+          "name": "VPN",
+          "reason": "Shows tunnel state and connects, disconnects or switches configured VPN clients.",
+          "capabilities": [
+            "read-vpn-status",
+            "control-vpn-connection"
+          ],
+          "source": "https://github.com/jkoestinger/omarchy-vpn/blob/e0f2d979bf7f13f61af9c3759af5f5a0c18b137c/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "Shared tunnel-state and connection controls; VPN provider support is a compatibility requirement.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "mail",
+      "name": "Mail",
+      "contract": {
+        "version": 1,
+        "outcome": "Unread mail, inbox, and email shortcuts",
+        "capabilitySets": [
+          [
+            "read-mail-status"
+          ]
+        ]
+      },
+      "description": "Unread mail, inbox, and email shortcuts",
+      "eligibleCount": 3,
+      "options": [
+        {
+          "id": "omamail",
+          "name": "Omamail",
+          "reason": "Reads and manages email in a native multi-account mail application; provider capabilities vary.",
+          "capabilities": [
+            "read-mail-status"
+          ],
+          "source": "https://github.com/huacnlee/omamail/blob/0f8d4df0a075fb7f9a6a09e20b5e56f481289dda/README.md"
+        },
+        {
+          "id": "jankeesvw.gmail-inbox",
+          "name": "Gmail Inbox",
+          "reason": "Lists unread Gmail messages and opens a selected message in the correct browser account.",
+          "capabilities": [
+            "read-mail-status"
+          ],
+          "source": "https://github.com/jankeesvw/omarchy-gmail-inbox/blob/85db432e090dc538fc9954b34194128c50fdfb8b/README.md"
+        },
+        {
+          "id": "37signals.hey",
+          "name": "HEY",
+          "reason": "Shows unread and recent email from linked HEY accounts and opens selected messages.",
+          "capabilities": [
+            "read-mail-status"
+          ],
+          "source": "https://github.com/basecamp/omarchy-hey-plugin/blob/10d47d29e8c93734285c7f11ddb9a32701470a1b/README.md"
+        }
+      ],
+      "status": "clarify",
+      "action": "Narrow the promise",
+      "finding": "All options inspect inboxes, but only some are full native mail clients. Use Inbox & Mail Status or separately qualify full Email Clients.",
+      "recommendation": "Review the category promise and minimum task requirements; do not infer a need for a new category from this flag alone."
+    },
+    {
+      "id": "music",
+      "name": "Media Controls",
+      "contract": {
+        "version": 1,
+        "outcome": "View now-playing details and control an existing media player",
+        "capabilitySets": [
+          [
+            "read-now-playing",
+            "control-playback"
+          ]
+        ]
+      },
+      "description": "View now-playing details and control an existing media player",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "crmne.mpris",
+          "name": "Media Controls + Album Art",
+          "reason": "Shows now-playing metadata and previous, play/pause and next controls for an existing MPRIS player.",
+          "capabilities": [
+            "read-now-playing",
+            "control-playback"
+          ],
+          "source": "https://github.com/crmne/omarchy-mpris/blob/a50cbb9a51d42472bbfaff5cffad36255f6fab81/README.md"
+        },
+        {
+          "id": "omaconnect",
+          "name": "OmaConnect",
+          "reason": "Provides track metadata, playback controls and player switching for paired KDE Connect devices.",
+          "capabilities": [
+            "read-now-playing",
+            "control-playback"
+          ],
+          "source": "https://github.com/jitendradara12/omaconnect/blob/71282d2042b1a1cda1cb1cac84251694eaabb7cb/README.md"
+        }
+      ],
+      "status": "priority",
+      "action": "Clarify the target",
+      "finding": "The local MPRIS widget competes with OmaConnect controls for a paired device.",
+      "recommendation": "Qualify local-player controls here; retain remote-device controls under Phone Integration unless a separate remote task is justified."
+    },
+    {
+      "id": "music-players",
+      "name": "Music Players",
+      "contract": {
+        "version": 1,
+        "outcome": "Browse a music library and play songs or playlists",
+        "capabilitySets": [
+          [
+            "browse-music",
+            "play-music"
+          ]
+        ]
+      },
+      "description": "Browse a music library and play songs or playlists",
+      "eligibleCount": 3,
+      "options": [
+        {
+          "id": "io.github.jeremylanger.omaspotify",
+          "name": "OmaSpotify",
+          "reason": "Searches Spotify, browses artists, albums and playlists, and plays music through its native player.",
+          "capabilities": [
+            "browse-music",
+            "play-music"
+          ],
+          "source": "https://github.com/jeremylanger/omaspotify/blob/2de4676b23bf9e7e3a5b17a83ba7c28672a19a79/README.md"
+        },
+        {
+          "id": "vornashev.yandex-music",
+          "name": "Yandex Music",
+          "reason": "Browses and plays Yandex Music through a native panel backed by mpv.",
+          "capabilities": [
+            "browse-music",
+            "play-music"
+          ],
+          "source": "https://github.com/vornashev/omarchy-yandex-music/blob/61bd60087d7a56b34a2afd9eaf5b9b5dcdbba048/README.md"
+        },
+        {
+          "id": "andreasbylund.jellyfin",
+          "name": "Jellyfin Music",
+          "reason": "Searches a Jellyfin music library, browses playlists and plays selected music in mpv.",
+          "capabilities": [
+            "browse-music",
+            "play-music"
+          ],
+          "source": "https://github.com/andreas-bylund/omarchy-jellyfin-music-plugin/blob/d609c8d01294747540380828144b48ff5b381105/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "All options browse music libraries and play music; service and account requirements distinguish them.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "weather",
+      "name": "Weather",
+      "contract": {
+        "version": 1,
+        "outcome": "Forecasts and current conditions",
+        "capabilitySets": [
+          [
+            "read-weather"
+          ]
+        ]
+      },
+      "description": "Forecasts and current conditions",
+      "eligibleCount": 3,
+      "options": [
+        {
+          "id": "eduardodallecort.weather-radar",
+          "name": "Weather Radar",
+          "reason": "Displays precipitation radar and a short rain forecast where the weather providers have coverage.",
+          "capabilities": [
+            "read-weather"
+          ],
+          "source": "https://github.com/eduardodallecort/omarchy-weather-radar/blob/7234f1abc6f47738f37d13d8d354c62aca7d82f7/README.md"
+        },
+        {
+          "id": "io.github.calebhat.weather",
+          "name": "Detailed Weather",
+          "reason": "Shows current conditions and hourly and daily forecasts; radar opens a separate website.",
+          "capabilities": [
+            "read-weather"
+          ],
+          "source": "https://github.com/calebhat/omarchy-weather/blob/f1f3ce66e00e93489ce4086d6641b71471321966/README.md"
+        },
+        {
+          "id": "ali.iweather",
+          "name": "iWeather",
+          "reason": "Shows current weather and hourly and daily forecasts with location selection.",
+          "capabilities": [
+            "read-weather"
+          ],
+          "source": "https://github.com/alivault/iweather/blob/a3e80e94aa2b66a2bd7a46976dcf24eafc4046a3/README.md"
+        }
+      ],
+      "status": "priority",
+      "action": "Separate tasks",
+      "finding": "Radar imagery and rain alerts compete with general conditions and hourly/daily forecasts.",
+      "recommendation": "Separate Weather Forecasts and Weather Radar. A browser link to radar does not qualify as a native radar feature."
+    },
+    {
+      "id": "battery",
+      "name": "Battery",
+      "contract": {
+        "version": 2,
+        "outcome": "Read the computer battery level, charging state, power draw and health",
+        "capabilitySets": [
+          [
+            "read-computer-battery"
+          ]
+        ]
+      },
+      "description": "Read the computer battery level, charging state, power draw and health",
+      "eligibleCount": 5,
+      "options": [
+        {
+          "id": "crmne.omastats",
+          "name": "OmaStats",
+          "reason": "Shows computer battery level, health and power draw when reported by the hardware.",
+          "capabilities": [
+            "read-computer-battery"
+          ],
+          "source": "https://github.com/crmne/omastats/blob/6be06cd9c2b29a1841f4377fb636ce8b244fd153/README.md"
+        },
+        {
+          "id": "io.github.diegopluna.argus",
+          "name": "Argus",
+          "reason": "Shows computer battery charge, health and discharge readings when a battery is present.",
+          "capabilities": [
+            "read-computer-battery"
+          ],
+          "source": "https://github.com/diegopluna/omarchy-argus/blob/db4cf658b72ed917d695c4c308f52a81f69d1e8a/README.md"
+        },
+        {
+          "id": "patcastle.power",
+          "name": "Power + Battery Health",
+          "reason": "Shows computer battery level, capacity and charge rate, with optional hardware-supported charge protection.",
+          "capabilities": [
+            "read-computer-battery"
+          ],
+          "source": "https://github.com/patcastle/omarchy-battery-health/blob/5216baa1f5287c9713a28a7037b8c8e70ecbf4d0/README.md"
+        },
+        {
+          "id": "tedwester.legion",
+          "name": "Legion Toolkit",
+          "reason": "Shows laptop battery level and supported Lenovo charge modes in its hardware control center.",
+          "capabilities": [
+            "read-computer-battery"
+          ],
+          "source": "https://github.com/tedwester/omalegion/blob/a427bbb30db5ae05ca75baa8bcd3ff09f307914c/README.md"
+        },
+        {
+          "id": "aabulkhairov.battery-insights",
+          "name": "Battery Insights",
+          "reason": "Displays computer battery level, usage history and battery health on laptops.",
+          "capabilities": [
+            "read-computer-battery"
+          ],
+          "source": "https://github.com/aabulkhairov/omarchy-battery-insights/blob/8d27d29e554fd490c843e0953b35188d1361dc51/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "All read the computer battery; hardware-specific health and charge extras are optional.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "clipboard",
+      "name": "Clipboard",
+      "contract": {
+        "version": 1,
+        "outcome": "Clipboard history, reusable snippets, and paste management",
+        "capabilitySets": [
+          [
+            "browse-clipboard-history",
+            "reuse-clipboard-entry"
+          ]
+        ]
+      },
+      "description": "Clipboard history, reusable snippets, and paste management",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "io.github.maajix.spotlight",
+          "name": "Spotlight",
+          "reason": "Searches saved clipboard history and offers reusable clipboard results in the launcher.",
+          "capabilities": [
+            "browse-clipboard-history",
+            "reuse-clipboard-entry"
+          ],
+          "source": "https://github.com/maajix/omarchy-spotlight/blob/f38187f44ebaf763536654f14e2352aeba8dbe35/Spotlight.qml"
+        },
+        {
+          "id": "io.github.vuhuy.clipboard-manager",
+          "name": "Clipboard Manager",
+          "reason": "Searches and previews Omarchy clipboard history, then copies or pastes selected entries.",
+          "capabilities": [
+            "browse-clipboard-history",
+            "reuse-clipboard-entry"
+          ],
+          "source": "https://github.com/huyhuyvu01/omarchy-clipboard/blob/79c8f2a1cc09439ed56bcd69abacb2d1cabc543c/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "Both browse and reuse saved clipboard entries despite different interface packaging.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "launcher",
+      "name": "Launcher",
+      "contract": {
+        "version": 1,
+        "outcome": "Application launchers, command palettes, and quick search",
+        "capabilitySets": [
+          [
+            "find-applications",
+            "launch-applications"
+          ]
+        ]
+      },
+      "description": "Application launchers, command palettes, and quick search",
+      "eligibleCount": 3,
+      "options": [
+        {
+          "id": "evindor.keystroke",
+          "name": "Keystroke",
+          "reason": "Finds and launches applications from a replacement Omarchy command palette.",
+          "capabilities": [
+            "find-applications",
+            "launch-applications"
+          ],
+          "source": "https://github.com/evindor/keystroke/blob/0c74f2dd7466f25faf2cda4a39697f237afbe774/README.md"
+        },
+        {
+          "id": "tyrsolution.app-launcher",
+          "name": "App Launcher",
+          "reason": "Finds applications in a searchable overlay and launches selected apps and configured system actions.",
+          "capabilities": [
+            "find-applications",
+            "launch-applications"
+          ],
+          "source": "https://github.com/Tyrsolution/omarchy-app-launcher/blob/26d080082da007d3b9357e93c42febe27014aace/README.md"
+        },
+        {
+          "id": "azterisk.menu",
+          "name": "My Omarchy menu",
+          "reason": "Searches and launches installed applications and indexed games from an enhanced menu.",
+          "capabilities": [
+            "find-applications",
+            "launch-applications"
+          ],
+          "source": "https://github.com/Azteriisk/omarchy-menu/blob/172c08605b3cab4451f67f7c6b24407ba048f119/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "All find and launch installed applications.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "docks",
+      "name": "Application Docks",
+      "contract": {
+        "version": 1,
+        "outcome": "Pin, launch and switch applications from a desktop dock",
+        "capabilitySets": [
+          [
+            "pin-applications",
+            "launch-pinned-applications"
+          ]
+        ]
+      },
+      "description": "Pin, launch and switch applications from a desktop dock",
+      "eligibleCount": 3,
+      "options": [
+        {
+          "id": "rosakodu.dock",
+          "name": "Dock",
+          "reason": "Pins applications and launches or switches their windows from a desktop dock.",
+          "capabilities": [
+            "pin-applications",
+            "launch-pinned-applications"
+          ],
+          "source": "https://github.com/rosakodu/omarchy-dock/blob/65f282eb35efd7b96e45ecdd86bea831b5ea6179/README.md"
+        },
+        {
+          "id": "omadock",
+          "name": "Dock (OmaDock)",
+          "reason": "Pins applications and launches or switches their windows, with folder and app-group support.",
+          "capabilities": [
+            "pin-applications",
+            "launch-pinned-applications"
+          ],
+          "source": "https://github.com/thepathless/omadock/blob/cdaac69c7bc2987fef3b28e2206d1a7f3cee3076/README.md"
+        },
+        {
+          "id": "io.github.claudsondouglas.arcdock",
+          "name": "Arc Dock",
+          "reason": "Pins applications and launches closed apps or focuses running windows from the dock.",
+          "capabilities": [
+            "pin-applications",
+            "launch-pinned-applications"
+          ],
+          "source": "https://github.com/claudsondouglas/arc.dock/blob/da3dca98d07b70f3209be033f99c0dce955b1103/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "All pin and launch applications, with switching behavior explained per app.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "network",
+      "name": "Network Connections",
+      "contract": {
+        "version": 1,
+        "outcome": "Connect, disconnect and configure Wi-Fi, Ethernet or cellular networks",
+        "capabilitySets": [
+          [
+            "manage-network-connections"
+          ]
+        ]
+      },
+      "description": "Connect, disconnect and configure Wi-Fi, Ethernet or cellular networks",
+      "eligibleCount": 3,
+      "options": [
+        {
+          "id": "io.github.shivamnarkar47.omarchy-hotspot",
+          "name": "Mobile Hotspot",
+          "reason": "Starts and stops a Wi-Fi hotspot that shares an uplink on hardware supporting concurrent station and AP modes.",
+          "capabilities": [
+            "manage-network-connections"
+          ],
+          "source": "https://github.com/shivamnarkar47/omarchy-hotspot/blob/aff1ac1c3ae4d33f74422ad1086d8bb7f51bdee4/README.md"
+        },
+        {
+          "id": "community.network",
+          "name": "Network Manager (with Repeater & Hotspot)",
+          "reason": "Connects Wi-Fi networks and manages hotspot connections with explicit radio and helper requirements.",
+          "capabilities": [
+            "manage-network-connections"
+          ],
+          "source": "https://github.com/Guneshbari/omarchy-network/blob/a9210ea5c116b6c604a275631b83765d4ed7deee/README.md"
+        },
+        {
+          "id": "angeeeld.omaltbar",
+          "name": "Omaltbar",
+          "reason": "Provides native Wi-Fi connect, disconnect and credential controls inside its replacement bar.",
+          "capabilities": [
+            "manage-network-connections"
+          ],
+          "source": "https://github.com/AngeeelD/omaltbar/blob/28709ae256fea4551ee827d4b97d8d7e43dfc8cb/views/QuickSettingsView.qml"
+        }
+      ],
+      "status": "priority",
+      "action": "Separate tasks",
+      "finding": "Mobile Hotspot shares an existing connection; the advertised category is joining and configuring networks.",
+      "recommendation": "Require client connection controls for Network Connections; qualify Hotspots & Internet Sharing independently."
+    },
+    {
+      "id": "network-diagnostics",
+      "name": "Network Traffic & Diagnostics",
+      "contract": {
+        "version": 1,
+        "outcome": "Measure throughput, latency and connection activity",
+        "capabilitySets": [
+          [
+            "inspect-network-activity"
+          ]
+        ]
+      },
+      "description": "Measure throughput, latency and connection activity",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "crmne.omastats",
+          "name": "OmaStats",
+          "reason": "Shows per-interface and per-process network throughput and connection activity.",
+          "capabilities": [
+            "inspect-network-activity"
+          ],
+          "source": "https://github.com/crmne/omastats/blob/6be06cd9c2b29a1841f4377fb636ce8b244fd153/README.md"
+        },
+        {
+          "id": "vitals",
+          "name": "Vitals",
+          "reason": "Displays live network rates alongside system resource readings.",
+          "capabilities": [
+            "inspect-network-activity"
+          ],
+          "source": "https://github.com/niraletter/vitals/blob/f5f3f2295f3911df03a325050c4604804f437d49/README.md"
+        }
+      ],
+      "status": "clarify",
+      "action": "Narrow the promise",
+      "finding": "The current choices show traffic rates. Do not imply latency tests or active diagnostics without separate evidence.",
+      "recommendation": "Review the category promise and minimum task requirements; do not infer a need for a new category from this flag alone."
+    },
+    {
+      "id": "bluetooth",
+      "name": "Bluetooth",
+      "contract": {
+        "version": 1,
+        "outcome": "Bluetooth device discovery, pairing, connections, and adapter controls",
+        "capabilitySets": [
+          [
+            "manage-bluetooth-connections"
+          ]
+        ]
+      },
+      "description": "Bluetooth device discovery, pairing, connections, and adapter controls",
+      "eligibleCount": 3,
+      "options": [
+        {
+          "id": "ssupt.bluetooth-audio",
+          "name": "Advanced Bluetooth Audio",
+          "reason": "Discovers, pairs, connects, disconnects and manages Bluetooth devices.",
+          "capabilities": [
+            "manage-bluetooth-connections"
+          ],
+          "source": "https://github.com/ssupt/omarchy-bluetooth-audio/blob/7cbf8b96d981931fce50a61047eb9bb731f9cfbe/README.md"
+        },
+        {
+          "id": "io.github.aryan-techie.bluetooth",
+          "name": "Better Bluetooth",
+          "reason": "Provides Bluetooth pairing and connection controls with optional pinned-device reconnection.",
+          "capabilities": [
+            "manage-bluetooth-connections"
+          ],
+          "source": "https://github.com/AROICE-HQ/omarchy-bluetooth/blob/43db1ec49750a4bd5da54d571db4e9baa4afa495/README.md"
+        },
+        {
+          "id": "angeeeld.omaltbar",
+          "name": "Omaltbar",
+          "reason": "Pairs, connects and disconnects Bluetooth devices inside the replacement bar.",
+          "capabilities": [
+            "manage-bluetooth-connections"
+          ],
+          "source": "https://github.com/AngeeelD/omaltbar/blob/28709ae256fea4551ee827d4b97d8d7e43dfc8cb/views/QuickSettingsView.qml"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "All qualified options discover, pair and connect devices; headset features are additional.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "audio",
+      "name": "Audio",
+      "contract": {
+        "version": 1,
+        "outcome": "System volume, microphones, audio routing, and headset sound controls",
+        "capabilitySets": [
+          [
+            "control-system-audio"
+          ],
+          [
+            "configure-headset-audio"
+          ]
+        ]
+      },
+      "description": "System volume, microphones, audio routing, and headset sound controls",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "ssupt.audio-control",
+          "name": "Advanced Audio Control",
+          "reason": "Controls system output, microphones, application routing and saved audio scenes.",
+          "capabilities": [
+            "control-system-audio"
+          ],
+          "source": "https://github.com/ssupt/omarchy-audio-control/blob/c822e48fa3b0d8f3cc2f0bf96eace416f30f0764/README.md"
+        },
+        {
+          "id": "ssupt.bluetooth-audio",
+          "name": "Advanced Bluetooth Audio",
+          "reason": "Changes headset audio modes and selects Bluetooth audio output.",
+          "capabilities": [
+            "configure-headset-audio"
+          ],
+          "source": "https://github.com/ssupt/omarchy-bluetooth-audio/blob/7cbf8b96d981931fce50a61047eb9bb731f9cfbe/README.md"
+        }
+      ],
+      "status": "priority",
+      "action": "Tighten eligibility",
+      "finding": "System mixing/routing competes with Bluetooth headset mode and connection preferences.",
+      "recommendation": "Require system-audio controls. Keep headset-specific controls in Bluetooth or a separately justified headset task."
+    },
+    {
+      "id": "brightness",
+      "name": "Screen Brightness",
+      "contract": {
+        "version": 1,
+        "outcome": "Adjust computer display brightness manually or automatically",
+        "capabilitySets": [
+          [
+            "adjust-display-brightness"
+          ]
+        ]
+      },
+      "description": "Adjust computer display brightness manually or automatically",
+      "eligibleCount": 3,
+      "options": [
+        {
+          "id": "crmne.hyprmoncfg",
+          "name": "hyprmoncfg: Multi-Monitor Manager for Omarchy",
+          "reason": "Adjusts brightness for a selected display using Omarchy-supported hardware backends.",
+          "capabilities": [
+            "adjust-display-brightness"
+          ],
+          "source": "https://github.com/crmne/omarchy-hyprmoncfg/blob/03177e1b48fcde97004130fdfac1f9156e6b43a6/README.md"
+        },
+        {
+          "id": "omarchy-display",
+          "name": "Display Settings",
+          "reason": "Adjusts display brightness through supported internal-backlight, DDC/CI and Apple display controls.",
+          "capabilities": [
+            "adjust-display-brightness"
+          ],
+          "source": "https://github.com/marashiai/omarchy-display/blob/0d78fab0161a9039989c4cbd9c8c7d3740730546/README.md"
+        },
+        {
+          "id": "angeeeld.omaltbar",
+          "name": "Omaltbar",
+          "reason": "Adjusts the focused display’s brightness through Omarchy display helpers inside its replacement bar.",
+          "capabilities": [
+            "adjust-display-brightness"
+          ],
+          "source": "https://github.com/AngeeelD/omaltbar/blob/28709ae256fea4551ee827d4b97d8d7e43dfc8cb/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "All adjust computer display brightness; hardware/backend support is a compatibility requirement.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "night-light",
+      "name": "Night Light",
+      "contract": {
+        "version": 1,
+        "outcome": "Adjust and schedule computer display color temperature",
+        "capabilitySets": [
+          [
+            "adjust-display-color-temperature"
+          ],
+          [
+            "schedule-night-light"
+          ]
+        ]
+      },
+      "description": "Adjust and schedule computer display color temperature",
+      "eligibleCount": 3,
+      "options": [
+        {
+          "id": "io.github.deunnis.lacquer",
+          "name": "Omarchy Lacquer",
+          "reason": "Configures hyprsunset night-light temperature and scheduling within a larger appearance editor.",
+          "capabilities": [
+            "schedule-night-light"
+          ],
+          "source": "https://github.com/Deunnis/omarchy-lacquer/blob/177acbd52eede955b3ec8eb422cc0c36158dd7a5/README.md"
+        },
+        {
+          "id": "omarchy-display",
+          "name": "Display Settings",
+          "reason": "Enables night light immediately or schedules a daily range through the existing hyprsunset service.",
+          "capabilities": [
+            "schedule-night-light"
+          ],
+          "source": "https://github.com/marashiai/omarchy-display/blob/0d78fab0161a9039989c4cbd9c8c7d3740730546/README.md"
+        },
+        {
+          "id": "kenny.nightlight",
+          "name": "Night Light",
+          "reason": "Adjusts display color temperature and schedules night light through hyprsunset.",
+          "capabilities": [
+            "schedule-night-light"
+          ],
+          "source": "https://github.com/key-tone/omarchy-nightlight/blob/482fe13b0a2838fd4f8bdf57813d9a23d67f56ef/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "All current options control or schedule display warmth; alternative capability IDs alone do not establish a mismatch.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "display-monitors",
+      "name": "Display & Monitors",
+      "contract": {
+        "version": 1,
+        "outcome": "Monitor layouts, display profiles, and output controls",
+        "capabilitySets": [
+          [
+            "configure-display-outputs"
+          ]
+        ]
+      },
+      "description": "Monitor layouts, display profiles, and output controls",
+      "eligibleCount": 3,
+      "options": [
+        {
+          "id": "crmne.hyprmoncfg",
+          "name": "hyprmoncfg: Multi-Monitor Manager for Omarchy",
+          "reason": "Edits monitor layouts and profiles and automatically applies matching layouts on hotplug.",
+          "capabilities": [
+            "configure-display-outputs"
+          ],
+          "source": "https://github.com/crmne/omarchy-hyprmoncfg/blob/03177e1b48fcde97004130fdfac1f9156e6b43a6/README.md"
+        },
+        {
+          "id": "im0001gt.screens",
+          "name": "Screens",
+          "reason": "Arranges displays and edits resolution, scale, refresh rate, rotation and named hotplug profiles.",
+          "capabilities": [
+            "configure-display-outputs"
+          ],
+          "source": "https://github.com/IM0001GT/omarchy-screens/blob/4259142593ae0ada207f998ddd02395d44d5babc/README.md"
+        },
+        {
+          "id": "io.github.bmontythe3rd.display-manager",
+          "name": "Omarchy Display Manager",
+          "reason": "Edits display arrangement, resolution, refresh rate, rotation and saved monitor profiles.",
+          "capabilities": [
+            "configure-display-outputs"
+          ],
+          "source": "https://github.com/Bmontythe3rd/omarchy-display-manager/blob/386952483b58285006a425fb5016adc2255b0c5d/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "All configure monitor outputs, arrangements and profiles.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "notifications",
+      "name": "Notifications",
+      "contract": {
+        "version": 1,
+        "outcome": "Notification centers, history, and do-not-disturb",
+        "capabilitySets": [
+          [
+            "manage-desktop-notifications"
+          ]
+        ]
+      },
+      "description": "Notification centers, history, and do-not-disturb",
+      "eligibleCount": 5,
+      "options": [
+        {
+          "id": "jankeesvw.notification-center",
+          "name": "Notification Center",
+          "reason": "Reads, searches and clears archived desktop notifications from Omarchy notification history.",
+          "capabilities": [
+            "manage-desktop-notifications"
+          ],
+          "source": "https://github.com/jankeesvw/omarchy-notification-center/blob/64886e934478d9cf0d8c8b4cd319a79567431b8c/README.md"
+        },
+        {
+          "id": "njpatel.omapager",
+          "name": "Omapager",
+          "reason": "Replaces the notification daemon and provides grouping, history, snooze and do-not-disturb controls.",
+          "capabilities": [
+            "manage-desktop-notifications"
+          ],
+          "source": "https://github.com/omacom/omapager/blob/c389e73516828d18f26e8efec2127c0c3dc3cb97/README.md"
+        },
+        {
+          "id": "shavanced.notification-center",
+          "name": "Notification Center",
+          "reason": "Displays, searches and dismisses notification history supplied by Omarchy notifications.",
+          "capabilities": [
+            "manage-desktop-notifications"
+          ],
+          "source": "https://github.com/Shavanced/omarchy-notification-center-plugin/blob/8fa2c0c3610df67eb245c73ef42b81ada073b244/README.md"
+        },
+        {
+          "id": "abran-labs.notification-center",
+          "name": "Notification Center",
+          "reason": "Displays missed notifications and provides a notification-center panel.",
+          "capabilities": [
+            "manage-desktop-notifications"
+          ],
+          "source": "https://github.com/abran-labs/omarchy-notification-center/blob/1c11e0bb38bcd0b562d4f251a25f9efb52843b27/README.md"
+        },
+        {
+          "id": "apurva.notifications",
+          "name": "My Notifications",
+          "reason": "Replaces the built-in notification daemon and adds history, per-entry deletion and clear-all.",
+          "capabilities": [
+            "manage-desktop-notifications"
+          ],
+          "source": "https://github.com/apurvasaraiya/omarchy-notification-center/blob/5ec65b04f34f5d8aa6a6cd40fe5a8f3827aa74b1/README.md"
+        }
+      ],
+      "status": "clarify",
+      "action": "Clarify shared minimum",
+      "finding": "All options expose notification history. Daemon replacement, snooze and DND are additional features, not universal capabilities.",
+      "recommendation": "Review the category promise and minimum task requirements; do not infer a need for a new category from this flag alone."
+    },
+    {
+      "id": "lock-idle",
+      "name": "Lock & Idle",
+      "contract": {
+        "version": 1,
+        "outcome": "Screen locking, idle behavior, and sleep prevention",
+        "capabilitySets": [
+          [
+            "configure-lock-screen"
+          ],
+          [
+            "manage-idle-behavior"
+          ]
+        ]
+      },
+      "description": "Screen locking, idle behavior, and sleep prevention",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "io.github.sirjul1337.lock-explorer",
+          "name": "Lock Screen Explorer",
+          "reason": "Selects and designs lock-screen layouts with optional separately configured authentication integrations.",
+          "capabilities": [
+            "configure-lock-screen"
+          ],
+          "source": "https://github.com/SirJul1337/omarchy-lock-explorer/blob/9f056d3ad2c5d291919c51ef8397900024f0e86a/README.md"
+        },
+        {
+          "id": "onlyvishesh.power-manager",
+          "name": "Omarchy Power Manager",
+          "reason": "Configures idle timeouts, sleep actions and lid behavior for AC and battery profiles.",
+          "capabilities": [
+            "manage-idle-behavior"
+          ],
+          "source": "https://github.com/onlyVishesh/omarchy-power-manager/blob/767f8f1c2a01e5f64d6a5c5cfee8c49ce9c162b3/README.md"
+        }
+      ],
+      "status": "priority",
+      "action": "Previously identified",
+      "finding": "Lock-screen presentation competes with automatic idle/sleep policy.",
+      "recommendation": "Separate Lock Screen Appearance, Idle & Sleep Settings, and Keep Awake, with individual source-backed qualification."
+    },
+    {
+      "id": "password-manager",
+      "name": "Password Manager",
+      "contract": {
+        "version": 1,
+        "outcome": "Password vaults, TOTP codes, and credential managers",
+        "capabilitySets": [
+          [
+            "retrieve-credentials"
+          ]
+        ]
+      },
+      "description": "Password vaults, TOTP codes, and credential managers",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "io.github.elevate08.qs-bitwarden-cli",
+          "name": "Bitwarden",
+          "reason": "Searches a Bitwarden vault and retrieves credentials through the Bitwarden CLI.",
+          "capabilities": [
+            "retrieve-credentials"
+          ],
+          "source": "https://github.com/Elevate08/qs-bitwarden-cli/blob/d0a95ebad981ccf5d1c0b214e79089ffd11ff291/README.md"
+        },
+        {
+          "id": "io.github.salemsayed.omawarden",
+          "name": "OmaWarden",
+          "reason": "Searches and copies credentials from a signed-in Bitwarden vault.",
+          "capabilities": [
+            "retrieve-credentials"
+          ],
+          "source": "https://github.com/salemsayed/omawarden/blob/5b0f681c25b21ee0ce987feffa773528a0ec9955/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "Both search and retrieve vault credentials.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "calendar",
+      "name": "Calendar",
+      "contract": {
+        "version": 1,
+        "outcome": "Calendars, events, and agenda widgets",
+        "capabilitySets": [
+          [
+            "browse-calendar-events"
+          ]
+        ]
+      },
+      "description": "Calendars, events, and agenda widgets",
+      "eligibleCount": 3,
+      "options": [
+        {
+          "id": "tmn73.calendar",
+          "name": "Calendar",
+          "reason": "Browses calendar events from configured Google, iCalendar or local JSON sources.",
+          "capabilities": [
+            "browse-calendar-events"
+          ],
+          "source": "https://github.com/tmn73/omarchy-calendar/blob/2a6d0335c31147fd124f2879ecda7ad46383db5d/README.md"
+        },
+        {
+          "id": "promaa.clock",
+          "name": "Chronica",
+          "reason": "Browses local and connected calendar events, with editing available for supported providers.",
+          "capabilities": [
+            "browse-calendar-events"
+          ],
+          "source": "https://github.com/promaaa/sync-calendar-omarchy/blob/e633b4a9c34db6a197255b8d14a6348b60807c59/README.md"
+        },
+        {
+          "id": "acp.omascribe",
+          "name": "OmaScribe — AI Meeting Notes",
+          "reason": "Shows a Google Calendar day view with event details and one-click meeting joining.",
+          "capabilities": [
+            "browse-calendar-events"
+          ],
+          "source": "https://github.com/amitcpatel/omascribe/blob/b31f65dfa3f3d52bbc28bec55ea0d90e89fd46f7/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "All browse calendar events; provider and editing support are additional features.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "clock-timer",
+      "name": "Clocks & Time Zones",
+      "contract": {
+        "version": 1,
+        "outcome": "Read the time and compare time zones",
+        "capabilitySets": [
+          [
+            "read-time"
+          ]
+        ]
+      },
+      "description": "Read the time and compare time zones",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "io.github.sspaeti.timezones",
+          "name": "Timezones",
+          "reason": "Shows local and world clocks and compares hours across selected time zones.",
+          "capabilities": [
+            "read-time"
+          ],
+          "source": "https://github.com/sspaeti/omarchy-timezones-plugin/blob/8419c2e56c0e33d2cc3eeefeff556a2fa2689bcf/README.md"
+        },
+        {
+          "id": "ubeyidah.omaclock",
+          "name": "OmaClock",
+          "reason": "Displays a desktop clock with configurable appearance and bar settings.",
+          "capabilities": [
+            "read-time"
+          ],
+          "source": "https://github.com/ubeyidah/omaclock/blob/dadca5c573274e4dee41c5771405d4b4fd2e8b9a/README.md"
+        }
+      ],
+      "status": "priority",
+      "action": "Separate task views",
+      "finding": "A timezone comparison grid competes with a decorative local clock; reading one clock does not meet the advertised comparison task.",
+      "recommendation": "Separate world-time comparison from desktop clocks, or provide task-specific sections without a shared ranking."
+    },
+    {
+      "id": "timers-alarms",
+      "name": "Timers & Alarms",
+      "contract": {
+        "version": 1,
+        "outcome": "Run timers, stopwatches and scheduled alarms",
+        "capabilitySets": [
+          [
+            "run-timer"
+          ],
+          [
+            "run-stopwatch"
+          ],
+          [
+            "schedule-alarm"
+          ]
+        ]
+      },
+      "description": "Run timers, stopwatches and scheduled alarms",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "pnkm0nk.omodoro",
+          "name": "Omodoro",
+          "reason": "Runs configurable focus and break countdown timers with optional alerts.",
+          "capabilities": [
+            "run-timer"
+          ],
+          "source": "https://github.com/Pnkm0nK/Omodoro/blob/76379ebe27e3b2453289f904c7861b469daabbc1/README.md"
+        },
+        {
+          "id": "io.github.pjgeutjens.clockwork",
+          "name": "Clockwork",
+          "reason": "Runs countdowns, a stopwatch, scheduled alarms and interval timers.",
+          "capabilities": [
+            "run-timer",
+            "run-stopwatch",
+            "schedule-alarm"
+          ],
+          "source": "https://github.com/pjgeutjens/omarchy-clockwork/blob/afaa28a80e884f93ff4279724d2170776da24bfe/README.md"
+        }
+      ],
+      "status": "clarify",
+      "action": "Separate task modes",
+      "finding": "The current pair shares countdown timers, but an alarm-only or stopwatch-only option also passes. Qualify countdowns, alarms and stopwatches separately before ranking by task.",
+      "recommendation": "Review the category promise and minimum task requirements; do not infer a need for a new category from this flag alone."
+    },
+    {
+      "id": "focus",
+      "name": "Focus Sessions",
+      "contract": {
+        "version": 1,
+        "outcome": "Run Pomodoro and structured focus sessions",
+        "capabilitySets": [
+          [
+            "manage-focus-sessions"
+          ]
+        ]
+      },
+      "description": "Run Pomodoro and structured focus sessions",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "pnkm0nk.omodoro",
+          "name": "Omodoro",
+          "reason": "Runs Pomodoro focus and break sessions and records progress.",
+          "capabilities": [
+            "manage-focus-sessions"
+          ],
+          "source": "https://github.com/Pnkm0nK/Omodoro/blob/76379ebe27e3b2453289f904c7861b469daabbc1/README.md"
+        },
+        {
+          "id": "io.github.pjgeutjens.clockwork",
+          "name": "Clockwork",
+          "reason": "Runs Pomodoro sessions with focus and break stages and deliberate focus resumption.",
+          "capabilities": [
+            "manage-focus-sessions"
+          ],
+          "source": "https://github.com/pjgeutjens/omarchy-clockwork/blob/afaa28a80e884f93ff4279724d2170776da24bfe/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "Both run structured focus and break sessions.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "tasks",
+      "name": "Task Lists",
+      "contract": {
+        "version": 1,
+        "outcome": "Create, browse and complete personal tasks",
+        "capabilitySets": [
+          [
+            "manage-personal-tasks"
+          ]
+        ]
+      },
+      "description": "Create, browse and complete personal tasks",
+      "eligibleCount": 4,
+      "options": [
+        {
+          "id": "io.github.aryan-techie.todoist",
+          "name": "Todoist",
+          "reason": "Creates, browses and completes Todoist tasks through the configured account.",
+          "capabilities": [
+            "manage-personal-tasks"
+          ],
+          "source": "https://github.com/Aryan-Techie/omarchy-todoist/blob/367fd54120590254e0718773fce7664349a3e2c3/README.md"
+        },
+        {
+          "id": "crmne.todoist",
+          "name": "OmaTasks for Todoist",
+          "reason": "Creates, browses, edits and completes personal Todoist tasks.",
+          "capabilities": [
+            "manage-personal-tasks"
+          ],
+          "source": "https://github.com/crmne/omatasks/blob/88fe1ba68ea4e77675759ee4f65ad2695cd2530f/README.md"
+        },
+        {
+          "id": "maduki-tech.omado",
+          "name": "Omado",
+          "reason": "Adds, displays and completes personal tasks stored locally.",
+          "capabilities": [
+            "manage-personal-tasks"
+          ],
+          "source": "https://github.com/maduki-tech/omado/blob/2e3d1159b60c95e6f9960cdeb6fa0b4e84c3c3d1/README.md"
+        },
+        {
+          "id": "anishkn.mstodo",
+          "name": "MS To Do",
+          "reason": "Creates, browses and completes Microsoft To Do tasks with reminders.",
+          "capabilities": [
+            "manage-personal-tasks"
+          ],
+          "source": "https://github.com/anishkn04/ms-todo-plugin/blob/fef09390bc410f459e3fb4624f7e80b70cd2069a/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "All qualified options create, browse and complete tasks; backend/account differences are requirements.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "notes",
+      "name": "Notes",
+      "contract": {
+        "version": 2,
+        "outcome": "Create notes and retrieve them for reading",
+        "capabilitySets": [
+          [
+            "capture-notes",
+            "read-notes"
+          ]
+        ]
+      },
+      "description": "Create notes and retrieve them for reading",
+      "eligibleCount": 6,
+      "options": [
+        {
+          "id": "io.github.huligabuliga.omasticky",
+          "name": "Omasticky",
+          "reason": "Creates editable sticky notes, saves them locally and reopens them for reading.",
+          "capabilities": [
+            "capture-notes",
+            "read-notes"
+          ],
+          "source": "https://github.com/huligabuliga/Omasticky/blob/b6a36934d970e79ea80119748fd0713cf03e46b0/README.md"
+        },
+        {
+          "id": "luca.obsidian-daily",
+          "name": "Obsidian Daily",
+          "reason": "Adds and reads checklist entries in Obsidian Daily Notes, including previous days.",
+          "capabilities": [
+            "capture-notes",
+            "read-notes"
+          ],
+          "source": "https://github.com/LucaNerlich/obsidian-daily-qs/blob/676bac86139d349655c7419b2b3f55be32f419d3/README.md"
+        },
+        {
+          "id": "rperaza.obsidian-notes",
+          "name": "Obsidian Notes",
+          "reason": "Captures Markdown notes in a chosen vault and retrieves them through search, preview and Obsidian opening.",
+          "capabilities": [
+            "capture-notes",
+            "read-notes"
+          ],
+          "source": "https://github.com/joisephdev/omarchy-obsidian/blob/00e3680e7bce6570fa1d3c39d5775225707728be/README.md"
+        },
+        {
+          "id": "io.github.weedwhitesandwine.omascratch",
+          "name": "Omascratch",
+          "reason": "Captures notes in an autosaving scratchpad and restores the saved text when reopened.",
+          "capabilities": [
+            "capture-notes",
+            "read-notes"
+          ],
+          "source": "https://github.com/weedwhitesandwine/omascratch/blob/ed2903ef3855d3283141616c933936f3aec71c0e/README.md"
+        },
+        {
+          "id": "ablanco.notethis",
+          "name": "Have you note-this?",
+          "reason": "Captures a local note and keeps it available for later reading.",
+          "capabilities": [
+            "capture-notes",
+            "read-notes"
+          ],
+          "source": "https://github.com/andresblancomorales/have-you-note-this/blob/385d6ab95c3e2eb867bb6d872e81a05a14b62a12/README.md"
+        },
+        {
+          "id": "acooper.scratchpad",
+          "name": "Scratchpad",
+          "reason": "Provides an editable scratchpad with saved text available when reopened.",
+          "capabilities": [
+            "capture-notes",
+            "read-notes"
+          ],
+          "source": "https://github.com/ACooperDev/Scratchpad/blob/d293b5732de409b6ca6654996716bd1d701fe036/README.md"
+        }
+      ],
+      "status": "priority",
+      "action": "Correct an assignment",
+      "finding": "Obsidian Daily operates checkbox todos; the other options capture ordinary note text.",
+      "recommendation": "Require free-form note capture and retrieval. Review Obsidian Daily for Task Lists instead."
+    },
+    {
+      "id": "screen-time",
+      "name": "Screen Time",
+      "contract": {
+        "version": 1,
+        "outcome": "Screen-time tracking and digital wellbeing",
+        "capabilitySets": [
+          [
+            "track-app-screen-time"
+          ]
+        ]
+      },
+      "description": "Screen-time tracking and digital wellbeing",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "agx.screen-time",
+          "name": "Screen Time",
+          "reason": "Tracks focused application time locally and presents daily and longer-term usage summaries.",
+          "capabilities": [
+            "track-app-screen-time"
+          ],
+          "source": "https://github.com/ax1g/quickshell-screentime-plugin/blob/2c7b75abde55b23ee6d6e1356797c8f50f60b8a1/README.md"
+        },
+        {
+          "id": "rimuru.screentime",
+          "name": "Screen Time",
+          "reason": "Tracks local application screen time and displays daily and historical usage.",
+          "capabilities": [
+            "track-app-screen-time"
+          ],
+          "source": "https://github.com/nabdalla-prog/Rimuru-screentime/blob/47493cd81f7bb30cef9502ae91c4d3110a29a4c2/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "Both track local application time and expose usage history.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "workspaces",
+      "name": "Workspaces",
+      "contract": {
+        "version": 1,
+        "outcome": "Hyprland workspace indicators and navigation",
+        "capabilitySets": [
+          [
+            "navigate-workspaces"
+          ],
+          [
+            "show-workspace-state"
+          ]
+        ]
+      },
+      "description": "Hyprland workspace indicators and navigation",
+      "eligibleCount": 3,
+      "options": [
+        {
+          "id": "tornikegomareli.spaces",
+          "name": "Spaces",
+          "reason": "Shows workspace occupancy and app icons and switches to selected workspaces or windows.",
+          "capabilities": [
+            "navigate-workspaces",
+            "show-workspace-state"
+          ],
+          "source": "https://github.com/tornikegomareli/omarchy-spaces/blob/458852c88336722f61d8c67487bc03d4d3523893/README.md"
+        },
+        {
+          "id": "mirador",
+          "name": "Mirador",
+          "reason": "Displays a workspace overview with window activation and movement between workspaces.",
+          "capabilities": [
+            "navigate-workspaces",
+            "show-workspace-state"
+          ],
+          "source": "https://github.com/sanjyay/Mirador/blob/cd0d86f304beda7696cd4e5c685206d54c940796/README.md"
+        },
+        {
+          "id": "aditya.workspace-icons",
+          "name": "Workspace Icons",
+          "reason": "Displays workspace occupancy with application icons and switches to selected workspaces.",
+          "capabilities": [
+            "navigate-workspaces",
+            "show-workspace-state"
+          ],
+          "source": "https://github.com/adityamiskin/omarchy-workspace-icons/blob/d5c7af4af2a6c8bea4500d71861d6c1dbf2d8658/README.md"
+        }
+      ],
+      "status": "clarify",
+      "action": "Strengthen the contract",
+      "finding": "All current choices show workspace state and navigate. Require both for a switching task rather than allowing a status-only indicator.",
+      "recommendation": "Review the category promise and minimum task requirements; do not infer a need for a new category from this flag alone."
+    },
+    {
+      "id": "window-management",
+      "name": "Window Management",
+      "contract": {
+        "version": 1,
+        "outcome": "Window switchers, layouts, tiling, and window rules",
+        "capabilitySets": [
+          [
+            "switch-windows"
+          ],
+          [
+            "configure-window-behavior"
+          ]
+        ]
+      },
+      "description": "Window switchers, layouts, tiling, and window rules",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "expose.window-overview",
+          "name": "Exposé",
+          "reason": "Shows a searchable overview of windows and activates a selected window.",
+          "capabilities": [
+            "switch-windows"
+          ],
+          "source": "https://github.com/kristofferR/omarchy-expose/blob/f283002259f5aba75da17b3f5dd4081bddc257f5/README.md"
+        },
+        {
+          "id": "io.github.pablo-merino.altswitch",
+          "name": "Alt-tab switcher",
+          "reason": "Switches among windows across normal workspaces in recent-use order.",
+          "capabilities": [
+            "switch-windows"
+          ],
+          "source": "https://github.com/Pablo-Merino/omarchy-altswitch/blob/8f54d684c89d66ecf51e6e5a9c5c574758de79be/README.md"
+        }
+      ],
+      "status": "clarify",
+      "action": "Narrow the task",
+      "finding": "The current pair switches windows; configuring layouts or rules is a different branch allowed by the contract. Use Window Switching and research rules/layouts separately.",
+      "recommendation": "Review the category promise and minimum task requirements; do not infer a need for a new category from this flag alone."
+    },
+    {
+      "id": "screenshots",
+      "name": "Screen Capture",
+      "contract": {
+        "version": 1,
+        "outcome": "Take, annotate and export screenshots",
+        "capabilitySets": [
+          [
+            "capture-image",
+            "export-image"
+          ]
+        ]
+      },
+      "description": "Take, annotate and export screenshots",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "chyld.easy-capture",
+          "name": "Easy Capture",
+          "reason": "Captures regions, windows or monitors and saves screenshots to the configured output location.",
+          "capabilities": [
+            "capture-image",
+            "export-image"
+          ],
+          "source": "https://github.com/chyld/omarchy-easy-capture/blob/96b7b6161acaadc1e24dc6a3f0e657ba17806420/README.md"
+        },
+        {
+          "id": "glasschan.oma-swiss",
+          "name": "OmaSwiss",
+          "reason": "Invokes Omarchy screenshot tools for region, window or fullscreen captures.",
+          "capabilities": [
+            "capture-image",
+            "export-image"
+          ],
+          "source": "https://github.com/glasschan/oma-swiss/blob/830599cd4b7f15b456a1fd8336fa317f185f31ca/README.md"
+        }
+      ],
+      "status": "clarify",
+      "action": "Clarify optional features",
+      "finding": "Capture and export are the shared minimum. Annotation is not guaranteed by the contract and should not be implied for every choice.",
+      "recommendation": "Review the category promise and minimum task requirements; do not infer a need for a new category from this flag alone."
+    },
+    {
+      "id": "screen-recording",
+      "name": "Screen Recording",
+      "contract": {
+        "version": 1,
+        "outcome": "Start, stop and save recordings of your screen",
+        "capabilitySets": [
+          [
+            "start-recording",
+            "stop-recording",
+            "save-recording"
+          ]
+        ]
+      },
+      "description": "Start, stop and save recordings of your screen",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "chyld.easy-capture",
+          "name": "Easy Capture",
+          "reason": "Starts and stops region, window or monitor recordings and saves the captured output.",
+          "capabilities": [
+            "start-recording",
+            "stop-recording",
+            "save-recording"
+          ],
+          "source": "https://github.com/chyld/omarchy-easy-capture/blob/96b7b6161acaadc1e24dc6a3f0e657ba17806420/README.md"
+        },
+        {
+          "id": "glasschan.oma-swiss",
+          "name": "OmaSwiss",
+          "reason": "Starts and stops Omarchy screen recordings, including an optional webcam mode.",
+          "capabilities": [
+            "start-recording",
+            "stop-recording",
+            "save-recording"
+          ],
+          "source": "https://github.com/glasschan/oma-swiss/blob/830599cd4b7f15b456a1fd8336fa317f185f31ca/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "Both start, stop and save screen recordings.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "ocr",
+      "name": "Screen Text Extraction",
+      "contract": {
+        "version": 1,
+        "outcome": "Select screen content and extract text with OCR",
+        "capabilitySets": [
+          [
+            "select-screen-content",
+            "extract-text"
+          ]
+        ]
+      },
+      "description": "Select screen content and extract text with OCR",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "glasschan.oma-swiss",
+          "name": "OmaSwiss",
+          "reason": "Invokes Omarchy screen-text capture to select content and copy extracted text.",
+          "capabilities": [
+            "select-screen-content",
+            "extract-text"
+          ],
+          "source": "https://github.com/glasschan/oma-swiss/blob/830599cd4b7f15b456a1fd8336fa317f185f31ca/README.md"
+        },
+        {
+          "id": "io.github.diyaclanker.omacapture",
+          "name": "Omacapture",
+          "reason": "Selects screenshot regions and extracts text using local OCR with configurable languages.",
+          "capabilities": [
+            "select-screen-content",
+            "extract-text"
+          ],
+          "source": "https://github.com/diyahir/omacapture/blob/5755e14f275a153098a6ead258b2ffb33162fd76/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "Both select screen content and extract its text.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "wallpaper",
+      "name": "Wallpaper",
+      "contract": {
+        "version": 1,
+        "outcome": "Wallpaper browsing, switching, and automation",
+        "capabilitySets": [
+          [
+            "select-wallpaper"
+          ],
+          [
+            "play-video-wallpaper"
+          ]
+        ]
+      },
+      "description": "Wallpaper browsing, switching, and automation",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "io.github.deunnis.lacquer",
+          "name": "Omarchy Lacquer",
+          "reason": "Browses theme wallpapers and applies a selected wallpaper within its appearance editor.",
+          "capabilities": [
+            "select-wallpaper"
+          ],
+          "source": "https://github.com/Deunnis/omarchy-lacquer/blob/177acbd52eede955b3ec8eb422cc0c36158dd7a5/README.md"
+        },
+        {
+          "id": "nosignal.motion-wallpaper",
+          "name": "Motion Wallpaper",
+          "reason": "Selects and plays video wallpapers with per-monitor playback controls.",
+          "capabilities": [
+            "play-video-wallpaper"
+          ],
+          "source": "https://github.com/28allday/Motion-Wallpaper-Omarchy/blob/bacebacf7886c5c68f11aa22c68863d8d7051848/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "Static and animated choices share selecting and applying a desktop background; use format filters if useful.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "themes-appearance",
+      "name": "Themes & Appearance",
+      "contract": {
+        "version": 1,
+        "outcome": "Theme browsing, switching, scheduling, and visual customization",
+        "capabilitySets": [
+          [
+            "manage-desktop-appearance"
+          ]
+        ]
+      },
+      "description": "Theme browsing, switching, scheduling, and visual customization",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "gotar.omarchy-themes",
+          "name": "Themes Gallery",
+          "reason": "Browses theme previews and applies selected desktop themes and variants.",
+          "capabilities": [
+            "manage-desktop-appearance"
+          ],
+          "source": "https://github.com/gotar/omarchy-themes/blob/e443eea5e9d0860aee1f6b4bf4b5b868ea40a6fa/README.md"
+        },
+        {
+          "id": "pretty.omagen",
+          "name": "Omagen",
+          "reason": "Generates a desktop theme from an image and provides preview and apply controls.",
+          "capabilities": [
+            "manage-desktop-appearance"
+          ],
+          "source": "https://github.com/prettyletto/omagen/blob/15b0d248f6425d0ac4cbe7a2112abec28d5d4360/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "Theme browsing and generation both lead to previewing/applying a desktop theme.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "color-picker",
+      "name": "Color Picker",
+      "contract": {
+        "version": 2,
+        "outcome": "Pick a color from the screen and copy or export its value",
+        "capabilitySets": [
+          [
+            "pick-screen-color",
+            "reuse-picked-colors"
+          ]
+        ]
+      },
+      "description": "Pick a color from the screen and copy or export its value",
+      "eligibleCount": 4,
+      "options": [
+        {
+          "id": "io.github.ajanraj.chroma",
+          "name": "Chroma",
+          "reason": "Picks a screen pixel and copies its color as HEX, RGB or HSL, with saved history.",
+          "capabilities": [
+            "pick-screen-color",
+            "reuse-picked-colors"
+          ],
+          "source": "https://github.com/ajanraj/omarchy-chroma/blob/f5d1fed915f3677e2e571ca450934f8169f653f5/README.md"
+        },
+        {
+          "id": "io.github.manateelazycat.color-picker",
+          "name": "Omarchy Color Picker",
+          "reason": "Picks a screen pixel with hyprpicker and copies the chosen color to the clipboard.",
+          "capabilities": [
+            "pick-screen-color",
+            "reuse-picked-colors"
+          ],
+          "source": "https://github.com/manateelazycat/omarchy-color-picker/blob/f3cfafd47a516faa0c4a6337a3e51bc94220ad94/README.md"
+        },
+        {
+          "id": "io.github.arcanavox.colorhistory",
+          "name": "Color History",
+          "reason": "Runs hyprpicker from its keybinding, records the picked color and copies saved colors in several formats.",
+          "capabilities": [
+            "pick-screen-color",
+            "reuse-picked-colors"
+          ],
+          "source": "https://github.com/arcanaVox/colorhistory/blob/fa20f888695741400228b4397984fedda8aeee42/README.md"
+        },
+        {
+          "id": "loamstudios.contrast",
+          "name": "Contrast",
+          "reason": "Picks foreground or background screen colors with an eyedropper and copies either hex value.",
+          "capabilities": [
+            "pick-screen-color",
+            "reuse-picked-colors"
+          ],
+          "source": "https://github.com/LoamStudios/omarchy-contrast/blob/244ac0e6b41438e822453f9ef70ce4a90bd4a091/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "All pick a screen color and provide a way to reuse its value.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "ai-assistant",
+      "name": "Agent Sessions",
+      "contract": {
+        "version": 1,
+        "outcome": "Browse, resume, launch and organize coding-agent sessions",
+        "capabilitySets": [
+          [
+            "manage-agent-sessions"
+          ]
+        ]
+      },
+      "description": "Browse, resume, launch and organize coding-agent sessions",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "meviusisback.agent-orchestr",
+          "name": "Agent Orchestrator",
+          "reason": "Inspects coding-agent sessions and focuses or manages local agent processes; remote peers are read-only.",
+          "capabilities": [
+            "manage-agent-sessions"
+          ],
+          "source": "https://github.com/meviusisback/agent-orchestr/blob/9012ebde19bec7a1344e52efd09e2a1b09e1bd25/README.md"
+        },
+        {
+          "id": "sid.sessions",
+          "name": "Session Browser",
+          "reason": "Browses saved coding-agent conversations and resumes a selected session in a terminal.",
+          "capabilities": [
+            "manage-agent-sessions"
+          ],
+          "source": "https://github.com/Sudhanshugtm/omarchy-session-browser/blob/9d7e6b64b091f9ed908b151fd814df0ef23064c9/README.md"
+        }
+      ],
+      "status": "priority",
+      "action": "Separate tasks",
+      "finding": "Monitoring running agents competes with browsing and resuming archived conversations.",
+      "recommendation": "Distinguish Agent Monitoring from Session History & Resume. An app may qualify for both with separate evidence."
+    },
+    {
+      "id": "ai-chat",
+      "name": "AI Chat & Models",
+      "contract": {
+        "version": 1,
+        "outcome": "Chat with AI and select or manage local models",
+        "capabilitySets": [
+          [
+            "chat-with-ai"
+          ],
+          [
+            "manage-ai-models"
+          ]
+        ]
+      },
+      "description": "Chat with AI and select or manage local models",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "io.github.atif-1402.ai-panel",
+          "name": "AI Panel",
+          "reason": "Provides streaming AI chat with selectable providers and saved conversations.",
+          "capabilities": [
+            "chat-with-ai"
+          ],
+          "source": "https://github.com/atif-1402/ai-panel/blob/9af428b76a54a88b217334e8b9d03a999f827544/README.md"
+        },
+        {
+          "id": "atzingen.jarvis",
+          "name": "Jarvis",
+          "reason": "Answers spoken questions through configured coding-agent CLIs and presents spoken and written replies.",
+          "capabilities": [
+            "chat-with-ai"
+          ],
+          "source": "https://github.com/Atzingen/hey-jarvis/blob/d6ebaa6ca0097082480d9486d8219c7a98be041f/README.md"
+        }
+      ],
+      "status": "clarify",
+      "action": "Narrow the task",
+      "finding": "Both current options converse with the user. Model administration alone should not qualify for that shortlist; voice/text is a legitimate interaction preference.",
+      "recommendation": "Review the category promise and minimum task requirements; do not infer a need for a new category from this flag alone."
+    },
+    {
+      "id": "ai-api-usage",
+      "name": "AI & API Usage",
+      "contract": {
+        "version": 1,
+        "outcome": "AI model quotas, token usage, and API spending",
+        "capabilitySets": [
+          [
+            "read-ai-usage"
+          ]
+        ]
+      },
+      "description": "AI model quotas, token usage, and API spending",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "akitaonrails.ai-usagebar",
+          "name": "AI Usage",
+          "reason": "Displays supported AI plan usage, balances and reset windows from provider integrations.",
+          "capabilities": [
+            "read-ai-usage"
+          ],
+          "source": "https://github.com/akitaonrails/ai-usagebar/blob/d12c8d9828397abe5a477eb89c6e5e763840cd43/README.md"
+        },
+        {
+          "id": "io.github.viganogabriele.agent-usage-plus",
+          "name": "Agent Usage Plus",
+          "reason": "Displays AI coding usage, limits and history from Omarchy records and optional collectors.",
+          "capabilities": [
+            "read-ai-usage"
+          ],
+          "source": "https://github.com/viganogabriele/agent-usage-plus/blob/0e31cac227498cf1025d384a8746ccf805fd0bf0/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "Both expose AI usage/limits/history; supported providers and collection setup must remain visible.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "smart-home",
+      "name": "Smart Home",
+      "contract": {
+        "version": 1,
+        "outcome": "Home automation, lighting, and connected-device controls",
+        "capabilitySets": [
+          [
+            "control-home-devices"
+          ]
+        ]
+      },
+      "description": "Home automation, lighting, and connected-device controls",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "hass",
+          "name": "Home Assistant",
+          "reason": "Controls supported Home Assistant entities, including lights, switches, covers and climate.",
+          "capabilities": [
+            "control-home-devices"
+          ],
+          "source": "https://github.com/konradk/hass/blob/56f1dcdd201e39cbe116d3cbe2cb22b40f394b9b/README.md"
+        },
+        {
+          "id": "io.github.amitcpatel.elgato-control",
+          "name": "Elgato Control",
+          "reason": "Controls discovered Elgato Key Light power, brightness and temperature alongside supported Elgato hardware.",
+          "capabilities": [
+            "control-home-devices"
+          ],
+          "source": "https://github.com/amitcpatel/omarchy-elgato-control/blob/5170907ff657499e61ea7a4dd81cccb730ef52ca/README.md"
+        }
+      ],
+      "status": "clarify",
+      "action": "Improve compatibility guidance",
+      "finding": "The options share light control, but broad Home Assistant entities and supported Elgato lights have very different scope. Filter by device/ecosystem and task before recommending a split.",
+      "recommendation": "Review the category promise and minimum task requirements; do not infer a need for a new category from this flag alone."
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "contract": {
+        "version": 1,
+        "outcome": "GitHub activity, pull requests, issues, and shortcuts",
+        "capabilitySets": [
+          [
+            "browse-forge-activity"
+          ]
+        ]
+      },
+      "description": "GitHub activity, pull requests, issues, and shortcuts",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "robzolkos.github",
+          "name": "GitHub",
+          "reason": "Lists GitHub notifications, review requests, pull requests, issues and workflow activity.",
+          "capabilities": [
+            "browse-forge-activity"
+          ],
+          "source": "https://github.com/robzolkos/omarchy-github/blob/6f361a45ee928119fbb73d26ca2173b9266a9e73/README.md"
+        },
+        {
+          "id": "dev.git",
+          "name": "Git",
+          "reason": "Browses forge contribution activity, review queues and pull or merge requests.",
+          "capabilities": [
+            "browse-forge-activity"
+          ],
+          "source": "https://github.com/ariadev/omarchy-dev-git/blob/77bfee20692be3cd41ce1775e9a58260647abc30/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "Both browse forge review/work activity; additional forge support is a scope distinction.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "containers",
+      "name": "Containers",
+      "contract": {
+        "version": 2,
+        "outcome": "Inspect containers and perform container operations",
+        "capabilitySets": [
+          [
+            "inspect-containers",
+            "manage-containers"
+          ]
+        ]
+      },
+      "description": "Inspect containers and perform container operations",
+      "eligibleCount": 4,
+      "options": [
+        {
+          "id": "io.github.randazraik.xray",
+          "name": "Omarchy X-Ray",
+          "reason": "Inspects Docker, Podman or nerdctl container processes and can restart targets supported by the runtime.",
+          "capabilities": [
+            "inspect-containers",
+            "manage-containers"
+          ],
+          "source": "https://github.com/RandaZraik/omarchy-xray/blob/8fe0c36956cdb210d4591de98f6aacfc2db09f31/README.md"
+        },
+        {
+          "id": "io.github.majkelll.omarchy-docker",
+          "name": "Docker",
+          "reason": "Lists Docker containers and provides start, stop, restart, pause, removal, log and shell actions.",
+          "capabilities": [
+            "inspect-containers",
+            "manage-containers"
+          ],
+          "source": "https://github.com/Majkelll/omarchy-docker/blob/f5dd6bd53cc1e650d274441583735bb82b5c2410/README.md"
+        },
+        {
+          "id": "devgtv.docker",
+          "name": "Omarchy Control Docker",
+          "reason": "Inspects running Docker containers and changes the selected container’s RAM limit.",
+          "capabilities": [
+            "inspect-containers",
+            "manage-containers"
+          ],
+          "source": "https://github.com/devgtv/omarchy-docker/blob/55c5d9225e6a178f20e2b5465875026a57589937/README.md"
+        },
+        {
+          "id": "djjeane.docker-monitor",
+          "name": "Docker Monitor",
+          "reason": "Lists Docker containers, reads logs and provides start, stop, restart and unpause actions.",
+          "capabilities": [
+            "inspect-containers",
+            "manage-containers"
+          ],
+          "source": "https://github.com/djjeane/omarchy-docker-plugin/blob/81c95ec532b255d5d2bc98f6ff42c936608e9ead/README.md"
+        }
+      ],
+      "status": "priority",
+      "action": "Tighten eligibility",
+      "finding": "Lifecycle management competes with process inspection/restart and RAM-limit-only control.",
+      "recommendation": "Require listing containers and basic lifecycle operations; show process/resource specialists separately."
+    },
+    {
+      "id": "gaming",
+      "name": "Gaming",
+      "contract": {
+        "version": 1,
+        "outcome": "Game launchers, performance, and gaming status",
+        "capabilitySets": [
+          [
+            "manage-game-session"
+          ],
+          [
+            "launch-games"
+          ]
+        ]
+      },
+      "description": "Game launchers, performance, and gaming status",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "silvaio.gamemode",
+          "name": "Game Mode Switcher",
+          "reason": "Enters and exits a gaming desktop profile, with optional Steam Big Picture or Gamescope sessions.",
+          "capabilities": [
+            "manage-game-session"
+          ],
+          "source": "https://github.com/silvaio/gamemode-switcher/blob/4a9b2b82c6ad0991da702a11a98f19a1b9c8ed18/README.md"
+        },
+        {
+          "id": "glasschan.oma-swiss",
+          "name": "OmaSwiss",
+          "reason": "Toggles gaming-mode VRR and tearing settings in Hyprland and restores them when disabled.",
+          "capabilities": [
+            "manage-game-session"
+          ],
+          "source": "https://github.com/glasschan/oma-swiss/blob/830599cd4b7f15b456a1fd8336fa317f185f31ca/README.md"
+        }
+      ],
+      "status": "clarify",
+      "action": "Narrow the task",
+      "finding": "Both current choices activate gaming settings. Game launching alone should not qualify for this task; label it Gaming Mode.",
+      "recommendation": "Review the category promise and minimum task requirements; do not infer a need for a new category from this flag alone."
+    },
+    {
+      "id": "mini-games",
+      "name": "Mini-Games",
+      "contract": {
+        "version": 1,
+        "outcome": "Playable arcade, puzzle, and mini-games in the bar or on the desktop",
+        "capabilitySets": [
+          [
+            "play-desktop-game"
+          ]
+        ]
+      },
+      "description": "Playable arcade, puzzle, and mini-games in the bar or on the desktop",
+      "eligibleCount": 3,
+      "options": [
+        {
+          "id": "slcode777.omagotchi",
+          "name": "Omagotchi",
+          "reason": "Provides an interactive virtual pet with feeding, care, growth and desktop play.",
+          "capabilities": [
+            "play-desktop-game"
+          ],
+          "source": "https://github.com/SLcode777/omagotchi/blob/c04d94aa4b0d17fe9ea906928325c4eaa5166bbb/README.md"
+        },
+        {
+          "id": "io.github.ejuro.blow-off-some-steam",
+          "name": "Blow off some steam",
+          "reason": "Provides playable target and timed fly-hunt games over a desktop overlay.",
+          "capabilities": [
+            "play-desktop-game"
+          ],
+          "source": "https://github.com/erikrjohansson/blow-off-some-steam/blob/329a50fb297f56e25aed459f4fdbc1d56a48968f/README.md"
+        },
+        {
+          "id": "jankeesvw.omasweeper",
+          "name": "Omasweeper",
+          "reason": "Provides playable Minesweeper with mouse and keyboard controls and saved progress.",
+          "capabilities": [
+            "play-desktop-game"
+          ],
+          "source": "https://github.com/jankeesvw/omasweeper/blob/3724f71584499b4953d3363f2220ea3ceea30024/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "All provide actual desktop play. Game genres are discovery preferences within this entertainment category.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "keybinding-managers",
+      "name": "Keybinding Managers",
+      "contract": {
+        "version": 1,
+        "outcome": "Create, edit, and manage keyboard shortcuts and keybindings",
+        "capabilitySets": [
+          [
+            "edit-keybindings"
+          ]
+        ]
+      },
+      "description": "Create, edit, and manage keyboard shortcuts and keybindings",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "meviusisback.keybinds",
+          "name": "Keybindings",
+          "reason": "Searches, creates, edits and resets keybindings and writes the selected changes to Hyprland Lua.",
+          "capabilities": [
+            "edit-keybindings"
+          ],
+          "source": "https://github.com/meviusisback/keybinds-plugin/blob/ad8199d0369be2b28869a29b6fbf1f8f0589a5cf/README.md"
+        },
+        {
+          "id": "davedes.mouse-keybind-settings",
+          "name": "Mouse & Keybind Settings",
+          "reason": "Provides keybinding editing, creation, reset and conflict resolution alongside mouse settings.",
+          "capabilities": [
+            "edit-keybindings"
+          ],
+          "source": "https://github.com/Davedes83/mouse-keybind-plugin/blob/5faa1d291c1f8593cf220621b9bbabb739c8c754/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "Both create/edit/reset keyboard bindings.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "shortcut-guides",
+      "name": "Shortcut Guides",
+      "contract": {
+        "version": 1,
+        "outcome": "Look up, learn, and visualize keyboard shortcuts",
+        "capabilitySets": [
+          [
+            "learn-keybindings"
+          ]
+        ]
+      },
+      "description": "Look up, learn, and visualize keyboard shortcuts",
+      "eligibleCount": 3,
+      "options": [
+        {
+          "id": "fkcodes.key-promoter",
+          "name": "Omarchy Key Promoter",
+          "reason": "Shows matching user keybindings after supported actions from the Omarchy menu.",
+          "capabilities": [
+            "learn-keybindings"
+          ],
+          "source": "https://github.com/ForrestKnight/omarchy-key-promoter/blob/21c2b7184a33d800132ac2b6fb66aa31ae70de9a/README.md"
+        },
+        {
+          "id": "huacnlee.which-key",
+          "name": "Which Key",
+          "reason": "Reads active keybindings and displays a modifier-aware guide while Super is held.",
+          "capabilities": [
+            "learn-keybindings"
+          ],
+          "source": "https://github.com/huacnlee/omarchy-which-key/blob/fba0cdb472c90eb5a4e8bb5113030d087024a805/README.md"
+        },
+        {
+          "id": "slw.keyarchy",
+          "name": "Keyarchy",
+          "reason": "Shows the corresponding keyboard shortcut after supported mouse-driven desktop actions.",
+          "capabilities": [
+            "learn-keybindings"
+          ],
+          "source": "https://github.com/seth-wood/keyarchy/blob/7e2d116bd1eb5ea7b8c5e4cbee7ce1f5b27d6576/README.md"
+        }
+      ],
+      "status": "clarify",
+      "action": "Clarify task modes",
+      "finding": "After-action coaching and on-demand shortcut lookup share a learning goal but answer different immediate needs. Consider separate task views; less clear-cut than the priority mismatches.",
+      "recommendation": "Review the category promise and minimum task requirements; do not infer a need for a new category from this flag alone."
+    },
+    {
+      "id": "translation",
+      "name": "Translation",
+      "contract": {
+        "version": 1,
+        "outcome": "Translate selected, clipboard, and on-screen text",
+        "capabilitySets": [
+          [
+            "translate-user-text"
+          ]
+        ]
+      },
+      "description": "Translate selected, clipboard, and on-screen text",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "b7s.googletranslate",
+          "name": "Google Translate",
+          "reason": "Translates entered text using the configured source and target languages.",
+          "capabilities": [
+            "translate-user-text"
+          ],
+          "source": "https://github.com/b7s/omarchy-googletranslate/blob/093a5c51c02718bc424b6197f027bae47458e6f1/README.md"
+        },
+        {
+          "id": "jankeesvw.text-transform",
+          "name": "Text Transform",
+          "reason": "Translates pasted or entered text through a configured default coding agent and copies the result.",
+          "capabilities": [
+            "translate-user-text"
+          ],
+          "source": "https://github.com/jankeesvw/omarchy-text-transform/blob/963b5d305e7ec316461acb9491056ca3273fd3bd/README.md"
+        }
+      ],
+      "status": "clarify",
+      "action": "Narrow the promise",
+      "finding": "Both options translate entered or pasted text. Selected/on-screen capture and OCR are not established as a shared minimum.",
+      "recommendation": "Review the category promise and minimum task requirements; do not infer a need for a new category from this flag alone."
+    },
+    {
+      "id": "dictionary",
+      "name": "Dictionary & Thesaurus",
+      "contract": {
+        "version": 1,
+        "outcome": "Definitions, synonyms, thesaurus, and word lookup tools",
+        "capabilitySets": [
+          [
+            "look-up-word-definitions"
+          ]
+        ]
+      },
+      "description": "Definitions, synonyms, thesaurus, and word lookup tools",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "tristonarmstrong.dictionary",
+          "name": "Dictionary",
+          "reason": "Looks up word definitions from a bundled English dictionary and online language editions.",
+          "capabilities": [
+            "look-up-word-definitions"
+          ],
+          "source": "https://github.com/tristonarmstrong/omarchy-dictionary/blob/fb2d305ffabdd6a3849ea8077a2d7366199d4908/README.md"
+        },
+        {
+          "id": "dlpwaters.thesaurus",
+          "name": "Dictionary & Thesaurus",
+          "reason": "Looks up English definitions, synonyms and antonyms through online dictionary APIs.",
+          "capabilities": [
+            "look-up-word-definitions"
+          ],
+          "source": "https://github.com/dlpwaters/omarchy-dictionary-thesaurus/blob/eda056ab576c255ef333e0ca7c095e16d795f94a/README.md"
+        }
+      ],
+      "status": "clarify",
+      "action": "Clarify optional features",
+      "finding": "Definitions are the common task; synonym and thesaurus support should be stated per app rather than implied universally.",
+      "recommendation": "Review the category promise and minimum task requirements; do not infer a need for a new category from this flag alone."
+    },
+    {
+      "id": "prayer-times",
+      "name": "Prayer Times",
+      "contract": {
+        "version": 1,
+        "outcome": "Islamic prayer schedules, countdowns, and Adhan notifications",
+        "capabilitySets": [
+          [
+            "read-prayer-schedule"
+          ]
+        ]
+      },
+      "description": "Islamic prayer schedules, countdowns, and Adhan notifications",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "local.prayer-times",
+          "name": "Prayer times",
+          "reason": "Shows the next prayer countdown and the daily prayer schedule for a configured location.",
+          "capabilities": [
+            "read-prayer-schedule"
+          ],
+          "source": "https://github.com/husamemadH/omarchy-quattro-prayer-times/blob/70e8f4d6227fac4fb11afa9d8ef722f0e44636a1/README.md"
+        },
+        {
+          "id": "io.github.salemsayed.omaprayers",
+          "name": "OmaPrayers",
+          "reason": "Calculates prayer schedules offline and displays prayer times and countdowns.",
+          "capabilities": [
+            "read-prayer-schedule"
+          ],
+          "source": "https://github.com/salemsayed/omaprayers/blob/e101d4c251397ad71d7bd1fe5b6184b6050afa26/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "Both show prayer schedules and countdowns; location/calculation and online/offline support are requirements.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "keyboard-lighting",
+      "name": "Keyboard Lighting",
+      "contract": {
+        "version": 1,
+        "outcome": "Keyboard backlight, brightness, night-light, and RGB controls",
+        "capabilitySets": [
+          [
+            "control-keyboard-lighting"
+          ]
+        ]
+      },
+      "description": "Keyboard backlight, brightness, night-light, and RGB controls",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "io.github.anes-03.keyboard-brightness",
+          "name": "Keyboard Brightness",
+          "reason": "Adjusts supported keyboard-backlight LEDs with brightnessctl.",
+          "capabilities": [
+            "control-keyboard-lighting"
+          ],
+          "source": "https://github.com/Anes-03/keyboard-brightness-plugin/blob/4cef467ed5dbd8b5e65310ad64bd51b0ec9c3aa6/README.md"
+        },
+        {
+          "id": "tedwester.legion",
+          "name": "Legion Toolkit",
+          "reason": "Controls keyboard brightness, effects and supported Spectrum lighting on compatible Lenovo laptops.",
+          "capabilities": [
+            "control-keyboard-lighting"
+          ],
+          "source": "https://github.com/tedwester/omalegion/blob/a427bbb30db5ae05ca75baa8bcd3ff09f307914c/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "Both control keyboard lighting; generic and vendor-specific hardware support must be visible.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "keyboard-layouts",
+      "name": "Keyboard Layouts",
+      "contract": {
+        "version": 1,
+        "outcome": "Switch, configure, and indicate keyboard input layouts",
+        "capabilitySets": [
+          [
+            "manage-keyboard-layouts"
+          ]
+        ]
+      },
+      "description": "Switch, configure, and indicate keyboard input layouts",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "jesusarchive.keyboard-layout-switcher",
+          "name": "Keyboard Layout Switcher",
+          "reason": "Shows configured keyboard layouts and switches the active layout across detected keyboards.",
+          "capabilities": [
+            "manage-keyboard-layouts"
+          ],
+          "source": "https://github.com/jesusarchive/omarchy-keyboard-layout-switcher/blob/fa5320ab129264bdf2a9ebaed9245b47f06c3832/README.md"
+        },
+        {
+          "id": "io.github.ilyazar.keyboard-layout",
+          "name": "Keyboard Layout Pulse",
+          "reason": "Shows the active XKB layout and switches between configured layouts.",
+          "capabilities": [
+            "manage-keyboard-layouts"
+          ],
+          "source": "https://github.com/omarchy-QOL/omarchy-keyboard-layout/blob/bd2cdf809f755ffa03cebeb6dcd237d252fca594/README.md"
+        }
+      ],
+      "status": "clarify",
+      "action": "Strengthen the contract",
+      "finding": "Both show and switch configured layouts. Require view plus switch; do not imply editing layout configuration without evidence.",
+      "recommendation": "Review the category promise and minimum task requirements; do not infer a need for a new category from this flag alone."
+    },
+    {
+      "id": "file-search",
+      "name": "File Search",
+      "contract": {
+        "version": 1,
+        "outcome": "Find files with fast filename, fuzzy, and full-text search",
+        "capabilitySets": [
+          [
+            "search-local-files"
+          ]
+        ]
+      },
+      "description": "Find files with fast filename, fuzzy, and full-text search",
+      "eligibleCount": 4,
+      "options": [
+        {
+          "id": "jesseburlamaque.omarchy-find",
+          "name": "Omarchy Find",
+          "reason": "Searches local filenames and paths and opens or reveals a selected result.",
+          "capabilities": [
+            "search-local-files"
+          ],
+          "source": "https://github.com/jesseburlamaque/omarchy-find/blob/08a88babc1578a3a83749450e8d91a6bd7094886/README.md"
+        },
+        {
+          "id": "io.github.maajix.spotlight",
+          "name": "Spotlight",
+          "reason": "Finds local files through the search overlay and exposes actions for selected results.",
+          "capabilities": [
+            "search-local-files"
+          ],
+          "source": "https://github.com/maajix/omarchy-spotlight/blob/f38187f44ebaf763536654f14e2352aeba8dbe35/README.md"
+        },
+        {
+          "id": "crmne.files",
+          "name": "Files",
+          "reason": "Searches local files and folders as the user types and opens selected results.",
+          "capabilities": [
+            "search-local-files"
+          ],
+          "source": "https://github.com/crmne/omarchy-files/blob/597b9d7f7159c375fc08f06ae66fa1a6b5a9095d/README.md"
+        },
+        {
+          "id": "arh.file-picker",
+          "name": "File Picker",
+          "reason": "Finds and opens local files through a fuzzy-search terminal interface.",
+          "capabilities": [
+            "search-local-files"
+          ],
+          "source": "https://github.com/iamArham10/omarchy-file-picker/blob/ccc5d7a2b66bf2ed98938dce4dc846d3e59bd1e4/README.md"
+        }
+      ],
+      "status": "clarify",
+      "action": "Narrow the promise",
+      "finding": "All options find local files, but filename/path matching does not establish full-text content search.",
+      "recommendation": "Review the category promise and minimum task requirements; do not infer a need for a new category from this flag alone."
+    },
+    {
+      "id": "file-sync",
+      "name": "File Synchronization",
+      "contract": {
+        "version": 1,
+        "outcome": "Monitor and manage synchronization of folders between devices",
+        "capabilitySets": [
+          [
+            "inspect-sync-state",
+            "manage-folder-sync"
+          ]
+        ]
+      },
+      "description": "Monitor and manage synchronization of folders between devices",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "io.github.ilyazar.syncthing",
+          "name": "Syncthing",
+          "reason": "Displays Syncthing activity and manages shared folders, devices and pause/resume state.",
+          "capabilities": [
+            "inspect-sync-state",
+            "manage-folder-sync"
+          ],
+          "source": "https://github.com/omarchy-QOL/syncshell/blob/3cd6060132550f63fd4636d6519081275793cfd9/README.md"
+        },
+        {
+          "id": "io.github.vitorpacheco.mega",
+          "name": "MEGA Sync",
+          "reason": "Displays MEGA transfers and manages bidirectional folder synchronization.",
+          "capabilities": [
+            "inspect-sync-state",
+            "manage-folder-sync"
+          ],
+          "source": "https://github.com/vitorpacheco/omarchy-mega/blob/8fd9f92dfc17f4ab199a8987ca2e0191f69ddb07/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "Both expose folder synchronization state and operations; local/cloud architecture is a requirement distinction.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "feed-readers",
+      "name": "RSS & News Readers",
+      "contract": {
+        "version": 1,
+        "outcome": "Read RSS, Atom, news feeds, and headlines",
+        "capabilitySets": [
+          [
+            "read-news-feeds"
+          ]
+        ]
+      },
+      "description": "Read RSS, Atom, news feeds, and headlines",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "io.github.sanjyay.rss-reeder",
+          "name": "RSS-Reeder",
+          "reason": "Reads RSS and Atom subscriptions with article search, unread tracking and feed management.",
+          "capabilities": [
+            "read-news-feeds"
+          ],
+          "source": "https://github.com/sanjyay/rss-reeder/blob/b850832f6e134a02092ea4bdc4bc62bbaf3b72ab/README.md"
+        },
+        {
+          "id": "io.github.alejandro-llanes.news",
+          "name": "News",
+          "reason": "Reads Hacker News and configured RSS or Atom feeds with bookmarks and unread state.",
+          "capabilities": [
+            "read-news-feeds"
+          ],
+          "source": "https://github.com/alejandro-llanes/omarchy-news/blob/05a5d646d453ae14617aeb1c5dcfce1ef57a906d/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "Both read configurable RSS/Atom feeds; additional news services are optional.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "sports-scores",
+      "name": "Sports Scores",
+      "contract": {
+        "version": 1,
+        "outcome": "Live scores, fixtures, standings, and sports schedules",
+        "capabilitySets": [
+          [
+            "read-sports-results"
+          ]
+        ]
+      },
+      "description": "Live scores, fixtures, standings, and sports schedules",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "devbook.futbar",
+          "name": "FutBar",
+          "reason": "Displays football scores, match events, fixtures and standings from ESPN.",
+          "capabilities": [
+            "read-sports-results"
+          ],
+          "source": "https://github.com/AlwaysRead/omarchy-futbar-plugin/blob/9ba6d8088183964c51e427be383159dc06ac9fc7/README.md"
+        },
+        {
+          "id": "sportsbar",
+          "name": "Sportsbar",
+          "reason": "Displays supported teams’ current or latest scores and upcoming games.",
+          "capabilities": [
+            "read-sports-results"
+          ],
+          "source": "https://github.com/cgmccarron/omarchy-sportsbar/blob/7e75cfaf91aa0e42ff02ad2d994625762eae5e4f/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "Both expose results; league and sport coverage is a compatibility filter.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "uptime-monitoring",
+      "name": "Uptime Monitoring",
+      "contract": {
+        "version": 1,
+        "outcome": "Monitor website, service, and endpoint availability",
+        "capabilitySets": [
+          [
+            "read-endpoint-availability"
+          ]
+        ]
+      },
+      "description": "Monitor website, service, and endpoint availability",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "io.github.dupontbertrand.omastatus",
+          "name": "Omastatus",
+          "reason": "Checks configured HTTP, TCP, ping and local service targets and reports availability changes.",
+          "capabilities": [
+            "read-endpoint-availability"
+          ],
+          "source": "https://github.com/dupontbertrand/omastatus/blob/8e0ae1c121c8982dd5213f9df992f6ee0a0f88b3/README.md"
+        },
+        {
+          "id": "bottelet.is-it-down",
+          "name": "Is It Down?",
+          "reason": "Displays incident and component status from configured services’ published status pages.",
+          "capabilities": [
+            "read-endpoint-availability"
+          ],
+          "source": "https://github.com/Bottelet/omarchy-is-it-down/blob/b14d1862f9d8bac427a60cf102ae96eca0974dcd/README.md"
+        }
+      ],
+      "status": "priority",
+      "action": "Separate tasks",
+      "finding": "Probing configured endpoints competes with reading provider-published incidents.",
+      "recommendation": "Separate Endpoint & Service Monitoring from Service Status & Incidents. Monitoring-backend clients may qualify for the first."
+    },
+    {
+      "id": "system-updates",
+      "name": "System Updates",
+      "contract": {
+        "version": 1,
+        "outcome": "Arch package updates and update notifications",
+        "capabilitySets": [
+          [
+            "check-software-updates"
+          ]
+        ]
+      },
+      "description": "Arch package updates and update notifications",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "dizziee.system-updates",
+          "name": "System Updates",
+          "reason": "Shows available updates from configured Arch, AUR, Flatpak, Omarchy, plugin and mise sources.",
+          "capabilities": [
+            "check-software-updates"
+          ],
+          "source": "https://github.com/JJDizz1L/dizziee.system-updates/blob/d5c72f8462411fe43b3b9ea196eaef1901b83b9f/README.md"
+        },
+        {
+          "id": "io.github.saiiiiiph.update-center",
+          "name": "Update Center",
+          "reason": "Checks supported local package and plugin sources and opens update actions in a terminal.",
+          "capabilities": [
+            "check-software-updates"
+          ],
+          "source": "https://github.com/Saiiiiiph/update-center/blob/714f4d244ecfcd1e143914ee49668d4d0f1a8633/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "Both inspect local package/plugin updates; sources and safe update paths must remain explicit.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "radio",
+      "name": "Radio",
+      "contract": {
+        "version": 1,
+        "outcome": "Browse and play live internet radio stations",
+        "capabilitySets": [
+          [
+            "browse-radio-stations",
+            "play-radio-station"
+          ]
+        ]
+      },
+      "description": "Browse and play live internet radio stations",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "akshar.radio-atlas",
+          "name": "Radio Atlas",
+          "reason": "Browses internet radio stations on a globe or through search and plays a selected stream in mpv.",
+          "capabilities": [
+            "browse-radio-stations",
+            "play-radio-station"
+          ],
+          "source": "https://github.com/AksharP5/omarchy-radio-atlas/blob/cb604f717c4c3de673993e0b746c50609b701511/README.md"
+        },
+        {
+          "id": "io.github.kaibur02.omarchy-world-radio",
+          "name": "World Radio",
+          "reason": "Browses locations and stations and plays live internet radio from the selected location.",
+          "capabilities": [
+            "browse-radio-stations",
+            "play-radio-station"
+          ],
+          "source": "https://github.com/kaibur02/omarchy-world-radio/blob/ba0a7a22c15be8bf8562adba44e8efb60ddf05e3/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "Both browse stations and play live radio streams.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "screensavers",
+      "name": "Screensavers",
+      "contract": {
+        "version": 1,
+        "outcome": "Screensavers and idle-screen visuals",
+        "capabilitySets": [
+          [
+            "manage-screensaver-visuals"
+          ]
+        ]
+      },
+      "description": "Screensavers and idle-screen visuals",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "omarchy-undercover",
+          "name": "Omarchy Undercover",
+          "reason": "Provides an Apple Aerial video screensaver within a broader desktop-transformation suite.",
+          "capabilities": [
+            "manage-screensaver-visuals"
+          ],
+          "source": "https://github.com/MISTERNEGATIVE21/omarchy-undercover/blob/dce776e8a6714695a07d0e4c8be03c32587807b6/README.md"
+        },
+        {
+          "id": "brianirish.screensaver",
+          "name": "Screensaver",
+          "reason": "Configures screensaver timing, artwork and preview, with effect selection requiring an additional override.",
+          "capabilities": [
+            "manage-screensaver-visuals"
+          ],
+          "source": "https://github.com/brianirish/omarchy-screensaver-panel/blob/f61bc254e367098e8bf0c8a68fbde365ef64551f/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "Both change idle-screen visuals; timing controls alone remain insufficient.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "power-menu",
+      "name": "Power & Session",
+      "contract": {
+        "version": 1,
+        "outcome": "Power menus, session actions, and shutdown controls",
+        "capabilitySets": [
+          [
+            "perform-session-actions"
+          ]
+        ]
+      },
+      "description": "Power menus, session actions, and shutdown controls",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "io.github.edgarsilva.power-button",
+          "name": "Power Button",
+          "reason": "Runs Omarchy session actions for locking, sleep, logout, reboot and shutdown.",
+          "capabilities": [
+            "perform-session-actions"
+          ],
+          "source": "https://github.com/edgarsilva/omarchy-power-button/blob/39f10c31a888edd4c00700d6592fbdf3c8b53537/README.md"
+        },
+        {
+          "id": "blackcode.power-menu",
+          "name": "Power Menu",
+          "reason": "Offers lock, logout, sleep, reboot and shutdown actions through Omarchy session commands.",
+          "capabilities": [
+            "perform-session-actions"
+          ],
+          "source": "https://github.com/alshareedah22/omarchy-power-menu/blob/1af49f63d66edc1722809b891887c63e0fafa428/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "Both execute manual session/power actions.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "plugin-manager",
+      "name": "Plugin Manager",
+      "contract": {
+        "version": 1,
+        "outcome": "Browsing, installing, and managing Omarchy plugins",
+        "capabilitySets": [
+          [
+            "manage-plugins"
+          ]
+        ]
+      },
+      "description": "Browsing, installing, and managing Omarchy plugins",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "omaplug",
+          "name": "Plugin Manager",
+          "reason": "Enables, disables, updates and removes installed Omarchy plugins.",
+          "capabilities": [
+            "manage-plugins"
+          ],
+          "source": "https://github.com/fross100/omaplug/blob/ebfec41a28b50bc1ddf352d72d5e1718dfd331cc/README.md"
+        },
+        {
+          "id": "b.okomart",
+          "name": "Okomart",
+          "reason": "Browses a curated plugin catalog and installs, enables, updates or removes plugins.",
+          "capabilities": [
+            "manage-plugins"
+          ],
+          "source": "https://github.com/brianblakely/omarchy-plugins/blob/c8ff3b2f5377c72c8a854c6183617602f904ee62/README.md"
+        }
+      ],
+      "status": "clarify",
+      "action": "Clarify optional features",
+      "finding": "Both install/manage plugins: Omaplug can install a pasted repository URL. A searchable curated catalog is an additional feature, not a reason to disqualify it.",
+      "recommendation": "Review the category promise and minimum task requirements; do not infer a need for a new category from this flag alone."
+    },
+    {
+      "id": "firewall",
+      "name": "Firewall",
+      "contract": {
+        "version": 2,
+        "outcome": "Inspect and manage firewall rules or per-app network blocks",
+        "capabilitySets": [
+          [
+            "manage-firewall"
+          ]
+        ]
+      },
+      "description": "Inspect and manage firewall rules or per-app network blocks",
+      "eligibleCount": 4,
+      "options": [
+        {
+          "id": "io.github.sahzudin.omawall",
+          "name": "Omawall",
+          "reason": "Inspects UFW rules and adds, removes, enables or disables firewall rules through authenticated actions.",
+          "capabilities": [
+            "manage-firewall"
+          ],
+          "source": "https://github.com/sahzudin/omawall/blob/877784f4f0a5a63088a92b68e363b20970b6f024/README.md"
+        },
+        {
+          "id": "io.github.chris.snitch",
+          "name": "Snitch",
+          "reason": "Maps outbound connections and provides per-app firewall blocks after the blocking helper is configured.",
+          "capabilities": [
+            "manage-firewall"
+          ],
+          "source": "https://github.com/ccdwyer/omarchy-snitch/blob/147efa608ba56df3e8bcea0321e2c20d90b204dd/README.md"
+        },
+        {
+          "id": "illegalstudio.omarchy-firewall",
+          "name": "Firewall",
+          "reason": "Inspects UFW rules and provides authenticated enable, disable, add and delete actions.",
+          "capabilities": [
+            "manage-firewall"
+          ],
+          "source": "https://github.com/illegalstudio/omarchy-firewall/blob/98a1a4365383de8164aeb698f4320760b44b155f/README.md"
+        },
+        {
+          "id": "srozen.ufw",
+          "name": "Firewall",
+          "reason": "Displays UFW status and rules and offers enable, disable, add and remove controls.",
+          "capabilities": [
+            "manage-firewall"
+          ],
+          "source": "https://github.com/srozen/omarchy-ufw/blob/6915d01dc36be0fd95fe4c6b9032d33bf5749200/README.md"
+        }
+      ],
+      "status": "priority",
+      "action": "Separate tasks",
+      "finding": "Host port/address/direction rules compete with per-application outbound blocking.",
+      "recommendation": "Separate Firewall Rules from App Network Blocking. Preserve Snitch’s setup and traffic-coverage limitations."
+    },
+    {
+      "id": "dev-ports",
+      "name": "Dev Ports",
+      "contract": {
+        "version": 1,
+        "outcome": "Local development ports and listening servers",
+        "capabilitySets": [
+          [
+            "inspect-local-listeners"
+          ]
+        ]
+      },
+      "description": "Local development ports and listening servers",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "zeru.portwatch",
+          "name": "Port Watch",
+          "reason": "Lists local listening ports and their owning processes with confirmed termination controls.",
+          "capabilities": [
+            "inspect-local-listeners"
+          ],
+          "source": "https://github.com/ZerubbabelT/portwatch/blob/69327f5e3bfab9f3b8367cc55a9914fb4301fe98/README.md"
+        },
+        {
+          "id": "io.github.mich-nduka.omaports",
+          "name": "Omaports",
+          "reason": "Lists local listening ports by project and offers open, copy, terminal and permitted kill actions.",
+          "capabilities": [
+            "inspect-local-listeners"
+          ],
+          "source": "https://github.com/mich-nduka/omaports/blob/d6c5f72816b27e33037e0289e5a21884893e46fe/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "Both inspect local listening ports and owning processes.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "phone-integration",
+      "name": "Phone Integration",
+      "contract": {
+        "version": 1,
+        "outcome": "Pair phones, view phone status, and exchange messages, clipboard content, or files",
+        "capabilitySets": [
+          [
+            "manage-phone-connection",
+            "exchange-phone-content"
+          ]
+        ]
+      },
+      "description": "Pair phones, view phone status, and exchange messages, clipboard content, or files",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "omaconnect",
+          "name": "OmaConnect",
+          "reason": "Pairs KDE Connect devices and exchanges files, clipboard content and supported phone actions.",
+          "capabilities": [
+            "manage-phone-connection",
+            "exchange-phone-content"
+          ],
+          "source": "https://github.com/jitendradara12/omaconnect/blob/71282d2042b1a1cda1cb1cac84251694eaabb7cb/README.md"
+        },
+        {
+          "id": "omakdeconnect",
+          "name": "OmaKDEConnect",
+          "reason": "Pairs KDE Connect devices and exchanges clipboard text and files; Tailscale discovery is optional.",
+          "capabilities": [
+            "manage-phone-connection",
+            "exchange-phone-content"
+          ],
+          "source": "https://github.com/mintisan/OmaKDEConnect/blob/9e194c4f7af60f6355966878ccae7625587e15ec/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "Both pair devices and exchange clipboard/files.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    },
+    {
+      "id": "peripheral-battery",
+      "name": "Peripheral Batteries",
+      "contract": {
+        "version": 1,
+        "outcome": "Battery and charging status for mice, keyboards, headsets, and other peripherals",
+        "capabilitySets": [
+          [
+            "read-peripheral-battery",
+            "identify-peripheral-device"
+          ]
+        ]
+      },
+      "description": "Battery and charging status for mice, keyboards, headsets, and other peripherals",
+      "eligibleCount": 2,
+      "options": [
+        {
+          "id": "io.github.r-witz.nothing-ear",
+          "name": "Nothing Audio",
+          "reason": "Identifies supported Nothing earbuds or headphones and displays their battery and charging readings.",
+          "capabilities": [
+            "read-peripheral-battery",
+            "identify-peripheral-device"
+          ],
+          "source": "https://github.com/r-witz/omarchy-nothing-ear/blob/589e8387c2452be574e2cd927fbe40b159663710/README.md"
+        },
+        {
+          "id": "io.github.69harold69.gadget-batteries",
+          "name": "Gadget Batteries",
+          "reason": "Identifies connected peripherals and displays battery readings exposed by supported adapters.",
+          "capabilities": [
+            "read-peripheral-battery",
+            "identify-peripheral-device"
+          ],
+          "source": "https://github.com/69Harold69/omarchy-gadget-batteries/blob/4748726dd7ace091da61a13b753c610c26569a65/README.md"
+        }
+      ],
+      "status": "keep",
+      "action": "Retain grouping",
+      "finding": "Both identify peripherals and expose charge; hardware support differs.",
+      "recommendation": "No category-boundary change identified in this screen; existing source and compatibility checks still apply."
+    }
+  ],
+  "auditedAt": "2026-10-30",
+  "scope": "Screened all category contracts and qualified assignment records; primary-source checks investigated suspected mismatches. Editorial task-coherence findings, not a measured false-positive rate or installation test."
+}

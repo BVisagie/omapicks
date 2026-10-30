@@ -2,6 +2,7 @@ import { test, expect } from "@playwright/test";
 import { renderFixtureType, withAvailability } from "../build/render.mjs";
 import { availabilityFor } from "../build/availability.mjs";
 import { snapshotMethodology } from "../build/methodology.mjs";
+import { migrationsForSnapshot } from "../build/category-migrations.mjs";
 
 // Rankings change every Monday and search also covers champion and runner-up names, so
 // expectations come from the rendered page and its snapshot rather than hard-coded counts.
@@ -392,7 +393,10 @@ test("recommendation cards expose their task evidence and related tools stay out
     }
     for (const constraint of candidate.taskFit.constraints) await expect(card.locator(".task-fit-note")).toContainText(constraint);
   }
-  if (type.alternatives?.length || type.relatedTools?.length) await expect(page.getByRole("heading", { name: "More choices for this task" })).toBeVisible();
+  if (type.alternatives?.length || type.relatedTools?.length) {
+    const heading = type.alternatives?.length ? "More choices for this task" : "Related tools";
+    await expect(page.getByRole("heading", { name: heading, exact: true, level: 2 })).toBeVisible();
+  }
   for (const candidate of type.relatedTools ?? []) {
     await expect(page.locator(".task-alternatives")).toContainText(candidate.taskFit.reason);
     expect([type.winner.id, type.runnerUp?.id]).not.toContain(candidate.id);
@@ -471,3 +475,50 @@ for (const theme of ["dark", "light"]) {
     expect(problems).toEqual([]);
   });
 }
+
+test("retired categories keep useful routes to their separate tasks", async ({ page, request }) => {
+  const snapshot = await (await request.get("/rankings.json")).json();
+  const retired = migrationsForSnapshot(snapshot).flatMap((migration) => migration.changes).filter((change) => change.retired);
+  test.skip(!retired.length, "This snapshot predates category migration.");
+  const sitemap = await (await request.get("/sitemap.xml")).text();
+  for (const change of retired) {
+    await page.goto(`/picks/${change.from.id}/`);
+    await expect(page).toHaveURL(new RegExp(`/picks/${change.from.id}/$`));
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("now has separate tasks");
+    await expect(page.locator(".pick-card")).toHaveCount(0);
+    expect(sitemap).toContain(`/picks/${change.from.id}/`);
+    for (const successor of change.to) {
+      const link = page.locator(`.category-bridge a[href="/picks/${successor.id}/"]`);
+      await expect(link).toBeVisible();
+      expect((await request.get(`/picks/${successor.id}/`)).ok()).toBe(true);
+    }
+  }
+  await page.goto("/");
+  await page.getByRole("searchbox").fill("idle timeout");
+  await expect(page.locator('[data-catalog-row][href="/picks/idle-sleep/"]')).toBeVisible();
+  await expect(page.locator('[data-catalog-row][href="/picks/lock-idle/"]')).toHaveCount(0);
+});
+
+test("single and empty reviewed shortlists stay honest on narrow screens", async ({ page, request }) => {
+  const snapshot = await (await request.get("/rankings.json")).json();
+  const original = snapshot.types.find((type) => type.winner);
+  test.skip(!original, "No candidate is available for the layout fixture.");
+  const type = { ...structuredClone(original), runnerUp: null, alternatives: [], relatedTools: [], builtIns: [], eligibleCount: 1 };
+  const fixture = { ...snapshot, methodologyVersion: "1.4.0", types: [type] };
+  await page.goto("/");
+  for (const width of [320, 375, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.setContent(renderFixtureType(type, fixture));
+    await expect(page.locator(".pick-card")).toHaveCount(1);
+    await expect(page.locator(".pick-card.empty")).toHaveCount(0);
+    await expect(page.locator(".shortlist-note")).toContainText("One option currently qualifies");
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  }
+  const empty = { ...type, winner: null, eligibleCount: 0 };
+  await page.setViewportSize({ width: 320, height: 900 });
+  await page.setContent(renderFixtureType(empty, { ...fixture, types: [empty] }));
+  await expect(page.getByRole("heading", { name: "No reviewed option yet", exact: true })).toBeVisible();
+  await expect(page.locator(".pick-card")).toHaveCount(0);
+  await expect(page.locator("[data-copy-command]")).toHaveCount(0);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});

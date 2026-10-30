@@ -2,6 +2,119 @@
   "schemaVersion": 2,
   "assignments": [
     {
+      "pluginId": "anagrius.resume",
+      "typeId": "agent-history",
+      "contractVersion": 2,
+      "metadataHash": "aa0ae0e698f01a4511009fd5d9b5acd08c193030d4547a43000603276219061a",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "browse-agent-history",
+        "resume-agent-session"
+      ],
+      "constraints": [
+        "Opening a transcript in a different agent starts a new continuation prompt; it does not convert a native session."
+      ],
+      "reason": "Searches saved coding-agent conversations, previews their transcripts and resumes a chosen session in its original working directory.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/anagrius/omarchy-resume/blob/48883141db0f6031b6a9c0b1b5173051443b40cb/README.md",
+        "revision": "48883141db0f6031b6a9c0b1b5173051443b40cb",
+        "path": "README.md",
+        "sha256": "cddb1bd35d9d3b08d1f49e88bcce7d3ea4309acf4e5d4a255e10e7acdf58dc9f",
+        "evidence": "README.md lines 3-22:\nA centered, telescope-style overlay for Omarchy that finds past AI coding\nsessions and opens the one you pick in Herdr, or in a terminal if Herdr\nis not in play. `preview.png` is the marketplace shot.\n\nOne picker for every agent the machine already knows about: search, preview,\nand resume Claude Code, Codex, Grok, OpenCode, Pi, and anything that registers\nthe same way.\n\n## What you get\n\n- A fullscreen overlay with a search field, a session list, and a live\n  transcript preview\n- Sessions from Claude Code, Codex, Grok, OpenCode, and Pi out of the box\n- Resume in the session's original working directory. If a Herdr session is\n  running, Enter opens there. If Herdr is installed but idle, the overlay\n  asks first. Otherwise it uses `xdg-terminal-exec --dir` with the same\n  unattended flags `omarchy agent` already uses\n- Automatic names and default-agent highlighting from Omarchy's existing\n  agent registration (usage records + `~/.config/omarchy/defaults/agent`)\n- A drop-in adapter contract so a new agent never needs a plugin patch\n\nREADME.md lines 116-138:\n## Keys\n\n| Key | Action |\n|-----|--------|\n| type | Filter the list |\n| Backspace / Ctrl+Backspace / Ctrl+U | Edit or clear the filter |\n| ↑ ↓ / Ctrl+J Ctrl+K / Ctrl+P Ctrl+N | Move the selection |\n| Page Up / Page Down | Scroll the preview |\n| Tab / Ctrl+G | Change grouping (`Tab:change grouping (date)` or `(project)`) |\n| Ctrl+Y / Ctrl+C / Shift+Enter | Copy the transcript |\n| Ctrl+O | Open in another installed agent |\n| Ctrl+R | Rescan sessions (ignore the on-disk index) |\n| Enter | Resume the selected session (in Herdr when a session is running) |\n| Esc | Clear the filter, close the Herdr prompt, or close |\n\nCopy puts a pasteable handoff on the clipboard: title, original agent,\ndirectory, and the conversation labeled User / Assistant. Open-in starts a\n*new* session in another installed agent (the same launch flags as\n`omarchy agent`) in the original working directory. A short transcript is\npassed as the first prompt; a long one is written owner-only (mode 0600) to\n`~/.cache/omarchy/resume/handoffs/` and removed after 24 hours. The new agent\nis asked to read that file.\nThis is not a converted native session — it is a clean continuation prompt."
+      }
+    },
+    {
+      "pluginId": "sid.sessions",
+      "typeId": "agent-history",
+      "contractVersion": 2,
+      "metadataHash": "0409ca535194b89f3fb4c3d44b33a68e1e6a7442dfcbd6dd5aa56ef174bae593",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "browse-agent-history",
+        "resume-agent-session"
+      ],
+      "constraints": [],
+      "reason": "Browses saved coding-agent conversations and resumes a selected session in a terminal.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/Sudhanshugtm/omarchy-session-browser/blob/9d7e6b64b091f9ed908b151fd814df0ef23064c9/README.md",
+        "revision": "9d7e6b64b091f9ed908b151fd814df0ef23064c9",
+        "path": "README.md",
+        "sha256": "79a93fe916706a599f7f1166431ab103dcdd7fc23004b4072942368ef7136a98",
+        "evidence": "README.md lines 3-4:\nA native [Omarchy](https://omarchy.org/) bar panel that answers: **what AI\ncoding sessions have I run on this machine, and how do I get back into one?**\n\nREADME.md lines 6-12:\nIt discovers past sessions from **Claude Code, Codex, opencode, Copilot CLI,\nPi, Gemini CLI, and Grok Build** and lists them newest-first with the opening\nprompt or title, project directory, and relative age. Filter by agent with one\nclick, then **Enter resumes the exact session in a terminal**, opened in its\noriginal working directory. The selected row expands with metadata (message\ncount, model, duration, size — plus token count and cost for opencode) and\nper-session controls."
+      }
+    },
+    {
+      "pluginId": "io.github.erikburdett.wavebar",
+      "typeId": "agent-monitoring",
+      "contractVersion": 1,
+      "metadataHash": "e0950620b52a63ec9646a3db03ba1c83f44f077744f462f229746bb0519725d6",
+      "decision": "rejected",
+      "role": "integration",
+      "capabilities": [],
+      "constraints": [],
+      "reason": "The sessions are media-player sessions, not coding-agent conversations.",
+      "reviewedAt": "2026-10-12",
+      "provenance": "catalog-evidence",
+      "source": {
+        "url": "https://plugins.omarchy.org/plugin.html?id=io.github.erikburdett.wavebar",
+        "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
+        "path": "catalog.json",
+        "evidence": "plugins[2103].description (io.github.erikburdett.wavebar): A waveform media controller focused on meaningful browser and desktop-player sessions."
+      }
+    },
+    {
+      "pluginId": "io.github.ofa14-prog.dynamic-island",
+      "typeId": "agent-monitoring",
+      "contractVersion": 1,
+      "metadataHash": "ca431f8b591cfddf73fd6db3e7ffd801cbb9e571c4a6f2631f8057c2f119b7b7",
+      "decision": "qualified",
+      "role": "substantial-secondary",
+      "capabilities": [
+        "manage-agent-sessions"
+      ],
+      "constraints": [],
+      "reason": "Browses, resumes or organizes coding-agent sessions.",
+      "reviewedAt": "2026-10-12",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/ofa14-prog/omarchy-dynamic-island#readme",
+        "revision": "0309eeeb00c2ac114a113ee6e14bc31745be45ea",
+        "path": "README.md",
+        "evidence": "README.md, line 62: Agent feature: shows each coding-agent session, jumps to its terminal, opens its folder and starts new sessions."
+      }
+    },
+    {
+      "pluginId": "meviusisback.agent-orchestr",
+      "typeId": "agent-monitoring",
+      "contractVersion": 2,
+      "metadataHash": "f5f8caa6621f0e37100e9b17c85e7638256f483f6672c4932e4704bd3ee0cdec",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "inspect-running-agents",
+        "focus-running-agent"
+      ],
+      "constraints": [
+        "Native focus controls apply to local running agents; remote peers are read-only."
+      ],
+      "reason": "Inspects coding-agent sessions and focuses or manages local agent processes; remote peers are read-only.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/meviusisback/agent-orchestr/blob/9012ebde19bec7a1344e52efd09e2a1b09e1bd25/README.md",
+        "revision": "9012ebde19bec7a1344e52efd09e2a1b09e1bd25",
+        "path": "README.md",
+        "sha256": "388b25b56e5ee70ebc29f461b0a1a45929d83c21ad1e0187f32efb3cc8daa68e",
+        "evidence": "README.md lines 9-18:\n- **Live Multi-Source Agent Tracking**: Seamlessly tracks AI coding agents across **Herdr** daemon panes, **remote Hermes peers** (gateways registered with `hermes peer add`, read-only), (`~/.config/herdr/herdr.sock`), standalone terminal windows (Ghostty, Foot, Kitty, Alacritty, WezTerm), **OMP** sessions (`~/.omp/agent/sessions/`), **Hermes** CLI & Desktop app databases (`~/.hermes/state.db`), and **Grok** Build TUI sessions (`$GROK_HOME/active_sessions.json` + `events.jsonl`).\n- **One-Click Workspace & Window Switching**: Click any agent card to switch Hyprland workspaces and focus the exact terminal window, Herdr pane, or Hermes Desktop window.\n- **Visual Status Bar Display**:\n  - **`Icon` Mode**: Agent orchestrator glyph with dynamic activity badge and spinner animation when agents are actively working.\n  - **`Status` Mode**: Real-time ticker showing active task descriptions or prompt summaries.\n  - **`Compact` Mode**: Live count summary (e.g. `4 ag · 1 busy`, `3 done`).\n- **Interactive Popup Panel**:\n  - **Smart Filter Tabs**: Filter by `All`, `Working`, `Waiting` (user input needed), `Done` (completed tasks), and `Idle`.\n  - **Rich Agent Cards**: Model tags, latest human prompt, real-time tool execution details, repository / working directory breadcrumbs, and active session indicators.\n  - **Process Management**: Safely terminate agent processes or close Herdr panes directly from card action buttons.\n\nREADME.md lines 24-24:\n- **Herdr**: save a machine with `herdr machine add`, verify SSH access and matching remote Herdr installation. The plugin reads enabled rows from `herdr machine list --json` and queries each machine through the read-only `herdr --session <name> api snapshot` command. Remote cards are read-only: focus and terminate stay disabled because their windows are not on this desktop."
+      }
+    },
+    {
       "pluginId": "akitaonrails.ai-usagebar",
       "typeId": "ai-api-usage",
       "contractVersion": 1,
@@ -88,93 +201,9 @@
       }
     },
     {
-      "pluginId": "io.github.erikburdett.wavebar",
-      "typeId": "ai-assistant",
-      "contractVersion": 1,
-      "metadataHash": "e0950620b52a63ec9646a3db03ba1c83f44f077744f462f229746bb0519725d6",
-      "decision": "rejected",
-      "role": "integration",
-      "capabilities": [],
-      "constraints": [],
-      "reason": "The sessions are media-player sessions, not coding-agent conversations.",
-      "reviewedAt": "2026-10-12",
-      "provenance": "catalog-evidence",
-      "source": {
-        "url": "https://plugins.omarchy.org/plugin.html?id=io.github.erikburdett.wavebar",
-        "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-        "path": "catalog.json",
-        "evidence": "plugins[2103].description (io.github.erikburdett.wavebar): A waveform media controller focused on meaningful browser and desktop-player sessions."
-      }
-    },
-    {
-      "pluginId": "io.github.ofa14-prog.dynamic-island",
-      "typeId": "ai-assistant",
-      "contractVersion": 1,
-      "metadataHash": "ca431f8b591cfddf73fd6db3e7ffd801cbb9e571c4a6f2631f8057c2f119b7b7",
-      "decision": "qualified",
-      "role": "substantial-secondary",
-      "capabilities": [
-        "manage-agent-sessions"
-      ],
-      "constraints": [],
-      "reason": "Browses, resumes or organizes coding-agent sessions.",
-      "reviewedAt": "2026-10-12",
-      "provenance": "repository-evidence",
-      "source": {
-        "url": "https://github.com/ofa14-prog/omarchy-dynamic-island#readme",
-        "revision": "0309eeeb00c2ac114a113ee6e14bc31745be45ea",
-        "path": "README.md",
-        "evidence": "README.md, line 62: Agent feature: shows each coding-agent session, jumps to its terminal, opens its folder and starts new sessions."
-      }
-    },
-    {
-      "pluginId": "meviusisback.agent-orchestr",
-      "typeId": "ai-assistant",
-      "contractVersion": 1,
-      "metadataHash": "f5f8caa6621f0e37100e9b17c85e7638256f483f6672c4932e4704bd3ee0cdec",
-      "decision": "qualified",
-      "role": "core",
-      "capabilities": [
-        "manage-agent-sessions"
-      ],
-      "constraints": [],
-      "reason": "Inspects coding-agent sessions and focuses or manages local agent processes; remote peers are read-only.",
-      "reviewedAt": "2026-10-29",
-      "provenance": "repository-evidence",
-      "source": {
-        "url": "https://github.com/meviusisback/agent-orchestr/blob/9012ebde19bec7a1344e52efd09e2a1b09e1bd25/README.md",
-        "revision": "9012ebde19bec7a1344e52efd09e2a1b09e1bd25",
-        "path": "README.md",
-        "sha256": "388b25b56e5ee70ebc29f461b0a1a45929d83c21ad1e0187f32efb3cc8daa68e",
-        "evidence": "README.md lines 9-18:\n- **Live Multi-Source Agent Tracking**: Seamlessly tracks AI coding agents across **Herdr** daemon panes, **remote Hermes peers** (gateways registered with `hermes peer add`, read-only), (`~/.config/herdr/herdr.sock`), standalone terminal windows (Ghostty, Foot, Kitty, Alacritty, WezTerm), **OMP** sessions (`~/.omp/agent/sessions/`), **Hermes** CLI & Desktop app databases (`~/.hermes/state.db`), and **Grok** Build TUI sessions (`$GROK_HOME/active_sessions.json` + `events.jsonl`).\n- **One-Click Workspace & Window Switching**: Click any agent card to switch Hyprland workspaces and focus the exact terminal window, Herdr pane, or Hermes Desktop window.\n- **Visual Status Bar Display**:\n  - **`Icon` Mode**: Agent orchestrator glyph with dynamic activity badge and spinner animation when agents are actively working.\n  - **`Status` Mode**: Real-time ticker showing active task descriptions or prompt summaries.\n  - **`Compact` Mode**: Live count summary (e.g. `4 ag · 1 busy`, `3 done`).\n- **Interactive Popup Panel**:\n  - **Smart Filter Tabs**: Filter by `All`, `Working`, `Waiting` (user input needed), `Done` (completed tasks), and `Idle`.\n  - **Rich Agent Cards**: Model tags, latest human prompt, real-time tool execution details, repository / working directory breadcrumbs, and active session indicators.\n  - **Process Management**: Safely terminate agent processes or close Herdr panes directly from card action buttons.\n\nREADME.md lines 24-24:\n- **Herdr**: save a machine with `herdr machine add`, verify SSH access and matching remote Herdr installation. The plugin reads enabled rows from `herdr machine list --json` and queries each machine through the read-only `herdr --session <name> api snapshot` command. Remote cards are read-only: focus and terminate stay disabled because their windows are not on this desktop."
-      }
-    },
-    {
-      "pluginId": "sid.sessions",
-      "typeId": "ai-assistant",
-      "contractVersion": 1,
-      "metadataHash": "0409ca535194b89f3fb4c3d44b33a68e1e6a7442dfcbd6dd5aa56ef174bae593",
-      "decision": "qualified",
-      "role": "core",
-      "capabilities": [
-        "manage-agent-sessions"
-      ],
-      "constraints": [],
-      "reason": "Browses saved coding-agent conversations and resumes a selected session in a terminal.",
-      "reviewedAt": "2026-10-29",
-      "provenance": "repository-evidence",
-      "source": {
-        "url": "https://github.com/Sudhanshugtm/omarchy-session-browser/blob/9d7e6b64b091f9ed908b151fd814df0ef23064c9/README.md",
-        "revision": "9d7e6b64b091f9ed908b151fd814df0ef23064c9",
-        "path": "README.md",
-        "sha256": "79a93fe916706a599f7f1166431ab103dcdd7fc23004b4072942368ef7136a98",
-        "evidence": "README.md lines 3-4:\nA native [Omarchy](https://omarchy.org/) bar panel that answers: **what AI\ncoding sessions have I run on this machine, and how do I get back into one?**\n\nREADME.md lines 6-12:\nIt discovers past sessions from **Claude Code, Codex, opencode, Copilot CLI,\nPi, Gemini CLI, and Grok Build** and lists them newest-first with the opening\nprompt or title, project directory, and relative age. Filter by agent with one\nclick, then **Enter resumes the exact session in a terminal**, opened in its\noriginal working directory. The selected row expands with metadata (message\ncount, model, duration, size — plus token count and cost for opencode) and\nper-session controls."
-      }
-    },
-    {
       "pluginId": "atzingen.jarvis",
       "typeId": "ai-chat",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "d4fdfc37076fb526dfc5de6346af878234f2c9a7d0abd72dd5a61078ab424738",
       "decision": "qualified",
       "role": "core",
@@ -185,7 +214,7 @@
         "Voice-driven assistant; its configured agent may also execute requested computer actions."
       ],
       "reason": "Answers spoken questions through configured coding-agent CLIs and presents spoken and written replies.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/Atzingen/hey-jarvis/blob/d6ebaa6ca0097082480d9486d8219c7a98be041f/README.md",
@@ -198,7 +227,7 @@
     {
       "pluginId": "io.github.atif-1402.ai-panel",
       "typeId": "ai-chat",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "e380002d0f9c2e87c3b203c724fb4c702ae5fd71c3352df39b202207afe2d760",
       "decision": "qualified",
       "role": "core",
@@ -207,7 +236,7 @@
       ],
       "constraints": [],
       "reason": "Provides streaming AI chat with selectable providers and saved conversations.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/atif-1402/ai-panel/blob/9af428b76a54a88b217334e8b9d03a999f827544/README.md",
@@ -287,6 +316,32 @@
       }
     },
     {
+      "pluginId": "io.github.chris.snitch",
+      "typeId": "app-network-blocking",
+      "contractVersion": 3,
+      "metadataHash": "f776f277c98f45611668395c43c33a22c51604e173e81c2216f1b3a4278f3468",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "inspect-app-connections",
+        "block-app-network",
+        "unblock-app-network"
+      ],
+      "constraints": [
+        "Per-app outbound nftables blocking; monitoring alone does not enable firewall control. TCP and connected UDP visibility excludes much QUIC traffic."
+      ],
+      "reason": "Inspects outbound app connections and blocks or unblocks a selected app after the documented helper setup.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/ccdwyer/omarchy-snitch/blob/147efa608ba56df3e8bcea0321e2c20d90b204dd/README.md",
+        "revision": "147efa608ba56df3e8bcea0321e2c20d90b204dd",
+        "path": "README.md",
+        "sha256": "36072af74d204358ed60f437709bc18d5cbccbfb77813dd6738c5e99aa5f9a06",
+        "evidence": "README.md lines 3-3:\nLive per-app outbound connection map for the Omarchy shell: country flags, animated arcs, and one-key per-app firewall blocks.\n\nREADME.md lines 5-5:\nCoverage is **TCP + connected UDP**. `/proc/net/udp` only has a remote endpoint for `connect()`ed sockets, so most QUIC/HTTP-3 is invisible or listed as `UDP (unresolved)` and **never drawn as an arc**. Reverse-DNS is off. Nothing leaves the machine except the traffic that was already leaving.\n\nREADME.md lines 33-33:\n`omarchy plugin add` copies files only — it never compiles or installs polkit policy. Monitoring works with zero privilege once `snitchd` is on `PATH` or `./bin/snitchd`. It does **not** need nftables, conntrack, or cgroup v2.\n\nREADME.md lines 37-37:\nBlocking additionally needs:\n\nREADME.md lines 39-39:\n| Need | Binary / check | Package (Arch) | Package (Debian/Ubuntu) |\n\nREADME.md lines 41-43:\n| nftables | `nft` | `nftables` | `nftables` |\n| conntrack | `conntrack` | `conntrack-tools` | `conntrack-tools` |\n| cgroup v2 | `/sys/fs/cgroup/cgroup.controllers` | kernel unified hierarchy (systemd default) | same |\n\nREADME.md lines 47-47:\nsudo pacman -S nftables conntrack-tools\n\nREADME.md lines 50-50:\n`snitch-block status` reports `nft`, `conntrack`, `cgroupv2`, and `blockingReady`. If any are missing, the UI greys out block controls and shows the reason plus the package names. The map keeps running.\n\nREADME.md lines 52-52:\nBlocking needs the helper installed at the path the polkit policy authorizes. Open the Snitch panel from the bar and click **Install helper** — that opens a terminal in the plugin directory, builds `snitch-block` if needed, and runs `scripts/install-privileged.sh`. Enter your password in the polkit prompt (setup may ask twice: copy files, then authorize the helper). After that, blocks should be prompt-free.\n\nREADME.md lines 54-54:\nThe same panel has **Build snitchd** when the daemon is missing and **Install packages** when `nftables` / `conntrack-tools` are missing.\n\nREADME.md lines 82-89:\n### Keybinds (panel focused)\n\n| Key | Action |\n|-----|--------|\n| `↑` `↓` / `k` `j` | Move the app list |\n| `b` / Enter | Block or unblock the selected app |\n| `i` | Install helper, build snitchd, or install nftables (when shown) |\n| `/` | Search apps, IPs, countries |"
+      }
+    },
+    {
       "pluginId": "equalizer",
       "typeId": "audio",
       "contractVersion": 1,
@@ -331,18 +386,44 @@
       }
     },
     {
+      "pluginId": "io.github.solkkku.audio-switcher",
+      "typeId": "audio",
+      "contractVersion": 2,
+      "metadataHash": "cbcff9df651a2c568399a4e1a209df22aad4ddca4e2135ae2e41aa4978ce53b9",
+      "decision": "related",
+      "role": "core",
+      "capabilities": [
+        "select-audio-devices"
+      ],
+      "constraints": [
+        "Device-profile switching and mute controls are narrower than the full mixer task."
+      ],
+      "reason": "Selects output/input device profiles and toggles mute, but the reviewed workflow does not supply the required output and microphone volume adjustments.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/solkkku/omarchy-audio-switcher/blob/cc3bb1d4d3b40f7f313d3d81dfebc6616fea9c61/README.md",
+        "revision": "cc3bb1d4d3b40f7f313d3d81dfebc6616fea9c61",
+        "path": "README.md",
+        "sha256": "e7dac837965db49be0589d48f6f1a4593b6c8e183e652a68e09622e8d6790e9d",
+        "evidence": "README.md lines 3-16:\nAn [Omarchy](https://omarchy.org/) Quattro shell plugin that switches between **audio profiles**. Each profile selects an output sink and an input source, and can be activated with its own hotkey. The bar icon cycles through profiles on right-click.\n\n## Features\n\n- **Profiles** — each has a name, an icon, an output sink, an optional input source, and a hotkey.\n- **Bar widget** — left-click opens the panel; right-click cycles to the next profile.\n- **Global keybinds** — assign *Previous profile*, *Next profile*, *Toggle sound mute*, and *Toggle mic mute*.\n- **Per-profile hotkeys** — jump straight to a profile.\n- **Duplicate protection** — a hotkey already used by another profile (or a global shortcut) is refused, and the form names the profile or shortcut that owns it.\n- **Capture-safe** — while assigning a hotkey, the plugin's own shortcuts are temporarily suspended, so pressing one cannot switch profiles underneath the capture.\n- **Mute indicators** — profile rows show sound and microphone mute state; click to toggle.\n- **Notifications** — optional; bottom-center, top-right, or off.\n- **Persistence** — the profile you last chose is restored after a reboot.\n- **Fallback profile** — optionally switch to a chosen profile automatically when the active profile's output device disconnects (instead of leaving it to PipeWire/WirePlumber's own priority-based routing), and switch back automatically once the original device reconnects.\n\nREADME.md lines 39-50:\n## Usage\n\nLeft-click the bar icon to open the panel.\n\n- **Add a profile** — click the **+** in the header and fill in name, icon, output source, input source (optional), and hotkey.\n- **Edit / delete** — use the pencil and X buttons on a row; deletion asks for confirmation.\n- **Reorder** — click and hold a row, then drag it to a new position.\n- **Global keybinds** — open the **Options** (cog) page and assign key combos. While capturing a key, press `Esc` to cancel or `Del` to clear it.\n- **Notifications** — choose off, top-right, or bottom-center on the Options page.\n- **Fallback profile** — on the Options page, pick a profile (or \"None\") to switch to automatically when the active profile's output device disconnects.\n\nHotkeys are written to a managed block in `~/.config/hypr/bindings.lua` and applied automatically."
+      }
+    },
+    {
       "pluginId": "ssupt.audio-control",
       "typeId": "audio",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "d6e2a258f905e7a9db0592cf98e887c4b1904113633718e38fcf58d7c463ad6f",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "control-system-audio"
+        "control-output-volume",
+        "control-microphone-volume",
+        "select-audio-devices"
       ],
       "constraints": [],
       "reason": "Controls system output, microphones, application routing and saved audio scenes.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/ssupt/omarchy-audio-control/blob/c822e48fa3b0d8f3cc2f0bf96eace416f30f0764/README.md",
@@ -355,16 +436,17 @@
     {
       "pluginId": "ssupt.bluetooth-audio",
       "typeId": "audio",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "3692045e805157bfcb4666f8b52f6ccb99a2efdb4dc0f4a1b5ca4562449f7121",
-      "decision": "qualified",
+      "decision": "related",
       "role": "core",
       "capabilities": [
-        "configure-headset-audio"
+        "configure-headset-audio",
+        "select-audio-devices"
       ],
       "constraints": [],
-      "reason": "Changes headset audio modes and selects Bluetooth audio output.",
-      "reviewedAt": "2026-10-29",
+      "reason": "Configures Bluetooth headset modes and device preferences; it does not supply a general output and microphone volume mixer.",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/ssupt/omarchy-bluetooth-audio/blob/7cbf8b96d981931fce50a61047eb9bb731f9cfbe/README.md",
@@ -373,6 +455,48 @@
         "sha256": "3d94574489d3069dd12ba2bb904a9882226dbd49be14e485cdfa9205654c6d56",
         "evidence": "README.md lines 3-4:\nAdvanced Bluetooth Audio adds headset modes and per-device audio preferences to\nOmarchy's Bluetooth panel.\n\nREADME.md lines 6-8:\nSee the active codec, choose between supported playback and microphone modes,\nand decide what each device should do when it connects: leave your defaults\nunchanged, become the output, or become both output and microphone.\n\nREADME.md lines 10-13:\nPairing failures include their reason and a retry action. Device details\nprovide rename, trust, block, supported wake controls, and confirmed forgetting.\nIt works independently. [Advanced Audio Control](https://github.com/ssupt/omarchy-audio-control)\nadds application routing and shared audio integration.\n\nREADME.md lines 17-17:\nCompared with the [stock Bluetooth panel in Omarchy 4.0.4](https://github.com/omacom/omarchy/blob/c668141e9c42b13c80c9ca4ea108e11708c5e8a5/shell/plugins/panels/bluetooth/Panel.qml):\n\nREADME.md lines 19-19:\n| Stock panel | Advanced Bluetooth Audio adds |\n\nREADME.md lines 21-23:\n| Device list, pairing, connection, and battery | Active codec and a selector for supported playback or headset modes |\n| Selects the audio output after connecting a device from the panel | Per-device **Audio on connect** choices: Manual, Output, or Output + Microphone |\n| Basic device actions | Failure reasons and retry, device details, and confirmed forgetting |"
       }
+    },
+    {
+      "pluginId": "videinfra.omaudiopanel",
+      "typeId": "audio",
+      "contractVersion": 2,
+      "metadataHash": "4d2f23f87a4d4e8a62994a8c6d6defc7a4c986fb6b28eae4707b02171562448c",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "control-output-volume",
+        "control-microphone-volume",
+        "select-audio-devices"
+      ],
+      "constraints": [
+        "Per-application routing covers playback; recording applications are not listed."
+      ],
+      "reason": "Adjusts output and microphone volume, selects audio devices and provides playback-application routing in a replacement audio panel.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/thevideinfra/omaudiopanel/blob/66de20e795a980a755bc8a034fb22ae18cf783b3/README.md",
+        "revision": "66de20e795a980a755bc8a034fb22ae18cf783b3",
+        "path": "README.md",
+        "sha256": "52dbfbbdeb852710d696f8d0ca1c29bff02486b5763fec5c1029b9e7c4bf3d61",
+        "evidence": "README.md lines 10-38:\nA drop-in replacement for the built-in `omarchy.audio` bar widget. Everything\nthe stock panel does still works the same way — volume, output and input\npickers, the per-app mixer, keyboard navigation — and it adds:\n\n- **Disable devices.** Hover an output or input and click the power icon (or\n  press `d`). Disabled devices collect in a **Disabled** section at the bottom,\n  folded into one line (\"4 devices turned off\"). Click **Show** to list them,\n  then click one to turn it back on. Nothing else is interrupted. Bluetooth\n  devices carry a Bluetooth mark and can be disabled too.\n\n  <img src=\"assets/omaudiodisable.png\" alt=\"Hovering an output shows a power icon with the tooltip Disable device (d)\" width=\"300\">\n\n- **Mute one side.** OUTPUT and INPUT each have their own switch; the one in\n  the header still mutes both.\n- **Choose where each app plays.** Under every app in the mixer, a\n  \"Playing on...\" field shows its output. Click it to pick another\n  (or press `r` to step through outputs). The switch beside it mutes the app.\n- **Pin an app to an output.** In that picker, tick **Always play Brave on...** — the output you picked, or the one it is playing on. Every\n  new Brave stream goes there. If the output disappears,\n  Brave falls back to the default and moves back when the output returns.\n- **Tell browser tabs apart.** Chromium-based browsers name every stream\n  \"Playback\". When it can tell for certain, the mixer shows the tab instead:\n  \"Brave – VIDEO/AUDIO titles\". Otherwise it numbers them: \"Brave · 1 of 2\".\n- **See what is playing.** Small equalizer bars move next to OUTPUT and\n  beside each app that is making sound, in your theme's accent colour — as do\n  the volume sliders, level meters and the device in use.\n- **Pick the volume step.** 1%, 2%, 5% or 10% per scroll notch on the bar\n  icon, per slider step and per `h`/`l` in the panel, chosen at the bottom of\n  the panel.\n\nREADME.md lines 49-50:\nChanging the default output also leaves apps you routed or pinned where they\nare, instead of moving every stream to the new default."
+      },
+      "sources": [
+        {
+          "url": "https://github.com/thevideinfra/omaudiopanel/blob/66de20e795a980a755bc8a034fb22ae18cf783b3/README.md",
+          "revision": "66de20e795a980a755bc8a034fb22ae18cf783b3",
+          "path": "README.md",
+          "sha256": "52dbfbbdeb852710d696f8d0ca1c29bff02486b5763fec5c1029b9e7c4bf3d61",
+          "evidence": "README.md lines 10-38:\nA drop-in replacement for the built-in `omarchy.audio` bar widget. Everything\nthe stock panel does still works the same way — volume, output and input\npickers, the per-app mixer, keyboard navigation — and it adds:\n\n- **Disable devices.** Hover an output or input and click the power icon (or\n  press `d`). Disabled devices collect in a **Disabled** section at the bottom,\n  folded into one line (\"4 devices turned off\"). Click **Show** to list them,\n  then click one to turn it back on. Nothing else is interrupted. Bluetooth\n  devices carry a Bluetooth mark and can be disabled too.\n\n  <img src=\"assets/omaudiodisable.png\" alt=\"Hovering an output shows a power icon with the tooltip Disable device (d)\" width=\"300\">\n\n- **Mute one side.** OUTPUT and INPUT each have their own switch; the one in\n  the header still mutes both.\n- **Choose where each app plays.** Under every app in the mixer, a\n  \"Playing on...\" field shows its output. Click it to pick another\n  (or press `r` to step through outputs). The switch beside it mutes the app.\n- **Pin an app to an output.** In that picker, tick **Always play Brave on...** — the output you picked, or the one it is playing on. Every\n  new Brave stream goes there. If the output disappears,\n  Brave falls back to the default and moves back when the output returns.\n- **Tell browser tabs apart.** Chromium-based browsers name every stream\n  \"Playback\". When it can tell for certain, the mixer shows the tab instead:\n  \"Brave – VIDEO/AUDIO titles\". Otherwise it numbers them: \"Brave · 1 of 2\".\n- **See what is playing.** Small equalizer bars move next to OUTPUT and\n  beside each app that is making sound, in your theme's accent colour — as do\n  the volume sliders, level meters and the device in use.\n- **Pick the volume step.** 1%, 2%, 5% or 10% per scroll notch on the bar\n  icon, per slider step and per `h`/`l` in the panel, chosen at the bottom of\n  the panel.\n\nREADME.md lines 49-50:\nChanging the default output also leaves apps you routed or pinned where they\nare, instead of moving every stream to the new default."
+        },
+        {
+          "url": "https://github.com/thevideinfra/omaudiopanel/blob/66de20e795a980a755bc8a034fb22ae18cf783b3/Panel.qml",
+          "revision": "66de20e795a980a755bc8a034fb22ae18cf783b3",
+          "path": "Panel.qml",
+          "sha256": "a58c3ed624f0fb307fc266531133da86db90eefec5b8263806c02f9e683eb3da",
+          "evidence": "Panel.qml lines 477-482:\n  function setOutputVolume(v) {\n    if (!volumeSink || !volumeSink.audio) return outputVolume\n    var volume = Math.max(0, Math.min(1, v))\n    volumeSink.audio.volume = volume\n    return volume\n  }\n\nPanel.qml lines 492-495:\n  function setInputVolume(v) {\n    if (!source || !source.audio) return\n    source.audio.volume = Math.max(0, Math.min(1, v))\n  }\n\nPanel.qml lines 514-520:\n  function setDefaultSink(node) {\n    if (!node) return\n    Pipewire.preferredDefaultAudioSink = node\n    // Unlike omarchy-audio-output-set-default, the helper leaves streams that\n    // were routed to a specific output where they are.\n    if (node.id !== undefined && node.name)\n      runHelper([\"set-default-sink\", String(node.id), String(node.name)])\n\nPanel.qml lines 727-731:\n  function setDefaultSource(node) {\n    if (!node) return\n    Pipewire.preferredDefaultAudioSource = node\n    if (node.id !== undefined && node.name) {\n      Quickshell.execDetached(["
+        }
+      ]
     },
     {
       "pluginId": "aabulkhairov.battery-insights",
@@ -996,71 +1120,6 @@
       }
     },
     {
-      "pluginId": "io.github.guiestrela.omarchy-google-calendar-clock",
-      "typeId": "clock-timer",
-      "contractVersion": 1,
-      "metadataHash": "2a4ecbcc554209bbe72b8755381fee1bb38daa5fcbbe05c5876db2b6eb34be25",
-      "decision": "qualified",
-      "role": "core",
-      "capabilities": [
-        "read-time"
-      ],
-      "constraints": [],
-      "reason": "Shows the time or compares world time zones.",
-      "reviewedAt": "2026-10-12",
-      "provenance": "catalog-evidence",
-      "source": {
-        "url": "https://plugins.omarchy.org/plugin.html?id=io.github.guiestrela.omarchy-google-calendar-clock",
-        "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-        "path": "catalog.json",
-        "evidence": "plugins[1590].description (io.github.guiestrela.omarchy-google-calendar-clock): An Omarchy clock with a local-first calendar and Google sync"
-      }
-    },
-    {
-      "pluginId": "io.github.sspaeti.timezones",
-      "typeId": "clock-timer",
-      "contractVersion": 1,
-      "metadataHash": "93f57f8a2066322f3e057a76fcea2d28beef26534c808e1809eb94c84e2f0c08",
-      "decision": "qualified",
-      "role": "core",
-      "capabilities": [
-        "read-time"
-      ],
-      "constraints": [],
-      "reason": "Shows local and world clocks and compares hours across selected time zones.",
-      "reviewedAt": "2026-10-29",
-      "provenance": "repository-evidence",
-      "source": {
-        "url": "https://github.com/sspaeti/omarchy-timezones-plugin/blob/8419c2e56c0e33d2cc3eeefeff556a2fa2689bcf/README.md",
-        "revision": "8419c2e56c0e33d2cc3eeefeff556a2fa2689bcf",
-        "path": "README.md",
-        "sha256": "ebeb3b7b278ba5448960e42d43d10d81286d80ee2416cbef92e898e8a52de9f8",
-        "evidence": "README.md lines 3-4:\nA minimal world clock for the [Omarchy](https://omarchy.org/) bar, inspired by\n[worldtimebuddy.com](https://www.worldtimebuddy.com/).\n\nREADME.md lines 6-6:\nhttps://github.com/user-attachments/assets/a7331091-9311-4ace-9f88-e05948ee1e34\n\nREADME.md lines 8-13:\nA single globe icon in the bar expands to your zones' current times on hover.\nClicking it opens an hour-grid popup: one 24-hour strip per timezone, all\ncolumns aligned on the same absolute moment, with business hours highlighted,\na \"now\" line, and day boundaries marked. Hover any column and every row's\nheader shows that exact moment in its zone — \"10am PDT is what in my time?\"\nanswered in one glance, in both directions.\n\nREADME.md lines 15-18:\nNo network, no API: offsets and abbreviations come straight from the system's\ntzdata (`TZ=<zone> date`), so summer/winter time is always correct. The home\nrow follows the **system timezone**, so when you travel and update Omarchy's\ntimezone, the home row updates with you."
-      }
-    },
-    {
-      "pluginId": "ubeyidah.omaclock",
-      "typeId": "clock-timer",
-      "contractVersion": 1,
-      "metadataHash": "84260b4b1d64b7eaf484a3d7cd648f7b56f0bc507bef32ad5ad6e7d1a163e963",
-      "decision": "qualified",
-      "role": "core",
-      "capabilities": [
-        "read-time"
-      ],
-      "constraints": [],
-      "reason": "Displays a desktop clock with configurable appearance and bar settings.",
-      "reviewedAt": "2026-10-29",
-      "provenance": "repository-evidence",
-      "source": {
-        "url": "https://github.com/ubeyidah/omaclock/blob/dadca5c573274e4dee41c5771405d4b4fd2e8b9a/README.md",
-        "revision": "dadca5c573274e4dee41c5771405d4b4fd2e8b9a",
-        "path": "README.md",
-        "sha256": "355ff13e8c746466127ad39e98380e849d20a7f1e2b116f53a532db97867ef8a",
-        "evidence": "README.md lines 3-5:\nA simple, minimal desktop clock widget for [Omarchy](https://omarchy.org/) that\nrenders **behind all of your open windows** on the bottom layer — a clean,\nclick-through time display living on your desktop like a wallpaper.\n\nREADME.md lines 11-16:\n- Renders behind every app window on the bottom layer (click-through; desktop\n  and wallpaper interactions keep working).\n- **Bar widget control** — a button in the status bar opens a panel with sliders,\n  a color picker, font selector, format presets, and a reset button. Changes\n  apply live and are saved automatically.\n- **Show/hide the bar widget** — toggle the bar icon off from the panel. Edit"
-      }
-    },
-    {
       "pluginId": "io.github.ajanraj.chroma",
       "typeId": "color-picker",
       "contractVersion": 2,
@@ -1153,21 +1212,47 @@
       }
     },
     {
+      "pluginId": "abdullahmansoor.omapodman",
+      "typeId": "containers",
+      "contractVersion": 3,
+      "metadataHash": "43e44e8339152194afce03094c4e77f7ba65f38b2bb6e52f096d6f5dd34bfcd5",
+      "decision": "qualified",
+      "role": "substantial-secondary",
+      "capabilities": [
+        "list-containers",
+        "start-containers",
+        "stop-containers"
+      ],
+      "constraints": [
+        "Container lifecycle controls target Podman workloads."
+      ],
+      "reason": "Lists Podman containers and starts, stops or restarts individual containers and Compose projects.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/i228808/omapodman/blob/f0413a10d07dc508f94eb7c8331e50653cd1f7ae/README.md",
+        "revision": "f0413a10d07dc508f94eb7c8331e50653cd1f7ae",
+        "path": "README.md",
+        "sha256": "7319bee7cb7052a5c8abb1875c843eb87b2205770142f6253f71c21ea48169fa",
+        "evidence": "README.md lines 3-3:\nA complete, native Podman manager for the [Omarchy](https://omarchy.org/) shell.\n\nREADME.md lines 5-7:\nOmaPodman lives in your Omarchy status bar and gives you containers, images, volumes and\nnetworks on four tabs — without ever opening a terminal, and without ever reaching for the\nmouse if you would rather not.\n\nREADME.md lines 9-10:\nIt is a Podman port of [OmaDocker](https://github.com/kayooliveira/omadocker), rebuilt\nagainst Podman's own CLI output rather than Docker's.\n\nREADME.md lines 14-17:\n**Containers** — grouped by Compose project, running first, with live CPU and memory for\neach one. Start, stop and restart a single container or a whole project; follow its logs or\ndrop into a shell inside it; a red dot and a warning glyph call out anything unhealthy,\ncrash-looping, or that exited badly.\n\nREADME.md lines 19-21:\n**Images · Volumes · Networks** — each tab splits into **Unused** and **In use**, biggest\nfirst, so what is costing you disk is the first thing you see. Podman itself decides what\ncounts as unused, so the list agrees with what `prune` would actually take.\n\nREADME.md lines 23-24:\n**Reclaiming space** — the footer says what the current tab holds and how much of it is\nreclaimable, straight from `podman system df`. One button — or the `p` key — prunes it, and"
+      }
+    },
+    {
       "pluginId": "devgtv.docker",
       "typeId": "containers",
-      "contractVersion": 2,
+      "contractVersion": 3,
       "metadataHash": "20008fa331bf82fa26e2f36c0da5711c914ec3670c2fcb2e9d4f1f0b538ea81e",
-      "decision": "qualified",
+      "decision": "related",
       "role": "core",
       "capabilities": [
-        "inspect-containers",
-        "manage-containers"
+        "list-containers",
+        "change-container-memory-limit"
       ],
       "constraints": [
         "Docker only; operation is scoped to RAM-limit changes rather than lifecycle management."
       ],
-      "reason": "Inspects running Docker containers and changes the selected container’s RAM limit.",
-      "reviewedAt": "2026-10-29",
+      "reason": "Lists running Docker containers and changes RAM limits; it does not provide the required start and stop lifecycle controls.",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/devgtv/omarchy-docker/blob/55c5d9225e6a178f20e2b5465875026a57589937/README.md",
@@ -1180,19 +1265,20 @@
     {
       "pluginId": "djjeane.docker-monitor",
       "typeId": "containers",
-      "contractVersion": 2,
+      "contractVersion": 3,
       "metadataHash": "e26110f57d7e9e782adfcac6ba314cd069d25987aa849510b48730872c9d72be",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "inspect-containers",
-        "manage-containers"
+        "list-containers",
+        "start-containers",
+        "stop-containers"
       ],
       "constraints": [
         "Docker only."
       ],
       "reason": "Lists Docker containers, reads logs and provides start, stop, restart and unpause actions.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/djjeane/omarchy-docker-plugin/blob/81c95ec532b255d5d2bc98f6ff42c936608e9ead/README.md",
@@ -1205,14 +1291,14 @@
     {
       "pluginId": "drace3000.bottom-dock",
       "typeId": "containers",
-      "contractVersion": 2,
+      "contractVersion": 3,
       "metadataHash": "001d98c934e81c33057fed110a5b1ada97ebc2919e03d1e3e25de4a845b144d8",
       "decision": "rejected",
       "role": "integration",
       "capabilities": [],
       "constraints": [],
       "reason": "The word Docker names an application dock; it does not inspect or operate containers.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/EZ-Attendance/EZ-bottom-dock/blob/bef71d5cbeb1a41630f1c85d3be02fa314a03e65/README.md",
@@ -1225,7 +1311,7 @@
     {
       "pluginId": "io.github.andressm415.omaprox",
       "typeId": "containers",
-      "contractVersion": 2,
+      "contractVersion": 3,
       "metadataHash": "32cb3d045690bb7d4a3016c025e1309c0e8abc77008ca7521041f23de7cce7b1",
       "decision": "related",
       "role": "integration",
@@ -1236,7 +1322,7 @@
         "Read-only Proxmox VE dashboard, not a local Docker or Podman manager."
       ],
       "reason": "Displays remote Proxmox guests and opens consoles; the dashboard explicitly does not start, stop or reconfigure guests.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/AndresSM415/omaprox/blob/a14a336584a11729910995ecaed4e2645dacbc02/README.md",
@@ -1249,19 +1335,20 @@
     {
       "pluginId": "io.github.majkelll.omarchy-docker",
       "typeId": "containers",
-      "contractVersion": 2,
+      "contractVersion": 3,
       "metadataHash": "80106acfff7481e8fa83689186a6eb1ae1ad7a179e0dc04ec1db4cd7a6e81f01",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "inspect-containers",
-        "manage-containers"
+        "list-containers",
+        "start-containers",
+        "stop-containers"
       ],
       "constraints": [
         "Docker only; logs and interactive shells open in a terminal."
       ],
       "reason": "Lists Docker containers and provides start, stop, restart, pause, removal, log and shell actions.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/Majkelll/omarchy-docker/blob/f5dd6bd53cc1e650d274441583735bb82b5c2410/README.md",
@@ -1274,19 +1361,19 @@
     {
       "pluginId": "io.github.randazraik.xray",
       "typeId": "containers",
-      "contractVersion": 2,
+      "contractVersion": 3,
       "metadataHash": "5291d4fc734ed11daedbd0cd79555643482a945d4d2f944416797e431620fb4f",
-      "decision": "qualified",
+      "decision": "related",
       "role": "substantial-secondary",
       "capabilities": [
-        "inspect-containers",
-        "manage-containers"
+        "inspect-container-processes",
+        "restart-container-target"
       ],
       "constraints": [
         "Container operation is scoped to restarting supported runtime-owned targets; this is primarily a process inspector."
       ],
-      "reason": "Inspects Docker, Podman or nerdctl container processes and can restart targets supported by the runtime.",
-      "reviewedAt": "2026-10-29",
+      "reason": "Inspects container-owned processes and can restart supported targets; it does not provide the required start and stop container lifecycle controls.",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/RandaZraik/omarchy-xray/blob/8fe0c36956cdb210d4591de98f6aacfc2db09f31/README.md",
@@ -1294,6 +1381,49 @@
         "path": "README.md",
         "sha256": "640020ea9b53519e9de9e35556adb9552e742aa3b38a786eeb8717b09ec3a8d4",
         "evidence": "README.md lines 24-24:\nClick the X-Ray icon in the Omarchy bar and choose what to inspect:\n\nREADME.md lines 26-26:\n| Target | Example |\n\nREADME.md lines 28-34:\n| Running application | `ghostty` |\n| Process | `4242` or `pid:4242` |\n| systemd service or scope | `service:user:demo.service` |\n| Docker, Podman, or nerdctl container | `container:docker:postgres` |\n| Listening or connected port | `:5173` |\n| Open file | `/path/to/file` |\n| Device activity | `microphone`, `camera`, `audio`, or `gpu` |\n\nREADME.md lines 56-62:\n- Opens complete lists in focused drawers while keeping the important details\n  on one screen.\n- Focuses windows, reveals files, opens a terminal in context, and can pause,\n  resume, or terminate same-user processes. It can also restart targets owned\n  by a user service or supported container runtime. Terminate and restart\n  require confirmation, and every process action rechecks identity first.\n- Exports private `.xray.zip` reports for offline inspection and comparison."
+      }
+    },
+    {
+      "pluginId": "io.github.guiestrela.omarchy-google-calendar-clock",
+      "typeId": "desktop-clocks",
+      "contractVersion": 1,
+      "metadataHash": "2a4ecbcc554209bbe72b8755381fee1bb38daa5fcbbe05c5876db2b6eb34be25",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "read-time"
+      ],
+      "constraints": [],
+      "reason": "Shows the time or compares world time zones.",
+      "reviewedAt": "2026-10-12",
+      "provenance": "catalog-evidence",
+      "source": {
+        "url": "https://plugins.omarchy.org/plugin.html?id=io.github.guiestrela.omarchy-google-calendar-clock",
+        "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
+        "path": "catalog.json",
+        "evidence": "plugins[1590].description (io.github.guiestrela.omarchy-google-calendar-clock): An Omarchy clock with a local-first calendar and Google sync"
+      }
+    },
+    {
+      "pluginId": "ubeyidah.omaclock",
+      "typeId": "desktop-clocks",
+      "contractVersion": 2,
+      "metadataHash": "84260b4b1d64b7eaf484a3d7cd648f7b56f0bc507bef32ad5ad6e7d1a163e963",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "display-desktop-clock"
+      ],
+      "constraints": [],
+      "reason": "Displays a desktop clock with configurable appearance and bar settings.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/ubeyidah/omaclock/blob/dadca5c573274e4dee41c5771405d4b4fd2e8b9a/README.md",
+        "revision": "dadca5c573274e4dee41c5771405d4b4fd2e8b9a",
+        "path": "README.md",
+        "sha256": "355ff13e8c746466127ad39e98380e849d20a7f1e2b116f53a532db97867ef8a",
+        "evidence": "README.md lines 3-5:\nA simple, minimal desktop clock widget for [Omarchy](https://omarchy.org/) that\nrenders **behind all of your open windows** on the bottom layer — a clean,\nclick-through time display living on your desktop like a wallpaper.\n\nREADME.md lines 11-16:\n- Renders behind every app window on the bottom layer (click-through; desktop\n  and wallpaper interactions keep working).\n- **Bar widget control** — a button in the status bar opens a panel with sliders,\n  a color picker, font selector, format presets, and a reset button. Changes\n  apply live and are saved automatically.\n- **Show/hide the bar widget** — toggle the bar icon off from the panel. Edit"
       }
     },
     {
@@ -1645,6 +1775,76 @@
       }
     },
     {
+      "pluginId": "daan.uptime-kuma",
+      "typeId": "endpoint-monitoring",
+      "contractVersion": 2,
+      "metadataHash": "aaad60367da98ddf33a8f461cb6c088e0e0aca272e5938dd30ae00d27b087267",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "inspect-configured-target-health"
+      ],
+      "constraints": [
+        "Checks are performed by the configured Uptime Kuma backend; this widget displays its active monitor results and excludes paused monitors."
+      ],
+      "reason": "Displays active configured Uptime Kuma monitors with their health state and last response time.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/daanlenaerts/omakuma/blob/3bab4db812c8a6c0c7f7c2ca4166775de52c0cf6/README.md",
+        "revision": "3bab4db812c8a6c0c7f7c2ca4166775de52c0cf6",
+        "path": "README.md",
+        "sha256": "64d5903afbc218a668fe40aa8e188a517041c94d8c1d4a538ccb53a32515b01f",
+        "evidence": "README.md lines 3-18:\nAn [Omarchy](https://omarchy.org/) bar widget that shows the status of every\n**active** monitor in your [Uptime Kuma](https://github.com/louislam/uptime-kuma)\ninstance, with a popup panel listing each monitor, its status, and its last\nresponse time.\n\nThe bar stays quiet while everything is healthy — just the Kuma mark. The\nmoment a monitor goes down the mark turns red and picks up a count.\n\n![The Uptime Kuma panel listing active monitors](preview.png)\n\n## How it works\n\nThe plugin polls Uptime Kuma's Prometheus endpoint (`GET /metrics`) with an API\nkey. Uptime Kuma drops paused monitors from that endpoint, so the list is\nexactly your active monitors. Status codes map as `0 = down`, `1 = up`,\n`2 = pending`, `3 = maintenance`."
+      }
+    },
+    {
+      "pluginId": "io.github.dupontbertrand.omastatus",
+      "typeId": "endpoint-monitoring",
+      "contractVersion": 2,
+      "metadataHash": "92f22b88be31cd91a54597fb3073dd9715c662f81cb21a54636477e946ec17e4",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "inspect-configured-target-health"
+      ],
+      "constraints": [],
+      "reason": "Checks configured HTTP, TCP, ping and local service targets and reports availability changes.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/dupontbertrand/omastatus/blob/8e0ae1c121c8982dd5213f9df992f6ee0a0f88b3/README.md",
+        "revision": "8e0ae1c121c8982dd5213f9df992f6ee0a0f88b3",
+        "path": "README.md",
+        "sha256": "3db7e73faf06ce6618c8838fc77b8dd93000ee5cc8e9391db0a86986e32bd778",
+        "evidence": "README.md lines 3-3:\nOmastatus is an independent Omarchy Quattro plugin for watching local and remote services from the bar. A small dot shows the aggregate state: green when every enabled service is up, red as soon as one is down, amber while a check is running or unstable, and grey before anything is configured.\n\nREADME.md lines 5-5:\nClick the dot to open a native panel with a status dot beside every service.\n\nREADME.md lines 13-20:\n- Add, pause, categorise, recategorise, and remove services entirely from the panel.\n- Automatic target detection, plus explicit HTTP, TCP, ping, systemd, Docker, and Kubernetes modes.\n- Concurrent checks, so ten timeouts do not block one after another.\n- Categories with an All/Uncategorised filter.\n- Three persistent panel layouts: grouped detail, compact list, and two-column grid.\n- Configurable 15-second to 5-minute polling from the panel; the CLI accepts 5 seconds to 1 hour.\n- Desktop notifications on a transition to down and on recovery.\n- Private, atomic configuration and state files; no cloud account or monitoring server.\n\nREADME.md lines 38-38:\nDatabase probes intentionally check reachability rather than authenticate. Omastatus rejects usernames and passwords in targets so credentials never land in its JSON configuration.\n\nREADME.md lines 40-40:\nDocker checks use the local Docker CLI. Kubernetes checks use the current `kubectl` context and store only the namespace/kind/name reference; kubeconfig credentials remain managed by Kubernetes tooling."
+      }
+    },
+    {
+      "pluginId": "io.github.majkelll.omarchy-uptime",
+      "typeId": "endpoint-monitoring",
+      "contractVersion": 2,
+      "metadataHash": "4236c3ea3488b5dfd352eb8be0b6e330b8b3ecc2e1fff8a6b90b2a4a2a79e6fd",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "inspect-configured-target-health"
+      ],
+      "constraints": [
+        "Checks HTTP(S) responses without following redirects; it is not a provider incident-feed reader."
+      ],
+      "reason": "Checks configured site or health-check URLs on per-target schedules and displays response status and outage history.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/Majkelll/omarchy-uptime/blob/f273658f782f77865aac39d9e3ae30498cfed9f5/README.md",
+        "revision": "f273658f782f77865aac39d9e3ae30498cfed9f5",
+        "path": "README.md",
+        "sha256": "d28758c006b8747efc0bd2f27f5e0d587a5404e3d7f8a0a2346a99b9521efb08",
+        "evidence": "README.md lines 3-8:\nAn [Omarchy](https://omarchy.org/) bar plugin that watches the sites you care\nabout and tells you the moment one stops answering.\n\nAdd a site, point it at a health check path if it has one, pick how often it\nshould be pinged, and forget about it. The bar icon stays quiet while\neverything answers and turns red when it does not.\n\nREADME.md lines 15-42:\n## What it gives you\n\n- **A list you can actually keep.** Add a site from the top of the popup, edit\n  every part of it later, pause one without losing its history, open any of\n  them in your browser with one click.\n- **Its own schedule per site.** A production box every 30 seconds, a staging\n  box once an hour — they do not have to share an interval.\n- **A health check path per site.** `https://example.com/hc`, or just the site\n  itself.\n- **Alerts that mean something.** A site counts as down only after a\n  configurable number of consecutive failures, so one flaky check on café wifi\n  never wakes you up.\n- **Outage history, out of the way.** Every row knows when it stopped\n  answering, how long it was out, and what the failure was — hidden until you\n  ask for it.\n- **Rows that say what their numbers mean.**\n  `Up 5m | replied in 200 ms | updated 16:03:47` — how long it has been up, how\n  fast it answered, and the clock time that reading was taken. A green line off\n  a check that last ran an hour ago is not the same claim as one a second old,\n  so the line says which it is.\n- **It knows the difference between your connection and theirs.** Your own\n  link to the internet is checked first. When it is down the bar icon turns\n  orange, the popup says so in as many words, and nothing is recorded or\n  alerted.\n- **Keyboard everything.** The popup never needs the mouse.\n\nChecks run in one background service rather than once per monitor, so a\nthree-screen desktop probes each site once and notifies once.\n\nREADME.md lines 94-98:\nThe pencil opens every field a site has: its name, its address, its health\ncheck path, how often it is checked, how long a check may take before it\ncounts as a failure, which status code counts as healthy, how many failures in\na row count as an outage, and whether it is watched at all. Nothing is written\nuntil you hit Save, and Escape cancels.\n\nREADME.md lines 123-141:\n## How a check works\n\nEvery site is fetched with `curl`, without following redirects, and judged by\nwhat comes back:\n\n| Result | Verdict |\n|---|---|\n| Status 200–399, no expected status set | up |\n| Status matches the expected status | up |\n| Any other status | down |\n| Timeout, DNS failure, refused, TLS error | down |\n\nRedirects are not followed on purpose: a `301` is a real answer from the\nserver, and following it would quietly check a different address than the one\nyou added.\n\nA single failure never raises an alarm. A site is only *down* after\n`failuresBeforeAlert` consecutive failures — two by default. The popup still\nshows every individual check."
+      }
+    },
+    {
       "pluginId": "io.github.alejandro-llanes.news",
       "typeId": "feed-readers",
       "contractVersion": 1,
@@ -1957,7 +2157,7 @@
     {
       "pluginId": "banan.banatik",
       "typeId": "firewall",
-      "contractVersion": 2,
+      "contractVersion": 3,
       "metadataHash": "33f61c10e152ab5449ca9a6778d7d9285fec22c6c6432e5db46df641df08719f",
       "decision": "related",
       "role": "integration",
@@ -1966,7 +2166,7 @@
       ],
       "constraints": [],
       "reason": "Reads a MikroTik router’s firewall counters through a read-only account; it cannot change rules.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/blazejkapala/omarchy-banatik/blob/df428d233a707ec3e5cdb2c261ecc182f9ebe969/README.md",
@@ -1979,16 +2179,18 @@
     {
       "pluginId": "illegalstudio.omarchy-firewall",
       "typeId": "firewall",
-      "contractVersion": 2,
+      "contractVersion": 3,
       "metadataHash": "be6f9fe6073cf571d8cd06ba0c443066fa212354b3a5f49625ea092212de9037",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "manage-firewall"
+        "inspect-host-firewall-rules",
+        "add-host-firewall-rule",
+        "remove-host-firewall-rule"
       ],
       "constraints": [],
       "reason": "Inspects UFW rules and provides authenticated enable, disable, add and delete actions.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/illegalstudio/omarchy-firewall/blob/98a1a4365383de8164aeb698f4320760b44b155f/README.md",
@@ -2001,40 +2203,44 @@
     {
       "pluginId": "io.github.chris.snitch",
       "typeId": "firewall",
-      "contractVersion": 2,
+      "contractVersion": 3,
       "metadataHash": "f776f277c98f45611668395c43c33a22c51604e173e81c2216f1b3a4278f3468",
-      "decision": "qualified",
+      "decision": "related",
       "role": "core",
       "capabilities": [
-        "manage-firewall"
+        "inspect-app-connections",
+        "block-app-network",
+        "unblock-app-network"
       ],
       "constraints": [
         "Per-app outbound nftables blocking; monitoring alone does not enable firewall control. TCP and connected UDP visibility excludes much QUIC traffic."
       ],
-      "reason": "Maps outbound connections and provides per-app firewall blocks after the blocking helper is configured.",
-      "reviewedAt": "2026-10-29",
+      "reason": "Inspects app connections and blocks selected apps; it does not manage the host port, address and direction rules required here.",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/ccdwyer/omarchy-snitch/blob/147efa608ba56df3e8bcea0321e2c20d90b204dd/README.md",
         "revision": "147efa608ba56df3e8bcea0321e2c20d90b204dd",
         "path": "README.md",
         "sha256": "36072af74d204358ed60f437709bc18d5cbccbfb77813dd6738c5e99aa5f9a06",
-        "evidence": "README.md lines 3-3:\nLive per-app outbound connection map for the Omarchy shell: country flags, animated arcs, and one-key per-app firewall blocks.\n\nREADME.md lines 5-5:\nCoverage is **TCP + connected UDP**. `/proc/net/udp` only has a remote endpoint for `connect()`ed sockets, so most QUIC/HTTP-3 is invisible or listed as `UDP (unresolved)` and **never drawn as an arc**. Reverse-DNS is off. Nothing leaves the machine except the traffic that was already leaving.\n\nREADME.md lines 33-33:\n`omarchy plugin add` copies files only — it never compiles or installs polkit policy. Monitoring works with zero privilege once `snitchd` is on `PATH` or `./bin/snitchd`. It does **not** need nftables, conntrack, or cgroup v2.\n\nREADME.md lines 37-37:\nBlocking additionally needs:\n\nREADME.md lines 39-39:\n| Need | Binary / check | Package (Arch) | Package (Debian/Ubuntu) |\n\nREADME.md lines 41-43:\n| nftables | `nft` | `nftables` | `nftables` |\n| conntrack | `conntrack` | `conntrack-tools` | `conntrack-tools` |\n| cgroup v2 | `/sys/fs/cgroup/cgroup.controllers` | kernel unified hierarchy (systemd default) | same |\n\nREADME.md lines 47-47:\nsudo pacman -S nftables conntrack-tools\n\nREADME.md lines 50-50:\n`snitch-block status` reports `nft`, `conntrack`, `cgroupv2`, and `blockingReady`. If any are missing, the UI greys out block controls and shows the reason plus the package names. The map keeps running.\n\nREADME.md lines 52-52:\nBlocking needs the helper installed at the path the polkit policy authorizes. Open the Snitch panel from the bar and click **Install helper** — that opens a terminal in the plugin directory, builds `snitch-block` if needed, and runs `scripts/install-privileged.sh`. Enter your password in the polkit prompt (setup may ask twice: copy files, then authorize the helper). After that, blocks should be prompt-free.\n\nREADME.md lines 54-54:\nThe same panel has **Build snitchd** when the daemon is missing and **Install packages** when `nftables` / `conntrack-tools` are missing."
+        "evidence": "README.md lines 3-3:\nLive per-app outbound connection map for the Omarchy shell: country flags, animated arcs, and one-key per-app firewall blocks.\n\nREADME.md lines 5-5:\nCoverage is **TCP + connected UDP**. `/proc/net/udp` only has a remote endpoint for `connect()`ed sockets, so most QUIC/HTTP-3 is invisible or listed as `UDP (unresolved)` and **never drawn as an arc**. Reverse-DNS is off. Nothing leaves the machine except the traffic that was already leaving.\n\nREADME.md lines 33-33:\n`omarchy plugin add` copies files only — it never compiles or installs polkit policy. Monitoring works with zero privilege once `snitchd` is on `PATH` or `./bin/snitchd`. It does **not** need nftables, conntrack, or cgroup v2.\n\nREADME.md lines 37-37:\nBlocking additionally needs:\n\nREADME.md lines 39-39:\n| Need | Binary / check | Package (Arch) | Package (Debian/Ubuntu) |\n\nREADME.md lines 41-43:\n| nftables | `nft` | `nftables` | `nftables` |\n| conntrack | `conntrack` | `conntrack-tools` | `conntrack-tools` |\n| cgroup v2 | `/sys/fs/cgroup/cgroup.controllers` | kernel unified hierarchy (systemd default) | same |\n\nREADME.md lines 47-47:\nsudo pacman -S nftables conntrack-tools\n\nREADME.md lines 50-50:\n`snitch-block status` reports `nft`, `conntrack`, `cgroupv2`, and `blockingReady`. If any are missing, the UI greys out block controls and shows the reason plus the package names. The map keeps running.\n\nREADME.md lines 52-52:\nBlocking needs the helper installed at the path the polkit policy authorizes. Open the Snitch panel from the bar and click **Install helper** — that opens a terminal in the plugin directory, builds `snitch-block` if needed, and runs `scripts/install-privileged.sh`. Enter your password in the polkit prompt (setup may ask twice: copy files, then authorize the helper). After that, blocks should be prompt-free.\n\nREADME.md lines 54-54:\nThe same panel has **Build snitchd** when the daemon is missing and **Install packages** when `nftables` / `conntrack-tools` are missing.\n\nREADME.md lines 82-89:\n### Keybinds (panel focused)\n\n| Key | Action |\n|-----|--------|\n| `↑` `↓` / `k` `j` | Move the app list |\n| `b` / Enter | Block or unblock the selected app |\n| `i` | Install helper, build snitchd, or install nftables (when shown) |\n| `/` | Search apps, IPs, countries |"
       }
     },
     {
       "pluginId": "io.github.sahzudin.omawall",
       "typeId": "firewall",
-      "contractVersion": 2,
+      "contractVersion": 3,
       "metadataHash": "06f96ea5e3c80c9836c77b93f5fd3fe2af4cdd2cfde23d0a5385e70ca7f00524",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "manage-firewall"
+        "inspect-host-firewall-rules",
+        "add-host-firewall-rule",
+        "remove-host-firewall-rule"
       ],
       "constraints": [],
       "reason": "Inspects UFW rules and adds, removes, enables or disables firewall rules through authenticated actions.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/sahzudin/omawall/blob/877784f4f0a5a63088a92b68e363b20970b6f024/README.md",
@@ -2047,16 +2253,18 @@
     {
       "pluginId": "srozen.ufw",
       "typeId": "firewall",
-      "contractVersion": 2,
+      "contractVersion": 3,
       "metadataHash": "dcb6e1bd27161bb0aa9f117bcd5fed25d0cad3576bdd5d49fb1d63d44df7c765",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "manage-firewall"
+        "inspect-host-firewall-rules",
+        "add-host-firewall-rule",
+        "remove-host-firewall-rule"
       ],
       "constraints": [],
       "reason": "Displays UFW status and rules and offers enable, disable, add and remove controls.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/srozen/omarchy-ufw/blob/6915d01dc36be0fd95fe4c6b9032d33bf5749200/README.md",
@@ -2153,16 +2361,17 @@
     {
       "pluginId": "glasschan.oma-swiss",
       "typeId": "gaming",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "1627e3a1c21e82050dc76d81d1d3c22a631f6fd814a4a956f6aa130bdaa96699",
       "decision": "qualified",
       "role": "substantial-secondary",
       "capabilities": [
-        "manage-game-session"
+        "activate-gaming-mode",
+        "restore-desktop-mode"
       ],
       "constraints": [],
       "reason": "Toggles gaming-mode VRR and tearing settings in Hyprland and restores them when disabled.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/glasschan/oma-swiss/blob/830599cd4b7f15b456a1fd8336fa317f185f31ca/README.md",
@@ -2215,16 +2424,17 @@
     {
       "pluginId": "silvaio.gamemode",
       "typeId": "gaming",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "15179920befd3e6ae57fe335ba1f1fdebf09fafe65dad92a69d977c68b899e9b",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "manage-game-session"
+        "activate-gaming-mode",
+        "restore-desktop-mode"
       ],
       "constraints": [],
       "reason": "Enters and exits a gaming desktop profile, with optional Steam Big Picture or Gamescope sessions.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/silvaio/gamemode-switcher/blob/4a9b2b82c6ad0991da702a11a98f19a1b9c8ed18/README.md",
@@ -2321,6 +2531,269 @@
       }
     },
     {
+      "pluginId": "community.network",
+      "typeId": "hotspots",
+      "contractVersion": 2,
+      "metadataHash": "5ee9d45a0b4dd0496aea5958a22135a8e83b713366c711aa9d8491b0002b0a60",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "start-hotspot",
+        "stop-hotspot"
+      ],
+      "constraints": [
+        "Concurrent repeater sharing requires the documented linux-wifi-hotspot backend and compatible radio support."
+      ],
+      "reason": "Starts and stops standalone Wi-Fi hotspots or supported concurrent repeater sharing.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/Guneshbari/omarchy-network/blob/a9210ea5c116b6c604a275631b83765d4ed7deee/README.md",
+        "revision": "a9210ea5c116b6c604a275631b83765d4ed7deee",
+        "path": "README.md",
+        "sha256": "397493842b12a94a1a29b7a98a8e2efbbfcc8e8990ba22a544693a3819697049",
+        "evidence": "README.md lines 3-3:\nAn enhanced, keyboard-driven Network bar widget and popup control center for the [Omarchy](https://omarchy.org/) Linux desktop shell. Features simultaneous **Wi-Fi Repeater chaining**, standalone **Hotspot AP** with centered **QR code sharing**, 1-click **linux-wifi-hotspot installer**, interactive **Wired Ethernet IPv4 configuration** (DHCP & Static IP), and one-click **DNS provider selection**.\n\nREADME.md lines 8-8:\n<summary><b>📸 See additional screenshots</b></summary>\n\nREADME.md lines 25-33:\n- 📡 **Simultaneous Wi-Fi Repeater (Network Chaining)**:\n  - Keep your active Wi-Fi connection alive while simultaneously creating and broadcasting a secondary access point to share your network with other devices.\n  - Powered by `create_ap` (`linux-wifi-hotspot`) for dual-interface virtual AP chaining.\n- ⚡ **1-Click Repeater Backend Installer**:\n  - If `linux-wifi-hotspot` is not yet installed on your system, the panel automatically shows an **\"Install Repeater\"** button.\n  - Clicking it immediately launches Omarchy's presented terminal to cleanly install `linux-wifi-hotspot` from the AUR—no manual command typing required.\n- 🌐 **Standalone Wi-Fi Hotspot AP**:\n  - Broadcast an independent access point via NetworkManager when offline or on Ethernet.\n  - Real-time **connected client counter** (`iw station dump`)."
+      },
+      "sources": [
+        {
+          "url": "https://github.com/Guneshbari/omarchy-network/blob/a9210ea5c116b6c604a275631b83765d4ed7deee/README.md",
+          "revision": "a9210ea5c116b6c604a275631b83765d4ed7deee",
+          "path": "README.md",
+          "sha256": "397493842b12a94a1a29b7a98a8e2efbbfcc8e8990ba22a544693a3819697049",
+          "evidence": "README.md lines 3-3:\nAn enhanced, keyboard-driven Network bar widget and popup control center for the [Omarchy](https://omarchy.org/) Linux desktop shell. Features simultaneous **Wi-Fi Repeater chaining**, standalone **Hotspot AP** with centered **QR code sharing**, 1-click **linux-wifi-hotspot installer**, interactive **Wired Ethernet IPv4 configuration** (DHCP & Static IP), and one-click **DNS provider selection**.\n\nREADME.md lines 8-8:\n<summary><b>📸 See additional screenshots</b></summary>\n\nREADME.md lines 25-33:\n- 📡 **Simultaneous Wi-Fi Repeater (Network Chaining)**:\n  - Keep your active Wi-Fi connection alive while simultaneously creating and broadcasting a secondary access point to share your network with other devices.\n  - Powered by `create_ap` (`linux-wifi-hotspot`) for dual-interface virtual AP chaining.\n- ⚡ **1-Click Repeater Backend Installer**:\n  - If `linux-wifi-hotspot` is not yet installed on your system, the panel automatically shows an **\"Install Repeater\"** button.\n  - Clicking it immediately launches Omarchy's presented terminal to cleanly install `linux-wifi-hotspot` from the AUR—no manual command typing required.\n- 🌐 **Standalone Wi-Fi Hotspot AP**:\n  - Broadcast an independent access point via NetworkManager when offline or on Ethernet.\n  - Real-time **connected client counter** (`iw station dump`)."
+        },
+        {
+          "url": "https://github.com/Guneshbari/omarchy-network/blob/a9210ea5c116b6c604a275631b83765d4ed7deee/Panel.qml",
+          "revision": "a9210ea5c116b6c604a275631b83765d4ed7deee",
+          "path": "Panel.qml",
+          "sha256": "6c6541c28e6fb48d4938b2e6dd9b39aef86a4bfe32d8ff4cf5dc43212828f050",
+          "evidence": "Panel.qml lines 1208-1248:\n  function toggleHotspot() {\n    if (root.hotspotBusy) return\n    root.hotspotBusy = true\n    root.hotspotStatusMsg = root.hotspotActive\n      ? \"Stopping hotspot...\"\n      : (!root.hotspotEthernetConnected && root.hotspotWifiConnected && root.hotspotHasCreateAp ? \"Starting Wi-Fi repeater...\" : \"Starting hotspot...\")\n    root.hotspotStatusIsError = false\n    hotspotApplyProc.secret = root.hotspotPassword || \"\"\n    var effectiveBand = (!root.hotspotEthernetConnected && root.hotspotWifiConnected && root.hotspotConnectedBand)\n      ? root.hotspotConnectedBand\n      : (root.hotspotBand || \"bg\")\n    hotspotApplyProc.command = [\n      \"bash\", \"-c\", Model.hotspotApplyScript, \"hotspot-apply\",\n      \"toggle\",\n      root.hotspotName || \"Hotspot\",\n      root.hotspotSsid || \"Omarchy-Hotspot\",\n      effectiveBand\n    ]\n    hotspotApplyProc.running = true\n  }\n\n  function saveHotspot() {\n    if (root.hotspotBusy) return\n    var draftSsid = (root.hotspotDraftSsid || \"\").trim()\n    if (!draftSsid) {\n      root.hotspotStatusMsg = \"SSID cannot be empty\"\n      root.hotspotStatusIsError = true\n      return\n    }\n    if (draftSsid.length > 32) {\n      root.hotspotStatusMsg = \"SSID cannot exceed 32 characters\"\n      root.hotspotStatusIsError = true\n      return\n    }\n    if (/[\\r\\n]/.test(draftSsid)) {\n      root.hotspotStatusMsg = \"SSID cannot contain line breaks\"\n      root.hotspotStatusIsError = true\n      return\n    }\n    if (root.hotspotDraftPassword.length < 8) {\n      root.hotspotStatusMsg = \"Password must be at least 8 characters\"\n\nPanel.qml lines 2089-2106:\n\n          Button {\n            id: hotspotAction\n            visible: root.hasHotspotSupport\n            iconText: root.hotspotActive && root.hotspotIsRepeater ? \"󰤨\" : \"󱛇\"\n            tooltipText: root.hotspotActive\n              ? ((root.hotspotIsRepeater ? \"Repeater Active (\" : \"Hotspot Active (\") + root.hotspotClients + \" connected) - Click to Stop\")\n              : (root.hotspotEthernetConnected ? \"Start Wi-Fi Hotspot (shares Ethernet)\" : (root.hotspotWifiConnected && root.hotspotHasCreateAp ? \"Start Wi-Fi Repeater\" : \"Start Wi-Fi Hotspot\"))\n            foreground: root.hotspotActive ? Color.accent : root.bar.foreground\n            fontFamily: root.bar.fontFamily\n            iconSize: Style.font.subtitle * 1.5\n            horizontalPadding: Style.space(5)\n            verticalPadding: Style.space(2)\n            hasCursor: root.hotspotHeaderHasCursor\n            Layout.alignment: Qt.AlignVCenter\n            onHovered: function(on) { if (on) root.setHeaderCursor(root.hotspotHeaderIndex) }\n            onClicked: root.toggleHotspot()\n          }"
+        }
+      ]
+    },
+    {
+      "pluginId": "io.github.shivamnarkar47.omarchy-hotspot",
+      "typeId": "hotspots",
+      "contractVersion": 2,
+      "metadataHash": "9a01945e166bb3078523b41a5f3c40a50b8855ab256cdba985028ce4c782b3c8",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "start-hotspot",
+        "stop-hotspot"
+      ],
+      "constraints": [
+        "Hotspot creation only; concurrent Wi-Fi requires a compatible radio and driver."
+      ],
+      "reason": "Starts and stops a Wi-Fi hotspot sharing the current uplink, with supported concurrent station and AP hardware.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/shivamnarkar47/omarchy-hotspot/blob/aff1ac1c3ae4d33f74422ad1086d8bb7f51bdee4/README.md",
+        "revision": "aff1ac1c3ae4d33f74422ad1086d8bb7f51bdee4",
+        "path": "README.md",
+        "sha256": "096c296926ce690f2fd92eb5cf7b151c814cadd453c855aee1eee39a4232a974",
+        "evidence": "README.md lines 3-5:\nA **mobile hotspot that never drops your Wi-Fi**. One click in your Omarchy\nbar turns this laptop into a Wi-Fi AP (`OmarchyHotspot`) that shares your\ncurrent connection — while the station link stays up the entire time.\n\nREADME.md lines 11-11:\n*The hotspot popup: hero toggle, scannable QR code, and live connection details.*\n\nREADME.md lines 16-21:\n- 🔥 **Concurrent STA+AP** — your existing Wi-Fi connection keeps working while clients join the hotspot. No radio juggling, no disconnects.\n- 📱 **Scannable QR code** — join with any phone camera (`WIFI:T:WPA;S:OmarchyHotspot;P:…;;`), shown right in the popup.\n- 🎛️ **Interactive panel** — hero toggle, live status (uplink, channel, connected clients), copy-password, keyboard navigation (`j/k`, `Enter`, `Esc`).\n- 🌐 **Shares any uplink** — NAT follows the default route: Ethernet, phone tether, or a VLAN-tagged interface. Whatever carries your internet is shared.\n- 🔒 **WPA2** with a persistent random password — **editable in the panel** (pencil icon → inline field; takes effect immediately, QR regenerates).\n- ⚡ **Passwordless toggling** — a scoped polkit rule lets the bar widget drive the root helper without prompts.\n\nREADME.md lines 48-51:\n- Omarchy (or any Hyprland + Quickshell setup), `iw`, `nmcli`, `qrencode`\n- Packages: `hostapd`, `dnsmasq` (installed by `install.sh` via pacman)\n- A Wi-Fi card whose driver supports **concurrent station + AP** on separate\n  virtual interfaces. Verify with:\n\nREADME.md lines 53-53:\n  iw list | grep -A3 \"valid interface combinations\"\n\nREADME.md lines 56-57:\n  Intel AX200/AX210 (iwlwifi) work; the AP **must mirror the station's\n  channel and channel width** (the helper does this automatically — a width"
+      }
+    },
+    {
+      "pluginId": "halmylyseas.ristretto",
+      "typeId": "idle-sleep",
+      "contractVersion": 2,
+      "metadataHash": "67ba3a90436dbc0d5c754953598793cd5d0aca9c55166db0ec3d8ab5294a593f",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "configure-idle-timeouts",
+        "configure-idle-actions"
+      ],
+      "constraints": [
+        "Suspension follows idle-driven locks only; a manually requested lock does not arm it. The suspend delay is disabled initially."
+      ],
+      "reason": "Configures screensaver and automatic-lock delays and an optional suspend delay after an idle-driven lock.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/HalmyLyseas/omarchy-ristretto/blob/99ffa15000225fb8582d633f088d3626543c3a91/README.md",
+        "revision": "99ffa15000225fb8582d633f088d3626543c3a91",
+        "path": "README.md",
+        "sha256": "6163a03123e714e06e284f0ea643e45ede7e6a93c6e97665dd00576da4b53689",
+        "evidence": "README.md lines 3-14:\nAn [Omarchy](https://omarchy.org) shell plugin that gives you direct control\nover power-saver behaviour, from the bar: **when the screensaver starts, when\nthe session locks, and when the machine suspends.**\n\n![The Ristretto panel](preview.png)\n\nOmarchy has no suspend-on-idle of any kind — under a Wayland compositor,\nlogind's `IdleAction` never fires because nothing publishes idle state to it.\nRistretto adds it at the only workable layer, the shell: a delay that starts\ncounting when the session locks *because you went idle*, and suspends the\nmachine when it runs out. A lock you trigger yourself — a keybinding, the\nmenu, or `omarchy lock` — never leads to suspend.\n\nREADME.md lines 16-37:\n## What it does\n\n- **Screensaver delay** — how long after going idle the screensaver appears:\n  1, 2, 3, 5, 10 or 15 minutes.\n- **Lockscreen delay** — how long after going idle the session locks:\n  2, 3, 5, 10, 15 or 30 minutes. Always strictly above the screensaver delay;\n  moving either slider nudges the other when they would collide.\n- **Sleep after idle lock** — how long after an idle-driven lock the machine\n  suspends: 1, 2, 3, 5 or 10 minutes, or never. A pending countdown is\n  cancelled by unlocking, by changing the delay or dry-run setting, or by\n  switching stay awake\n  on — anything that says \"not now\" means not now.\n- **Screensaver switch** — Omarchy's native `screensaver-off` flag, which has\n  a CLI (`omarchy toggle screensaver`) but no other UI.\n- **Stay awake switch** — the native `omarchy.idle` stay-awake state as a\n  labelled control. While it is on, no idle cycle runs: no screensaver, no\n  lock, no sleep — and the cup in the bar steams, so the state is readable\n  at a glance without opening the panel.\n\nEverything reads and writes Omarchy's own config and services, so changes\ntake effect immediately, survive a shell restart and `omarchy update`, and\nstay in sync with their CLI equivalents in both directions."
+      }
+    },
+    {
+      "pluginId": "io.github.deunnis.lacquer",
+      "typeId": "idle-sleep",
+      "contractVersion": 1,
+      "metadataHash": "911c64391501bde6f5424fd4576ece13fdbbbc7a3eff4d6e1313e15bf2df891a",
+      "decision": "qualified",
+      "role": "substantial-secondary",
+      "capabilities": [
+        "configure-lock-screen",
+        "manage-idle-behavior"
+      ],
+      "constraints": [
+        "This capability is part of a full desktop settings application."
+      ],
+      "reason": "Configures the lock screen or the computer's idle and sleep behavior.",
+      "reviewedAt": "2026-10-12",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/Deunnis/omarchy-lacquer#readme",
+        "revision": "8a9ef5a0a439a27d30dec216ceb930dc8900ba2d",
+        "path": "README.md",
+        "evidence": "README.md, line 58: What is in it: Screen & text includes lock, startup and screensaver settings; Desktop describes idle handling."
+      }
+    },
+    {
+      "pluginId": "lgse.sandman",
+      "typeId": "idle-sleep",
+      "contractVersion": 2,
+      "metadataHash": "3e4ea18ca2000354d68661bcb7b40ede6553d17adb8af38273c7dc9aef321c46",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "configure-idle-timeouts",
+        "configure-idle-actions"
+      ],
+      "constraints": [
+        "The Off choice for shared screensaver/lock timers uses a seven-day timeout; those values persist after removal unless restored."
+      ],
+      "reason": "Configures automatic screensaver, display-off, lock, sleep and supported hibernate timings, plus laptop lid-close actions.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/lgse/sandman/blob/68fd22010b7eea440f760eb6a9fc2b3c9f8067ed/README.md",
+        "revision": "68fd22010b7eea440f760eb6a9fc2b3c9f8067ed",
+        "path": "README.md",
+        "sha256": "81878be2f3f5950a35276b6339b58ee18460c44726f76d9f35aa4d12376497cd",
+        "evidence": "README.md lines 11-20:\nSandman provides six simple controls:\n\n- **Lid close** — keeps the system default or does nothing, turns off the laptop display, suspends, or hibernates when the lid closes.\n- **Screen saver** — starts the screen saver after the selected period of inactivity.\n- **Displays off** — turns the displays off (DPMS) after the selected period of inactivity while respecting idle inhibitors.\n- **Auto-lock** — locks the session after the selected period of inactivity.\n- **Sleep** — suspends the computer after the selected period of inactivity while respecting idle inhibitors.\n- **Hibernate after sleep** — wakes a suspended computer after the selected delay and hibernates it.\n\nEach setting offers presets, Off, and a custom hours-and-minutes timeout. Omarchy requires positive screen-saver and lock values, so Sandman simulates Off with safe seven-day timeouts while displaying and persisting Off as `0`.\n\nREADME.md lines 44-50:\n## Usage\n\nClick the Zzz icon in the bar and choose a lid-close action or a timeout for each idle stage. Presets apply immediately; Custom accepts hours and minutes and applies on confirmation for screen saver, displays off, auto-lock, sleep, and hibernate-after-sleep. Existing values that do not match a preset—including Omarchy's 2½-minute screen-saver default—open as Custom. Changes survive shell reloads and reboots.\n\nThe lid controls appear only when UPower reports a laptop lid. **System default** leaves logind in charge. The other actions use a low-level lid-switch inhibitor while Sandman is running, then handle the event without changing system-wide logind configuration. For managed lid actions, Sandman also installs a small managed block in `~/.config/hypr/bindings.lua` that replaces Omarchy's default `switch:on:Lid Switch` binding. Omarchy's default binding locks immediately on lid close, before Sandman can apply **Do nothing** or **Display off**, so Sandman unbinds it and keeps only Omarchy's clamshell monitor reconciliation. Selecting **System default** removes Sandman's managed Hyprland block again. **Display off** targets the internal eDP/LVDS/DSI output and turns it back on when the lid opens. Sandman skips that DPMS call when the output is already disabled, such as by Omarchy's clamshell handling, because Hyprland would otherwise apply it to the external displays too. Hibernate is selectable only when logind reports that it is available.\n\nSandman stores its state in `~/.config/omarchy/sandman.json`. The effective screen-saver and auto-lock values remain in Omarchy's standard `~/.config/omarchy/shell.json`; lid actions and the displays-off, sleep, and hibernate-after-sleep timers are handled by Sandman itself and are not written there. Changing the hibernate delay asks for administrator authorization because systemd's RTC wake timer is configured system-wide."
+      }
+    },
+    {
+      "pluginId": "onlyvishesh.power-manager",
+      "typeId": "idle-sleep",
+      "contractVersion": 2,
+      "metadataHash": "cca286de39ca5cf35f3e841cfa58a90fee75dae8d89a25cbf5ae2315f9209d2b",
+      "decision": "qualified",
+      "role": "substantial-secondary",
+      "capabilities": [
+        "configure-idle-timeouts",
+        "configure-idle-actions"
+      ],
+      "constraints": [],
+      "reason": "Configures idle timeouts, sleep actions and lid behavior for AC and battery profiles.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/onlyVishesh/omarchy-power-manager/blob/767f8f1c2a01e5f64d6a5c5cfee8c49ce9c162b3/README.md",
+        "revision": "767f8f1c2a01e5f64d6a5c5cfee8c49ce9c162b3",
+        "path": "README.md",
+        "sha256": "d6d2dae54f7f03d7bad982c2105cad06986b69836f43b24e57654b8583efa9f7",
+        "evidence": "README.md lines 33-33:\nFine-tune system behavior across **AC Power**, **Battery High**, and **Battery Low** states with custom low-battery thresholds, sleep actions, and idle timeouts.\n\nREADME.md lines 42-42:\nConfigure hardware-aware lid-close actions with real-time `systemd-logind` syncing, protect your battery lifespan by setting kernel-level charge cut-offs, and run built-in diagnostics.\n\nREADME.md lines 63-63:\nThis plugin is available on the Omarchy Plugin Marketplace. Install it directly via the shell:\n\nREADME.md lines 65-65:\nomarchy plugin install onlyvishesh.power-manager\n\nREADME.md lines 67-67:\nAfter installation, you **must** initialize the backend services to enable advanced power features (like charge limits and lid actions). Run the included installer script:\n\nREADME.md lines 69-70:\nsudo ~/.config/omarchy/plugins/onlyvishesh.power-manager/extras/install.sh\nomarchy restart shell"
+      }
+    },
+    {
+      "pluginId": "air.auto-cafe",
+      "typeId": "keep-awake",
+      "contractVersion": 2,
+      "metadataHash": "998bb155b1405461acc21f778a0e98c0dba037f73ee75cad79efd7c85ad12934",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "inhibit-idle",
+        "resume-idle-policy"
+      ],
+      "constraints": [
+        "Turning off its automation does not itself clear the current Stay Awake state; manually enabled Stay Awake is preserved."
+      ],
+      "reason": "Engages Stay Awake while fullscreen windows, detected games or MPRIS playback are active and releases holds it owns after those conditions end.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/airenare/omarchy-auto-cafe/blob/72b58789f3242825b96af691e35a82809783a07f/README.md",
+        "revision": "72b58789f3242825b96af691e35a82809783a07f",
+        "path": "README.md",
+        "sha256": "dae2c0944dab4d9fc84bb3eee812d337f6a400e210501375a3a5e372a8e56522",
+        "evidence": "README.md lines 3-12:\nAn [Omarchy](https://omarchy.org/) shell plugin. Automatically engages the\nbuilt-in **Stay Awake** toggle whenever a window is fullscreen (games,\nfullscreen video players) or any media player is actively playing (a video\nin a browser tab — YouTube included — mpv, VLC, a music app, anything that\nexposes the standard MPRIS interface) — no more the screen locking mid-movie\nor mid-match.\n\nIt shows up as a small coffee-cup indicator on the bar, right next to the\nbuilt-in Stay Awake toggle, so you can see when it has kicked in and turn\nthe automation on or off with a click.\n\nREADME.md lines 18-49:\nAuto Cafe engages Stay Awake while any of these is true:\n\n- **Fullscreen** — any window on any monitor is fullscreen.\n- **A game is running** — for games that run *borderless windowed* (very\n  common for Steam/Proton titles such as Microsoft Flight Simulator), which\n  Hyprland never reports as fullscreen. Two things count as a game, as long\n  as the window is on a workspace currently shown on some monitor:\n  - a Steam/Proton window (window class `steam_app_<id>`), or\n  - any window that exactly covers an entire monitor (rotation and scaling\n    aware). Normal tiled windows never match because the bar and gaps keep\n    them smaller than the monitor.\n- **Media playing** — any [MPRIS](https://specifications.freedesktop.org/mpris-spec/latest/)\n  player reports `Playing`. Firefox and Chromium-based browsers expose this\n  automatically for a tab playing audio/video (so YouTube, Netflix, etc. in\n  a normal window work without needing to be fullscreen); mpv needs its\n  `mpris` script enabled to be seen this way, and VLC supports it natively.\n\nEverything is watched reactively (Hyprland's event stream, MPRIS\nproperty-change signals), with one slow re-check every 15 seconds as a safety\nnet for window changes that emit no event (a game resizing itself to cover\nthe screen after it opens). There's no extra background process; it's part\nof the Omarchy shell like any other plugin.\n\nWhy this matters for games: a joystick, HOTAS, or gamepad never counts as\nkeyboard/mouse activity, so a flight sim or racing game played with a\ncontroller would otherwise let the screen lock mid-session.\n\nIt only ever calls the same `omarchy-shell idle` command the built-in Stay\nAwake indicator itself uses, so that indicator always reflects what\nAuto Cafe is doing. And it only turns Stay Awake back off if it was the\none that turned it on — if you've enabled Stay Awake yourself, closing a\ngame or pausing a video won't touch it."
+      }
+    },
+    {
+      "pluginId": "halmylyseas.ristretto",
+      "typeId": "keep-awake",
+      "contractVersion": 2,
+      "metadataHash": "67ba3a90436dbc0d5c754953598793cd5d0aca9c55166db0ec3d8ab5294a593f",
+      "decision": "qualified",
+      "role": "substantial-secondary",
+      "capabilities": [
+        "inhibit-idle",
+        "resume-idle-policy"
+      ],
+      "constraints": [
+        "Uses Omarchy’s native idle-cycle inhibition; it is not a guarantee against every externally requested sleep action."
+      ],
+      "reason": "Provides a native Stay Awake switch that pauses the idle cycle and allows normal idle behavior to resume when switched off.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/HalmyLyseas/omarchy-ristretto/blob/99ffa15000225fb8582d633f088d3626543c3a91/README.md",
+        "revision": "99ffa15000225fb8582d633f088d3626543c3a91",
+        "path": "README.md",
+        "sha256": "6163a03123e714e06e284f0ea643e45ede7e6a93c6e97665dd00576da4b53689",
+        "evidence": "README.md lines 23-37:\n- **Sleep after idle lock** — how long after an idle-driven lock the machine\n  suspends: 1, 2, 3, 5 or 10 minutes, or never. A pending countdown is\n  cancelled by unlocking, by changing the delay or dry-run setting, or by\n  switching stay awake\n  on — anything that says \"not now\" means not now.\n- **Screensaver switch** — Omarchy's native `screensaver-off` flag, which has\n  a CLI (`omarchy toggle screensaver`) but no other UI.\n- **Stay awake switch** — the native `omarchy.idle` stay-awake state as a\n  labelled control. While it is on, no idle cycle runs: no screensaver, no\n  lock, no sleep — and the cup in the bar steams, so the state is readable\n  at a glance without opening the panel.\n\nEverything reads and writes Omarchy's own config and services, so changes\ntake effect immediately, survive a shell restart and `omarchy update`, and\nstay in sync with their CLI equivalents in both directions.\n\nREADME.md lines 68-84:\n## Usage\n\nClick the cup (or run `omarchy-shell halmylyseas.ristretto open`) to open the\npanel. Everything is also reachable from the keyboard: arrows or `hjkl` move\na cursor between controls, `Left`/`Right` nudge the focused slider, `Space`\nor `Enter` flip a switch, `Esc` closes.\n\nThe hero subtitle states what the machine will actually do — `SLEEP 5 MIN\nAFTER LOCK`, `SLEEP NEVER`, or `STAYING AWAKE` — so the armed behaviour is\nreadable at a glance. Unknown host state is shown as `IDLE STATUS UNAVAILABLE`\nor `SLEEP UNAVAILABLE`; shared controls wait for fresh state.\n\nOne caveat worth knowing: video players and browsers that implement the\nWayland idle-inhibit protocol pause the whole idle pipeline while they\nplay, but not every app does — Zoom's Linux client, for one, does not, so\na long hands-off call will idle, lock, and eventually sleep. That is what\nthe stay awake switch is for; the steaming cup reminds you it is on."
+      }
+    },
+    {
+      "pluginId": "ignibyte.stay-awake-sessions",
+      "typeId": "keep-awake",
+      "contractVersion": 2,
+      "metadataHash": "01ea6c682bccd5eb58a47c513cb092fe2a0e2f749819722d44f5d77ae1b77b7e",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "inhibit-idle",
+        "resume-idle-policy"
+      ],
+      "constraints": [
+        "On Omarchy 4.0.3 and later, screen-only suppression falls back to the idle flag and also prevents automatic locking. Sleep inhibition is a separate selectable scope."
+      ],
+      "reason": "Creates timed or activity-bound idle holds with explicit release controls and restores ordinary idle behavior when a hold ends.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/Ignibyte/omarchy-stay-awake-sessions/blob/cd76229f8abe89ce39ed256f846b15cc6543d9d6/README.md",
+        "revision": "cd76229f8abe89ce39ed256f846b15cc6543d9d6",
+        "path": "README.md",
+        "sha256": "731660c04de98966185591f67e764eeb6b1b615a3cdca4508a4ef543615c7221",
+        "evidence": "README.md lines 3-21:\nAn Omarchy 4 (Quattro) shell plugin that keeps this machine awake **for a reason\nthat ends by itself**.\n\nOmarchy already ships a Stay Awake toggle. A toggle is a switch you have to\nremember to flip back, and the thing people actually want is the one Amphetamine\nsold on macOS: *stay awake **while** this is true*. A deadline, a build, a\ncontainer, a login session. When the reason is over, the hold is over.\n\n```bash\nstay-awake for 90m                       # until half past\nstay-awake until 5pm                     # until a time of day\nstay-awake while -- cargo test           # exactly as long as the command runs\nstay-awake while-app mpv                 # while an app has a window open\nstay-awake while-process ffmpeg          # while a process is alive\nstay-awake while-command 'who | grep -q pts'   # while any condition holds\n```\n\nThe bar widget shows what is holding the machine and how long is left. Every\nhold ends with a notification saying why.\n\nREADME.md lines 50-54:\nDisabling releases any hold the plugin is keeping, so the machine goes back to\nits usual timers. Nothing outside those paths is touched: the plugin writes only\nits own state directory and the Stay Awake flag Omarchy already owns, and it\nadds one entry to `~/.config/omarchy/shell.json`, which `omarchy plugin remove`\ntakes back out.\n\nREADME.md lines 64-88:\n## The bar widget\n\n| | |\n|---|---|\n| Left click | Open the panel: what is held, the quick holds, a box to type a duration or a time, and a picker of open apps |\n| Right click | Hold for the default duration, or release everything |\n| Middle click | Release everything |\n\nWhile nothing is held the cup sits dimmed in the bar. While something is, it\nlights up and carries the next deadline beside it (`󰅶 1h 04m`), or the name of\nwhatever is holding it when there is no deadline.\n\n## Holds\n\nEvery hold is a **session**: a label, a condition, and what it blocks.\n\n| Condition | What ends it |\n|---|---|\n| `for <duration>` | The clock. `90m`, `2h`, `1h30m`, `45s`, or a bare number as minutes |\n| `until <time>` | A time of day — `17:00`, `5pm`, `5:30pm` — today or tomorrow, whichever is next |\n| `while -- <command>` | The command exiting. No polling: the hold is tied to the child process |\n| `while-app <name>` | The app's last window closing |\n| `while-process <pattern>` | No process matches the pattern any more (`pgrep -f`) |\n| `while-command <shell>` | The command stops exiting 0 |\n| `on` | Nothing. It holds until you end it |\n\nREADME.md lines 112-136:\n## What a hold blocks\n\n`--scope` picks the lever:\n\n| Scope | Effect |\n|---|---|\n| `screen` | The screensaver only, where the shell allows it. See below |\n| `idle` (default) | The screensaver and the lock, through Omarchy's own Stay Awake flag |\n| `sleep` | Suspend and hibernate, through a logind `idle:sleep` inhibitor |\n| `all` | `idle` and `sleep` together |\n\n`screen` is the one for watching something. Omarchy's Stay Awake flag stops the\nscreensaver and the lock together, but their timeouts are two separate numbers\nin `shell.json`, so pushing `idle.screensaver` past `idle.lock` stops the\nscreensaver on its own and leaves the lock firing on schedule:\n\n```bash\nstay-awake while-process mpv --scope screen --label \"Watching something\"\n```\n\nOn Omarchy 4.0.3 and later that split is gone. The shell hands `shell.json` only\nto a plugin of kind `bar`, and this is a widget, so `idle.screensaver` is out of\nreach. A `screen` hold falls back to the idle flag there, which means the screen\ndoes not lock either. `stay-awake status` names the lever in use, and the plugin\nwill not claim a suppression it could not apply.\n\nREADME.md lines 176-183:\n## How it plays with the stock toggle\n\nThe plugin drives the same flag the built-in Stay Awake indicator does, and\nhands it back the way it found it. Turn Stay Awake on by hand, run a session,\nand when the session ends the flag is still on.\n\nSwitching Stay Awake **off** by hand while sessions are running ends them. You\nasked for the machine to sleep; the sessions do not argue."
+      }
+    },
+    {
+      "pluginId": "io.github.krongggggg.caffeine",
+      "typeId": "keep-awake",
+      "contractVersion": 2,
+      "metadataHash": "bc99bde8192af1eaf73f9f283485c3f0cbdbd6b30c1140eb5615dc0ab6b9b7e8",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "inhibit-idle",
+        "resume-idle-policy"
+      ],
+      "constraints": [
+        "The documented scope is idle locking and screensaver inhibition."
+      ],
+      "reason": "Toggles Omarchy Stay Awake from the bar to prevent idle lock and screensaver, then allows idle again on the next click.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/krongggggg/omarchy-caffeine/blob/4c328da89d32578c27e86137b8ee7affc01073d0/README.md",
+        "revision": "4c328da89d32578c27e86137b8ee7affc01073d0",
+        "path": "README.md",
+        "sha256": "f0c56bac3bf1e168b0c9dc1effb8178a99f8470c697e0f5d0b3910d402e907ff",
+        "evidence": "README.md lines 1-4:\n# Caffeine\n\nOmarchy Quattro bar widget that toggles stay-awake via `omarchy-toggle-idle`.\n"
+      }
+    },
+    {
       "pluginId": "astrofoundry.keybind-editor",
       "typeId": "keybinding-managers",
       "contractVersion": 1,
@@ -2409,16 +2882,17 @@
     {
       "pluginId": "io.github.ilyazar.keyboard-layout",
       "typeId": "keyboard-layouts",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "a16caa4053f036c4a1bfc714740d98c7f0f28b178f5c99e961bad815be89f396",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "manage-keyboard-layouts"
+        "read-keyboard-layout",
+        "switch-keyboard-layout"
       ],
       "constraints": [],
       "reason": "Shows the active XKB layout and switches between configured layouts.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/omarchy-QOL/omarchy-keyboard-layout/blob/bd2cdf809f755ffa03cebeb6dcd237d252fca594/README.md",
@@ -2431,16 +2905,17 @@
     {
       "pluginId": "jesusarchive.keyboard-layout-switcher",
       "typeId": "keyboard-layouts",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "348376222dbf471bb339859c37f84190930f351e24cf7e9c62552cb9d063c412",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "manage-keyboard-layouts"
+        "read-keyboard-layout",
+        "switch-keyboard-layout"
       ],
       "constraints": [],
       "reason": "Shows configured keyboard layouts and switches the active layout across detected keyboards.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/jesusarchive/omarchy-keyboard-layout-switcher/blob/fa5320ab129264bdf2a9ebaed9245b47f06c3832/README.md",
@@ -2731,42 +3206,40 @@
       }
     },
     {
-      "pluginId": "io.github.deunnis.lacquer",
-      "typeId": "lock-idle",
-      "contractVersion": 1,
-      "metadataHash": "911c64391501bde6f5424fd4576ece13fdbbbc7a3eff4d6e1313e15bf2df891a",
+      "pluginId": "bibek.lock",
+      "typeId": "lock-screen",
+      "contractVersion": 2,
+      "metadataHash": "f831ea0d64920a746000e2e32d531f24a727f132f7372f522e5b59df2a0ba56b",
       "decision": "qualified",
-      "role": "substantial-secondary",
+      "role": "core",
       "capabilities": [
-        "configure-lock-screen",
-        "manage-idle-behavior"
+        "apply-lock-screen-design"
       ],
-      "constraints": [
-        "This capability is part of a full desktop settings application."
-      ],
-      "reason": "Configures the lock screen or the computer's idle and sleep behavior.",
-      "reviewedAt": "2026-10-12",
+      "constraints": [],
+      "reason": "Replaces the stock lock screen with a configurable date/time layout and additional native lock-screen controls.",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/Deunnis/omarchy-lacquer#readme",
-        "revision": "8a9ef5a0a439a27d30dec216ceb930dc8900ba2d",
+        "url": "https://github.com/BibekBhusal0/omarchy-better-lock/blob/68da19058190e4c4edd9365e038d6fa70cbb3a27/README.md",
+        "revision": "68da19058190e4c4edd9365e038d6fa70cbb3a27",
         "path": "README.md",
-        "evidence": "README.md, line 58: What is in it: Screen & text includes lock, startup and screensaver settings; Desktop describes idle handling."
+        "sha256": "5d1919a546b7c055f4b8be7c8aa0a785dae704503597402885605e61919ee436",
+        "evidence": "README.md lines 3-3:\nA custom lock screen service for Omarchy, cloned from the built-in `omarchy.lock`.\n\nREADME.md lines 13-20:\nNew in this clone:\n\n- Big customizable date and time display above the password input field\n- Power action controls at the bottom for Shutdown, Restart, and Sleep\n- Integrated MPRIS media widget showing currently playing track title, artist, and playback controls (previous, play/pause, next)\n- Security prompt for \"Forgot password\" that alerts and blanks the screen\n- Separate password and fingerprint PAM authentication flows\n- Full keyboard navigation across every control\n\nREADME.md lines 34-43:\n## Configuration\n\nOptions live in `~/.config/omarchy/lock.json` (watched live, so edits apply instantly):\n\n```json\n{\n  \"timeFormat\": \"hh:mm AP\",\n  \"dateFormat\": \"dddd, MMMM d\"\n}\n```"
       }
     },
     {
       "pluginId": "io.github.sirjul1337.lock-explorer",
-      "typeId": "lock-idle",
-      "contractVersion": 1,
+      "typeId": "lock-screen",
+      "contractVersion": 2,
       "metadataHash": "262391638187232bad9f8d25be420939a7d9a1530a34866cecf815d01f5f7b28",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "configure-lock-screen"
+        "apply-lock-screen-design"
       ],
       "constraints": [],
       "reason": "Selects and designs lock-screen layouts with optional separately configured authentication integrations.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/SirJul1337/omarchy-lock-explorer/blob/9f056d3ad2c5d291919c51ef8397900024f0e86a/README.md",
@@ -2777,46 +3250,25 @@
       }
     },
     {
-      "pluginId": "lgse.sandman",
-      "typeId": "lock-idle",
-      "contractVersion": 1,
-      "metadataHash": "3e4ea18ca2000354d68661bcb7b40ede6553d17adb8af38273c7dc9aef321c46",
+      "pluginId": "io.github.smoothpixels.lock-designs",
+      "typeId": "lock-screen",
+      "contractVersion": 2,
+      "metadataHash": "a6621aafb5564a365b3b2b29694210b910f9861b250292a55146819b1df9806a",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "manage-idle-behavior"
+        "apply-lock-screen-design"
       ],
       "constraints": [],
-      "reason": "Configures the lock screen or the computer's idle and sleep behavior.",
-      "reviewedAt": "2026-10-12",
-      "provenance": "catalog-evidence",
-      "source": {
-        "url": "https://plugins.omarchy.org/plugin.html?id=lgse.sandman",
-        "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-        "path": "catalog.json",
-        "evidence": "plugins[213].description (lgse.sandman): Set lid-close actions and when your screen rests, locks, sleeps, and hibernates."
-      }
-    },
-    {
-      "pluginId": "onlyvishesh.power-manager",
-      "typeId": "lock-idle",
-      "contractVersion": 1,
-      "metadataHash": "cca286de39ca5cf35f3e841cfa58a90fee75dae8d89a25cbf5ae2315f9209d2b",
-      "decision": "qualified",
-      "role": "substantial-secondary",
-      "capabilities": [
-        "manage-idle-behavior"
-      ],
-      "constraints": [],
-      "reason": "Configures idle timeouts, sleep actions and lid behavior for AC and battery profiles.",
-      "reviewedAt": "2026-10-29",
+      "reason": "Previews and applies a selected lock-screen design through its own picker, replacing the stock lock-screen presentation.",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/onlyVishesh/omarchy-power-manager/blob/767f8f1c2a01e5f64d6a5c5cfee8c49ce9c162b3/README.md",
-        "revision": "767f8f1c2a01e5f64d6a5c5cfee8c49ce9c162b3",
+        "url": "https://github.com/SmoothPixels/lock-designs/blob/2591e6805a6848e6bcc7f3c9372994af37786035/README.md",
+        "revision": "2591e6805a6848e6bcc7f3c9372994af37786035",
         "path": "README.md",
-        "sha256": "d6d2dae54f7f03d7bad982c2105cad06986b69836f43b24e57654b8583efa9f7",
-        "evidence": "README.md lines 33-33:\nFine-tune system behavior across **AC Power**, **Battery High**, and **Battery Low** states with custom low-battery thresholds, sleep actions, and idle timeouts.\n\nREADME.md lines 42-42:\nConfigure hardware-aware lid-close actions with real-time `systemd-logind` syncing, protect your battery lifespan by setting kernel-level charge cut-offs, and run built-in diagnostics.\n\nREADME.md lines 63-63:\nThis plugin is available on the Omarchy Plugin Marketplace. Install it directly via the shell:\n\nREADME.md lines 65-65:\nomarchy plugin install onlyvishesh.power-manager\n\nREADME.md lines 67-67:\nAfter installation, you **must** initialize the backend services to enable advanced power features (like charge limits and lid actions). Run the included installer script:\n\nREADME.md lines 69-70:\nsudo ~/.config/omarchy/plugins/onlyvishesh.power-manager/extras/install.sh\nomarchy restart shell"
+        "sha256": "bc5ac891d08b61b1036bcad2f9cf5be6434bf10078ec289fb34eefd904e92e4e",
+        "evidence": "README.md lines 5-7:\nA lock screen for Omarchy with 66 designs and a picker to switch between them: twenty-one originals that follow your active Omarchy theme and need nothing downloaded, starting with the stock Omarchy lock screen itself, 38 fresh QML ports of themes from [Darkkal44/qylock](https://github.com/Darkkal44/qylock), and 7 original video wallpaper designs built from [wallsflow.com](https://wallsflow.com) live wallpapers.\n\nIt replaces the stock lock screen as a clone of Omarchy's own `omarchy.lock`, so the session lock, the PAM password and fingerprint flows, display blanking and stranded-lock recovery are exactly the stock ones. Only what is drawn on the lock surface changes.\n\nREADME.md lines 33-35:\n## The picker\n\nA grid of every design with a still preview, its source, and whether it is ready. The **Originals** filter shows only the theme-following designs, **Third party** only the ports. A click selects a design; apply it with the **Use design** button, the check button on the card, Enter, or a double-click. For a design that still needs its video or fonts, the same action downloads them first. Space or the eye button shows a design full screen without locking. While previewing, the arrow keys, Page Up and Page Down step through every ready design; Enter adopts the one on screen, Esc closes.\n\nREADME.md lines 97-111:\nEverything the picker does is also reachable from the command line through the stock `lock` target, which this plugin answers as the active lock:\n\n```sh\nomarchy-shell lock explore                   # open or close the picker\nomarchy-shell shell toggle io.github.smoothpixels.lock-designs '{\"screen\":\"DP-2\"}'   # the picker on a named monitor\nomarchy-shell lock designs                   # JSON list with ids, names and readiness\nomarchy-shell lock design                    # id of the design in use\nomarchy-shell lock setDesign my-forest\nomarchy-shell lock previewDesign my-forest   # full screen, no lock; hidePreview closes it\nomarchy-shell lock previewDesignOn my-forest DP-2   # same, on a named monitor\nomarchy-shell lock previewStep 1             # next ready design in the preview (-1 for previous)\nomarchy-shell lock download my-forest        # verified download of its assets\nomarchy-shell lock removeAssets my-forest\nomarchy-shell lock setClockFormat 12         # or 24\nomarchy-shell lock setFont \"Adwaita Sans\"     # font for the originals; empty string follows the theme"
       }
     },
     {
@@ -3058,19 +3510,44 @@
       }
     },
     {
+      "pluginId": "bibek.media",
+      "typeId": "music",
+      "contractVersion": 2,
+      "metadataHash": "ee81d472f91e1d98d32cbbdd0a03aaec08e08416eeabaeebd54ea82aa30f7c4f",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "read-local-now-playing",
+        "control-local-playback"
+      ],
+      "constraints": [
+        "Seeking, shuffle and repeat are available only when the selected player exposes them."
+      ],
+      "reason": "Displays local MPRIS track details and provides playback, seeking and source-selection controls for supported local players.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/BibekBhusal0/omarchy-better-media/blob/7961cdcac344257f07452d83e002c56871919c70/README.md",
+        "revision": "7961cdcac344257f07452d83e002c56871919c70",
+        "path": "README.md",
+        "sha256": "0329d31e57dd73af736167c64dd39eaec56fad8c03569f77eabb5887bcc7a79b",
+        "evidence": "README.md lines 3-5:\nAn MPRIS now-playing widget for the Omarchy bar, cloned from the built-in `omarchy.media`, plus support for the [cliamp](https://github.com/bjarneo/cliamp) headless daemon.\n\nShows the playing track with a play/pause glyph in the bar. Right-clicking opens a popup with album art, a seekable progress bar, transport controls, and a list of active media sources.\n\nREADME.md lines 11-25:\nFrom the built-in `omarchy.media`:\n\n- Bar widget with play/pause state and \"title · artist\" display\n- Popup card with album art, title, artist, album and transport controls\n- Multi-source list with switching\n- MPRIS tracking across players\n- IPC `media` target for scripts and hotkeys\n\nNew in this clone:\n\n- Seekable progress bar with elapsed/total time, clickable for seeking within a track\n- Shuffle and repeat toggles in the popup\n- Switching sources pauses the previous track and plays the selected one\n- [cliamp](https://github.com/bjarneo/cliamp) headless daemon support (`cliamp --daemon`, no MPRIS bridge needed)\n- Full keyboard navigation in the popup (arrow keys to move, enter to activate, q to close)\n\nREADME.md lines 44-60:\nThe bar widget appears automatically while something is playing:\n\n| Action           | Effect                |\n| ---------------- | --------------------- |\n| Left click       | Play/pause            |\n| Middle click     | Next track            |\n| Right click      | Toggle the popup      |\n| Scroll up / down | Previous / next track |\n\n### Popup\n\nThe popup shows:\n\n- **Album art** with track title, artist, and album\n- **Progress bar** - click or drag to seek; shows elapsed and total time. Hidden when the player doesn't expose position/length\n- **Transport controls** - shuffle, previous, play/pause, next, repeat (shuffle/repeat only shown when supported)\n- **Source list** - click to switch active media source (pauses the previous, plays the selected)"
+      }
+    },
+    {
       "pluginId": "crmne.mpris",
       "typeId": "music",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "9a041cb7d1d5a29b21ca844a0c2781ac49d27ce533f18fa0cc3588412e1f614a",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "read-now-playing",
-        "control-playback"
+        "read-local-now-playing",
+        "control-local-playback"
       ],
       "constraints": [],
       "reason": "Shows now-playing metadata and previous, play/pause and next controls for an existing MPRIS player.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/crmne/omarchy-mpris/blob/a50cbb9a51d42472bbfaff5cffad36255f6fab81/README.md",
@@ -3083,24 +3560,43 @@
     {
       "pluginId": "custom.media",
       "typeId": "music",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "74cbe943eb5a687d488fe538eaacba7c34586e56aef95882a54bc11b02c73961",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "read-now-playing",
-        "control-playback"
+        "read-local-now-playing",
+        "control-local-playback"
       ],
-      "constraints": [],
-      "reason": "Shows the current track and provides playback controls for an existing player.",
-      "reviewedAt": "2026-10-12",
-      "provenance": "catalog-evidence",
+      "constraints": [
+        "Detecting a raw PipeWire stream does not establish track transport control; playback actions depend on the selected player’s exposed capabilities."
+      ],
+      "reason": "Shows local now-playing metadata and operates previous, play/pause and next controls for supported local media players.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
       "source": {
-        "url": "https://plugins.omarchy.org/plugin.html?id=custom.media",
-        "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-        "path": "catalog.json",
-        "evidence": "plugins[1565].description (custom.media): MPRIS media visualizer and player controller"
-      }
+        "url": "https://github.com/Clifford-Baidoo/Omarchy-music-flow/blob/42c312d8ceb6ad9893b28c62c3cf9b5513f60d24/README.md",
+        "revision": "42c312d8ceb6ad9893b28c62c3cf9b5513f60d24",
+        "path": "README.md",
+        "sha256": "7438bde80107303f8c1158db89a4ad2bff4cb4ad7d435cc91822de9fd126c2c4",
+        "evidence": "README.md lines 25-42:\n## ✨ Features\n\n- 🎵 **Pure Soundwave Visualizer Flow**: Dual-layer harmonic wave oscillating horizontally across the status bar in real-time with your theme's accent color whenever audio is active.\n- 🌐 **Universal Browser & Web Audio Support**: Fully picks up audio from **Zen Browser**, **Firefox**, **Brave**, **Google Chrome**, **Chromium**, and web services (**YouTube**, **SoundCloud**, **Twitch**, **Bandcamp**, **Netflix**, HTML5 media, and WebAudio).\n- 🌸 **Native Seanime & Anime Video Support**: Seamlessly tracks **Seanime** (both Desktop App and Web player), **MPV**, **VLC**, and **Celluloid** with automatic anime filename & tag cleaning (`[SubsPlease]`, `(1080p)`, etc.).\n- 🔊 **PipeWire Direct Stream Detection**: Automatically captures active audio streams even if an application does not natively implement MPRIS D-Bus.\n- 🎨 **Minimalist & Borderless**: Clean, transparent integration that seamlessly blends with your top bar without visual clutter.\n- 📜 **Smooth Marquee Scroll**: Track title and artist (`Title · Artist`) with initial pause and smooth scrolling when names are long.\n- 🎛️ **Dedicated Floating Media Player Panel**:\n  - High-resolution album artwork preview / source badge.\n  - Track metadata (Title, Artist, Album, Source).\n  - Comfortable playback controls (**Previous**, **Play / Pause**, **Next**).\n  - **Multi-Source Selector (`󱘖 SELECT PLAYER / SOURCE`)**: Instantly switch between running players with one click.\n- 🗕 **Minimizable Compact Mode**: Collapses smoothly into a clean standalone status bar icon (**`󰝚`**) matching the battery and speaker widgets.\n- 🖱️ **Intuitive Gestures**:\n  - **Left-Click**: Open/close the dedicated floating Player & Source Selector window.\n  - **Middle-Click**: Toggle Play / Pause.\n  - **Scroll Wheel**: Scroll up/down over the widget to skip backward/forward tracks."
+      },
+      "sources": [
+        {
+          "url": "https://github.com/Clifford-Baidoo/Omarchy-music-flow/blob/42c312d8ceb6ad9893b28c62c3cf9b5513f60d24/README.md",
+          "revision": "42c312d8ceb6ad9893b28c62c3cf9b5513f60d24",
+          "path": "README.md",
+          "sha256": "7438bde80107303f8c1158db89a4ad2bff4cb4ad7d435cc91822de9fd126c2c4",
+          "evidence": "README.md lines 25-42:\n## ✨ Features\n\n- 🎵 **Pure Soundwave Visualizer Flow**: Dual-layer harmonic wave oscillating horizontally across the status bar in real-time with your theme's accent color whenever audio is active.\n- 🌐 **Universal Browser & Web Audio Support**: Fully picks up audio from **Zen Browser**, **Firefox**, **Brave**, **Google Chrome**, **Chromium**, and web services (**YouTube**, **SoundCloud**, **Twitch**, **Bandcamp**, **Netflix**, HTML5 media, and WebAudio).\n- 🌸 **Native Seanime & Anime Video Support**: Seamlessly tracks **Seanime** (both Desktop App and Web player), **MPV**, **VLC**, and **Celluloid** with automatic anime filename & tag cleaning (`[SubsPlease]`, `(1080p)`, etc.).\n- 🔊 **PipeWire Direct Stream Detection**: Automatically captures active audio streams even if an application does not natively implement MPRIS D-Bus.\n- 🎨 **Minimalist & Borderless**: Clean, transparent integration that seamlessly blends with your top bar without visual clutter.\n- 📜 **Smooth Marquee Scroll**: Track title and artist (`Title · Artist`) with initial pause and smooth scrolling when names are long.\n- 🎛️ **Dedicated Floating Media Player Panel**:\n  - High-resolution album artwork preview / source badge.\n  - Track metadata (Title, Artist, Album, Source).\n  - Comfortable playback controls (**Previous**, **Play / Pause**, **Next**).\n  - **Multi-Source Selector (`󱘖 SELECT PLAYER / SOURCE`)**: Instantly switch between running players with one click.\n- 🗕 **Minimizable Compact Mode**: Collapses smoothly into a clean standalone status bar icon (**`󰝚`**) matching the battery and speaker widgets.\n- 🖱️ **Intuitive Gestures**:\n  - **Left-Click**: Open/close the dedicated floating Player & Source Selector window.\n  - **Middle-Click**: Toggle Play / Pause.\n  - **Scroll Wheel**: Scroll up/down over the widget to skip backward/forward tracks."
+        },
+        {
+          "url": "https://github.com/Clifford-Baidoo/Omarchy-music-flow/blob/42c312d8ceb6ad9893b28c62c3cf9b5513f60d24/Service.qml",
+          "revision": "42c312d8ceb6ad9893b28c62c3cf9b5513f60d24",
+          "path": "Service.qml",
+          "sha256": "307e364a8ddb4c2939a8c1771101d8ece1c716e75f9f199a57d7fb349a7062cd",
+          "evidence": "Service.qml lines 1-5:\nimport QtQuick\nimport Quickshell\nimport Quickshell.Io\nimport Quickshell.Services.Mpris\nimport Quickshell.Services.Pipewire\n\nService.qml lines 19-21:\n  property int playbackVersion: 0\n\n  readonly property var players: Mpris.players ? Mpris.players.values : []\n\nService.qml lines 737-793:\n  function runAction(action, showFeedback, targetKey) {\n    var player = playerForAction(action, targetKey)\n    var key = playerKey(player)\n    var actionLabel = \"Play/pause\"\n    var iconName = \"media\"\n    var beforeTrackSignature = trackSignature(player)\n    var handled = false\n\n    if (action === \"next\") {\n      actionLabel = \"Next\"\n      iconName = \"media-next\"\n      if (player && player.canGoNext) {\n        player.next()\n        handled = true\n      }\n    } else if (action === \"previous\") {\n      actionLabel = \"Previous\"\n      iconName = \"media-previous\"\n      if (player && player.canGoPrevious) {\n        player.previous()\n        handled = true\n      }\n    } else if (action === \"play\") {\n      actionLabel = \"Play\"\n      iconName = \"media-play\"\n      if (player && player.canPlay) {\n        player.play()\n        handled = true\n      } else if (player && player.canTogglePlaying && !player.isPlaying) {\n        player.togglePlaying()\n        handled = true\n      }\n    } else if (action === \"pause\") {\n      actionLabel = \"Pause\"\n      iconName = \"media-pause\"\n      if (player && player.canPause) {\n        player.pause()\n        handled = true\n      } else if (player && player.canTogglePlaying && player.isPlaying) {\n        player.togglePlaying()\n        handled = true\n      }\n    } else if (action === \"playPause\") {\n      var isCurrentlyPlaying = player && Boolean(player.isPlaying)\n      actionLabel = isCurrentlyPlaying ? \"Pause\" : \"Play\"\n      iconName = isCurrentlyPlaying ? \"media-pause\" : \"media-play\"\n      if (player && typeof player.togglePlaying === \"function\") {\n        player.togglePlaying()\n        handled = true\n      } else if (player && player.isPlaying && player.canPause) {\n        player.pause()\n        handled = true\n      } else if (player && !player.isPlaying && player.canPlay) {\n        player.play()\n        handled = true\n      }\n    }"
+        }
+      ]
     },
     {
       "pluginId": "mich.spotmarchy",
@@ -3127,17 +3623,17 @@
     {
       "pluginId": "omaconnect",
       "typeId": "music",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "b959fcfd3a6e0e41a071bb1b6311a21b555685ddc30110bd43a74c70e901dd76",
-      "decision": "qualified",
+      "decision": "related",
       "role": "substantial-secondary",
       "capabilities": [
-        "read-now-playing",
-        "control-playback"
+        "read-remote-now-playing",
+        "control-remote-playback"
       ],
       "constraints": [],
-      "reason": "Provides track metadata, playback controls and player switching for paired KDE Connect devices.",
-      "reviewedAt": "2026-10-29",
+      "reason": "Controls playback on paired KDE Connect devices rather than a player on this computer.",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/jitendradara12/omaconnect/blob/71282d2042b1a1cda1cb1cac84251694eaabb7cb/README.md",
@@ -3371,7 +3867,7 @@
     {
       "pluginId": "adarsh.vpn",
       "typeId": "network",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "c6f3aa87d8b49bd3a1b56e7846984f4076dd63b4599aa530bf396d07b43f2094",
       "decision": "related",
       "role": "integration",
@@ -3381,7 +3877,7 @@
       ],
       "constraints": [],
       "reason": "Imports and controls OpenVPN connections rather than Wi-Fi, Ethernet or cellular networks.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/TheComputeCenter/omarchy-vpn/blob/8b76509c3ad1c328ca0b5899471c35065fbaaceb/README.md",
@@ -3394,16 +3890,18 @@
     {
       "pluginId": "angeeeld.omaltbar",
       "typeId": "network",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "2a1c316933b5c6c3bd7db685c8086cb375335eaf51b2be41e7c8d0cc7aa47a49",
       "decision": "qualified",
       "role": "substantial-secondary",
       "capabilities": [
-        "manage-network-connections"
+        "inspect-client-network",
+        "connect-client-network",
+        "disconnect-client-network"
       ],
       "constraints": [],
       "reason": "Provides native Wi-Fi connect, disconnect and credential controls inside its replacement bar.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/AngeeelD/omaltbar/blob/28709ae256fea4551ee827d4b97d8d7e43dfc8cb/views/QuickSettingsView.qml",
@@ -3416,7 +3914,7 @@
     {
       "pluginId": "artmins96.l2tp",
       "typeId": "network",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "99aa1cc842d364c62aaf59a9d0930b2d8e8a604d48ff8b7b72efbf827cb5a6f5",
       "decision": "related",
       "role": "integration",
@@ -3426,7 +3924,7 @@
       ],
       "constraints": [],
       "reason": "Manages L2TP/IPsec VPN profiles and tunnel connections rather than physical network connections.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/ArtMin96/omarchy-l2tp-vpn/blob/70d00a6274613cf8e96da2ccc5d8d0790600a4f4/README.md",
@@ -3439,16 +3937,18 @@
     {
       "pluginId": "community.network",
       "typeId": "network",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "5ee9d45a0b4dd0496aea5958a22135a8e83b713366c711aa9d8491b0002b0a60",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "manage-network-connections"
+        "inspect-client-network",
+        "connect-client-network",
+        "disconnect-client-network"
       ],
       "constraints": [],
-      "reason": "Connects Wi-Fi networks and manages hotspot connections with explicit radio and helper requirements.",
-      "reviewedAt": "2026-10-29",
+      "reason": "Inspects client connection state and connects or disconnects Wi-Fi networks, with additional wired configuration controls.",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/Guneshbari/omarchy-network/blob/a9210ea5c116b6c604a275631b83765d4ed7deee/README.md",
@@ -3456,7 +3956,23 @@
         "path": "README.md",
         "sha256": "397493842b12a94a1a29b7a98a8e2efbbfcc8e8990ba22a544693a3819697049",
         "evidence": "README.md lines 3-3:\nAn enhanced, keyboard-driven Network bar widget and popup control center for the [Omarchy](https://omarchy.org/) Linux desktop shell. Features simultaneous **Wi-Fi Repeater chaining**, standalone **Hotspot AP** with centered **QR code sharing**, 1-click **linux-wifi-hotspot installer**, interactive **Wired Ethernet IPv4 configuration** (DHCP & Static IP), and one-click **DNS provider selection**.\n\nREADME.md lines 8-8:\n<summary><b>📸 See additional screenshots</b></summary>\n\nREADME.md lines 25-33:\n- 📡 **Simultaneous Wi-Fi Repeater (Network Chaining)**:\n  - Keep your active Wi-Fi connection alive while simultaneously creating and broadcasting a secondary access point to share your network with other devices.\n  - Powered by `create_ap` (`linux-wifi-hotspot`) for dual-interface virtual AP chaining.\n- ⚡ **1-Click Repeater Backend Installer**:\n  - If `linux-wifi-hotspot` is not yet installed on your system, the panel automatically shows an **\"Install Repeater\"** button.\n  - Clicking it immediately launches Omarchy's presented terminal to cleanly install `linux-wifi-hotspot` from the AUR—no manual command typing required.\n- 🌐 **Standalone Wi-Fi Hotspot AP**:\n  - Broadcast an independent access point via NetworkManager when offline or on Ethernet.\n  - Real-time **connected client counter** (`iw station dump`)."
-      }
+      },
+      "sources": [
+        {
+          "url": "https://github.com/Guneshbari/omarchy-network/blob/a9210ea5c116b6c604a275631b83765d4ed7deee/README.md",
+          "revision": "a9210ea5c116b6c604a275631b83765d4ed7deee",
+          "path": "README.md",
+          "sha256": "397493842b12a94a1a29b7a98a8e2efbbfcc8e8990ba22a544693a3819697049",
+          "evidence": "README.md lines 3-3:\nAn enhanced, keyboard-driven Network bar widget and popup control center for the [Omarchy](https://omarchy.org/) Linux desktop shell. Features simultaneous **Wi-Fi Repeater chaining**, standalone **Hotspot AP** with centered **QR code sharing**, 1-click **linux-wifi-hotspot installer**, interactive **Wired Ethernet IPv4 configuration** (DHCP & Static IP), and one-click **DNS provider selection**.\n\nREADME.md lines 8-8:\n<summary><b>📸 See additional screenshots</b></summary>\n\nREADME.md lines 25-33:\n- 📡 **Simultaneous Wi-Fi Repeater (Network Chaining)**:\n  - Keep your active Wi-Fi connection alive while simultaneously creating and broadcasting a secondary access point to share your network with other devices.\n  - Powered by `create_ap` (`linux-wifi-hotspot`) for dual-interface virtual AP chaining.\n- ⚡ **1-Click Repeater Backend Installer**:\n  - If `linux-wifi-hotspot` is not yet installed on your system, the panel automatically shows an **\"Install Repeater\"** button.\n  - Clicking it immediately launches Omarchy's presented terminal to cleanly install `linux-wifi-hotspot` from the AUR—no manual command typing required.\n- 🌐 **Standalone Wi-Fi Hotspot AP**:\n  - Broadcast an independent access point via NetworkManager when offline or on Ethernet.\n  - Real-time **connected client counter** (`iw station dump`)."
+        },
+        {
+          "url": "https://github.com/Guneshbari/omarchy-network/blob/a9210ea5c116b6c604a275631b83765d4ed7deee/Panel.qml",
+          "revision": "a9210ea5c116b6c604a275631b83765d4ed7deee",
+          "path": "Panel.qml",
+          "sha256": "6c6541c28e6fb48d4938b2e6dd9b39aef86a4bfe32d8ff4cf5dc43212828f050",
+          "evidence": "Panel.qml lines 592-607:\n  // connected → disconnect, credentials-required/unknown → prompt,\n  // passwordless/known → connect.\n  function activateSelected() {\n    if (busy || selectedIndex < 0 || selectedIndex >= wifiNetworks.length) return\n    var net = wifiNetworks[selectedIndex]\n    if (!net) return\n    if (wifiActionFocused && canForgetNetwork(net)) { forget(net); return }\n    // Only act on a row that still resolves. disconnect() falls back to\n    // connectedWifiNetwork when handed null, so a row left stale by scan churn\n    // would otherwise tear down whatever is connected now instead.\n    if (net.connected) { disconnectRow(net.ssid); return }\n    if (requiresCredentials(net.security) && !net.known) { openPasswordPrompt(net.ssid); return }\n    connectDirectly(net.ssid)\n  }\n\n  // Bar pill state, derived from the native NetworkManager service and active\n\nPanel.qml lines 611-627:\n  readonly property bool isWifiConnected: !!(\n    (connectedWifiNetwork && connectedWifiNetwork.connected) ||\n    (wifiDevice && wifiDevice.connected) ||\n    (info && info.type === \"wifi\")\n  )\n  readonly property bool isWiredConnected: !!(\n    (wiredDevice && wiredDevice.connected) ||\n    (info && info.type === \"ethernet\")\n  )\n\n  readonly property string kind: {\n    if (isWifiConnected && !isWiredConnected) return \"wifi\"\n    if (isWiredConnected && !isWifiConnected) return \"ethernet\"\n    if (!isWifiConnected && !isWiredConnected) return \"disconnected\"\n\n    // Both are connected: use the active default route from omarchy-network-status\n    if (info && info.type === \"wifi\") return \"wifi\"\n\nPanel.qml lines 1463-1469:\n  function connectDirectly(ssid) {\n    runNetworkAction(\"connect\", networkForSsid(ssid), function(network) { network.connect() })\n  }\n\n  function connectWithPassphrase(ssid, passphrase) {\n    runNetworkAction(\"connect\", networkForSsid(ssid), function(network) { network.connectWithPsk(passphrase) })\n  }\n\nPanel.qml lines 1510-1521:\n  function disconnect(network) {\n    runNetworkAction(\"disconnect\", network || connectedWifiNetwork, function(net) { net.disconnect() })\n  }\n\n  // Disconnect from a row's SSID. Rows are primitive snapshots that can outlive\n  // their WifiNetwork, and disconnect()'s null fallback targets whatever is\n  // connected now, so a stale row must do nothing rather than hit an unrelated\n  // network. Callers that mean \"drop the current connection\" call disconnect().\n  function disconnectRow(ssid) {\n    var network = networkForSsid(ssid)\n    if (network) disconnect(network)\n  }"
+        }
+      ]
     },
     {
       "pluginId": "elliot.network",
@@ -3501,18 +4017,19 @@
     {
       "pluginId": "io.github.shivamnarkar47.omarchy-hotspot",
       "typeId": "network",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "9a01945e166bb3078523b41a5f3c40a50b8855ab256cdba985028ce4c782b3c8",
-      "decision": "qualified",
+      "decision": "related",
       "role": "core",
       "capabilities": [
-        "manage-network-connections"
+        "start-hotspot",
+        "stop-hotspot"
       ],
       "constraints": [
         "Hotspot creation only; concurrent Wi-Fi requires a compatible radio and driver."
       ],
-      "reason": "Starts and stops a Wi-Fi hotspot that shares an uplink on hardware supporting concurrent station and AP modes.",
-      "reviewedAt": "2026-10-29",
+      "reason": "Starts and stops an access point sharing an existing uplink; it does not join and disconnect client network connections.",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/shivamnarkar47/omarchy-hotspot/blob/aff1ac1c3ae4d33f74422ad1086d8bb7f51bdee4/README.md",
@@ -3569,7 +4086,7 @@
     {
       "pluginId": "vstoms.netbird",
       "typeId": "network",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "ec4b914bf05266f70adf17e3cd92c45e3190e87ea273199009ab345db7bbe9d7",
       "decision": "related",
       "role": "integration",
@@ -3579,7 +4096,7 @@
       ],
       "constraints": [],
       "reason": "Controls a NetBird VPN and its routes, rather than Wi-Fi, Ethernet or cellular connections.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/vstoms/omarchy-netbird/blob/d530c76b13324b26dafd79934529b4395e18a11c/README.md",
@@ -3826,17 +4343,17 @@
     {
       "pluginId": "ablanco.notethis",
       "typeId": "notes",
-      "contractVersion": 2,
+      "contractVersion": 3,
       "metadataHash": "a7178dca40e6a5a7eb31426ed5a7fb8555784ae3ffdd461545d1b1d689d2cdfc",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "capture-notes",
-        "read-notes"
+        "capture-freeform-notes",
+        "read-freeform-notes"
       ],
       "constraints": [],
       "reason": "Captures a local note and keeps it available for later reading.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/andresblancomorales/have-you-note-this/blob/385d6ab95c3e2eb867bb6d872e81a05a14b62a12/README.md",
@@ -3849,17 +4366,17 @@
     {
       "pluginId": "acooper.scratchpad",
       "typeId": "notes",
-      "contractVersion": 2,
+      "contractVersion": 3,
       "metadataHash": "3bd3c38d169f3392040537966c6c6879960b3008d1094f972f1c510fbfce53d5",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "capture-notes",
-        "read-notes"
+        "capture-freeform-notes",
+        "read-freeform-notes"
       ],
       "constraints": [],
       "reason": "Provides an editable scratchpad with saved text available when reopened.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/ACooperDev/Scratchpad/blob/d293b5732de409b6ca6654996716bd1d701fe036/README.md",
@@ -3872,17 +4389,17 @@
     {
       "pluginId": "io.github.huligabuliga.omasticky",
       "typeId": "notes",
-      "contractVersion": 2,
+      "contractVersion": 3,
       "metadataHash": "ddc4fe51b8e3954d86b714f47cedc5807027b4a02e05427813ec8103c759ed34",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "capture-notes",
-        "read-notes"
+        "capture-freeform-notes",
+        "read-freeform-notes"
       ],
       "constraints": [],
       "reason": "Creates editable sticky notes, saves them locally and reopens them for reading.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/huligabuliga/Omasticky/blob/b6a36934d970e79ea80119748fd0713cf03e46b0/README.md",
@@ -3895,17 +4412,17 @@
     {
       "pluginId": "io.github.weedwhitesandwine.omascratch",
       "typeId": "notes",
-      "contractVersion": 2,
+      "contractVersion": 3,
       "metadataHash": "ba925428bd5991a9cc9d395ab481f31002a833d515e608cc664270b53ab561dd",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "capture-notes",
-        "read-notes"
+        "capture-freeform-notes",
+        "read-freeform-notes"
       ],
       "constraints": [],
       "reason": "Captures notes in an autosaving scratchpad and restores the saved text when reopened.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/weedwhitesandwine/omascratch/blob/ed2903ef3855d3283141616c933936f3aec71c0e/README.md",
@@ -3918,19 +4435,18 @@
     {
       "pluginId": "luca.obsidian-daily",
       "typeId": "notes",
-      "contractVersion": 2,
+      "contractVersion": 3,
       "metadataHash": "257cad138ccddb0378c3e8ca4fe42976bc927f5fc567d12ae1f6ee684459b104",
-      "decision": "qualified",
+      "decision": "related",
       "role": "core",
       "capabilities": [
-        "capture-notes",
-        "read-notes"
+        "manage-personal-tasks"
       ],
       "constraints": [
         "Note capture is scoped to checklist entries in configured Obsidian Daily Notes."
       ],
-      "reason": "Adds and reads checklist entries in Obsidian Daily Notes, including previous days.",
-      "reviewedAt": "2026-10-29",
+      "reason": "Adds, reads and completes checkbox tasks inside Obsidian Daily Notes rather than capturing ordinary free-form note bodies.",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/LucaNerlich/obsidian-daily-qs/blob/676bac86139d349655c7419b2b3f55be32f419d3/README.md",
@@ -3943,17 +4459,17 @@
     {
       "pluginId": "rperaza.obsidian-notes",
       "typeId": "notes",
-      "contractVersion": 2,
+      "contractVersion": 3,
       "metadataHash": "7860ab7a849d0fe8a7211659a7b19998cd8f0ce23f53b7291df14514ce274bd1",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "capture-notes",
-        "read-notes"
+        "capture-freeform-notes",
+        "read-freeform-notes"
       ],
       "constraints": [],
       "reason": "Captures Markdown notes in a chosen vault and retrieves them through search, preview and Obsidian opening.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/joisephdev/omarchy-obsidian/blob/00e3680e7bce6570fa1d3c39d5775225707728be/README.md",
@@ -4520,16 +5036,17 @@
     {
       "pluginId": "b.okomart",
       "typeId": "plugin-manager",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "792671b67fbac7d1b659a99978fa5c78aaa214942605c7527ba0f4675347dfd3",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "manage-plugins"
+        "install-plugin",
+        "manage-installed-plugins"
       ],
       "constraints": [],
       "reason": "Browses a curated plugin catalog and installs, enables, updates or removes plugins.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/brianblakely/omarchy-plugins/blob/c8ff3b2f5377c72c8a854c6183617602f904ee62/README.md",
@@ -4584,23 +5101,24 @@
     {
       "pluginId": "omaplug",
       "typeId": "plugin-manager",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "79a50d017256f12e998198b13cba299039fb84c30d326708ca755847a2f31336",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "manage-plugins"
+        "install-plugin",
+        "manage-installed-plugins"
       ],
       "constraints": [],
-      "reason": "Enables, disables, updates and removes installed Omarchy plugins.",
-      "reviewedAt": "2026-10-29",
+      "reason": "Installs plugins from repository URLs and enables, disables, updates or removes installed plugins.",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/fross100/omaplug/blob/ebfec41a28b50bc1ddf352d72d5e1718dfd331cc/README.md",
         "revision": "ebfec41a28b50bc1ddf352d72d5e1718dfd331cc",
         "path": "README.md",
         "sha256": "dc3ad17341a4c88ff71640a04331316441964698c311a5bff981fd83737ea9fb",
-        "evidence": "README.md lines 7-7:\nAccess it right from the Omarchy bar — it gives you a centralized place to view and organize the plugins you have installed. Here are a few things you can use it for:\n\nREADME.md lines 9-12:\n- Easily turn individual plugins on or off as needed.\n- Check for available updates and update them individually — or all at once.\n- Remove plugins individually, or several in one go.\n- Jump straight to each plugin's repo, or browse the [Omarchy marketplace](https://plugins.omarchy.org)."
+        "evidence": "README.md lines 7-7:\nAccess it right from the Omarchy bar — it gives you a centralized place to view and organize the plugins you have installed. Here are a few things you can use it for:\n\nREADME.md lines 9-12:\n- Easily turn individual plugins on or off as needed.\n- Check for available updates and update them individually — or all at once.\n- Remove plugins individually, or several in one go.\n- Jump straight to each plugin's repo, or browse the [Omarchy marketplace](https://plugins.omarchy.org).\n\nREADME.md lines 53-66:\n## What it can do\n\n- **🔌 Enable / disable** — every discovered plugin (Omarchy's own and third-party) gets a simple toggle. Flipping it goes through the same registry the `omarchy plugin enable/disable` command uses, so what you see here is always what's really running.\n- **🔄 Check for updates** — scans every installed third-party plugin and distinguishes clean updates from local plugins, symlinked development plugins, local changes, and genuine fetch errors.\n- **⬆️ Update (or update everything)** — apply one update, or finish every proven-safe pending update from a single click, even while Omarchy reloads changed plugins.\n- **🛡️ Review before installing** — inspect a plugin's icon, name, version, description, source, and marketplace status before installation.\n- **⚙️ Configure updates and launcher access** — choose automatic update checks, bulk-update scope, and whether Omaplug appears in the Omarchy Apps menu.\n- **⌨️ Set plugin shortcuts** — assign per-plugin keyboard shortcuts with live conflict checking.\n- **📊 See clear plugin status** — distinguish Verified, Unverified, Update Unverified, and unlisted plugins.\n- **↔️ Arrange the bar** — reorder bar plugins and access their actions from a clearer management layout.\n- **➕ Install** — paste a git repo URL and add a plugin in one step. It'll warn you first that plugins run as unsandboxed code, because honesty is the default here.\n- **🗑️ Remove** — third-party plugins only. Trash one, or enter Select mode to check several and remove them all at once (with a confirmation, no accidents).\n- **🔗 Source link** — every git-managed plugin gets a `SOURCE` button that jumps straight to its repo page.\n- **🔍 Search & filter** — narrow the list to Omarchy plugins, third-party plugins, or search by name, description, ID, author, or kind."
       }
     },
     {
@@ -5389,6 +5907,54 @@
       }
     },
     {
+      "pluginId": "bottelet.is-it-down",
+      "typeId": "service-status",
+      "contractVersion": 2,
+      "metadataHash": "53ca660cb1920f360300db49f72426904510d8c49478b55b1c7334329cad648d",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "read-provider-incidents"
+      ],
+      "constraints": [
+        "Reads providers’ status pages rather than independently probing each service."
+      ],
+      "reason": "Displays incident and component status from configured services’ published status pages.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/Bottelet/omarchy-is-it-down/blob/b14d1862f9d8bac427a60cf102ae96eca0974dcd/README.md",
+        "revision": "b14d1862f9d8bac427a60cf102ae96eca0974dcd",
+        "path": "README.md",
+        "sha256": "b1aabd0a2e90b3295c996ffcf3df7e3d0239f3b3732430883587e3a039c74c29",
+        "evidence": "README.md lines 3-4:\n*Is it me or is it down?* Watch the status pages of services you depend on\nfrom a detective icon in the Omarchy bar.\n\nREADME.md lines 10-17:\n- Detective icon turns yellow/red with a count badge when a watched service\n  reports trouble.\n- Panel with one tab per service (GitHub, AWS, Cloudflare, npm, Claude,\n  OpenAI, Vercel, PyPI, Discord, Netlify), colored green/yellow/red.\n- Per-service detail: overall status, active incidents, component health.\n- Built-in settings (⚙): toggle services on/off, then drill into a service to\n  enable/disable its AWS regions or components — with a filter and\n  enable/disable-all buttons."
+      }
+    },
+    {
+      "pluginId": "narbs.betterstack",
+      "typeId": "service-status",
+      "contractVersion": 2,
+      "metadataHash": "f3832d0e563086ef6f09e3f8fc74257e97654edf682907a42ceb4da742bd00e0",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "read-provider-incidents"
+      ],
+      "constraints": [
+        "Supports Better Stack v2 status-page markup; other status-page products are not supported. This reads published status rather than probing the service itself."
+      ],
+      "reason": "Reads a configured Better Stack public status page, displaying service health and recent published incidents.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/narbs/betterstack-status-bar-omarchy-plugin/blob/fb95e628316691062255ba02fb288692c9277493/README.md",
+        "revision": "fb95e628316691062255ba02fb288692c9277493",
+        "path": "README.md",
+        "sha256": "805b8ae8537b73778927c1a8b4a306e9b0ffe0f0d7b5c4bfbd2593f7e894f3d1",
+        "evidence": "README.md lines 3-9:\nA status dot in the Omarchy bar for any [Better Stack](https://betterstack.com/)\nstatus page. Green while every monitored service is up, amber when something is\ndegraded, red (and gently pulsing) when something is down. Click it for a panel\nlisting each service with its uptime, plus recent incidents.\n\nWorks with **any** Better Stack status page — point it at your own domain, no\naccount or API token needed.\n\nREADME.md lines 65-72:\n| Key | Type | Default | What it does |\n|---|---|---|---|\n| `url` | string | *(unset)* | The status page to watch. A bare hostname is fine; `https://` is assumed. |\n| `name` | string | *(hostname)* | Title shown in the panel and tooltip. |\n| `refreshIntervalSec` | integer | `60` | Poll interval, clamped to 15–3600. |\n| `timeoutSec` | integer | `10` | Per-request curl timeout, clamped to 2–60. |\n| `showLabel` | boolean | `false` | Show the \"3/3 up\" count next to the dot on horizontal bars. |\n| `showIncidents` | boolean | `true` | Fetch the incident RSS feed and list it in the panel. |\n\nREADME.md lines 116-129:\n## How the data is fetched\n\nBetter Stack status pages have no public JSON API, so the widget reads the same\nthree fragments the status page's own front end polls:\n\n- `GET <url>/overview` — the headline and the \"last updated\" timestamp\n- `GET <url>/sections` — one row per monitored resource, with its uptime figure\n- `GET <url>/feed.rss` — the incident feed (an empty channel when all is well)\n\n`curl` does the fetching, so the shell never blocks on the network, and parsing\nis deliberately defensive: an unrecognised page shape yields an empty result and\nthe last good data stays on screen rather than the widget breaking. No\ncredentials or API tokens are involved — everything read here is what a browser\nvisiting the page would get, and nothing is sent anywhere else."
+      }
+    },
+    {
       "pluginId": "fkcodes.key-promoter",
       "typeId": "shortcut-guides",
       "contractVersion": 1,
@@ -5677,18 +6243,18 @@
     {
       "pluginId": "abdullahmansoor.omapodman",
       "typeId": "system-monitor",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "43e44e8339152194afce03094c4e77f7ba65f38b2bb6e52f096d6f5dd34bfcd5",
-      "decision": "qualified",
+      "decision": "related",
       "role": "substantial-secondary",
       "capabilities": [
-        "inspect-resource-usage"
+        "inspect-container-resource-usage"
       ],
       "constraints": [
         "Resource monitoring is scoped to Podman containers, not all host processes."
       ],
-      "reason": "Shows per-container CPU, memory and storage usage, scoped to rootless Podman workloads.",
-      "reviewedAt": "2026-10-29",
+      "reason": "Shows Podman container resource usage rather than host CPU and memory usage.",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/i228808/omapodman/blob/f0413a10d07dc508f94eb7c8331e50653cd1f7ae/README.md",
@@ -5701,16 +6267,16 @@
     {
       "pluginId": "agnibha.diskspace",
       "typeId": "system-monitor",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "f2b59b4be0b1a2e900caf4cdc7161456478e7bac9e2833bf54bffc3630342274",
-      "decision": "qualified",
+      "decision": "related",
       "role": "core",
       "capabilities": [
-        "inspect-resource-usage"
+        "inspect-filesystem-capacity"
       ],
       "constraints": [],
-      "reason": "Shows mounted filesystems and their used capacity in a native disk-usage panel.",
-      "reviewedAt": "2026-10-29",
+      "reason": "Shows mounted filesystem capacity but does not inspect host CPU and memory usage.",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/Nexus-Agni/omarchy-diskspace/blob/52d5739720d7836b38abeec3644631a1d7e2b9b4/README.md",
@@ -5765,16 +6331,17 @@
     {
       "pluginId": "harshith.system-monitor",
       "typeId": "system-monitor",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "2ed483f7f9afd9c1e0f87c8f366de4498be4e9b95a7e362d6390c4c049b32dbb",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "inspect-resource-usage"
+        "inspect-host-cpu",
+        "inspect-host-memory"
       ],
       "constraints": [],
       "reason": "Shows CPU, memory, disk, network and supported hardware sensor readings.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/Harshith292002/omarchy-system-monitor/blob/2cbbbcc5e97096380a9935de08e4ba8a8adb840e/README.md",
@@ -5829,16 +6396,17 @@
     {
       "pluginId": "stappmus.activity-monitor",
       "typeId": "system-monitor",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "acd4d4b5f68f02a80c8917b160d9945941bfbb8a308e078055853d291ec3b2f9",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "inspect-resource-usage"
+        "inspect-host-cpu",
+        "inspect-host-memory"
       ],
       "constraints": [],
       "reason": "Displays CPU, memory, network and storage activity with a process table.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/stappmus/omarchy-activity-monitor/blob/b25a98c7ff2a688ab74d86d2be42249e2db2f9cf/README.md",
@@ -6023,6 +6591,30 @@
       }
     },
     {
+      "pluginId": "luca.obsidian-daily",
+      "typeId": "tasks",
+      "contractVersion": 1,
+      "metadataHash": "257cad138ccddb0378c3e8ca4fe42976bc927f5fc567d12ae1f6ee684459b104",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "manage-personal-tasks"
+      ],
+      "constraints": [
+        "Task storage and browsing are scoped to configured Obsidian Daily Notes."
+      ],
+      "reason": "Creates, reads, edits and completes checkbox tasks stored in configured Obsidian Daily Notes.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/LucaNerlich/obsidian-daily-qs/blob/676bac86139d349655c7419b2b3f55be32f419d3/README.md",
+        "revision": "676bac86139d349655c7419b2b3f55be32f419d3",
+        "path": "README.md",
+        "sha256": "f3356baca6a6d4ef2aac428ed40051b426057f12e91420465cf868ff0266c316",
+        "evidence": "README.md lines 6-6:\nOmarchy Quattro bar widget for today's [Obsidian daily note](https://obsidian.md/help/plugins/daily-notes) todos: view open items, add new checkboxes, and toggle them from a bar panel.\n\nREADME.md lines 12-15:\n- Omarchy Quattro (Quickshell-based shell) on Linux\n- An Obsidian vault with the Daily notes core plugin configured\n- A supported architecture: x86_64 or aarch64 (arm64)\n- Vault path via the `vaultPath` bar setting **or** `OBSIDIAN_VAULT_ROOT` for the graphical session — see [Set the vault path](#set-the-vault-path)\n\nREADME.md lines 86-96:\n- The value is a folder pattern relative to the vault root, using the same\n  moment-style tokens as the note format (`YYYY`, `YY`, `MMMM`, `MMM`, `MM`,\n  `M`, `dddd`, `ddd`, `DD`, `D`). The formatted note file name is appended,\n  so with `format: \"YYYY-MM-DD\"` the example above resolves `2026-08-20` to\n  `dailies/_archive/2026/2026-08-20.md`.\n- The live path always wins: when a note exists in both places the live one is\n  used, and new notes are always created in the live folder.\n- Archived days are fully usable: the week strip shows their open/done\n  counts, and toggling, adding, editing, indenting, undo and open-in-Obsidian\n  all work on the archived note in place.\n- Leaving the setting empty keeps the default behavior of only looking in the"
+      }
+    },
+    {
       "pluginId": "maduki-tech.omado",
       "typeId": "tasks",
       "contractVersion": 1,
@@ -6177,18 +6769,16 @@
     {
       "pluginId": "io.github.pjgeutjens.clockwork",
       "typeId": "timers-alarms",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "426b866604782a0394c3fdff9bd7d59c20a87123535adca27fd7b1c90c585785",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "run-timer",
-        "run-stopwatch",
-        "schedule-alarm"
+        "run-timer"
       ],
       "constraints": [],
       "reason": "Runs countdowns, a stopwatch, scheduled alarms and interval timers.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/pjgeutjens/omarchy-clockwork/blob/afaa28a80e884f93ff4279724d2170776da24bfe/README.md",
@@ -6201,7 +6791,7 @@
     {
       "pluginId": "pnkm0nk.omodoro",
       "typeId": "timers-alarms",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "1735a7003563a2842fbc5e7d0f7d094c08b25946cb839827544e0c0700075a98",
       "decision": "qualified",
       "role": "core",
@@ -6210,7 +6800,7 @@
       ],
       "constraints": [],
       "reason": "Runs configurable focus and break countdown timers with optional alerts.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/Pnkm0nK/Omodoro/blob/76379ebe27e3b2453289f904c7861b469daabbc1/README.md",
@@ -6325,96 +6915,6 @@
         "path": "README.md",
         "sha256": "a2dbbe52c306bd402397235989de1992984e0f028af4e5adec5a13e9a18efbab",
         "evidence": "README.md lines 3-3:\nPaste text, pick a transformation, get the result back. Fix the grammar, make it shorter, translate it, rewrite it for work email, or anything else you have written a prompt for.\n\nREADME.md lines 7-7:\nThe work is done by the coding agent you have already set up in Omarchy, through `omarchy default agent`. There is no API key to enter, no model to pick and no account to make: if `omarchy agent` starts something on your machine, this widget uses it.\n\nREADME.md lines 11-11:\nType or paste into the top box, choose a transformation, and press the arrow (or Ctrl+Enter). The answer lands in the bottom box and goes straight onto your clipboard, so you can paste it wherever you were heading. A notification says so."
-      }
-    },
-    {
-      "pluginId": "bottelet.is-it-down",
-      "typeId": "uptime-monitoring",
-      "contractVersion": 1,
-      "metadataHash": "53ca660cb1920f360300db49f72426904510d8c49478b55b1c7334329cad648d",
-      "decision": "qualified",
-      "role": "core",
-      "capabilities": [
-        "read-endpoint-availability"
-      ],
-      "constraints": [
-        "Reads providers’ status pages rather than independently probing each service."
-      ],
-      "reason": "Displays incident and component status from configured services’ published status pages.",
-      "reviewedAt": "2026-10-29",
-      "provenance": "repository-evidence",
-      "source": {
-        "url": "https://github.com/Bottelet/omarchy-is-it-down/blob/b14d1862f9d8bac427a60cf102ae96eca0974dcd/README.md",
-        "revision": "b14d1862f9d8bac427a60cf102ae96eca0974dcd",
-        "path": "README.md",
-        "sha256": "b1aabd0a2e90b3295c996ffcf3df7e3d0239f3b3732430883587e3a039c74c29",
-        "evidence": "README.md lines 3-4:\n*Is it me or is it down?* Watch the status pages of services you depend on\nfrom a detective icon in the Omarchy bar.\n\nREADME.md lines 10-17:\n- Detective icon turns yellow/red with a count badge when a watched service\n  reports trouble.\n- Panel with one tab per service (GitHub, AWS, Cloudflare, npm, Claude,\n  OpenAI, Vercel, PyPI, Discord, Netlify), colored green/yellow/red.\n- Per-service detail: overall status, active incidents, component health.\n- Built-in settings (⚙): toggle services on/off, then drill into a service to\n  enable/disable its AWS regions or components — with a filter and\n  enable/disable-all buttons."
-      }
-    },
-    {
-      "pluginId": "daan.uptime-kuma",
-      "typeId": "uptime-monitoring",
-      "contractVersion": 1,
-      "metadataHash": "aaad60367da98ddf33a8f461cb6c088e0e0aca272e5938dd30ae00d27b087267",
-      "decision": "qualified",
-      "role": "core",
-      "capabilities": [
-        "read-endpoint-availability"
-      ],
-      "constraints": [
-        "Requires an Uptime Kuma instance."
-      ],
-      "reason": "Displays availability of websites, services or configured endpoints.",
-      "reviewedAt": "2026-10-12",
-      "provenance": "catalog-evidence",
-      "source": {
-        "url": "https://plugins.omarchy.org/plugin.html?id=daan.uptime-kuma",
-        "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-        "path": "catalog.json",
-        "evidence": "plugins[195].description (daan.uptime-kuma): Show the status of every active Uptime Kuma monitor in a bar popup."
-      }
-    },
-    {
-      "pluginId": "io.github.dupontbertrand.omastatus",
-      "typeId": "uptime-monitoring",
-      "contractVersion": 1,
-      "metadataHash": "92f22b88be31cd91a54597fb3073dd9715c662f81cb21a54636477e946ec17e4",
-      "decision": "qualified",
-      "role": "core",
-      "capabilities": [
-        "read-endpoint-availability"
-      ],
-      "constraints": [],
-      "reason": "Checks configured HTTP, TCP, ping and local service targets and reports availability changes.",
-      "reviewedAt": "2026-10-29",
-      "provenance": "repository-evidence",
-      "source": {
-        "url": "https://github.com/dupontbertrand/omastatus/blob/8e0ae1c121c8982dd5213f9df992f6ee0a0f88b3/README.md",
-        "revision": "8e0ae1c121c8982dd5213f9df992f6ee0a0f88b3",
-        "path": "README.md",
-        "sha256": "3db7e73faf06ce6618c8838fc77b8dd93000ee5cc8e9391db0a86986e32bd778",
-        "evidence": "README.md lines 3-3:\nOmastatus is an independent Omarchy Quattro plugin for watching local and remote services from the bar. A small dot shows the aggregate state: green when every enabled service is up, red as soon as one is down, amber while a check is running or unstable, and grey before anything is configured.\n\nREADME.md lines 5-5:\nClick the dot to open a native panel with a status dot beside every service.\n\nREADME.md lines 13-20:\n- Add, pause, categorise, recategorise, and remove services entirely from the panel.\n- Automatic target detection, plus explicit HTTP, TCP, ping, systemd, Docker, and Kubernetes modes.\n- Concurrent checks, so ten timeouts do not block one after another.\n- Categories with an All/Uncategorised filter.\n- Three persistent panel layouts: grouped detail, compact list, and two-column grid.\n- Configurable 15-second to 5-minute polling from the panel; the CLI accepts 5 seconds to 1 hour.\n- Desktop notifications on a transition to down and on recovery.\n- Private, atomic configuration and state files; no cloud account or monitoring server.\n\nREADME.md lines 38-38:\nDatabase probes intentionally check reachability rather than authenticate. Omastatus rejects usernames and passwords in targets so credentials never land in its JSON configuration.\n\nREADME.md lines 40-40:\nDocker checks use the local Docker CLI. Kubernetes checks use the current `kubectl` context and store only the namespace/kind/name reference; kubeconfig credentials remain managed by Kubernetes tooling."
-      }
-    },
-    {
-      "pluginId": "io.github.majkelll.omarchy-uptime",
-      "typeId": "uptime-monitoring",
-      "contractVersion": 1,
-      "metadataHash": "4236c3ea3488b5dfd352eb8be0b6e330b8b3ecc2e1fff8a6b90b2a4a2a79e6fd",
-      "decision": "qualified",
-      "role": "core",
-      "capabilities": [
-        "read-endpoint-availability"
-      ],
-      "constraints": [],
-      "reason": "Displays availability of websites, services or configured endpoints.",
-      "reviewedAt": "2026-10-12",
-      "provenance": "catalog-evidence",
-      "source": {
-        "url": "https://plugins.omarchy.org/plugin.html?id=io.github.majkelll.omarchy-uptime",
-        "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-        "path": "catalog.json",
-        "evidence": "plugins[1833].description (io.github.majkelll.omarchy-uptime): Watch the sites you care about from the Omarchy bar, with outage history and a notification when one stops answering"
       }
     },
     {
@@ -6601,16 +7101,17 @@
     {
       "pluginId": "ali.iweather",
       "typeId": "weather",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "942767d5598f1f93c79fb5e68119c9ab10a165c8494dcd8a9585f2584802bdbc",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "read-weather"
+        "read-current-weather",
+        "read-weather-forecast"
       ],
       "constraints": [],
       "reason": "Shows current weather and hourly and daily forecasts with location selection.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/alivault/iweather/blob/a3e80e94aa2b66a2bd7a46976dcf24eafc4046a3/README.md",
@@ -6623,14 +7124,14 @@
     {
       "pluginId": "ashis.satellite",
       "typeId": "weather",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "a510de285a1302792fa26b290800ac10482679c3b89c0765e976d69653d33c31",
       "decision": "rejected",
       "role": "integration",
       "capabilities": [],
       "constraints": [],
       "reason": "Shows satellite visibility and orbital passes; proximity to the weather widget is not weather forecasting.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/ashiskharel/omarchy-satellite/blob/0505bc17b6e7d88ff848fb0d8e06b3003f726e45/README.md",
@@ -6664,16 +7165,16 @@
     {
       "pluginId": "eduardodallecort.weather-radar",
       "typeId": "weather",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "1b29255bae405cec9d9b0a3d44f41f96a1bd199488bc70258eaf9c8051406863",
-      "decision": "qualified",
+      "decision": "related",
       "role": "core",
       "capabilities": [
-        "read-weather"
+        "view-precipitation-radar"
       ],
       "constraints": [],
-      "reason": "Displays precipitation radar and a short rain forecast where the weather providers have coverage.",
-      "reviewedAt": "2026-10-29",
+      "reason": "Shows precipitation radar and rain alerts rather than the general current conditions and forecast required here.",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/eduardodallecort/omarchy-weather-radar/blob/7234f1abc6f47738f37d13d8d354c62aca7d82f7/README.md",
@@ -6686,23 +7187,24 @@
     {
       "pluginId": "io.github.calebhat.weather",
       "typeId": "weather",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "959703c362b59efe7729d987ca3822728c4a67eaa5ffac156909ec1898c5ae9d",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "read-weather"
+        "read-current-weather",
+        "read-weather-forecast"
       ],
       "constraints": [],
       "reason": "Shows current conditions and hourly and daily forecasts; radar opens a separate website.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/calebhat/omarchy-weather/blob/f1f3ce66e00e93489ce4086d6641b71471321966/README.md",
         "revision": "f1f3ce66e00e93489ce4086d6641b71471321966",
         "path": "README.md",
         "sha256": "a868bec12ee40b95f1ec1dba99f7056e9b83d31aa2cd272c2df7fee4996e160c",
-        "evidence": "README.md lines 3-6:\nA single Omarchy bar pill that **replaces** the built-in `omarchy.weather`\nwidget. Click it for today's remaining-hour forecast and a ten-day outlook\n(compact strip by default; optional mouse-spinnable orbit).\n**Open radar** launches a saved radar website in your default browser.\n\nREADME.md lines 8-9:\nNamed to sit next to stock Weather, Weathering, and Weather Radar without\ncolliding. Plugin id stays `io.github.calebhat.weather`.\n\nREADME.md lines 11-11:\nNo API key. Location is the same file Omarchy already uses.\n\nREADME.md lines 17-20:\nOmarchy's stock weather pill shows current conditions and a short outlook.\n[Weathering](https://github.com/howdyitskyle/weathering-omarchy-plugin) is a\nricher forecast panel. [Weather Radar](https://github.com/eduardodallecort/omarchy-weather-radar)\nis a separate radar pill.\n\nREADME.md lines 22-25:\nThis plugin is the stock header replacement: a richer forecast, peek at\nanother city without changing home, and **Open radar** to a website you\nchoose (RainViewer, NOAA, Windy, Weather Underground, or a custom https\nURL). There is no in-panel radar map — public tile APIs no longer offer"
+        "evidence": "README.md lines 3-6:\nA single Omarchy bar pill that **replaces** the built-in `omarchy.weather`\nwidget. Click it for today's remaining-hour forecast and a ten-day outlook\n(compact strip by default; optional mouse-spinnable orbit).\n**Open radar** launches a saved radar website in your default browser.\n\nREADME.md lines 8-9:\nNamed to sit next to stock Weather, Weathering, and Weather Radar without\ncolliding. Plugin id stays `io.github.calebhat.weather`.\n\nREADME.md lines 11-11:\nNo API key. Location is the same file Omarchy already uses.\n\nREADME.md lines 17-20:\nOmarchy's stock weather pill shows current conditions and a short outlook.\n[Weathering](https://github.com/howdyitskyle/weathering-omarchy-plugin) is a\nricher forecast panel. [Weather Radar](https://github.com/eduardodallecort/omarchy-weather-radar)\nis a separate radar pill.\n\nREADME.md lines 22-25:\nThis plugin is the stock header replacement: a richer forecast, peek at\nanother city without changing home, and **Open radar** to a website you\nchoose (RainViewer, NOAA, Windy, Weather Underground, or a custom https\nURL). There is no in-panel radar map — public tile APIs no longer offer\n\nREADME.md lines 35-40:\nIntended to stand in for the built-in weather icon in the centre of the\nbar (disable `omarchy.weather` so you only have one pill). The pill shows\na smaller current-condition glyph for your **saved home** location, even\nwhile the panel is peeking at another city. With **Show temperature on the\nbar** on, the current outside temperature sits next to the glyph in the\nsame **°C** / **°F** units as the panel (auto, metric, or imperial).\n\nREADME.md lines 49-60:\n### Forecast\n\nCurrent temperature and condition, feels-like, wind, and precipitation\nchance. New readings count smoothly into place; warming flashes amber with a\nrising mark, while cooling flashes ice-blue with a falling mark. Below that:\n\n- **Today** — remaining hours of the current local day (not a fixed six-cell\n  strip). When only a few hours remain, their cards expand evenly across the\n  full row with symmetric edges; scroll sideways when the day is long. The\n  first cell is **NOW**.\n- **Metrics** — wind (speed and direction), humidity, pressure, UV, air\n  quality (US AQI, PM2.5 / PM10), sunrise and sunset. Each block can be"
       }
     },
     {
@@ -6727,9 +7229,31 @@
       }
     },
     {
+      "pluginId": "eduardodallecort.weather-radar",
+      "typeId": "weather-radar",
+      "contractVersion": 2,
+      "metadataHash": "1b29255bae405cec9d9b0a3d44f41f96a1bd199488bc70258eaf9c8051406863",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "view-precipitation-radar"
+      ],
+      "constraints": [],
+      "reason": "Shows a native precipitation radar map and recent radar frames for the selected location.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/eduardodallecort/omarchy-weather-radar/blob/7234f1abc6f47738f37d13d8d354c62aca7d82f7/README.md",
+        "revision": "7234f1abc6f47738f37d13d8d354c62aca7d82f7",
+        "path": "README.md",
+        "sha256": "965c2376df951865569ede5a9f7f44c1d7f50b5074cf3a25f77a79fe7b9a8b39",
+        "evidence": "README.md lines 3-5:\nLive weather radar for the [Omarchy](https://omarchy.org) bar. Click the bar\nicon for a map centred on your location, scrub through the last two hours of\nprecipitation, and optionally be told when a storm is on its way.\n\nREADME.md lines 7-8:\nWorks anywhere RainViewer has radar coverage, which is most of the populated\nworld — no account and no API key.\n\nREADME.md lines 12-15:\n> **Not a life-safety tool.** This plugin is informational. It shows\n> best-effort third-party radar with no availability guarantee, and it can be\n> late, wrong, or silent. For decisions that matter, use your national weather\n> service and civil defence warnings."
+      }
+    },
+    {
       "pluginId": "expose.window-overview",
       "typeId": "window-management",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "80a7152b780ebfbd5bdf9397dc4060c0fa85bce10f7be8aa679d6e3de781a894",
       "decision": "qualified",
       "role": "core",
@@ -6738,7 +7262,7 @@
       ],
       "constraints": [],
       "reason": "Shows a searchable overview of windows and activates a selected window.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/kristofferR/omarchy-expose/blob/f283002259f5aba75da17b3f5dd4081bddc257f5/README.md",
@@ -6793,7 +7317,7 @@
     {
       "pluginId": "io.github.pablo-merino.altswitch",
       "typeId": "window-management",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "9fbc7a175e83826808bfb0b9aedacde9765c9cc73adcce1fb459d7415f1a4e77",
       "decision": "qualified",
       "role": "core",
@@ -6802,7 +7326,7 @@
       ],
       "constraints": [],
       "reason": "Switches among windows across normal workspaces in recent-use order.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/Pablo-Merino/omarchy-altswitch/blob/8f54d684c89d66ecf51e6e5a9c5c574758de79be/README.md",
@@ -6836,17 +7360,17 @@
     {
       "pluginId": "aditya.workspace-icons",
       "typeId": "workspaces",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "b9a0e79e70eb03dd8b95a328eb76839ba10fba038f08f5fce3405a31a8e04def",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "navigate-workspaces",
-        "show-workspace-state"
+        "show-workspace-state",
+        "navigate-workspaces"
       ],
       "constraints": [],
       "reason": "Displays workspace occupancy with application icons and switches to selected workspaces.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/adityamiskin/omarchy-workspace-icons/blob/d5c7af4af2a6c8bea4500d71861d6c1dbf2d8658/README.md",
@@ -6859,7 +7383,7 @@
     {
       "pluginId": "agileautomation.workspace-bands",
       "typeId": "workspaces",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "acdf03a7966669692f1b15b70d68d218b524e6d24e9b85fbe7655d4d59e38140",
       "decision": "related",
       "role": "integration",
@@ -6868,7 +7392,7 @@
       ],
       "constraints": [],
       "reason": "Changes the focused workspace’s tiling geometry; it does not expose workspace navigation or occupancy.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/unipsycho/omarchy-workspace-bands/blob/20a2a0f0c648e804c933494b7c670f9dd49bc464/README.md",
@@ -6902,17 +7426,17 @@
     {
       "pluginId": "mirador",
       "typeId": "workspaces",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "e9e0efe895ccc92b8a77f482ebaf9dbc33f175225f52d605190e2958bf1acd73",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "navigate-workspaces",
-        "show-workspace-state"
+        "show-workspace-state",
+        "navigate-workspaces"
       ],
       "constraints": [],
       "reason": "Displays a workspace overview with window activation and movement between workspaces.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/sanjyay/Mirador/blob/cd0d86f304beda7696cd4e5c685206d54c940796/README.md",
@@ -6946,17 +7470,17 @@
     {
       "pluginId": "tornikegomareli.spaces",
       "typeId": "workspaces",
-      "contractVersion": 1,
+      "contractVersion": 2,
       "metadataHash": "1789ae428267a4c2a60329c9c214f77009eba07e526d132d261917e82ae59737",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "navigate-workspaces",
-        "show-workspace-state"
+        "show-workspace-state",
+        "navigate-workspaces"
       ],
       "constraints": [],
       "reason": "Shows workspace occupancy and app icons and switches to selected workspaces or windows.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-10-30",
       "provenance": "repository-evidence",
       "source": {
         "url": "https://github.com/tornikegomareli/omarchy-spaces/blob/458852c88336722f61d8c67487bc03d4d3523893/README.md",
@@ -6964,6 +7488,54 @@
         "path": "README.md",
         "sha256": "f1d2b834feca6a7f54a70d5f0c8c2b7b1dd2125659afdbfb1fb447644733ddb3",
         "evidence": "README.md lines 3-3:\n<h3 align=\"center\">See what runs on every workspace.</h3>\n\nREADME.md lines 9-9:\nSpaces is a workspace switcher for the [Omarchy](https://omarchy.org) bar. Each workspace shows the icons of the apps open on it. The active one slides open, and the focused window is highlighted.\n\nREADME.md lines 13-13:\nHover another workspace to see it live, laid out the way it is on screen. Click a window in the preview to jump to it.\n\nREADME.md lines 15-15:\nPreviews follow the monitor's orientation, including portrait displays, and shrink to fit the available screen space while keeping the full workspace visible. The size setting controls the longest side, so portrait and landscape previews have a comparable size."
+      }
+    },
+    {
+      "pluginId": "io.github.nimbleaininja.omachron",
+      "typeId": "world-clocks",
+      "contractVersion": 2,
+      "metadataHash": "8d21eea1618fe01ea22d1c41905b0db86378807c3c052ff7f4b6a508e7a7da54",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "read-multiple-time-zones",
+        "compare-time-zones"
+      ],
+      "constraints": [
+        "The time scrubber uses current UTC offsets, so comparisons crossing a daylight-saving transition can be off by an hour."
+      ],
+      "reason": "Shows clocks for multiple cities with time-zone offsets and shifts the clocks together to compare times across zones.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/NimbleAINinja/omarchy-omachron/blob/4dfbbdaa48c21f04c4a1e670f7a75512c09880b0/README.md",
+        "revision": "4dfbbdaa48c21f04c4a1e670f7a75512c09880b0",
+        "path": "README.md",
+        "sha256": "34a289e2bc53be91b9c22874e53b931146b2649bdb0cbc439007122bba97034f",
+        "evidence": "README.md lines 3-4:\nA globe in the Omarchy bar that opens a dot-matrix world map showing where it is\nday and where it is night right now, with clocks for the cities you care about.\n\nREADME.md lines 20-31:\n- **City clocks.** One row per city with its zone abbreviation, UTC offset, the\n  current time, and a `+1d` / `−1d` hint when that city is already on another\n  calendar day.\n- **Time scrubber.** A slider under the map shifts the whole view up to 24\n  hours forward or back, snapping to wall-clock quarter hours (and back to\n  now within fifteen minutes of centre), and moves the terminator, the sun and\n  every clock together. Right-click the slider to snap back to now; it also resets when the\n  panel closes.\n- **In-panel editor.** Type a city name in the search field at the bottom\n  (Open-Meteo geocoding), pick a result to add it. Hover or move the cursor to a\n  row and press its `x` to remove it, or drag rows to reorder them. The list is\n  saved to your `shell.json`.\n\nREADME.md lines 105-107:\nInvalid zones are shown with `?` instead of a time. Scrubbed times use the UTC\noffsets in effect now, so a scrub across a DST switch is off by that hour. Deleting the `cities` key\nrestores the defaults."
+      }
+    },
+    {
+      "pluginId": "io.github.sspaeti.timezones",
+      "typeId": "world-clocks",
+      "contractVersion": 2,
+      "metadataHash": "93f57f8a2066322f3e057a76fcea2d28beef26534c808e1809eb94c84e2f0c08",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "read-multiple-time-zones",
+        "compare-time-zones"
+      ],
+      "constraints": [],
+      "reason": "Shows local and world clocks and compares hours across selected time zones.",
+      "reviewedAt": "2026-10-30",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/sspaeti/omarchy-timezones-plugin/blob/8419c2e56c0e33d2cc3eeefeff556a2fa2689bcf/README.md",
+        "revision": "8419c2e56c0e33d2cc3eeefeff556a2fa2689bcf",
+        "path": "README.md",
+        "sha256": "ebeb3b7b278ba5448960e42d43d10d81286d80ee2416cbef92e898e8a52de9f8",
+        "evidence": "README.md lines 3-4:\nA minimal world clock for the [Omarchy](https://omarchy.org/) bar, inspired by\n[worldtimebuddy.com](https://www.worldtimebuddy.com/).\n\nREADME.md lines 6-6:\nhttps://github.com/user-attachments/assets/a7331091-9311-4ace-9f88-e05948ee1e34\n\nREADME.md lines 8-13:\nA single globe icon in the bar expands to your zones' current times on hover.\nClicking it opens an hour-grid popup: one 24-hour strip per timezone, all\ncolumns aligned on the same absolute moment, with business hours highlighted,\na \"now\" line, and day boundaries marked. Hover any column and every row's\nheader shows that exact moment in its zone — \"10am PDT is what in my time?\"\nanswered in one glance, in both directions.\n\nREADME.md lines 15-18:\nNo network, no API: offsets and abbreviations come straight from the system's\ntzdata (`TZ=<zone> date`), so summer/winter time is always correct. The home\nrow follows the **system timezone**, so when you travel and update Omarchy's\ntimezone, the home row updates with you."
       }
     }
   ]
