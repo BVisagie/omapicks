@@ -3,6 +3,7 @@ import { createHash } from "node:crypto";
 import { readFile, stat } from "node:fs/promises";
 import test from "node:test";
 import {
+  PALETTE,
   escapeHtml,
   featuredDayIndex,
   featuredTypes,
@@ -399,6 +400,9 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
     readFile(new URL("../dist/site.webmanifest", import.meta.url), "utf8"),
     pickType.winner ? readFile(new URL(`../dist/badges/${rankings.week}/${pickType.id}/${encodeURIComponent(pickType.winner.id)}.svg`, import.meta.url), "utf8") : Promise.resolve("")
   ]);
+  const manifestColours = JSON.parse(manifestSource);
+  assert.equal(manifestColours.background_color, PALETTE.bg);
+  assert.equal(manifestColours.theme_color, PALETTE.bg);
   const typeCount = rankings.types.length;
   const featured = featuredTypes(rankings, 5);
   assert.match(home, /rel="icon" href="\/assets\/icon\.svg" type="image\/svg\+xml" sizes="any"/);
@@ -532,9 +536,9 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.match(feedPage, /href="\/feed\/" aria-current="page">RSS/);
   assert.match(feedPage, /href="\/feed\.xml">https:\/\/omapicks\.com\/feed\.xml<\/a>/);
   assert.match(feedPage, /data-theme-toggle/);
-  assert.match(feedPage, /<article>/);
+  assert.match(feedPage, /<article class="glass">/);
   const rssTitles = [...feed.matchAll(/<item><title>(.*?)<\/title>/g)].map((match) => match[1]);
-  const pageTitles = [...feedPage.matchAll(/<article>\s*<time[^>]*>.*?<\/time>\s*<div><h2><a[^>]*>(.*?)<\/a><\/h2>/g)].map((match) => match[1]);
+  const pageTitles = [...feedPage.matchAll(/<article class="glass">\s*<time[^>]*>.*?<\/time>\s*<div><h2><a[^>]*>(.*?)<\/a><\/h2>/g)].map((match) => match[1]);
   assert.deepEqual(pageTitles, rssTitles);
   assert.ok(rssTitles.length > 0);
   assert.match(home, /href="\/feed\/">RSS<\/a>/);
@@ -647,7 +651,8 @@ test("weekly summary compares snapshots and handles unchanged and vacant picks",
   const previous = { ...fixtureRankings(), week: "2026-W35" };
   const changed = renderFixtureHome(current, [previous]);
   assert.match(changed, /1 category has a champion change/);
-  assert.match(changed, /New replaces Safe Plugin/);
+  assert.match(changed, /<b>New<\/b> <em>replaces Safe Plugin\.<\/em>/);
+  assert.match(changed, /<dt>Champion changes<\/dt><dd data-count="1">1<\/dd>/);
   assert.match(changed, /New to Omarchy/);
   assert.match(changed, /See all weekly changes/);
   const unchanged = renderFixtureHome(fixtureRankings(), [previous]);
@@ -665,7 +670,7 @@ test("feed keeps the newest 50 changes, words vacancies plainly, and skips bad d
   ];
   const { page, rss } = renderFixtureFeed(history);
   assert.equal([...rss.matchAll(/<item>/g)].length, 50);
-  assert.equal([...page.matchAll(/<article>/g)].length, 50);
+  assert.equal([...page.matchAll(/<article class="glass">/g)].length, 50);
   assert.match(rss, /<title>Plugin 30 is the Type 30 champion<\/title>/);
   assert.match(rss, /<description>Music has no champion this week\.<\/description>/);
   assert.match(page, /Music has no champion this week\./);
@@ -809,7 +814,7 @@ test("the changelog lists runner-up events separately and older weeks without th
     ] },
     { week: "2026-W39", generatedAt: "2026-09-21T06:17:00Z", changes: [{ typeId: "clock", typeName: "Clock", kind: "displaced", previous: { id: "a", name: "A" }, current: { id: "c", name: "C" } }] }
   ]);
-  const [w40, w39] = html.split('<section>').slice(-2);
+  const [w40, w39] = html.split('<section class="glass reveal">').slice(-2);
   assert.match(w40, /No champion changes\./);
   assert.match(w40, /<h3 class="timeline-subhead">Runner-up changes<\/h3>/);
   assert.match(w40, /Music has no runner-up this week\. YouTube &lt;Music&gt; could not be reached in the latest marketplace check\./);

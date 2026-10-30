@@ -118,6 +118,11 @@ test("skip link reaches main content and theme persists", async ({ page }) => {
   await page.goto("/");
   await page.keyboard.press("Tab");
   await expect(page.getByRole("link", { name: "Skip to content" })).toBeFocused();
+  // The focused link must not be covered by the sticky header.
+  expect(await page.getByRole("link", { name: "Skip to content" }).evaluate((link) => {
+    const box = link.getBoundingClientRect();
+    return document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2) === link;
+  })).toBe(true);
   await page.keyboard.press("Enter");
   await page.keyboard.press("Tab");
   await expect(page.getByRole("link", { name: /^Browse \d+ categor(?:y|ies)$/ })).toBeFocused();
@@ -159,6 +164,189 @@ for (const theme of ["light", "dark"]) {
     expect(errors).toEqual([]);
   });
 }
+
+test("the hero finder doubles as a command palette and returns to the hero on close", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  const palette = page.locator("[data-palette]");
+  await expect(page.locator(".hero-aside .hero-finder")).toHaveCount(1);
+  await expect(palette).toBeHidden();
+  await page.keyboard.press("/");
+  await expect(palette).toBeVisible();
+  await expect(palette.locator(".hero-finder")).toHaveCount(1);
+  await expect(page.getByRole("searchbox")).toBeFocused();
+  await page.getByRole("searchbox").fill("clipboard");
+  await page.keyboard.press("ArrowDown");
+  await expect(page.locator("[data-finder-item]:visible a").first()).toBeFocused();
+  // A character typed while a result has focus belongs to the query.
+  await page.keyboard.press("s");
+  await expect(page.getByRole("searchbox")).toBeFocused();
+  await expect(page.getByRole("searchbox")).toHaveValue("clipboards");
+  await page.getByRole("searchbox").fill("clipboard");
+  await page.keyboard.press("ArrowDown");
+  await expect(page.locator("[data-finder-item]:visible a").first()).toBeFocused();
+  await page.keyboard.press("ArrowUp");
+  await expect(page.getByRole("searchbox")).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(palette).toBeHidden();
+  await expect(page.locator(".hero-aside .hero-finder")).toHaveCount(1);
+  const trigger = page.locator(".site-header [data-open-palette]");
+  await expect(trigger).toBeVisible();
+  await trigger.click();
+  await expect(palette).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(trigger).toBeFocused();
+  await page.keyboard.press("Control+k");
+  await expect(palette).toBeVisible();
+  await page.getByRole("searchbox").fill("clipboard");
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL(/\/picks\/clipboard\/$/);
+});
+
+test("the palette makes the rest of the page inert and tall sections still reveal on phones", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  await page.keyboard.press("/");
+  await expect(page.locator(".site-header[inert]")).toHaveCount(1);
+  await expect(page.locator("footer[inert]")).toHaveCount(1);
+  await expect(page.locator(".hero[inert]")).toHaveCount(1);
+  await expect(page.locator("[data-palette][inert]")).toHaveCount(0);
+  await page.keyboard.press("Escape");
+  await expect(page.locator("[inert]")).toHaveCount(0);
+  for (const width of [320, 375, 680]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+    await page.locator("#catalog").scrollIntoViewIfNeeded();
+    await expect(page.locator(".readout-panel")).toHaveClass(/is-in/);
+    await expect(page.locator(".readout-panel")).toHaveCSS("opacity", "1");
+    // Narrow catalog cells wrap instead of ellipsizing the availability note.
+    await expect(page.locator(".catalog-row .champ").first()).toHaveCSS("white-space", "normal");
+  }
+  // Status badges sit on preview images, so their background must be opaque.
+  expect(await page.locator(".support .badge .status").first().evaluate((node) => getComputedStyle(node).backgroundColor)).toMatch(/^rgb\(/);
+  // Status badges on pick tiles must stay in the accessibility tree (not inside an aria-hidden media wrapper).
+  expect(await page.locator(".support .badge .status").first().evaluate((node) => Boolean(node.closest("[aria-hidden='true']")))).toBe(false);
+  expect(await page.locator(".support .badge .status").first().textContent()).toMatch(/Snapshot verified|Verified snapshot; update unverified|Community|Currently unavailable|Availability unknown/);
+});
+
+test("reduced motion shows every section in its final state without waiting for scroll", async ({ browser }) => {
+  const context = await browser.newContext({ reducedMotion: "reduce", viewport: { width: 1440, height: 900 } });
+  const page = await context.newPage();
+  await page.goto("http://127.0.0.1:4173/");
+  const states = await page.locator(".reveal").evaluateAll((nodes) => nodes.map((node) => {
+    const style = getComputedStyle(node);
+    return [style.opacity, style.transform];
+  }));
+  expect(states.length).toBeGreaterThan(5);
+  for (const [opacity, transform] of states) {
+    expect(opacity).toBe("1");
+    expect(transform).toBe("none");
+  }
+  expect(await page.locator(".aurora").first().evaluate((node) => getComputedStyle(node).animationName)).toBe("none");
+  for (const layer of [".aurora", ".grain"]) {
+    expect(await page.locator(layer).first().evaluate((node) => getComputedStyle(node).display), layer).toBe("none");
+  }
+  // Hover animations collapse to a single instant frame as well.
+  const row = page.locator(".catalog-row").first();
+  await row.scrollIntoViewIfNeeded();
+  await row.hover();
+  const durations = await row.evaluate((node) => [getComputedStyle(node).animationDuration, getComputedStyle(node, "::before").animationDuration]);
+  for (const duration of durations) expect(parseFloat(duration)).toBeLessThan(0.001);
+  await context.close();
+});
+
+test("print uses paper and ink without translucent tiles", async ({ page }) => {
+  await page.goto("/");
+  await page.emulateMedia({ media: "print" });
+  expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe("rgb(255, 255, 255)");
+  expect(await page.evaluate(() => getComputedStyle(document.body).color)).toBe("rgb(17, 17, 17)");
+  expect(await page.locator(".glass").first().evaluate((node) => getComputedStyle(node).backdropFilter)).toBe("none");
+  expect(await page.locator(".atmosphere").evaluate((node) => getComputedStyle(node).display)).toBe("none");
+});
+
+test("the compare pill sits below the tile metadata and never covers it on hover", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  const tile = page.locator(".support").first();
+  await tile.scrollIntoViewIfNeeded();
+  await tile.hover();
+  await expect(tile.locator(".feature-action")).toHaveCSS("opacity", "1");
+  const meta = await tile.locator(".support-meta").boundingBox();
+  const pill = await tile.locator(".feature-action").boundingBox();
+  expect(pill.y).toBeGreaterThanOrEqual(meta.y + meta.height - 1);
+});
+
+test("touch screens always see the compare pill on pick tiles", async ({ browser }) => {
+  const context = await browser.newContext({ hasTouch: true, viewport: { width: 1200, height: 900 } });
+  const page = await context.newPage();
+  await page.goto("http://127.0.0.1:4173/");
+  await page.locator(".support .feature-action").first().scrollIntoViewIfNeeded();
+  await expect(page.locator(".support .feature-action").first()).toHaveCSS("opacity", "1");
+  await context.close();
+});
+
+test("the radar and headline decode are enhancements that leave the content intact", async ({ page, browser, request }) => {
+  const html = await (await request.get("/")).text();
+  const heading = html.match(/<h1>([^<]+)<\/h1>/)[1];
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  await expect(page.locator("[data-radar]")).toBeVisible();
+  expect(await page.locator("[data-radar] canvas").evaluate((canvas) => canvas.width > 0)).toBe(true);
+  await page.locator("[data-radar] canvas").hover({ position: { x: 145, y: 60 } });
+  await expect(page.locator("[data-radar-pick]")).not.toHaveText("—");
+  // The sweep runs while motion is allowed, freezes when the preference changes, and resumes.
+  const capture = () => page.locator("[data-radar] canvas").evaluate((canvas) => canvas.toDataURL());
+  // Polled rather than sampled at a fixed interval: a loaded CI runner can take longer than a
+  // frame or two to paint the next sweep position.
+  const changesFrom = (frame) => expect.poll(async () => (await capture()) !== frame, { timeout: 5000 }).toBe(true);
+  await page.mouse.move(5, 5);
+  await changesFrom(await capture());
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.waitForTimeout(300);
+  const frozen = [await capture(), await page.waitForTimeout(400).then(capture)];
+  expect(frozen[0]).toBe(frozen[1]);
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await changesFrom(await capture());
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(heading, { timeout: 3000 });
+  expect(await page.locator(".hero h1 .decode").count()).toBe(0);
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const plain = await context.newPage();
+  await plain.goto("http://127.0.0.1:4173/");
+  await expect(plain.locator("[data-radar]")).toBeHidden();
+  await expect(plain.locator("[data-palette]")).toBeHidden();
+  await expect(plain.locator("[data-open-palette]")).toHaveCount(3);
+  await expect(plain.locator("[data-open-palette]:visible")).toHaveCount(0);
+  await expect(plain.getByRole("searchbox")).toBeVisible();
+  await context.close();
+});
+
+test("a tap on a radar node opens its category on touch screens", async ({ browser }) => {
+  const context = await browser.newContext({ hasTouch: true, reducedMotion: "reduce", viewport: { width: 1200, height: 900 } });
+  const page = await context.newPage();
+  await page.goto("http://127.0.0.1:4173/");
+  const canvas = page.locator("[data-radar] canvas");
+  await expect(canvas).toBeVisible();
+  // Under reduced motion the first finder item is node 0: angle 0 on the inner ring (0.34 of the radius).
+  const target = await canvas.evaluate((node) => {
+    const size = node.getBoundingClientRect().width;
+    return { x: size / 2 + (size / 2 - 12) * 0.34, y: size / 2 };
+  });
+  const href = await page.locator("[data-finder-item] a").first().getAttribute("href");
+  await canvas.tap({ position: target });
+  await expect(page).toHaveURL(new RegExp(`${href.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`));
+  await context.close();
+});
+
+test("fragment links land their heading below the sticky header", async ({ page }) => {
+  for (const width of [1440, 320]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/methodology/#data-sources");
+    const heading = await page.locator("#data-sources").boundingBox();
+    const header = await page.locator(".site-header").boundingBox();
+    expect(heading.y, `${width}px`).toBeGreaterThanOrEqual(header.y + header.height);
+  }
+});
 
 test("discovery and email remain usable without JavaScript", async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
@@ -250,3 +438,24 @@ test("reviewed evidence opens by keyboard and unavailable selections stay readab
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `reviewed evidence at ${width}px`).toBe(true);
   }
 });
+
+// Width sweep: every page type, both themes, from phones to desktop, with nothing requested from
+// outside the site and no script errors.
+for (const theme of ["dark", "light"]) {
+  test(`${theme} width sweep keeps every page type inside the viewport with no errors or outside requests`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme: theme });
+    const problems = [];
+    page.on("pageerror", (error) => problems.push(`pageerror ${error.message}`));
+    page.on("requestfailed", (request) => problems.push(`failed ${request.url()}`));
+    page.on("request", (request) => { if (!request.url().startsWith("http://127.0.0.1:4173/")) problems.push(`outside ${request.url()}`); });
+    page.on("response", (response) => { if (response.status() >= 400) problems.push(`${response.status()} ${response.url()}`); });
+    for (const width of [320, 390, 768, 1024, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      for (const route of ["/", "/picks/clipboard/", "/picks/network/", "/picks/file-sync/", "/picks/notifications/", "/methodology/", "/changelog/", "/feed/"]) {
+        await page.goto(route);
+        expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${route} at ${width}px`).toBe(true);
+      }
+    }
+    expect(problems).toEqual([]);
+  });
+}

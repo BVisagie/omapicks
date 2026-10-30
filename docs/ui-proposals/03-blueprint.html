@@ -1,0 +1,1177 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OmaPicks — Proposal 03 · Blueprint (mockup)</title>
+  <meta name="description" content="Design proposal mockup: an engineering-drawing interface for OmaPicks with a printed weekly receipt.">
+  <meta name="color-scheme" content="light dark">
+  <style>
+    /* ------------------------------------------------------------------
+       0. Tokens
+       Light is the primary theme (paper + blueprint blue). Dark inverts the
+       drawing: navy paper, cyan lines. The receipt and its stamp are physical
+       objects and keep their own fixed inks in both themes.
+       ------------------------------------------------------------------ */
+    :root {
+      color-scheme: light;
+      --paper: #f6f4ee;
+      --ink: #1c1f2b;
+      --blue: #2456e6;
+      --accent: #166d67;
+      --stamp: #d33a2c;
+      --muted: #5d6273;
+      --line: rgba(28, 31, 43, 0.18);
+      --line-strong: rgba(28, 31, 43, 0.5);
+      --dot: rgba(28, 31, 43, 0.16);
+      --grid: rgba(36, 86, 230, 0.09);
+      --card: #fffdf8;
+      --well: #ece8dc;
+      --tint-blend: multiply;
+      --receipt-paper: #fffdf8;
+      --receipt-ink: #262935;
+      --receipt-red: #d33a2c;
+      --mono: "CaskaydiaMono NF", "Cascadia Mono", "JetBrainsMono NF", "JetBrains Mono", ui-monospace, monospace;
+      --sans: "Inter", system-ui, "Segoe UI", sans-serif;
+      --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --paper: #0f1a3a;
+      --ink: #eaf0ff;
+      --blue: #7cc4ff;
+      --accent: #8bd5ca;
+      --stamp: #ff6b6b;
+      --muted: #9fb0d8;
+      --line: rgba(124, 196, 255, 0.22);
+      --line-strong: rgba(124, 196, 255, 0.55);
+      --dot: rgba(124, 196, 255, 0.22);
+      --grid: rgba(124, 196, 255, 0.08);
+      --card: #132352;
+      --well: #0b1430;
+      --tint-blend: screen;
+    }
+
+    /* ------------------------------------------------------------------
+       1. Base and drafting paper
+       ------------------------------------------------------------------ */
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font: 16px/1.55 var(--sans);
+      background-color: var(--paper);
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px),
+        radial-gradient(circle, var(--dot) 1px, transparent 1.3px);
+      background-size: 120px 120px, 120px 120px, 24px 24px;
+      background-position: -1px -1px, -1px -1px, 11px 11px;
+    }
+
+    a { color: inherit; text-decoration-color: color-mix(in srgb, var(--blue) 55%, transparent); text-underline-offset: 0.16em; }
+    a:hover { color: var(--blue); }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    :focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+    img { max-width: 100%; }
+
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
+
+    .skip-link {
+      position: fixed; z-index: 40; left: 1rem; top: 1rem; padding: 0.55rem 0.8rem;
+      background: var(--ink); color: var(--paper); transform: translateY(-180%);
+      font-family: var(--mono); font-size: 0.85rem;
+    }
+    .skip-link:focus { transform: translateY(0); }
+
+    /* Registration marks on the viewport corners, like a print proof. */
+    .reg { position: fixed; z-index: 30; width: 22px; height: 22px; pointer-events: none; opacity: 0.55; }
+    .reg::before, .reg::after { content: ""; position: absolute; background: var(--blue); }
+    .reg::before { left: 0; right: 0; top: 50%; height: 1px; }
+    .reg::after { top: 0; bottom: 0; left: 50%; width: 1px; }
+    .reg i { position: absolute; inset: 5px; border: 1px solid var(--blue); border-radius: 50%; }
+    .reg.tl { left: 12px; top: 12px; } .reg.tr { right: 12px; top: 12px; }
+    .reg.bl { left: 12px; bottom: 12px; } .reg.br { right: 12px; bottom: 12px; }
+
+    .frame { width: min(1180px, calc(100% - 3rem)); margin: 0 auto; }
+
+    /* ------------------------------------------------------------------
+       2. Typography helpers
+       ------------------------------------------------------------------ */
+    .kicker, .fig {
+      margin: 0 0 0.7rem; color: var(--blue); font-family: var(--mono);
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .fig { color: var(--muted); font-weight: 600; }
+    .fig b { color: var(--blue); }
+    h1, h2, h3 { margin: 0; font-family: var(--sans); font-weight: 700; letter-spacing: -0.025em; line-height: 1.05; }
+    h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); }
+    h3 { font-size: 1.25rem; letter-spacing: -0.015em; line-height: 1.2; }
+    .lede { max-width: 38rem; margin: 1rem 0 0; color: var(--muted); font-size: 1.08rem; }
+    .mono { font-family: var(--mono); }
+    .muted { color: var(--muted); }
+
+    .button {
+      display: inline-flex; align-items: center; justify-content: center; min-height: 2.6rem; padding: 0 1.1rem;
+      border: 1.5px solid var(--ink); background: var(--ink); color: var(--paper); text-decoration: none;
+      font-family: var(--mono); font-size: 0.88rem; font-weight: 700; letter-spacing: 0.02em;
+      box-shadow: 3px 3px 0 var(--blue); transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease);
+    }
+    .button:hover { color: var(--paper); transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--blue); }
+    .button:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--blue); }
+    .text-link { color: var(--blue); font-family: var(--mono); font-size: 0.88rem; font-weight: 700; }
+
+    .chip {
+      display: inline-block; padding: 0.08em 0.5em; border: 1px solid currentcolor; color: var(--accent);
+      font-family: var(--mono); font-size: 0.64rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; vertical-align: middle;
+    }
+    .chip.stale { color: var(--muted); border-style: dashed; }
+
+    /* ------------------------------------------------------------------
+       3. Header
+       ------------------------------------------------------------------ */
+    .site-header {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.8rem 1.4rem;
+      min-height: 5rem; border-bottom: 1.5px solid var(--ink);
+    }
+    .brand { display: inline-flex; align-items: center; gap: 0.55rem; font-weight: 800; font-size: 1.3rem; letter-spacing: -0.03em; text-decoration: none; }
+    .brand svg { width: 30px; height: 30px; }
+    .brand:hover { color: inherit; }
+    .site-header nav { display: flex; align-items: center; gap: clamp(0.8rem, 2vw, 1.5rem); font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; }
+    .site-header nav a { text-decoration: none; }
+    .proposal-tag { color: var(--blue); border: 1px solid var(--blue); padding: 0.15em 0.55em; font-weight: 700; }
+    .theme-toggle { min-height: 2.1rem; padding: 0 0.8rem; border: 1px solid var(--line-strong); background: transparent; color: var(--ink); font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; }
+    .theme-toggle:hover { border-color: var(--blue); color: var(--blue); }
+
+    /* ------------------------------------------------------------------
+       4. Hero + receipt (FIG. 1)
+       ------------------------------------------------------------------ */
+    .hero {
+      position: relative; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr); gap: 3rem;
+      align-items: start; padding: 3.6rem 0 3rem; border-bottom: 1px solid var(--line);
+    }
+    .hero h1 { max-width: 14ch; font-size: clamp(2.6rem, 5.4vw, 4.4rem); letter-spacing: -0.035em; line-height: 1.02; }
+    .ul { position: relative; display: inline-block; }
+    .ul svg { position: absolute; left: -0.02em; right: 0; bottom: -0.08em; width: 102%; height: 0.34em; overflow: visible; }
+    .ul path { fill: none; stroke: var(--blue); stroke-width: 3.5; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+    .trust { margin: 1.1rem 0 0; font-family: var(--mono); font-size: 0.86rem; color: var(--ink); }
+    .trust::before { content: "// "; color: var(--blue); }
+    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem 1.4rem; margin: 1.6rem 0 0; }
+    .dim-line { display: block; width: min(100%, 440px); height: auto; margin: 2rem 0 0; overflow: visible; }
+    .dim-line path { fill: none; stroke: var(--blue); stroke-width: 1.5; }
+    .dim-line .arrow { fill: var(--blue); stroke: none; }
+    .dim-line text { font: 600 11px var(--mono); fill: var(--ink); letter-spacing: 0.04em; }
+
+    .watermark {
+      position: absolute; right: -0.1em; top: 0.35rem; z-index: 0; pointer-events: none; user-select: none;
+      font: 800 clamp(6rem, 13vw, 11rem)/1 var(--sans); letter-spacing: -0.05em; color: transparent;
+      -webkit-text-stroke: 1.5px var(--blue); opacity: 0.2;
+    }
+
+    /* The receipt is a figure: printer slot, paper strip, stamp, caption. */
+    .receipt-fig { position: relative; z-index: 1; margin: 0; justify-self: center; width: min(100%, 330px); }
+    .printer { position: relative; z-index: 3; height: 14px; margin: 0 -10px; border-radius: 4px; background: var(--ink); box-shadow: 0 2px 0 rgba(0, 0, 0, 0.25); }
+    .printer::before { content: ""; position: absolute; left: 12px; right: 12px; top: 5px; height: 3px; background: var(--paper); opacity: 0.45; border-radius: 2px; }
+    .printer i { position: absolute; right: 8px; top: 4px; width: 6px; height: 6px; border-radius: 50%; background: #58e38a; box-shadow: 0 0 6px #58e38a; animation: led 0.45s steps(1) 5; }
+    .receipt-print { position: relative; z-index: 2; margin-top: -4px; animation: print 1.25s var(--ease) 0.45s both; }
+    .receipt-shadow { filter: drop-shadow(0 10px 14px rgba(20, 25, 40, 0.22)) drop-shadow(0 1px 1px rgba(20, 25, 40, 0.15)); }
+    .receipt {
+      position: relative; padding: 1.25rem 1.1rem 1.15rem; background: var(--receipt-paper); color: var(--receipt-ink);
+      font: 600 0.72rem/1.65 var(--mono); letter-spacing: 0.02em; text-transform: uppercase;
+      background-image: repeating-linear-gradient(0deg, transparent 0 3px, rgba(0, 0, 0, 0.012) 3px 4px);
+    }
+    .receipt .r-head { text-align: center; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.12em; }
+    .receipt .r-sub { text-align: center; font-size: 0.68rem; }
+    .receipt .r-sub span { margin: 0 0.35em; }
+    .receipt .r-rule { height: 0; margin: 0.45rem 0; border-top: 1.5px dashed rgba(38, 41, 53, 0.55); }
+    .receipt .r-line { display: flex; align-items: baseline; gap: 0.35em; }
+    .receipt .r-line .dots { flex: 1; min-width: 0.8em; border-bottom: 2px dotted rgba(38, 41, 53, 0.65); transform: translateY(-0.3em); }
+    .receipt .r-line em { font-style: normal; font-weight: 800; }
+    .receipt .r-section { margin-top: 0.15rem; font-weight: 800; }
+    .barcode { height: 46px; margin: 0.85rem 0.3rem 0.25rem; background: repeating-linear-gradient(90deg, var(--receipt-ink) 0 2px, transparent 2px 4px, var(--receipt-ink) 4px 5px, transparent 5px 8px, var(--receipt-ink) 8px 11px, transparent 11px 13px, var(--receipt-ink) 13px 14px, transparent 14px 17px); }
+    .r-code { text-align: center; font-size: 0.7rem; letter-spacing: 0.22em; }
+    .r-thanks { margin: 0.6rem 0 0; text-align: center; font-size: 0.7rem; letter-spacing: 0.08em; }
+    .receipt-fig figcaption { margin: 1rem 0 0; color: var(--muted); font-family: var(--mono); font-size: 0.7rem; line-height: 1.5; }
+    .receipt-fig figcaption b { color: var(--blue); }
+
+    .stamp {
+      position: absolute; display: inline-block; padding: 0.4em 0.75em 0.38em; border: 3px double var(--stamp); border-radius: 7px;
+      color: var(--stamp); font: 800 0.95rem/1.1 var(--mono); letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap;
+      transform: rotate(-12deg); opacity: 0.92; pointer-events: none;
+      -webkit-mask-image: radial-gradient(circle, #000 0.75px, rgba(0, 0, 0, 0.4) 1px) 0 0 / 3px 3px;
+      mask-image: radial-gradient(circle, #000 0.75px, rgba(0, 0, 0, 0.4) 1px) 0 0 / 3px 3px;
+    }
+    .stamp small { display: block; font-size: 0.56em; letter-spacing: 0.22em; text-align: center; opacity: 0.9; }
+    .receipt-fig .stamp { z-index: 4; right: -7%; bottom: 17%; color: var(--receipt-red); border-color: var(--receipt-red); mix-blend-mode: multiply; animation: slam 0.42s cubic-bezier(0.2, 1.3, 0.3, 1) 1.9s both; }
+    .tech-card .stamp { z-index: 3; right: 0.6rem; top: 4.4rem; font-size: 0.78rem; }
+
+    @keyframes print { from { clip-path: inset(-8% -14% 112% -14%); } to { clip-path: inset(-8% -14% -16% -14%); } }
+    @keyframes slam { 0% { opacity: 0; transform: rotate(-12deg) scale(1.7); } 70% { opacity: 1; transform: rotate(-12deg) scale(0.95); } 100% { opacity: 0.92; transform: rotate(-12deg) scale(1); } }
+    @keyframes led { 50% { opacity: 0.25; } }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* ------------------------------------------------------------------
+       5. Finder (drafting input + index cards)
+       ------------------------------------------------------------------ */
+    .finder { padding: 2.2rem 0 2.4rem; border-bottom: 1px solid var(--line); }
+    .finder-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.5rem 1.5rem; }
+    .finder-input { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.6rem; margin-top: 0.8rem; padding: 0.2rem 0; border-bottom: 2px solid var(--ink); font-family: var(--mono); }
+    .finder-input:focus-within { border-bottom-color: var(--blue); }
+    .finder-input .prompt { color: var(--blue); font-weight: 800; font-size: 1.1rem; }
+    .finder-field { position: relative; min-width: 0; }
+    .finder-input input { position: relative; z-index: 1; width: 100%; padding: 0.5rem 0; border: 0; background: transparent; color: var(--ink); font: 1.1rem var(--mono); caret-color: transparent; outline: 0; }
+    .finder-input input::placeholder { color: var(--muted); }
+    .finder-input input:focus::placeholder { color: transparent; }
+    .finder-input .mirror { position: absolute; left: 0; top: 50%; max-width: 100%; overflow: hidden; transform: translateY(-50%); pointer-events: none; white-space: pre; font: 1.1rem var(--mono); color: transparent; }
+    .finder-input .caret { display: inline-block; width: 0.6em; height: 1.1em; vertical-align: -0.2em; background: var(--blue); animation: blink 1.1s steps(1) infinite; }
+    .finder-input .count { color: var(--muted); font-size: 0.74rem; font-variant-numeric: tabular-nums; }
+    .index-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.85rem; margin: 1rem 0 0; padding: 0; list-style: none; }
+    .index-cards a {
+      position: relative; display: block; padding: 0.55rem 0.8rem 0.65rem; color: inherit; text-decoration: none;
+      background: var(--card) repeating-linear-gradient(transparent 0 1.44rem, var(--line) 1.44rem 1.5rem);
+      background-origin: content-box; border: 1px solid var(--line-strong); box-shadow: 2px 2px 0 var(--line);
+      transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), border-color 0.15s;
+    }
+    .index-cards a::before { content: ""; position: absolute; left: 0; right: 0; top: calc(0.55rem + 1.44rem); height: 1px; background: color-mix(in srgb, var(--stamp) 55%, transparent); }
+    .index-cards a:hover, .index-cards a:focus-visible { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--blue); border-color: var(--blue); color: inherit; }
+    .index-cards strong { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; line-height: 1.5rem; }
+    .index-cards span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted); font-family: var(--mono); font-size: 0.74rem; line-height: 1.5rem; }
+    .index-cards span b { color: var(--blue); font-weight: 700; }
+    .finder-empty { margin: 1rem 0 0; color: var(--muted); font-family: var(--mono); font-size: 0.86rem; }
+
+    /* ------------------------------------------------------------------
+       6. Category map (FIG. 1b) and sparkline (FIG. 2)
+       ------------------------------------------------------------------ */
+    .map-section { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(16rem, 0.8fr); gap: 2.5rem; padding: 2.6rem 0; border-bottom: 1px solid var(--line); }
+    .map-wrap { position: relative; }
+    .map-scroll { overflow-x: auto; overflow-y: hidden; padding-bottom: 0.3rem; }
+    .map-wrap svg { display: block; width: 100%; min-width: 640px; height: auto; overflow: visible; }
+    .map-wrap .bus { fill: none; stroke: var(--blue); stroke-width: 1.4; }
+    .map-wrap .edge { fill: none; stroke: var(--blue); stroke-width: 1.4; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 0.9s var(--ease) var(--d, 0s); }
+    .map-wrap .edge.leaf-edge { stroke-width: 1; stroke-dasharray: 1; opacity: 0.85; }
+    .map-wrap.in .edge { stroke-dashoffset: 0; }
+    .map-wrap .node { opacity: 0; transition: opacity 0.4s ease var(--d, 0s); }
+    .map-wrap.in .node { opacity: 1; }
+    .map-wrap .center circle { fill: var(--ink); stroke: var(--blue); stroke-width: 2; }
+    .map-wrap .center text { fill: var(--paper); font: 800 13px var(--sans); letter-spacing: -0.02em; text-anchor: middle; }
+    .map-wrap .cluster rect { fill: var(--card); stroke: var(--blue); stroke-width: 1.4; }
+    .map-wrap .cluster text { fill: var(--ink); font: 700 11.5px var(--mono); letter-spacing: 0.04em; text-anchor: middle; }
+    .map-wrap .leaf { cursor: pointer; outline: 0; }
+    .map-wrap .leaf circle { fill: var(--paper); stroke: var(--blue); stroke-width: 1.6; transition: r 0.15s, fill 0.15s; }
+    .map-wrap .leaf text { fill: var(--ink); font: 600 11px var(--mono); }
+    .map-wrap .leaf:hover circle, .map-wrap .leaf:focus-visible circle { fill: var(--blue); r: 7; }
+    .map-wrap .leaf:hover text, .map-wrap .leaf:focus-visible text { fill: var(--blue); }
+    .map-wrap .leaf.hot circle { stroke-width: 2.4; }
+    .map-wrap .leaf.hot text { font-weight: 800; }
+    .tip { position: absolute; z-index: 5; padding: 0.3rem 0.55rem; background: var(--ink); color: var(--paper); font: 0.72rem/1.3 var(--mono); white-space: nowrap; border-radius: 3px; transform: translate(-50%, calc(-100% - 12px)); opacity: 0; pointer-events: none; transition: opacity 0.12s; }
+    .tip.show { opacity: 1; }
+    .tip::after { content: ""; position: absolute; left: 50%; top: 100%; margin-left: -5px; border: 5px solid transparent; border-top-color: var(--ink); }
+    .map-note { margin: 0.6rem 0 0; color: var(--muted); font-family: var(--mono); font-size: 0.7rem; }
+
+    .spark { margin-top: 0.4rem; padding: 1rem; border: 1px solid var(--line-strong); background: var(--card); }
+    .spark svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .spark .axis { stroke: var(--line-strong); stroke-width: 1; }
+    .spark .gridline { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 3; }
+    .spark .area { fill: url(#hatch-blue); opacity: 0; transition: opacity 0.6s ease 0.6s; }
+    .spark .trace { fill: none; stroke: var(--blue); stroke-width: 2; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.2s var(--ease); }
+    .spark .pt { fill: var(--paper); stroke: var(--blue); stroke-width: 1.6; opacity: 0; transition: opacity 0.3s ease var(--d, 0s); }
+    .spark text { font: 600 9px var(--mono); fill: var(--muted); }
+    .spark .val { fill: var(--ink); font-size: 9.5px; text-anchor: middle; }
+    .spark.in .area, .spark.in .pt { opacity: 1; }
+    .spark.in .trace { stroke-dashoffset: 0; }
+    .spark-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem 1rem; margin: 1.1rem 0 0; padding-top: 0.8rem; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 0.74rem; }
+    .spark-stats div { display: flex; justify-content: space-between; gap: 0.6rem; }
+    .spark-stats dt { color: var(--muted); } .spark-stats dd { margin: 0; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+    /* ------------------------------------------------------------------
+       7. Sheets: showdown (A), ledger (B), spec table (TABLE 1)
+       ------------------------------------------------------------------ */
+    .sheet { padding: 2.6rem 0; border-bottom: 1px solid var(--line); }
+    .sheet-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 0.6rem 2rem; margin-bottom: 1.4rem; }
+    .sheet-head p.note { margin: 0; color: var(--muted); font-family: var(--mono); font-size: 0.76rem; }
+    .sheet-head h2 a { text-decoration-color: var(--blue); }
+
+    .tech-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.6rem; }
+    .tech-card { position: relative; padding: 1.4rem 1.1rem 1.2rem; background: var(--card); border: 1.5px solid var(--ink); box-shadow: 4px 4px 0 var(--line); }
+    .tech-card.champion { border-color: var(--blue); box-shadow: 4px 4px 0 var(--blue); }
+    .callout { position: absolute; left: 1rem; top: -0.85rem; z-index: 2; padding: 0.12em 0.7em; background: var(--paper); border: 1.5px solid var(--blue); border-radius: 999px; color: var(--blue); font: 700 0.72rem var(--mono); letter-spacing: 0.08em; text-transform: uppercase; }
+    .callout::after { content: ""; position: absolute; left: 1.1rem; top: 100%; width: 1.5px; height: 0.9rem; background: var(--blue); }
+    .tech-card .flags { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem; min-height: 1.4rem; margin: 0 0 0.75rem; }
+    .dim { position: relative; height: 1.1rem; margin: 0.1rem 0 0.5rem; border-top: 1px solid var(--blue); }
+    .dim::before, .dim::after { content: ""; position: absolute; top: -5px; width: 1px; height: 10px; background: var(--blue); }
+    .dim::before { left: 0; } .dim::after { right: 0; }
+    .dim span { position: absolute; left: 50%; top: -0.6rem; padding: 0 0.5em; transform: translateX(-50%); background: var(--card); color: var(--blue); font: 600 0.64rem/1.2 var(--mono); letter-spacing: 0.06em; }
+
+    /* Halftone/dither image treatment that resolves to the clean image. */
+    .halftone { position: relative; overflow: hidden; margin: 0; aspect-ratio: 16 / 10; background: var(--well); border: 1px solid var(--line-strong); }
+    .halftone img { display: block; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.15) brightness(1.03); transition: filter 0.5s ease; }
+    .halftone::before { content: ""; position: absolute; inset: 0; z-index: 1; background: var(--blue); mix-blend-mode: var(--tint-blend); opacity: 0.22; transition: opacity 0.5s ease; pointer-events: none; }
+    .halftone::after { content: ""; position: absolute; inset: 0; z-index: 2; background: radial-gradient(circle, var(--paper) 0.7px, transparent 1.1px) 0 0 / 4px 4px; opacity: 0.48; transition: opacity 0.5s ease; pointer-events: none; }
+    .tech-card:hover .halftone img, .tech-card:focus-within .halftone img { filter: none; }
+    .tech-card:hover .halftone::before, .tech-card:hover .halftone::after,
+    .tech-card:focus-within .halftone::before, .tech-card:focus-within .halftone::after { opacity: 0; }
+    .no-preview { display: grid; place-items: center; aspect-ratio: 16 / 10; margin: 0; border: 1px solid var(--line-strong); background: var(--well) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Cpath d='M-1 1l2-2M0 12L12 0M11 13l2-2' stroke='%235d6273' stroke-opacity='.45' stroke-width='1'/%3E%3C/svg%3E"); }
+    .no-preview span { padding: 0.4em 0.8em; background: var(--card); border: 1px dashed var(--line-strong); color: var(--muted); font: 700 0.7rem var(--mono); letter-spacing: 0.1em; text-transform: uppercase; }
+    .tech-card h3 { margin: 0.9rem 0 0.2rem; }
+    .tech-card h3 a { text-decoration: none; }
+    .byline { margin: 0; color: var(--muted); font-family: var(--mono); font-size: 0.76rem; }
+    .tech-card p.desc { margin: 0.7rem 0 0; color: var(--muted); font-size: 0.95rem; }
+    .delta-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1.2rem; margin: 1.4rem 0 0; padding-top: 1rem; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 0.88rem; color: var(--muted); }
+    .delta-line .delta { color: var(--blue); font-weight: 800; font-size: 1.05rem; }
+
+    .ledger-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 2.5rem; }
+    .ledger { margin: 1rem 0 0; padding: 0; list-style: none; border-top: 2px solid var(--ink); }
+    .ledger li { display: grid; grid-template-columns: 2.2rem 1.2rem minmax(0, 1fr); gap: 0.5rem; padding: 0.7rem 0; border-bottom: 1px solid var(--line); font-size: 0.95rem; }
+    .ledger .idx { color: var(--blue); font-family: var(--mono); font-size: 0.78rem; font-weight: 700; }
+    .ledger .mark { color: var(--accent); font-family: var(--mono); font-weight: 800; }
+    .ledger b { font-weight: 700; }
+    .ledger-foot { margin: 1rem 0 0; color: var(--muted); font-size: 0.9rem; }
+    .more-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem; }
+    .more-card { display: block; color: inherit; text-decoration: none; border: 1px solid var(--line-strong); background: var(--card); transition: border-color 0.15s, box-shadow 0.15s var(--ease), transform 0.15s var(--ease); }
+    .more-card:hover, .more-card:focus-visible { color: inherit; border-color: var(--blue); box-shadow: 4px 4px 0 var(--blue); transform: translate(-1px, -1px); }
+    .more-card .halftone { aspect-ratio: 16 / 9; border: 0; border-bottom: 1px solid var(--line); }
+    .more-card:hover .halftone img { filter: none; } .more-card:hover .halftone::before, .more-card:hover .halftone::after { opacity: 0; }
+    .more-body { padding: 0.75rem 0.85rem 0.9rem; }
+    .more-body .fig { margin-bottom: 0.25rem; }
+    .more-body h3 { font-size: 1.05rem; }
+    .more-body p { margin: 0.3rem 0 0; color: var(--muted); font-family: var(--mono); font-size: 0.72rem; }
+    .more-body .delta { color: var(--blue); font-weight: 700; }
+
+    .table-wrap { overflow-x: auto; }
+    .spec-table { width: 100%; min-width: 640px; border-collapse: collapse; border-top: 2px solid var(--ink); font: 0.84rem/1.4 var(--mono); }
+    .spec-table th { padding: 0.6rem 0.5rem; border-bottom: 1px solid var(--line-strong); color: var(--muted); font-size: 0.66rem; font-weight: 700; letter-spacing: 0.08em; text-align: left; text-transform: uppercase; }
+    .spec-table td { padding: 0.62rem 0.5rem; border-bottom: 1px solid var(--line); vertical-align: baseline; }
+    .spec-table td.idx { width: 2.8rem; color: var(--blue); font-weight: 700; font-variant-numeric: tabular-nums; }
+    .spec-table td.cat { font-family: var(--sans); font-weight: 650; }
+    .spec-table td.cat a { text-decoration: none; }
+    .spec-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .spec-table .author { color: var(--muted); }
+    .spec-table tr:hover td { background: color-mix(in srgb, var(--blue) 7%, transparent); }
+    .spec-table tr:hover td.cat a { color: var(--blue); }
+    .table-note { margin: 0.8rem 0 0; color: var(--muted); font-family: var(--mono); font-size: 0.72rem; }
+
+    /* ------------------------------------------------------------------
+       8. Category view (FIG. 3)
+       ------------------------------------------------------------------ */
+    .breadcrumbs { margin-top: 1.6rem; color: var(--muted); font-family: var(--mono); font-size: 0.8rem; }
+    .type-intro { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.75fr); gap: 2rem; align-items: end; padding: 2.4rem 0 2rem; border-bottom: 1px solid var(--line); }
+    .type-intro h1 { font-size: clamp(2.8rem, 6.5vw, 5rem); letter-spacing: -0.04em; }
+    .type-intro .watermark { right: 0; top: -0.2em; font-size: clamp(5rem, 11vw, 9rem); opacity: 0.13; }
+    .type-intro-copy p { margin: 0; color: var(--muted); }
+    .type-intro-copy .share { display: flex; flex-wrap: wrap; gap: 0.6rem 1.2rem; margin-top: 0.8rem; }
+    .builtin { display: grid; grid-template-columns: 11rem minmax(0, 1fr); gap: 1.5rem; padding: 1.2rem 0; border-bottom: 1px solid var(--line); }
+    .builtin h2 { font-size: 1rem; font-family: var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--blue); }
+    .builtin p { margin: 0 0 0.5rem; color: var(--muted); }
+    .builtin strong a { text-decoration-color: var(--blue); }
+    .command-row { display: flex; margin-top: 0.6rem; border: 1px solid var(--line-strong); background: var(--paper); }
+    .command-row code { flex: 1; min-width: 0; overflow: hidden; padding: 0.62rem 0.7rem; font: 0.72rem/1.4 var(--mono); text-overflow: ellipsis; white-space: nowrap; }
+    .command-row button { min-width: 4.4rem; padding: 0 0.8rem; border: 0; border-left: 1px solid var(--line-strong); background: var(--well); color: var(--ink); font: 700 0.74rem var(--mono); letter-spacing: 0.04em; text-transform: uppercase; }
+    .command-row button:hover { background: var(--blue); color: var(--paper); }
+    .podium { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.6rem; padding: 2.4rem 0 0; }
+    .spec-card .why { margin: 0.8rem 0 0; padding: 0.7rem 0.85rem; border-left: 3px solid var(--blue); background: color-mix(in srgb, var(--blue) 7%, var(--card)); font-size: 0.92rem; }
+    .spec-card .why p { margin: 0; } .spec-card .why p + p { margin-top: 0.3rem; }
+    .spec-card .why .src { margin-top: 0.35rem; color: var(--muted); font-family: var(--mono); font-size: 0.7rem; }
+    .spec-card .won { margin: 0.8rem 0 0; color: var(--blue); font-weight: 600; font-size: 0.95rem; }
+    .spec-card .listed { margin: 0.2rem 0 0; color: var(--muted); font-family: var(--mono); font-size: 0.7rem; }
+    .card-links { display: flex; gap: 1rem; margin-top: 0.8rem; font-size: 0.84rem; }
+    .disclaimer { margin: 0.9rem 0 0; color: var(--muted); font-size: 0.76rem; line-height: 1.45; }
+    .badge-embed { margin-top: 1rem; padding-top: 0.9rem; border-top: 1px solid var(--line); }
+    .badge-embed p { margin: 0 0 0.5rem; color: var(--muted); font-size: 0.82rem; }
+    .badge-preview { display: inline-flex; align-items: stretch; margin: 0 0 0.3rem; border: 1px solid var(--line-strong); font: 700 0.66rem/1 var(--mono); letter-spacing: 0.04em; }
+    .badge-preview span { padding: 0.35em 0.55em; }
+    .badge-preview span:first-child { background: var(--ink); color: var(--paper); }
+    .badge-preview span:last-child { background: var(--blue); color: var(--paper); }
+
+    .compare { padding: 2.6rem 0; border-bottom: 1px solid var(--line); }
+    .compare-head { display: grid; grid-template-columns: minmax(12rem, 0.6fr) minmax(18rem, 1fr); gap: 2rem; align-items: end; margin-bottom: 1.3rem; }
+    .compare-head p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+    .legend { display: flex; flex-wrap: wrap; gap: 0.5rem 1.4rem; margin: 0 0 0.6rem; font: 700 0.74rem var(--mono); }
+    .legend span { display: inline-flex; align-items: center; gap: 0.45rem; }
+    .sw { display: inline-block; width: 1.4rem; height: 0.7rem; border: 1px solid var(--blue); background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Cpath d='M-1 1l2-2M0 6L6 0M5 7l2-2' stroke='%232456e6' stroke-width='1.3'/%3E%3C/svg%3E"); }
+    .sw.b { border-color: var(--muted); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Cpath d='M-1 1l2-2M0 6L6 0M5 7l2-2' stroke='%235d6273' stroke-width='1.3'/%3E%3C/svg%3E"); }
+    :root[data-theme="dark"] .sw { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Cpath d='M-1 1l2-2M0 6L6 0M5 7l2-2' stroke='%237cc4ff' stroke-width='1.3'/%3E%3C/svg%3E"); }
+    :root[data-theme="dark"] .sw.b { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Cpath d='M-1 1l2-2M0 6L6 0M5 7l2-2' stroke='%239fb0d8' stroke-width='1.3'/%3E%3C/svg%3E"); }
+    .cmp { border-top: 2px solid var(--ink); }
+    .cmp-row { display: grid; grid-template-columns: 11rem minmax(0, 1fr); gap: 1.2rem; align-items: center; padding: 0.55rem 0; border-bottom: 1px solid var(--line); }
+    .cmp-row.score { background: color-mix(in srgb, var(--blue) 5%, transparent); }
+    .cmp-label { font: 600 0.82rem/1.3 var(--mono); }
+    .cmp-label small { display: block; color: var(--muted); font-size: 0.66rem; font-weight: 500; }
+    .scale { position: relative; padding: 0.25rem 4.2rem 0.25rem 0; }
+    .scale::before { content: ""; position: absolute; left: 0; right: 4.2rem; top: 0; bottom: 0; background: repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 10%); background-size: calc(100% + 1px) 100%; border-right: 1px solid var(--line-strong); }
+    .bar { position: relative; height: 11px; width: 0; margin: 4px 0; border: 1px solid var(--blue); background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Cpath d='M-1 1l2-2M0 6L6 0M5 7l2-2' stroke='%232456e6' stroke-width='1.3'/%3E%3C/svg%3E"); transition: width 1s var(--ease); }
+    .bar.b { border-color: var(--muted); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Cpath d='M-1 1l2-2M0 6L6 0M5 7l2-2' stroke='%235d6273' stroke-width='1.3'/%3E%3C/svg%3E"); }
+    :root[data-theme="dark"] .bar { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Cpath d='M-1 1l2-2M0 6L6 0M5 7l2-2' stroke='%237cc4ff' stroke-width='1.3'/%3E%3C/svg%3E"); }
+    :root[data-theme="dark"] .bar.b { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Cpath d='M-1 1l2-2M0 6L6 0M5 7l2-2' stroke='%239fb0d8' stroke-width='1.3'/%3E%3C/svg%3E"); }
+    .cmp.in .bar { width: var(--w); }
+    .bar span { position: absolute; left: calc(100% + 0.5rem); top: -3px; font: 700 0.72rem/1 var(--mono); white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .bar.b span { color: var(--muted); }
+
+    .alts { padding: 2.4rem 0; border-bottom: 1px solid var(--line); }
+    .alts-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem; margin-top: 1rem; }
+    .alt-card { padding: 1rem 1.1rem 1.1rem; border: 1px solid var(--line-strong); background: var(--card); }
+    .alt-card h3 { font-size: 1.1rem; }
+    .alt-card .why { margin-top: 0.6rem; }
+    .method-note { display: grid; grid-template-columns: 10rem minmax(0, 1fr); gap: 1.5rem; padding: 2.2rem 0; border-bottom: 1px solid var(--line); }
+    .method-note h2 { font-size: 1rem; font-family: var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--blue); }
+    .method-note p { margin: 0; color: var(--muted); }
+    .explore { padding: 2.2rem 0 3rem; }
+    .explore-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-bottom: 1rem; }
+    .explore-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 2px solid var(--ink); }
+    .explore-grid a { padding: 0.75rem 0.8rem 0.75rem 0; border-bottom: 1px solid var(--line); text-decoration: none; }
+    .explore-grid a:nth-child(3n + 2), .explore-grid a:nth-child(3n + 3) { padding-left: 0.8rem; border-left: 1px solid var(--line); }
+    .explore-grid span { display: block; color: var(--muted); font-family: var(--mono); font-size: 0.7rem; }
+    .explore-grid strong { display: block; font-size: 1rem; }
+    .pager { display: grid; grid-template-columns: 1fr 1fr; margin-top: 1.2rem; }
+    .pager a { display: flex; flex-direction: column; padding: 0.7rem 0; text-decoration: none; }
+    .pager a:last-child { align-items: end; text-align: right; }
+    .pager span { color: var(--muted); font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* ------------------------------------------------------------------
+       9. Footer: engineering title block + attribution
+       ------------------------------------------------------------------ */
+    footer { padding: 2.6rem 0 3rem; }
+    .title-block { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border: 1.5px solid var(--ink); background: var(--card); font-family: var(--mono); }
+    .title-block div { padding: 0.55rem 0.7rem; border-right: 1px solid var(--line-strong); min-width: 0; }
+    .title-block div:last-child { border-right: 0; }
+    .title-block span { display: block; color: var(--muted); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; }
+    .title-block strong { display: block; overflow: hidden; font-size: 0.8rem; text-overflow: ellipsis; white-space: nowrap; }
+    footer p { max-width: 60rem; margin: 1.3rem 0 0; color: var(--muted); font-size: 0.86rem; }
+    footer p a { color: inherit; }
+
+    .toast { position: fixed; left: 50%; bottom: 1.6rem; z-index: 50; padding: 0.6rem 0.9rem; background: var(--ink); color: var(--paper); font: 0.78rem var(--mono); border-radius: 3px; transform: translate(-50%, 1rem); opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s var(--ease); }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    /* ------------------------------------------------------------------
+       10. Scroll reveal + motion preferences
+       ------------------------------------------------------------------ */
+    .rise { opacity: 0; transform: translateY(12px); transition: opacity 0.55s ease, transform 0.55s var(--ease); }
+    .rise.in { opacity: 1; transform: none; }
+    .draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 0.9s var(--ease) forwards; }
+    .draw.d2 { animation-delay: 0.45s; } .draw.d3 { animation-delay: 0.85s; }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: 0.001ms !important; animation-delay: 0s !important; transition-duration: 0.001ms !important; transition-delay: 0s !important; }
+      .finder-input .caret, .printer i { animation: none; }
+    }
+
+    /* ------------------------------------------------------------------
+       11. Responsive
+       ------------------------------------------------------------------ */
+    @media (max-width: 960px) {
+      .hero { grid-template-columns: 1fr; gap: 2.4rem; }
+      .receipt-fig { justify-self: start; }
+      .map-section { grid-template-columns: minmax(0, 1fr); }
+      .map-section > div { min-width: 0; }
+      .ledger-grid { grid-template-columns: 1fr; }
+      .compare-head { grid-template-columns: 1fr; }
+      .title-block { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .title-block div:nth-child(3) { border-right: 0; }
+      .title-block div:nth-child(-n + 3) { border-bottom: 1px solid var(--line-strong); }
+      .type-intro { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 680px) {
+      .reg { display: none; }
+      .frame { width: calc(100% - 2rem); }
+      .site-header nav { width: 100%; flex-wrap: wrap; }
+      .hero { padding-top: 2.4rem; }
+      .hero h1 { font-size: clamp(2.2rem, 11vw, 3rem); }
+      .watermark { display: none; }
+      .index-cards { grid-template-columns: 1fr; }
+      .tech-pair, .more-grid, .podium, .alts-grid { grid-template-columns: 1fr; }
+      .builtin, .method-note { grid-template-columns: 1fr; gap: 0.6rem; }
+      .cmp-row { grid-template-columns: 1fr; gap: 0.3rem; }
+      .explore-grid { grid-template-columns: 1fr; }
+      .explore-grid a:nth-child(n) { padding-left: 0; border-left: 0; }
+      .title-block { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .title-block div:nth-child(odd) { border-right: 1px solid var(--line-strong); }
+      .title-block div:nth-child(even) { border-right: 0; }
+      .title-block div:nth-child(-n + 4) { border-bottom: 1px solid var(--line-strong); }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <span class="reg tl" aria-hidden="true"><i></i></span>
+  <span class="reg tr" aria-hidden="true"><i></i></span>
+  <span class="reg bl" aria-hidden="true"><i></i></span>
+  <span class="reg br" aria-hidden="true"><i></i></span>
+
+  <div class="frame">
+    <header class="site-header">
+      <a class="brand" href="#home" aria-label="OmaPicks home">
+        <svg viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="4" width="56" height="56" rx="10" stroke="var(--ink)" stroke-width="3"/>
+          <path d="m16 20 12 12-12 12" stroke="var(--blue)" stroke-width="5"/>
+          <path d="M33 44h16" stroke="var(--ink)" stroke-width="5"/>
+        </svg>
+        OmaPicks
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#catalog">Method</a>
+        <a href="#ledger">Changes</a>
+        <a href="#catalog">RSS</a>
+        <span class="proposal-tag">Proposal 03 · Blueprint</span>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="Switch to dark theme">Dark</button>
+      </nav>
+    </header>
+
+    <main id="main">
+      <!-- ============================================================ HOME -->
+      <section id="home" data-view="home" aria-label="This week's picks">
+        <section class="hero">
+          <div class="hero-copy">
+            <p class="fig"><b>FIG. 1</b> — weekly ranking, 2026-W44 · published Monday, October 26, 2026</p>
+            <h1>Find the best Omarchy plugin <span class="ul">for the job.<svg viewBox="0 0 300 14" preserveAspectRatio="none" aria-hidden="true"><path class="draw d2" pathLength="1" d="M3 9c40-6 80-7 120-4s80 7 118 2c20-3 40-4 56-2"/></svg></span></h1>
+            <p class="lede">A champion and a runner-up in each category, qualified by task evidence and rescored every Monday from Omarchy Plugins.</p>
+            <p class="trust">No votes. No sponsorships. A reproducible weekly snapshot from Omarchy Plugins.</p>
+            <p class="hero-actions">
+              <a class="button" href="#catalog">Browse 64 categories</a>
+              <a class="text-link" href="#catalog">How rankings work</a>
+            </p>
+            <svg class="dim-line" viewBox="0 0 440 40" aria-hidden="true">
+              <path class="draw" pathLength="1" d="M5 10v26M435 10v26"/>
+              <path class="draw d2" pathLength="1" d="M5 24H435"/>
+              <path class="arrow" d="M5 24l10-5v10zM435 24l-10-5v10z"/>
+              <text x="220" y="17" text-anchor="middle">64 CATEGORIES ⟷ 255 REVIEWED ENTRIES</text>
+            </svg>
+          </div>
+
+          <span class="watermark" aria-hidden="true">W44</span>
+
+          <figure class="receipt-fig">
+            <div class="printer" aria-hidden="true"><i></i></div>
+            <div class="receipt-print">
+              <div class="receipt-shadow">
+                <div class="receipt" id="receipt" aria-label="Printed weekly snapshot receipt">
+                  <div class="r-head">OmaPicks &nbsp;*&nbsp; Weekly Snapshot</div>
+                  <div class="r-sub">Week 2026-W44 <span>·</span> 26 Oct 2026 07:36 UTC</div>
+                  <div class="r-rule"></div>
+                  <div class="r-section">Featured: Screen Recording</div>
+                  <div class="r-line"><span>01 Easy Capture</span><span class="dots"></span><em>0.941</em></div>
+                  <div class="r-line"><span>02 OmaSwiss</span><span class="dots"></span><em>0.929</em></div>
+                  <div class="r-line"><span>Delta</span><span class="dots"></span><em>+1.3%</em></div>
+                  <div class="r-line"><span>Competed</span><span class="dots"></span><em>7</em></div>
+                  <div class="r-rule"></div>
+                  <div class="r-line"><span>Champion changes</span><span class="dots"></span><em>3</em></div>
+                  <div class="r-line"><span>New listings</span><span class="dots"></span><em>0</em></div>
+                  <div class="r-line"><span>Categories</span><span class="dots"></span><em>64</em></div>
+                  <div class="r-rule"></div>
+                  <div class="r-line"><span>Methodology</span><span class="dots"></span><em>1.2.0</em></div>
+                  <div class="r-line"><span>Sources: plugins.omarchy.org</span></div>
+                  <div class="barcode" aria-hidden="true"></div>
+                  <div class="r-code">2026W44-BFE5265</div>
+                  <p class="r-thanks">Thank you for verifying</p>
+                </div>
+              </div>
+            </div>
+            <span class="stamp" aria-hidden="true">Snapshot<br>verified<small>2026-W44</small></span>
+            <figcaption><b>FIG. 1a</b> — this week's receipt. Scores shown for illustration; real cards show marketplace counts.</figcaption>
+          </figure>
+        </section>
+
+        <!-- Finder -->
+        <section class="finder" aria-labelledby="finder-label">
+          <div class="finder-head">
+            <p class="kicker" id="finder-label">Find a category</p>
+            <p class="map-note">Type to filter; Enter opens the first match.</p>
+          </div>
+          <div class="finder-input" role="search">
+            <span class="prompt" aria-hidden="true">›</span>
+            <span class="finder-field">
+              <input id="finder" type="search" placeholder="Find a category…" autocomplete="off" spellcheck="false" aria-labelledby="finder-label" aria-describedby="finder-count" aria-controls="finder-results">
+              <span class="mirror" aria-hidden="true"><span data-mirror></span><span class="caret"></span></span>
+            </span>
+            <span class="count" id="finder-count" aria-live="polite"></span>
+          </div>
+          <ul class="index-cards" id="finder-results" aria-label="Suggested categories"></ul>
+          <p class="finder-empty" data-finder-empty hidden>No categories match. Try "clipboard", "battery" or "launcher".</p>
+        </section>
+
+        <!-- Map + sparkline -->
+        <section class="map-section" aria-label="Category map and weekly change signal">
+          <div>
+            <p class="fig"><b>FIG. 1b</b> — category map · 4 task clusters, 20 of 64 categories shown</p>
+            <div class="map-wrap" data-reveal>
+              <div class="map-scroll">
+                <svg id="map" viewBox="0 40 1000 460" role="img" aria-label="Schematic: OmaPicks connects four task clusters, each wired to five categories."></svg>
+              </div>
+              <div class="tip" role="tooltip" id="map-tip"></div>
+            </div>
+            <p class="map-note">Hover a category to see this week's champion. Clipboard is built out in this mockup.</p>
+          </div>
+          <div>
+            <p class="fig"><b>FIG. 2</b> — champion changes per week, last 9 snapshots (illustrative)</p>
+            <div class="spark" data-reveal>
+              <svg viewBox="0 0 360 96" role="img" aria-label="Sparkline of champion changes per week: 5, 4, 6, 3, 4, 2, 5, 4, 3.">
+                <defs>
+                  <pattern id="hatch-blue" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                    <line x1="0" y1="0" x2="0" y2="6" stroke="var(--blue)" stroke-width="1.2" stroke-opacity="0.45"/>
+                  </pattern>
+                </defs>
+                <line class="gridline" x1="20" y1="20" x2="340" y2="20"/>
+                <line class="gridline" x1="20" y1="45" x2="340" y2="45"/>
+                <line class="axis" x1="20" y1="70" x2="340" y2="70"/>
+                <polygon class="area" points="20,28.3 60,36.7 100,20 140,45 180,36.7 220,53.3 260,28.3 300,36.7 340,45 340,70 20,70"/>
+                <polyline class="trace" pathLength="1" points="20,28.3 60,36.7 100,20 140,45 180,36.7 220,53.3 260,28.3 300,36.7 340,45"/>
+                <g>
+                  <circle class="pt" style="--d:.5s" cx="20" cy="28.3" r="3"/><circle class="pt" style="--d:.6s" cx="60" cy="36.7" r="3"/>
+                  <circle class="pt" style="--d:.7s" cx="100" cy="20" r="3"/><circle class="pt" style="--d:.8s" cx="140" cy="45" r="3"/>
+                  <circle class="pt" style="--d:.9s" cx="180" cy="36.7" r="3"/><circle class="pt" style="--d:1s" cx="220" cy="53.3" r="3"/>
+                  <circle class="pt" style="--d:1.1s" cx="260" cy="28.3" r="3"/><circle class="pt" style="--d:1.2s" cx="300" cy="36.7" r="3"/>
+                  <circle class="pt" style="--d:1.3s" cx="340" cy="45" r="3.6"/>
+                </g>
+                <text class="val" x="100" y="13">6</text>
+                <text class="val" x="220" y="66">2</text>
+                <text class="val" x="340" y="38">3</text>
+                <text x="20" y="86" text-anchor="middle">W36</text>
+                <text x="100" y="86" text-anchor="middle">W38</text>
+                <text x="180" y="86" text-anchor="middle">W40</text>
+                <text x="260" y="86" text-anchor="middle">W42</text>
+                <text x="340" y="86" text-anchor="middle">W44</text>
+              </svg>
+              <dl class="spark-stats">
+                <div><dt>This week</dt><dd>3 changes</dd></div>
+                <div><dt>9-week mean</dt><dd>4.0</dd></div>
+                <div><dt>New listings</dt><dd>0</dd></div>
+                <div><dt>Next refresh</dt><dd>Mon 02 Nov</dd></div>
+              </dl>
+            </div>
+          </div>
+        </section>
+
+        <!-- SHEET A — featured showdown -->
+        <section class="sheet" aria-labelledby="showdown-heading">
+          <div class="sheet-head">
+            <div>
+              <p class="fig"><b>SHEET A</b> — featured today · a different category each day · rankings refresh Monday</p>
+              <h2 id="showdown-heading">Best <a href="#category" title="Mockup: opens the Clipboard example">Screen Recording</a> plugin this week</h2>
+            </div>
+            <p class="note">7 plugins competed after task capability review</p>
+          </div>
+          <div class="tech-pair">
+            <article class="tech-card champion rise" data-reveal>
+              <span class="callout">① champion</span>
+              <div class="flags"><span></span><span class="chip">Snapshot verified</span></div>
+              <div class="dim" aria-hidden="true"><span>PREVIEW · 16∶10</span></div>
+              <figure class="halftone"><img src="../../data/assets/plugins/chyld.easy-capture-353026d0d7.webp" alt="Easy Capture preview" width="577" height="720" loading="lazy"></figure>
+              <h3><a href="#category">Easy Capture</a></h3>
+              <p class="byline">By chyld</p>
+              <p class="desc">Capture your screen in a few clicks, without memorizing hotkeys. Screenshot or record regions, apps, or monitors straight from your Omarchy bar.</p>
+            </article>
+            <article class="tech-card rise" data-reveal style="--d:.12s">
+              <span class="callout">② runner-up</span>
+              <div class="flags"><span></span><span class="chip">Snapshot verified</span></div>
+              <div class="dim" aria-hidden="true"><span>PREVIEW · 16∶10</span></div>
+              <figure class="halftone"><img src="../../data/assets/plugins/glasschan.oma-swiss-e9b871e055.webp" alt="OmaSwiss preview" width="720" height="345" loading="lazy"></figure>
+              <h3><a href="#category">OmaSwiss</a></h3>
+              <p class="byline">By Glass Chan</p>
+              <p class="desc">One bar icon, six Hyprland tools: Super⇄Alt swap, aspect ratio, gaming mode, IME theming, screenshots, OCR, QR scan &amp; recording.</p>
+            </article>
+          </div>
+          <p class="delta-line">
+            <span class="delta">1.3% ahead on score</span>
+            <span>7 plugins competed</span>
+            <a class="text-link" href="#category">Compare →</a>
+          </p>
+        </section>
+
+        <!-- SHEET B — change log + more picks -->
+        <section class="sheet" id="ledger" aria-labelledby="ledger-heading">
+          <div class="ledger-grid">
+            <div>
+              <p class="fig"><b>SHEET B</b> — change log, 2026-W44</p>
+              <h2 id="ledger-heading">What changed this week</h2>
+              <ol class="ledger">
+                <li><span class="idx">01</span><span class="mark">▲</span><span><a href="#" data-mock>Network Traffic &amp; Diagnostics</a>: <b>OmaStats</b> replaces Vitals.</span></li>
+                <li><span class="idx">02</span><span class="mark">▲</span><span><a href="#" data-mock>Keyboard Layouts</a>: <b>Keyboard Layout Switcher</b> replaces Keyboard Layout Pulse.</span></li>
+                <li><span class="idx">03</span><span class="mark">▲</span><span><a href="#" data-mock>Uptime Monitoring</a>: <b>Omastatus</b> replaces Is It Down?.</span></li>
+              </ol>
+              <p class="ledger-foot">New listings in ranked categories since the previous snapshot: <strong>0</strong> (October 19 to October 26, 2026).</p>
+              <p class="ledger-foot"><a class="text-link" href="#" data-mock>See all weekly changes</a> &nbsp;·&nbsp; <a class="text-link" href="#" data-mock>Subscribe with RSS</a></p>
+            </div>
+            <div>
+              <p class="fig"><b>SHEET B.1</b> — more picks this week</p>
+              <div class="more-grid">
+                <a class="more-card rise" data-reveal href="#" data-mock>
+                  <figure class="halftone"><img src="../../data/assets/plugins/crmne.hyprmoncfg-4972c1b7dd.webp" alt="hyprmoncfg preview" loading="lazy"></figure>
+                  <div class="more-body"><p class="fig">Screen Brightness</p><h3>hyprmoncfg</h3><p>Carmine Paolino · runner-up Display Settings · <span class="delta">51.8% ahead</span></p></div>
+                </a>
+                <a class="more-card rise" data-reveal style="--d:.08s" href="#" data-mock>
+                  <figure class="halftone"><img src="../../data/assets/plugins/harshith.system-monitor-24f4439676.webp" alt="System Monitor preview" loading="lazy"></figure>
+                  <div class="more-body"><p class="fig">System Monitor</p><h3>System Monitor</h3><p>Harshith · runner-up Activity Monitor · <span class="delta">9.6% ahead</span></p></div>
+                </a>
+                <a class="more-card rise" data-reveal style="--d:.16s" href="#" data-mock>
+                  <figure class="halftone"><img src="../../data/assets/plugins/io.github.atif-1402.ai-panel-eaab0b66a1.webp" alt="AI Panel preview" loading="lazy"></figure>
+                  <div class="more-body"><p class="fig">AI Chat &amp; Models</p><h3>AI Panel</h3><p>atif-1402 · runner-up Jarvis by Gustavo von Atzingen</p></div>
+                </a>
+                <a class="more-card rise" data-reveal style="--d:.24s" href="#" data-mock>
+                  <figure class="halftone"><img src="../../data/assets/plugins/io.github.jeremylanger.omaspotify-43ce9f9eb9.webp" alt="OmaSpotify preview" loading="lazy"></figure>
+                  <div class="more-body"><p class="fig">Music Players</p><h3>OmaSpotify</h3><p>jeremylanger · runner-up Yandex Music by vornashev</p></div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TABLE 1 — spec sheet -->
+        <section class="sheet" id="catalog" aria-labelledby="catalog-heading">
+          <div class="sheet-head">
+            <div>
+              <p class="fig"><b>TABLE 1</b> — spec sheet, all categories, 2026-W44</p>
+              <h2 id="catalog-heading">Browse all 64 categories</h2>
+            </div>
+            <p class="note">champion · author &nbsp;/&nbsp; runner-up · author &nbsp;/&nbsp; competed</p>
+          </div>
+          <div class="table-wrap">
+            <table class="spec-table">
+              <thead><tr><th scope="col">#</th><th scope="col">Category</th><th scope="col">Champion · author</th><th scope="col">Runner-up · author</th><th scope="col" style="text-align:right">Competed</th></tr></thead>
+              <tbody id="catalog-body"></tbody>
+            </table>
+          </div>
+          <p class="table-note">27 of 64 rows shown in this mockup. Row numbers follow the alphabetical index of the published snapshot.</p>
+        </section>
+      </section>
+
+      <!-- ======================================================== CATEGORY -->
+      <section id="category" data-view="category" aria-label="Clipboard picks" hidden>
+        <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="#home">All picks</a> / Clipboard</nav>
+        <section class="type-intro">
+          <span class="watermark" aria-hidden="true">FIG 3</span>
+          <div style="position:relative">
+            <p class="fig"><b>FIG. 3</b> — Clipboard, 2026-W44 · week of October 26, 2026</p>
+            <h1>Clipboard</h1>
+          </div>
+          <div class="type-intro-copy">
+            <p>Clipboard history, reusable snippets, and paste management. 4 plugins competed this week after task capability review. This page shows the champion and runner-up.</p>
+            <p class="share"><a class="text-link" href="#" data-mock>Share this ranking on X</a><a class="text-link" href="#" data-mock>Email</a><a class="text-link" href="#" data-mock>Copy link</a></p>
+          </div>
+        </section>
+
+        <aside class="builtin" aria-labelledby="builtin-heading">
+          <h2 id="builtin-heading">Included with Omarchy</h2>
+          <div>
+            <p>Built into Omarchy Quattro; not ranked. Try it before installing a plugin.</p>
+            <strong><a href="#" data-mock>Clipboard</a></strong>
+            <p style="margin:0.2rem 0 0">A clipboard manager to view and paste history</p>
+            <div class="command-row"><code>omarchy plugin enable omarchy.clipboard</code><button type="button" data-copy aria-label="Copy Omarchy command">Copy</button></div>
+          </div>
+        </aside>
+
+        <div class="podium">
+          <article class="tech-card spec-card champion rise" data-reveal>
+            <span class="callout">① champion</span>
+            <span class="stamp" aria-hidden="true">Champion<small>2026-W44</small></span>
+            <div class="flags"><span></span><span class="chip stale">Verified snapshot; update unverified</span></div>
+            <div class="dim" aria-hidden="true"><span>PREVIEW · 16∶10</span></div>
+            <figure class="halftone"><img src="../../data/assets/plugins/io.github.maajix.spotlight-46e0d18218.webp" alt="Spotlight preview" width="720" height="405" loading="lazy"></figure>
+            <h3><a href="#" data-mock>Spotlight</a></h3>
+            <p class="byline">Max Randhahn · v1.7.6 · release v1.7.0 · MIT</p>
+            <p class="listed">Listed 47 days before this snapshot</p>
+            <div class="why">
+              <p><strong>Why it fits:</strong> Lets you browse saved clipboard history and reuse a selected entry.</p>
+              <p>Native task controls within a wider plugin.</p>
+              <p class="src"><a href="#" data-mock>Capability evidence</a> · Reviewed 2026-10-12</p>
+            </div>
+            <p class="won">It won mainly because more people copied the install command, and it received more marketplace hearts.</p>
+            <p class="desc">A Raycast-style launcher for Omarchy. Spotlight launches applications, switches windows, finds files, searches clipboard history, runs Omarchy commands and toggles system settings from a single input.</p>
+            <div class="command-row"><code>omarchy plugin add https://github.com/maajix/omarchy-spotlight.git --enable</code><button type="button" data-copy aria-label="Copy install command">Copy</button></div>
+            <div class="card-links"><a href="#" data-mock>Original listing</a><a href="#" data-mock>Repository</a></div>
+            <p class="disclaimer">A ranking is not an endorsement or a safety review. The command installs the repository's current code, not a verified snapshot. Inspect the plugin yourself and install it at your own risk. <a href="#" data-mock>Read the full note</a></p>
+            <div class="badge-embed">
+              <p class="fig" style="margin-bottom:.3rem">For plugin authors</p>
+              <p>Copy this markdown into your README to show that you won this category this week.</p>
+              <div class="badge-preview" aria-hidden="true"><span>OmaPicks</span><span>Spotlight · Clipboard · 2026-W44</span></div>
+              <div class="command-row"><code>[![OmaPicks Clipboard champion](https://omapicks.com/badges/2026-W44/clipboard/io.github.maajix.spotlight.svg)](https://omapicks.com/picks/clipboard/)</code><button type="button" data-copy aria-label="Copy badge markdown">Copy</button></div>
+            </div>
+          </article>
+
+          <article class="tech-card spec-card rise" data-reveal style="--d:.12s">
+            <span class="callout">② runner-up</span>
+            <div class="flags"><span></span><span class="chip stale">Verified snapshot; update unverified</span></div>
+            <div class="dim" aria-hidden="true"><span>PREVIEW · NONE ON FILE</span></div>
+            <figure class="no-preview" aria-label="No preview on file"><span>No preview on file</span></figure>
+            <h3><a href="#" data-mock>Clipboard Manager</a></h3>
+            <p class="byline">Huy Vu Quang · v0.1.1 · MIT</p>
+            <div class="why">
+              <p><strong>Why it fits:</strong> Lets you browse saved clipboard history and reuse a selected entry.</p>
+              <p class="src"><a href="#" data-mock>Capability evidence</a> · Reviewed 2026-10-12</p>
+            </div>
+            <p class="desc">A native Omarchy bar panel for browsing and reusing clipboard history.</p>
+            <div class="command-row"><code>omarchy plugin add https://github.com/huyhuyvu01/omarchy-clipboard.git --enable</code><button type="button" data-copy aria-label="Copy install command">Copy</button></div>
+            <div class="card-links"><a href="#" data-mock>Original listing</a><a href="#" data-mock>Repository</a></div>
+            <p class="disclaimer">A ranking is not an endorsement or a safety review. The command installs the repository's current code, not a verified snapshot. Inspect the plugin yourself and install it at your own risk. <a href="#" data-mock>Read the full note</a></p>
+          </article>
+        </div>
+
+        <section class="compare" aria-labelledby="compare-heading">
+          <div class="compare-head">
+            <div>
+              <p class="fig"><b>TABLE 2</b> — marketplace counts</p>
+              <h2 id="compare-heading">How they compare</h2>
+            </div>
+            <p>Raw public counts for these two plugins, not the ranking itself. Install-command copies count most. Freshness is how recently the repository was updated. Copies per detail view is an engagement proxy capped at 100%, not a measured install rate. Combined scores in this category: Spotlight 0.933, Clipboard Manager 0.606 (53.9% apart). <a href="#" data-mock>How the ranking is calculated</a></p>
+          </div>
+          <div class="legend"><span><i class="sw a"></i>Spotlight</span><span><i class="sw b"></i>Clipboard Manager</span></div>
+          <div class="cmp" data-reveal>
+            <div class="cmp-row"><div class="cmp-label">Copies<small>install-command copies</small></div><div class="scale"><div class="bar a" style="--w:100%"><span>627</span></div><div class="bar b" style="--w:41%"><span>256</span></div></div></div>
+            <div class="cmp-row"><div class="cmp-label">Hearts</div><div class="scale"><div class="bar a" style="--w:100%"><span>31</span></div><div class="bar b" style="--w:32%"><span>10</span></div></div></div>
+            <div class="cmp-row"><div class="cmp-label">Stars<small>GitHub</small></div><div class="scale"><div class="bar a" style="--w:100%"><span>44</span></div><div class="bar b" style="--w:11%"><span>5</span></div></div></div>
+            <div class="cmp-row"><div class="cmp-label">Views<small>detail views</small></div><div class="scale"><div class="bar a" style="--w:100%"><span>2,217</span></div><div class="bar b" style="--w:37%"><span>825</span></div></div></div>
+            <div class="cmp-row"><div class="cmp-label">Copies per detail view<small>capped · 0–100%</small></div><div class="scale"><div class="bar a" style="--w:28.3%"><span>28.3%</span></div><div class="bar b" style="--w:31%"><span>31.0%</span></div></div></div>
+            <div class="cmp-row"><div class="cmp-label">Freshness<small>180-day half-life</small></div><div class="scale"><div class="bar a" style="--w:98%"><span>98%</span></div><div class="bar b" style="--w:86%"><span>86%</span></div></div></div>
+            <div class="cmp-row score"><div class="cmp-label">Combined score<small>0 – 1 scale · 53.9% apart</small></div><div class="scale"><div class="bar a" style="--w:93.3%"><span>0.933</span></div><div class="bar b" style="--w:60.6%"><span>0.606</span></div></div></div>
+          </div>
+        </section>
+
+        <section class="alts" aria-labelledby="alts-heading">
+          <p class="fig"><b>TABLE 3</b> — more choices for this task</p>
+          <h2 id="alts-heading">More choices for this task</h2>
+          <div class="alts-grid">
+            <article class="alt-card">
+              <h3><a href="#" data-mock>Clipbasket</a></h3>
+              <div class="why"><p><strong>Why it fits:</strong> Lets you browse saved clipboard history and reuse a selected entry.</p><p class="src"><a href="#" data-mock>Capability evidence</a> · Reviewed 2026-10-12</p></div>
+            </article>
+            <article class="alt-card">
+              <h3><a href="#" data-mock>Clipboard History</a></h3>
+              <div class="why"><p><strong>Why it fits:</strong> Lets you browse saved clipboard history and reuse a selected entry.</p><p class="src"><a href="#" data-mock>Capability evidence</a> · Reviewed 2026-10-12</p></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="method-note" aria-labelledby="method-heading">
+          <h2 id="method-heading">How we pick</h2>
+          <p>Recommendations first need reviewed evidence that they complete this category's task. Install-command copies count most, then hearts and GitHub stars. Listing views barely count. Recently updated repositories rank higher than abandoned ones, and a verified snapshot is only a small bonus. The highest-scoring task-qualified plugin is champion, followed by the strongest remaining alternative. Picks stay frozen until the next weekly publication. A ranking is not an endorsement or a safety review. <a href="#" data-mock>Full scoring notes</a></p>
+        </section>
+
+        <section class="explore" aria-labelledby="explore-heading">
+          <div class="explore-head">
+            <h2 id="explore-heading">Explore more categories</h2>
+            <a class="text-link" href="#catalog">Browse all categories</a>
+          </div>
+          <div class="explore-grid">
+            <a href="#" data-mock><span>Agent Sessions</span><strong>Agent Orchestrator</strong></a>
+            <a href="#" data-mock><span>AI Chat &amp; Models</span><strong>AI Panel</strong></a>
+            <a href="#" data-mock><span>Calendar</span><strong>Calendar</strong></a>
+            <a href="#" data-mock><span>Clocks &amp; Time Zones</span><strong>Timezones</strong></a>
+            <a href="#" data-mock><span>Dictionary &amp; Thesaurus</span><strong>Dictionary</strong></a>
+            <a href="#" data-mock><span>Focus Sessions</span><strong>Omodoro</strong></a>
+          </div>
+          <div class="pager">
+            <a href="#" data-mock><span>Previous</span><strong>Battery</strong></a>
+            <a href="#" data-mock><span>Next</span><strong>Launcher</strong></a>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <footer>
+      <div class="title-block" aria-label="Drawing title block">
+        <div><span>Drawn by</span><strong>omapicks build</strong></div>
+        <div><span>Sheet</span><strong>1 / 1</strong></div>
+        <div><span>Rev</span><strong>2026-W44</strong></div>
+        <div><span>Methodology</span><strong>1.2.0</strong></div>
+        <div><span>Scale</span><strong>1 : 1</strong></div>
+        <div><span>Source</span><strong>plugins.omarchy.org</strong></div>
+      </div>
+      <p>Plugin metadata, engagement signals, and previews come from <a href="#" data-mock>Omarchy Plugins</a>. OmaPicks calculates the rankings independently and is not affiliated with Omarchy, 37signals, or omarchyplugins.com.</p>
+      <p><a href="#" data-mock>Data and methodology</a> · <a href="#" data-mock>Privacy</a> · <a href="#" data-mock>Open-source code</a> · <a href="#" data-mock>Sponsor on GitHub</a></p>
+    </footer>
+  </div>
+
+  <div class="toast" role="status" aria-live="polite" id="toast"></div>
+
+  <script>
+    (() => {
+      "use strict";
+      const root = document.documentElement;
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      /* ---------------------------------------------------------- theme */
+      const THEME_KEY = "omapicks-proposal-3-theme";
+      const toggle = document.querySelector("[data-theme-toggle]");
+      function setTheme(theme) {
+        root.dataset.theme = theme;
+        const next = theme === "dark" ? "light" : "dark";
+        toggle.textContent = next === "dark" ? "Dark" : "Light";
+        toggle.setAttribute("aria-label", `Switch to ${next} theme`);
+        toggle.setAttribute("aria-pressed", String(theme === "dark"));
+      }
+      let stored = null;
+      try { stored = localStorage.getItem(THEME_KEY); } catch {}
+      setTheme(stored === "dark" ? "dark" : "light");
+      toggle.addEventListener("click", () => {
+        const theme = root.dataset.theme === "dark" ? "light" : "dark";
+        setTheme(theme);
+        try { localStorage.setItem(THEME_KEY, theme); } catch {}
+      });
+
+      /* ---------------------------------------------------------- toast */
+      const toast = document.getElementById("toast");
+      let toastTimer = 0;
+      function say(message) {
+        toast.textContent = message;
+        toast.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove("show"), 2200);
+      }
+      document.addEventListener("click", (event) => {
+        const mock = event.target.closest("[data-mock]");
+        if (!mock) return;
+        event.preventDefault();
+        say("Mockup: only the Clipboard category page is built out.");
+      });
+
+      /* ----------------------------------------------------------- data */
+      // [category, champion, author, runner-up, author, competed, cluster]
+      const CATS = [
+        ["Agent Sessions", "Agent Orchestrator", "meviusisback", "Session Browser", "Sudhanshu Gautam", 3, "build"],
+        ["AI & API Usage", "AI Usage", "AkitaOnRails", "Agent Usage Plus", "Gabriele Vigano", 4, null],
+        ["AI Chat & Models", "AI Panel", "atif-1402", "Jarvis", "Gustavo von Atzingen", 5, "build"],
+        ["Application Docks", "Dock", "rosakodu", "Arc Dock", "Claudson", 4, "desk"],
+        ["Audio", "Advanced Audio Control", "ssupt", "Advanced Bluetooth Audio", "ssupt", 4, "laptop"],
+        ["Battery", "OmaStats", "Carmine Paolino", "Argus", "Diego Peter", 4, "laptop"],
+        ["Bluetooth", "Advanced Bluetooth Audio", "ssupt", "Better Bluetooth", "aryan-techie", 4, "laptop"],
+        ["Calendar", "Calendar", "tmn73", "Chronica", "promaaa", 4, "day"],
+        ["Clipboard", "Spotlight", "Max Randhahn", "Clipboard Manager", "Huy Vu Quang", 4, "day"],
+        ["Clocks & Time Zones", "Timezones", "Simon Späti", "OmaClock", "ubeyidah", 4, "desk"],
+        ["Color Picker", "Chroma", "Ajan Raj", "Omarchy Color Picker", "Andy Stewart", 4, "desk"],
+        ["Containers", "Omarchy X-Ray", "randazraik", "Docker", "majkelll", 3, "build"],
+        ["Dev Ports", "Port Watch", "zerubbabelt", "OmaPorts", "Mich Nduka", 3, "build"],
+        ["Dictionary & Thesaurus", "Dictionary", "Triston Armstrong", "Dictionary & Thesaurus", "DLP Waters", 3, "day"],
+        ["Display & Monitors", "hyprmoncfg", "Carmine Paolino", "Omarchy Display Manager", "Bryan Montgomery", 5, "desk"],
+        ["File Search", "Omarchy Find", "Jesse Burlamaque", "Spotlight", "Max Randhahn", 4, null],
+        ["Firewall", "Omawall", "Sahzudin Mahmic", "Snitch", "Chris", 3, null],
+        ["Focus Sessions", "Omodoro", "pnkm0nk", "Clockwork", "Pieter Geutjens", 4, "day"],
+        ["Gaming", "Game Mode Switcher", "silvaio", "OmaSwiss", "Glass Chan", 4, null],
+        ["GitHub", "GitHub", "Rob Zolkos", "Git", "ariadev", 4, "build"],
+        ["Launcher", "Keystroke", "Arseniy Zarechnev", "App Launcher", "tyrsolution", 5, "desk"],
+        ["Mail", "Omamail", "huacnlee", "Gmail Inbox", "jankees", 3, "day"],
+        ["Media Controls", "Media Controls + Album Art", "Carmine Paolino", "OmaConnect", "Jitendra Dara", 4, null],
+        ["Music Players", "OmaSpotify", "jeremylanger", "Yandex Music", "vornashev", 4, null],
+        ["Network Connections", "Network Manager", "Gunesh Bari", "OmaltBar", "Ángel Durán", 4, "laptop"],
+        ["Screen Recording", "Easy Capture", "chyld", "OmaSwiss", "Glass Chan", 7, null],
+        ["System Monitor", "System Monitor", "Harshith", "Activity Monitor", "Kristoffer Haugland", 5, "laptop"]
+      ].map(([name, champion, author, runner, rauthor, competed, cluster]) => ({ name, champion, author, runner, rauthor, competed, cluster }));
+      const SUGGESTED = ["Clipboard", "AI Chat & Models", "Music Players", "Screen Recording", "System Monitor", "Battery"];
+      const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+      const hrefFor = (cat) => (cat.name === "Clipboard" ? 'href="#category"' : 'href="#" data-mock');
+
+      /* -------------------------------------------------------- catalog */
+      document.getElementById("catalog-body").innerHTML = CATS.map((cat, i) => `
+        <tr>
+          <td class="idx">${String(i + 1).padStart(2, "0")}</td>
+          <td class="cat"><a ${hrefFor(cat)}>${esc(cat.name)}</a></td>
+          <td>${esc(cat.champion)} <span class="author">· ${esc(cat.author)}</span></td>
+          <td>${esc(cat.runner)} <span class="author">· ${esc(cat.rauthor)}</span></td>
+          <td class="num">${cat.competed}</td>
+        </tr>`).join("");
+
+      /* --------------------------------------------------------- finder */
+      const finder = document.getElementById("finder");
+      const results = document.getElementById("finder-results");
+      const count = document.getElementById("finder-count");
+      const empty = document.querySelector("[data-finder-empty]");
+      const mirror = document.querySelector("[data-mirror]");
+      const haystack = (cat) => `${cat.name} ${cat.champion} ${cat.author} ${cat.runner} ${cat.rauthor}`.toLocaleLowerCase();
+      let matches = [];
+      // The block caret follows the typed text; when idle it sits after the ghost placeholder.
+      function syncMirror() {
+        mirror.textContent = finder.value || (document.activeElement === finder ? "" : finder.placeholder);
+      }
+      finder.addEventListener("focus", syncMirror);
+      finder.addEventListener("blur", syncMirror);
+      function renderFinder() {
+        const query = finder.value.trim().toLocaleLowerCase();
+        syncMirror();
+        matches = query
+          ? CATS.filter((cat) => haystack(cat).includes(query))
+          : SUGGESTED.map((name) => CATS.find((cat) => cat.name === name));
+        results.innerHTML = matches.map((cat) => `
+          <li><a ${hrefFor(cat)}><strong>${esc(cat.name)}</strong><span><b>01</b> ${esc(cat.champion)} · ${esc(cat.author)}</span></a></li>`).join("");
+        results.setAttribute("aria-label", query ? "Matching categories" : "Suggested categories");
+        count.textContent = `${query ? matches.length : CATS.length}/64`;
+        count.setAttribute("aria-label", query ? `${matches.length} categories match` : "64 categories");
+        empty.hidden = !query || matches.length > 0;
+      }
+      renderFinder();
+      finder.addEventListener("input", renderFinder);
+      finder.addEventListener("search", renderFinder);
+      finder.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" || !matches.length) return;
+        event.preventDefault();
+        if (matches[0].name === "Clipboard") location.hash = "#category";
+        else say("Mockup: only the Clipboard category page is built out.");
+      });
+
+      /* ------------------------------------------------------- receipt */
+      // Zigzag (serrated) top and bottom edges, recomputed on resize.
+      const receipt = document.getElementById("receipt");
+      function serrate() {
+        const w = receipt.offsetWidth, h = receipt.offsetHeight, tooth = 10, depth = 6;
+        if (!w || !h) return;
+        const pts = [];
+        for (let x = 0; x < w; x += tooth) pts.push(`${x}px ${depth}px`, `${x + tooth / 2}px 0`);
+        pts.push(`${w}px ${depth}px`);
+        for (let x = w; x > 0; x -= tooth) pts.push(`${x}px ${h - depth}px`, `${x - tooth / 2}px ${h}px`);
+        pts.push(`0 ${h - depth}px`);
+        receipt.style.clipPath = `polygon(${pts.join(",")})`;
+      }
+      serrate();
+      new ResizeObserver(serrate).observe(receipt);
+
+      /* ------------------------------------------------- category map */
+      // Wiring-schematic layout: a hub, a bus to four cluster blocks, and a
+      // ladder of category pins on the outer side of each block.
+      const CLUSTERS = [
+        { key: "day", label: "Get through your day", x: 330, y: 120, side: -1 },
+        { key: "desk", label: "Make your desktop yours", x: 670, y: 120, side: 1 },
+        { key: "build", label: "Build & ship", x: 330, y: 420, side: -1 },
+        { key: "laptop", label: "Keep your laptop ready", x: 670, y: 420, side: 1 }
+      ];
+      const map = document.getElementById("map");
+      const tip = document.getElementById("map-tip");
+      const mapWrap = map.closest(".map-wrap");
+      const NS = "http://www.w3.org/2000/svg";
+      const CX = 500, CY = 270, PIN_X = { "-1": 170, "1": 830 }, ROW = 30;
+      const el = (tag, attrs = {}) => {
+        const node = document.createElementNS(NS, tag);
+        for (const [key, value] of Object.entries(attrs)) node.setAttribute(key, value);
+        return node;
+      };
+      const edges = el("g"), nodes = el("g");
+      map.append(edges, nodes);
+      let delay = 0.05;
+      CLUSTERS.forEach((cluster) => {
+        const { x: cx, y: cy, side } = cluster;
+        const width = cluster.label.length * 7.4 + 26;
+        const inner = cx - side * width / 2, outer = cx + side * width / 2;
+        const bus = el("path", { class: "edge", pathLength: "1", d: `M${CX} ${CY}V${cy}H${inner}` });
+        bus.style.setProperty("--d", `${delay}s`);
+        edges.append(bus);
+        const g = el("g", { class: "node cluster" });
+        g.style.setProperty("--d", `${delay + 0.4}s`);
+        g.append(el("rect", { x: cx - width / 2, y: cy - 14, width, height: 28, rx: 3 }));
+        const label = el("text", { x: cx, y: cy + 4 });
+        label.textContent = cluster.label;
+        g.append(label);
+        nodes.append(g);
+        const leaves = CATS.filter((cat) => cat.cluster === cluster.key);
+        const pinX = PIN_X[String(side)];
+        const midX = outer + side * 46;
+        leaves.forEach((cat, li) => {
+          const y = cy + (li - (leaves.length - 1) / 2) * ROW;
+          const d = delay + 0.5 + li * 0.08;
+          const wire = el("path", { class: "edge leaf-edge", pathLength: "1", d: `M${outer} ${cy}H${midX}V${y}H${pinX - side * 6}` });
+          wire.style.setProperty("--d", `${d}s`);
+          edges.append(wire);
+          const leaf = el("g", { class: `node leaf${cat.name === "Clipboard" ? " hot" : ""}`, tabindex: "0", role: "link" });
+          leaf.style.setProperty("--d", `${d + 0.3}s`);
+          leaf.setAttribute("aria-label", `${cat.name}: champion ${cat.champion}`);
+          const circle = el("circle", { cx: pinX, cy: y, r: 5.5 });
+          const text = el("text", { x: pinX + side * 12, y: y + 4, "text-anchor": side < 0 ? "end" : "start" });
+          text.textContent = cat.name;
+          leaf.append(circle, text);
+          nodes.append(leaf);
+          const show = () => {
+            const r = circle.getBoundingClientRect(), w = mapWrap.getBoundingClientRect();
+            tip.textContent = `${cat.name} → ${cat.champion}`;
+            tip.style.left = `${r.left + r.width / 2 - w.left}px`;
+            tip.style.top = `${r.top - w.top}px`;
+            tip.classList.add("show");
+          };
+          const hide = () => tip.classList.remove("show");
+          leaf.addEventListener("mouseenter", show);
+          leaf.addEventListener("mouseleave", hide);
+          leaf.addEventListener("focus", show);
+          leaf.addEventListener("blur", hide);
+          const open = () => {
+            if (cat.name === "Clipboard") { location.hash = "#category"; return; }
+            finder.value = cat.name;
+            renderFinder();
+            finder.focus({ preventScroll: true });
+            finder.scrollIntoView({ block: "center", behavior: reduce ? "auto" : "smooth" });
+          };
+          leaf.addEventListener("click", open);
+          leaf.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); open(); } });
+        });
+        delay += 0.12;
+      });
+      const center = el("g", { class: "node center" });
+      center.append(el("circle", { cx: CX, cy: CY, r: 36 }));
+      const centerLabel = el("text", { x: CX, y: CY + 5 });
+      centerLabel.textContent = "OmaPicks";
+      center.append(centerLabel);
+      nodes.append(center);
+
+      /* --------------------------------------------------- reveal/draw */
+      const revealables = document.querySelectorAll("[data-reveal]");
+      if (reduce || !("IntersectionObserver" in window)) {
+        revealables.forEach((node) => node.classList.add("in"));
+      } else {
+        const io = new IntersectionObserver((entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            entry.target.classList.add("in");
+            io.unobserve(entry.target);
+          }
+        }, { threshold: 0.12 });
+        revealables.forEach((node) => io.observe(node));
+      }
+
+      /* ----------------------------------------------------- clipboard */
+      async function copyText(text) {
+        if (navigator.clipboard?.writeText) {
+          try { await navigator.clipboard.writeText(text); return; } catch {}
+        }
+        const area = document.createElement("textarea");
+        area.value = text;
+        area.style.position = "fixed";
+        area.style.opacity = "0";
+        document.body.append(area);
+        area.select();
+        let ok = false;
+        try { ok = document.execCommand("copy"); } finally { area.remove(); }
+        if (!ok) throw new Error("Copy failed");
+      }
+      for (const button of document.querySelectorAll("[data-copy]")) {
+        button.addEventListener("click", async () => {
+          const text = button.closest(".command-row")?.querySelector("code")?.textContent ?? "";
+          const original = button.textContent;
+          try { await copyText(text); button.textContent = "Copied"; }
+          catch { button.textContent = "Select"; }
+          setTimeout(() => { button.textContent = original; }, 1600);
+        });
+      }
+
+      /* --------------------------------------------------------- router */
+      const views = { home: document.getElementById("home"), category: document.getElementById("category") };
+      let current = null;
+      function route(initial) {
+        const hash = location.hash || "#home";
+        const name = hash === "#category" ? "category" : "home";
+        const changed = name !== current;
+        current = name;
+        for (const [key, view] of Object.entries(views)) view.hidden = key !== name;
+        document.title = name === "category" ? "Clipboard — OmaPicks (Proposal 03 · Blueprint)" : "OmaPicks — Proposal 03 · Blueprint (mockup)";
+        const target = name === "home" && hash !== "#home" ? document.getElementById(hash.slice(1)) : null;
+        if (target) target.scrollIntoView({ behavior: reduce || initial ? "auto" : "smooth" });
+        else if (changed && !initial) window.scrollTo({ top: 0, behavior: "auto" });
+        if (changed) revealables.forEach((node) => { if (views[name].contains(node) && (reduce || node.getBoundingClientRect().top < innerHeight)) node.classList.add("in"); });
+      }
+      window.addEventListener("hashchange", () => route(false));
+      route(true);
+    })();
+  </script>
+</body>
+</html>

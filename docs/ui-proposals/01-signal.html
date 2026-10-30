@@ -1,0 +1,1206 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OmaPicks · Proposal 01 · Signal (terminal HUD)</title>
+<meta name="description" content="Design proposal mockup: OmaPicks as a live instrument panel reading the signal from the Omarchy plugin ecosystem.">
+<meta name="color-scheme" content="dark light">
+<script>
+  // Apply the stored theme before first paint to avoid a flash.
+  (() => {
+    try {
+      const stored = localStorage.getItem("omapicks-proposal-1-theme");
+      document.documentElement.dataset.theme = stored === "light" || stored === "dark"
+        ? stored
+        : (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+    } catch { document.documentElement.dataset.theme = "dark"; }
+  })();
+</script>
+<style>
+/* =====================================================================
+   1. Tokens — Tokyo Night lineage, pushed darker and given glow colours
+   ===================================================================== */
+:root {
+  color-scheme: dark;
+  --bg: #0b0d14;
+  --bg-2: #121626;
+  --surface: rgba(255, 255, 255, 0.04);
+  --surface-2: rgba(255, 255, 255, 0.08);
+  --ink: #c0caf5;
+  --muted: #8a93b8;
+  --line: rgba(192, 202, 245, 0.14);
+  --line-strong: rgba(192, 202, 245, 0.34);
+  --accent: #8bd5ca;
+  --accent-ink: #0b0d14;
+  --violet: #7aa2f7;
+  --magenta: #bb9af7;
+  --glow: rgba(139, 213, 202, 0.38);
+  --shadow: rgba(0, 0, 0, 0.55);
+  --mono: "CaskaydiaMono NF", "Cascadia Mono", "JetBrainsMono NF", "JetBrains Mono", ui-monospace, monospace;
+  --sans: "Inter", system-ui, "Segoe UI", sans-serif;
+  --radius: 2px;
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #eef0f6;
+  --bg-2: #e3e6f0;
+  --surface: rgba(20, 25, 50, 0.045);
+  --surface-2: rgba(20, 25, 50, 0.09);
+  --ink: #2b3150;
+  --muted: #5a6283;
+  --line: rgba(43, 49, 80, 0.16);
+  --line-strong: rgba(43, 49, 80, 0.38);
+  --accent: #166d67;
+  --accent-ink: #eef0f6;
+  --violet: #3d59a1;
+  --magenta: #7c4dbd;
+  --glow: rgba(22, 109, 103, 0.28);
+  --shadow: rgba(30, 36, 70, 0.22);
+}
+
+/* =====================================================================
+   2. Base
+   ===================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration-color: color-mix(in srgb, var(--accent) 55%, transparent); text-underline-offset: .16em; transition: color .15s; }
+a:hover { color: var(--accent); }
+button, input { font: inherit; }
+button { cursor: pointer; }
+img { display: block; max-width: 100%; }
+code { font-family: var(--mono); }
+h1, h2, h3 { font-family: var(--mono); font-weight: 700; line-height: 1.12; letter-spacing: 0; margin: 0; }
+h2, h3 { text-transform: lowercase; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.page-wrap { width: min(1180px, calc(100% - 2.4rem)); margin: 0 auto; }
+.muted { color: var(--muted); }
+.small { font-size: .84rem; }
+.skip-link { position: fixed; z-index: 100; left: 1rem; top: 1rem; padding: .55rem .8rem; background: var(--ink); color: var(--bg); transform: translateY(-180%); }
+.skip-link:focus { transform: none; }
+
+/* =====================================================================
+   3. Atmosphere — aurora blobs, dot grid, grain. CSS only, transform
+      animations so the GPU does the work.
+   ===================================================================== */
+.atmosphere { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: radial-gradient(circle at 50% -20%, var(--bg-2), var(--bg) 60%); }
+.atmosphere .grid {
+  position: absolute; inset: 0; opacity: .9;
+  background-image: radial-gradient(circle, var(--line) 1px, transparent 1.3px);
+  background-size: 28px 28px;
+  -webkit-mask-image: radial-gradient(ellipse 85% 70% at 50% 0%, #000 15%, transparent 100%);
+          mask-image: radial-gradient(ellipse 85% 70% at 50% 0%, #000 15%, transparent 100%);
+}
+.aurora { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .42; will-change: transform; animation: drift 52s ease-in-out infinite alternate; }
+.aurora-a { width: 64vmax; height: 64vmax; left: -22vmax; top: -34vmax; background: radial-gradient(circle, var(--accent) 0%, transparent 62%); }
+.aurora-b { width: 58vmax; height: 58vmax; right: -24vmax; top: -14vmax; background: radial-gradient(circle, var(--violet), transparent 62%); animation-duration: 66s; animation-delay: -22s; }
+.aurora-c { width: 42vmax; height: 42vmax; left: 28vw; bottom: -30vmax; background: radial-gradient(circle, var(--magenta), transparent 62%); animation-duration: 40s; animation-delay: -9s; opacity: .26; }
+:root[data-theme="light"] .aurora { opacity: .32; }
+:root[data-theme="light"] .aurora-c { opacity: .2; }
+@keyframes drift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(6vw, 4vh, 0) scale(1.08); }
+  to   { transform: translate3d(-4vw, 8vh, 0) scale(.96); }
+}
+.grain {
+  position: absolute; inset: 0; opacity: .06; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+:root[data-theme="light"] .grain { mix-blend-mode: multiply; opacity: .05; }
+
+/* =====================================================================
+   4. Header — sticky glass bar
+   ===================================================================== */
+.site-header {
+  position: sticky; top: 0; z-index: 30;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 72%, transparent);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+}
+.site-header .page-wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 3.9rem; }
+.brand { display: inline-flex; align-items: center; gap: .6rem; color: inherit; font-family: var(--mono); font-size: 1.2rem; font-weight: 700; letter-spacing: -.04em; text-decoration: none; }
+.brand svg { width: 26px; height: 26px; }
+.proposal-tag { margin-left: .4rem; padding: .12rem .45rem; border: 1px solid var(--line); color: var(--muted); font-size: .64rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
+.site-nav { display: flex; align-items: center; gap: clamp(.6rem, 1.6vw, 1.2rem); font-family: var(--mono); font-size: .86rem; }
+.site-nav a { color: var(--muted); text-decoration: none; }
+.site-nav a:hover, .site-nav a[aria-current="page"] { color: var(--accent); }
+.finder-trigger, .theme-toggle {
+  display: inline-flex; align-items: center; gap: .55rem; min-height: 2.2rem; padding: 0 .7rem;
+  border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--muted);
+  font-family: var(--mono); font-size: .8rem; transition: border-color .2s, color .2s, box-shadow .2s;
+}
+.finder-trigger:hover, .theme-toggle:hover { border-color: var(--accent); color: var(--ink); box-shadow: 0 0 0 1px var(--glow); }
+kbd { font-family: var(--mono); font-size: .68rem; padding: .08rem .35rem; border: 1px solid var(--line-strong); border-radius: var(--radius); color: var(--ink); }
+
+/* =====================================================================
+   5. Text helpers, buttons, status chips
+   ===================================================================== */
+.kicker, .eyebrow { margin: 0 0 .7rem; color: var(--accent); font-family: var(--mono); font-size: .76rem; font-weight: 700; letter-spacing: .04em; text-transform: lowercase; }
+.kicker::before { content: "[ "; } .kicker::after { content: " ]"; }
+.prompt { margin: 0; color: var(--muted); font-family: var(--mono); font-size: .88rem; }
+.prompt-mark { color: var(--accent); font-weight: 800; }
+.cursor { display: inline-block; width: .6em; height: 1.05em; margin-left: .35em; background: var(--accent); vertical-align: -.16em; animation: blink 1.1s steps(1, end) infinite; }
+@keyframes blink { 0%, 48% { opacity: 1; } 49%, 100% { opacity: 0; } }
+.button {
+  display: inline-flex; align-items: center; justify-content: center; gap: .55rem; min-height: 2.5rem; padding: 0 1.05rem;
+  border: 1px solid var(--accent); border-radius: var(--radius); background: var(--accent); color: var(--accent-ink);
+  font-family: var(--mono); font-size: .9rem; font-weight: 650; text-decoration: none; box-shadow: 0 0 0 0 var(--glow);
+  transition: transform .3s var(--ease-spring), box-shadow .3s, background .2s, color .2s, border-color .2s;
+}
+.button:hover { transform: translateY(-1px); box-shadow: 0 10px 30px -10px var(--glow), 0 0 0 1px var(--accent); color: var(--accent-ink); }
+.button.ghost { background: transparent; color: var(--ink); border-color: var(--line-strong); }
+.button.ghost:hover { border-color: var(--accent); color: var(--accent); }
+.text-link { color: var(--accent); font-family: var(--mono); font-size: .9rem; font-weight: 650; background: none; border: 0; padding: 0; text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--accent) 55%, transparent); text-underline-offset: .16em; }
+.status { display: inline-block; padding: .1rem .45rem; border: 1px solid currentColor; font-family: var(--mono); font-size: .64rem; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; }
+.status.ok { color: var(--accent); }
+.status.stale { color: var(--muted); border-style: dashed; }
+.dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 var(--glow); animation: pulse 2.2s ease-out infinite; }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 var(--glow); } 70% { box-shadow: 0 0 0 9px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+.section-head { margin: 0 0 1.4rem; }
+.section-head.row { display: flex; align-items: end; justify-content: space-between; gap: 1rem; }
+.section-head h2 { font-size: clamp(1.7rem, 3.2vw, 2.5rem); }
+.section-head h2 a { text-decoration-color: var(--accent); }
+.section-note { margin: .5rem 0 0; color: var(--muted); font-family: var(--mono); font-size: .8rem; }
+
+/* =====================================================================
+   6. Glass panels — luminous border + cursor spotlight + gentle tilt
+   ===================================================================== */
+.glass {
+  position: relative; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform .4s var(--ease-out), border-color .3s, box-shadow .3s;
+}
+.glass::before {
+  content: ""; position: absolute; inset: -1px; padding: 1px; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .35s;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), var(--accent), transparent 65%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask-composite: exclude;
+}
+.glass::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .35s;
+  background: radial-gradient(440px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--accent) 11%, transparent), transparent 60%);
+}
+.glass:hover::before, .glass:focus-within::before, .glass:hover::after { opacity: 1; }
+.glass:hover { box-shadow: 0 24px 60px -30px var(--shadow); }
+.glass > * { position: relative; z-index: 1; }
+
+/* =====================================================================
+   7. Hero + stats + radar
+   ===================================================================== */
+.hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(300px, 410px); gap: 3rem; align-items: center; padding: 4.4rem 0 3.2rem; }
+.hero h1 { margin: .5rem 0 0; max-width: 15ch; font-size: clamp(2.3rem, 5vw, 3.9rem); line-height: 1.08; letter-spacing: -.01em; text-transform: lowercase; text-wrap: balance; }
+.hero h1 .decode { color: var(--ink); text-shadow: 0 0 28px color-mix(in srgb, var(--accent) 25%, transparent); }
+.hero-lede { max-width: 36rem; margin: 1.2rem 0 0; color: var(--muted); font-size: 1.08rem; }
+.hero-trust { margin: .9rem 0 0; color: var(--accent); font-family: var(--mono); font-size: .9rem; }
+.hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem 1.2rem; margin: 1.6rem 0 0; }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; margin: 2.4rem 0 0; }
+.stat { margin: 0; padding: .85rem 1rem; border: 1px solid var(--line); background: var(--surface); font-family: var(--mono); }
+.stat dt { color: var(--muted); font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; }
+.stat dd { margin: .2rem 0 0; font-size: 1.45rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.radar-panel { padding: 1rem; }
+.radar-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; color: var(--muted); font-family: var(--mono); font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; }
+.radar-head .live { display: inline-flex; align-items: center; gap: .45rem; color: var(--accent); }
+.radar { display: block; width: 100%; max-width: 360px; aspect-ratio: 1; margin: .6rem auto 0; cursor: crosshair; touch-action: none; }
+.radar-readout { display: flex; justify-content: space-between; gap: 1rem; min-height: 2.4rem; margin: .6rem 0 0; padding-top: .6rem; border-top: 1px solid var(--line); color: var(--muted); font-family: var(--mono); font-size: .82rem; }
+.radar-readout strong { color: var(--accent); text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* =====================================================================
+   8. Ticker
+   ===================================================================== */
+.ticker { display: flex; align-items: center; gap: 1rem; border-block: 1px solid var(--line); font-family: var(--mono); font-size: .82rem; }
+.ticker-label { flex: none; padding: .55rem 0; color: var(--accent); font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.ticker-viewport { flex: 1; min-width: 0; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 92%, transparent); }
+.ticker-track { display: flex; width: max-content; padding: .55rem 0; animation: marquee 44s linear infinite; }
+.ticker-track > span { padding-right: 3rem; white-space: nowrap; color: var(--muted); }
+.ticker-track > span b { color: var(--ink); font-weight: 650; }
+.ticker-track > span::before { content: "▸ "; color: var(--accent); }
+.ticker.is-paused .ticker-track, .ticker:hover .ticker-track, .ticker:focus-within .ticker-track { animation-play-state: paused; }
+.ticker-toggle { flex: none; padding: .2rem .55rem; border: 1px solid var(--line); background: transparent; color: var(--muted); font-family: var(--mono); font-size: .7rem; }
+.ticker-toggle:hover { color: var(--accent); border-color: var(--accent); }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* =====================================================================
+   9. Showdown + more picks
+   ===================================================================== */
+.showcase { padding: 3rem 0 1.4rem; }
+.showdown { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem; }
+.card { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+.card .rank { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem; margin: 0; padding: .6rem .9rem; border-bottom: 1px solid var(--line); color: var(--muted); font-family: var(--mono); font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.card.champion .rank { color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); border-bottom-color: color-mix(in srgb, var(--accent) 40%, transparent); }
+.card .rank .live { display: inline-flex; align-items: center; gap: .45rem; }
+.media { display: block; position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: var(--bg-2); }
+.media img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease-out), filter .5s; filter: saturate(.92); }
+.glass:hover .media img { transform: scale(1.04); filter: saturate(1.05); }
+.media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 60%, color-mix(in srgb, var(--bg) 55%, transparent)); pointer-events: none; }
+.card-body { display: flex; flex: 1; flex-direction: column; padding: 1rem 1.1rem 1.2rem; }
+.card-body h3 { font-size: 1.45rem; }
+.card-body h3 a { text-decoration: none; }
+.byline { margin: .35rem 0 .6rem; color: var(--muted); font-size: .82rem; }
+.lede { margin: 0; color: var(--muted); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden; }
+.showdown-gap { display: grid; grid-template-columns: minmax(0, 1.4fr) auto auto; gap: 1.2rem 2rem; align-items: center; margin: 1.3rem 0 0; padding: 1rem 0 0; border-top: 1px solid var(--line); color: var(--muted); font-family: var(--mono); font-size: .88rem; }
+.delta { color: var(--accent); font-size: 1.05rem; font-weight: 650; font-variant-numeric: tabular-nums; }
+.meter { position: relative; height: 6px; margin: .5rem 0 .35rem; overflow: hidden; background: color-mix(in srgb, var(--muted) 35%, transparent); border-radius: 1px; }
+.meter > span { display: block; width: 0; height: 100%; background: linear-gradient(90deg, var(--accent), var(--violet)); box-shadow: 0 0 14px var(--glow); transition: width 1.5s var(--ease-out); }
+.is-in .meter > span { width: var(--v); }
+.meter-legend { display: flex; justify-content: space-between; font-size: .72rem; }
+.more { padding: 2.4rem 0 1rem; }
+.pick-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+.pick { display: block; color: inherit; text-decoration: none; }
+.pick .media { aspect-ratio: 16 / 10; }
+.pick-copy { padding: .85rem .9rem 1rem; }
+.pick-copy .kicker { margin-bottom: .3rem; font-size: .68rem; }
+.pick-copy h3 { font-size: 1.1rem; }
+.pick-copy p { margin: .3rem 0 0; color: var(--muted); font-size: .8rem; }
+.pick-copy .delta { display: inline-block; margin-top: .5rem; font-size: .8rem; }
+
+/* =====================================================================
+   10. Weekly changes + browse readout
+   ===================================================================== */
+.weekly { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 2rem; padding: 2.2rem 0; border-block: 1px solid var(--line); }
+.weekly h2 { font-size: clamp(1.5rem, 2.6vw, 2rem); }
+.change-list { margin: 0 0 .8rem; padding: 0; list-style: none; font-family: var(--mono); font-size: .9rem; }
+.change-list li { padding: .55rem 0; border-bottom: 1px solid var(--line); }
+.change-list li a { color: var(--ink); text-decoration-color: var(--line-strong); }
+.change-list li span { color: var(--muted); }
+.browse { padding: 2.6rem 0 3rem; scroll-margin-top: 4.5rem; }
+.readout { border-top: 1px solid var(--line-strong); font-family: var(--mono); }
+.readout-head, .readout-row { display: grid; grid-template-columns: minmax(8rem, .9fr) minmax(0, 1.3fr) minmax(0, 1.3fr) 5.5rem; gap: 1rem; align-items: baseline; }
+.readout-head { padding: .7rem 0; color: var(--muted); font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.readout-row { position: relative; margin: 0 -.6rem; padding: .8rem .6rem; border-top: 1px solid var(--line); color: inherit; text-decoration: none; overflow: hidden; }
+.readout-row::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 16%, transparent) 45%, transparent); transform: translateX(-110%); pointer-events: none; }
+.readout-row:hover::before { animation: sweep .9s var(--ease-out) forwards; }
+@keyframes sweep { to { transform: translateX(110%); } }
+.readout-row > * { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.readout-row .type { font-weight: 650; }
+.readout-row .champ b { font-weight: 650; }
+.readout-row:hover .champ b { color: var(--accent); }
+.readout-row .champ i, .readout-row .runner { color: var(--muted); font-style: normal; }
+.readout-row .count { color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; }
+.readout-row .count::after { content: " ▍"; color: var(--accent); opacity: 0; transition: opacity .2s; }
+.readout-row:hover .count::after { opacity: 1; }
+
+/* =====================================================================
+   11. Reveal + animated numbers
+   ===================================================================== */
+.reveal { opacity: 0; transform: translateY(14px); transition: opacity .8s var(--ease-out), transform .8s var(--ease-out); transition-delay: var(--d, 0ms); }
+.reveal.is-in { opacity: 1; transform: none; }
+
+/* =====================================================================
+   12. Category view — versus layout, scoreboard, comparison bars
+   ===================================================================== */
+.breadcrumbs { margin: 1.6rem 0 0; color: var(--muted); font-family: var(--mono); font-size: .84rem; }
+.type-intro { display: grid; grid-template-columns: minmax(0, 1fr) minmax(16rem, .75fr); gap: 2rem; align-items: end; padding: 2.4rem 0 2rem; }
+.type-intro h1 { font-size: clamp(2.6rem, 6vw, 4.6rem); text-transform: lowercase; text-shadow: 0 0 40px color-mix(in srgb, var(--accent) 22%, transparent); }
+.type-intro-copy p { margin: 0 0 .8rem; color: var(--muted); }
+.share-links { display: flex; flex-wrap: wrap; gap: .6rem 1.1rem; }
+.builtin-note { display: grid; grid-template-columns: 10rem minmax(0, 1fr); gap: 1.5rem; margin: 0 0 1.6rem; padding: 1.1rem 1.2rem; }
+.builtin-note h2 { font-size: 1.05rem; }
+.builtin-note p { margin: 0 0 .5rem; color: var(--muted); }
+.builtin-note p strong { color: var(--ink); }
+.versus { display: grid; grid-template-columns: minmax(0, 1fr) minmax(13rem, .5fr) minmax(0, 1fr); gap: 1.2rem; align-items: stretch; }
+.pick-card { display: flex; flex-direction: column; overflow: hidden; }
+.pick-card.champion { border-color: color-mix(in srgb, var(--accent) 55%, var(--line)); }
+.card-label { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem; min-height: 2.8rem; padding: .5rem 1rem; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.pick-card.champion .card-label { color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); border-bottom-color: color-mix(in srgb, var(--accent) 40%, transparent); }
+.preview { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border-bottom: 1px solid var(--line); background: var(--bg-2); }
+.preview img { width: 100%; height: 100%; object-fit: cover; }
+.preview.placeholder { display: grid; place-items: center; background: repeating-linear-gradient(135deg, transparent 0 14px, color-mix(in srgb, var(--line) 60%, transparent) 14px 15px), var(--bg-2); }
+.preview.placeholder span { padding: .9rem 1.3rem; border: 1px solid var(--line-strong); background: color-mix(in srgb, var(--bg) 80%, transparent); color: var(--muted); font-family: var(--mono); font-size: .8rem; text-align: center; }
+.preview.placeholder span b { display: block; color: var(--ink); font-size: 1rem; }
+.pick-card .card-body { gap: 0; }
+.pick-card h3 { font-size: 1.5rem; }
+.pick-card h3 a { text-decoration: none; }
+.listing-age { margin: -.3rem 0 .8rem; color: var(--muted); font-size: .78rem; }
+.fit { margin: 0 0 .9rem; padding: .7rem .9rem; border-left: 2px solid var(--accent); background: var(--surface); font-size: .92rem; }
+.fit p { margin: 0 0 .3rem; } .fit p:last-child { margin: 0; }
+.why-won { margin: 0 0 .9rem; color: var(--accent); font-size: .96rem; }
+.desc { margin: 0 0 1rem; color: var(--muted); font-size: .92rem; }
+.command-row { display: flex; margin-top: auto; border: 1px solid var(--line); background: color-mix(in srgb, var(--bg) 70%, transparent); }
+.command-row code { flex: 1; min-width: 0; padding: .65rem .75rem; overflow: hidden; font-size: .7rem; text-overflow: ellipsis; white-space: nowrap; }
+.command-row button { padding: 0 .9rem; border: 0; border-left: 1px solid var(--line); background: var(--surface-2); color: var(--ink); font-family: var(--mono); font-size: .76rem; transition: background .2s, color .2s; }
+.command-row button:hover { background: var(--accent); color: var(--accent-ink); }
+.card-links { display: flex; gap: 1rem; margin: .9rem 0 0; font-size: .84rem; }
+.disclaimer { margin: .85rem 0 0; color: var(--muted); font-size: .76rem; line-height: 1.45; }
+.scoreboard { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .9rem; padding: 1.6rem 1rem; text-align: center; font-family: var(--mono); }
+.scoreboard .kicker { margin: 0; }
+.score-pair { display: grid; gap: .3rem; }
+.score-num { font-size: 2.7rem; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.score-num.win { color: var(--accent); text-shadow: 0 0 24px var(--glow); }
+.score-name { color: var(--muted); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
+.score-vs { color: var(--muted); font-size: .7rem; letter-spacing: .3em; }
+.score-apart { padding: .3rem .7rem; border: 1px solid var(--line-strong); color: var(--ink); font-size: .82rem; }
+.score-apart b { color: var(--accent); font-variant-numeric: tabular-nums; }
+.scoreboard .meter { width: 100%; }
+.compare { margin-top: 2.4rem; padding-top: 1.8rem; border-top: 1px solid var(--line); }
+.compare-head { display: grid; grid-template-columns: minmax(12rem, .6fr) minmax(0, 1fr); gap: 2rem; align-items: end; margin-bottom: 1.2rem; }
+.compare-head h2 { font-size: 1.65rem; }
+.compare-head p { margin: 0; }
+.cmp { display: grid; grid-template-columns: 4.6rem minmax(0, 1fr) 9.5rem minmax(0, 1fr) 4.6rem; grid-template-areas: "vl bl label br vr"; gap: .8rem; align-items: center; padding: .7rem 0; border-top: 1px solid var(--line); font-family: var(--mono); font-size: .8rem; }
+.cmp.head { border-top: 1px solid var(--line-strong); color: var(--muted); font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.cmp.head .v.l { grid-area: vl / vl / bl / bl; }
+.cmp.head .v.r { grid-area: br / br / vr / vr; }
+.cmp .v { font-variant-numeric: tabular-nums; }
+.cmp .v.l { grid-area: vl; text-align: right; color: var(--accent); }
+.cmp .v.r { grid-area: vr; color: var(--muted); }
+.cmp .label { grid-area: label; color: var(--muted); text-align: center; }
+.cmp .bar { position: relative; height: 8px; overflow: hidden; background: var(--surface-2); }
+.cmp .bar.l { grid-area: bl; } .cmp .bar.r { grid-area: br; }
+.cmp .bar > span { position: absolute; top: 0; bottom: 0; width: 0; transition: width 1.3s var(--ease-out); transition-delay: var(--d, 0ms); }
+.cmp .bar.l > span { right: 0; background: linear-gradient(270deg, var(--accent), color-mix(in srgb, var(--accent) 35%, transparent)); box-shadow: 0 0 12px var(--glow); }
+.cmp .bar.r > span { left: 0; background: linear-gradient(90deg, var(--muted), color-mix(in srgb, var(--muted) 35%, transparent)); }
+.is-in .cmp .bar > span { width: var(--v); }
+.alternatives { margin: 2.6rem 0 0; padding-top: 1.8rem; border-top: 1px solid var(--line); }
+.alternatives h2, .method-note h2, .explore h2 { font-size: 1.5rem; }
+.alt-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 1rem; }
+.alt { padding: 1rem 1.1rem; }
+.alt h3 { font-size: 1.15rem; text-transform: none; }
+.alt .fit { margin: .7rem 0 0; }
+.method-note { display: grid; grid-template-columns: 10rem minmax(0, 1fr); gap: 1.5rem; margin: 2.6rem 0 0; padding-top: 1.6rem; border-top: 1px solid var(--line); }
+.method-note p { margin: 0; color: var(--muted); }
+.explore { margin: 2.6rem 0 0; padding-top: 1.6rem; border-top: 1px solid var(--line); }
+.explore .row { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+.category-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line-strong); }
+.category-grid a { min-width: 0; padding: .8rem .8rem .8rem 0; border-bottom: 1px solid var(--line); color: inherit; text-decoration: none; }
+.category-grid a:nth-child(3n + 2), .category-grid a:nth-child(3n + 3) { padding-left: .8rem; border-left: 1px solid var(--line); }
+.category-grid span, .category-grid strong { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.category-grid span { color: var(--muted); font-size: .72rem; }
+.category-grid strong { margin-top: .1rem; font-family: var(--mono); }
+.category-grid a:hover strong { color: var(--accent); }
+
+/* =====================================================================
+   13. Command palette
+   ===================================================================== */
+.palette { position: fixed; inset: 0; z-index: 50; display: grid; place-items: start center; padding: 12vh 1rem 2rem; }
+.palette[hidden] { display: none; }
+.palette-backdrop { position: absolute; inset: 0; border: 0; padding: 0; background: color-mix(in srgb, var(--bg) 62%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); cursor: default; }
+.palette-panel { position: relative; width: min(640px, 100%); padding: 1rem 1.1rem .8rem; border: 1px solid var(--line-strong); border-radius: var(--radius); background: color-mix(in srgb, var(--bg) 84%, transparent); box-shadow: 0 30px 90px -20px var(--shadow), inset 0 0 0 1px color-mix(in srgb, var(--accent) 18%, transparent); animation: pop .3s var(--ease-out); }
+@keyframes pop { from { opacity: 0; transform: translateY(-10px) scale(.985); } }
+.palette-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: .6rem; align-items: center; border-bottom: 1px solid var(--line-strong); font-family: var(--mono); }
+.palette-row input { width: 100%; padding: .7rem 0; border: 0; background: transparent; color: var(--ink); font-family: var(--mono); font-size: 1.1rem; outline: 0; }
+.palette-row input::placeholder { color: var(--muted); }
+.palette-count { color: var(--muted); font-size: .74rem; font-variant-numeric: tabular-nums; }
+.palette-list { max-height: min(52vh, 420px); margin: .5rem -1.1rem 0; padding: 0; overflow: auto; list-style: none; }
+.palette-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1rem; padding: .6rem 1.1rem; border-left: 2px solid transparent; font-family: var(--mono); font-size: .9rem; cursor: pointer; }
+.palette-list li > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.palette-list li span:last-child { color: var(--muted); }
+.palette-list li[aria-selected="true"] { background: var(--surface-2); border-left-color: var(--accent); }
+.palette-list li[aria-selected="true"] span:last-child { color: var(--accent); }
+.palette-list .empty { color: var(--muted); cursor: default; }
+.palette-hint { margin: .6rem 0 0; color: var(--muted); font-family: var(--mono); font-size: .72rem; }
+
+/* =====================================================================
+   14. Footer + toast
+   ===================================================================== */
+footer { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.6rem; margin: 3.6rem 0 2rem; padding-top: 1.4rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .86rem; }
+footer p { margin: 0; }
+footer .mock { grid-column: 1 / -1; font-family: var(--mono); font-size: .72rem; }
+.toast { position: fixed; left: 50%; bottom: 1.4rem; z-index: 60; padding: .6rem .9rem; border: 1px solid var(--line-strong); background: color-mix(in srgb, var(--bg) 86%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); color: var(--ink); font-family: var(--mono); font-size: .82rem; opacity: 0; transform: translate(-50%, 16px); transition: opacity .3s, transform .3s var(--ease-out); pointer-events: none; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* =====================================================================
+   15. Responsive
+   ===================================================================== */
+@media (max-width: 980px) {
+  .hero { grid-template-columns: 1fr; gap: 2.2rem; padding-top: 3rem; }
+  .hero-aside { max-width: 420px; }
+  .versus { grid-template-columns: 1fr; }
+  .scoreboard { padding: 1.3rem 1rem; }
+  .pick-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .weekly, .type-intro, .compare-head, .method-note, .builtin-note { grid-template-columns: 1fr; gap: 1rem; }
+}
+@media (max-width: 720px) {
+  .site-nav .hide-sm { display: none; }
+  .finder-trigger .txt { display: none; }
+  .proposal-tag { display: none; }
+  .showdown, .pick-grid, .alt-grid { grid-template-columns: 1fr; }
+  .showdown-gap { grid-template-columns: 1fr; gap: .6rem; }
+  .readout-head { display: none; }
+  .readout-row { grid-template-columns: minmax(0, 1fr) auto; gap: .2rem .8rem; }
+  .readout-row .runner { grid-column: 1 / -1; font-size: .8rem; }
+  .ticker-label { display: none; }
+  .category-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .category-grid a:nth-child(3n + 2), .category-grid a:nth-child(3n + 3) { padding-left: 0; border-left: 0; }
+  .category-grid a:nth-child(2n) { padding-left: .8rem; border-left: 1px solid var(--line); }
+  footer { grid-template-columns: 1fr; }
+  .section-head.row { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 520px) {
+  .stats { grid-template-columns: 1fr; }
+  .cmp { grid-template-columns: 3.4rem minmax(0, 1fr) minmax(0, 1fr) 3.4rem; grid-template-areas: "label label label label" "vl bl br vr"; row-gap: .35rem; }
+  .cmp .label { text-align: left; }
+  .cmp.head { grid-template-areas: "vl vl vr vr"; }
+  .cmp.head .label { display: none; }
+  .cmp.head .v.l { text-align: left; }
+  .cmp.head .v.r { text-align: right; }
+  .hero h1 { font-size: 2.15rem; }
+}
+
+/* =====================================================================
+   16. Reduced motion — everything lands in its final state
+   ===================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .aurora, .dot, .cursor, .palette-panel { animation: none; }
+  .ticker-track { width: auto; flex-wrap: wrap; animation: none; }
+  .ticker-track > span:nth-child(n + 4) { display: none; }
+  .ticker-toggle { display: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .meter > span, .cmp .bar > span { width: var(--v); transition: none; }
+  .glass { transform: none; transition: none; }
+  .glass:hover .media img { transform: none; }
+  .readout-row:hover::before { animation: none; transform: none; opacity: .6; }
+  .button:hover { transform: none; }
+}
+</style>
+</head>
+<body>
+<div class="atmosphere" aria-hidden="true">
+  <div class="aurora aurora-a"></div>
+  <div class="aurora aurora-b"></div>
+  <div class="aurora aurora-c"></div>
+  <div class="grid"></div>
+  <div class="grain"></div>
+</div>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="page-wrap">
+    <a class="brand" href="#home" aria-label="OmaPicks home">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="12" fill="var(--bg-2)"/><path d="m14 19 12 13-12 13" fill="none" stroke="var(--accent)" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"/><path d="M32 45h18" fill="none" stroke="var(--ink)" stroke-linecap="round" stroke-width="6"/></svg>
+      OmaPicks <span class="proposal-tag">proposal 01 · signal</span>
+    </a>
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a href="#home" data-route="home" class="hide-sm">Picks</a>
+      <a href="#home" data-mock="Method" class="hide-sm">Method</a>
+      <a href="#home" data-mock="Changes" class="hide-sm">Changes</a>
+      <a href="#home" data-mock="RSS" class="hide-sm">RSS</a>
+      <button class="finder-trigger" type="button" data-open-palette><span class="txt">find a category</span><kbd>⌘K</kbd></button>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="true" aria-label="Switch to light theme">light</button>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="page-wrap">
+
+  <!-- ============================ HOME VIEW ============================ -->
+  <section class="view" id="view-home" data-view="home" aria-label="This week's picks">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="prompt" aria-hidden="true"><span class="prompt-mark">$</span> omapicks rank --week 2026-W44<span class="cursor"></span></p>
+        <p class="visually-hidden">Week of October 26, 2026 (2026-W44)</p>
+        <h1><span class="visually-hidden">find the best omarchy plugin for the job.</span><span class="decode" aria-hidden="true" data-text="find the best omarchy plugin for the job.">find the best omarchy plugin for the job.</span></h1>
+        <p class="hero-lede">A champion and a runner-up in each category, qualified by task evidence and rescored every Monday from Omarchy Plugins.</p>
+        <p class="hero-trust"># no votes. no sponsorships. just a reproducible weekly snapshot from omarchy plugins.</p>
+        <p class="hero-actions">
+          <a class="button" href="#browse">Browse 64 categories</a>
+          <button class="button ghost" type="button" data-open-palette>find a category <kbd>⌘K</kbd></button>
+          <a class="text-link" href="#home" data-mock="Method">How rankings work</a>
+        </p>
+        <dl class="stats reveal">
+          <div class="stat"><dt>categories</dt><dd data-count="64">64</dd></div>
+          <div class="stat"><dt>reviewed entries</dt><dd data-count="255">255</dd></div>
+          <div class="stat"><dt>snapshot</dt><dd>Oct 26, 2026</dd></div>
+        </dl>
+      </div>
+      <aside class="hero-aside">
+        <div class="glass radar-panel">
+          <div class="radar-head"><span class="live"><span class="dot"></span>signal · 64 categories</span><span>sweep 2026-w44</span></div>
+          <canvas id="radar" class="radar" role="img" aria-label="Radar of 64 categories. Move the pointer over a node to read its champion; click to open the category."></canvas>
+          <p class="radar-readout" aria-live="polite"><span id="radar-cat">hover a node</span><strong id="radar-champ">—</strong></p>
+        </div>
+      </aside>
+    </section>
+
+    <div class="ticker" id="ticker" aria-label="Champion changes this week">
+      <span class="ticker-label">changes · w44</span>
+      <div class="ticker-viewport"><div class="ticker-track" id="ticker-track"></div></div>
+      <button class="ticker-toggle" type="button" aria-pressed="false">pause</button>
+    </div>
+
+    <section class="showcase" aria-labelledby="featured-heading">
+      <header class="section-head reveal">
+        <p class="kicker">featured today</p>
+        <h2 id="featured-heading">best <a href="#category">screen recording</a> plugin this week</h2>
+        <p class="section-note">A different category each day. Rankings refresh Monday.</p>
+      </header>
+      <div class="showdown">
+        <div class="reveal">
+          <article class="glass tilt card champion">
+            <p class="rank"><span class="live"><span class="dot"></span>01 champion</span><span class="status ok">Snapshot verified</span></p>
+            <a class="media" href="#category" tabindex="-1" aria-hidden="true"><img src="../../data/assets/plugins/chyld.easy-capture-353026d0d7.webp" alt="" width="577" height="720"></a>
+            <div class="card-body">
+              <h3><a href="#category">Easy Capture</a></h3>
+              <p class="byline">By chyld</p>
+              <p class="lede">Capture your screen in a few clicks, without memorizing hotkeys. Screenshot or record regions, apps, or monitors straight from your Omarchy bar.</p>
+            </div>
+          </article>
+        </div>
+        <div class="reveal" style="--d: 120ms">
+          <article class="glass tilt card">
+            <p class="rank"><span>02 runner-up</span><span class="status ok">Snapshot verified</span></p>
+            <a class="media" href="#category" tabindex="-1" aria-hidden="true"><img src="../../data/assets/plugins/glasschan.oma-swiss-e9b871e055.webp" alt="" width="720" height="345"></a>
+            <div class="card-body">
+              <h3><a href="#category">OmaSwiss</a></h3>
+              <p class="byline">By Glass Chan</p>
+              <p class="lede">One bar icon, six Hyprland tools: Super⇄Alt swap, aspect ratio, gaming mode, IME theming, screenshots, OCR, QR scan &amp; recording.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+      <div class="showdown-gap reveal" data-animate>
+        <div>
+          <span class="delta">1.3% ahead on score</span>
+          <div class="meter" role="img" aria-label="Easy Capture holds 50.65% of the combined score"><span style="--v: 50.65%"></span></div>
+          <div class="meter-legend"><span>easy capture</span><span>omaswiss</span></div>
+        </div>
+        <span>7 plugins competed</span>
+        <a class="text-link" href="#category">compare champion and runner-up →</a>
+      </div>
+    </section>
+
+    <section class="weekly reveal" aria-labelledby="changes-heading">
+      <div>
+        <p class="kicker">2026-w44</p>
+        <h2 id="changes-heading">what changed this week</h2>
+        <p class="muted">3 categories have a champion change in this snapshot.</p>
+      </div>
+      <div>
+        <ul class="change-list">
+          <li><a href="#category">Network Traffic &amp; Diagnostics</a>: OmaStats <span>replaces Vitals.</span></li>
+          <li><a href="#category">Keyboard Layouts</a>: Keyboard Layout Switcher <span>replaces Keyboard Layout Pulse.</span></li>
+          <li><a href="#category">Uptime Monitoring</a>: Omastatus <span>replaces Is It Down?.</span></li>
+        </ul>
+        <p class="muted small">New listings in ranked categories since the previous snapshot: <strong>0</strong> (October 19, 2026 to October 26, 2026).</p>
+        <p><a class="text-link" href="#home" data-mock="Changelog">See all weekly changes</a> · <a class="text-link" href="#home" data-mock="RSS">Subscribe with RSS</a></p>
+      </div>
+    </section>
+
+    <section class="more" aria-labelledby="more-heading">
+      <header class="section-head reveal">
+        <p class="kicker">more picks this week</p>
+        <h2 id="more-heading">four more showdowns</h2>
+      </header>
+      <div class="pick-grid" id="pick-grid"></div>
+    </section>
+
+    <section class="browse" id="browse" aria-labelledby="browse-heading">
+      <header class="section-head row reveal">
+        <div><p class="kicker">readout</p><h2 id="browse-heading">browse all 64 categories</h2></div>
+        <button class="button ghost" type="button" data-open-palette>filter <kbd>/</kbd></button>
+      </header>
+      <div class="readout" id="readout"></div>
+      <p class="muted small">Prototype shows 27 of 64 categories. Every row opens the Clipboard example page.</p>
+    </section>
+  </section>
+
+  <!-- ========================== CATEGORY VIEW ========================== -->
+  <section class="view" id="view-category" data-view="category" aria-label="Clipboard picks" hidden>
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="#home">all picks</a> / clipboard</nav>
+    <section class="type-intro">
+      <div>
+        <p class="eyebrow">week of october 26, 2026 (2026-w44)</p>
+        <h1>clipboard</h1>
+      </div>
+      <div class="type-intro-copy">
+        <p>Clipboard history, reusable snippets, and paste management. 4 plugins competed this week after task capability review. This page shows the champion and runner-up.</p>
+        <p class="share-links">
+          <a class="text-link" href="#category" data-mock="Share on X">Share this ranking on X</a>
+          <a class="text-link" href="#category" data-mock="Email">Email</a>
+          <button class="text-link" type="button" data-copy-text="https://omapicks.com/picks/clipboard/">Copy link</button>
+        </p>
+      </div>
+    </section>
+
+    <aside class="glass builtin-note" aria-labelledby="builtin-heading">
+      <h2 id="builtin-heading">included with omarchy</h2>
+      <div>
+        <p>Built into Omarchy Quattro; not ranked. Try it before installing a plugin.</p>
+        <p><strong>Clipboard</strong> — A clipboard manager to view and paste history</p>
+        <div class="command-row"><code>omarchy plugin enable omarchy.clipboard</code><button type="button" data-copy>copy</button></div>
+      </div>
+    </aside>
+
+    <div class="versus" data-animate>
+      <article class="glass tilt pick-card champion">
+        <div class="card-label"><span>01 champion</span><span class="status stale">Verified snapshot · update unverified</span></div>
+        <div class="preview"><img src="../../data/assets/plugins/io.github.maajix.spotlight-46e0d18218.webp" alt="Spotlight preview" width="720" height="405" loading="lazy"></div>
+        <div class="card-body">
+          <h3><a href="#category">Spotlight</a></h3>
+          <p class="byline">Max Randhahn · v1.7.6 · release v1.7.0 · MIT</p>
+          <p class="listing-age">Listed 47 days before this snapshot</p>
+          <div class="fit">
+            <p><strong>Why it fits:</strong> Lets you browse saved clipboard history and reuse a selected entry.</p>
+            <p>Native task controls within a wider plugin.</p>
+            <p class="muted small"><a href="#category" data-mock="Capability evidence">Capability evidence</a> · Reviewed 2026-10-12</p>
+          </div>
+          <p class="why-won">It won mainly because more people copied the install command, and it received more marketplace hearts.</p>
+          <p class="desc">A Raycast-style launcher for Omarchy. Spotlight launches applications, switches windows, finds files, searches clipboard history, runs Omarchy commands and toggles system settings from a single input.</p>
+          <div class="command-row"><code>omarchy plugin add https://github.com/maajix/omarchy-spotlight.git --enable</code><button type="button" data-copy>copy</button></div>
+          <div class="card-links"><a href="#category" data-mock="Original listing">Original listing</a><a href="#category" data-mock="Repository">Repository</a></div>
+          <p class="disclaimer">A ranking is not an endorsement or a safety review. The command installs the repository's current code, not a verified snapshot. Inspect the plugin yourself and install it at your own risk.</p>
+        </div>
+      </article>
+
+      <div class="glass scoreboard">
+        <p class="kicker">combined score</p>
+        <div class="score-pair"><span class="score-num win" data-count="0.933" data-decimals="3">0.933</span><span class="score-name">spotlight</span></div>
+        <span class="score-vs">VS</span>
+        <div class="score-pair"><span class="score-num" data-count="0.606" data-decimals="3">0.606</span><span class="score-name">clipboard manager</span></div>
+        <div class="meter" role="img" aria-label="Spotlight holds 60.6% of the combined score"><span style="--v: 60.6%"></span></div>
+        <span class="score-apart"><b data-count="53.9" data-decimals="1" data-suffix="%">53.9%</b> apart</span>
+        <span class="muted small">4 plugins competed</span>
+      </div>
+
+      <article class="glass tilt pick-card">
+        <div class="card-label"><span>02 runner-up</span><span class="status stale">Verified snapshot · update unverified</span></div>
+        <div class="preview placeholder" role="img" aria-label="Clipboard Manager preview unavailable"><span><b>&gt;_ OmaPicks</b>preview unavailable</span></div>
+        <div class="card-body">
+          <h3><a href="#category">Clipboard Manager</a></h3>
+          <p class="byline">Huy Vu Quang · v0.1.1 · MIT</p>
+          <div class="fit">
+            <p><strong>Why it fits:</strong> Lets you browse saved clipboard history and reuse a selected entry.</p>
+            <p class="muted small"><a href="#category" data-mock="Capability evidence">Capability evidence</a> · Reviewed 2026-10-12</p>
+          </div>
+          <p class="desc">A native Omarchy bar panel for browsing and reusing clipboard history.</p>
+          <div class="command-row"><code>omarchy plugin add https://github.com/huyhuyvu01/omarchy-clipboard.git --enable</code><button type="button" data-copy>copy</button></div>
+          <div class="card-links"><a href="#category" data-mock="Original listing">Original listing</a><a href="#category" data-mock="Repository">Repository</a></div>
+          <p class="disclaimer">A ranking is not an endorsement or a safety review. The command installs the repository's current code, not a verified snapshot. Inspect the plugin yourself and install it at your own risk.</p>
+        </div>
+      </article>
+    </div>
+
+    <section class="compare" data-animate aria-labelledby="compare-heading">
+      <div class="compare-head">
+        <div><p class="kicker">marketplace counts</p><h2 id="compare-heading">how they compare</h2></div>
+        <p class="muted small">These bars are raw public counts for these two plugins, not the ranking itself. Install-command copies count most. Copies per detail view divides two anonymous counters and is capped at 100%; it is not a measured install rate. Plugins with fewer than 20 detail views are not rated. <a href="#home" data-mock="Method">How the ranking is calculated</a></p>
+      </div>
+      <div id="compare-rows">
+        <div class="cmp head"><span class="v l">spotlight</span><span class="label">signal</span><span class="v r">clipboard manager</span></div>
+      </div>
+    </section>
+
+    <section class="alternatives reveal" aria-labelledby="alt-heading">
+      <h2 id="alt-heading">more choices for this task</h2>
+      <div class="alt-grid">
+        <article class="glass alt"><h3>Clipbasket</h3><div class="fit"><p><strong>Why it fits:</strong> Lets you browse saved clipboard history and reuse a selected entry.</p><p class="muted small">Capability evidence · Reviewed 2026-10-12</p></div></article>
+        <article class="glass alt"><h3>Clipboard History</h3><div class="fit"><p><strong>Why it fits:</strong> Lets you browse saved clipboard history and reuse a selected entry.</p><p class="muted small">Capability evidence · Reviewed 2026-10-12</p></div></article>
+      </div>
+    </section>
+
+    <section class="method-note reveal" aria-labelledby="method-heading">
+      <h2 id="method-heading">how we pick</h2>
+      <p>Recommendations first need reviewed evidence that they complete this category's task. Install-command copies count most, then hearts and GitHub stars. Recently updated repositories rank higher than abandoned ones, and a verified snapshot is only a small bonus. Sparse engagement is pulled toward the middle. The highest-scoring task-qualified plugin is champion, followed by the strongest remaining alternative. Picks stay frozen until the next weekly publication. <a href="#home" data-mock="Method">Full scoring notes</a></p>
+    </section>
+
+    <section class="explore reveal" aria-labelledby="explore-heading">
+      <div class="row"><h2 id="explore-heading">explore more categories</h2><a class="text-link" href="#browse">browse all categories →</a></div>
+      <div class="category-grid">
+        <a href="#category"><span>Agent Sessions</span><strong>Agent Orchestrator</strong></a>
+        <a href="#category"><span>AI Chat &amp; Models</span><strong>AI Panel</strong></a>
+        <a href="#category"><span>Calendar</span><strong>Calendar</strong></a>
+        <a href="#category"><span>Clocks &amp; Time Zones</span><strong>Timezones</strong></a>
+        <a href="#category"><span>Dictionary &amp; Thesaurus</span><strong>Dictionary</strong></a>
+        <a href="#category"><span>Focus Sessions</span><strong>Omodoro</strong></a>
+      </div>
+    </section>
+  </section>
+
+  <footer>
+    <p>Plugin metadata, engagement signals, and previews come from <a href="https://plugins.omarchy.org/?sort=copies">Omarchy Plugins</a>. OmaPicks calculates the rankings independently and is not affiliated with Omarchy, 37signals, or omarchyplugins.com.</p>
+    <p><a href="#home" data-mock="Data and methodology">Data and methodology</a> · <a href="#home" data-mock="Privacy">Privacy</a> · <a href="https://github.com/BVisagie/omapicks">Open-source code</a> · <a href="https://github.com/sponsors/BVisagie">Sponsor on GitHub</a></p>
+    <p class="mock">prototype · proposal 01 "signal" · every category link opens the clipboard example · no network requests</p>
+  </footer>
+</main>
+
+<!-- Command palette -->
+<div class="palette" id="palette" role="dialog" aria-modal="true" aria-labelledby="palette-label" hidden>
+  <button class="palette-backdrop" type="button" tabindex="-1" aria-label="Close finder" data-palette-close></button>
+  <div class="palette-panel">
+    <label id="palette-label" class="kicker" for="palette-input">find a category</label>
+    <div class="palette-row">
+      <span class="prompt-mark" aria-hidden="true">&gt;</span>
+      <input id="palette-input" type="text" placeholder="weather, clipboard, spotify…" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="true" aria-controls="palette-list" aria-autocomplete="list">
+      <span class="palette-count" id="palette-count" aria-live="polite"></span>
+    </div>
+    <ul class="palette-list" id="palette-list" role="listbox" aria-label="Matching categories"></ul>
+    <p class="palette-hint">↑↓ move · ↵ open · esc close · also opens with / or ctrl+k</p>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* =====================================================================
+   Data — 2026-W44 snapshot (published October 26, 2026)
+   ===================================================================== */
+const CATS = [
+  // [category, champion, author, runner-up, author, competed, aliases]
+  ["Agent Sessions", "Agent Orchestrator", "meviusisback", "Session Browser", "Sudhanshu Gautam", 3, "claude codex orchestration"],
+  ["AI & API Usage", "AI Usage", "AkitaOnRails", "Agent Usage Plus", "Gabriele Vigano", 4, "tokens quota spending"],
+  ["AI Chat & Models", "AI Panel", "atif-1402", "Jarvis", "Gustavo von Atzingen", 5, "ollama llm chat"],
+  ["Application Docks", "Dock", "rosakodu", "Arc Dock", "Claudson", 4, "pinned launch"],
+  ["Audio", "Advanced Audio Control", "ssupt", "Advanced Bluetooth Audio", "ssupt", 4, "volume microphone pipewire sound"],
+  ["Battery", "OmaStats", "Carmine Paolino", "Argus", "Diego Peter", 4, "power charging laptop"],
+  ["Bluetooth", "Advanced Bluetooth Audio", "ssupt", "Better Bluetooth", "aryan-techie", 4, "pairing devices"],
+  ["Calendar", "Calendar", "tmn73", "Chronica", "promaaa", 4, "agenda events caldav"],
+  ["Clipboard", "Spotlight", "Max Randhahn", "Clipboard Manager", "Huy Vu Quang", 4, "copy paste history"],
+  ["Clocks & Time Zones", "Timezones", "Simon Späti", "OmaClock", "ubeyidah", 4, "world clock timezone"],
+  ["Color Picker", "Chroma", "Ajan Raj", "Omarchy Color Picker", "Andy Stewart", 4, "eyedropper hex colour"],
+  ["Containers", "Omarchy X-Ray", "randazraik", "Docker", "majkelll", 3, "podman kubernetes"],
+  ["Dev Ports", "Port Watch", "zerubbabelt", "OmaPorts", "Mich Nduka", 3, "localhost listening servers"],
+  ["Dictionary & Thesaurus", "Dictionary", "Triston Armstrong", "Dictionary & Thesaurus", "DLP Waters", 3, "definitions synonyms"],
+  ["Display & Monitors", "hyprmoncfg", "Carmine Paolino", "Omarchy Display Manager", "Bryan Montgomery", 5, "external monitor layout screen"],
+  ["File Search", "Omarchy Find", "Jesse Burlamaque", "Spotlight", "Max Randhahn", 4, "find files fuzzy"],
+  ["Firewall", "Omawall", "Sahzudin Mahmic", "Snitch", "Chris", 3, "ufw nftables outbound"],
+  ["Focus Sessions", "Omodoro", "pnkm0nk", "Clockwork", "Pieter Geutjens", 4, "pomodoro timer concentration"],
+  ["Gaming", "Game Mode Switcher", "silvaio", "OmaSwiss", "Glass Chan", 4, "steam lutris"],
+  ["GitHub", "GitHub", "Rob Zolkos", "Git", "ariadev", 4, "pull requests issues ci"],
+  ["Launcher", "Keystroke", "Arseniy Zarechnev", "App Launcher", "tyrsolution", 5, "command palette app search"],
+  ["Mail", "Omamail", "huacnlee", "Gmail Inbox", "jankees", 3, "email inbox unread"],
+  ["Media Controls", "Media Controls + Album Art", "Carmine Paolino", "OmaConnect", "Jitendra Dara", 4, "mpris playerctl now playing"],
+  ["Music Players", "OmaSpotify", "jeremylanger", "Yandex Music", "vornashev", 4, "spotify youtube music playlists"],
+  ["Network Connections", "Network Manager", "Gunesh Bari", "OmaltBar", "Ángel Durán", 4, "wifi ethernet cellular"],
+  ["Screen Recording", "Easy Capture", "chyld", "OmaSwiss", "Glass Chan", 7, "screenshot record capture"],
+  ["System Monitor", "System Monitor", "Harshith", "Activity Monitor", "Kristoffer Haugland", 5, "cpu memory gpu processes"],
+];
+// Extra category names so the radar reads all 64 points (champions where known).
+const RADAR_EXTRA = [
+  ["Screen Brightness", "hyprmoncfg"], ["Network Traffic & Diagnostics", "OmaStats"], ["Keyboard Layouts", "Keyboard Layout Switcher"],
+  ["Uptime Monitoring", "Omastatus"], ["File Synchronization", "Syncthing"], ["Keybinding Managers", "Keybindings"],
+  ["Keyboard Lighting", "Keyboard Brightness"], ["Lock & Idle", "Lock Screen Explorer"], ["Mini-Games", "Omagotchi"],
+  ["Notes"], ["Task Lists"], ["Themes & Appearance"], ["Wallpaper"], ["Workspaces"], ["Window Management"], ["System Updates"],
+  ["Weather"], ["Screenshots"], ["Notifications"], ["Power Profiles"], ["Timers"], ["VPN"], ["Printers"], ["Webcam"], ["Emoji Picker"],
+  ["Translation"], ["Currency"], ["Stocks"], ["News"], ["RSS Reader"], ["Podcasts"], ["Bookmarks"], ["Passwords"], ["SSH Hosts"],
+  ["Disk Usage"], ["Fan Control"], ["Night Light"],
+];
+const SUGGESTED = ["Clipboard", "Screen Recording", "AI Chat & Models", "Music Players", "System Monitor", "Launcher", "Battery", "Calendar"];
+const CHANGES = [
+  ["Network Traffic & Diagnostics", "OmaStats", "Vitals"],
+  ["Keyboard Layouts", "Keyboard Layout Switcher", "Keyboard Layout Pulse"],
+  ["Uptime Monitoring", "Omastatus", "Is It Down?"],
+];
+const MORE = [
+  { cat: "Screen Brightness", champ: "hyprmoncfg", by: "Carmine Paolino", runner: "Display Settings", runnerBy: "Amin Marashi", delta: "51.8% ahead", img: "crmne.hyprmoncfg-4972c1b7dd.webp" },
+  { cat: "System Monitor", champ: "System Monitor", by: "Harshith", runner: "Activity Monitor", runnerBy: "Kristoffer Haugland", delta: "9.6% ahead", img: "harshith.system-monitor-24f4439676.webp" },
+  { cat: "AI Chat & Models", champ: "AI Panel", by: "atif-1402", runner: "Jarvis", runnerBy: "Gustavo von Atzingen", delta: "", img: "io.github.atif-1402.ai-panel-eaab0b66a1.webp" },
+  { cat: "Music Players", champ: "OmaSpotify", by: "jeremylanger", runner: "Yandex Music", runnerBy: "vornashev", delta: "", img: "io.github.jeremylanger.omaspotify-43ce9f9eb9.webp" },
+];
+const COMPARE = [
+  // [label, left value, left %, right value, right %]
+  ["Copies", "627", 100, "256", 41],
+  ["Hearts", "31", 100, "10", 32],
+  ["Stars", "44", 100, "5", 11],
+  ["Views", "2,217", 100, "825", 37],
+  ["Copies / view", "28.3%", 91, "31.0%", 100],
+  ["Freshness", "98%", 100, "86%", 88],
+];
+const ASSETS = "../../data/assets/plugins/";
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+/* =====================================================================
+   Theme
+   ===================================================================== */
+const root = document.documentElement;
+const themeButton = document.querySelector("[data-theme-toggle]");
+function setTheme(theme) {
+  root.dataset.theme = theme;
+  const next = theme === "dark" ? "light" : "dark";
+  themeButton.textContent = next;
+  themeButton.setAttribute("aria-label", `Switch to ${next} theme`);
+  themeButton.setAttribute("aria-pressed", String(theme === "dark"));
+  document.dispatchEvent(new CustomEvent("themechange"));
+}
+setTheme(root.dataset.theme === "light" ? "light" : "dark");
+themeButton.addEventListener("click", () => {
+  const theme = root.dataset.theme === "dark" ? "light" : "dark";
+  setTheme(theme);
+  try { localStorage.setItem("omapicks-proposal-1-theme", theme); } catch { /* storage unavailable */ }
+});
+
+/* =====================================================================
+   Toast + mock links (pages that are not part of this prototype)
+   ===================================================================== */
+const toast = document.getElementById("toast");
+let toastTimer = 0;
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("show"), 2400);
+}
+document.addEventListener("click", (event) => {
+  const link = event.target.closest("[data-mock]");
+  if (!link) return;
+  event.preventDefault();
+  showToast(`${link.dataset.mock} is not part of this prototype`);
+});
+
+/* =====================================================================
+   Router — #home (default) / #category / #browse
+   ===================================================================== */
+const views = { home: document.getElementById("view-home"), category: document.getElementById("view-category") };
+function route() {
+  const hash = (location.hash || "#home").slice(1);
+  const name = hash === "category" ? "category" : "home";
+  for (const key in views) views[key].hidden = key !== name;
+  document.querySelectorAll("[data-route]").forEach((a) => a.setAttribute("aria-current", a.dataset.route === name ? "page" : "false"));
+  const target = document.getElementById(hash);
+  if (target && !target.closest("[hidden]")) target.scrollIntoView({ block: "start" });
+  else window.scrollTo({ top: 0, behavior: "instant" });
+  observeAnimatables();
+}
+window.addEventListener("hashchange", route);
+
+/* =====================================================================
+   Decode headline — glyphs resolve left to right
+   ===================================================================== */
+function decode(el) {
+  const text = el.dataset.text;
+  if (reduce) { el.textContent = text; return; }
+  const glyphs = "▒░█/\\|_-=+<>*#01{}[]";
+  const start = performance.now();
+  const duration = 950;
+  let frame = 0;
+  function tick(now) {
+    const p = Math.min(1, (now - start) / duration);
+    let out = "";
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      const threshold = (i / text.length) * 0.8 + 0.12;
+      if (ch === " " || p >= threshold) out += ch;
+      else out += (frame % 2 === 0 || i % 3 === 0) ? glyphs[(Math.random() * glyphs.length) | 0] : el.textContent[i] || ch;
+    }
+    el.textContent = out;
+    frame++;
+    if (p < 1) requestAnimationFrame(tick); else el.textContent = text;
+  }
+  requestAnimationFrame(tick);
+}
+document.querySelectorAll(".decode").forEach(decode);
+
+/* =====================================================================
+   Radar — 64 nodes on four rotating rings, a sweep arc, cursor hit test
+   ===================================================================== */
+(function initRadar() {
+  const canvas = document.getElementById("radar");
+  const ctx = canvas.getContext("2d");
+  const catEl = document.getElementById("radar-cat");
+  const champEl = document.getElementById("radar-champ");
+  const entries = CATS.map((c) => ({ name: c[0], champ: c[1] })).concat(RADAR_EXTRA.map((c) => ({ name: c[0], champ: c[1] || "" })));
+  const RINGS = [{ r: .34, n: 10, w: .06 }, { r: .54, n: 14, w: -.04 }, { r: .74, n: 18, w: .03 }, { r: .94, n: 22, w: -.02 }];
+  const nodes = [];
+  let k = 0;
+  RINGS.forEach((ring, ri) => {
+    for (let i = 0; i < ring.n && k < entries.length; i++, k++) {
+      nodes.push({ ...entries[k], ring: ri, base: (i / ring.n) * Math.PI * 2 + ri * .37, x: 0, y: 0, swept: 0 });
+    }
+  });
+  let size = 0, pointer = null, hovered = null, sweep = 0, last = performance.now(), raf = 0, running = false;
+  let colors = {};
+  function readColors() {
+    const css = getComputedStyle(root);
+    colors = { accent: css.getPropertyValue("--accent").trim(), ink: css.getPropertyValue("--ink").trim(), muted: css.getPropertyValue("--muted").trim(), line: css.getPropertyValue("--line").trim() };
+  }
+  function resize() {
+    const rect = canvas.getBoundingClientRect();
+    if (!rect.width) return;
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    size = rect.width;
+    canvas.width = Math.round(size * dpr);
+    canvas.height = Math.round(size * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    draw(performance.now() / 1000);
+  }
+  function rgba(hex, a) {
+    const n = parseInt(hex.slice(1), 16);
+    return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${a})`;
+  }
+  function draw(time) {
+    if (!size) return;
+    const c = size / 2, R = c - 12;
+    ctx.clearRect(0, 0, size, size);
+    // rings + crosshair
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = colors.line;
+    RINGS.forEach((ring) => { ctx.beginPath(); ctx.arc(c, c, R * ring.r, 0, Math.PI * 2); ctx.stroke(); });
+    ctx.beginPath(); ctx.moveTo(c - R, c); ctx.lineTo(c + R, c); ctx.moveTo(c, c - R); ctx.lineTo(c, c + R); ctx.stroke();
+    // sweep (conic trail behind the head)
+    if (typeof ctx.createConicGradient === "function") {
+      const g = ctx.createConicGradient(sweep - 1.1, c, c);
+      g.addColorStop(0, "rgba(0,0,0,0)");
+      g.addColorStop(0.175, rgba(colors.accent, .28));
+      g.addColorStop(0.176, "rgba(0,0,0,0)");
+      g.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(c, c, R, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.strokeStyle = rgba(colors.accent, .9);
+    ctx.beginPath(); ctx.moveTo(c, c); ctx.lineTo(c + Math.cos(sweep) * R, c + Math.sin(sweep) * R); ctx.stroke();
+    // nodes
+    let nearest = null, nearestD = 24;
+    for (const node of nodes) {
+      const ring = RINGS[node.ring];
+      const a = node.base + (reduce ? 0 : time * ring.w);
+      node.x = c + Math.cos(a) * R * ring.r;
+      node.y = c + Math.sin(a) * R * ring.r;
+      const d = ((sweep - a) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2);
+      const glow = d < 1.1 ? 1 - d / 1.1 : 0;
+      if (pointer) {
+        const dist = Math.hypot(pointer.x - node.x, pointer.y - node.y);
+        if (dist < nearestD) { nearestD = dist; nearest = node; }
+      }
+      if (glow > 0) {
+        ctx.fillStyle = rgba(colors.accent, glow * .22);
+        ctx.beginPath(); ctx.arc(node.x, node.y, 3 + glow * 6, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.fillStyle = rgba(colors.accent, .42 + glow * .58);
+      ctx.beginPath(); ctx.arc(node.x, node.y, 2 + glow * 1.4, 0, Math.PI * 2); ctx.fill();
+    }
+    if (nearest) {
+      ctx.strokeStyle = rgba(colors.accent, .9);
+      ctx.beginPath(); ctx.arc(nearest.x, nearest.y, 8, 0, Math.PI * 2); ctx.stroke();
+      ctx.setLineDash([3, 4]);
+      ctx.strokeStyle = rgba(colors.accent, .5);
+      ctx.beginPath(); ctx.moveTo(c, c); ctx.lineTo(nearest.x, nearest.y); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = colors.ink;
+      ctx.font = `600 11px ${getComputedStyle(root).getPropertyValue("--mono")}`;
+      ctx.textAlign = nearest.x > c ? "right" : "left";
+      ctx.fillText(nearest.name.toLowerCase(), nearest.x + (nearest.x > c ? -12 : 12), nearest.y + 4);
+    }
+    if (nearest !== hovered) {
+      hovered = nearest;
+      catEl.textContent = nearest ? nearest.name.toLowerCase() : "hover a node";
+      champEl.textContent = nearest ? (nearest.champ ? `→ ${nearest.champ}` : "→ open category") : "—";
+      canvas.style.cursor = nearest ? "pointer" : "crosshair";
+    }
+  }
+  function frame(now) {
+    const dt = Math.min(.05, (now - last) / 1000);
+    last = now;
+    sweep += dt * .85;
+    draw(now / 1000);
+    raf = requestAnimationFrame(frame);
+  }
+  function start() { if (running || reduce) return; running = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop() { running = false; cancelAnimationFrame(raf); }
+  canvas.addEventListener("pointermove", (event) => {
+    const rect = canvas.getBoundingClientRect();
+    pointer = { x: event.clientX - rect.left, y: event.clientY - rect.top };
+    if (reduce) draw(0);
+  });
+  canvas.addEventListener("pointerleave", () => { pointer = null; if (reduce) draw(0); });
+  canvas.addEventListener("click", () => { if (hovered) location.hash = "#category"; });
+  document.addEventListener("visibilitychange", () => (document.hidden ? stop() : start()));
+  document.addEventListener("themechange", () => { readColors(); if (reduce) draw(0); });
+  new ResizeObserver(resize).observe(canvas);
+  readColors();
+  resize();
+  start();
+})();
+
+/* =====================================================================
+   Command palette
+   ===================================================================== */
+const palette = document.getElementById("palette");
+const paletteInput = document.getElementById("palette-input");
+const paletteList = document.getElementById("palette-list");
+const paletteCount = document.getElementById("palette-count");
+let paletteItems = [], paletteIndex = 0, paletteReturnFocus = null;
+function renderPalette(query) {
+  const q = query.trim().toLowerCase();
+  if (!q) paletteItems = SUGGESTED.map((name) => CATS.find((c) => c[0] === name)).filter(Boolean);
+  else {
+    paletteItems = CATS.map((c) => {
+      const hay = `${c[0]} ${c[1]} ${c[3]} ${c[6]}`.toLowerCase();
+      const index = hay.indexOf(q);
+      return index < 0 ? null : { c, score: (c[0].toLowerCase().startsWith(q) ? 0 : 100) + index };
+    }).filter(Boolean).sort((a, b) => a.score - b.score).slice(0, 10).map((x) => x.c);
+  }
+  paletteIndex = 0;
+  paletteCount.textContent = q ? `${paletteItems.length}/${CATS.length}` : "suggested";
+  paletteList.innerHTML = paletteItems.length
+    ? paletteItems.map((c, i) => `<li role="option" id="palette-opt-${i}" aria-selected="${i === 0}" data-index="${i}"><span>${esc(c[0])}</span><span>${esc(c[1])}</span></li>`).join("")
+    : '<li class="empty" aria-disabled="true">no categories match</li>';
+  paletteInput.setAttribute("aria-activedescendant", paletteItems.length ? "palette-opt-0" : "");
+}
+function selectPalette(index) {
+  if (!paletteItems.length) return;
+  paletteIndex = (index + paletteItems.length) % paletteItems.length;
+  paletteList.querySelectorAll("li[role=option]").forEach((li, i) => li.setAttribute("aria-selected", String(i === paletteIndex)));
+  paletteInput.setAttribute("aria-activedescendant", `palette-opt-${paletteIndex}`);
+  paletteList.children[paletteIndex]?.scrollIntoView({ block: "nearest" });
+}
+function openPalette() {
+  if (!palette.hidden) return;
+  paletteReturnFocus = document.activeElement;
+  palette.hidden = false;
+  document.body.style.overflow = "hidden";
+  paletteInput.value = "";
+  renderPalette("");
+  paletteInput.focus();
+}
+function closePalette() {
+  if (palette.hidden) return;
+  palette.hidden = true;
+  document.body.style.overflow = "";
+  paletteReturnFocus?.focus?.();
+}
+function goToCategory(cat) {
+  closePalette();
+  location.hash = "#category";
+  if (cat[0] !== "Clipboard") showToast(`${cat[0]} → prototype shows the Clipboard page`);
+}
+document.querySelectorAll("[data-open-palette]").forEach((b) => b.addEventListener("click", openPalette));
+document.querySelector("[data-palette-close]").addEventListener("click", closePalette);
+paletteInput.addEventListener("input", () => renderPalette(paletteInput.value));
+paletteInput.addEventListener("keydown", (event) => {
+  if (event.key === "ArrowDown") { event.preventDefault(); selectPalette(paletteIndex + 1); }
+  else if (event.key === "ArrowUp") { event.preventDefault(); selectPalette(paletteIndex - 1); }
+  else if (event.key === "Enter") { event.preventDefault(); if (paletteItems[paletteIndex]) goToCategory(paletteItems[paletteIndex]); }
+  else if (event.key === "Tab") { event.preventDefault(); } // keep focus inside the dialog
+});
+paletteList.addEventListener("mousemove", (event) => { const li = event.target.closest("li[data-index]"); if (li) selectPalette(+li.dataset.index); });
+paletteList.addEventListener("click", (event) => { const li = event.target.closest("li[data-index]"); if (li) goToCategory(paletteItems[+li.dataset.index]); });
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !palette.hidden) { event.preventDefault(); closePalette(); return; }
+  const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName || "");
+  if ((event.key === "k" || event.key === "K") && (event.ctrlKey || event.metaKey)) { event.preventDefault(); openPalette(); }
+  else if (event.key === "/" && !typing) { event.preventDefault(); openPalette(); }
+});
+
+/* =====================================================================
+   Glass panels — cursor spotlight variables + tilt
+   ===================================================================== */
+const finePointer = matchMedia("(pointer: fine)").matches;
+document.addEventListener("pointermove", (event) => {
+  const el = event.target.closest(".glass");
+  if (!el) return;
+  const rect = el.getBoundingClientRect();
+  const x = event.clientX - rect.left, y = event.clientY - rect.top;
+  el.style.setProperty("--mx", `${x}px`);
+  el.style.setProperty("--my", `${y}px`);
+  if (el.classList.contains("tilt") && finePointer && !reduce) {
+    el.style.setProperty("--rx", `${((.5 - y / rect.height) * 8).toFixed(2)}deg`);
+    el.style.setProperty("--ry", `${((x / rect.width - .5) * 8).toFixed(2)}deg`);
+  }
+});
+document.addEventListener("pointerout", (event) => {
+  const el = event.target.closest?.(".glass");
+  if (el && !el.contains(event.relatedTarget)) { el.style.setProperty("--rx", "0deg"); el.style.setProperty("--ry", "0deg"); }
+});
+
+/* =====================================================================
+   Scroll reveal, meters, counters
+   ===================================================================== */
+function countUp(el) {
+  const target = parseFloat(el.dataset.count);
+  const decimals = +(el.dataset.decimals || 0);
+  const suffix = el.dataset.suffix || "";
+  const format = (v) => (decimals ? v.toFixed(decimals) : Math.round(v).toLocaleString("en-US")) + suffix;
+  if (reduce) { el.textContent = format(target); return; }
+  const start = performance.now(), duration = 1300;
+  function tick(now) {
+    const p = Math.min(1, (now - start) / duration);
+    el.textContent = format(target * (1 - Math.pow(1 - p, 3)));
+    if (p < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+const observer = new IntersectionObserver((entries) => {
+  for (const entry of entries) {
+    if (!entry.isIntersecting) continue;
+    entry.target.classList.add("is-in");
+    entry.target.querySelectorAll?.("[data-count]").forEach(countUp);
+    if (entry.target.dataset.count !== undefined) countUp(entry.target);
+    observer.unobserve(entry.target);
+  }
+}, { threshold: .15, rootMargin: "0px 0px -6% 0px" });
+function observeAnimatables() {
+  document.querySelectorAll(".reveal:not(.is-in), [data-animate]:not(.is-in)").forEach((el) => observer.observe(el));
+}
+
+/* =====================================================================
+   Copy buttons, ticker control
+   ===================================================================== */
+async function copyText(text) {
+  if (navigator.clipboard?.writeText) { try { await navigator.clipboard.writeText(text); return true; } catch { /* fall through */ } }
+  const area = document.createElement("textarea");
+  area.value = text; area.style.position = "fixed"; area.style.opacity = "0";
+  document.body.append(area); area.select();
+  let ok = false;
+  try { ok = document.execCommand("copy"); } finally { area.remove(); }
+  return ok;
+}
+document.addEventListener("click", async (event) => {
+  const button = event.target.closest("[data-copy], [data-copy-text]");
+  if (!button) return;
+  const text = button.dataset.copyText ?? button.closest(".command-row")?.querySelector("code")?.textContent ?? "";
+  const original = button.textContent;
+  button.textContent = (await copyText(text)) ? "copied" : "select";
+  setTimeout(() => { button.textContent = original; }, 1600);
+});
+const ticker = document.getElementById("ticker");
+const tickerToggle = ticker.querySelector(".ticker-toggle");
+tickerToggle.addEventListener("click", () => {
+  const paused = ticker.classList.toggle("is-paused");
+  tickerToggle.setAttribute("aria-pressed", String(paused));
+  tickerToggle.textContent = paused ? "play" : "pause";
+});
+
+/* =====================================================================
+   Render data-driven sections
+   ===================================================================== */
+const tickerItems = CHANGES.map((c) => `<span><b>${esc(c[0])}</b>: ${esc(c[1])} replaces ${esc(c[2])}</span>`).join("");
+document.getElementById("ticker-track").innerHTML = tickerItems + tickerItems;
+
+document.getElementById("pick-grid").innerHTML = MORE.map((p, i) => `
+  <div class="reveal" style="--d: ${i * 90}ms">
+    <a class="glass tilt pick" href="#category">
+      <span class="media"><img src="${ASSETS}${p.img}" alt="" width="720" height="450" loading="lazy"></span>
+      <span class="pick-copy">
+        <span class="kicker">${esc(p.cat).toLowerCase()}</span>
+        <h3>${esc(p.champ)}</h3>
+        <p>Champion by ${esc(p.by)} · runner-up ${esc(p.runner)} by ${esc(p.runnerBy)}</p>
+        ${p.delta ? `<span class="delta">${esc(p.delta)}</span>` : ""}
+      </span>
+    </a>
+  </div>`).join("");
+
+document.getElementById("readout").innerHTML =
+  `<div class="readout-head" aria-hidden="true"><span>category</span><span>champion · author</span><span>runner-up · author</span><span style="text-align:right">competed</span></div>` +
+  CATS.map((c, i) => `
+    <a class="readout-row reveal" style="--d: ${(i % 12) * 40}ms" href="#category">
+      <span class="type">${esc(c[0])}</span>
+      <span class="champ"><b>${esc(c[1])}</b> <i>· ${esc(c[2])}</i></span>
+      <span class="runner">${esc(c[3])} · ${esc(c[4])}</span>
+      <span class="count">${c[5]}</span>
+    </a>`).join("");
+
+document.getElementById("compare-rows").insertAdjacentHTML("beforeend", COMPARE.map((row, i) => `
+  <div class="cmp">
+    <span class="v l">${esc(row[1])}</span>
+    <span class="bar l" aria-hidden="true"><span style="--v: ${row[2]}%; --d: ${i * 90}ms"></span></span>
+    <span class="label">${esc(row[0])}</span>
+    <span class="bar r" aria-hidden="true"><span style="--v: ${row[4]}%; --d: ${i * 90}ms"></span></span>
+    <span class="v r">${esc(row[3])}</span>
+  </div>`).join(""));
+
+route();
+</script>
+</body>
+</html>

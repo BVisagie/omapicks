@@ -6,7 +6,9 @@ The site is static. Visitors never call the source APIs, and there are no accoun
 
 ## Develop
 
-Node.js 24.22.1 or newer; `.nvmrc` and `.node-version` pin the supported Node 24 LTS release used in CI. Run `npm ci` to install the pinned development dependencies. Category social preview PNGs are rendered offline using `@resvg/resvg-js` and a bundled Liberation Mono font; no browser or system fonts are needed.
+Node.js 24.22.1 or newer; `.nvmrc` and `.node-version` pin the supported Node 24 LTS release used in CI. Run `npm ci` to install the pinned development dependencies. Category social preview PNGs are rendered offline using `@resvg/resvg-js` and a bundled Liberation Mono font; no browser or system fonts are needed. The home Open Graph image `site/og-home.jpg` is committed; regenerate it from `site/og-home.svg` when the hero copy changes.
+
+The interface is one stylesheet (`site/styles.css`, design tokens at the top: dark Signal palette, bone light palette, 20 px tiles, pills) and one script (`site/app.js`). Pages render complete without JavaScript; the script only adds the command palette, the category radar, the headline decode, count-ups and scroll reveals, all of which respect `prefers-reduced-motion`. No web fonts or third-party code are loaded, and `test/assets.test.mjs` fails the build if the gzipped stylesheet or script outgrows its budget. The design record lives in [`docs/ui-proposals/`](docs/ui-proposals/).
 
 ```sh
 npm ci                # install build dependencies

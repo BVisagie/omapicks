@@ -29,11 +29,20 @@ const FUNCTION_ROUTES = {
     "/apple-touch-icon.png"
   ]
 };
-const PALETTE = Object.freeze({
-  bg: "#1a1b26",
-  lightBg: "#e9e9ec",
+// Site theme colours, mirrored from the tokens in site/styles.css (theme-color, manifest).
+export const PALETTE = Object.freeze({
+  bg: "#0b0d14",
+  lightBg: "#f4f1ea",
   ink: "#c0caf5",
-  muted: "#7f849c",
+  muted: "#8a93b8",
+  accent: "#8bd5ca"
+});
+// Badges are dated artifacts embedded in third-party READMEs and served immutable for a year,
+// so their colours are pinned here and never follow the site theme. A redesign would ship
+// under a new /badges/ path rather than changing bytes behind existing URLs.
+export const BADGE_PALETTE = Object.freeze({
+  bg: "#1a1b26",
+  ink: "#c0caf5",
   accent: "#8bd5ca"
 });
 const SOCIAL_IMAGE = Object.freeze({
@@ -108,17 +117,18 @@ function outboundLink(href, label, className) {
   return `<a href="${url}"${cls}${extra}>${label}</a>`;
 }
 
-function xShareLink(text, url, label) {
-  return outboundLink(`https://x.com/intent/post?${new URLSearchParams({ text: `${text} ${url}` })}`, label, "text-link");
+function xShareLink(text, url, label, className = "text-link") {
+  return outboundLink(`https://x.com/intent/post?${new URLSearchParams({ text: `${text} ${url}` })}`, label, className);
 }
 
-function shareLinks(text, url, label) {
+// Hero share links stay text links; the category page renders them as pills.
+function shareLinks(text, url, label, className = "text-link") {
   const email = `mailto:?${new URLSearchParams({ subject: "OmaPicks weekly picks", body: `${text}\n${url}` }).toString().replaceAll("+", "%20")}`;
   return `<span class="share-links">
-    ${xShareLink(text, url, label)}
-    <a class="text-link" href="${escapeHtml(email)}">Email</a>
-    <button type="button" class="text-link" data-copy-link="${escapeHtml(url)}" hidden>Copy link</button>
-    <button type="button" class="text-link" data-share-url="${escapeHtml(url)}" data-share-text="${escapeHtml(text)}" hidden>Share…</button>
+    ${xShareLink(text, url, label, className)}
+    <a class="${className}" href="${escapeHtml(email)}">Email</a>
+    <button type="button" class="${className}" data-copy-link="${escapeHtml(url)}" hidden>Copy link</button>
+    <button type="button" class="${className}" data-share-url="${escapeHtml(url)}" data-share-text="${escapeHtml(text)}" hidden>Share…</button>
     <span class="share-status" data-share-status role="status"></span>
   </span>`;
 }
@@ -391,8 +401,8 @@ function featuredSlotStyle(count) {
   for (let slot = 0; slot < count; slot += 1) {
     rules.push(`html[data-featured-index="${slot}"] .showdown[data-slot]:not([data-slot="${slot}"]){display:none}`);
     rules.push(`html[data-featured-index="${slot}"] .showdown[data-slot="${slot}"]{display:block}`);
-    rules.push(`html[data-featured-index="${slot}"] .support[data-slot="${slot}"]{display:none}`);
-    rules.push(`html[data-featured-index="${slot}"] .support[data-slot]:not([data-slot="${slot}"]){display:block}`);
+    rules.push(`html[data-featured-index="${slot}"] .support-wrap[data-slot="${slot}"]{display:none}`);
+    rules.push(`html[data-featured-index="${slot}"] .support-wrap[data-slot]:not([data-slot="${slot}"]){display:block}`);
   }
   return `<style>${rules.join("")}</style>`;
 }
@@ -418,18 +428,38 @@ function navLink(href, label, pathname) {
   return `<a href="${href}"${current}>${label}</a>`;
 }
 
+// The brand mark is inlined so it follows the theme tokens; the standalone icon.svg keeps fixed colours.
+function brandMark() {
+  return `<svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><rect width="64" height="64" rx="12" fill="var(--bg-2)"/><path d="m14 19 12 13-12 13" fill="none" stroke="var(--accent)" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"/><path d="M32 45h18" fill="none" stroke="var(--ink)" stroke-linecap="round" stroke-width="6"/></svg>`;
+}
+
+// Aurora, dot grid and grain sit behind every page; CSS only, disabled under reduced motion.
+function atmosphere() {
+  return `<div class="atmosphere" aria-hidden="true">
+    <div class="aurora aurora-a"></div>
+    <div class="aurora aurora-b"></div>
+    <div class="aurora aurora-c"></div>
+    <div class="dot-grid"></div>
+    <div class="grain"></div>
+  </div>`;
+}
+
 function nav(pathname = "/") {
+  // The finder trigger only works with JavaScript (it opens the palette), so it ships hidden.
   return `<header class="site-header">
-    <a class="brand" href="/" aria-label="OmaPicks home">OmaPicks</a>
-    <nav aria-label="Primary navigation">
-      ${navLink("/methodology/", "Method", pathname)}
-      ${navLink("/changelog/", "Changes", pathname)}
-      ${navLink("/feed/", "RSS", pathname)}
-      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme" aria-pressed="true">
-        <span class="theme-label-dark" aria-hidden="true">Dark</span>
-        <span class="theme-label-light" aria-hidden="true">Light</span>
-      </button>
-    </nav>
+    <div class="page-wrap">
+      <a class="brand" href="/" aria-label="OmaPicks home">${brandMark()}OmaPicks</a>
+      <nav aria-label="Primary navigation">
+        ${navLink("/methodology/", "Method", pathname)}
+        ${navLink("/changelog/", "Changes", pathname)}
+        ${navLink("/feed/", "RSS", pathname)}
+        ${pathname === "/" ? `<button class="finder-trigger" type="button" aria-label="Find a category" data-open-palette hidden><span class="finder-trigger-label" aria-hidden="true">find a category</span><kbd aria-hidden="true">Ctrl K</kbd></button>` : ""}
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme" aria-pressed="true">
+          <span class="theme-label-dark" aria-hidden="true">Dark</span>
+          <span class="theme-label-light" aria-hidden="true">Light</span>
+        </button>
+      </nav>
+    </div>
   </header>`;
 }
 
@@ -471,8 +501,9 @@ function shell({ title, description, pathname, image, body, structuredData = nul
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
+  ${atmosphere()}
+  ${nav(pathname)}
   <div class="page-wrap">
-    ${nav(pathname)}
     <main id="main">${body}</main>
     <footer>
       <p>Plugin metadata, engagement signals, and previews come from <a href="https://plugins.omarchy.org/?sort=copies">Omarchy Plugins</a>. OmaPicks calculates the rankings independently and is not affiliated with Omarchy, 37signals, or omarchyplugins.com.</p>
@@ -556,7 +587,7 @@ function scoreComparison(type, method) {
   const hiddenNote = hidden
     ? ` The top score this week was ${escapeHtml(hidden.name)} at ${hidden.score.toFixed(3)}; it is not shown because both places stay with their holders until beaten by more than ${methodologyCopy(method).stability}.`
     : "";
-  return `<section class="score-comparison" aria-labelledby="comparison-heading">
+  return `<section class="score-comparison" aria-labelledby="comparison-heading" data-animate>
     <div class="comparison-heading">
       <div>
         <p class="kicker">Marketplace counts</p>
@@ -564,6 +595,7 @@ function scoreComparison(type, method) {
       </div>
       <p>These bars are raw public counts for ${runnerUp ? "these two plugins" : "this plugin"}, not the ranking itself.${reviewedPresentation(method) ? " The combined score orders this reviewed shortlist; it is not a quality grade, confidence percentage, or measure of task success." : ""} Install-command copies count most. Freshness is how recently the repository was updated.${recordedMetric(candidates, "copyViewRatio") && methodologyCopy(method).comparison ? ` ${escapeHtml(methodologyCopy(method).comparison)}` : ""} ${scores}${hiddenNote} <a href="/methodology/">How the ranking is calculated</a></p>
     </div>
+    <div class="glass compare-panel">
     <table class="comparison-table">
       <caption class="visually-hidden">Marketplace signals by plugin</caption>
       <thead><tr class="comparison-head">
@@ -583,6 +615,7 @@ function scoreComparison(type, method) {
       }).join("")}
       </tbody>
     </table>
+    </div>
   </section>`;
 }
 
@@ -616,7 +649,7 @@ function listingAge(candidate, generatedAt) {
 function builtInNote(type, method) {
   const builtIns = (type.builtIns ?? []).filter((entry) => entry?.id);
   if (!builtIns.length) return "";
-  return `<aside class="builtin-note" aria-labelledby="builtin-heading">
+  return `<aside class="glass builtin-note" aria-labelledby="builtin-heading">
       <h2 id="builtin-heading">Included with Omarchy</h2>
       <div>
         <p>Built into Omarchy Quattro; not ranked. Try ${builtIns.length === 1 ? "it" : "them"} before installing a plugin.</p>
@@ -637,15 +670,24 @@ function previewFrame(candidate) {
   return `<div class="preview-frame">${mediaImage(candidate)}</div>`;
 }
 
+// Podium's score dial: the ring fills to the combined score once the podium scrolls into view
+// (CSS, keyed off .is-in); the number is server-rendered so it reads without scripts.
+const DIAL_CIRCUMFERENCE = 276.46;
+function scoreDial(candidate) {
+  if (!Number.isFinite(candidate?.score)) return "";
+  const value = clamp01(candidate.score);
+  return `<span class="dial" style="--v: ${value}" role="img" aria-label="Combined popularity score ${value.toFixed(3)}"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle class="track" cx="50" cy="50" r="44"/><circle class="fill" cx="50" cy="50" r="44"/></svg><span class="val" aria-hidden="true">${value.toFixed(3)}</span></span>`;
+}
+
 function candidateCard(candidate, place, type, week, { runnerUp = null, topScorer = null, method = METHODOLOGY, generatedAt = null } = {}) {
-  if (!candidate) return `<article class="pick-card empty"><p>${method.eligibility.reviewedTaskEvidence ? "No reviewed recommendation for this place yet." : "No eligible plugin this week."}</p></article>`;
+  if (!candidate) return `<article class="glass pick-card empty"><p>${method.eligibility.reviewedTaskEvidence ? "No reviewed recommendation for this place yet." : "No eligible plugin this week."}</p></article>`;
   const badgePath = `/badges/${encodeURIComponent(week)}/${encodeURIComponent(type.id)}/${encodeURIComponent(candidate.id)}.svg`;
   const labels = pickLabels(method);
   const rank = place === "winner" ? `01 ${labels.first}` : `02 ${labels.second}`;
-  const extras = [statusPill(candidate)];
+  const extras = [statusPill(candidate), scoreDial(candidate)];
   const badgeMarkdown = `[![OmaPicks ${type.name} ${labels.first.toLowerCase()}](${ORIGIN}${badgePath})](${ORIGIN}/picks/${type.id}/)`;
   const reason = place === "winner" && !reviewedPresentation(method) ? winningReason(candidate, runnerUp, topScorer, method) : "";
-  return `<article class="pick-card ${place === "winner" ? "champion" : ""}">
+  return `<article class="glass tilt pick-card ${place === "winner" ? "champion" : ""}">
     <div class="card-label"><span>${rank}</span><span class="card-flags">${extras.join("")}</span></div>
     ${previewFrame(candidate)}
     <div class="card-body">
@@ -760,38 +802,53 @@ function snapshotNotice(rankings) {
 function showdownEntry(candidate, place, href, method) {
   const labels = pickLabels(method);
   if (!candidate) {
-    return `<div class="showdown-entry empty"><p class="rank">02 ${labels.second}</p><p>${reviewedPresentation(method) ? "No additional reviewed option this week." : "No runner-up this week."}</p></div>`;
+    return `<div class="glass card showdown-entry empty"><p class="rank">02 ${labels.second}</p><p>${reviewedPresentation(method) ? "No additional reviewed option this week." : "No runner-up this week."}</p></div>`;
   }
   const champion = place === "winner";
-  return `<div class="showdown-entry${champion ? " champion" : ""}">
-    <p class="rank">${champion ? `01 ${labels.first}` : `02 ${labels.second}`} ${statusPill(candidate)}</p>
-    <a class="feature-media" href="${href}" tabindex="-1">${mediaImage(candidate)}</a>
-    <h3><a href="${href}">${escapeHtml(candidate.name)}</a></h3>
-    <p class="byline">By ${escapeHtml(candidate.author || "Unknown author")}</p>
-    <p class="lede">${escapeHtml(candidate.description)}</p>
-    ${availabilityNote(candidate)}
-  </div>`;
+  return `<article class="glass tilt card showdown-entry${champion ? " champion" : ""}">
+    <p class="rank"><span class="live">${champion ? '<span class="live-dot" aria-hidden="true"></span>' : ""}${champion ? `01 ${labels.first}` : `02 ${labels.second}`}</span> ${statusPill(candidate)}</p>
+    <a class="media feature-media" href="${href}" tabindex="-1">${mediaImage(candidate)}</a>
+    <div class="card-body">
+      <h3><a href="${href}">${escapeHtml(candidate.name)}</a></h3>
+      <p class="byline">By ${escapeHtml(candidate.author || "Unknown author")}</p>
+      <p class="lede">${escapeHtml(candidate.description)}</p>
+      ${availabilityNote(candidate)}
+      <p class="card-foot"><a class="pill" href="${href}">${labels.compare} →</a></p>
+    </div>
+  </article>`;
+}
+
+// The winner's share of the pair's combined score, for the signal meter. Shown only where the
+// delta compares this pair: legacy snapshots without a hidden top scorer (that delta measures the
+// winner against the leader, not the runner-up). Reviewed snapshots de-emphasise the score.
+function scoreShare(type) {
+  const winner = Number(type.winner?.score);
+  const runnerUp = Number(type.runnerUp?.score);
+  if (!Number.isFinite(winner) || !Number.isFinite(runnerUp) || winner + runnerUp <= 0) return null;
+  return Math.round((winner / (winner + runnerUp)) * 1000) / 10;
 }
 
 function showdownSection(type, slot = 0, method) {
   const modern = reviewedPresentation(method);
   const href = `/picks/${encodeURIComponent(type.id)}/`;
   const gap = scoreGapLabel(type);
+  const share = gap && !modern && !hiddenLeader(type) ? scoreShare(type) : null;
   return `<article class="showdown" data-slot="${slot}">
-    <header class="showdown-head">
+    <header class="showdown-head reveal">
       <p class="kicker">Featured today</p>
-      <p class="showdown-note">A different category each day. Rankings refresh Monday.</p>
       <h2>${modern ? "Reviewed options for" : "Best"} <a href="${href}">${escapeHtml(type.name)}</a>${modern ? "" : " plugin this week"}</h2>
+      <p class="showdown-note">A different category each day. Rankings refresh Monday.</p>
     </header>
     <div class="showdown-pair">
-      ${showdownEntry(type.winner, "winner", href, method)}
-      ${showdownEntry(type.runnerUp, "runner-up", href, method)}
+      <div class="reveal">${showdownEntry(type.winner, "winner", href, method)}</div>
+      <div class="reveal" style="--d: 120ms">${showdownEntry(type.runnerUp, "runner-up", href, method)}</div>
     </div>
-    <p class="showdown-gap">
-      ${gap && !modern ? `<span class="delta">${gap}</span>` : ""}
+    <div class="showdown-gap reveal" data-animate>
+      ${gap && !modern ? `<div class="signal"><span class="delta">${gap}</span>${share !== null ? `<div class="meter" role="img" aria-label="${escapeHtml(type.winner.name)} holds ${share}% of the combined score"><span style="--v: ${share}%"></span></div>
+        <div class="meter-legend"><span>${escapeHtml(type.winner.name.toLowerCase())}</span><span>${escapeHtml(type.runnerUp.name.toLowerCase())}</span></div>` : ""}</div>` : ""}
       <span>${modern ? `${type.eligibleCount} qualified options` : competedLabel(type.eligibleCount)}</span>
-      <a class="text-link" href="${href}">${pickLabels(method).compare}</a>
-    </p>
+      <a class="text-link" href="${href}">${pickLabels(method).compare} →</a>
+    </div>
   </article>`;
 }
 
@@ -802,16 +859,16 @@ function featureArticle(type, slot = 0, method) {
   const runner = type.runnerUp?.name
     ? ` · ${reviewedPresentation(method) ? "alternative" : "runner-up"} ${type.runnerUp.name} by ${type.runnerUp.author || "Unknown author"}`
     : "";
-  return `<a class="feature support" href="${href}" data-feature data-slot="${slot}">
-    <span class="feature-media" aria-hidden="true">${mediaImage(winner, { decorative: true })}</span>
+  return `<div class="support-wrap reveal" data-slot="${slot}" style="--d: ${slot * 90}ms"><a class="glass tilt parallax feature support" href="${href}" data-feature data-slot="${slot}">
+    <span class="media feature-media">${mediaImage(winner, { decorative: true })}<span class="badge">${statusPill(winner)}</span></span>
     <div class="support-copy">
       <p class="kicker">${escapeHtml(type.name)}</p>
       <h3>${escapeHtml(winner.name)}</h3>
       <p class="support-meta">${labels.first} by ${escapeHtml(winner.author || "Unknown author")}${escapeHtml(runner)}</p>
       ${winner.availability?.status === "unavailable" ? '<p class="install-unavailable">Currently unavailable</p>' : ""}
-      <p class="feature-action">${labels.compare}</p>
+      <p class="feature-action pill">${labels.compare} →</p>
     </div>
-  </a>`;
+  </a></div>`;
 }
 
 function catalogRow(type, method) {
@@ -881,10 +938,10 @@ function starterCollections(rankings) {
     if (!picks.length) return "";
     return `<article class="starter-card"><h3>${escapeHtml(collection.title)}</h3>
       <p>${escapeHtml(collection.description)}</p>
-      <ul>${picks.map((type) => `<li><a href="/picks/${type.id}/">${escapeHtml(type.name)}</a></li>`).join("")}</ul></article>`;
+      <ul class="chips">${picks.map((type) => `<li><a class="chip" href="/picks/${type.id}/">${escapeHtml(type.name)}</a></li>`).join("")}</ul></article>`;
   }).filter(Boolean);
-  return `<section class="getting-started" aria-labelledby="getting-started-heading">
-    <div class="newcomer"><h2 id="getting-started-heading">New to Omarchy?</h2>
+  return `<section class="glass tile getting-started" aria-labelledby="getting-started-heading">
+    <div class="newcomer"><p class="kicker">start with a task, not a plugin list</p><h2 id="getting-started-heading">New to Omarchy?</h2>
       <p><a href="https://omarchy.org/">Omarchy</a> is a Linux desktop built around the keyboard. Plugins add tools and shortcuts to your setup. Explore a task below, compare this week’s picks, and visit the original listing for setup and version requirements.</p></div>
     ${cards.length ? `<div class="starter-grid">${cards.join("")}</div>` : ""}
   </section>`;
@@ -911,23 +968,59 @@ function newListingsNote(rankings) {
       ${shown.length ? `<ul>${shown.join("")}</ul>` : ""}`;
 }
 
-function weeklySummary(rankings, history) {
-  const modern = reviewedPresentation(snapshotMethodology(rankings));
+// Changes shown on the home page come from the previous published week when one exists,
+// otherwise from the snapshot's own recorded changes.
+function weeklyChanges(rankings, history) {
   const previous = history.filter((snapshot) => snapshot.week < rankings.week)
     .sort((a, b) => b.week.localeCompare(a.week))[0];
   const current = history.find((snapshot) => snapshot.week === rankings.week);
   const changes = previous ? changesBetween(previous, rankings) : current?.changes ?? [];
+  return { previous, current, changes };
+}
+
+function weeklySummary(rankings, history) {
+  const modern = reviewedPresentation(snapshotMethodology(rankings));
+  const { previous, current, changes } = weeklyChanges(rankings, history);
   const count = changes.length;
   const summary = !previous && !current
     ? "The first weekly snapshot is ready to explore."
     : count ? `${count} ${count === 1 ? "category has" : "categories have"} a ${modern ? "leading-option" : "champion"} change in this snapshot.`
       : modern ? "The leading reviewed options are unchanged in this snapshot." : "No champion changes in this snapshot. The current picks kept their titles.";
-  return `<section class="weekly-summary" aria-labelledby="weekly-summary-heading">
-    <div><p class="kicker">${escapeHtml(rankings.week ?? "Latest snapshot")}</p>
-      <h2 id="weekly-summary-heading">What changed this week</h2><p>${summary}</p></div>
-    <div>${count ? `<ul>${changes.slice(0, 3).map((change) => `<li><a href="/picks/${encodeURIComponent(change.typeId)}/">${escapeHtml(change.typeName)}</a>: ${change.current ? `${escapeHtml(change.current.name)} ${change.previous ? `replaces ${escapeHtml(change.previous.name)}` : modern ? "is the first leading reviewed option" : "is the first champion"}` : modern ? "has no leading reviewed option" : "the champion spot is vacant"}.</li>`).join("")}</ul>` : ""}
-      ${newListingsNote(rankings)}
-      <p><a href="/changelog/">See all weekly changes</a> · <a href="/feed/">Subscribe with RSS</a></p></div>
+  return `<section class="glass tile weekly-summary" aria-labelledby="weekly-summary-heading">
+    <p class="kicker">${escapeHtml(rankings.week ?? "Latest snapshot")}</p>
+    <h2 id="weekly-summary-heading">What changed this week</h2>
+    <p class="summary">${summary}</p>
+    ${count ? `<ol class="changes">${changes.slice(0, 3).map((change, index) => `<li><span class="n">${String(index + 1).padStart(2, "0")}</span><span><a href="/picks/${encodeURIComponent(change.typeId)}/">${escapeHtml(change.typeName)}</a>: ${change.current ? `<b>${escapeHtml(change.current.name)}</b> <em>${change.previous ? `replaces ${escapeHtml(change.previous.name)}` : modern ? "is the first leading reviewed option" : "is the first champion"}.</em>` : `<em>${modern ? "has no leading reviewed option" : "the champion spot is vacant"}.</em>`}</span></li>`).join("")}</ol>` : ""}
+    ${newListingsNote(rankings)}
+    <p class="tile-foot"><span>Snapshot ${escapeHtml(dateLabel(rankings.generatedAt) ?? rankings.week ?? "pending")}</span><span><a href="/changelog/">See all weekly changes</a> · <a href="/feed/">Subscribe with RSS</a></span></p>
+  </section>`;
+}
+
+function statTile(label, value, { accent = false, delay = 0 } = {}) {
+  const number = Number(value);
+  return `<div class="b-stat reveal"${delay ? ` style="--d: ${delay}ms"` : ""}><dl class="glass tile stat${accent ? " accent" : ""}"><dt>${escapeHtml(label)}</dt><dd data-count="${escapeHtml(number)}">${escapeHtml(number.toLocaleString("en-US"))}</dd></dl></div>`;
+}
+
+// Podium's bento band on Signal's glass: three stat tiles, the weekly changes, quick links and
+// the starter collections. Everything here is also meaningful without scripts or motion.
+function bentoBand(rankings, history, { categoryCount, eligibleEntries, method }) {
+  const modern = reviewedPresentation(method);
+  const { changes } = weeklyChanges(rankings, history);
+  return `<section class="bento" aria-labelledby="glance-heading">
+    <h2 id="glance-heading" class="visually-hidden">This week at a glance</h2>
+    ${statTile("Categories", categoryCount)}
+    ${statTile(method.eligibility.reviewedTaskEvidence ? "Reviewed category entries" : "Category entries", eligibleEntries, { delay: 60 })}
+    ${statTile(modern ? "Leading-option changes" : "Champion changes", changes.length, { accent: true, delay: 120 })}
+    <div class="b-changed reveal" style="--d: 180ms">${weeklySummary(rankings, history)}</div>
+    <div class="b-links reveal" style="--d: 240ms">
+      <nav class="glass tile links" aria-label="Learn more">
+        <a href="/methodology/"><span>How rankings work</span><span aria-hidden="true">→</span></a>
+        <a href="/feed/"><span>Subscribe with RSS</span><span aria-hidden="true">→</span></a>
+        <a href="/changelog/"><span>All weekly changes</span><span aria-hidden="true">→</span></a>
+        <p class="entry-note">Plugins in multiple categories count once in each.</p>
+      </nav>
+    </div>
+    <div class="b-newcomer reveal" style="--d: 300ms">${starterCollections(rankings)}</div>
   </section>`;
 }
 
@@ -954,6 +1047,7 @@ function homePage(rankings, history = []) {
       <p class="hero-trust"># no votes. no sponsorships. just a reproducible weekly snapshot from omarchy plugins.</p>
       <p class="hero-actions">
         <a class="button" href="#catalog">${escapeHtml(browseLabel(categoryCount))}</a>
+        <button class="button ghost" type="button" aria-label="Find a category" data-open-palette hidden>find a category <kbd aria-hidden="true">Ctrl K</kbd></button>
         <a class="text-link" href="/methodology/">How rankings work</a>
         ${shareLinks(
           "This week's Omarchy plugin rankings, independently scored from Omarchy Plugins.",
@@ -963,7 +1057,12 @@ function homePage(rankings, history = []) {
       </p>
     </div>
     <aside class="hero-aside">
-      <div class="hero-finder" role="search">
+      <div class="glass radar-panel" data-radar hidden>
+        <p class="radar-head"><span class="live"><span class="live-dot" aria-hidden="true"></span>signal · ${categoryCount} ${categoryNoun(categoryCount)}</span><span>sweep ${escapeHtml(String(rankings.week ?? "pending").toLowerCase())}</span></p>
+        <canvas class="radar" role="img" aria-label="Radar of ${categoryCount} ${categoryNoun(categoryCount)}. Move the pointer over a node to read its ${escapeHtml(labels.first.toLowerCase())}; click to open the category."></canvas>
+        <p class="radar-readout" aria-live="polite"><span data-radar-category>hover a node</span><strong data-radar-pick>—</strong></p>
+      </div>
+      <div class="hero-finder glass" role="search">
         <label id="finder-label" for="pick-filter">Find a category</label>
         <div class="finder-command">
           <span class="finder-prompt" aria-hidden="true">&gt;</span>
@@ -974,17 +1073,11 @@ function homePage(rankings, history = []) {
           ${catalogTypes.map((type) => finderItem(type, suggestedIds.has(type.id))).join("")}
         </ul>
         <p class="filter-empty" data-finder-empty hidden>No categories match.</p>
+        <p class="finder-hint" data-finder-hint hidden>↑↓ move · ↵ open · esc close</p>
       </div>
-      <dl class="hero-meta">
-        <div><dt>Categories</dt><dd>${categoryCount}</dd></div>
-        <div><dt>${snapshotMethodology(rankings).eligibility.reviewedTaskEvidence ? "Reviewed category entries" : "Category entries"}</dt><dd>${eligibleEntries.toLocaleString("en-US")}</dd></div>
-        <div><dt>Snapshot</dt><dd>${escapeHtml(dateLabel(rankings.generatedAt) ?? rankings.week ?? "pending")}</dd></div>
-      </dl>
-      <p class="entry-note">Plugins in multiple categories count once in each.</p>
     </aside>
   </section>
-  ${starterCollections(rankings)}
-  ${weeklySummary(rankings, history)}
+  ${bentoBand(rankings, history, { categoryCount, eligibleEntries, method })}
   ${
     featured.length
       ? `<section class="showcase" aria-label="Featured picks">
@@ -1000,15 +1093,23 @@ function homePage(rankings, history = []) {
       : ""
   }
   <section class="catalog" id="catalog" aria-labelledby="catalog-heading">
-    <div class="catalog-header">
-      <h2 id="catalog-heading">${escapeHtml(browseLabel(categoryCount, { all: true }))}</h2>
+    <div class="catalog-header reveal">
+      <div><p class="kicker">readout</p><h2 id="catalog-heading">${escapeHtml(browseLabel(categoryCount, { all: true }))}</h2></div>
+      <button class="button ghost" type="button" aria-label="Filter categories" data-open-palette hidden>filter <kbd aria-hidden="true">/</kbd></button>
     </div>
-    <div class="catalog-table">
-      <div class="catalog-head" aria-hidden="true" data-catalog-head><span>Category</span><span>${labels.first} · Author</span><span>${labels.second} · Author</span><span>${modern ? "Qualified" : "Competed"}</span></div>
-      ${catalogTypes.map((type) => catalogRow(type, method)).join("")}
+    <div class="glass readout-panel reveal">
+      <div class="catalog-table">
+        <div class="catalog-head" aria-hidden="true" data-catalog-head><span>Category</span><span>${labels.first} · Author</span><span>${labels.second} · Author</span><span>${modern ? "Qualified" : "Competed"}</span></div>
+        ${catalogTypes.map((type) => catalogRow(type, method)).join("")}
+      </div>
+      <p class="filter-empty" data-filter-empty hidden>No categories match.</p>
     </div>
-    <p class="filter-empty" data-filter-empty hidden>No categories match.</p>
-  </section>`;
+  </section>
+  <!-- The palette is an overlay slot: app.js moves the hero finder into it on / or Ctrl/⌘ K and back on close. -->
+  <div class="palette" role="dialog" aria-modal="true" aria-labelledby="finder-label" data-palette hidden>
+    <button class="palette-backdrop" type="button" tabindex="-1" aria-label="Close the category finder" data-palette-close></button>
+    <div class="palette-panel" data-palette-slot></div>
+  </div>`;
   return shell({
     title: "OmaPicks",
     description: modern ? "Reviewed Omarchy plugin options with task evidence, requirements, and weekly popularity comparisons." : "Independent weekly rankings of Omarchy plugins, one champion and one runner-up per app type.",
@@ -1024,6 +1125,28 @@ function homePage(rankings, history = []) {
       description: modern ? "Reviewed Omarchy plugin options with task evidence, requirements, and weekly popularity comparisons." : "Independent weekly rankings of Omarchy plugins, one champion and one runner-up per app type."
     }
   });
+}
+
+// The scoreboard between the two cards. The numbers are already printed in the comparison
+// section; for reviewed snapshots the footer repeats that the score only orders the shortlist,
+// and the "apart" badge appears only where legacy pages show a delta.
+function scoreboard(type, method) {
+  const { winner, runnerUp } = type;
+  if (!winner || !Number.isFinite(winner.score)) return "";
+  const modern = reviewedPresentation(method);
+  const share = scoreShare(type);
+  const lead = runnerUp ? scoreLead(winner, runnerUp) : null;
+  const score = (candidate, win) => `<div class="score-pair"><span class="score-num${win ? " win" : ""}" data-count="${candidate.score.toFixed(3)}" data-decimals="3">${candidate.score.toFixed(3)}</span><span class="score-name">${escapeHtml(candidate.name.toLowerCase())}</span></div>`;
+  return `<div class="glass scoreboard">
+    <p class="kicker">combined popularity score</p>
+    ${score(winner, true)}
+    ${runnerUp && Number.isFinite(runnerUp.score) ? `<span class="score-vs" aria-hidden="true">VS</span>
+    ${score(runnerUp, false)}
+    ${share !== null && !modern ? `<div class="meter" role="img" aria-label="${escapeHtml(winner.name)} holds ${share}% of the combined score"><span style="--v: ${share}%"></span></div>` : ""}
+    ${!modern && lead !== null && lead !== 0 ? `<span class="score-apart"><b>${escapeHtml(scorePercent(lead))}</b> apart</span>` : ""}` : ""}
+    <span class="score-count">${modern ? `${type.eligibleCount} qualified ${type.eligibleCount === 1 ? "option" : "options"}` : competedLabel(type.eligibleCount)}</span>
+    ${modern ? `<p class="score-note">Orders this reviewed shortlist; not a quality grade, confidence percentage or measure of task success.</p>` : ""}
+  </div>`;
 }
 
 function typePage(type, rankings) {
@@ -1052,21 +1175,23 @@ function typePage(type, rankings) {
             ? shareLinks(
                 modern ? `Compare ${type.winner.name} and other reviewed ${type.name} options on OmaPicks.` : `${type.winner.name} is this week's ${type.name} champion on OmaPicks.`,
                 `${ORIGIN}/picks/${encodeURIComponent(type.id)}/`,
-                "Share this ranking on X"
+                "Share this ranking on X",
+                "pill"
               )
             : ""
         }
       </div>
     </section>
     ${builtInNote(type, method)}
-    <div class="podium">
+    <div class="podium" data-animate>
       ${candidateCard(type.winner, "winner", type, rankings.week, { runnerUp: type.runnerUp, topScorer: type.topScorer, method, generatedAt: rankings.generatedAt })}
+      ${scoreboard(type, method)}
       ${candidateCard(type.runnerUp, "runner-up", type, rankings.week, { method, generatedAt: rankings.generatedAt })}
     </div>
     ${modern ? moreTaskChoices(type, method) : ""}
     ${scoreComparison(type, method)}
     ${modern ? "" : moreTaskChoices(type, method)}
-    <aside class="method-note">
+    <aside class="method-note reveal">
       <h2>How we pick</h2>
       <p>${escapeHtml(methodologyCopy(method).note)} <a href="/methodology/">Full scoring notes</a></p>
     </aside>
@@ -1109,7 +1234,7 @@ function methodologyPage(rankings) {
     ${method.eligibility.reviewedTaskEvidence ? `<p>Category matching supplies research leads. A recommendation needs a source-backed task decision in <code>data/task-reviews.json</code> that satisfies the category's minimum capabilities. Native core and substantial secondary capabilities qualify equally. Thin integrations are shown as related tools; pending, rejected and stale decisions cannot enter the podium. ${reviewedPresentation(method) ? "Repository identity, task contracts, and the recorded evidence determine validity. Listing changes enter reconciliation; changed supporting evidence needs re-review. Shared plugin requirements accompany every task assignment." : "A changed name, description, repository or task contract invalidates the decision until review."} Reviews describe publicly documented capabilities, not installation testing. Requirements and limitations appear with each choice.</p>
     <p>Each capture includes the complete review file and its checksum. The priority queue includes new claims, previous picks with changed evidence and prospective challengers. These research scores cannot confer eligibility. Popularity is normalized within the reviewed cohort; it remains evidence about the whole plugin, not measured adoption of an individual capability.</p>` : ""}
     <p>${copy.score}</p>
-    <ul class="weight-list">${weights}</ul>
+    <ul class="weight-list" data-animate>${weights}</ul>
     ${copy.afterWeights.map((paragraph) => `<p>${paragraph}</p>`).join("\n    ")}
     <h2>Stability</h2>
     <p>${escapeHtml(copy.stabilityRule)}</p>
@@ -1227,7 +1352,7 @@ function changelogPage(history) {
         weeks.length
           ? weeks
               .map(
-                (entry) => `<section>
+                (entry) => `<section class="glass reveal">
                   <h2>${weekLabel(entry.week, entry.generatedAt)}</h2>
                   ${changeList(entry)}
                   ${runnerUpList(entry)}
@@ -1237,7 +1362,7 @@ function changelogPage(history) {
           : "<p>No weekly history has been published yet.</p>"
       }
     </div>
-    <aside class="rss-callout">
+    <aside class="glass rss-callout">
       <p class="kicker">Follow the ranking</p>
       <h2>Get ${modern ? "weekly selection" : "champion"} changes in your reader</h2>
       <p>The RSS feed only publishes meaningful changes, so quiet weeks stay quiet.</p>
@@ -1268,11 +1393,11 @@ function badgeSvg(type, candidate, week, method) {
     </clipPath>
   </defs>
   <g clip-path="url(#badge)">
-    <rect width="${leftWidth}" height="20" fill="${PALETTE.ink}"/>
-    <rect x="${leftWidth}" width="${rightWidth}" height="20" fill="${PALETTE.accent}"/>
+    <rect width="${leftWidth}" height="20" fill="${BADGE_PALETTE.ink}"/>
+    <rect x="${leftWidth}" width="${rightWidth}" height="20" fill="${BADGE_PALETTE.accent}"/>
   </g>
-  <text x="10" y="14.5" fill="${PALETTE.bg}" font-family="'Cascadia Mono',ui-monospace,monospace" font-size="11" font-weight="700">${escapeHtml(left)}</text>
-  <text x="${leftWidth + 8}" y="14.5" fill="${PALETTE.bg}" font-family="'Cascadia Mono',ui-monospace,monospace" font-size="11">${escapeHtml(right)}</text>
+  <text x="10" y="14.5" fill="${BADGE_PALETTE.bg}" font-family="'Cascadia Mono',ui-monospace,monospace" font-size="11" font-weight="700">${escapeHtml(left)}</text>
+  <text x="${leftWidth + 8}" y="14.5" fill="${BADGE_PALETTE.bg}" font-family="'Cascadia Mono',ui-monospace,monospace" font-size="11">${escapeHtml(right)}</text>
 </svg>
 `;
 }
@@ -1334,9 +1459,9 @@ function feedPage(entries, modern = entries.some((entry) => entry.modern)) {
     <p class="eyebrow">RSS feed</p>
     <h1>${title}</h1>
     <p class="page-lede">${description} Feed readers receive the same RSS 2.0 entries.</p>
-    <p class="feed-subscribe"><strong>Subscribe:</strong> copy <a href="/feed.xml">${ORIGIN}/feed.xml</a> into your feed reader.</p>
+    <p class="glass feed-subscribe"><strong>Subscribe:</strong> copy <a href="/feed.xml">${ORIGIN}/feed.xml</a> into your feed reader.</p>
     <section class="feed-entries" aria-label="Recent changes">
-      ${entries.length ? entries.map((entry) => `<article>
+      ${entries.length ? entries.map((entry) => `<article class="glass">
         ${entry.published ? `<time datetime="${escapeHtml(entry.publishedAt)}">${escapeHtml(entry.published)}</time>` : "<span></span>"}
         <div><h2><a href="${escapeHtml(entry.path)}">${escapeHtml(entry.title)}</a></h2>
         <p>${escapeHtml(entry.description)}</p></div>
@@ -1507,7 +1632,7 @@ export async function render({ root = ROOT } = {}) {
       description: "This OmaPicks page does not exist.",
       pathname: "/404.html",
       image: socialImage(),
-      body: `<section class="page-section prose"><p class="eyebrow">404</p><h1>This page isn't here</h1><p class="page-lede"><a href="/">Back to this week's picks</a></p></section>`
+      body: `<section class="page-section prose not-found"><p class="eyebrow">404</p><h1>This page isn't here</h1><p class="page-lede"><a href="/">Back to this week's picks</a></p></section>`
     })
   );
   return { typeCount: rankings.types.length, historyCount: history.length, output: DIST };
