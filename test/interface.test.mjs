@@ -5,10 +5,28 @@ import { BADGE_PALETTE, PALETTE, renderFixtureBadge, renderFixtureHome, renderFi
 
 const styles = readFileSync(new URL("../site/styles.css", import.meta.url), "utf8");
 
-// The first `:root { … }` block holds the dark tokens; `:root[data-theme="light"]` holds light.
-function token(block, name) {
-  const source = styles.match(new RegExp(`${block.replace(/[[\]]/g, "\\$&")}\\s*\\{([^}]*)\\}`))?.[1] ?? "";
-  return source.match(new RegExp(`${name}:\\s*([^;]+);`))?.[1].trim();
+// The first `:root { … }` block holds the dark tokens; `:root[data-theme="light"]` holds the
+// explicit light theme and `:root:not([data-theme="dark"])` (inside the prefers-color-scheme media
+// query) the no-JavaScript light theme. Blocks are read by brace matching, so nested rules and
+// selectors with parentheses work.
+function block(selector) {
+  const start = styles.indexOf(`${selector} {`);
+  if (start < 0) return "";
+  const open = styles.indexOf("{", start);
+  let depth = 0;
+  for (let i = open; i < styles.length; i += 1) {
+    if (styles[i] === "{") depth += 1;
+    else if (styles[i] === "}" && (depth -= 1) === 0) return styles.slice(open + 1, i);
+  }
+  return "";
+}
+
+function token(selector, name) {
+  return block(selector).match(new RegExp(`${name}:\\s*([^;]+);`))?.[1].trim();
+}
+
+function customProperties(source) {
+  return Object.fromEntries([...source.matchAll(/(--[\w-]+):\s*([^;]+);/g)].map(([, name, value]) => [name, value.trim()]));
 }
 
 function fixtureRankings() {
@@ -74,6 +92,27 @@ test("the signal meter appears only where the legacy delta does, with the winner
     runnerUp: { ...fixtureRankings().types[0].winner, id: "other", name: "Other", score: 0.5 } }] });
   assert.doesNotMatch(reviewed, /class="meter"|class="delta"/, "reviewed snapshots keep the score off the home page");
   assert.match(reviewed, /2 qualified options/);
+  // A hidden top scorer changes the delta to "behind this week's top score"; that compares the
+  // winner with the leader, so the pair's share bar would describe a different pair and is skipped.
+  const hiddenLeader = legacy(candidate("lead", 0.9), candidate("second", 0.6));
+  hiddenLeader.types[0].topScorer = { ...candidate("top", 0.95) };
+  const behind = renderFixtureHome(hiddenLeader);
+  assert.match(behind, /class="delta">[^<]*behind this week's top score</);
+  assert.doesNotMatch(behind, /class="meter"/);
+});
+
+test("the no-JavaScript light palette matches the explicit light theme", () => {
+  const explicit = customProperties(block(':root[data-theme="light"]'));
+  const osLight = customProperties(block(':root:not([data-theme="dark"])'));
+  assert.ok(Object.keys(explicit).length > 10, "light theme tokens were not found");
+  assert.deepEqual(osLight, explicit);
+});
+
+test("the finder triggers are named for assistive tech and the weekly tile keeps a short heading", () => {
+  const html = renderFixtureHome(fixtureRankings());
+  assert.match(html, /<button class="finder-trigger" type="button" aria-label="Find a category" data-open-palette hidden><span class="finder-trigger-label" aria-hidden="true">find a category<\/span><kbd aria-hidden="true">Ctrl K<\/kbd><\/button>/);
+  assert.doesNotMatch(html, /<kbd>[^<]*<\/kbd>/, "every shortcut hint is decorative");
+  assert.match(html, /<h2 id="weekly-summary-heading">What changed this week<\/h2>\s*<p class="summary">/);
 });
 
 test("contrast-probed tokens stay opaque in both themes", () => {

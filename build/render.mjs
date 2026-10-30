@@ -452,7 +452,7 @@ function nav(pathname = "/") {
         ${navLink("/methodology/", "Method", pathname)}
         ${navLink("/changelog/", "Changes", pathname)}
         ${navLink("/feed/", "RSS", pathname)}
-        ${pathname === "/" ? `<button class="finder-trigger" type="button" data-open-palette hidden><span class="finder-trigger-label">find a category</span><kbd>⌘K</kbd></button>` : ""}
+        ${pathname === "/" ? `<button class="finder-trigger" type="button" aria-label="Find a category" data-open-palette hidden><span class="finder-trigger-label" aria-hidden="true">find a category</span><kbd aria-hidden="true">Ctrl K</kbd></button>` : ""}
         <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme" aria-pressed="true">
           <span class="theme-label-dark" aria-hidden="true">Dark</span>
           <span class="theme-label-light" aria-hidden="true">Light</span>
@@ -807,7 +807,8 @@ function showdownEntry(candidate, place, href, method) {
 }
 
 // The winner's share of the pair's combined score, for the signal meter. Shown only where the
-// delta is shown: legacy snapshots. Reviewed snapshots de-emphasise the score on the home page.
+// delta compares this pair: legacy snapshots without a hidden top scorer (that delta measures the
+// winner against the leader, not the runner-up). Reviewed snapshots de-emphasise the score.
 function scoreShare(type) {
   const winner = Number(type.winner?.score);
   const runnerUp = Number(type.runnerUp?.score);
@@ -819,7 +820,7 @@ function showdownSection(type, slot = 0, method) {
   const modern = reviewedPresentation(method);
   const href = `/picks/${encodeURIComponent(type.id)}/`;
   const gap = scoreGapLabel(type);
-  const share = gap && !modern ? scoreShare(type) : null;
+  const share = gap && !modern && !hiddenLeader(type) ? scoreShare(type) : null;
   return `<article class="showdown" data-slot="${slot}">
     <header class="showdown-head reveal">
       <p class="kicker">Featured today</p>
@@ -974,8 +975,9 @@ function weeklySummary(rankings, history) {
     : count ? `${count} ${count === 1 ? "category has" : "categories have"} a ${modern ? "leading-option" : "champion"} change in this snapshot.`
       : modern ? "The leading reviewed options are unchanged in this snapshot." : "No champion changes in this snapshot. The current picks kept their titles.";
   return `<section class="glass tile weekly-summary" aria-labelledby="weekly-summary-heading">
-    <p class="kicker">${escapeHtml(rankings.week ?? "Latest snapshot")} · what changed</p>
-    <h2 id="weekly-summary-heading">${summary}</h2>
+    <p class="kicker">${escapeHtml(rankings.week ?? "Latest snapshot")}</p>
+    <h2 id="weekly-summary-heading">What changed this week</h2>
+    <p class="summary">${summary}</p>
     ${count ? `<ol class="changes">${changes.slice(0, 3).map((change, index) => `<li><span class="n">${String(index + 1).padStart(2, "0")}</span><span><a href="/picks/${encodeURIComponent(change.typeId)}/">${escapeHtml(change.typeName)}</a>: ${change.current ? `<b>${escapeHtml(change.current.name)}</b> <em>${change.previous ? `replaces ${escapeHtml(change.previous.name)}` : modern ? "is the first leading reviewed option" : "is the first champion"}.</em>` : `<em>${modern ? "has no leading reviewed option" : "the champion spot is vacant"}.</em>`}</span></li>`).join("")}</ol>` : ""}
     ${newListingsNote(rankings)}
     <p class="tile-foot"><span>Snapshot ${escapeHtml(dateLabel(rankings.generatedAt) ?? rankings.week ?? "pending")}</span><span><a href="/changelog/">See all weekly changes</a> · <a href="/feed/">Subscribe with RSS</a></span></p>
@@ -1033,7 +1035,7 @@ function homePage(rankings, history = []) {
       <p class="hero-trust"># no votes. no sponsorships. just a reproducible weekly snapshot from omarchy plugins.</p>
       <p class="hero-actions">
         <a class="button" href="#catalog">${escapeHtml(browseLabel(categoryCount))}</a>
-        <button class="button ghost" type="button" data-open-palette hidden>find a category <kbd>⌘K</kbd></button>
+        <button class="button ghost" type="button" aria-label="Find a category" data-open-palette hidden>find a category <kbd aria-hidden="true">Ctrl K</kbd></button>
         <a class="text-link" href="/methodology/">How rankings work</a>
         ${shareLinks(
           "This week's Omarchy plugin rankings, independently scored from Omarchy Plugins.",
@@ -1081,7 +1083,7 @@ function homePage(rankings, history = []) {
   <section class="catalog" id="catalog" aria-labelledby="catalog-heading">
     <div class="catalog-header reveal">
       <div><p class="kicker">readout</p><h2 id="catalog-heading">${escapeHtml(browseLabel(categoryCount, { all: true }))}</h2></div>
-      <button class="button ghost" type="button" data-open-palette hidden>filter <kbd>/</kbd></button>
+      <button class="button ghost" type="button" aria-label="Filter categories" data-open-palette hidden>filter <kbd aria-hidden="true">/</kbd></button>
     </div>
     <div class="glass readout-panel reveal">
       <div class="catalog-table">

@@ -3,6 +3,7 @@ import { createHash } from "node:crypto";
 import { readFile, stat } from "node:fs/promises";
 import test from "node:test";
 import {
+  PALETTE,
   escapeHtml,
   featuredDayIndex,
   featuredTypes,
@@ -399,6 +400,9 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
     readFile(new URL("../dist/site.webmanifest", import.meta.url), "utf8"),
     pickType.winner ? readFile(new URL(`../dist/badges/${rankings.week}/${pickType.id}/${encodeURIComponent(pickType.winner.id)}.svg`, import.meta.url), "utf8") : Promise.resolve("")
   ]);
+  const manifestColours = JSON.parse(manifestSource);
+  assert.equal(manifestColours.background_color, PALETTE.bg);
+  assert.equal(manifestColours.theme_color, PALETTE.bg);
   const typeCount = rankings.types.length;
   const featured = featuredTypes(rankings, 5);
   assert.match(home, /rel="icon" href="\/assets\/icon\.svg" type="image\/svg\+xml" sizes="any"/);

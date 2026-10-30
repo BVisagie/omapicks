@@ -190,7 +190,7 @@ kbd {
 
 .skip-link {
   position: fixed;
-  z-index: 20;
+  z-index: 40; /* above the sticky header (30), below the palette (50) */
   left: 1rem;
   top: 1rem;
   padding: 0.55rem 0.9rem;
@@ -353,7 +353,9 @@ kbd {
   box-shadow: var(--tile-shadow-hover);
 }
 
-.glass > * {
+/* Content sits above the ::before/::after edges; :where() keeps this at single-class strength so
+   a child's own positioning rule still wins. */
+.glass > :where(*) {
   position: relative;
   z-index: 1;
 }
@@ -370,6 +372,10 @@ kbd {
   .glass {
     background: var(--surface);
   }
+
+  .site-header {
+    background: var(--bg);
+  }
 }
 
 /* Header: sticky glass bar with the brand mark, pill navigation and pill controls. */
@@ -378,7 +384,8 @@ kbd {
   top: 0;
   z-index: 30;
   border-bottom: 1px solid var(--line);
-  background: color-mix(in srgb, var(--bg) 74%, transparent);
+  /* 92% keeps --muted nav links at AA over any content scrolling beneath the bar. */
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
 }
@@ -1064,6 +1071,12 @@ kbd {
   color: var(--muted);
 }
 
+.weekly-summary .summary {
+  margin: 0 0 0.9rem;
+  font-size: 1.02rem;
+  line-height: 1.5;
+}
+
 .weekly-summary .new-listings {
   margin: 0.9rem 0 0;
   color: var(--muted);
@@ -1361,7 +1374,15 @@ kbd {
 .meter-legend {
   display: flex;
   justify-content: space-between;
+  gap: 1rem;
   font-size: 0.72rem;
+}
+
+.meter-legend span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .feature {
@@ -1540,15 +1561,21 @@ kbd {
   right: 0.5rem;
   bottom: 0.2rem;
   margin: 0;
-  opacity: 0;
-  transform: translateY(8px);
   transition: opacity 300ms ease, transform 400ms var(--ease), background-color 200ms ease, color 200ms ease, border-color 200ms ease;
 }
 
-.support:hover .feature-action,
-.support:focus-visible .feature-action {
-  opacity: 1;
-  transform: none;
+/* The pill slides in on hover only where hovering exists; touch screens of any width always see it. */
+@media (hover: hover) and (pointer: fine) {
+  .feature-action {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  .support:hover .feature-action,
+  .support:focus-visible .feature-action {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* Catalog readout: Signal's table inside a rounded glass panel with a hover sweep. */
@@ -2580,7 +2607,12 @@ footer p a {
     align-items: flex-start;
   }
 
-  .showdown-gap,
+  .showdown-gap {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+
+  /* Listed separately so a browser without :has() keeps the stacked layout above. */
   .showdown-gap:not(:has(.signal)) {
     grid-template-columns: 1fr;
     gap: 0.6rem;
@@ -2698,9 +2730,11 @@ footer p a {
 }
 
 @media (max-width: 720px) {
-  /* Smaller, lighter atmosphere on phones: two blobs, less blur to render. */
+  /* Smaller, lighter atmosphere on phones: two still blobs, less blur, no compositor layer. */
   .aurora {
     filter: blur(60px);
+    animation: none;
+    will-change: auto;
   }
 
   .aurora-c {
@@ -2721,15 +2755,20 @@ footer p a {
   }
 
   .terminal-cursor,
-  .aurora,
   .live-dot,
   .palette-panel .hero-finder {
     animation: none;
     opacity: 1;
   }
 
-  .aurora {
-    opacity: var(--aurora-opacity);
+  /* Stop the paint, not only the drift: blurred layers and the grain tile cost compositing even
+     when still. The atmosphere's own radial background keeps the depth. */
+  .aurora,
+  .grain {
+    display: none;
+    filter: none;
+    animation: none;
+    will-change: auto;
   }
 
   .glass,
@@ -2848,6 +2887,11 @@ footer p a {
   .js .reveal.is-in {
     opacity: 1;
     transform: none;
+  }
+
+  /* A revealed glass panel keeps its tilt and hover lift; equal specificity would otherwise lose. */
+  .js .glass.reveal.is-in {
+    transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--lift, 0px));
   }
 }
 

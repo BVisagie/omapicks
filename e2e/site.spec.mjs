@@ -118,6 +118,11 @@ test("skip link reaches main content and theme persists", async ({ page }) => {
   await page.goto("/");
   await page.keyboard.press("Tab");
   await expect(page.getByRole("link", { name: "Skip to content" })).toBeFocused();
+  // The focused link must not be covered by the sticky header.
+  expect(await page.getByRole("link", { name: "Skip to content" }).evaluate((link) => {
+    const box = link.getBoundingClientRect();
+    return document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2) === link;
+  })).toBe(true);
   await page.keyboard.press("Enter");
   await page.keyboard.press("Tab");
   await expect(page.getByRole("link", { name: /^Browse \d+ categor(?:y|ies)$/ })).toBeFocused();
@@ -170,6 +175,13 @@ test("the hero finder doubles as a command palette and returns to the hero on cl
   await expect(palette).toBeVisible();
   await expect(palette.locator(".hero-finder")).toHaveCount(1);
   await expect(page.getByRole("searchbox")).toBeFocused();
+  await page.getByRole("searchbox").fill("clipboard");
+  await page.keyboard.press("ArrowDown");
+  await expect(page.locator("[data-finder-item]:visible a").first()).toBeFocused();
+  // A character typed while a result has focus belongs to the query.
+  await page.keyboard.press("s");
+  await expect(page.getByRole("searchbox")).toBeFocused();
+  await expect(page.getByRole("searchbox")).toHaveValue("clipboards");
   await page.getByRole("searchbox").fill("clipboard");
   await page.keyboard.press("ArrowDown");
   await expect(page.locator("[data-finder-item]:visible a").first()).toBeFocused();
@@ -228,6 +240,18 @@ test("reduced motion shows every section in its final state without waiting for 
     expect(transform).toBe("none");
   }
   expect(await page.locator(".aurora").first().evaluate((node) => getComputedStyle(node).animationName)).toBe("none");
+  for (const layer of [".aurora", ".grain"]) {
+    expect(await page.locator(layer).first().evaluate((node) => getComputedStyle(node).display), layer).toBe("none");
+  }
+  await context.close();
+});
+
+test("touch screens always see the compare pill on pick tiles", async ({ browser }) => {
+  const context = await browser.newContext({ hasTouch: true, viewport: { width: 1200, height: 900 } });
+  const page = await context.newPage();
+  await page.goto("http://127.0.0.1:4173/");
+  await page.locator(".support .feature-action").first().scrollIntoViewIfNeeded();
+  await expect(page.locator(".support .feature-action").first()).toHaveCSS("opacity", "1");
   await context.close();
 });
 

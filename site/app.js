@@ -1,30 +1,45 @@
 const root = document.documentElement;
 const themeButton = document.querySelector("[data-theme-toggle]");
-const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-const finePointer = matchMedia("(pointer: fine)").matches;
+const reduceMotionQuery = matchMedia("(prefers-reduced-motion: reduce)");
+const finePointerQuery = matchMedia("(pointer: fine)");
+// One-shot effects (decode, radar) sample the preference at load; pointer effects read it live.
+const reduceMotion = reduceMotionQuery.matches;
 
 // Styles that depend on JavaScript (scroll reveals, tilt) key off this class so that without
 // scripts every element simply renders in its final state.
 root.classList.add("js");
 
 // Glass tiles: the cursor position lights the border and spotlight; .tilt tiles lean toward it.
-document.addEventListener("pointermove", (event) => {
-  const tile = event.target.closest?.(".glass");
-  if (!tile) return;
+// Pointer events arrive faster than frames, so the layout read and the style writes are
+// coalesced into one requestAnimationFrame per frame.
+let pointerFrame = 0;
+let pointerTarget = null;
+function applyPointer() {
+  pointerFrame = 0;
+  const { tile, clientX, clientY } = pointerTarget;
   const rect = tile.getBoundingClientRect();
-  const x = event.clientX - rect.left;
-  const y = event.clientY - rect.top;
+  if (!rect.width || !rect.height) return;
+  const x = clientX - rect.left;
+  const y = clientY - rect.top;
   tile.style.setProperty("--mx", `${x}px`);
   tile.style.setProperty("--my", `${y}px`);
-  if (tile.classList.contains("tilt") && finePointer && !reduceMotion) {
+  const lean = finePointerQuery.matches && !reduceMotionQuery.matches;
+  if (lean && tile.classList.contains("tilt")) {
     tile.style.setProperty("--rx", `${((0.5 - y / rect.height) * 8).toFixed(2)}deg`);
     tile.style.setProperty("--ry", `${((x / rect.width - 0.5) * 8).toFixed(2)}deg`);
   }
-  if (tile.classList.contains("parallax") && finePointer && !reduceMotion) {
+  if (lean && tile.classList.contains("parallax")) {
     // The preview drifts a few pixels against the cursor.
     tile.style.setProperty("--px", ((x / rect.width - 0.5) * -2).toFixed(3));
     tile.style.setProperty("--py", ((y / rect.height - 0.5) * -2).toFixed(3));
   }
+}
+
+document.addEventListener("pointermove", (event) => {
+  const tile = event.target.closest?.(".glass");
+  if (!tile) return;
+  pointerTarget = { tile, clientX: event.clientX, clientY: event.clientY };
+  if (!pointerFrame) pointerFrame = requestAnimationFrame(applyPointer);
 }, { passive: true });
 
 document.addEventListener("pointerout", (event) => {
@@ -40,12 +55,25 @@ function countUp(element) {
   const decimals = Number(element.dataset.decimals || 0);
   const suffix = element.dataset.suffix || "";
   const format = (value) => (decimals ? value.toFixed(decimals) : Math.round(value).toLocaleString("en-US")) + suffix;
-  if (reduceMotion) { element.textContent = format(target); return; }
+  const final = format(target);
+  if (reduceMotion) { element.textContent = final; return; }
+  // Assistive tech reads the final number throughout; only the visible copy animates.
+  const live = document.createElement("span");
+  live.className = "visually-hidden";
+  live.textContent = final;
+  const visible = document.createElement("span");
+  visible.setAttribute("aria-hidden", "true");
+  visible.textContent = format(0);
+  element.replaceChildren(live, visible);
   const start = performance.now();
   const tick = (now) => {
     const progress = Math.min(1, (now - start) / 1300);
-    element.textContent = format(target * (1 - (1 - progress) ** 3));
-    if (progress < 1) requestAnimationFrame(tick);
+    if (progress < 1) {
+      visible.textContent = format(target * (1 - (1 - progress) ** 3));
+      requestAnimationFrame(tick);
+    } else {
+      element.textContent = final;
+    }
   };
   requestAnimationFrame(tick);
 }
@@ -193,8 +221,12 @@ finderResults?.addEventListener("keydown", (event) => {
     const next = links[index + (event.key === "ArrowDown" ? 1 : -1)];
     if (next) next.focus();
     else if (event.key === "ArrowUp") filter?.focus();
-  } else if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
-    filter?.focus();
+  } else if (filter && event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
+    // The character was aimed at the search box: move focus there and keep the keystroke.
+    event.preventDefault();
+    filter.focus();
+    filter.value += event.key;
+    filter.dispatchEvent(new Event("input", { bubbles: true }));
   }
 });
 
@@ -262,7 +294,8 @@ if (palette && finder && filter) {
       // Keep focus inside the dialog: cycle between the search box and the visible results.
       const stops = [filter, ...visibleFinderLinks()];
       const index = stops.indexOf(document.activeElement);
-      const next = stops[(index + (event.shiftKey ? -1 : 1) + stops.length) % stops.length];
+      const step = index + (event.shiftKey ? -1 : 1);
+      const next = stops[((step % stops.length) + stops.length) % stops.length];
       if (next) { event.preventDefault(); next.focus(); }
     }
   });
