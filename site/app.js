@@ -379,6 +379,17 @@ if (radarPanel && radarCanvas && radarContext && finderItems.length) {
     const n = parseInt(hex.slice(1), 16);
     return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${alpha})`;
   };
+  // The node under a canvas point, from the positions of the last drawn frame. Shared by the hover
+  // readout and by clicks, because a tap on a touch screen arrives without any preceding pointermove.
+  function nodeAt(x, y) {
+    let best = null;
+    let bestDistance = 24;
+    for (const node of nodes) {
+      const distance = Math.hypot(x - node.x, y - node.y);
+      if (distance < bestDistance) { bestDistance = distance; best = node; }
+    }
+    return best;
+  }
   function draw(time) {
     if (!size) return;
     const c = size / 2;
@@ -399,8 +410,6 @@ if (radarPanel && radarCanvas && radarContext && finderItems.length) {
     }
     ctx.strokeStyle = rgba(colors.accent, 0.9);
     ctx.beginPath(); ctx.moveTo(c, c); ctx.lineTo(c + Math.cos(sweep) * R, c + Math.sin(sweep) * R); ctx.stroke();
-    let nearest = null;
-    let nearestDistance = 24;
     for (const node of nodes) {
       const ring = rings[node.ring];
       const angle = node.base + (reduceMotionQuery.matches ? 0 : time * ring.w);
@@ -408,10 +417,6 @@ if (radarPanel && radarCanvas && radarContext && finderItems.length) {
       node.y = c + Math.sin(angle) * R * ring.r;
       const behind = (((sweep - angle) % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
       const glow = behind < 1.1 ? 1 - behind / 1.1 : 0;
-      if (pointer) {
-        const distance = Math.hypot(pointer.x - node.x, pointer.y - node.y);
-        if (distance < nearestDistance) { nearestDistance = distance; nearest = node; }
-      }
       if (glow > 0) {
         ctx.fillStyle = rgba(colors.accent, glow * 0.22);
         ctx.beginPath(); ctx.arc(node.x, node.y, 3 + glow * 6, 0, Math.PI * 2); ctx.fill();
@@ -419,6 +424,7 @@ if (radarPanel && radarCanvas && radarContext && finderItems.length) {
       ctx.fillStyle = rgba(colors.accent, 0.42 + glow * 0.58);
       ctx.beginPath(); ctx.arc(node.x, node.y, 2 + glow * 1.4, 0, Math.PI * 2); ctx.fill();
     }
+    const nearest = pointer ? nodeAt(pointer.x, pointer.y) : null;
     if (nearest) {
       ctx.strokeStyle = rgba(colors.accent, 0.9);
       ctx.beginPath(); ctx.arc(nearest.x, nearest.y, 8, 0, Math.PI * 2); ctx.stroke();
@@ -476,7 +482,11 @@ if (radarPanel && radarCanvas && radarContext && finderItems.length) {
   radarCanvas.addEventListener("pointerleave", () => { pointer = null; if (reduceMotionQuery.matches) draw(0); });
   // A preference change after load stops the sweep on one static frame, or restarts it.
   reduceMotionQuery.addEventListener("change", () => { if (reduceMotionQuery.matches) { stop(); draw(0); } else start(); });
-  radarCanvas.addEventListener("click", () => { if (hovered?.href) window.location.assign(hovered.href); });
+  radarCanvas.addEventListener("click", (event) => {
+    const rect = radarCanvas.getBoundingClientRect();
+    const target = nodeAt(event.clientX - rect.left, event.clientY - rect.top) ?? hovered;
+    if (target?.href) window.location.assign(target.href);
+  });
   document.addEventListener("visibilitychange", start);
   if ("IntersectionObserver" in window) {
     new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; start(); }).observe(radarPanel);

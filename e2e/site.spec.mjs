@@ -321,6 +321,33 @@ test("the radar and headline decode are enhancements that leave the content inta
   await context.close();
 });
 
+test("a tap on a radar node opens its category on touch screens", async ({ browser }) => {
+  const context = await browser.newContext({ hasTouch: true, reducedMotion: "reduce", viewport: { width: 1200, height: 900 } });
+  const page = await context.newPage();
+  await page.goto("http://127.0.0.1:4173/");
+  const canvas = page.locator("[data-radar] canvas");
+  await expect(canvas).toBeVisible();
+  // Under reduced motion the first finder item is node 0: angle 0 on the inner ring (0.34 of the radius).
+  const target = await canvas.evaluate((node) => {
+    const size = node.getBoundingClientRect().width;
+    return { x: size / 2 + (size / 2 - 12) * 0.34, y: size / 2 };
+  });
+  const href = await page.locator("[data-finder-item] a").first().getAttribute("href");
+  await canvas.tap({ position: target });
+  await expect(page).toHaveURL(new RegExp(`${href.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`));
+  await context.close();
+});
+
+test("fragment links land their heading below the sticky header", async ({ page }) => {
+  for (const width of [1440, 320]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/methodology/#data-sources");
+    const heading = await page.locator("#data-sources").boundingBox();
+    const header = await page.locator(".site-header").boundingBox();
+    expect(heading.y, `${width}px`).toBeGreaterThanOrEqual(header.y + header.height);
+  }
+});
+
 test("discovery and email remain usable without JavaScript", async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
