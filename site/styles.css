@@ -372,10 +372,6 @@ kbd {
   .glass {
     background: var(--surface);
   }
-
-  .site-header {
-    background: var(--bg);
-  }
 }
 
 /* Header: sticky glass bar with the brand mark, pill navigation and pill controls. */
@@ -388,6 +384,13 @@ kbd {
   background: color-mix(in srgb, var(--bg) 92%, transparent);
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
+}
+
+/* After the main rule, so the opaque fallback wins where the bar cannot blur what is beneath it. */
+@supports not (backdrop-filter: blur(1px)) {
+  .site-header {
+    background: var(--bg);
+  }
 }
 
 .site-header .page-wrap {
@@ -1754,7 +1757,8 @@ kbd {
   align-items: stretch;
 }
 
-.podium:not(:has(.scoreboard)) {
+/* :where() keeps this at single-class strength so the phone layout below still stacks it. */
+.podium:not(:where(:has(.scoreboard))) {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 

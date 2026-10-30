@@ -45,6 +45,12 @@ document.addEventListener("pointermove", (event) => {
 document.addEventListener("pointerout", (event) => {
   const tile = event.target.closest?.(".glass");
   if (!tile || tile.contains(event.relatedTarget)) return;
+  // A frame queued by the last move inside this tile must not re-apply the tilt after exit.
+  if (pointerTarget?.tile === tile) {
+    cancelAnimationFrame(pointerFrame);
+    pointerFrame = 0;
+    pointerTarget = null;
+  }
   for (const name of ["--rx", "--ry", "--px", "--py"]) tile.style.removeProperty(name);
 });
 
