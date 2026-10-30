@@ -309,8 +309,8 @@ test("taxonomy-only baselines cannot silently reuse current task adjudications",
 test("caption wording preserves one- and two-sentence task claims for review", async () => {
   const production = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
   for (const [typeId, description] of [
-    ["weather", "The image shows a weather radar widget for the menu bar."],
-    ["weather", "Menu-bar weather radar. The image shows the forecast."],
+    ["weather-radar", "The image shows a weather radar widget for the menu bar."],
+    ["weather-radar", "Menu-bar weather radar. The image shows the forecast."],
     ["network", "The image shows how you connect, disconnect and configure Wi-Fi networks."],
     ["network", "Connect, disconnect and configure Wi-Fi networks. The preview image shows the controls."],
     ["screenshots", "The screenshot shows how to take a screenshot of a window and save the image."],

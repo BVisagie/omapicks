@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "classificationVersion": 3,
   "generatedAt": "2026-10-30T11:21:19.177Z",
-  "taxonomyHash": "754f592188f88ce4641d003b869b7742c97cfd044bae30388659aca39d43a5bd",
+  "taxonomyHash": "b51e86ce5f2e3b5b52659c15c1bc22e3862583acba259a35e692e8cfb85c4c61",
   "plugins": [
     {
       "id": "07dcolem.appimages",
@@ -817,7 +817,6 @@
       "name": "Resume AI Session",
       "metadataHash": "2e0fdc004275b0b6e7599f57681f433f6d0dde817feed898d287c47a48db91bd",
       "types": [
-        "agent-monitoring",
         "agent-history"
       ]
     },
@@ -1667,7 +1666,6 @@
       "name": "Quattro Daily",
       "metadataHash": "c4a2f26ec1735c2b1925f0bab805c21b0be80e75f9d4ad73a4b5d6cc27e35fe0",
       "types": [
-        "weather",
         "wallpaper"
       ]
     },
@@ -1910,6 +1908,7 @@
       "name": "Idle & Screensaver Manager",
       "metadataHash": "5117549e496e1f6cab3cb5f3445a54122350d416ee4d4b7d7a4e86c67958adbb",
       "types": [
+        "idle-sleep",
         "keep-awake",
         "screensavers"
       ]
@@ -1919,6 +1918,7 @@
       "name": "My Indicators",
       "metadataHash": "e3552ea2ec8dcb115fbd523c07d7cb4c0ccb61e62722d70a59569b77d4cac6f2",
       "types": [
+        "idle-sleep",
         "keep-awake"
       ]
     },
@@ -2375,8 +2375,7 @@
       "metadataHash": "1c166c2c7dd8d1d7d290fcdecf7078ca0ef3376b8282a1fe942226143bd23a1a",
       "types": [
         "timers-alarms",
-        "focus",
-        "agent-history"
+        "focus"
       ]
     },
     {
@@ -2561,9 +2560,7 @@
       "id": "blackcode.omacolorbar",
       "name": "OmaColorBar",
       "metadataHash": "4394b934c92c02cafe0285a0f514da5cb6e1ffe522abe45e1ab7a25d6a7f548b",
-      "types": [
-        "weather"
-      ]
+      "types": []
     },
     {
       "id": "blackcode.omadbngin",
@@ -2789,7 +2786,6 @@
       "name": "Is It Down?",
       "metadataHash": "9f6be7cb69b4fa0ceb48d017a9345a7c74f6272f7a0c33c18b9e58634df7f8af",
       "types": [
-        "endpoint-monitoring",
         "service-status"
       ]
     },
@@ -3193,7 +3189,8 @@
       "name": "Environment Canada Radar & Weather",
       "metadataHash": "11319db4361e4a1bf08d27b7787a589f830c22ec3a3524c4ba285a450cc3b2f9",
       "types": [
-        "weather"
+        "weather",
+        "weather-radar"
       ]
     },
     {
@@ -3657,7 +3654,9 @@
       "id": "chupe.lid-suspend",
       "name": "Lid Suspend",
       "metadataHash": "c499973574595588322c5a7deb55c78ae2f2db9e0a0a3cb0b4d0772c531dc836",
-      "types": []
+      "types": [
+        "keep-awake"
+      ]
     },
     {
       "id": "chupre.firefox-passwords",
@@ -3851,7 +3850,6 @@
       "name": "Fast Lid",
       "metadataHash": "7de54d182cdeadd3095596792a67ad921aca6a69fdca9e30e9b23b65dc4b90cc",
       "types": [
-        "idle-sleep",
         "keep-awake",
         "agent-monitoring"
       ]
@@ -4111,7 +4109,6 @@
       "name": "Radio Garden",
       "metadataHash": "3f8bc2f0d66c6637f09092c5bc23cc81099e2aa7c240b48828d3e5f7f1f84adc",
       "types": [
-        "network",
         "radio"
       ]
     },
@@ -4242,7 +4239,6 @@
       "name": "IceStream",
       "metadataHash": "ec7f23888d201f87b4f01da67fa106dea7b56acc2dea71a2b5bcc4f83c2e0083",
       "types": [
-        "weather",
         "radio"
       ]
     },
@@ -4312,9 +4308,7 @@
       "id": "com.leafbox.swell",
       "name": "Swell",
       "metadataHash": "c6e72717ba8e8706151b0caee45c0a483a7237203bff8894f24561c3a4767eaa",
-      "types": [
-        "weather"
-      ]
+      "types": []
     },
     {
       "id": "com.mdtrr.omadesk",
@@ -4713,7 +4707,9 @@
       "id": "costafot.android-dev",
       "name": "Android Dev",
       "metadataHash": "3e8684692bdf9b99ad70cf2b121f189a704b0469915b788ab26c49f9bfca2a56",
-      "types": []
+      "types": [
+        "screen-recording"
+      ]
     },
     {
       "id": "costafot.autoduck",
@@ -5440,6 +5436,7 @@
       "metadataHash": "ff1677694ef919f881f27f3413d21f750ec1337a0d6abdc6cc834c258bef51cc",
       "types": [
         "weather",
+        "weather-radar",
         "calendar",
         "desktop-clocks",
         "agent-monitoring"
@@ -5545,7 +5542,8 @@
       "name": "Skywatch",
       "metadataHash": "098ca0d67f28d12f1bcfa2af75a636839b4c9990536d381f51c27660224ff183",
       "types": [
-        "weather"
+        "weather",
+        "weather-radar"
       ]
     },
     {
@@ -6663,6 +6661,7 @@
       "name": "OmaBeat",
       "metadataHash": "51ca37f8cfee62cb65540bb04279e2b6261daa4a50b569a6290bf9d06b8ec264",
       "types": [
+        "desktop-clocks",
         "world-clocks"
       ]
     },
@@ -9033,7 +9032,6 @@
       "name": "SpaceX Launches",
       "metadataHash": "81960c5f5b0e29c622707229df7ce775ccc9ac61bacff03bf699064f28ec4f67",
       "types": [
-        "weather",
         "timers-alarms"
       ]
     },
@@ -9178,9 +9176,7 @@
       "id": "h3nr1.d14z.jenkins",
       "name": "Jenkins Health",
       "metadataHash": "c685bb72fd273a8790c8d4280832c8c7569f4f52a2e322f82c0c75dae10891b9",
-      "types": [
-        "service-status"
-      ]
+      "types": []
     },
     {
       "id": "hackxit.chromecast",
@@ -9219,7 +9215,6 @@
       "name": "Weather Station · Japan",
       "metadataHash": "488568651d697c66336019d0102b20ebbed06cee0154b3cf9a225810e5b88c7a",
       "types": [
-        "weather",
         "weather-radar"
       ]
     },
@@ -9312,8 +9307,7 @@
       "name": "Screen capture indicator",
       "metadataHash": "c09e4c7048271e6ce72746b2b130f83f7f78bec8cdcb4748dd819963580f385b",
       "types": [
-        "screenshots",
-        "agent-history"
+        "screenshots"
       ]
     },
     {
@@ -9406,7 +9400,6 @@
       "name": "Aura Material Cycler",
       "metadataHash": "d0c98c27da2ee29d69b8cf446d7f0301aaae31e8f1e235aa8af49ec17852a617",
       "types": [
-        "weather",
         "keyboard-lighting"
       ]
     },
@@ -9679,7 +9672,6 @@
       "name": "Shutdown Timer",
       "metadataHash": "89d917696355b9dd46e378fdb1d8d653aa7055d400f1136d0034a421aafc7e6e",
       "types": [
-        "idle-sleep",
         "timers-alarms",
         "power-menu"
       ]
@@ -9795,8 +9787,7 @@
       "name": "Battery Session",
       "metadataHash": "6bdb49abff973ec63f0a1278cd6672f184fc73d47b88a1a941983149a6169fd2",
       "types": [
-        "battery",
-        "lock-screen"
+        "battery"
       ]
     },
     {
@@ -10084,7 +10075,8 @@
       "name": "Sun Clock",
       "metadataHash": "a3f3b16f9811261b3dcb5985c356c9a10c5f96fb4d55111748c30df3168b0dd0",
       "types": [
-        "desktop-clocks"
+        "desktop-clocks",
+        "world-clocks"
       ]
     },
     {
@@ -10323,7 +10315,6 @@
       "types": [
         "vpn",
         "battery",
-        "idle-sleep",
         "keep-awake"
       ]
     },
@@ -10341,8 +10332,7 @@
       "metadataHash": "4c64d6ed4d8f5820f296294cd26e97dac3367602d1631c968e3ccc11840a4943",
       "types": [
         "timers-alarms",
-        "focus",
-        "agent-history"
+        "focus"
       ]
     },
     {
@@ -10742,6 +10732,7 @@
       "name": "Screensaver with coffee",
       "metadataHash": "b79c53244e2f8a9664a26db00c6440d448290f8db0d15a2093c7fa800d2153c2",
       "types": [
+        "idle-sleep",
         "keep-awake",
         "screensavers"
       ]
@@ -11513,7 +11504,6 @@
       "name": "ChatGPT Archive",
       "metadataHash": "1101cd29dc8326d8ed61cc1b798c9ec61305b95bcf8e83075092646a425725b5",
       "types": [
-        "agent-history",
         "ai-chat"
       ]
     },
@@ -12129,8 +12119,7 @@
       "name": "omarkDash",
       "metadataHash": "2e8159f9ed2190e7714c3785281c69afeab4d22b248ebf423f1a61ad7be23bf5",
       "types": [
-        "system-monitor",
-        "desktop-clocks"
+        "system-monitor"
       ]
     },
     {
@@ -12314,9 +12303,7 @@
       "id": "io.github.blackscaletech.portalprompt",
       "name": "PortalPrompt",
       "metadataHash": "61a48117e1affb9f084957cc6350318b29cbc446ea74a584816aa22f5efcaed7",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "io.github.blafusel.wm-actions",
@@ -12377,7 +12364,7 @@
       "name": "Screensaver & Lock",
       "metadataHash": "4c0148c3e5482260cee9e1cdb793ebb2da7eca393830e06dc3418906ae7751cf",
       "types": [
-        "lock-screen"
+        "keep-awake"
       ]
     },
     {
@@ -12855,6 +12842,7 @@
       "name": "Omaclock",
       "metadataHash": "664ee9a0f1139dcf4abe92f23638ff7a59c7eabca9f3c144049fc76d51f6e901",
       "types": [
+        "desktop-clocks",
         "world-clocks"
       ]
     },
@@ -13217,7 +13205,6 @@
       "name": "London Motion",
       "metadataHash": "0746cd0a3585e602b78f0d9fcd75431600a5a3547d738466e42a08b081ddd454",
       "types": [
-        "weather",
         "desktop-clocks"
       ]
     },
@@ -13795,7 +13782,8 @@
       "name": "Omarchief",
       "metadataHash": "ae75a5b8400049a6d832c7c9336fca2a4f917996ec256681e7f5756daa274e9e",
       "types": [
-        "agent-monitoring"
+        "agent-monitoring",
+        "agent-history"
       ]
     },
     {
@@ -13817,7 +13805,6 @@
       "name": "Screensaver Lock",
       "metadataHash": "9712dacbff8bf1067883d5a8c71dd55a41e4a99e4a362ff37740145faf7505fc",
       "types": [
-        "lock-screen",
         "screensavers"
       ]
     },
@@ -13834,9 +13821,7 @@
       "id": "io.github.davidboulay.wifi-login-popup",
       "name": "Wi-Fi Login Popup",
       "metadataHash": "cd1f83306e78916cb6589a8e52d7d6261c29b88804f8108f128b9ca604de3d4b",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "io.github.davidgudovic.omalint",
@@ -14076,7 +14061,6 @@
       "types": [
         "night-light",
         "lock-screen",
-        "idle-sleep",
         "wallpaper",
         "themes-appearance"
       ]
@@ -14161,7 +14145,9 @@
       "id": "io.github.dharmapurikar.otter",
       "name": "Otter",
       "metadataHash": "b1a1e18c63e4eef7bf94c4935db1ce46b322a7cc18adff0bf35dc2b61bdb4ac3",
-      "types": []
+      "types": [
+        "agent-history"
+      ]
     },
     {
       "id": "io.github.dicemans.docker-vms",
@@ -14198,7 +14184,6 @@
       "name": "Rain Radar Denmark",
       "metadataHash": "bf61aa865bc5349da0b2ffd149380e3c6edafcd331dc6a362e431bda8748cf7e",
       "types": [
-        "weather",
         "weather-radar"
       ]
     },
@@ -14624,7 +14609,8 @@
       "name": "Tempest Weather",
       "metadataHash": "bba55851a28b31396c09fb2f959035bf4aa151f620169181ac6098ea9b826033",
       "types": [
-        "weather"
+        "weather",
+        "weather-radar"
       ]
     },
     {
@@ -14790,7 +14776,6 @@
       "name": "Rain Radar Belgium & Netherlands",
       "metadataHash": "9b30d0c757641cd9899d2c650229051696127a5e174adf69bf990d460f01ba1b",
       "types": [
-        "weather",
         "weather-radar"
       ]
     },
@@ -15231,7 +15216,9 @@
       "id": "io.github.ericyhm80.agent-pipeline",
       "name": "Agent Pipeline",
       "metadataHash": "7e563a44fa924fc06267ee315d5fb57b0b556875a41ba9a5abba4ccac9f563e4",
-      "types": []
+      "types": [
+        "agent-history"
+      ]
     },
     {
       "id": "io.github.erikabel.little-stereo",
@@ -15271,9 +15258,7 @@
       "id": "io.github.erikburdett.wavebar",
       "name": "WaveBar: Waveform Media Controller",
       "metadataHash": "121933fa653bb69abe8cab337c57228cc7dcb33cc03b5d3ef8d0b04878af0ecd",
-      "types": [
-        "agent-history"
-      ]
+      "types": []
     },
     {
       "id": "io.github.erikrjohansson.hotkey-wheel",
@@ -15791,6 +15776,7 @@
       "name": "OmaPower",
       "metadataHash": "e6003ac08afbc40febccf683cef8f7b207cf593ea1dea6d7c2a6cd359edfa280",
       "types": [
+        "idle-sleep",
         "keep-awake"
       ]
     },
@@ -17051,7 +17037,6 @@
       "name": "Internet Hotspot",
       "metadataHash": "9d40fc04cd71ed4d2d7eb65be963471cd0e5e50ce4934d12657ed674a5a1f935",
       "types": [
-        "network",
         "hotspots"
       ]
     },
@@ -17428,7 +17413,8 @@
       "name": "Omarchy Gaming Console",
       "metadataHash": "c96eaaa0c54eef773cb153f79ad0896efbb73242d8132a27c8df0cc1be2ea0bc",
       "types": [
-        "display-monitors"
+        "display-monitors",
+        "gaming"
       ]
     },
     {
@@ -18100,6 +18086,7 @@
       "name": "Idle Timings",
       "metadataHash": "39ae736388aab0eb69c6aa1f2c68a9cc31083121a2df04a0afcbc7d93e4c6bd7",
       "types": [
+        "idle-sleep",
         "keep-awake",
         "screensavers"
       ]
@@ -19039,7 +19026,6 @@
       "name": "Firefox Keep Awake",
       "metadataHash": "c3281f7398c3268c74ef72f69271066b17d319c80e7bef1d1fd0bb3c53db5be3",
       "types": [
-        "idle-sleep",
         "keep-awake"
       ]
     },
@@ -19062,7 +19048,6 @@
       "name": "Hey! I'm Gaming Here!",
       "metadataHash": "116f2d46012a86aef9d7855d00e96a08c2cbbe00a731ad3b760ddc967477a521",
       "types": [
-        "lock-screen",
         "keep-awake"
       ]
     },
@@ -19482,8 +19467,7 @@
       "name": "Uptime",
       "metadataHash": "adf589e99ac5fe0586fab9be890037efb20a0b7d45d33d513c6fe882923b6742",
       "types": [
-        "endpoint-monitoring",
-        "service-status"
+        "endpoint-monitoring"
       ]
     },
     {
@@ -19533,7 +19517,10 @@
       "id": "io.github.manateelazycat.power-awake",
       "name": "Omarchy Power Awake",
       "metadataHash": "048eebf4facc94ab5fc7b9bcebbee68ff2fe4a384afe40384bfcaea5c8cda9cd",
-      "types": []
+      "types": [
+        "idle-sleep",
+        "keep-awake"
+      ]
     },
     {
       "id": "io.github.manateelazycat.screenshot",
@@ -19647,7 +19634,7 @@
       "name": "Browser minimap",
       "metadataHash": "97af05f6ccb9e3f5f91e3c99a0b2302c723542b236b725f8e1c6ab50d41d42cd",
       "types": [
-        "agent-history"
+        "agent-monitoring"
       ]
     },
     {
@@ -19746,9 +19733,7 @@
       "id": "io.github.martlets.stay-clean",
       "name": "Stay Clean",
       "metadataHash": "45d0d8bd2b7d5075168320628372cbf1c6fdb9f1261061a681bfe691eefece6c",
-      "types": [
-        "keep-awake"
-      ]
+      "types": []
     },
     {
       "id": "io.github.marty-schneider.sports-tracker",
@@ -20069,7 +20054,6 @@
       "name": "MIB Status Check",
       "metadataHash": "0410e75f5b14d7d9446fb29cad78d720d10590b7e90f5da9e0957616f83bdbd2",
       "types": [
-        "endpoint-monitoring",
         "service-status"
       ]
     },
@@ -20974,9 +20958,7 @@
       "id": "io.github.olivoil.hurricane-tracker",
       "name": "Hurricane Tracker",
       "metadataHash": "24c7d46a9c12ace0e615b50eee7728e3403edb3d852b0e539e439097bad2744f",
-      "types": [
-        "weather"
-      ]
+      "types": []
     },
     {
       "id": "io.github.olivoil.omarchy-keyboard-switcher",
@@ -21359,9 +21341,7 @@
       "id": "io.github.pedroolivy.flightline",
       "name": "Flightline",
       "metadataHash": "0d4d281c00a3485a29ba1a49ddbf59e33cad5ffbf2f083101520ef0baec9a8fe",
-      "types": [
-        "weather"
-      ]
+      "types": []
     },
     {
       "id": "io.github.pelukonline.input-freeze",
@@ -21460,9 +21440,7 @@
       "id": "io.github.philippbellia.coffee-tracker",
       "name": "Coffee Tracker",
       "metadataHash": "69c7172566e3224ec02bee05bddd30429317114d5880026fb9ceac2aebb196b7",
-      "types": [
-        "keep-awake"
-      ]
+      "types": []
     },
     {
       "id": "io.github.phuclh.themeflow",
@@ -23293,9 +23271,7 @@
       "id": "io.github.scrambletools.auto-timezone",
       "name": "Automatic Timezone",
       "metadataHash": "39c30c394bbc61c2bce0cf8fa7b824c36a0294c0fd22934824741350a4b701bd",
-      "types": [
-        "world-clocks"
-      ]
+      "types": []
     },
     {
       "id": "io.github.scrambletools.zmk-battery",
@@ -23350,9 +23326,7 @@
       "id": "io.github.selenophilezh.aqi",
       "name": "Air Quality",
       "metadataHash": "a85a590b38839f4fcdbe53be8e0edafe3b116ff4cedacf3af44dd859fe763b8e",
-      "types": [
-        "weather"
-      ]
+      "types": []
     },
     {
       "id": "io.github.selfcrypto.power-saving",
@@ -23375,9 +23349,7 @@
       "id": "io.github.selfcrypto.worklog",
       "name": "Freelance Worklog",
       "metadataHash": "3d49a31e06a5803eb224df2c1490dcf7eb6b1c93749d5fc50cc4b99e7fdeb903",
-      "types": [
-        "agent-history"
-      ]
+      "types": []
     },
     {
       "id": "io.github.sennadachi.pioneer-visualizer",
@@ -23931,9 +23903,7 @@
       "id": "io.github.soham3301.display-particles",
       "name": "Display Particles",
       "metadataHash": "9c3c68e6c2afe393f9914bff64a0682fa93dd0b0415c70cddde33bc54aeecb35",
-      "types": [
-        "weather"
-      ]
+      "types": []
     },
     {
       "id": "io.github.soham3301.net-rain",
@@ -23997,9 +23967,7 @@
       "id": "io.github.sonderbydk.omacaffeine",
       "name": "OmaCaffeine",
       "metadataHash": "bc74d1304c48b85b142d668d9d51bc76319eaa4ddd7512185a5b9b2a91c105e9",
-      "types": [
-        "keep-awake"
-      ]
+      "types": []
     },
     {
       "id": "io.github.sorena100.remminarchy",
@@ -24086,6 +24054,7 @@
       "name": "Timezones",
       "metadataHash": "1836742a98d9e4bf79f63d5dab64bbdb2595a11abd2e096858f117aa710e3940",
       "types": [
+        "desktop-clocks",
         "world-clocks"
       ]
     },
@@ -25050,7 +25019,6 @@
       "name": "Howdy Face Unlock",
       "metadataHash": "2453ac8534d15c6bf001a4dccb10b7a8594d22d082ec01dc541a6d30551e0148",
       "types": [
-        "lock-screen",
         "endpoint-monitoring"
       ]
     },
@@ -25418,6 +25386,7 @@
       "name": "Agent Usage Plus",
       "metadataHash": "bec09de0681d16d20b2bd539747f8a459eb7a097ccdb7ffe0916d4647821b0b3",
       "types": [
+        "agent-history",
         "ai-api-usage"
       ]
     },
@@ -25627,7 +25596,6 @@
       "metadataHash": "e319317bb2ef2c9eb01394f1eea229351b691b3fd3eace84c2772e71fb886587",
       "types": [
         "system-monitor",
-        "network",
         "network-diagnostics",
         "ai-chat"
       ]
@@ -25932,9 +25900,7 @@
       "id": "io.github.x3me.nexthop",
       "name": "Nexthop",
       "metadataHash": "b88b125b28b9a428ba6412e7a245dd474e2a1466723646ef7124819917878b4b",
-      "types": [
-        "service-status"
-      ]
+      "types": []
     },
     {
       "id": "io.github.xadacka.razer-shortcuts",
@@ -26211,9 +26177,7 @@
       "id": "io.github.zestybytes.deco-mesh",
       "name": "Deco Mesh",
       "metadataHash": "be6e6a74cd53695e15ae1b1bd0cb11f26fb6106d5ef75746adc0cdcdf2d669c3",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "io.github.zestybytes.tapo-cameras",
@@ -26437,8 +26401,7 @@
       "name": "My Sites Uptime Monitor",
       "metadataHash": "163a730e11acbb9d3b9657e27183feb97a0b99010bca70c2b8d5c44b48d93748",
       "types": [
-        "endpoint-monitoring",
-        "service-status"
+        "endpoint-monitoring"
       ]
     },
     {
@@ -26452,8 +26415,7 @@
       "name": "My Servers Uptime Monitor",
       "metadataHash": "b5a29b339d2cc77aeabb04ca98e5061e80c1212d32d7cb6a233fa3c49fca2f11",
       "types": [
-        "endpoint-monitoring",
-        "service-status"
+        "endpoint-monitoring"
       ]
     },
     {
@@ -28175,8 +28137,7 @@
       "name": "Dock Doctor",
       "metadataHash": "5b5e8e0049e48d35adedaa000a65490fa6f2cfab2699a8c1f41273abe4e6e931",
       "types": [
-        "docks",
-        "network"
+        "docks"
       ]
     },
     {
@@ -28432,9 +28393,7 @@
       "id": "khizarimran.fxdesk",
       "name": "FX Desk",
       "metadataHash": "d7adb3b6eda466f708de3ad355b5cea5eb0fe0299f816d36d67c63b24c47f802",
-      "types": [
-        "desktop-clocks"
-      ]
+      "types": []
     },
     {
       "id": "khwan.glass",
@@ -28594,7 +28553,6 @@
       "name": "Umbrella Countdown",
       "metadataHash": "7737eb712c9c0b7abd6cc1de7409d39b59a155f1f4e34dedc306f3984b3b0b82",
       "types": [
-        "weather",
         "timers-alarms"
       ]
     },
@@ -28795,9 +28753,7 @@
       "id": "kuki",
       "name": "Kūki",
       "metadataHash": "f4d450c05eba38e4c880a66f0d26969e8db1beeccca07fb5856c2af79a1eb949",
-      "types": [
-        "weather"
-      ]
+      "types": []
     },
     {
       "id": "kuryrc.mfa",
@@ -28894,8 +28850,7 @@
       "name": "omarcal",
       "metadataHash": "6252c59baa7c29276fb8ab716510674639e8a1d3c9065a84a98d075e31e08311",
       "types": [
-        "calendar",
-        "world-clocks"
+        "calendar"
       ]
     },
     {
@@ -28938,9 +28893,7 @@
       "id": "latecompile.caffeine-curve",
       "name": "Caffeine Curve",
       "metadataHash": "f058ff28232e2ccc16f4f43e5543adebaf5cd6f770e93a6d4ba84a6019ef7ac9",
-      "types": [
-        "keep-awake"
-      ]
+      "types": []
     },
     {
       "id": "latentoperator.audible",
@@ -29058,7 +29011,6 @@
       "name": "OmaPaddock",
       "metadataHash": "cf047b88f76bd4ad521e866d945900430ad66f73bc7c5c629011aa388ccc12ea",
       "types": [
-        "world-clocks",
         "timers-alarms"
       ]
     },
@@ -29081,8 +29033,7 @@
       "name": "Password Store",
       "metadataHash": "a1409335d1447b9e11f0862da50d91ee1a65465387525e72c940a923e9921b29",
       "types": [
-        "password-manager",
-        "agent-history"
+        "password-manager"
       ]
     },
     {
@@ -29216,9 +29167,7 @@
       "id": "leonrlr4.rdt",
       "name": "rdt",
       "metadataHash": "21598af036f3664a6a67c72b63336b9bb1214e44b4ea14e6d8e9aef37f48d2ff",
-      "types": [
-        "agent-history"
-      ]
+      "types": []
     },
     {
       "id": "leonrlr4.rosetta",
@@ -29328,7 +29277,7 @@
       "name": "Lid Sleep",
       "metadataHash": "209c25f7aef51c4ff2affc272972a4afe66148799bf8c38210f80a1756343773",
       "types": [
-        "idle-sleep"
+        "keep-awake"
       ]
     },
     {
@@ -29461,8 +29410,7 @@
       "name": "OnTheMinute",
       "metadataHash": "5e7d87ae65fb95f414138a910473477c15a304d1c012385a86f4026d563ab0f3",
       "types": [
-        "timers-alarms",
-        "agent-history"
+        "timers-alarms"
       ]
     },
     {
@@ -29511,6 +29459,7 @@
       "metadataHash": "a27ca935ca0107588faebfb84e340253dad9c46a3a1e28085a6845051fca991e",
       "types": [
         "timers-alarms",
+        "agent-history",
         "ai-api-usage"
       ]
     },
@@ -30213,9 +30162,7 @@
       "id": "marco.pi-memoria",
       "name": "Pi memoria",
       "metadataHash": "f34b679e73a89271125ebfd22a0d693e4c3b19617c568fc4c02c15e86c14db64",
-      "types": [
-        "agent-history"
-      ]
+      "types": []
     },
     {
       "id": "marcuspelo.omaprow",
@@ -30357,9 +30304,7 @@
       "id": "martinsel.omawificaptive",
       "name": "OmaWifiCaptive",
       "metadataHash": "9faa6b1f9510878c150d48f79f6b2ec725fc9c7dffc184e55770dd0d36bb4b29",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "mash2rafi.kronos",
@@ -30862,9 +30807,7 @@
       "id": "michael.tea",
       "name": "Tea Counter",
       "metadataHash": "e81f2ef2d78ea7aebbdabe51dec6908cacedaf7a87e8f326b901d5a4f504421d",
-      "types": [
-        "keep-awake"
-      ]
+      "types": []
     },
     {
       "id": "michaeldewildt.ninfer-gauge",
@@ -31234,7 +31177,8 @@
       "name": "More Weather",
       "metadataHash": "a06a8b2922567b89f8109fd4eb4843ea1c3c76fee990927c9e5555a84278b002",
       "types": [
-        "weather"
+        "weather",
+        "weather-radar"
       ]
     },
     {
@@ -31472,9 +31416,7 @@
       "id": "murankar.eso-server-status",
       "name": "ESO Server Status",
       "metadataHash": "7ba337049cfaed1ae91f58d89e905025a063f28b9bc52a4a04ee7bdf829f634c",
-      "types": [
-        "service-status"
-      ]
+      "types": []
     },
     {
       "id": "murdi.named-workspaces",
@@ -31724,7 +31666,6 @@
       "name": "Better Stack Status",
       "metadataHash": "f6704d5adfd7a2224b8747e4cffa1222b8ff903482fb3d885218553c1bc839e2",
       "types": [
-        "endpoint-monitoring",
         "service-status"
       ]
     },
@@ -31841,9 +31782,7 @@
       "id": "neil.acid-alerts",
       "name": "Acid Alerts",
       "metadataHash": "c473b17c167a25b11dfa729dbc2580281baa0d32f05c6194566de222e3eaeeda",
-      "types": [
-        "weather"
-      ]
+      "types": []
     },
     {
       "id": "neil.clone-keeper",
@@ -32532,9 +32471,8 @@
       "name": "dsmn",
       "metadataHash": "496607af1be589633e62a856d2236fb5d7613974727f7e97c0b8ad1d936019ca",
       "types": [
-        "idle-sleep",
-        "timers-alarms",
-        "agent-monitoring"
+        "keep-awake",
+        "timers-alarms"
       ]
     },
     {
@@ -33095,7 +33033,6 @@
       "name": "Omastorm Nord",
       "metadataHash": "5222a7cdcfbf99daacaf43be28065fa511ff85706d0aad9bedd4d5209ecfc6bd",
       "types": [
-        "weather",
         "weather-radar"
       ]
     },
@@ -33587,8 +33524,7 @@
       "name": "Idle sleep",
       "metadataHash": "7ac527402ccc853cdefc34730c7e3e24382b6a24b344bc6dfe2fc380518331ce",
       "types": [
-        "idle-sleep",
-        "keep-awake"
+        "idle-sleep"
       ]
     },
     {
@@ -34189,9 +34125,7 @@
       "id": "oniomarchy.macarchy",
       "name": "Macarchy",
       "metadataHash": "42e312a1c42c9188567bc1393a0207920b530829db7e1ca8d504d6f8e4a25978",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "online.izz0.omarchy.grok-panel",
@@ -36236,7 +36170,6 @@
       "name": "ThinkPad Sunset Backlight",
       "metadataHash": "8bfab98b13ff10a33584ef132027dc629e80f493e7f1c0947e359c70f623c4c5",
       "types": [
-        "world-clocks",
         "keyboard-lighting"
       ]
     },
@@ -36342,8 +36275,7 @@
       "metadataHash": "4c0d324c829291b0ad5c79b893a12d36ec5eca220128c4d37a74af825b2c3936",
       "types": [
         "timers-alarms",
-        "focus",
-        "agent-history"
+        "focus"
       ]
     },
     {
@@ -36352,7 +36284,6 @@
       "metadataHash": "6568df3102c8469fc58e1fd04c429406badfd662c4e4e443d6b487307c38bd2c",
       "types": [
         "battery",
-        "lock-screen",
         "keyboard-layouts"
       ]
     },
@@ -36503,8 +36434,7 @@
       "name": "AgentsView",
       "metadataHash": "2b9b4fe08d9e7762d1729ce9ac291ab998628f795ed1029c6c194c6c2b4f5c04",
       "types": [
-        "agent-monitoring",
-        "agent-history"
+        "agent-monitoring"
       ]
     },
     {
@@ -36562,9 +36492,7 @@
       "id": "rio.facelock",
       "name": "Omarchy Biometrics Suite (Face ID & Fingerprint)",
       "metadataHash": "90ca41ceb2cc12ee6e934b15403a1f4de83f8de3b67617cc5b38d1c0e208a651",
-      "types": [
-        "lock-screen"
-      ]
+      "types": []
     },
     {
       "id": "ritechoice23.omarchy.notification",
@@ -36859,7 +36787,6 @@
       "name": "oma-caffe",
       "metadataHash": "186cb6519440ee83fc8da2ae9410febe7160d667211696383a7be3c46f67644e",
       "types": [
-        "keep-awake",
         "wallpaper"
       ]
     },
@@ -37583,7 +37510,6 @@
       "name": "Clamshell",
       "metadataHash": "04e3059a8516312df456f599f654dc88006e4a7017642dc92070717f7a58dfd9",
       "types": [
-        "idle-sleep",
         "keep-awake"
       ]
     },
@@ -38295,7 +38221,6 @@
       "name": "Omaconv",
       "metadataHash": "ce09d7d81e2263d4ff0e4e05de05521cc5626f506ca8a3b93b4978802f527524",
       "types": [
-        "agent-monitoring",
         "agent-history",
         "ai-chat"
       ]
@@ -38862,7 +38787,6 @@
       "name": "Resume Sessions",
       "metadataHash": "4c62c2d09ce4f4d42d309a5a5c263c4052bfc52901dda09d32ac85c594dcf25c",
       "types": [
-        "agent-monitoring",
         "agent-history"
       ]
     },
@@ -39062,9 +38986,7 @@
       "id": "sven-strothoff.browser-switcher",
       "name": "Browser Switcher",
       "metadataHash": "8c426d93b3ac49842e25da2114ee7f2a88ebf245cdb20db2c87a38f8baab4ff4",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "sviat.gpu-mode",
@@ -39259,8 +39181,6 @@
       "name": "Clocker World Clock",
       "metadataHash": "fa4e5d74305d4bce80abb7db0538771773fbfbaf51097886e4759d2d7bdf08fb",
       "types": [
-        "weather",
-        "desktop-clocks",
         "world-clocks"
       ]
     },
@@ -39958,9 +39878,7 @@
       "id": "tirade.nyc-subway",
       "name": "OMTArchy - NYC Subway MTA",
       "metadataHash": "39b1df1910aaa4da87707a186ccf4fd585b7e20110e10845c949f85129e10061",
-      "types": [
-        "service-status"
-      ]
+      "types": []
     },
     {
       "id": "tjcelaya.workspace-icons",
@@ -40105,8 +40023,7 @@
       "name": "Battery Usage",
       "metadataHash": "b5e61f22228496be8a30467ade9c31bdf47194b8e848e6e27ca3d7983410be6e",
       "types": [
-        "battery",
-        "agent-history"
+        "battery"
       ]
     },
     {
@@ -40862,7 +40779,6 @@
       "name": "Omarain",
       "metadataHash": "d2ceb9011d4ce43741868f0b2b581d6d57ec7b6e41d7df467848a1580c7d3eb7",
       "types": [
-        "weather",
         "wallpaper"
       ]
     },
@@ -41932,9 +41848,7 @@
       "id": "yendor.portal",
       "name": "Portal",
       "metadataHash": "3421cda9e2038ab5d2b9301523597c26f29207328f2d80298eadb459a457611b",
-      "types": [
-        "network"
-      ]
+      "types": []
     },
     {
       "id": "yenst.nightswatch",
@@ -42247,7 +42161,9 @@
       "id": "zen.awake",
       "name": "Zen Awake",
       "metadataHash": "1af9c941c1e4f33a2d432c134d117212259636c0f84557b297fc32ebf13f1687",
-      "types": []
+      "types": [
+        "keep-awake"
+      ]
     },
     {
       "id": "zen.cinewall",

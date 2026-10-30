@@ -26,7 +26,7 @@
       "count": 6247
     },
     "taxonomy": {
-      "sha256": "754f592188f88ce4641d003b869b7742c97cfd044bae30388659aca39d43a5bd",
+      "sha256": "b51e86ce5f2e3b5b52659c15c1bc22e3862583acba259a35e692e8cfb85c4c61",
       "classificationVersion": 3,
       "typeCount": 72
     },
@@ -1952,8 +1952,8 @@
       "name": "Weather Forecasts",
       "description": "Read current weather conditions and an upcoming forecast",
       "eligibleCount": 2,
-      "matchedCount": 83,
-      "pendingCount": 80,
+      "matchedCount": 63,
+      "pendingCount": 60,
       "taskContract": {
         "version": 2,
         "outcome": "Read current weather conditions and an upcoming forecast",
@@ -2257,8 +2257,8 @@
       "name": "Weather Radar",
       "description": "View a precipitation radar map for a selected location",
       "eligibleCount": 1,
-      "matchedCount": 7,
-      "pendingCount": 6,
+      "matchedCount": 12,
+      "pendingCount": 11,
       "taskContract": {
         "version": 2,
         "outcome": "View a precipitation radar map for a selected location",
@@ -3861,8 +3861,8 @@
       "name": "Network Connections",
       "description": "Inspect, join and disconnect client network connections",
       "eligibleCount": 2,
-      "matchedCount": 60,
-      "pendingCount": 54,
+      "matchedCount": 49,
+      "pendingCount": 43,
       "taskContract": {
         "version": 2,
         "outcome": "Inspect, join and disconnect client network connections",
@@ -7345,8 +7345,8 @@
       "name": "Lock Screen Appearance",
       "description": "Apply or customize the interface shown when the session is locked",
       "eligibleCount": 3,
-      "matchedCount": 42,
-      "pendingCount": 39,
+      "matchedCount": 35,
+      "pendingCount": 32,
       "taskContract": {
         "version": 2,
         "outcome": "Apply or customize the interface shown when the session is locked",
@@ -7732,8 +7732,8 @@
       "name": "Idle & Sleep Settings",
       "description": "Configure automatic inactivity timers and the actions they trigger",
       "eligibleCount": 3,
-      "matchedCount": 29,
-      "pendingCount": 26,
+      "matchedCount": 27,
+      "pendingCount": 24,
       "taskContract": {
         "version": 2,
         "outcome": "Configure automatic inactivity timers and the actions they trigger",
@@ -8118,8 +8118,8 @@
       "name": "Keep Awake",
       "description": "Temporarily pause automatic inactivity actions and restore the normal policy",
       "eligibleCount": 4,
-      "matchedCount": 38,
-      "pendingCount": 34,
+      "matchedCount": 37,
+      "pendingCount": 33,
       "taskContract": {
         "version": 2,
         "outcome": "Temporarily pause automatic inactivity actions and restore the normal policy",
@@ -9347,8 +9347,8 @@
       "name": "World Clocks & Time Zones",
       "description": "Read multiple time zones and compare the same moment across them",
       "eligibleCount": 2,
-      "matchedCount": 30,
-      "pendingCount": 28,
+      "matchedCount": 27,
+      "pendingCount": 25,
       "taskContract": {
         "version": 2,
         "outcome": "Read multiple time zones and compare the same moment across them",
@@ -12560,8 +12560,8 @@
       "name": "Screen Recording",
       "description": "Start, stop and save recordings of your screen",
       "eligibleCount": 2,
-      "matchedCount": 14,
-      "pendingCount": 9,
+      "matchedCount": 15,
+      "pendingCount": 10,
       "taskContract": {
         "version": 1,
         "outcome": "Start, stop and save recordings of your screen",
@@ -14192,8 +14192,8 @@
       "name": "Agent Monitoring",
       "description": "Inspect running coding agents and focus a local agent session",
       "eligibleCount": 1,
-      "matchedCount": 68,
-      "pendingCount": 67,
+      "matchedCount": 65,
+      "pendingCount": 64,
       "taskContract": {
         "version": 2,
         "outcome": "Inspect running coding agents and focus a local agent session",
@@ -14336,8 +14336,8 @@
       "name": "Session History & Resume",
       "description": "Browse saved coding-agent conversations and resume a selected session",
       "eligibleCount": 2,
-      "matchedCount": 25,
-      "pendingCount": 23,
+      "matchedCount": 16,
+      "pendingCount": 14,
       "taskContract": {
         "version": 2,
         "outcome": "Browse saved coding-agent conversations and resume a selected session",
@@ -16017,8 +16017,8 @@
       "name": "Gaming Mode",
       "description": "Activate gaming desktop settings and restore the normal desktop",
       "eligibleCount": 2,
-      "matchedCount": 7,
-      "pendingCount": 5,
+      "matchedCount": 8,
+      "pendingCount": 6,
       "taskContract": {
         "version": 2,
         "outcome": "Activate gaming desktop settings and restore the normal desktop",
@@ -19781,8 +19781,8 @@
       "name": "Endpoint & Service Monitoring",
       "description": "Inspect health checks for user-configured endpoints or services",
       "eligibleCount": 3,
-      "matchedCount": 36,
-      "pendingCount": 33,
+      "matchedCount": 33,
+      "pendingCount": 30,
       "taskContract": {
         "version": 2,
         "outcome": "Inspect health checks for user-configured endpoints or services",
@@ -20153,8 +20153,8 @@
       "name": "Service Status & Incidents",
       "description": "Read provider-published service status and incident reports",
       "eligibleCount": 2,
-      "matchedCount": 17,
-      "pendingCount": 15,
+      "matchedCount": 10,
+      "pendingCount": 8,
       "taskContract": {
         "version": 2,
         "outcome": "Read provider-published service status and incident reports",

@@ -725,11 +725,12 @@
     "accepted": [
       "audio",
       "bluetooth",
-      "network",
       "notifications",
       "brightness"
     ],
-    "rejected": [],
+    "rejected": [
+      "network"
+    ],
     "source": "https://github.com/AngeeelD/omaltbar"
   },
   {
@@ -1225,9 +1226,11 @@
       "kind": "Bar widget"
     },
     "accepted": [
+      "hotspots"
+    ],
+    "rejected": [
       "network"
     ],
-    "rejected": [],
     "source": "https://github.com/imargorsi/omarchy-hotspot"
   },
   {
@@ -1476,10 +1479,11 @@
       "themes-appearance",
       "wallpaper",
       "night-light",
-      "idle-sleep"
+      "lock-screen"
     ],
     "rejected": [
-      "system-monitor"
+      "system-monitor",
+      "idle-sleep"
     ],
     "source": "https://github.com/Deunnis/omarchy-lacquer"
   }

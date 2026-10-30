@@ -97,12 +97,14 @@ export function prepareTaxonomy(taxonomy) {
     ids.add(type.id);
     assert(typeof type.name === "string" && type.name.length > 0, `${label}.name is required`);
     assert(type.exclusionScope == null || ["field", "clause"].includes(type.exclusionScope), `${label}.exclusionScope is invalid`);
+    assert(type.descriptionExclude == null || Array.isArray(type.descriptionExclude), `${label}.descriptionExclude must be an array`);
     // Omarchy built-ins shown beside a category's picks. Display only: never classified or ranked.
     assert(type.builtIns == null || (Array.isArray(type.builtIns) &&
       type.builtIns.every((id) => typeof id === "string" && id.length > 0)), `${label}.builtIns must be an array of plugin IDs`);
     return {
       ...type,
       includePatterns: compilePatterns(type.include, `${label}.include`),
+      descriptionExclusionPatterns: type.descriptionExclude?.length ? compilePatterns(type.descriptionExclude, `${label}.descriptionExclude`) : [],
       namePatterns: type.nameInclude == null || (Array.isArray(type.nameInclude) && !type.nameInclude.length) ? [] : compilePatterns(type.nameInclude, `${label}.nameInclude`),
       excludePatterns: type.exclude == null || (Array.isArray(type.exclude) && type.exclude.length === 0)
         ? [] : compilePatterns(type.exclude, `${label}.exclude`)
@@ -165,8 +167,10 @@ export function explainClassification(plugin, preparedTaxonomy, version = CLASSI
       ...matchedEvidence(type.namePatterns, { name: plugin.name }, "nameInclude", version)
     ];
     const positive = evidence.filter((match) => !match.ignored);
-    const exclusions = matchedEvidence(type.excludePatterns, fields, "exclude", version);
-    const allowed = version >= 3 && type.exclusionScope === "clause"
+    const descriptionExclusions = matchedEvidence(type.descriptionExclusionPatterns, { description: plugin.description }, "exclude", version);
+    const exclusions = [...matchedEvidence(type.excludePatterns, fields, "exclude", version), ...descriptionExclusions];
+    // Description-only exclusions resolve misleading names without blocking a separately reviewed task.
+    const allowed = descriptionExclusions.length ? [] : version >= 3 && type.exclusionScope === "clause"
       ? positive.filter((match) => !type.excludePatterns.some((pattern) => pattern.test(match.context))) : exclusions.length ? [] : positive;
     const taskFit = taskReviews ? explainTaskFit(plugin, type, taskReviews) : null;
     const decision = review.has(type.id) ? "review" : blocked.has(type.id) ? "override-exclude"

@@ -153,8 +153,7 @@
       "name": "Weather Forecasts",
       "description": "Read current weather conditions and an upcoming forecast",
       "include": [
-        "\\b(weather|forecast|temperature outside|meteo|precipitation)\\b",
-        "\\b(counts? down to rain|rain (starts|begins|expected)|chance of rain|rainfall|rain radar)\\b"
+        "\\b(weather|forecast|temperature outside|meteo|precipitation)\\b"
       ],
       "exclude": [
         "\\b(flight radar|space weather|weathered)\\b",
@@ -173,14 +172,21 @@
             "read-weather-forecast"
           ]
         ]
-      }
+      },
+      "descriptionExclude": [
+        "\\b(?:satellites beside the weather|newspaper about yesterday|hosts the real widget|weather radio|wave buoy|SpaceX launches|appearance runtime|Touch Bar|animated[^.]{0,20}wallpapers|hurricane tracker|air traffic|AQI pill|drifting particles|air quality, pollen|weather-inspired|weather-tinted|weather service alerts)\\b",
+        "^(?!.*\\b(?:current conditions|hourly|[0-9]+[- ]day forecast|temperature|humidity|general weather)\\b).*\\b(?:rain radar|weather radar|radar rain|rain nowcast|rain forecast|rain starts|weather warnings)\\b"
+      ]
     },
     {
       "id": "weather-radar",
       "name": "Weather Radar",
       "description": "View a precipitation radar map for a selected location",
       "include": [
-        "\\b(?:weather radar|rain radar|precipitation radar|radar map|rainviewer)\\b"
+        "\\b(?:weather radar|rain radar|precipitation radar|radar map|rainviewer)\\b",
+        "\\b(?:animated|interactive|NWS) radar(?: loop)?\\b",
+        "\\bweather[^.]{0,80}\\bradar\\b",
+        "\\b(?:radar and wind maps|views[^.]{0,50}weather[^.]{0,15}radar)\\b"
       ],
       "task": "View a precipitation radar map for a selected location. An in-app precipitation radar map is required. General forecasts, satellite-pass predictions and opening another website are separate capabilities.",
       "exclusionScope": "clause",
@@ -192,7 +198,10 @@
             "view-precipitation-radar"
           ]
         ]
-      }
+      },
+      "descriptionExclude": [
+        "\\bopen radar in the default browser\\b"
+      ]
     },
     {
       "id": "battery",
@@ -305,9 +314,8 @@
       "description": "Inspect, join and disconnect client network connections",
       "include": [
         "\\b(?:wi-?fi|ethernet|cellular|network|modem) (?:panel|manager|connections?|controls?|settings|list|toggle)\\b",
-        "\\b(?:connect|disconnect|forget|switch|configure|toggle|disable|restore)\\w*[^.;]{0,50}\\b(?:wi-?fi|ethernet|networks?|networking|radio|links?)\\b",
-        "\\b(?:networkmanager|modemmanager|captive portal|dns provider switching|airplane mode)\\b",
-        "\\b(?:share your ethernet|wi-fi ap|wi-fi repeater|mobile hotspot|internet hotspot)\\b"
+        "\\b(?:connect|disconnect|forget|switch|configure|toggle|disable|restore)\\w*[^.;]{0,50}\\b(?:wi-?fi|ethernet|networks?|networking)\\b",
+        "\\b(?:networkmanager|modemmanager|dns provider switching|airplane mode)\\b"
       ],
       "exclude": [
         "\\b(?:social network|neural network|kde connect)\\b"
@@ -328,7 +336,12 @@
             "disconnect-client-network"
           ]
         ]
-      }
+      },
+      "descriptionExclude": [
+        "\\b(?:captive[- ]portal|NetworkManager detects|TP-Link Deco|network interface.s MAC address|as a webcam|system monitor)[^.]*",
+        "\\bshare the connected Wi-Fi network as a scannable QR code\\b",
+        "^Mobile hotspot toggle: serves a Wi-Fi AP\\b"
+      ]
     },
     {
       "id": "hotspots",
@@ -572,7 +585,12 @@
         "omarchy.lock"
       ],
       "exclude": [
-        "\\b(?:caps lock|rotation lock|password manager)\\b"
+        "\\b(?:caps lock|rotation lock|password manager)\\b",
+        "\\b(?:screen lock|lock screen)[^.]{0,15}\\boff and on\\b"
+      ],
+      "descriptionExclude": [
+        "\\b(?:FIDO2/U2F|pam_u2f|face unlock|face[^.]{0,20}fingerprint biometrics)\\b",
+        "\\b(?:lock screen included|screensaver is dismissed|lock screen off|battery charge-limit)\\b"
       ]
     },
     {
@@ -580,9 +598,11 @@
       "name": "Idle & Sleep Settings",
       "description": "Configure automatic inactivity timers and the actions they trigger",
       "include": [
-        "\\b(?:idle|screensaver|auto[- ]lock|sleep|suspend)[^.]{0,40}\\b(?:timeouts?|timers?|delays?|settings|profiles?|actions?)\\b",
+        "\\b(?:idle|screensaver|auto[- ]lock|sleep|suspend)[^.]{0,40}\\b(?:timeouts?|timers?|timings?|delays?|settings|profiles?|actions?)\\b",
         "\\b(?:idle manager|hypridle|lid[- ](?:close|actions?|switch)|sleep[- ]after[- ]idle)\\b",
-        "\\b(?:idle power management|idle[- ](?:settings|configuration)|(?:configure|customize)[^.]{0,30}idle)\\b"
+        "\\b(?:idle power management|idle[- ](?:settings|configuration)|(?:configure|customize)[^.]{0,30}idle)\\b",
+        "\\bidle (?:& |and )?(?:screensaver )?(?:manager|hub)\\b",
+        "\\b(?:manage|configure)\\w*[^.]{0,35}\\bidle (?:behavior|behaviour)\\b"
       ],
       "task": "Configure automatic inactivity timers and the actions they trigger. Persistent inactivity timing and action settings are required. Lock-screen appearance, manual sleep buttons and a temporary keep-awake switch alone are separate tasks.",
       "exclusionScope": "clause",
@@ -598,6 +618,12 @@
       },
       "builtIns": [
         "omarchy.idle"
+      ],
+      "exclude": [
+        "\\b(?:not|never)[^.]{0,65}\\bchange (?:sleep|idle) settings\\b"
+      ],
+      "descriptionExclude": [
+        "\\b(?:inhibits? lid-close|prevent sleep|idle actions paused|two-mode lid switch|toggle whether laptop lid close|schedule shutdown)\\b"
       ]
     },
     {
@@ -607,7 +633,10 @@
       "include": [
         "\\b(?:(?:stay(?:s)?|keep(?:s)?)[- ]awake|no[- ]sleep|idle[- ]inhibit(?:or|ion)?|caffeine)\\b",
         "\\b(?:prevent|disable|inhibit|pause|suppress)\\w*[^.]{0,30}\\b(?:idle|sleep|screensaver|auto[- ]lock)\\b",
-        "\\b(?:keep|hold)[^.]{0,40}\\b(?:screensaver|lock screen|sleep)[^.]{0,15}\\boff\\b"
+        "\\b(?:keep|hold)[^.]{0,40}\\b(?:screensaver|lock screen|sleep)[^.]{0,15}\\boff\\b",
+        "\\bkeeps? (?:the |your )?(?:(?:omarchy )?(?:computer|machine|desktop|laptop|system)s? )?awake\\b",
+        "\\b(?:toggle|switch)\\w*[^.]{0,65}\\b(?:screensaver|idle (?:screen )?lock)[^.]{0,25}\\boff and on\\b",
+        "\\btoggle whether laptop lid close triggers sleep\\b"
       ],
       "task": "Temporarily pause automatic inactivity actions and restore the normal policy. A reversible inactivity hold is required. State whether the hold affects display blanking, locking or sleep; it does not imply prevention of every suspend path. Human caffeine intake and permanent timeout settings alone do not qualify.",
       "exclusionScope": "clause",
@@ -626,6 +655,9 @@
       ],
       "exclude": [
         "\\b(?:caffeine intake|caffeine consumption|coffee intake|mg of caffeine|caffeine tracking)\\b"
+      ],
+      "descriptionExclude": [
+        "\\b(?:caffeine tracker|track your caffeine|track cups|coffee suite|log a coffee|stay awake for cleaning|respects stay awake)\\b"
       ]
     },
     {
@@ -677,10 +709,12 @@
         "\\b(?:clocks? (?:with|and|in|on|for)|(?:omarchy|stock|community)(?:.s)? (?:bar )?clock|clock/calendar)\\b",
         "\\b(?:desktop widgets?|wallpapers?|home screen)[^.]{0,70}\\bclock\\b",
         "\\b(?:overlay|panel|pill|dashboard|shade|nightstand)[^.]{0,70}\\bclock\\b",
-        "\\b(?:sunrise clock|earth clock|clock, calendar|on the clock you)\\b"
+        "\\b(?:sunrise clock|earth clock|clock, calendar|on the clock you)\\b",
+        "\\bworld[- ]clock bar (?:label|pill)\\b",
+        "\\binternet time[^;]{0,25}\\bwidget\\b"
       ],
       "task": "Display a persistent clock in the bar or on the desktop. A persistent current-time display in a bar, desktop widget or wallpaper is the shared task; presentation and location are stated per app. A popup-only agenda, lock/saver-only clock, hardware oscillator frequency, fictional stardate or countdown alone does not qualify. A clock for one chosen zone does not establish multi-zone comparison.",
-      "exclusionScope": "clause",
+      "exclusionScope": "field",
       "contract": {
         "version": 2,
         "outcome": "Display a persistent clock in the bar or on the desktop",
@@ -695,7 +729,11 @@
       ],
       "exclude": [
         "\\b(?:debt clock|stardate|theme clock|game clock|clock speed|clock frequency|audio clock|CPU clock|GPU clock|clock-side|beside the clock|next to the clock)\\b",
-        "\\b(?:CPU|GPU|thermal|temperature|MHz|GHz)[^.]{0,45}\\bclock\\b|\\bclock[^.]{0,35}\\b(?:CPU|GPU|temperature|MHz|GHz)\\b"
+        "\\b(?:CPU|GPU|thermal|temperatures?|MHz|GHz)[^.]{0,45}\\bclock\\b|\\bclock[^.]{0,35}\\b(?:CPU|GPU|temperatures?|MHz|GHz)\\b",
+        "\\block screen reskinned\\b"
+      ],
+      "descriptionExclude": [
+        "\\b(?:FX session clock|World Clock popup)\\b"
       ]
     },
     {
@@ -704,7 +742,8 @@
       "description": "Read multiple time zones and compare the same moment across them",
       "include": [
         "\\b(?:world[- ]clocks?|time[- ]?zones?|world[- ]time)\\b",
-        "\\bclock[^.]{0,90}\\b(?:every location|multiple locations|other cities)\\b"
+        "\\bclock[^.]{0,90}\\b(?:every location|multiple locations|other cities)\\b",
+        "\\bclock for kids[^.]{0,70}\\bpeople you love\\b"
       ],
       "task": "Read multiple time zones and compare the same moment across them. At least two zones with a comparison view are required. A decorative local clock or a single timezone label alone does not complete the task.",
       "exclusionScope": "clause",
@@ -717,7 +756,10 @@
             "compare-time-zones"
           ]
         ]
-      }
+      },
+      "descriptionExclude": [
+        "\\b(?:automatically set the timezone|keyboard backlight|calendar in the bar|race weekend.s schedule)\\b"
+      ]
     },
     {
       "id": "timers-alarms",
@@ -876,7 +918,8 @@
       ],
       "exclude": [
         "\\bkeyboard layouts?\\b",
-        "\\b(?:tutorial|tiling trainer|learn omarchy|raycaster|setup: after installing|tiling terminal)\\b"
+        "\\b(?:tutorial|tiling trainer|learn omarchy|raycaster|setup: after installing|tiling terminal)\\b",
+        "\\b(?:crunchyroll|video|streaming) (?:controller|player)\\b"
       ],
       "task": "Find an open window and switch focus to it. Native window selection and activation are required. Tiling rules, layouts and other window behavior settings alone are separate tasks.",
       "contract": {
@@ -895,7 +938,9 @@
       "description": "Capture a screen image and save or export it",
       "include": [
         "\\b(?:screenshot capture|screen capture|screenshot tool|snipping tool|screenshot overlay|take (?:a )?screenshots?|capture[^.;]{0,35}screenshots?|one-click[^.;]{0,25}screenshots?)\\b",
-        "\\bscreenshot and screen[- ]recording overlay\\b"
+        "\\bscreenshot and screen[- ]recording overlay\\b",
+        "\\bscreenshot or record\\b",
+        "\\bcapture (?:your |the )?screen\\b"
       ],
       "exclude": [
         "\\b(?:screenshot history|screenshots taken|screenshot thumbnails|no screen capture)\\b"
@@ -921,7 +966,9 @@
       "name": "Screen Recording",
       "description": "Start, stop and save recordings of your screen",
       "include": [
-        "\\b(?:screen[- ]recording|screen recorder|record (?:your |the )?(?:screen|desktop)|gpu-screen-recorder|recording overlay)\\b"
+        "\\b(?:screen[- ]recording|screen recorder|record (?:your |the )?(?:screen|desktop)|gpu-screen-recorder|recording overlay)\\b",
+        "\\brecord (?:regions|apps|monitors)\\b",
+        "\\bscreenshots?[^.]{0,40}\\brecording\\b"
       ],
       "exclude": [
         "\\b(?:recording indicator|recording activity|privacy indicator|no screen capture)\\b"
@@ -1037,7 +1084,8 @@
         "\\b(?:agent orchestrator|agent monitor|coding agent status)\\b",
         "\\b(?:agent|coding|claude|codex|opencode|hermes|herdr|grok|antigravity)[^.]{0,90}\\b(?:sessions?|threads?|attention|working|waiting|blocked|busy|tool executions?)\\b",
         "\\b(?:live|busy|working|waiting|blocked)[ -](?:coding[- ]?)?(?:agents?|claude|codex|herdr|hermes)\\b",
-        "\\b(?:sessions?|tool executions?)[^.]{0,90}\\b(?:hermes|claude|codex|herdr|antigravity)\\b"
+        "\\b(?:sessions?|tool executions?)[^.]{0,90}\\b(?:hermes|claude|codex|herdr|antigravity)\\b",
+        "\\blive view[^.]{0,45}agent-browser\\b"
       ],
       "task": "Inspect running coding agents and focus a local agent session. Live agent activity and a native action to focus a local running session are required. Reading archived conversations and remote read-only dashboards are different scopes.",
       "exclusionScope": "clause",
@@ -1053,7 +1101,12 @@
       },
       "exclude": [
         "\\b(?:browse previous sessions|archived conversations?|saved conversation history)\\b",
-        "\\b(?:session limits|usage rings)\\b"
+        "\\b(?:session limits|usage rings)\\b",
+        "\\blaunch and resume\\b",
+        "\\bkeeps?[^.]{0,45}\\bawake\\b"
+      ],
+      "descriptionExclude": [
+        "\\b(?:picker for past|resume any[^.]{0,40}conversation|sessions that aren.t running|launch and resume)\\b"
       ]
     },
     {
@@ -1061,8 +1114,10 @@
       "name": "Session History & Resume",
       "description": "Browse saved coding-agent conversations and resume a selected session",
       "include": [
-        "\\b(?:agent|coding|claude|codex|opencode|chat|conversation|session)[^.]{0,50}\\b(?:history|resume|browser|archive|past sessions)\\b",
-        "\\b(?:resume|browse)[^.]{0,40}\\b(?:agent|sessions?|conversations?)\\b"
+        "\\b(?:coding|ai|claude|codex|opencode|hermes|grok|agent)[^.]{0,100}\\b(?:history|resume|session browser|conversation browser|archive|past sessions|conversations?)\\b",
+        "\\b(?:resume|browse|past)\\b[^.]{0,110}\\b(?:agents?|coding|claude|codex|vibe|copilot|antigravity|herdr)\\b",
+        "\\b(?:claude|codex|coding)[^.]{0,50}\\bsessions that aren.t running\\b",
+        "\\bbrowser for[^.]{0,40}\\b(?:coding|agent) sessions?\\b"
       ],
       "task": "Browse saved coding-agent conversations and resume a selected session. Both saved-conversation discovery and targeted resumption are required. Live process monitoring or opening a generic new chat does not complete the task.",
       "exclusionScope": "clause",
@@ -1208,7 +1263,8 @@
       "name": "Gaming Mode",
       "description": "Activate gaming desktop settings and restore the normal desktop",
       "include": [
-        "\\b(?:game mode|gaming mode|gamemode|gaming profile|gaming desktop|gamescope session)\\b"
+        "\\b(?:game mode|gaming mode|gamemode|gaming profile|gaming desktop|gamescope session)\\b",
+        "\\b(?:exclusive gamescope|gamescope[^.]{0,40}session)\\b"
       ],
       "exclude": [
         "\\bshows steam\\b",
@@ -1432,7 +1488,7 @@
       "name": "File Synchronization",
       "description": "Monitor and manage synchronization of folders between devices",
       "include": [
-        "\\b(?:syncthing|folder sync|file synchronization|file sync)\\b"
+        "\\b(?:syncthing|folder syncs?|file synchronization|file sync)\\b"
       ],
       "exclude": [
         "\\b(?:syncthing-synced|backed by markdown)\\b"
@@ -1519,14 +1575,17 @@
             "inspect-configured-target-health"
           ]
         ]
-      }
+      },
+      "descriptionExclude": [
+        "\\bstatus pages?\\b"
+      ]
     },
     {
       "id": "service-status",
       "name": "Service Status & Incidents",
       "description": "Read provider-published service status and incident reports",
       "include": [
-        "\\b(?:status pages?|service status|provider status|incident(?:s| reports?)?|outage(?:s| reports?)?)\\b"
+        "\\b(?:status pages?|service status|provider status|incidents?(?: reports?)?)\\b"
       ],
       "task": "Read provider-published service status and incident reports. The app must read provider-reported incidents or degradation information. A local reachability probe or a link that only opens an external status page does not establish incident-reading capability.",
       "exclusionScope": "clause",
@@ -1673,8 +1732,7 @@
       "name": "Firewall Rules",
       "description": "Inspect, add and remove host network firewall rules",
       "include": [
-        "\\b(firewall|ufw|iptables|nftables)\\b[^.]{0,45}\\b(?:rules?|controls?|manager|toggle|status|panel|allow|block|counters)\\b",
-        "\\boutbound connections?\\b",
+        "\\b(firewall|ufw|iptables|nftables)\\b[^.]{0,45}\\b(?:rules?|controls?|manager|toggle|status|panel|allow|block)\\b",
         "\\b(?:view|manage|control|toggle|configure)\\w*[^.]{0,45}\\b(?:firewall|ufw|nftables|iptables)\\b"
       ],
       "exclude": [
@@ -1696,7 +1754,10 @@
             "remove-host-firewall-rule"
           ]
         ]
-      }
+      },
+      "descriptionExclude": [
+        "\\b(?:per-app firewall|manual step[^.]*firewall|read-only user)\\b"
+      ]
     },
     {
       "id": "app-network-blocking",
@@ -1811,7 +1872,6 @@
       "angeeeld.omaltbar": [
         "audio",
         "bluetooth",
-        "network",
         "notifications",
         "brightness"
       ],
@@ -1854,7 +1914,6 @@
       "io.github.deunnis.lacquer": [
         "themes-appearance",
         "wallpaper",
-        "idle-sleep",
         "night-light",
         "lock-screen"
       ],
@@ -2016,7 +2075,6 @@
       "angeeeld.omaltbar": {
         "audio": "README runtime dependency table documents native sink selection, Bluetooth toggle/connect, Wi-Fi lists and notification history/DND, beyond merely hosting widgets: https://github.com/AngeeelD/omaltbar (reviewed 2026-09-21).",
         "bluetooth": "README runtime dependency table documents native sink selection, Bluetooth toggle/connect, Wi-Fi lists and notification history/DND, beyond merely hosting widgets: https://github.com/AngeeelD/omaltbar (reviewed 2026-09-21).",
-        "network": "README runtime dependency table documents native sink selection, Bluetooth toggle/connect, Wi-Fi lists and notification history/DND, beyond merely hosting widgets: https://github.com/AngeeelD/omaltbar (reviewed 2026-09-21).",
         "notifications": "README runtime dependency table documents native sink selection, Bluetooth toggle/connect, Wi-Fi lists and notification history/DND, beyond merely hosting widgets: https://github.com/AngeeelD/omaltbar (reviewed 2026-09-21).",
         "brightness": "README documents the native BrightnessState slider and display-brightness write command: https://github.com/AngeeelD/omaltbar (reviewed 2026-10-12)."
       },
@@ -2161,7 +2219,6 @@
         "themes-appearance": "README documents theme previews, switching, scheduled theme shuffle and appearance controls. Source: https://github.com/Deunnis/omarchy-lacquer (reviewed 2026-09-21).",
         "wallpaper": "README Theme & wallpaper section documents browsing and applying installed theme wallpapers. Source: https://github.com/Deunnis/omarchy-lacquer (reviewed 2026-09-21).",
         "night-light": "README Desktop section documents nightlight configuration and scheduling through hyprsunset. Source: https://github.com/Deunnis/omarchy-lacquer (reviewed 2026-09-21).",
-        "idle-sleep": "README Screens section documents native screensaver and lock idle timing controls, plus lock-explorer integration. Source: https://github.com/Deunnis/omarchy-lacquer (reviewed 2026-09-21).",
         "lock-screen": "README Screens and lockscreen-color sections document lock-screen presentation controls. Keep as a separate research lead; the stale idle review does not qualify this task. Source: https://github.com/Deunnis/omarchy-lacquer (discovery reviewed 2026-10-30)."
       },
       "io.github.jeremylanger.omaspotify": {

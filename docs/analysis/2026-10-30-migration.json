@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "capturedAt": "2026-10-30T11:21:19.177Z",
   "inputHash": "741a7ddb65201cad313a71411e589b5325fad668b38942ff4d97465221d3a4cd",
-  "taxonomyHash": "754f592188f88ce4641d003b869b7742c97cfd044bae30388659aca39d43a5bd",
+  "taxonomyHash": "b51e86ce5f2e3b5b52659c15c1bc22e3862583acba259a35e692e8cfb85c4c61",
   "taskReviewsHash": "52dd4a4476d9875cad7cf791334396a57aba8378906987abb6418733817f6eb0",
   "pluginProfilesHash": "498e4ae34448fd965e580d3f2dce4f996d8603644742972eae04144e98110d94",
   "evidenceObservationsHash": "3f7963a44a2d8b0b972ec13901b0ff8accf5a475c709e9d375d97421078df9c4",
@@ -18,7 +18,7 @@
     "categoriesWithRunnerUp": 64,
     "beforeQualifiedAssignments": 158,
     "qualifiedAssignments": 170,
-    "queuedAssignments": 2862
+    "queuedAssignments": 2804
   },
   "categoryChanges": [
     {
@@ -698,7 +698,7 @@
       "newCategory": false,
       "changed": true,
       "beforeCount": 3,
-      "matchedCount": 83,
+      "matchedCount": 63,
       "qualifiedCount": 2,
       "beforeWinner": {
         "id": "eduardodallecort.weather-radar",
@@ -727,7 +727,7 @@
       "newCategory": true,
       "changed": true,
       "beforeCount": 0,
-      "matchedCount": 7,
+      "matchedCount": 12,
       "qualifiedCount": 1,
       "beforeWinner": null,
       "afterWinner": {
@@ -852,7 +852,7 @@
       "newCategory": false,
       "changed": true,
       "beforeCount": 3,
-      "matchedCount": 60,
+      "matchedCount": 49,
       "qualifiedCount": 2,
       "beforeWinner": {
         "id": "io.github.shivamnarkar47.omarchy-hotspot",
@@ -1105,7 +1105,7 @@
       "newCategory": true,
       "changed": true,
       "beforeCount": 0,
-      "matchedCount": 42,
+      "matchedCount": 35,
       "qualifiedCount": 3,
       "beforeWinner": null,
       "afterWinner": {
@@ -1126,7 +1126,7 @@
       "newCategory": true,
       "changed": true,
       "beforeCount": 0,
-      "matchedCount": 29,
+      "matchedCount": 27,
       "qualifiedCount": 3,
       "beforeWinner": null,
       "afterWinner": {
@@ -1147,7 +1147,7 @@
       "newCategory": true,
       "changed": true,
       "beforeCount": 0,
-      "matchedCount": 38,
+      "matchedCount": 37,
       "qualifiedCount": 4,
       "beforeWinner": null,
       "afterWinner": {
@@ -1243,7 +1243,7 @@
       "newCategory": true,
       "changed": true,
       "beforeCount": 0,
-      "matchedCount": 30,
+      "matchedCount": 27,
       "qualifiedCount": 2,
       "beforeWinner": null,
       "afterWinner": {
@@ -1492,7 +1492,7 @@
       "newCategory": false,
       "changed": false,
       "beforeCount": 2,
-      "matchedCount": 14,
+      "matchedCount": 15,
       "qualifiedCount": 2,
       "beforeWinner": {
         "id": "chyld.easy-capture",
@@ -1637,7 +1637,7 @@
       "newCategory": true,
       "changed": true,
       "beforeCount": 0,
-      "matchedCount": 68,
+      "matchedCount": 65,
       "qualifiedCount": 1,
       "beforeWinner": null,
       "afterWinner": {
@@ -1654,7 +1654,7 @@
       "newCategory": true,
       "changed": true,
       "beforeCount": 0,
-      "matchedCount": 25,
+      "matchedCount": 16,
       "qualifiedCount": 2,
       "beforeWinner": null,
       "afterWinner": {
@@ -1812,7 +1812,7 @@
       "newCategory": false,
       "changed": false,
       "beforeCount": 2,
-      "matchedCount": 7,
+      "matchedCount": 8,
       "qualifiedCount": 2,
       "beforeWinner": {
         "id": "silvaio.gamemode",
@@ -2189,7 +2189,7 @@
       "newCategory": true,
       "changed": true,
       "beforeCount": 0,
-      "matchedCount": 36,
+      "matchedCount": 33,
       "qualifiedCount": 3,
       "beforeWinner": null,
       "afterWinner": {
@@ -2210,7 +2210,7 @@
       "newCategory": true,
       "changed": true,
       "beforeCount": 0,
-      "matchedCount": 17,
+      "matchedCount": 10,
       "qualifiedCount": 2,
       "beforeWinner": null,
       "afterWinner": {
@@ -2496,9 +2496,9 @@
       }
     }
   ],
-  "proposalCodeRevision": "2450e63202467ae88dc953034a9c0d3559ab180c-dirty",
+  "proposalCodeRevision": "e086f9f4fee1f0e3de54d8fb5575c1255e92ae22-dirty",
   "proposalCodeHashes": {
-    "build/rank.mjs": "cd7da3fb75ca04a266a5bb8d17034bd84b8e5009cc8cbd9cfccf55a45782d42b",
+    "build/rank.mjs": "9e6468f12b697317b58c7e73785cd04b72942b7d7d6355873bdd12bbecb566b0",
     "build/task-fit.mjs": "8f9a4dfa0af64394472a8f35e2be60f0fc649475e878ef931dc9e486922c0fc5",
     "build/evidence.mjs": "0665019ce4130a685c73df57e6e4a44da45b593fcdab58883effcda75b23995d",
     "build/methodology.mjs": "598f3bde501a1d3035e9bb5409b810b367681d1632de85a94edb72c6823de8c4",
@@ -2510,7 +2510,7 @@
   },
   "capture": {
     "file": "test/fixtures/task-coherence-migration.json.gz",
-    "sha256": "dd2d930f3be06cb8a933b72b6652ec48eed2f30d6ae95c1901eddffc1d0d8266",
+    "sha256": "274d48719e95084043b669e60ba796b1cb9aef61558590da89ff0290cab7669c",
     "catalogCount": 285,
     "scope": "Lossless ranking projection of every baseline or proposed reviewed plugin. All scored cohorts and scores replay; full-catalog discovery/queue counts require the complete capture."
   },
