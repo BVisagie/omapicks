@@ -9,6 +9,8 @@ import { auditClassifications, renderClassificationAudit } from "./classificatio
 import { assertTaskQualifiedSnapshot, taskReviewsHash, updateTaskReviewQueue } from "./task-fit.mjs";
 
 import { captureEvidence, evidenceHash } from "./evidence.mjs";
+import { categoryChangesBetween } from "./category-migrations.mjs";
+import { publicationHistory } from "./publication-history.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CATALOG_URL = "https://plugins.omarchy.org/catalog.json";
@@ -139,7 +141,9 @@ export function replayChanges(inputs) {
   const context = changeContext({ catalog, registry: inputs.registry, exclusions: ranked.exclusions, typeIdsById: ranked.typeIdsById, taskStatusByAssignment: ranked.taskStatusByAssignment });
   return {
     changes: changesBetween(inputs.previous, ranked.rankings, context),
-    runnerUpChanges: runnerUpChangesBetween(inputs.previous, ranked.rankings, context)
+    runnerUpChanges: runnerUpChangesBetween(inputs.previous, ranked.rankings, context),
+    ...(methodologyFor(inputs.methodologyVersion ?? LEGACY_METHODOLOGY_VERSION).eligibility.taskCoherence
+      ? { categoryChanges: categoryChangesBetween(inputs.previous, ranked.rankings) } : {})
   };
 }
 
@@ -493,6 +497,7 @@ export function formatRefreshLog(result, { dryRun = false } = {}) {
     : `Both places retain eligible incumbents unless a challenger scores strictly more than ${methodology.hysteresis * 100}% higher; runner-up selection excludes the champion.`}`);
   if (!changes.length) lines.push("No champion identities changed: the per-type decisions below explain which incumbents still lead and which were retained by the stability rule.");
   for (const change of changes) lines.push(`  Champion ${change.typeName}: ${formatPickName(change.previous)} -> ${formatPickName(change.current)}${formatReason(change)}`);
+  for (const change of result.categoryChanges ?? []) lines.push(`  Category correction: ${change.from.name} -> ${change.to.map((type) => type.name).join("; ")}. ${change.reason}`);
   if (result.changes.length !== changes.length) lines.push(`Weekly changelog retains ${result.changes.length} events, including earlier runs; this calculation has ${changes.length} champion changes.`);
 
   lines.push(
@@ -545,7 +550,8 @@ async function removeStaleImages(rankings, root) {
 }
 
 // `republish` deliberately recalculates a week that already has a snapshot (for example after a
-// methodology change). It still validates feeds and keeps the week's earlier changelog events.
+// methodology change). It validates feeds, retains same-methodology events, and starts a new
+// event set when the methodology changes.
 export async function refresh({
   now = new Date(),
   dryRun = false,
@@ -650,6 +656,13 @@ export async function refresh({
   const changes = weekChangeLog(previous, rankings, existingHistory, computedChanges);
   const runnerUpChanges = runnerUpChangesBetween(previous, rankings, context);
   const weeklyRunnerUpChanges = weekChangeLog(previous, rankings, existingHistory, runnerUpChanges, "runnerUpChanges");
+  const categoryChanges = categoryChangesBetween(previous, rankings);
+  const weeklyCategoryChanges = weekChangeLog(previous, rankings, existingHistory, categoryChanges, "categoryChanges");
+  const publications = methodology.eligibility.taskCoherence ? publicationHistory(previous, rankings, existingHistory) : null;
+  if (methodology.eligibility.taskCoherence) {
+    rankings.categoryChanges = weeklyCategoryChanges;
+    rankings.publicationBaseline = publications.publicationBaseline;
+  }
   const previousReport = await readJson(path.join(root, "data", "unclassified-report.json"), null);
   const classificationAudit = auditClassifications({ catalog: catalogResult.body.plugins, stats: statsResult.body.plugins, taxonomy, taskReviews, pluginProfiles, evidenceObservations, previous, previousState, previousReviewQueue, now, methodology });
   classificationAudit.inputsHash = checksum(auditInputs);
@@ -672,6 +685,8 @@ export async function refresh({
     upstreamWarnings: upstreamWarningCodes(catalogResult.body.warnings),
     runnerUpChanges,
     weeklyRunnerUpChanges,
+    categoryChanges,
+    weeklyCategoryChanges,
     retirementConflicts: registry.status === "available" ? registry.retiredPluginIds.filter((id) => context.catalogIds.has(id)) : [],
     invertedRaces: invertedRawScoreRaces(rankings),
     deltas: {
@@ -692,7 +707,8 @@ export async function refresh({
   const history = {
     ...withoutLocalImages(rankings),
     changes,
-    runnerUpChanges: weeklyRunnerUpChanges
+    runnerUpChanges: weeklyRunnerUpChanges,
+    ...(methodology.eligibility.taskCoherence ? { categoryChanges: weeklyCategoryChanges, supersededPublications: publications.supersededPublications } : {})
   };
   await writeJsonAtomic(historyFile, history);
   await writeJsonAtomic(path.join(root, "data", "changelog.json"), {
@@ -700,7 +716,8 @@ export async function refresh({
     week,
     generatedAt: rankings.generatedAt,
     changes,
-    runnerUpChanges: weeklyRunnerUpChanges
+    runnerUpChanges: weeklyRunnerUpChanges,
+    ...(methodology.eligibility.taskCoherence ? { categoryChanges: weeklyCategoryChanges, publicationBaseline: publications.publicationBaseline } : {})
   });
   await writeJsonAtomic(path.join(root, "data", "unclassified-report.json"), report);
   await writeJsonAtomic(path.join(root, "data", "classification-state.json"), classificationAudit.state);

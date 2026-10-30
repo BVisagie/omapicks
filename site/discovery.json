@@ -5,7 +5,7 @@
       "htop",
       "cpu",
       "ram",
-      "disk space"
+      "host resources"
     ],
     "network": [
       "wifi",
@@ -29,6 +29,7 @@
     "music": [
       "mpris",
       "playerctl",
+      "local playback",
       "now playing"
     ],
     "weather": [
@@ -58,11 +59,9 @@
     "audio": [
       "volume",
       "microphone",
-      "sound",
+      "sound mixer",
       "pipewire",
-      "headphones",
-      "earbuds",
-      "bluetooth codecs"
+      "audio routing"
     ],
     "brightness": [
       "display brightness",
@@ -75,15 +74,9 @@
       "screen layout"
     ],
     "notifications": [
-      "do not disturb",
-      "dnd",
-      "mako"
-    ],
-    "lock-idle": [
-      "screen lock",
-      "sleep",
-      "suspend",
-      "caffeine"
+      "notification history",
+      "missed notifications",
+      "notification center"
     ],
     "password-manager": [
       "bitwarden",
@@ -95,11 +88,6 @@
       "agenda",
       "events",
       "caldav"
-    ],
-    "clock-timer": [
-      "world clock",
-      "time zones",
-      "timezone"
     ],
     "focus": [
       "pomodoro",
@@ -121,13 +109,13 @@
     ],
     "window-management": [
       "alt tab",
-      "tiling",
-      "window switcher"
+      "window switcher",
+      "window overview"
     ],
     "screenshots": [
       "screenshot",
       "capture",
-      "annotation"
+      "screen image"
     ],
     "wallpaper": [
       "desktop background",
@@ -145,12 +133,6 @@
       "eyedropper",
       "hex",
       "hyprpicker"
-    ],
-    "ai-assistant": [
-      "agent sessions",
-      "claude",
-      "codex",
-      "orchestration"
     ],
     "ai-api-usage": [
       "tokens",
@@ -174,9 +156,10 @@
       "kubernetes"
     ],
     "gaming": [
-      "steam",
-      "lutris",
-      "game mode"
+      "game mode",
+      "gaming settings",
+      "vrr",
+      "tearing"
     ],
     "mini-games": [
       "solitaire",
@@ -209,8 +192,9 @@
     ],
     "firewall": [
       "ufw",
-      "outbound connections",
-      "nftables"
+      "firewall rules",
+      "ports",
+      "inbound rules"
     ],
     "dev-ports": [
       "localhost",
@@ -261,7 +245,8 @@
     "file-search": [
       "find files",
       "file finder",
-      "full text search"
+      "filename",
+      "path search"
     ],
     "feed-readers": [
       "rss",
@@ -276,12 +261,6 @@
       "standings",
       "nfl",
       "premier league"
-    ],
-    "uptime-monitoring": [
-      "uptime kuma",
-      "website status",
-      "endpoint health",
-      "status page"
     ],
     "phone-integration": [
       "phone",
@@ -304,9 +283,8 @@
     "network-diagnostics": [
       "traffic",
       "throughput",
-      "latency",
-      "speed test",
-      "bandwidth"
+      "bandwidth",
+      "network rates"
     ],
     "music-players": [
       "spotify",
@@ -326,15 +304,14 @@
     ],
     "timers-alarms": [
       "timer",
-      "alarm",
-      "stopwatch",
+      "countdown",
       "pomodoro"
     ],
     "ai-chat": [
       "ai chat",
-      "ollama",
-      "models",
-      "llm"
+      "conversation",
+      "assistant",
+      "voice chat"
     ],
     "docks": [
       "dock",
@@ -352,6 +329,79 @@
       "ticktick",
       "personal tasks",
       "checklist"
+    ],
+    "lock-screen": [
+      "lock screen",
+      "lock design",
+      "lock appearance",
+      "lock explorer"
+    ],
+    "idle-sleep": [
+      "idle timeout",
+      "sleep timer",
+      "automatic lock",
+      "lid action",
+      "hibernate"
+    ],
+    "keep-awake": [
+      "stay awake",
+      "prevent idle",
+      "inhibit idle",
+      "caffeine"
+    ],
+    "desktop-clocks": [
+      "desktop clock",
+      "clock widget",
+      "clock appearance"
+    ],
+    "world-clocks": [
+      "world clock",
+      "time zones",
+      "timezone",
+      "time conversion"
+    ],
+    "agent-monitoring": [
+      "agent sessions",
+      "live agents",
+      "claude",
+      "codex",
+      "agent activity"
+    ],
+    "agent-history": [
+      "agent sessions",
+      "conversation history",
+      "resume session",
+      "transcripts"
+    ],
+    "endpoint-monitoring": [
+      "uptime kuma",
+      "uptime",
+      "endpoint health",
+      "service checks"
+    ],
+    "service-status": [
+      "status page",
+      "service incidents",
+      "outage reports",
+      "provider status"
+    ],
+    "weather-radar": [
+      "weather radar",
+      "rain map",
+      "precipitation map",
+      "storm radar"
+    ],
+    "hotspots": [
+      "hotspot",
+      "internet sharing",
+      "wifi repeater",
+      "access point"
+    ],
+    "app-network-blocking": [
+      "app firewall",
+      "block app internet",
+      "outbound connections",
+      "snitch"
     ]
   },
   "collections": [
@@ -373,7 +423,8 @@
         "themes-appearance",
         "wallpaper",
         "workspaces",
-        "window-management"
+        "window-management",
+        "lock-screen"
       ]
     },
     {
@@ -383,22 +434,84 @@
         "battery",
         "audio",
         "network",
-        "system-updates"
+        "system-updates",
+        "idle-sleep"
       ]
     }
   ],
   "relatedGroups": [
-    ["brightness", "night-light", "display-monitors"],
-    ["network", "network-diagnostics"],
-    ["music", "music-players", "radio"],
-    ["clock-timer", "timers-alarms"],
-    ["focus", "tasks", "timers-alarms"],
-    ["screenshots", "screen-recording", "ocr"],
-    ["ai-assistant", "ai-chat"],
-    ["launcher", "docks", "file-search"],
+    [
+      "lock-screen",
+      "idle-sleep",
+      "keep-awake",
+      "screensavers"
+    ],
+    [
+      "desktop-clocks",
+      "world-clocks",
+      "timers-alarms"
+    ],
+    [
+      "agent-monitoring",
+      "agent-history",
+      "ai-chat",
+      "ai-api-usage"
+    ],
+    [
+      "endpoint-monitoring",
+      "service-status"
+    ],
     [
       "weather",
-      "clock-timer",
+      "weather-radar"
+    ],
+    [
+      "network",
+      "hotspots",
+      "network-diagnostics"
+    ],
+    [
+      "firewall",
+      "app-network-blocking"
+    ],
+    [
+      "brightness",
+      "night-light",
+      "display-monitors"
+    ],
+    [
+      "network",
+      "network-diagnostics"
+    ],
+    [
+      "music",
+      "music-players",
+      "radio"
+    ],
+    [
+      "focus",
+      "tasks",
+      "timers-alarms"
+    ],
+    [
+      "screenshots",
+      "screen-recording",
+      "ocr"
+    ],
+    [
+      "agent-monitoring",
+      "agent-history",
+      "ai-chat"
+    ],
+    [
+      "launcher",
+      "docks",
+      "file-search"
+    ],
+    [
+      "weather",
+      "desktop-clocks",
+      "world-clocks",
       "calendar",
       "brightness",
       "battery",
@@ -414,12 +527,14 @@
       "clipboard",
       "focus",
       "mail",
-      "clock-timer",
+      "desktop-clocks",
+      "world-clocks",
       "screen-time",
       "notifications",
       "translation",
       "dictionary",
-      "ai-assistant",
+      "agent-monitoring",
+      "agent-history",
       "timers-alarms",
       "ai-chat",
       "tasks"
@@ -450,7 +565,9 @@
       "battery",
       "brightness",
       "keyboard-lighting",
-      "lock-idle",
+      "lock-screen",
+      "idle-sleep",
+      "keep-awake",
       "power-menu",
       "system-monitor",
       "system-updates",
@@ -484,10 +601,12 @@
       "dev-ports",
       "containers",
       "github",
-      "ai-assistant",
+      "agent-monitoring",
+      "agent-history",
       "ai-api-usage",
       "plugin-manager",
-      "uptime-monitoring",
+      "endpoint-monitoring",
+      "service-status",
       "ai-chat"
     ]
   ]

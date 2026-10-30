@@ -8,6 +8,7 @@ import {
   featuredDayIndex,
   featuredTypes,
   render,
+  renderFixtureCategoryBridge,
   renderFixtureChangelog,
   renderFixtureFeed,
   renderFixtureHome,
@@ -18,6 +19,7 @@ import {
   withAvailability
 } from "../build/render.mjs";
 import { methodologyFor, snapshotMethodology } from "../build/methodology.mjs";
+import { CATEGORY_MIGRATIONS, migrationsForSnapshot } from "../build/category-migrations.mjs";
 
 function fixtureCandidate(values = {}) {
   return {
@@ -401,6 +403,15 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
     pickType.winner ? readFile(new URL(`../dist/badges/${rankings.week}/${pickType.id}/${encodeURIComponent(pickType.winner.id)}.svg`, import.meta.url), "utf8") : Promise.resolve("")
   ]);
   const manifestColours = JSON.parse(manifestSource);
+  for (const change of migrationsForSnapshot(rankings).flatMap((migration) => migration.changes).filter((change) => change.retired)) {
+    const bridge = await readFile(new URL(`../dist/picks/${change.from.id}/index.html`, import.meta.url), "utf8");
+    assert.ok(sitemap.includes(`/picks/${change.from.id}/`));
+    assert.match(bridge, /now has separate tasks/);
+    for (const successor of change.to) {
+      assert.ok(bridge.includes(`href="/picks/${successor.id}/"`));
+      assert.ok((await stat(new URL(`../dist/picks/${successor.id}/index.html`, import.meta.url))).isFile());
+    }
+  }
   assert.equal(manifestColours.background_color, PALETTE.bg);
   assert.equal(manifestColours.theme_color, PALETTE.bg);
   const typeCount = rankings.types.length;
@@ -424,7 +435,7 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.doesNotMatch(home, /Featured this week/);
   if (featured.length) assert.match(home, /A different category each day\. Rankings refresh Monday\./);
   if (featured.length) assert.match(home, modern ? /01 Leading reviewed option/ : /01 Champion/);
-  if (featured.length) assert.match(home, modern ? /02 Another reviewed option/ : /02 Runner-up/);
+  if (featured.some((type) => type.runnerUp) || (!modern && featured.length)) assert.match(home, modern ? /02 Another reviewed option/ : /02 Runner-up/);
   if (featured.some((type) => type.runnerUp)) assert.match(home, modern ? /alternative / : /runner-up /);
   assert.match(home, /Week of [A-Z][a-z]+ \d{1,2}, \d{4}/);
   assert.match(home, snapshotMethodology(rankings).eligibility.reviewedTaskEvidence ? /Reviewed category entries/ : /Category entries/);
@@ -661,22 +672,43 @@ test("weekly summary compares snapshots and handles unchanged and vacant picks",
   assert.match(renderFixtureHome(current, [previous]), /the champion spot is vacant/);
 });
 
-test("feed keeps the newest 50 changes, words vacancies plainly, and skips bad dates", () => {
+test("homepage uses recorded same-week events even when a previous-week comparison disagrees", () => {
+  const current = { ...fixtureRankings(fixtureCandidate({ name: "Client", id: "client" })), methodologyVersion: "1.4.0" };
+  current.types[0].id = "network";
+  current.types[0].name = "Network Connections";
+  const previous = { ...structuredClone(current), week: "2026-W35" };
+  // The previous week had the same leader, but this migration replaces a same-week hotspot pick.
+  const event = { typeId: "network", typeName: "Network Connections", kind: "displaced", reason: "task-definition-changed",
+    previous: { id: "hotspot", name: "Hotspot" }, current: { id: "client", name: "Client" } };
+  const history = [previous, { ...current, changes: [event] }];
+  const html = renderFixtureHome(current, history);
+  assert.match(html, /1 category has a leading-option change/);
+  assert.match(html, /<b>Client<\/b> <em>is selected under the updated task definition/);
+  assert.match(html, /<dt>Leading-option changes<\/dt><dd data-count="1">1<\/dd>/);
+  // An explicitly empty event set must not revive an earlier week's displacement.
+  previous.types[0].winner = fixtureCandidate({ id: "old", name: "Old" });
+  history[1].changes = [];
+  const unchanged = renderFixtureHome(current, history);
+  assert.match(unchanged, /The leading reviewed options are unchanged/);
+  assert.match(unchanged, /<dt>Leading-option changes<\/dt><dd data-count="0">0<\/dd>/);
+});
+
+test("feed keeps the newest 100 changes, words vacancies plainly, and skips bad dates", () => {
   const change = (i) => ({ typeId: `type-${i}`, typeName: `Type ${i}`, current: { id: `p${i}`, name: `Plugin ${i}` }, previous: null });
   const history = [
-    { week: "2026-W30", generatedAt: "2026-07-20T06:00:00Z", changes: Array.from({ length: 30 }, (_, i) => change(i)) },
+    { week: "2026-W30", generatedAt: "2026-07-20T06:00:00Z", changes: Array.from({ length: 60 }, (_, i) => change(i)) },
     { week: "2026-W31", changes: [{ typeId: "music", typeName: "Music", current: null, previous: { id: "old", name: "Old Player" } }] },
-    { week: "2026-W32", generatedAt: "2026-08-03T06:00:00Z", changes: Array.from({ length: 30 }, (_, i) => change(i + 30)) }
+    { week: "2026-W32", generatedAt: "2026-08-03T06:00:00Z", changes: Array.from({ length: 60 }, (_, i) => change(i + 60)) }
   ];
   const { page, rss } = renderFixtureFeed(history);
-  assert.equal([...rss.matchAll(/<item>/g)].length, 50);
-  assert.equal([...page.matchAll(/<article class="glass">/g)].length, 50);
-  assert.match(rss, /<title>Plugin 30 is the Type 30 champion<\/title>/);
+  assert.equal([...rss.matchAll(/<item>/g)].length, 100);
+  assert.equal([...page.matchAll(/<article class="glass">/g)].length, 100);
+  assert.match(rss, /<title>Plugin 60 is the Type 60 champion<\/title>/);
   assert.match(rss, /<description>Music has no champion this week\.<\/description>/);
   assert.match(page, /Music has no champion this week\./);
   assert.doesNotMatch(page, /No plugin/);
   assert.doesNotMatch(page + rss, /Invalid Date/);
-  assert.equal([...rss.matchAll(/<pubDate>/g)].length, 49);
+  assert.equal([...rss.matchAll(/<pubDate>/g)].length, 99);
 });
 
 test("discovery metadata uses taxonomy categories and related navigation stays compact", async () => {
@@ -814,11 +846,113 @@ test("the changelog lists runner-up events separately and older weeks without th
     ] },
     { week: "2026-W39", generatedAt: "2026-09-21T06:17:00Z", changes: [{ typeId: "clock", typeName: "Clock", kind: "displaced", previous: { id: "a", name: "A" }, current: { id: "c", name: "C" } }] }
   ]);
-  const [w40, w39] = html.split('<section class="glass reveal">').slice(-2);
+  const [w40, w39] = html.split('<section class="glass reveal"').slice(-2);
   assert.match(w40, /No champion changes\./);
   assert.match(w40, /<h3 class="timeline-subhead">Runner-up changes<\/h3>/);
   assert.match(w40, /Music has no runner-up this week\. YouTube &lt;Music&gt; could not be reached in the latest marketplace check\./);
   assert.match(w40, /<strong>B<\/strong> became the Clock runner-up\./);
   assert.doesNotMatch(w39, /Runner-up changes/);
   assert.match(w39, /<strong>C<\/strong> replaced A in Clock\./);
+});
+
+test("reviewed shortlists show one real card or a clear abstention without a second-place placeholder", () => {
+  const rankings = { ...fixtureRankings(), methodologyVersion: "1.4.0" };
+  rankings.types[0].taskContract = { outcome: "Read the current conditions and forecast for a location" };
+  const one = renderFixtureType(rankings.types[0], rankings);
+  assert.equal([...one.matchAll(/class="glass tilt pick-card/g)].length, 1);
+  assert.match(one, /class="podium single-option"/);
+  assert.match(one, /One option currently qualifies for this task/);
+  assert.match(one, /<strong>Shared task:<\/strong> Read the current conditions/);
+  assert.doesNotMatch(one, /pick-card empty|02 Another reviewed option|and other reviewed Weather options/);
+  const home = renderFixtureHome(rankings);
+  assert.equal([...home.matchAll(/class="glass tilt card showdown-entry/g)].length, 1);
+  assert.match(home, /showdown-pair single-option/);
+  assert.doesNotMatch(home, /showdown-entry empty/);
+  rankings.types[0].winner = null;
+  rankings.types[0].eligibleCount = 0;
+  const empty = renderFixtureType(rankings.types[0], rankings);
+  assert.match(empty, /<h2 id="shortlist-empty-heading">No reviewed option yet<\/h2>/);
+  assert.doesNotMatch(empty, /class="podium|pick-card|data-copy-command|02 Another reviewed option/);
+  assert.match(empty, /"numberOfItems":0/);
+});
+
+test("retired category pages explain every successor instead of choosing a redirect", () => {
+  const migration = CATEGORY_MIGRATIONS[0];
+  const rankings = { ...fixtureRankings(), methodologyVersion: migration.methodologyVersion, types: [] };
+  for (const change of migration.changes.filter((entry) => entry.retired)) {
+    rankings.types = change.to.map((type) => ({ ...type, description: `Complete the ${type.name} task`, eligibleCount: 0, winner: null, runnerUp: null }));
+    const html = renderFixtureCategoryBridge(change, rankings);
+    assert.match(html, /now has separate tasks/);
+    assert.ok(html.includes(`<link rel="canonical" href="https://omapicks.com/picks/${change.from.id}/">`));
+    for (const type of change.to) assert.ok(html.includes(`href="/picks/${type.id}/"`), type.id);
+    assert.match(html, /Earlier snapshots retain their original category definitions/);
+    assert.doesNotMatch(html, /http-equiv="refresh"|class="podium"/);
+    assert.throws(() => renderFixtureCategoryBridge(change, { ...rankings, types: rankings.types.slice(1) }), /Missing category successor/);
+  }
+  assert.equal(migrationsForSnapshot({ methodologyVersion: "1.3.0" }).length, 0);
+});
+
+test("category corrections and requalification do not masquerade as competitive displacement", () => {
+  const migration = CATEGORY_MIGRATIONS[0];
+  const correction = { ...migration.changes.find((change) => change.from.id === "network"), migrationId: migration.id };
+  const old = { methodologyVersion: "1.3.0", week: "2026-W43", generatedAt: "2026-10-19T06:00:00Z", changes: [{ typeId: "network", typeName: "Network Connections", kind: "displaced", previous: { id: "former", name: "Former" }, current: { id: "hotspot", name: "Hotspot" } }] };
+  const current = { methodologyVersion: "1.4.0", week: "2026-W44", generatedAt: "2026-10-30T06:00:00Z", categoryChanges: [correction], changes: [{ typeId: "network", typeName: "Network Connections", kind: "displaced", reason: "task-definition-changed", previous: { id: "hotspot", name: "Hotspot" }, current: { id: "client", name: "Client" } }], runnerUpChanges: [{ typeId: "network", typeName: "Network Connections", kind: "vacated", reason: "task-definition-changed", previous: { id: "former", name: "Former" }, current: null }] };
+  const page = renderFixtureChangelog([old, current]);
+  assert.match(page, /Category corrections/);
+  assert.match(page, /href="\/picks\/hotspots\/"/);
+  assert.match(page, /Client<\/strong> is the Network Connections leading reviewed option under the updated task definition/);
+  assert.match(page, /Network Connections has no second reviewed option under the updated task definition/);
+  assert.doesNotMatch(page, /Client<\/strong> replaced Hotspot/);
+  assert.match(page, /Hotspot<\/strong> replaced Former in Network Connections/);
+  const historicalSection = page.split('<section class="glass reveal"').at(-1);
+  assert.doesNotMatch(historicalSection, /Category corrections|updated task definition/);
+  const { rss } = renderFixtureFeed([old, current]);
+  assert.match(rss, /Network Connections: category tasks updated/);
+  assert.match(rss, /Client is selected under the updated Network Connections task definition/);
+  assert.doesNotMatch(rss, /Client replaced Hotspot/);
+  assert.match(rss, /Hotspot replaced Former/);
+  assert.match(rss, /Network Connections second reviewed option spot is vacant/);
+  assert.match(rss, /No second reviewed option is selected under the updated Network Connections task definition/);
+  assert.match(rss, /2026-W44:runner-up:network:vacant/);
+  const sameCandidate = renderFixtureFeed([{ ...current, runnerUpChanges: [{ ...current.changes[0] }] }]);
+  assert.match(sameCandidate.rss, /Client is selected as the second reviewed option under the updated Network Connections task definition/);
+  const guids = [...sameCandidate.rss.matchAll(/<guid[^>]*>(.*?)<\/guid>/g)].map((match) => match[1]);
+  assert.equal(new Set(guids).size, guids.length);
+  const onlyCorrection = renderFixtureFeed([{ ...current, changes: [], runnerUpChanges: [] }]);
+  assert.equal([...onlyCorrection.rss.matchAll(/<item>/g)].length, 1);
+});
+
+test("methodology explains common outcomes without rewriting earlier policy copy", () => {
+  const current = renderFixtureMethodology({ ...fixtureRankings(), methodologyVersion: "1.4.0" });
+  assert.match(current, /same action on the same target/);
+  assert.match(current, /does that capability complete the shared task/);
+  assert.match(current, /one reviewed option or none/);
+  assert.doesNotMatch(current, /Audio codecs belong under Audio/);
+  const old = renderFixtureMethodology({ ...fixtureRankings(), methodologyVersion: "1.3.0" });
+  assert.doesNotMatch(old, /same action on the same target/);
+  assert.match(old, /Audio codecs belong under Audio/);
+});
+
+test("superseded same-week publications remain dated and independently visible in history and RSS", () => {
+  const old = { methodologyVersion: "1.3.0", week: "2026-W44", generatedAt: "2026-10-29T19:35:18.101Z",
+    changes: [{ typeId: "shortcut-guides", typeName: "Shortcut Guides", previous: { id: "which", name: "Which Key" }, current: { id: "promoter", name: "Key Promoter" }, kind: "displaced" }],
+    runnerUpChanges: [{ typeId: "containers", typeName: "Containers", previous: { id: "control", name: "Control Docker" }, current: { id: "docker", name: "Docker" }, kind: "displaced" }] };
+  const current = { methodologyVersion: "1.4.0", week: "2026-W44", generatedAt: "2026-10-30T12:00:00.000Z", supersededPublications: [old],
+    publicationBaseline: { week: old.week, generatedAt: old.generatedAt, methodologyVersion: old.methodologyVersion },
+    changes: [], runnerUpChanges: [{ typeId: "containers", typeName: "Containers", previous: { id: "docker", name: "Docker" }, current: { id: "monitor", name: "Docker Monitor" }, kind: "displaced", reason: "task-definition-changed" }] };
+  const page = renderFixtureChangelog([current]);
+  assert.match(page, /Superseded publication · October 29, 2026 · methodology 1\.3\.0/);
+  assert.match(page, /Key Promoter<\/strong> replaced Which Key in Shortcut Guides/);
+  assert.match(page, /Docker<\/strong> replaced Control Docker as the Containers second reviewed option/);
+  assert.match(page, /Docker Monitor<\/strong> is the Containers second reviewed option under the updated task definition/);
+  assert.match(page, /id="publication-2026-W44-20261029T193518101Z"/);
+  assert.match(page, /href="\/changelog\/#publication-2026-W44-20261029T193518101Z"/);
+  const { rss } = renderFixtureFeed([current]);
+  assert.match(rss, /Key Promoter is the Shortcut Guides leading reviewed option \(superseded publication\)/);
+  assert.match(rss, /Recorded at the superseded October 29, 2026 publication under methodology 1\.3\.0/);
+  assert.match(rss, /Docker Monitor is the Containers second reviewed option/);
+  const grouped = renderFixtureFeed([{ ...current, changes: [], runnerUpChanges: [], supersededPublications: [], categoryChanges: CATEGORY_MIGRATIONS[0].changes }]);
+  assert.equal([...grouped.rss.matchAll(/<item>/g)].length, 1);
+  assert.match(grouped.rss, /7 category updates: 7 splits/);
+  assert.match(grouped.rss, /\/changelog\/#publication-2026-W44-20261030T120000000Z/);
 });

@@ -1,5 +1,7 @@
-import { CURRENT_METHODOLOGY_VERSION, methodologyFor } from "./methodology.mjs";
+import { createHash } from "node:crypto";
+import { CURRENT_METHODOLOGY_VERSION, methodologyFor, snapshotMethodology } from "./methodology.mjs";
 import { explainTaskFit, prepareTaskReviews, preserveTaskReviewHistory, taskMetadataHash, validateTaskContracts } from "./task-fit.mjs";
+import { taskDefinitionChanged } from "./category-migrations.mjs";
 
 export { methodologyFor, snapshotMethodology } from "./methodology.mjs";
 
@@ -95,7 +97,7 @@ export function prepareTaxonomy(taxonomy) {
     assert(!ids.has(type.id), `Duplicate taxonomy id: ${type.id}`);
     ids.add(type.id);
     assert(typeof type.name === "string" && type.name.length > 0, `${label}.name is required`);
-    assert(type.exclusionScope == null || ["field", "clause"].includes(type.exclusionScope), `${label}.exclusionScope is invalid`);
+    assert(type.exclusionScope == null || ["field", "clause", "sentence"].includes(type.exclusionScope), `${label}.exclusionScope is invalid`);
     // Omarchy built-ins shown beside a category's picks. Display only: never classified or ranked.
     assert(type.builtIns == null || (Array.isArray(type.builtIns) &&
       type.builtIns.every((id) => typeof id === "string" && id.length > 0)), `${label}.builtIns must be an array of plugin IDs`);
@@ -123,10 +125,22 @@ export function prepareTaxonomy(taxonomy) {
       assert(typeof reason === "string" && reason.trim().length > 0, `Missing reason for ${pluginId}/${typeId}`);
     }
   }
-  return { types, overrides: { include: overrides.include ?? {}, exclude: overrides.exclude ?? {}, review: overrides.review ?? {}, reasons: overrides.reasons ?? {} } };
+  const discoveryExclusions = new Map(), discoveryInclusions = new Map();
+  for (const [field, destination] of [["discoveryExclude", discoveryExclusions], ["discoveryInclude", discoveryInclusions]]) {
+    assert(overrides[field] == null || Array.isArray(overrides[field]), `overrides.${field} must be an array`);
+    for (const entry of overrides[field] ?? []) {
+      assert(typeof entry.pluginId === "string" && entry.pluginId.length && ids.has(entry.typeId), "Invalid discovery override target");
+      assert(/^[a-f0-9]{64}$/.test(entry.listingSha256), "Discovery override requires a listing hash");
+      assert(typeof entry.reason === "string" && entry.reason.trim().length, "Discovery override requires a reason");
+      const key = `${entry.pluginId}/${entry.typeId}`;
+      assert(!discoveryExclusions.has(key) && !discoveryInclusions.has(key), `Duplicate discovery override: ${key}`);
+      destination.set(key, entry);
+    }
+  }
+  return { types, discoveryExclusions, discoveryInclusions, overrides: { include: overrides.include ?? {}, exclude: overrides.exclude ?? {}, review: overrides.review ?? {}, reasons: overrides.reasons ?? {} } };
 }
 
-function matchedEvidence(patterns, fields, rule, version = CLASSIFICATION_VERSION) {
+function matchedEvidence(patterns, fields, rule, version = CLASSIFICATION_VERSION, contextScope = "clause") {
   const evidence = [];
   for (const [field, value] of Object.entries(fields)) {
     if (typeof value !== "string") continue;
@@ -137,10 +151,12 @@ function matchedEvidence(patterns, fields, rule, version = CLASSIFICATION_VERSIO
       for (const match of matches) {
         const start = match.index;
         const before = value.slice(0, start);
-        const clauseStart = Math.max(before.lastIndexOf(","), before.lastIndexOf(";"), before.lastIndexOf("."), before.lastIndexOf("\n")) + 1;
+        // Sentence scope keeps comma-separated telemetry attached to an ambiguous
+        // clock mention. Other tasks retain their narrower clause context.
+        const contextStart = Math.max(...(contextScope === "sentence" ? [".", "\n"] : [",", ";", ".", "\n"]).map((separator) => before.lastIndexOf(separator))) + 1;
         const after = value.slice(start + match[0].length);
-        const end = after.search(/[,;.\n]/);
-        const context = value.slice(clauseStart, end < 0 ? value.length : start + match[0].length + end);
+        const end = after.search(contextScope === "sentence" ? /[.\n]/ : /[,;.\n]/);
+        const context = value.slice(contextStart, end < 0 ? value.length : start + match[0].length + end);
         const negated = rule !== "exclude" && /\b(?:no|not|without|never|does(?:n['’]t| not)|do(?:n['’]t| not))\s+(?:any\s+)?$/iu.test(before.slice(-50));
         const preview = captions.some((caption) => start >= caption.index && start + match[0].length <= caption.index + caption[0].length);
         evidence.push({ rule, pattern: pattern.source, field, match: match[0], ...(version >= 3 ? { context: context.trim(), ignored: negated ? "negated-capability" : preview ? "preview-reference" : null } : {}) });
@@ -148,6 +164,26 @@ function matchedEvidence(patterns, fields, rule, version = CLASSIFICATION_VERSIO
     }
   }
   return evidence;
+}
+
+// Catalog-only editorial overrides expire on any name/description change. They only
+// change raw discovery, never grant qualification or veto a source-qualified/related task.
+export const discoveryListingHash = (plugin) => createHash("sha256")
+  .update(JSON.stringify(plugin ? { id: plugin.id, name: plugin.name, description: plugin.description } : null)).digest("hex");
+
+export function discoveryCurationStatus(catalog, preparedTaxonomy) {
+  const plugins = new Map(catalog.map((plugin) => [plugin.id, plugin]));
+  const result = { activeIncludes: 0, activeExcludes: 0, expired: [] };
+  for (const [action, records] of [["include", preparedTaxonomy.discoveryInclusions], ["exclude", preparedTaxonomy.discoveryExclusions]]) {
+    for (const entry of records.values()) {
+      const plugin = plugins.get(entry.pluginId);
+      if (plugin && discoveryListingHash(plugin) === entry.listingSha256) {
+        result[action === "include" ? "activeIncludes" : "activeExcludes"]++;
+      } else result.expired.push({ pluginId: entry.pluginId, typeId: entry.typeId, action,
+        reason: plugin ? "listing-changed" : "listing-unavailable" });
+    }
+  }
+  return result;
 }
 
 // Match fields separately: concatenation can manufacture phrases across field boundaries.
@@ -158,28 +194,33 @@ export function explainClassification(plugin, preparedTaxonomy, version = CLASSI
   const forced = new Set(preparedTaxonomy.overrides.include[plugin.id] ?? []);
   const blocked = new Set(preparedTaxonomy.overrides.exclude[plugin.id] ?? []);
   const review = new Set(preparedTaxonomy.overrides.review[plugin.id] ?? []);
+  const listingHash = (preparedTaxonomy.discoveryExclusions.size || preparedTaxonomy.discoveryInclusions.size) ? discoveryListingHash(plugin) : null;
   return preparedTaxonomy.types.map((type) => {
+    const exclusion = preparedTaxonomy.discoveryExclusions.get(`${plugin.id}/${type.id}`);
+    const discoveryExclusion = exclusion?.listingSha256 === listingHash ? exclusion : null;
+    const inclusion = preparedTaxonomy.discoveryInclusions.get(`${plugin.id}/${type.id}`);
+    const discoveryInclusion = inclusion?.listingSha256 === listingHash ? inclusion : null;
     const evidence = [
-      ...matchedEvidence(type.includePatterns, fields, "include", version),
-      ...matchedEvidence(type.namePatterns, { name: plugin.name }, "nameInclude", version)
+      ...matchedEvidence(type.includePatterns, fields, "include", version, type.exclusionScope),
+      ...matchedEvidence(type.namePatterns, { name: plugin.name }, "nameInclude", version, type.exclusionScope)
     ];
     const positive = evidence.filter((match) => !match.ignored);
-    const exclusions = matchedEvidence(type.excludePatterns, fields, "exclude", version);
-    const allowed = version >= 3 && type.exclusionScope === "clause"
+    const exclusions = matchedEvidence(type.excludePatterns, fields, "exclude", version, type.exclusionScope);
+    const allowed = version >= 3 && ["clause", "sentence"].includes(type.exclusionScope)
       ? positive.filter((match) => !type.excludePatterns.some((pattern) => pattern.test(match.context))) : exclusions.length ? [] : positive;
     const taskFit = taskReviews ? explainTaskFit(plugin, type, taskReviews) : null;
     const decision = review.has(type.id) ? "review" : blocked.has(type.id) ? "override-exclude"
       : taskFit?.status === "rejected" ? "task-rejected"
         : taskFit?.qualified || taskFit?.status === "related" ? "reviewed-task"
-          : forced.has(type.id) ? "override-include" : allowed.length ? "task-match"
+          : discoveryExclusion ? "discovery-exclude" : discoveryInclusion ? "discovery-include" : forced.has(type.id) ? "override-include" : allowed.length ? "task-match"
         : exclusions.length ? "excluded" : "no-task-evidence";
     return {
       typeId: type.id,
-      accepted: ["override-include", "task-match", "reviewed-task"].includes(decision),
+      accepted: ["override-include", "discovery-include", "task-match", "reviewed-task"].includes(decision),
       decision,
       evidence,
       exclusions,
-      reason: preparedTaxonomy.overrides.reasons[plugin.id]?.[type.id] ?? taskFit?.reason ?? null,
+      reason: decision === "discovery-exclude" ? discoveryExclusion.reason : decision === "discovery-include" ? discoveryInclusion.reason : preparedTaxonomy.overrides.reasons[plugin.id]?.[type.id] ?? taskFit?.reason ?? null,
       ...(taskFit ? { taskFit } : {})
     };
   });
@@ -640,7 +681,8 @@ export const REMOVAL_REASONS = Object.freeze({
   "invalid-id": "has an invalid catalog ID",
   "no-longer-in-category": "no longer matches this category",
   "related-task-scope": "remains a related tool with a narrower task scope",
-  "awaiting-task-qualification": "is awaiting task qualification before it can compete"
+  "awaiting-task-qualification": "is awaiting task qualification before it can compete",
+  "task-definition-changed": "was reviewed against a different task definition"
 });
 
 export function removalSentence(change, { atPublication = false } = {}) {
@@ -694,7 +736,11 @@ function leadershipChanges(previous, current, slot, context) {
       previous: pickRef(oldPick),
       current: pickRef(newPick)
     };
-    const reason = oldId ? removalReason(oldId, type.id, context) : null;
+    let reason = oldId ? removalReason(oldId, type.id, context) : null;
+    if (oldId && snapshotMethodology(current).eligibility.taskCoherence && taskDefinitionChanged(before, type) &&
+        (!reason || ["related-task-scope", "awaiting-task-qualification", "no-longer-in-category"].includes(reason))) {
+      reason = "task-definition-changed";
+    }
     if (reason) change.reason = reason;
     changes.push(change);
   }

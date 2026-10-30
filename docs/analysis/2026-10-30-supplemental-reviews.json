@@ -1,0 +1,707 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-30",
+  "catalogGeneratedAt": "2026-10-30T04:12:20.537Z",
+  "catalogSha256": "d3fb9bb50ba477f4504c3263c26d1026d7f91c24f3e94feef17ec7b91f721fbf",
+  "method": "Primary pinned README inspection, plus selected implementation passages for action scope and prerequisites. No upstream code installed, imported or executed.",
+  "counts": {
+    "candidates": 17,
+    "decisions": 17,
+    "qualified": 16,
+    "related": 1,
+    "profiles": 16,
+    "documents": 20
+  },
+  "entries": [
+    {
+      "pluginId": "io.github.smoothpixels.lock-designs",
+      "name": "Lock Designs",
+      "typeId": "lock-screen",
+      "decision": "qualified",
+      "scenario": "Choose a different lock-screen design and apply it; merely adjusting when the machine locks does not complete this task.",
+      "capabilities": [
+        "apply-lock-screen-design"
+      ],
+      "scope": [],
+      "reason": "Previews and applies a selected lock-screen design through its own picker, replacing the stock lock-screen presentation.",
+      "sourceClaimSupported": true,
+      "completesMinimumTask": true,
+      "runtimeTested": false,
+      "catalogRevision": "2591e6805a6848e6bcc7f3c9372994af37786035",
+      "sources": [
+        {
+          "url": "https://github.com/SmoothPixels/lock-designs/blob/2591e6805a6848e6bcc7f3c9372994af37786035/README.md",
+          "sha256": "bc5ac891d08b61b1036bcad2f9cf5be6434bf10078ec289fb34eefd904e92e4e"
+        }
+      ],
+      "requirementsSources": [
+        {
+          "url": "https://github.com/SmoothPixels/lock-designs/blob/2591e6805a6848e6bcc7f3c9372994af37786035/README.md",
+          "sha256": "bc5ac891d08b61b1036bcad2f9cf5be6434bf10078ec289fb34eefd904e92e4e"
+        },
+        {
+          "url": "https://github.com/SmoothPixels/lock-designs/blob/2591e6805a6848e6bcc7f3c9372994af37786035/Warmup.qml",
+          "sha256": "45f222370db095e1ccaf1c84279ee05535eaff263dc85a1a9ae9a231cb005dcd"
+        }
+      ]
+    },
+    {
+      "pluginId": "bibek.lock",
+      "name": "Better Lock",
+      "typeId": "lock-screen",
+      "decision": "qualified",
+      "scenario": "Apply and configure the lock-screen presentation without treating idle timers as an appearance control.",
+      "capabilities": [
+        "apply-lock-screen-design"
+      ],
+      "scope": [
+        "Replaces the PAM-based password/fingerprint lock screen and exposes Shutdown, Restart and Sleep controls while locked. Its \"Forgot password\" prompt alerts and blanks the screen; it is not password recovery."
+      ],
+      "reason": "Replaces the stock lock screen with a configurable date/time layout and additional native lock-screen controls.",
+      "sourceClaimSupported": true,
+      "completesMinimumTask": true,
+      "runtimeTested": false,
+      "catalogRevision": "68da19058190e4c4edd9365e038d6fa70cbb3a27",
+      "sources": [
+        {
+          "url": "https://github.com/BibekBhusal0/omarchy-better-lock/blob/68da19058190e4c4edd9365e038d6fa70cbb3a27/README.md",
+          "sha256": "5d1919a546b7c055f4b8be7c8aa0a785dae704503597402885605e61919ee436"
+        }
+      ],
+      "requirementsSources": [
+        {
+          "url": "https://github.com/BibekBhusal0/omarchy-better-lock/blob/68da19058190e4c4edd9365e038d6fa70cbb3a27/README.md",
+          "sha256": "5d1919a546b7c055f4b8be7c8aa0a785dae704503597402885605e61919ee436"
+        }
+      ]
+    },
+    {
+      "pluginId": "lgse.sandman",
+      "name": "Sandman",
+      "typeId": "idle-sleep",
+      "decision": "qualified",
+      "scenario": "Set automatic idle-stage timeouts and actions; a decorative lock design or manual power button alone cannot perform this workflow.",
+      "capabilities": [
+        "configure-idle-timeouts",
+        "configure-idle-actions"
+      ],
+      "scope": [
+        "The Off choice for shared screensaver/lock timers uses a seven-day timeout; those values persist after removal unless restored."
+      ],
+      "reason": "Configures automatic screensaver, display-off, lock, sleep and supported hibernate timings, plus laptop lid-close actions.",
+      "sourceClaimSupported": true,
+      "completesMinimumTask": true,
+      "runtimeTested": false,
+      "catalogRevision": "68fd22010b7eea440f760eb6a9fc2b3c9f8067ed",
+      "sources": [
+        {
+          "url": "https://github.com/lgse/sandman/blob/68fd22010b7eea440f760eb6a9fc2b3c9f8067ed/README.md",
+          "sha256": "81878be2f3f5950a35276b6339b58ee18460c44726f76d9f35aa4d12376497cd"
+        }
+      ],
+      "requirementsSources": [
+        {
+          "url": "https://github.com/lgse/sandman/blob/68fd22010b7eea440f760eb6a9fc2b3c9f8067ed/README.md",
+          "sha256": "81878be2f3f5950a35276b6339b58ee18460c44726f76d9f35aa4d12376497cd"
+        }
+      ]
+    },
+    {
+      "pluginId": "halmylyseas.ristretto",
+      "name": "Ristretto",
+      "typeId": "idle-sleep",
+      "decision": "qualified",
+      "scenario": "Choose automatic screensaver, lock and sleep timing; the automatic-sleep condition is distinct from manual locking.",
+      "capabilities": [
+        "configure-idle-timeouts",
+        "configure-idle-actions"
+      ],
+      "scope": [
+        "Suspension follows idle-driven locks only; a manually requested lock does not arm it. The suspend delay is disabled initially."
+      ],
+      "reason": "Configures screensaver and automatic-lock delays and an optional suspend delay after an idle-driven lock.",
+      "sourceClaimSupported": true,
+      "completesMinimumTask": true,
+      "runtimeTested": false,
+      "catalogRevision": "99ffa15000225fb8582d633f088d3626543c3a91",
+      "sources": [
+        {
+          "url": "https://github.com/HalmyLyseas/omarchy-ristretto/blob/99ffa15000225fb8582d633f088d3626543c3a91/README.md",
+          "sha256": "6163a03123e714e06e284f0ea643e45ede7e6a93c6e97665dd00576da4b53689"
+        }
+      ],
+      "requirementsSources": [
+        {
+          "url": "https://github.com/HalmyLyseas/omarchy-ristretto/blob/99ffa15000225fb8582d633f088d3626543c3a91/README.md",
+          "sha256": "6163a03123e714e06e284f0ea643e45ede7e6a93c6e97665dd00576da4b53689"
+        }
+      ]
+    },
+    {
+      "pluginId": "halmylyseas.ristretto",
+      "name": "Ristretto",
+      "typeId": "keep-awake",
+      "decision": "qualified",
+      "scenario": "Temporarily pause and resume automatic inactivity behavior independently of the saved idle timeout settings.",
+      "capabilities": [
+        "inhibit-idle",
+        "resume-idle-policy"
+      ],
+      "scope": [
+        "Uses Omarchy’s native idle-cycle inhibition; it is not a guarantee against every externally requested sleep action."
+      ],
+      "reason": "Provides a native Stay Awake switch that pauses the idle cycle and allows normal idle behavior to resume when switched off.",
+      "sourceClaimSupported": true,
+      "completesMinimumTask": true,
+      "runtimeTested": false,
+      "catalogRevision": "99ffa15000225fb8582d633f088d3626543c3a91",
+      "sources": [
+        {
+          "url": "https://github.com/HalmyLyseas/omarchy-ristretto/blob/99ffa15000225fb8582d633f088d3626543c3a91/README.md",
+          "sha256": "6163a03123e714e06e284f0ea643e45ede7e6a93c6e97665dd00576da4b53689"
+        }
+      ],
+      "requirementsSources": [
+        {
+          "url": "https://github.com/HalmyLyseas/omarchy-ristretto/blob/99ffa15000225fb8582d633f088d3626543c3a91/README.md",
+          "sha256": "6163a03123e714e06e284f0ea643e45ede7e6a93c6e97665dd00576da4b53689"
+        }
+      ]
+    },
+    {
+      "pluginId": "io.github.krongggggg.caffeine",
+      "name": "Caffeine",
+      "typeId": "keep-awake",
+      "decision": "qualified",
+      "scenario": "Pause automatic locking/screensaver while needed, then explicitly restore normal idle behavior.",
+      "capabilities": [
+        "inhibit-idle",
+        "resume-idle-policy"
+      ],
+      "scope": [
+        "The documented scope is idle locking and screensaver inhibition."
+      ],
+      "reason": "Toggles Omarchy Stay Awake from the bar to prevent idle lock and screensaver, then allows idle again on the next click.",
+      "sourceClaimSupported": true,
+      "completesMinimumTask": true,
+      "runtimeTested": false,
+      "catalogRevision": "4c328da89d32578c27e86137b8ee7affc01073d0",
+      "sources": [
+        {
+          "url": "https://github.com/krongggggg/omarchy-caffeine/blob/4c328da89d32578c27e86137b8ee7affc01073d0/README.md",
+          "sha256": "f0c56bac3bf1e168b0c9dc1effb8178a99f8470c697e0f5d0b3910d402e907ff"
+        }
+      ],
+      "requirementsSources": [
+        {
+          "url": "https://github.com/krongggggg/omarchy-caffeine/blob/4c328da89d32578c27e86137b8ee7affc01073d0/README.md",
+          "sha256": "f0c56bac3bf1e168b0c9dc1effb8178a99f8470c697e0f5d0b3910d402e907ff"
+        }
+      ]
+    },
+    {
+      "pluginId": "air.auto-cafe",
+      "name": "Auto Cafe",
+      "typeId": "keep-awake",
+      "decision": "qualified",
+      "scenario": "Keep the desktop awake for a fullscreen/game/media activity and resume the prior policy when the activity finishes.",
+      "capabilities": [
+        "inhibit-idle",
+        "resume-idle-policy"
+      ],
+      "scope": [
+        "Automatic hold triggered by fullscreen windows, detected games or active MPRIS playback. Clicking its indicator toggles automation, not the current hold.",
+        "The documented scope prevents idle locking through the built-in Stay Awake service. This review does not establish whether it also prevents display blanking or every suspend path.",
+        "Turning off its automation does not itself clear the current Stay Awake state; manually enabled Stay Awake is preserved."
+      ],
+      "reason": "Engages Stay Awake while fullscreen windows, detected games or MPRIS playback are active and releases holds it owns after those conditions end.",
+      "sourceClaimSupported": true,
+      "completesMinimumTask": true,
+      "runtimeTested": false,
+      "catalogRevision": "72b58789f3242825b96af691e35a82809783a07f",
+      "sources": [
+        {
+          "url": "https://github.com/airenare/omarchy-auto-cafe/blob/72b58789f3242825b96af691e35a82809783a07f/README.md",
+          "sha256": "dae2c0944dab4d9fc84bb3eee812d337f6a400e210501375a3a5e372a8e56522"
+        }
+      ],
+      "requirementsSources": [
+        {
+          "url": "https://github.com/airenare/omarchy-auto-cafe/blob/72b58789f3242825b96af691e35a82809783a07f/README.md",
+          "sha256": "dae2c0944dab4d9fc84bb3eee812d337f6a400e210501375a3a5e372a8e56522"
+        }
+      ]
+    },
+    {
+      "pluginId": "ignibyte.stay-awake-sessions",
+      "name": "Stay Awake Sessions",
+      "typeId": "keep-awake",
+      "decision": "qualified",
+      "scenario": "Hold idle behavior for a deadline or activity and release it when the condition ends, with the actual blocked scope disclosed.",
+      "capabilities": [
+        "inhibit-idle",
+        "resume-idle-policy"
+      ],
+      "scope": [
+        "On Omarchy 4.0.3 and later, screen-only suppression falls back to the idle flag and also prevents automatic locking. Sleep inhibition is a separate selectable scope."
+      ],
+      "reason": "Creates timed or activity-bound idle holds with explicit release controls and restores ordinary idle behavior when a hold ends.",
+      "sourceClaimSupported": true,
+      "completesMinimumTask": true,
+      "runtimeTested": false,
+      "catalogRevision": "cd76229f8abe89ce39ed256f846b15cc6543d9d6",
+      "sources": [
+        {
+          "url": "https://github.com/Ignibyte/omarchy-stay-awake-sessions/blob/cd76229f8abe89ce39ed256f846b15cc6543d9d6/README.md",
+          "sha256": "731660c04de98966185591f67e764eeb6b1b615a3cdca4508a4ef543615c7221"
+        }
+      ],
+      "requirementsSources": [
+        {
+          "url": "https://github.com/Ignibyte/omarchy-stay-awake-sessions/blob/cd76229f8abe89ce39ed256f846b15cc6543d9d6/README.md",
+          "sha256": "731660c04de98966185591f67e764eeb6b1b615a3cdca4508a4ef543615c7221"
+        }
+      ]
+    },
+    {
+      "pluginId": "io.github.majkelll.omarchy-uptime",
+      "name": "Uptime",
+      "typeId": "endpoint-monitoring",
+      "decision": "qualified",
+      "scenario": "Determine whether my configured site or health-check endpoint is responding, rather than whether its hosting provider has published an incident.",
+      "capabilities": [
+        "inspect-configured-target-health"
+      ],
+      "scope": [
+        "Checks HTTP(S) responses without following redirects; it is not a provider incident-feed reader."
+      ],
+      "reason": "Checks configured site or health-check URLs on per-target schedules and displays response status and outage history.",
+      "sourceClaimSupported": true,
+      "completesMinimumTask": true,
+      "runtimeTested": false,
+      "catalogRevision": "f273658f782f77865aac39d9e3ae30498cfed9f5",
+      "sources": [
+        {
+          "url": "https://github.com/Majkelll/omarchy-uptime/blob/f273658f782f77865aac39d9e3ae30498cfed9f5/README.md",
+          "sha256": "d28758c006b8747efc0bd2f27f5e0d587a5404e3d7f8a0a2346a99b9521efb08"
+        }
+      ],
+      "requirementsSources": [
+        {
+          "url": "https://github.com/Majkelll/omarchy-uptime/blob/f273658f782f77865aac39d9e3ae30498cfed9f5/README.md",
+          "sha256": "d28758c006b8747efc0bd2f27f5e0d587a5404e3d7f8a0a2346a99b9521efb08"
+        }
+      ]
+    },
+    {
+      "pluginId": "daan.uptime-kuma",
+      "name": "Uptime Kuma",
+      "typeId": "endpoint-monitoring",
+      "decision": "qualified",
+      "scenario": "Inspect the health of my configured monitored targets; backend-hosted probes qualify when the monitoring dependency is explicit.",
+      "capabilities": [
+        "inspect-configured-target-health"
+      ],
+      "scope": [
+        "Checks are performed by the configured Uptime Kuma backend; this widget displays its active monitor results and excludes paused monitors."
+      ],
+      "reason": "Displays active configured Uptime Kuma monitors with their health state and last response time.",
+      "sourceClaimSupported": true,
+      "completesMinimumTask": true,
+      "runtimeTested": false,
+      "catalogRevision": "3bab4db812c8a6c0c7f7c2ca4166775de52c0cf6",
+      "sources": [
+        {
+          "url": "https://github.com/daanlenaerts/omakuma/blob/3bab4db812c8a6c0c7f7c2ca4166775de52c0cf6/README.md",
+          "sha256": "64d5903afbc218a668fe40aa8e188a517041c94d8c1d4a538ccb53a32515b01f"
+        }
+      ],
+      "requirementsSources": [
+        {
+          "url": "https://github.com/daanlenaerts/omakuma/blob/3bab4db812c8a6c0c7f7c2ca4166775de52c0cf6/README.md",
+          "sha256": "64d5903afbc218a668fe40aa8e188a517041c94d8c1d4a538ccb53a32515b01f"
+        }
+      ]
+    },
+    {
+      "pluginId": "narbs.betterstack",
+      "name": "Better Stack Status",
+      "typeId": "service-status",
+      "decision": "qualified",
+      "scenario": "Read service-provider health and incident reports, rather than independently probing my own endpoint.",
+      "capabilities": [
+        "read-provider-incidents"
+      ],
+      "scope": [
+        "Supports Better Stack v2 status-page markup; other status-page products are not supported. This reads published status rather than probing the service itself."
+      ],
+      "reason": "Reads a configured Better Stack public status page, displaying service health and recent published incidents.",
+      "sourceClaimSupported": true,
+      "completesMinimumTask": true,
+      "runtimeTested": false,
+      "catalogRevision": "fb95e628316691062255ba02fb288692c9277493",
+      "sources": [
+        {
+          "url": "https://github.com/narbs/betterstack-status-bar-omarchy-plugin/blob/fb95e628316691062255ba02fb288692c9277493/README.md",
+          "sha256": "805b8ae8537b73778927c1a8b4a306e9b0ffe0f0d7b5c4bfbd2593f7e894f3d1"
+        }
+      ],
+      "requirementsSources": [
+        {
+          "url": "https://github.com/narbs/betterstack-status-bar-omarchy-plugin/blob/fb95e628316691062255ba02fb288692c9277493/README.md",
+          "sha256": "805b8ae8537b73778927c1a8b4a306e9b0ffe0f0d7b5c4bfbd2593f7e894f3d1"
+        }
+      ]
+    },
+    {
+      "pluginId": "io.github.solkkku.audio-switcher",
+      "name": "Sound Switcher",
+      "typeId": "audio",
+      "decision": "related",
+      "scenario": "Changing the default devices or muting them does not establish arbitrary output and microphone volume control.",
+      "capabilities": [
+        "select-audio-devices"
+      ],
+      "scope": [
+        "Device-profile switching and mute controls are narrower than the full mixer task."
+      ],
+      "reason": "Selects output/input device profiles and toggles mute, but the reviewed workflow does not supply the required output and microphone volume adjustments.",
+      "sourceClaimSupported": true,
+      "completesMinimumTask": false,
+      "runtimeTested": false,
+      "catalogRevision": "cc3bb1d4d3b40f7f313d3d81dfebc6616fea9c61",
+      "sources": [
+        {
+          "url": "https://github.com/solkkku/omarchy-audio-switcher/blob/cc3bb1d4d3b40f7f313d3d81dfebc6616fea9c61/README.md",
+          "sha256": "e7dac837965db49be0589d48f6f1a4593b6c8e183e652a68e09622e8d6790e9d"
+        }
+      ],
+      "requirementsSources": [
+        {
+          "url": "https://github.com/solkkku/omarchy-audio-switcher/blob/cc3bb1d4d3b40f7f313d3d81dfebc6616fea9c61/README.md",
+          "sha256": "e7dac837965db49be0589d48f6f1a4593b6c8e183e652a68e09622e8d6790e9d"
+        }
+      ]
+    },
+    {
+      "pluginId": "videinfra.omaudiopanel",
+      "name": "omaudiopanel",
+      "typeId": "audio",
+      "decision": "qualified",
+      "scenario": "Choose speakers/microphone and adjust their volumes; headset codec preferences alone do not complete this task.",
+      "capabilities": [
+        "control-output-volume",
+        "control-microphone-volume",
+        "select-audio-devices"
+      ],
+      "scope": [
+        "Per-application routing covers playback; recording applications are not listed."
+      ],
+      "reason": "Adjusts output and microphone volume, selects audio devices and provides playback-application routing in a replacement audio panel.",
+      "sourceClaimSupported": true,
+      "completesMinimumTask": true,
+      "runtimeTested": false,
+      "catalogRevision": "66de20e795a980a755bc8a034fb22ae18cf783b3",
+      "sources": [
+        {
+          "url": "https://github.com/thevideinfra/omaudiopanel/blob/66de20e795a980a755bc8a034fb22ae18cf783b3/README.md",
+          "sha256": "52dbfbbdeb852710d696f8d0ca1c29bff02486b5763fec5c1029b9e7c4bf3d61"
+        },
+        {
+          "url": "https://github.com/thevideinfra/omaudiopanel/blob/66de20e795a980a755bc8a034fb22ae18cf783b3/Panel.qml",
+          "sha256": "a58c3ed624f0fb307fc266531133da86db90eefec5b8263806c02f9e683eb3da"
+        }
+      ],
+      "requirementsSources": [
+        {
+          "url": "https://github.com/thevideinfra/omaudiopanel/blob/66de20e795a980a755bc8a034fb22ae18cf783b3/README.md",
+          "sha256": "52dbfbbdeb852710d696f8d0ca1c29bff02486b5763fec5c1029b9e7c4bf3d61"
+        }
+      ]
+    },
+    {
+      "pluginId": "custom.media",
+      "name": "Music Flow",
+      "typeId": "music",
+      "decision": "qualified",
+      "scenario": "Inspect and operate a media player running on this computer, rather than a paired phone’s remote player.",
+      "capabilities": [
+        "read-local-now-playing",
+        "control-local-playback"
+      ],
+      "scope": [
+        "Detecting a raw PipeWire stream does not establish track transport control; playback actions depend on the selected player’s exposed capabilities."
+      ],
+      "reason": "Shows local now-playing metadata and operates previous, play/pause and next controls for supported local media players.",
+      "sourceClaimSupported": true,
+      "completesMinimumTask": true,
+      "runtimeTested": false,
+      "catalogRevision": "42c312d8ceb6ad9893b28c62c3cf9b5513f60d24",
+      "sources": [
+        {
+          "url": "https://github.com/Clifford-Baidoo/Omarchy-music-flow/blob/42c312d8ceb6ad9893b28c62c3cf9b5513f60d24/README.md",
+          "sha256": "7438bde80107303f8c1158db89a4ad2bff4cb4ad7d435cc91822de9fd126c2c4"
+        },
+        {
+          "url": "https://github.com/Clifford-Baidoo/Omarchy-music-flow/blob/42c312d8ceb6ad9893b28c62c3cf9b5513f60d24/Service.qml",
+          "sha256": "307e364a8ddb4c2939a8c1771101d8ece1c716e75f9f199a57d7fb349a7062cd"
+        }
+      ],
+      "requirementsSources": [
+        {
+          "url": "https://github.com/Clifford-Baidoo/Omarchy-music-flow/blob/42c312d8ceb6ad9893b28c62c3cf9b5513f60d24/README.md",
+          "sha256": "7438bde80107303f8c1158db89a4ad2bff4cb4ad7d435cc91822de9fd126c2c4"
+        },
+        {
+          "url": "https://github.com/Clifford-Baidoo/Omarchy-music-flow/blob/42c312d8ceb6ad9893b28c62c3cf9b5513f60d24/Service.qml",
+          "sha256": "307e364a8ddb4c2939a8c1771101d8ece1c716e75f9f199a57d7fb349a7062cd"
+        }
+      ]
+    },
+    {
+      "pluginId": "bibek.media",
+      "name": "Better Media",
+      "typeId": "music",
+      "decision": "qualified",
+      "scenario": "Read and control playback on a local computer player rather than forwarding commands to a paired device.",
+      "capabilities": [
+        "read-local-now-playing",
+        "control-local-playback"
+      ],
+      "scope": [
+        "Seeking, shuffle and repeat are available only when the selected player exposes them."
+      ],
+      "reason": "Displays local MPRIS track details and provides playback, seeking and source-selection controls for supported local players.",
+      "sourceClaimSupported": true,
+      "completesMinimumTask": true,
+      "runtimeTested": false,
+      "catalogRevision": "7961cdcac344257f07452d83e002c56871919c70",
+      "sources": [
+        {
+          "url": "https://github.com/BibekBhusal0/omarchy-better-media/blob/7961cdcac344257f07452d83e002c56871919c70/README.md",
+          "sha256": "0329d31e57dd73af736167c64dd39eaec56fad8c03569f77eabb5887bcc7a79b"
+        }
+      ],
+      "requirementsSources": [
+        {
+          "url": "https://github.com/BibekBhusal0/omarchy-better-media/blob/7961cdcac344257f07452d83e002c56871919c70/README.md",
+          "sha256": "0329d31e57dd73af736167c64dd39eaec56fad8c03569f77eabb5887bcc7a79b"
+        }
+      ]
+    },
+    {
+      "pluginId": "io.github.nimbleaininja.omachron",
+      "name": "Omachron World Clock",
+      "typeId": "world-clocks",
+      "decision": "qualified",
+      "scenario": "Compare the same moment across multiple selected time zones; a single decorative clock does not satisfy this task.",
+      "capabilities": [
+        "read-multiple-time-zones",
+        "compare-time-zones"
+      ],
+      "scope": [
+        "The time scrubber uses current UTC offsets, so comparisons crossing a daylight-saving transition can be off by an hour."
+      ],
+      "reason": "Shows clocks for multiple cities with time-zone offsets and shifts the clocks together to compare times across zones.",
+      "sourceClaimSupported": true,
+      "completesMinimumTask": true,
+      "runtimeTested": false,
+      "catalogRevision": "4dfbbdaa48c21f04c4a1e670f7a75512c09880b0",
+      "sources": [
+        {
+          "url": "https://github.com/NimbleAINinja/omarchy-omachron/blob/4dfbbdaa48c21f04c4a1e670f7a75512c09880b0/README.md",
+          "sha256": "34a289e2bc53be91b9c22874e53b931146b2649bdb0cbc439007122bba97034f"
+        }
+      ],
+      "requirementsSources": [
+        {
+          "url": "https://github.com/NimbleAINinja/omarchy-omachron/blob/4dfbbdaa48c21f04c4a1e670f7a75512c09880b0/README.md",
+          "sha256": "34a289e2bc53be91b9c22874e53b931146b2649bdb0cbc439007122bba97034f"
+        }
+      ]
+    },
+    {
+      "pluginId": "anagrius.resume",
+      "name": "Resume AI Session",
+      "typeId": "agent-history",
+      "decision": "qualified",
+      "scenario": "Find yesterday’s conversation and resume it, rather than only focusing or terminating a currently running agent.",
+      "capabilities": [
+        "browse-agent-history",
+        "resume-agent-session"
+      ],
+      "scope": [
+        "Opening a transcript in a different agent starts a new continuation prompt; it does not convert a native session."
+      ],
+      "reason": "Searches saved coding-agent conversations, previews their transcripts and resumes a chosen session in its original working directory.",
+      "sourceClaimSupported": true,
+      "completesMinimumTask": true,
+      "runtimeTested": false,
+      "catalogRevision": "48883141db0f6031b6a9c0b1b5173051443b40cb",
+      "sources": [
+        {
+          "url": "https://github.com/anagrius/omarchy-resume/blob/48883141db0f6031b6a9c0b1b5173051443b40cb/README.md",
+          "sha256": "cddb1bd35d9d3b08d1f49e88bcce7d3ea4309acf4e5d4a255e10e7acdf58dc9f"
+        }
+      ],
+      "requirementsSources": [
+        {
+          "url": "https://github.com/anagrius/omarchy-resume/blob/48883141db0f6031b6a9c0b1b5173051443b40cb/README.md",
+          "sha256": "cddb1bd35d9d3b08d1f49e88bcce7d3ea4309acf4e5d4a255e10e7acdf58dc9f"
+        },
+        {
+          "url": "https://github.com/anagrius/omarchy-resume/blob/48883141db0f6031b6a9c0b1b5173051443b40cb/bin/resume",
+          "sha256": "69514dba9adee9995cd39ccda39bb2c198af6a29ea669363b17e31b8ff7cb061"
+        }
+      ]
+    }
+  ],
+  "unresolved": [
+    {
+      "pluginId": "io.github.ollieedgeley.ai-frontier-status",
+      "reason": "The inspected README establishes provider health/degradation summaries, but not incident details sufficient for the new service-status minimum. No new qualification is proposed; Better Stack Status has explicit incident-list evidence."
+    }
+  ],
+  "documents": [
+    {
+      "pluginId": "air.auto-cafe",
+      "url": "https://github.com/airenare/omarchy-auto-cafe/blob/72b58789f3242825b96af691e35a82809783a07f/README.md",
+      "revision": "72b58789f3242825b96af691e35a82809783a07f",
+      "path": "README.md",
+      "sha256": "dae2c0944dab4d9fc84bb3eee812d337f6a400e210501375a3a5e372a8e56522"
+    },
+    {
+      "pluginId": "anagrius.resume",
+      "url": "https://github.com/anagrius/omarchy-resume/blob/48883141db0f6031b6a9c0b1b5173051443b40cb/bin/resume",
+      "revision": "48883141db0f6031b6a9c0b1b5173051443b40cb",
+      "path": "bin/resume",
+      "sha256": "69514dba9adee9995cd39ccda39bb2c198af6a29ea669363b17e31b8ff7cb061"
+    },
+    {
+      "pluginId": "anagrius.resume",
+      "url": "https://github.com/anagrius/omarchy-resume/blob/48883141db0f6031b6a9c0b1b5173051443b40cb/README.md",
+      "revision": "48883141db0f6031b6a9c0b1b5173051443b40cb",
+      "path": "README.md",
+      "sha256": "cddb1bd35d9d3b08d1f49e88bcce7d3ea4309acf4e5d4a255e10e7acdf58dc9f"
+    },
+    {
+      "pluginId": "bibek.lock",
+      "url": "https://github.com/BibekBhusal0/omarchy-better-lock/blob/68da19058190e4c4edd9365e038d6fa70cbb3a27/README.md",
+      "revision": "68da19058190e4c4edd9365e038d6fa70cbb3a27",
+      "path": "README.md",
+      "sha256": "5d1919a546b7c055f4b8be7c8aa0a785dae704503597402885605e61919ee436"
+    },
+    {
+      "pluginId": "bibek.media",
+      "url": "https://github.com/BibekBhusal0/omarchy-better-media/blob/7961cdcac344257f07452d83e002c56871919c70/README.md",
+      "revision": "7961cdcac344257f07452d83e002c56871919c70",
+      "path": "README.md",
+      "sha256": "0329d31e57dd73af736167c64dd39eaec56fad8c03569f77eabb5887bcc7a79b"
+    },
+    {
+      "pluginId": "custom.media",
+      "url": "https://github.com/Clifford-Baidoo/Omarchy-music-flow/blob/42c312d8ceb6ad9893b28c62c3cf9b5513f60d24/README.md",
+      "revision": "42c312d8ceb6ad9893b28c62c3cf9b5513f60d24",
+      "path": "README.md",
+      "sha256": "7438bde80107303f8c1158db89a4ad2bff4cb4ad7d435cc91822de9fd126c2c4"
+    },
+    {
+      "pluginId": "custom.media",
+      "url": "https://github.com/Clifford-Baidoo/Omarchy-music-flow/blob/42c312d8ceb6ad9893b28c62c3cf9b5513f60d24/Service.qml",
+      "revision": "42c312d8ceb6ad9893b28c62c3cf9b5513f60d24",
+      "path": "Service.qml",
+      "sha256": "307e364a8ddb4c2939a8c1771101d8ece1c716e75f9f199a57d7fb349a7062cd"
+    },
+    {
+      "pluginId": "daan.uptime-kuma",
+      "url": "https://github.com/daanlenaerts/omakuma/blob/3bab4db812c8a6c0c7f7c2ca4166775de52c0cf6/README.md",
+      "revision": "3bab4db812c8a6c0c7f7c2ca4166775de52c0cf6",
+      "path": "README.md",
+      "sha256": "64d5903afbc218a668fe40aa8e188a517041c94d8c1d4a538ccb53a32515b01f"
+    },
+    {
+      "pluginId": "halmylyseas.ristretto",
+      "url": "https://github.com/HalmyLyseas/omarchy-ristretto/blob/99ffa15000225fb8582d633f088d3626543c3a91/README.md",
+      "revision": "99ffa15000225fb8582d633f088d3626543c3a91",
+      "path": "README.md",
+      "sha256": "6163a03123e714e06e284f0ea643e45ede7e6a93c6e97665dd00576da4b53689"
+    },
+    {
+      "pluginId": "ignibyte.stay-awake-sessions",
+      "url": "https://github.com/Ignibyte/omarchy-stay-awake-sessions/blob/cd76229f8abe89ce39ed256f846b15cc6543d9d6/README.md",
+      "revision": "cd76229f8abe89ce39ed256f846b15cc6543d9d6",
+      "path": "README.md",
+      "sha256": "731660c04de98966185591f67e764eeb6b1b615a3cdca4508a4ef543615c7221"
+    },
+    {
+      "pluginId": "io.github.krongggggg.caffeine",
+      "url": "https://github.com/krongggggg/omarchy-caffeine/blob/4c328da89d32578c27e86137b8ee7affc01073d0/README.md",
+      "revision": "4c328da89d32578c27e86137b8ee7affc01073d0",
+      "path": "README.md",
+      "sha256": "f0c56bac3bf1e168b0c9dc1effb8178a99f8470c697e0f5d0b3910d402e907ff"
+    },
+    {
+      "pluginId": "lgse.sandman",
+      "url": "https://github.com/lgse/sandman/blob/68fd22010b7eea440f760eb6a9fc2b3c9f8067ed/README.md",
+      "revision": "68fd22010b7eea440f760eb6a9fc2b3c9f8067ed",
+      "path": "README.md",
+      "sha256": "81878be2f3f5950a35276b6339b58ee18460c44726f76d9f35aa4d12376497cd"
+    },
+    {
+      "pluginId": "io.github.majkelll.omarchy-uptime",
+      "url": "https://github.com/Majkelll/omarchy-uptime/blob/f273658f782f77865aac39d9e3ae30498cfed9f5/README.md",
+      "revision": "f273658f782f77865aac39d9e3ae30498cfed9f5",
+      "path": "README.md",
+      "sha256": "d28758c006b8747efc0bd2f27f5e0d587a5404e3d7f8a0a2346a99b9521efb08"
+    },
+    {
+      "pluginId": "narbs.betterstack",
+      "url": "https://github.com/narbs/betterstack-status-bar-omarchy-plugin/blob/fb95e628316691062255ba02fb288692c9277493/README.md",
+      "revision": "fb95e628316691062255ba02fb288692c9277493",
+      "path": "README.md",
+      "sha256": "805b8ae8537b73778927c1a8b4a306e9b0ffe0f0d7b5c4bfbd2593f7e894f3d1"
+    },
+    {
+      "pluginId": "io.github.nimbleaininja.omachron",
+      "url": "https://github.com/NimbleAINinja/omarchy-omachron/blob/4dfbbdaa48c21f04c4a1e670f7a75512c09880b0/README.md",
+      "revision": "4dfbbdaa48c21f04c4a1e670f7a75512c09880b0",
+      "path": "README.md",
+      "sha256": "34a289e2bc53be91b9c22874e53b931146b2649bdb0cbc439007122bba97034f"
+    },
+    {
+      "pluginId": "io.github.smoothpixels.lock-designs",
+      "url": "https://github.com/SmoothPixels/lock-designs/blob/2591e6805a6848e6bcc7f3c9372994af37786035/README.md",
+      "revision": "2591e6805a6848e6bcc7f3c9372994af37786035",
+      "path": "README.md",
+      "sha256": "bc5ac891d08b61b1036bcad2f9cf5be6434bf10078ec289fb34eefd904e92e4e"
+    },
+    {
+      "pluginId": "io.github.smoothpixels.lock-designs",
+      "url": "https://github.com/SmoothPixels/lock-designs/blob/2591e6805a6848e6bcc7f3c9372994af37786035/Warmup.qml",
+      "revision": "2591e6805a6848e6bcc7f3c9372994af37786035",
+      "path": "Warmup.qml",
+      "sha256": "45f222370db095e1ccaf1c84279ee05535eaff263dc85a1a9ae9a231cb005dcd"
+    },
+    {
+      "pluginId": "io.github.solkkku.audio-switcher",
+      "url": "https://github.com/solkkku/omarchy-audio-switcher/blob/cc3bb1d4d3b40f7f313d3d81dfebc6616fea9c61/README.md",
+      "revision": "cc3bb1d4d3b40f7f313d3d81dfebc6616fea9c61",
+      "path": "README.md",
+      "sha256": "e7dac837965db49be0589d48f6f1a4593b6c8e183e652a68e09622e8d6790e9d"
+    },
+    {
+      "pluginId": "videinfra.omaudiopanel",
+      "url": "https://github.com/thevideinfra/omaudiopanel/blob/66de20e795a980a755bc8a034fb22ae18cf783b3/Panel.qml",
+      "revision": "66de20e795a980a755bc8a034fb22ae18cf783b3",
+      "path": "Panel.qml",
+      "sha256": "a58c3ed624f0fb307fc266531133da86db90eefec5b8263806c02f9e683eb3da"
+    },
+    {
+      "pluginId": "videinfra.omaudiopanel",
+      "url": "https://github.com/thevideinfra/omaudiopanel/blob/66de20e795a980a755bc8a034fb22ae18cf783b3/README.md",
+      "revision": "66de20e795a980a755bc8a034fb22ae18cf783b3",
+      "path": "README.md",
+      "sha256": "52dbfbbdeb852710d696f8d0ca1c29bff02486b5763fec5c1029b9e7c4bf3d61"
+    }
+  ]
+}

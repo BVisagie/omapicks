@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import { classifyPlugin, explainClassification, prepareTaxonomy, rankPlugins as rankLatest, methodologyFor } from "../build/rank.mjs";
+import { classifyPlugin, explainClassification, prepareTaxonomy, rankPlugins as rankLatest, methodologyFor, discoveryListingHash } from "../build/rank.mjs";
 import { auditClassifications as auditLatest, renderClassificationAudit } from "../build/classification-audit.mjs";
 
 const legacy = methodologyFor("1.1.0");
@@ -11,10 +11,11 @@ const auditClassifications = (options) => auditLatest({ methodology: legacy, ...
 const production = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
 const prepared = prepareTaxonomy(production);
 const cases = JSON.parse(await readFile(new URL("fixtures/task-fit.json", import.meta.url)));
-for (const { plugin, accepted, rejected } of cases) test(`task fit: ${plugin.id}`, () => {
+// Lexical discovery supplies review leads; task contracts and pinned evidence decide qualification.
+for (const { plugin, accepted, rejected } of cases) test(`discovery lead: ${plugin.id}`, () => {
   const types = classifyPlugin(plugin, prepared);
-  for (const id of accepted) assert.ok(types.includes(id), `${plugin.name} should provide ${id}; got ${types}`);
-  for (const id of rejected) assert.ok(!types.includes(id), `${plugin.name} should not qualify for ${id}; got ${types}`);
+  for (const id of accepted) assert.ok(types.includes(id), `${plugin.name} should be discovered for ${id}; got ${types}`);
+  for (const id of rejected) assert.ok(!types.includes(id), `${plugin.name} should not match ${id}; got ${types}`);
 });
 
 const taxonomy = { schemaVersion: 1, types: [{ id: "battery", name: "Battery", include: ["battery health"], nameInclude: ["^Battery$"] }] };
@@ -87,6 +88,17 @@ test("audit exposes removed categories and new listings", () => {
   assert.equal(removed.afterCount, 0);
   assert.deepEqual(report.newListings, ["new"]);
   assert.match(renderClassificationAudit(report), /## New listings\n\n- new/);
+});
+
+test("routine audit surfaces expired discovery records for cleanup", () => {
+  const original = eligible("changed");
+  const scoped = { ...taxonomy, overrides: { discoveryExclude: [{ pluginId: original.id, typeId: "battery",
+    listingSha256: discoveryListingHash(original), reason: "An earlier listing advertised a different battery scope." }] } };
+  const report = auditClassifications({ catalog: [{ ...original, description: "battery health and charging controls" }], taxonomy: scoped, now });
+  assert.deepEqual(report.discoveryCuration, { activeIncludes: 0, activeExcludes: 0,
+    expired: [{ pluginId: "changed", typeId: "battery", action: "exclude", reason: "listing-changed" }] });
+  assert.match(renderClassificationAudit(report), /1 expired records requiring cleanup or review/);
+  assert.match(renderClassificationAudit(report), /changed \/ battery \(exclude\): listing-changed/);
 });
 
 test("baseline replay ignores feed changes against the published state", () => {

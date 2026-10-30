@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { rankPlugins, CLASSIFICATION_VERSION, METHODOLOGY } from "../build/rank.mjs";
 import { methodologyFor } from "../build/methodology.mjs";
 import { checksum } from "../build/classification-audit.mjs";
+import { categoryChangesBetween } from "../build/category-migrations.mjs";
 
 export function compareTaskFit(inputs, taxonomy, taskReviews, { pluginProfiles = inputs.pluginProfiles, evidenceObservations = inputs.evidenceObservations, methodology = METHODOLOGY } = {}) {
   const shared = { catalog: inputs.catalog.body.plugins, stats: inputs.stats.body.plugins, now: new Date(inputs.now), previous: inputs.previous };
@@ -18,25 +19,33 @@ export function compareTaskFit(inputs, taxonomy, taskReviews, { pluginProfiles =
       beforeCount: old?.eligibleCount ?? 0, matchedCount: type.matchedCount, qualifiedCount: type.eligibleCount,
       beforeWinner: ref(old?.winner), afterWinner: ref(type.winner), beforeRunnerUp: ref(old?.runnerUp), afterRunnerUp: ref(type.runnerUp) };
   });
+  const currentIds = new Set(types.map((type) => type.id));
+  const retiredTypes = before.types.filter((type) => !currentIds.has(type.id)).map((type) => ({
+    id: type.id, name: type.name, beforeCount: type.eligibleCount,
+    beforeWinner: type.winner ? { id: type.winner.id, name: type.winner.name } : null,
+    beforeRunnerUp: type.runnerUp ? { id: type.runnerUp.id, name: type.runnerUp.name } : null
+  }));
   return { schemaVersion: 1, capturedAt: inputs.now, inputHash: checksum(inputs), taxonomyHash: checksum(taxonomy), taskReviewsHash: checksum(taskReviews),
     pluginProfilesHash: pluginProfiles ? checksum(pluginProfiles) : null, evidenceObservationsHash: evidenceObservations ? checksum(evidenceObservations) : null,
     methodologyBefore: before.methodologyVersion, methodologyAfter: ranked.rankings.methodologyVersion,
-    summary: { categories: types.length, newCategories: types.filter((t) => t.newCategory).length,
+    summary: { categories: types.length, newCategories: types.filter((t) => t.newCategory).length, retiredCategories: retiredTypes.length,
       changedExistingChampions: types.filter((t) => !t.newCategory && t.beforeWinner?.id !== t.afterWinner?.id).length,
       changedExistingRunnerUps: types.filter((t) => !t.newCategory && t.beforeRunnerUp?.id !== t.afterRunnerUp?.id).length,
       categoriesWithLeadingOption: types.filter((t) => t.afterWinner).length,
       categoriesWithRunnerUp: types.filter((t) => t.afterRunnerUp).length,
       beforeQualifiedAssignments: before.types.reduce((count, type) => count + type.eligibleCount, 0),
-      qualifiedAssignments: ranked.report.qualifiedAssignments, queuedAssignments: ranked.reviewQueue.length }, types };
+      qualifiedAssignments: ranked.report.qualifiedAssignments, queuedAssignments: ranked.reviewQueue.length },
+    categoryChanges: categoryChangesBetween(before, ranked.rankings), retiredTypes, types };
 }
 
 export function renderTaskFitComparison(report) {
   const clean = (v) => String(v ?? "none").replace(/[\u0000-\u001f\u007f]/g, " ").replaceAll("|", "\\|");
   return ["# Fixed-input task qualification comparison", "", `Captured ${report.capturedAt}; inputs ${report.inputHash}. Methodology ${report.methodologyBefore} → ${report.methodologyAfter}.`, "",
-    `${report.summary.newCategories} new categories; ${report.summary.changedExistingChampions} existing champion changes; ${report.summary.qualifiedAssignments} reviewed assignments compete; ${report.summary.queuedAssignments} assignments await review.`, "",
+    `${report.summary.newCategories} new categories; ${report.summary.retiredCategories ?? 0} retired category IDs; ${report.summary.changedExistingChampions} existing champion changes; ${report.summary.qualifiedAssignments} reviewed assignments compete; ${report.summary.queuedAssignments} assignments await review.`, "",
     "Before counts are the old eligible cohort; after counts are reviewed candidates. Taxonomy, task evidence and selection change together here; feed, engagement and time are held fixed. Popularity cannot replace task qualification.", "",
     "| Category | Old candidates → reviewed candidates | Champion before → after | Runner-up before → after |", "| --- | --- | --- | --- |",
-    ...report.types.filter((t) => t.changed).map((t) => `| ${clean(t.name)}${t.newCategory ? " (new)" : ""} | ${t.beforeCount} → ${t.qualifiedCount} | ${clean(t.beforeWinner?.name)} → ${clean(t.afterWinner?.name)} | ${clean(t.beforeRunnerUp?.name)} → ${clean(t.afterRunnerUp?.name)} |`), ""
+    ...report.types.filter((t) => t.changed).map((t) => `| ${clean(t.name)}${t.newCategory ? " (new)" : ""} | ${t.beforeCount} → ${t.qualifiedCount} | ${clean(t.beforeWinner?.name)} → ${clean(t.afterWinner?.name)} | ${clean(t.beforeRunnerUp?.name)} → ${clean(t.afterRunnerUp?.name)} |`), "",
+    ...(report.retiredTypes?.length ? ["Retired category IDs retain explanatory pages; their old recommendations are not silently reassigned:", "", ...report.retiredTypes.map((t) => `- ${clean(t.name)} (\`${t.id}\`)`), ""] : [])
   ].join("\n");
 }
 

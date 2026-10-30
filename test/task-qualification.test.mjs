@@ -3,7 +3,7 @@ import { readFile, mkdtemp, mkdir, writeFile, rm } from "node:fs/promises";
 import path from "node:path";
 import os from "node:os";
 import test from "node:test";
-import { classifyPlugin, prepareTaxonomy, rankPlugins as rankLatest, methodologyFor, pickWithHysteresis } from "../build/rank.mjs";
+import { classifyPlugin, prepareTaxonomy, rankPlugins as rankLatest, methodologyFor, pickWithHysteresis, discoveryListingHash } from "../build/rank.mjs";
 import { assertTaskQualifiedSnapshot, explainTaskFit, prepareTaskReviews, taskMetadataHash, updateTaskReviewQueue } from "../build/task-fit.mjs";
 import { auditClassifications as auditLatest, checksum, renderClassificationAudit } from "../build/classification-audit.mjs";
 import { refresh as refreshLatest, replayChanges, validateFeeds } from "../build/refresh.mjs";
@@ -62,6 +62,39 @@ test("a changed claim removes an incumbent immediately and stays in the queue ev
   assert.equal(pending.status, "stale-metadata");
   assert.equal(pending.previousPick, true);
   assertTaskQualifiedSnapshot(after.rankings);
+});
+
+test("listing-bound discovery exclusions expire and cannot veto reviewed capabilities", () => {
+  const p = plugin("indicator", "Screenshot recording indicator.");
+  const scoped = { ...taxonomy, overrides: { discoveryExclude: [{ pluginId: p.id, typeId: "capture",
+    listingSha256: discoveryListingHash(p), reason: "The listing only advertises recording status, not image capture." }] } };
+  const prepared = prepareTaxonomy(scoped);
+  assert.deepEqual(classifyPlugin(p, prepared), []);
+  assert.deepEqual(classifyPlugin({ ...p, id: "different-plugin" }, prepared), ["capture"]);
+  assert.deepEqual(classifyPlugin({ ...p, description: "Screenshot capture with a status indicator." }, prepared), ["capture"]);
+  const related = review(p, { decision: "related", role: "integration", capabilities: [] });
+  assert.equal(rankPlugins(inputs([p], [related], { taxonomy: scoped })).rankings.types[0].relatedTools[0].id, p.id);
+  assert.equal(rankPlugins(inputs([p], [review(p)], { taxonomy: scoped })).rankings.types[0].winner.id, p.id);
+  const duplicate = structuredClone(scoped); duplicate.overrides.discoveryExclude.push(duplicate.overrides.discoveryExclude[0]);
+  assert.throws(() => prepareTaxonomy(duplicate), /Duplicate discovery override/);
+});
+
+test("listing-bound inclusions discover a candidate without qualifying it and expire on changed text", () => {
+  const p = plugin("pixel-tool", "Select pixels and export a PNG.");
+  const included = { ...taxonomy, overrides: { discoveryInclude: [{ pluginId: p.id, typeId: "capture",
+    listingSha256: discoveryListingHash(p), reason: "A pixel export action is a candidate lead requiring source review." }] } };
+  const prepared = prepareTaxonomy(included);
+  assert.deepEqual(classifyPlugin(p, prepareTaxonomy(taxonomy)), []);
+  assert.deepEqual(classifyPlugin(p, prepared), ["capture"]);
+  assert.deepEqual(classifyPlugin({ ...p, description: "View exported PNG files." }, prepared), []);
+  const result = rankPlugins(inputs([p], [], { taxonomy: included }));
+  assert.equal(result.rankings.types[0].winner, null);
+  assert.equal(result.reviewQueue.find((r) => r.pluginId === p.id).status, "pending");
+  for (const group of ["review", "exclude"]) {
+    const held = { ...included, overrides: { ...included.overrides, [group]: { [p.id]: ["capture"] },
+      reasons: { [p.id]: { capture: "A current hold takes precedence over discovery curation." } } } };
+    assert.deepEqual(classifyPlugin(p, prepareTaxonomy(held)), []);
+  }
 });
 
 test("contract changes, explicit holds and exclusions cannot reuse an old qualification", () => {
@@ -235,15 +268,48 @@ test("version 2 audit captures still replay their classifier evidence under the 
   assert.equal(current.picks.length, 0);
 });
 
-test("production task reviews cover every category and unrelated winner examples stay out of its podium", async () => {
+test("production reviews preserve corrective task boundaries without requiring a minimum shortlist size", async () => {
   const production = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
   const decisions = JSON.parse(await readFile(new URL("../data/task-reviews.json", import.meta.url)));
   const prepared = prepareTaskReviews(decisions, production.types);
-  for (const type of production.types) assert.ok(decisions.assignments.filter((p) => p.typeId === type.id && p.decision === "qualified").length >= 3, type.id);
+  const byType = new Map(production.types.map((type) => [type.id, type]));
+  const byReview = new Map(decisions.assignments.map((record) => [`${record.pluginId}/${record.typeId}`, record]));
+  const retired = new Set(["lock-idle", "clock-timer", "ai-assistant", "uptime-monitoring"]);
+  assert.ok(production.types.every((type) => !retired.has(type.id)));
+  assert.ok(decisions.assignments.every((record) => !retired.has(record.typeId)));
+
+  // Each correction retains the positive review for the task its source establishes.
+  // These are named source judgments, not a quota that encourages unrelated filler.
+  for (const [pluginId, typeId] of [
+    ["io.github.sirjul1337.lock-explorer", "lock-screen"],
+    ["onlyvishesh.power-manager", "idle-sleep"],
+    ["io.github.krongggggg.caffeine", "keep-awake"],
+    ["ubeyidah.omaclock", "desktop-clocks"],
+    ["io.github.sspaeti.timezones", "world-clocks"],
+    ["meviusisback.agent-orchestr", "agent-monitoring"],
+    ["sid.sessions", "agent-history"],
+    ["io.github.dupontbertrand.omastatus", "endpoint-monitoring"],
+    ["bottelet.is-it-down", "service-status"],
+    ["eduardodallecort.weather-radar", "weather-radar"],
+    ["io.github.shivamnarkar47.omarchy-hotspot", "hotspots"],
+    ["io.github.chris.snitch", "app-network-blocking"]
+  ]) {
+    const record = byReview.get(`${pluginId}/${typeId}`);
+    assert.equal(record?.decision, "qualified", `${pluginId}/${typeId}`);
+    assert.equal(record.contractVersion, byType.get(typeId).contract.version, `${pluginId}/${typeId} must have a current scoped review`);
+    assert.equal(record.provenance, "repository-evidence", `${pluginId}/${typeId}`);
+  }
+  for (const [pluginId, typeId] of [
+    ["eduardodallecort.weather-radar", "weather"],
+    ["io.github.shivamnarkar47.omarchy-hotspot", "network"],
+    ["io.github.chris.snitch", "firewall"]
+  ]) {
+    assert.equal(byReview.get(`${pluginId}/${typeId}`)?.decision, "related", `${pluginId} cannot supply the narrowed ${typeId} task`);
+  }
   assert.ok(!decisions.assignments.some((p) => p.pluginId === "io.github.ilyazar.syncthing" && p.typeId === "screenshots" && p.decision === "qualified"));
   const source = decisions.assignments.find((p) => p.pluginId === "io.github.ofa14-prog.dynamic-island" && p.typeId === "screen-recording");
   assert.equal(source.decision, "related");
-  assert.ok(prepared.size > 250);
+  assert.equal(prepared.size, decisions.assignments.length);
 });
 
 test("captured 1.2 counterexamples and missed primary tasks replay their explicit outcomes", async () => {
@@ -276,8 +342,8 @@ test("taxonomy-only baselines cannot silently reuse current task adjudications",
 test("caption wording preserves one- and two-sentence task claims for review", async () => {
   const production = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
   for (const [typeId, description] of [
-    ["weather", "The image shows a weather radar widget for the menu bar."],
-    ["weather", "Menu-bar weather radar. The image shows the forecast."],
+    ["weather-radar", "The image shows a weather radar widget for the menu bar."],
+    ["weather-radar", "Menu-bar weather radar. The image shows the forecast."],
     ["network", "The image shows how you connect, disconnect and configure Wi-Fi networks."],
     ["network", "Connect, disconnect and configure Wi-Fi networks. The preview image shows the controls."],
     ["screenshots", "The screenshot shows how to take a screenshot of a window and save the image."],

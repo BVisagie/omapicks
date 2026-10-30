@@ -1,0 +1,3516 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-10-30T11:21:19.177Z",
+  "inputHash": "741a7ddb65201cad313a71411e589b5325fad668b38942ff4d97465221d3a4cd",
+  "taxonomyHash": "9db3e455789350983e2b49a30810c8f993f0b98745c16c9efa35289bc5c1c2b0",
+  "taskReviewsHash": "52dd4a4476d9875cad7cf791334396a57aba8378906987abb6418733817f6eb0",
+  "pluginProfilesHash": "498e4ae34448fd965e580d3f2dce4f996d8603644742972eae04144e98110d94",
+  "evidenceObservationsHash": "3f7963a44a2d8b0b972ec13901b0ff8accf5a475c709e9d375d97421078df9c4",
+  "methodologyBefore": "1.3.0",
+  "methodologyAfter": "1.4.0",
+  "summary": {
+    "categories": 72,
+    "newCategories": 12,
+    "retiredCategories": 4,
+    "changedExistingChampions": 4,
+    "changedExistingRunnerUps": 8,
+    "categoriesWithLeadingOption": 72,
+    "categoriesWithRunnerUp": 64,
+    "beforeQualifiedAssignments": 158,
+    "qualifiedAssignments": 170,
+    "queuedAssignments": 2748
+  },
+  "categoryChanges": [
+    {
+      "from": {
+        "id": "lock-idle",
+        "name": "Lock & Idle"
+      },
+      "to": [
+        {
+          "id": "lock-screen",
+          "name": "Lock Screen Appearance"
+        },
+        {
+          "id": "idle-sleep",
+          "name": "Idle & Sleep Settings"
+        },
+        {
+          "id": "keep-awake",
+          "name": "Keep Awake"
+        }
+      ],
+      "kind": "split",
+      "retired": true,
+      "reason": "Choosing a lock-screen design, configuring automatic idle actions and temporarily keeping the computer awake are separate tasks.",
+      "migrationId": "task-coherence-2026-10-30"
+    },
+    {
+      "from": {
+        "id": "clock-timer",
+        "name": "Clocks & Time Zones"
+      },
+      "to": [
+        {
+          "id": "desktop-clocks",
+          "name": "Desktop Clocks"
+        },
+        {
+          "id": "world-clocks",
+          "name": "World Clocks & Time Zones"
+        }
+      ],
+      "kind": "split",
+      "retired": true,
+      "reason": "Displaying a desktop clock does not establish the ability to compare time zones.",
+      "migrationId": "task-coherence-2026-10-30"
+    },
+    {
+      "from": {
+        "id": "ai-assistant",
+        "name": "Agent Sessions"
+      },
+      "to": [
+        {
+          "id": "agent-monitoring",
+          "name": "Agent Monitoring"
+        },
+        {
+          "id": "agent-history",
+          "name": "Session History & Resume"
+        }
+      ],
+      "kind": "split",
+      "retired": true,
+      "reason": "Inspecting running agents and resuming an archived conversation require different controls.",
+      "migrationId": "task-coherence-2026-10-30"
+    },
+    {
+      "from": {
+        "id": "uptime-monitoring",
+        "name": "Uptime Monitoring"
+      },
+      "to": [
+        {
+          "id": "endpoint-monitoring",
+          "name": "Endpoint & Service Monitoring"
+        },
+        {
+          "id": "service-status",
+          "name": "Service Status & Incidents"
+        }
+      ],
+      "kind": "split",
+      "retired": true,
+      "reason": "Checks of configured targets are distinct from provider-published incident reports.",
+      "migrationId": "task-coherence-2026-10-30"
+    },
+    {
+      "from": {
+        "id": "weather",
+        "name": "Weather"
+      },
+      "to": [
+        {
+          "id": "weather",
+          "name": "Weather Forecasts"
+        },
+        {
+          "id": "weather-radar",
+          "name": "Weather Radar"
+        }
+      ],
+      "kind": "split",
+      "retired": false,
+      "reason": "General conditions and forecasts are separate from precipitation radar imagery.",
+      "migrationId": "task-coherence-2026-10-30"
+    },
+    {
+      "from": {
+        "id": "network",
+        "name": "Network Connections"
+      },
+      "to": [
+        {
+          "id": "network",
+          "name": "Network Connections"
+        },
+        {
+          "id": "hotspots",
+          "name": "Hotspots & Internet Sharing"
+        }
+      ],
+      "kind": "split",
+      "retired": false,
+      "reason": "Joining a network and sharing an existing connection through a hotspot are separate tasks.",
+      "migrationId": "task-coherence-2026-10-30"
+    },
+    {
+      "from": {
+        "id": "firewall",
+        "name": "Firewall"
+      },
+      "to": [
+        {
+          "id": "firewall",
+          "name": "Firewall Rules"
+        },
+        {
+          "id": "app-network-blocking",
+          "name": "App Network Blocking"
+        }
+      ],
+      "kind": "split",
+      "retired": false,
+      "reason": "Host port and address rules are distinct from blocking one application's outbound traffic.",
+      "migrationId": "task-coherence-2026-10-30"
+    },
+    {
+      "from": {
+        "id": "system-monitor",
+        "name": "System Monitor"
+      },
+      "to": [
+        {
+          "id": "system-monitor",
+          "name": "System Monitor"
+        }
+      ],
+      "kind": "narrowed",
+      "retired": false,
+      "reason": "The minimum task is now: Inspect the computer's CPU and memory usage. Earlier selections were reviewed against the previous definition."
+    },
+    {
+      "from": {
+        "id": "mail",
+        "name": "Mail"
+      },
+      "to": [
+        {
+          "id": "mail",
+          "name": "Inbox & Mail Status"
+        }
+      ],
+      "kind": "clarified",
+      "retired": false,
+      "reason": "The task description is clarified: Inspect unread mail and browse an inbox. Qualification requirements and existing reviews are unchanged."
+    },
+    {
+      "from": {
+        "id": "music",
+        "name": "Media Controls"
+      },
+      "to": [
+        {
+          "id": "music",
+          "name": "Media Controls"
+        }
+      ],
+      "kind": "narrowed",
+      "retired": false,
+      "reason": "The minimum task is now: View and control playback in a media player on this computer. Earlier selections were reviewed against the previous definition."
+    },
+    {
+      "from": {
+        "id": "network-diagnostics",
+        "name": "Network Traffic & Diagnostics"
+      },
+      "to": [
+        {
+          "id": "network-diagnostics",
+          "name": "Network Traffic"
+        }
+      ],
+      "kind": "clarified",
+      "retired": false,
+      "reason": "The task description is clarified: Read network throughput and connection activity. Qualification requirements and existing reviews are unchanged."
+    },
+    {
+      "from": {
+        "id": "audio",
+        "name": "Audio"
+      },
+      "to": [
+        {
+          "id": "audio",
+          "name": "System Audio"
+        }
+      ],
+      "kind": "narrowed",
+      "retired": false,
+      "reason": "The minimum task is now: Adjust output and microphone volume and select audio devices. Earlier selections were reviewed against the previous definition."
+    },
+    {
+      "from": {
+        "id": "night-light",
+        "name": "Night Light"
+      },
+      "to": [
+        {
+          "id": "night-light",
+          "name": "Night Light"
+        }
+      ],
+      "kind": "clarified",
+      "retired": false,
+      "reason": "The task description is clarified: Control computer display color temperature for night light. Qualification requirements and existing reviews are unchanged."
+    },
+    {
+      "from": {
+        "id": "notifications",
+        "name": "Notifications"
+      },
+      "to": [
+        {
+          "id": "notifications",
+          "name": "Notification History & Centers"
+        }
+      ],
+      "kind": "clarified",
+      "retired": false,
+      "reason": "The task description is clarified: Browse and manage desktop notification history. Qualification requirements and existing reviews are unchanged."
+    },
+    {
+      "from": {
+        "id": "timers-alarms",
+        "name": "Timers & Alarms"
+      },
+      "to": [
+        {
+          "id": "timers-alarms",
+          "name": "Countdown Timers"
+        }
+      ],
+      "kind": "narrowed",
+      "retired": false,
+      "reason": "The minimum task is now: Start and run a configurable countdown timer. Earlier selections were reviewed against the previous definition."
+    },
+    {
+      "from": {
+        "id": "notes",
+        "name": "Notes"
+      },
+      "to": [
+        {
+          "id": "notes",
+          "name": "Notes"
+        }
+      ],
+      "kind": "narrowed",
+      "retired": false,
+      "reason": "The minimum task is now: Create free-form notes and retrieve their text for reading. Earlier selections were reviewed against the previous definition."
+    },
+    {
+      "from": {
+        "id": "workspaces",
+        "name": "Workspaces"
+      },
+      "to": [
+        {
+          "id": "workspaces",
+          "name": "Workspaces"
+        }
+      ],
+      "kind": "narrowed",
+      "retired": false,
+      "reason": "The minimum task is now: View workspace state and navigate between workspaces. Earlier selections were reviewed against the previous definition."
+    },
+    {
+      "from": {
+        "id": "window-management",
+        "name": "Window Management"
+      },
+      "to": [
+        {
+          "id": "window-management",
+          "name": "Window Switching"
+        }
+      ],
+      "kind": "narrowed",
+      "retired": false,
+      "reason": "The minimum task is now: Find an open window and switch focus to it. Earlier selections were reviewed against the previous definition."
+    },
+    {
+      "from": {
+        "id": "screenshots",
+        "name": "Screen Capture"
+      },
+      "to": [
+        {
+          "id": "screenshots",
+          "name": "Screen Capture"
+        }
+      ],
+      "kind": "clarified",
+      "retired": false,
+      "reason": "The task description is clarified: Capture a screen image and save or export it. Qualification requirements and existing reviews are unchanged."
+    },
+    {
+      "from": {
+        "id": "ai-chat",
+        "name": "AI Chat & Models"
+      },
+      "to": [
+        {
+          "id": "ai-chat",
+          "name": "AI Chat"
+        }
+      ],
+      "kind": "narrowed",
+      "retired": false,
+      "reason": "The minimum task is now: Ask conversational questions and receive AI responses. Earlier selections were reviewed against the previous definition."
+    },
+    {
+      "from": {
+        "id": "smart-home",
+        "name": "Smart Home"
+      },
+      "to": [
+        {
+          "id": "smart-home",
+          "name": "Smart Home Controls"
+        }
+      ],
+      "kind": "clarified",
+      "retired": false,
+      "reason": "The task description is clarified: Control supported connected-home devices. Qualification requirements and existing reviews are unchanged."
+    },
+    {
+      "from": {
+        "id": "containers",
+        "name": "Containers"
+      },
+      "to": [
+        {
+          "id": "containers",
+          "name": "Container Management"
+        }
+      ],
+      "kind": "narrowed",
+      "retired": false,
+      "reason": "The minimum task is now: List containers and start and stop their workloads. Earlier selections were reviewed against the previous definition."
+    },
+    {
+      "from": {
+        "id": "gaming",
+        "name": "Gaming"
+      },
+      "to": [
+        {
+          "id": "gaming",
+          "name": "Gaming Mode"
+        }
+      ],
+      "kind": "narrowed",
+      "retired": false,
+      "reason": "The minimum task is now: Activate gaming desktop settings and restore the normal desktop. Earlier selections were reviewed against the previous definition."
+    },
+    {
+      "from": {
+        "id": "shortcut-guides",
+        "name": "Shortcut Guides"
+      },
+      "to": [
+        {
+          "id": "shortcut-guides",
+          "name": "Shortcut Learning"
+        }
+      ],
+      "kind": "clarified",
+      "retired": false,
+      "reason": "The task description is clarified: Learn available keyboard shortcuts through lookup or coaching. Qualification requirements and existing reviews are unchanged."
+    },
+    {
+      "from": {
+        "id": "translation",
+        "name": "Translation"
+      },
+      "to": [
+        {
+          "id": "translation",
+          "name": "Translation"
+        }
+      ],
+      "kind": "clarified",
+      "retired": false,
+      "reason": "The task description is clarified: Translate text entered or pasted by the user. Qualification requirements and existing reviews are unchanged."
+    },
+    {
+      "from": {
+        "id": "dictionary",
+        "name": "Dictionary & Thesaurus"
+      },
+      "to": [
+        {
+          "id": "dictionary",
+          "name": "Word Definitions"
+        }
+      ],
+      "kind": "clarified",
+      "retired": false,
+      "reason": "The task description is clarified: Look up word definitions. Qualification requirements and existing reviews are unchanged."
+    },
+    {
+      "from": {
+        "id": "keyboard-layouts",
+        "name": "Keyboard Layouts"
+      },
+      "to": [
+        {
+          "id": "keyboard-layouts",
+          "name": "Keyboard Layout Switching"
+        }
+      ],
+      "kind": "narrowed",
+      "retired": false,
+      "reason": "The minimum task is now: View the active keyboard layout and switch configured layouts. Earlier selections were reviewed against the previous definition."
+    },
+    {
+      "from": {
+        "id": "file-search",
+        "name": "File Search"
+      },
+      "to": [
+        {
+          "id": "file-search",
+          "name": "File Search"
+        }
+      ],
+      "kind": "clarified",
+      "retired": false,
+      "reason": "The task description is clarified: Find local files by filename or path. Qualification requirements and existing reviews are unchanged."
+    },
+    {
+      "from": {
+        "id": "plugin-manager",
+        "name": "Plugin Manager"
+      },
+      "to": [
+        {
+          "id": "plugin-manager",
+          "name": "Plugin Manager"
+        }
+      ],
+      "kind": "narrowed",
+      "retired": false,
+      "reason": "The minimum task is now: Install plugins and manage installed Omarchy plugins. Earlier selections were reviewed against the previous definition."
+    }
+  ],
+  "retiredTypes": [
+    {
+      "id": "lock-idle",
+      "name": "Lock & Idle",
+      "beforeCount": 2,
+      "beforeWinner": {
+        "id": "io.github.sirjul1337.lock-explorer",
+        "name": "Lock Screen Explorer"
+      },
+      "beforeRunnerUp": {
+        "id": "onlyvishesh.power-manager",
+        "name": "Omarchy Power Manager"
+      }
+    },
+    {
+      "id": "clock-timer",
+      "name": "Clocks & Time Zones",
+      "beforeCount": 2,
+      "beforeWinner": {
+        "id": "io.github.sspaeti.timezones",
+        "name": "Timezones"
+      },
+      "beforeRunnerUp": {
+        "id": "ubeyidah.omaclock",
+        "name": "OmaClock"
+      }
+    },
+    {
+      "id": "ai-assistant",
+      "name": "Agent Sessions",
+      "beforeCount": 2,
+      "beforeWinner": {
+        "id": "meviusisback.agent-orchestr",
+        "name": "Agent Orchestrator"
+      },
+      "beforeRunnerUp": {
+        "id": "sid.sessions",
+        "name": "Session Browser"
+      }
+    },
+    {
+      "id": "uptime-monitoring",
+      "name": "Uptime Monitoring",
+      "beforeCount": 2,
+      "beforeWinner": {
+        "id": "io.github.dupontbertrand.omastatus",
+        "name": "Omastatus"
+      },
+      "beforeRunnerUp": {
+        "id": "bottelet.is-it-down",
+        "name": "Is It Down?"
+      }
+    }
+  ],
+  "types": [
+    {
+      "id": "system-monitor",
+      "name": "System Monitor",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 213,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "harshith.system-monitor",
+        "name": "System Monitor",
+        "score": 0.916216
+      },
+      "afterWinner": {
+        "id": "harshith.system-monitor",
+        "name": "System Monitor",
+        "score": 0.817662
+      },
+      "beforeRunnerUp": {
+        "id": "stappmus.activity-monitor",
+        "name": "Activity Monitor",
+        "score": 0.774959
+      },
+      "afterRunnerUp": {
+        "id": "stappmus.activity-monitor",
+        "name": "Activity Monitor",
+        "score": 0.490874
+      }
+    },
+    {
+      "id": "vpn",
+      "name": "VPN",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 84,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "io.github.grichard99.omaproton-vpn",
+        "name": "OmaProton VPN",
+        "score": 0.994717
+      },
+      "afterWinner": {
+        "id": "io.github.grichard99.omaproton-vpn",
+        "name": "OmaProton VPN",
+        "score": 0.994717
+      },
+      "beforeRunnerUp": {
+        "id": "jkoestinger.vpn",
+        "name": "VPN",
+        "score": 0.3231
+      },
+      "afterRunnerUp": {
+        "id": "jkoestinger.vpn",
+        "name": "VPN",
+        "score": 0.3231
+      }
+    },
+    {
+      "id": "mail",
+      "name": "Inbox & Mail Status",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 3,
+      "matchedCount": 24,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "omamail",
+        "name": "Omamail",
+        "score": 0.947977
+      },
+      "afterWinner": {
+        "id": "omamail",
+        "name": "Omamail",
+        "score": 0.947977
+      },
+      "beforeRunnerUp": {
+        "id": "jankeesvw.gmail-inbox",
+        "name": "Gmail Inbox",
+        "score": 0.586396
+      },
+      "afterRunnerUp": {
+        "id": "jankeesvw.gmail-inbox",
+        "name": "Gmail Inbox",
+        "score": 0.586396
+      }
+    },
+    {
+      "id": "music",
+      "name": "Media Controls",
+      "newCategory": false,
+      "changed": true,
+      "beforeCount": 1,
+      "matchedCount": 100,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "crmne.mpris",
+        "name": "Media Controls + Album Art",
+        "score": 0.71115
+      },
+      "afterWinner": {
+        "id": "crmne.mpris",
+        "name": "Media Controls + Album Art",
+        "score": 0.996213
+      },
+      "beforeRunnerUp": null,
+      "afterRunnerUp": {
+        "id": "custom.media",
+        "name": "Music Flow",
+        "score": 0.620388
+      }
+    },
+    {
+      "id": "music-players",
+      "name": "Music Players",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 3,
+      "matchedCount": 60,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "io.github.jeremylanger.omaspotify",
+        "name": "OmaSpotify",
+        "score": 0.822403
+      },
+      "afterWinner": {
+        "id": "io.github.jeremylanger.omaspotify",
+        "name": "OmaSpotify",
+        "score": 0.822403
+      },
+      "beforeRunnerUp": {
+        "id": "vornashev.yandex-music",
+        "name": "Yandex Music",
+        "score": 0.642065
+      },
+      "afterRunnerUp": {
+        "id": "vornashev.yandex-music",
+        "name": "Yandex Music",
+        "score": 0.642065
+      }
+    },
+    {
+      "id": "weather",
+      "name": "Weather Forecasts",
+      "newCategory": false,
+      "changed": true,
+      "beforeCount": 3,
+      "matchedCount": 63,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "eduardodallecort.weather-radar",
+        "name": "Weather Radar",
+        "score": 0.938495
+      },
+      "afterWinner": {
+        "id": "io.github.calebhat.weather",
+        "name": "Detailed Weather",
+        "score": 0.9717
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.calebhat.weather",
+        "name": "Detailed Weather",
+        "score": 0.671019
+      },
+      "afterRunnerUp": {
+        "id": "ali.iweather",
+        "name": "iWeather",
+        "score": 0.297298
+      }
+    },
+    {
+      "id": "weather-radar",
+      "name": "Weather Radar",
+      "newCategory": true,
+      "changed": true,
+      "beforeCount": 0,
+      "matchedCount": 12,
+      "qualifiedCount": 1,
+      "beforeWinner": null,
+      "afterWinner": {
+        "id": "eduardodallecort.weather-radar",
+        "name": "Weather Radar",
+        "score": 0.671311
+      },
+      "beforeRunnerUp": null,
+      "afterRunnerUp": null
+    },
+    {
+      "id": "battery",
+      "name": "Battery",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 5,
+      "matchedCount": 75,
+      "qualifiedCount": 5,
+      "beforeWinner": {
+        "id": "crmne.omastats",
+        "name": "OmaStats",
+        "score": 0.940927
+      },
+      "afterWinner": {
+        "id": "crmne.omastats",
+        "name": "OmaStats",
+        "score": 0.940927
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.diegopluna.argus",
+        "name": "Argus",
+        "score": 0.778305
+      },
+      "afterRunnerUp": {
+        "id": "io.github.diegopluna.argus",
+        "name": "Argus",
+        "score": 0.778305
+      }
+    },
+    {
+      "id": "clipboard",
+      "name": "Clipboard",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 31,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "io.github.maajix.spotlight",
+        "name": "Spotlight",
+        "score": 0.937885
+      },
+      "afterWinner": {
+        "id": "io.github.maajix.spotlight",
+        "name": "Spotlight",
+        "score": 0.937885
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.vuhuy.clipboard-manager",
+        "name": "Clipboard Manager",
+        "score": 0.365628
+      },
+      "afterRunnerUp": {
+        "id": "io.github.vuhuy.clipboard-manager",
+        "name": "Clipboard Manager",
+        "score": 0.365628
+      }
+    },
+    {
+      "id": "launcher",
+      "name": "Launcher",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 3,
+      "matchedCount": 39,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "evindor.keystroke",
+        "name": "Keystroke",
+        "score": 0.821732
+      },
+      "afterWinner": {
+        "id": "evindor.keystroke",
+        "name": "Keystroke",
+        "score": 0.821732
+      },
+      "beforeRunnerUp": {
+        "id": "tyrsolution.app-launcher",
+        "name": "App Launcher",
+        "score": 0.782266
+      },
+      "afterRunnerUp": {
+        "id": "tyrsolution.app-launcher",
+        "name": "App Launcher",
+        "score": 0.782266
+      }
+    },
+    {
+      "id": "docks",
+      "name": "Application Docks",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 1,
+      "matchedCount": 39,
+      "qualifiedCount": 1,
+      "beforeWinner": {
+        "id": "io.github.claudsondouglas.arcdock",
+        "name": "Arc Dock",
+        "score": 0.687759
+      },
+      "afterWinner": {
+        "id": "io.github.claudsondouglas.arcdock",
+        "name": "Arc Dock",
+        "score": 0.687759
+      },
+      "beforeRunnerUp": null,
+      "afterRunnerUp": null
+    },
+    {
+      "id": "network",
+      "name": "Network Connections",
+      "newCategory": false,
+      "changed": true,
+      "beforeCount": 3,
+      "matchedCount": 49,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "io.github.shivamnarkar47.omarchy-hotspot",
+        "name": "Mobile Hotspot",
+        "score": 0.784819
+      },
+      "afterWinner": {
+        "id": "community.network",
+        "name": "Network Manager (with Repeater & Hotspot)",
+        "score": 0.789833
+      },
+      "beforeRunnerUp": {
+        "id": "community.network",
+        "name": "Network Manager (with Repeater & Hotspot)",
+        "score": 0.663685
+      },
+      "afterRunnerUp": {
+        "id": "angeeeld.omaltbar",
+        "name": "Omaltbar",
+        "score": 0.505587
+      }
+    },
+    {
+      "id": "hotspots",
+      "name": "Hotspots & Internet Sharing",
+      "newCategory": true,
+      "changed": true,
+      "beforeCount": 0,
+      "matchedCount": 5,
+      "qualifiedCount": 2,
+      "beforeWinner": null,
+      "afterWinner": {
+        "id": "io.github.shivamnarkar47.omarchy-hotspot",
+        "name": "Mobile Hotspot",
+        "score": 0.791862
+      },
+      "beforeRunnerUp": null,
+      "afterRunnerUp": {
+        "id": "community.network",
+        "name": "Network Manager (with Repeater & Hotspot)",
+        "score": 0.551448
+      }
+    },
+    {
+      "id": "network-diagnostics",
+      "name": "Network Traffic",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 91,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "crmne.omastats",
+        "name": "OmaStats",
+        "score": 0.816812
+      },
+      "afterWinner": {
+        "id": "crmne.omastats",
+        "name": "OmaStats",
+        "score": 0.816812
+      },
+      "beforeRunnerUp": {
+        "id": "vitals",
+        "name": "Vitals",
+        "score": 0.510549
+      },
+      "afterRunnerUp": {
+        "id": "vitals",
+        "name": "Vitals",
+        "score": 0.510549
+      }
+    },
+    {
+      "id": "bluetooth",
+      "name": "Bluetooth",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 3,
+      "matchedCount": 14,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "ssupt.bluetooth-audio",
+        "name": "Advanced Bluetooth Audio",
+        "score": 0.947878
+      },
+      "afterWinner": {
+        "id": "ssupt.bluetooth-audio",
+        "name": "Advanced Bluetooth Audio",
+        "score": 0.947878
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.aryan-techie.bluetooth",
+        "name": "Better Bluetooth",
+        "score": 0.510911
+      },
+      "afterRunnerUp": {
+        "id": "io.github.aryan-techie.bluetooth",
+        "name": "Better Bluetooth",
+        "score": 0.510911
+      }
+    },
+    {
+      "id": "audio",
+      "name": "System Audio",
+      "newCategory": false,
+      "changed": true,
+      "beforeCount": 2,
+      "matchedCount": 45,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "ssupt.audio-control",
+        "name": "Advanced Audio Control",
+        "score": 0.974071
+      },
+      "afterWinner": {
+        "id": "ssupt.audio-control",
+        "name": "Advanced Audio Control",
+        "score": 0.974071
+      },
+      "beforeRunnerUp": {
+        "id": "ssupt.bluetooth-audio",
+        "name": "Advanced Bluetooth Audio",
+        "score": 0.369604
+      },
+      "afterRunnerUp": {
+        "id": "videinfra.omaudiopanel",
+        "name": "omaudiopanel",
+        "score": 0.358045
+      }
+    },
+    {
+      "id": "brightness",
+      "name": "Screen Brightness",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 3,
+      "matchedCount": 22,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "crmne.hyprmoncfg",
+        "name": "hyprmoncfg: Multi-Monitor Manager for Omarchy",
+        "score": 0.97808
+      },
+      "afterWinner": {
+        "id": "crmne.hyprmoncfg",
+        "name": "hyprmoncfg: Multi-Monitor Manager for Omarchy",
+        "score": 0.97808
+      },
+      "beforeRunnerUp": {
+        "id": "omarchy-display",
+        "name": "Display Settings",
+        "score": 0.45481
+      },
+      "afterRunnerUp": {
+        "id": "omarchy-display",
+        "name": "Display Settings",
+        "score": 0.45481
+      }
+    },
+    {
+      "id": "night-light",
+      "name": "Night Light",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 3,
+      "matchedCount": 20,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "io.github.deunnis.lacquer",
+        "name": "Omarchy Lacquer",
+        "score": 0.943062
+      },
+      "afterWinner": {
+        "id": "io.github.deunnis.lacquer",
+        "name": "Omarchy Lacquer",
+        "score": 0.943062
+      },
+      "beforeRunnerUp": {
+        "id": "omarchy-display",
+        "name": "Display Settings",
+        "score": 0.524101
+      },
+      "afterRunnerUp": {
+        "id": "omarchy-display",
+        "name": "Display Settings",
+        "score": 0.524101
+      }
+    },
+    {
+      "id": "display-monitors",
+      "name": "Display & Monitors",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 3,
+      "matchedCount": 42,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "crmne.hyprmoncfg",
+        "name": "hyprmoncfg: Multi-Monitor Manager for Omarchy",
+        "score": 0.97808
+      },
+      "afterWinner": {
+        "id": "crmne.hyprmoncfg",
+        "name": "hyprmoncfg: Multi-Monitor Manager for Omarchy",
+        "score": 0.97808
+      },
+      "beforeRunnerUp": {
+        "id": "im0001gt.screens",
+        "name": "Screens",
+        "score": 0.635394
+      },
+      "afterRunnerUp": {
+        "id": "im0001gt.screens",
+        "name": "Screens",
+        "score": 0.635394
+      }
+    },
+    {
+      "id": "notifications",
+      "name": "Notification History & Centers",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 5,
+      "matchedCount": 33,
+      "qualifiedCount": 5,
+      "beforeWinner": {
+        "id": "jankeesvw.notification-center",
+        "name": "Notification Center",
+        "score": 0.945844
+      },
+      "afterWinner": {
+        "id": "jankeesvw.notification-center",
+        "name": "Notification Center",
+        "score": 0.945844
+      },
+      "beforeRunnerUp": {
+        "id": "njpatel.omapager",
+        "name": "Omapager",
+        "score": 0.70442
+      },
+      "afterRunnerUp": {
+        "id": "njpatel.omapager",
+        "name": "Omapager",
+        "score": 0.70442
+      }
+    },
+    {
+      "id": "lock-screen",
+      "name": "Lock Screen Appearance",
+      "newCategory": true,
+      "changed": true,
+      "beforeCount": 0,
+      "matchedCount": 34,
+      "qualifiedCount": 3,
+      "beforeWinner": null,
+      "afterWinner": {
+        "id": "io.github.sirjul1337.lock-explorer",
+        "name": "Lock Screen Explorer",
+        "score": 0.980526
+      },
+      "beforeRunnerUp": null,
+      "afterRunnerUp": {
+        "id": "io.github.smoothpixels.lock-designs",
+        "name": "Lock Designs",
+        "score": 0.552125
+      }
+    },
+    {
+      "id": "idle-sleep",
+      "name": "Idle & Sleep Settings",
+      "newCategory": true,
+      "changed": true,
+      "beforeCount": 0,
+      "matchedCount": 24,
+      "qualifiedCount": 3,
+      "beforeWinner": null,
+      "afterWinner": {
+        "id": "onlyvishesh.power-manager",
+        "name": "Omarchy Power Manager",
+        "score": 0.882637
+      },
+      "beforeRunnerUp": null,
+      "afterRunnerUp": {
+        "id": "lgse.sandman",
+        "name": "Sandman",
+        "score": 0.717901
+      }
+    },
+    {
+      "id": "keep-awake",
+      "name": "Keep Awake",
+      "newCategory": true,
+      "changed": true,
+      "beforeCount": 0,
+      "matchedCount": 38,
+      "qualifiedCount": 4,
+      "beforeWinner": null,
+      "afterWinner": {
+        "id": "halmylyseas.ristretto",
+        "name": "Ristretto",
+        "score": 0.911299
+      },
+      "beforeRunnerUp": null,
+      "afterRunnerUp": {
+        "id": "io.github.krongggggg.caffeine",
+        "name": "Caffeine",
+        "score": 0.739464
+      }
+    },
+    {
+      "id": "password-manager",
+      "name": "Password Manager",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 17,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "io.github.elevate08.qs-bitwarden-cli",
+        "name": "Bitwarden",
+        "score": 0.995068
+      },
+      "afterWinner": {
+        "id": "io.github.elevate08.qs-bitwarden-cli",
+        "name": "Bitwarden",
+        "score": 0.995068
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.salemsayed.omawarden",
+        "name": "OmaWarden",
+        "score": 0.352821
+      },
+      "afterRunnerUp": {
+        "id": "io.github.salemsayed.omawarden",
+        "name": "OmaWarden",
+        "score": 0.352821
+      }
+    },
+    {
+      "id": "calendar",
+      "name": "Calendar",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 103,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "promaa.clock",
+        "name": "Chronica",
+        "score": 0.984596
+      },
+      "afterWinner": {
+        "id": "promaa.clock",
+        "name": "Chronica",
+        "score": 0.984596
+      },
+      "beforeRunnerUp": {
+        "id": "acp.omascribe",
+        "name": "OmaScribe — AI Meeting Notes",
+        "score": 0.331699
+      },
+      "afterRunnerUp": {
+        "id": "acp.omascribe",
+        "name": "OmaScribe — AI Meeting Notes",
+        "score": 0.331699
+      }
+    },
+    {
+      "id": "desktop-clocks",
+      "name": "Desktop Clocks",
+      "newCategory": true,
+      "changed": true,
+      "beforeCount": 0,
+      "matchedCount": 72,
+      "qualifiedCount": 1,
+      "beforeWinner": null,
+      "afterWinner": {
+        "id": "ubeyidah.omaclock",
+        "name": "OmaClock",
+        "score": 0.667166
+      },
+      "beforeRunnerUp": null,
+      "afterRunnerUp": null
+    },
+    {
+      "id": "world-clocks",
+      "name": "World Clocks & Time Zones",
+      "newCategory": true,
+      "changed": true,
+      "beforeCount": 0,
+      "matchedCount": 26,
+      "qualifiedCount": 2,
+      "beforeWinner": null,
+      "afterWinner": {
+        "id": "io.github.sspaeti.timezones",
+        "name": "Timezones",
+        "score": 0.930973
+      },
+      "beforeRunnerUp": null,
+      "afterRunnerUp": {
+        "id": "io.github.nimbleaininja.omachron",
+        "name": "Omachron World Clock",
+        "score": 0.369935
+      }
+    },
+    {
+      "id": "timers-alarms",
+      "name": "Countdown Timers",
+      "newCategory": false,
+      "changed": true,
+      "beforeCount": 2,
+      "matchedCount": 180,
+      "qualifiedCount": 1,
+      "beforeWinner": {
+        "id": "pnkm0nk.omodoro",
+        "name": "Omodoro",
+        "score": 0.804334
+      },
+      "afterWinner": {
+        "id": "io.github.pjgeutjens.clockwork",
+        "name": "Clockwork",
+        "score": 0.687647
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.pjgeutjens.clockwork",
+        "name": "Clockwork",
+        "score": 0.552497
+      },
+      "afterRunnerUp": null
+    },
+    {
+      "id": "focus",
+      "name": "Focus Sessions",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 53,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "pnkm0nk.omodoro",
+        "name": "Omodoro",
+        "score": 0.804334
+      },
+      "afterWinner": {
+        "id": "pnkm0nk.omodoro",
+        "name": "Omodoro",
+        "score": 0.804334
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.pjgeutjens.clockwork",
+        "name": "Clockwork",
+        "score": 0.552497
+      },
+      "afterRunnerUp": {
+        "id": "io.github.pjgeutjens.clockwork",
+        "name": "Clockwork",
+        "score": 0.552497
+      }
+    },
+    {
+      "id": "tasks",
+      "name": "Task Lists",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 36,
+      "qualifiedCount": 5,
+      "beforeWinner": {
+        "id": "io.github.aryan-techie.todoist",
+        "name": "Todoist",
+        "score": 0.973979
+      },
+      "afterWinner": {
+        "id": "io.github.aryan-techie.todoist",
+        "name": "Todoist",
+        "score": 0.973979
+      },
+      "beforeRunnerUp": {
+        "id": "crmne.todoist",
+        "name": "OmaTasks for Todoist",
+        "score": 0.633352
+      },
+      "afterRunnerUp": {
+        "id": "crmne.todoist",
+        "name": "OmaTasks for Todoist",
+        "score": 0.700408
+      }
+    },
+    {
+      "id": "notes",
+      "name": "Notes",
+      "newCategory": false,
+      "changed": true,
+      "beforeCount": 6,
+      "matchedCount": 60,
+      "qualifiedCount": 5,
+      "beforeWinner": {
+        "id": "io.github.huligabuliga.omasticky",
+        "name": "Omasticky",
+        "score": 0.900556
+      },
+      "afterWinner": {
+        "id": "io.github.huligabuliga.omasticky",
+        "name": "Omasticky",
+        "score": 0.93007
+      },
+      "beforeRunnerUp": {
+        "id": "luca.obsidian-daily",
+        "name": "Obsidian Daily",
+        "score": 0.851634
+      },
+      "afterRunnerUp": {
+        "id": "rperaza.obsidian-notes",
+        "name": "Obsidian Notes",
+        "score": 0.817201
+      }
+    },
+    {
+      "id": "screen-time",
+      "name": "Screen Time",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 18,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "agx.screen-time",
+        "name": "Screen Time",
+        "score": 0.927844
+      },
+      "afterWinner": {
+        "id": "agx.screen-time",
+        "name": "Screen Time",
+        "score": 0.927844
+      },
+      "beforeRunnerUp": {
+        "id": "rimuru.screentime",
+        "name": "Screen Time",
+        "score": 0.339668
+      },
+      "afterRunnerUp": {
+        "id": "rimuru.screentime",
+        "name": "Screen Time",
+        "score": 0.339668
+      }
+    },
+    {
+      "id": "workspaces",
+      "name": "Workspaces",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 3,
+      "matchedCount": 150,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "tornikegomareli.spaces",
+        "name": "Spaces",
+        "score": 0.985585
+      },
+      "afterWinner": {
+        "id": "tornikegomareli.spaces",
+        "name": "Spaces",
+        "score": 0.985585
+      },
+      "beforeRunnerUp": {
+        "id": "mirador",
+        "name": "Mirador",
+        "score": 0.665074
+      },
+      "afterRunnerUp": {
+        "id": "mirador",
+        "name": "Mirador",
+        "score": 0.665074
+      }
+    },
+    {
+      "id": "window-management",
+      "name": "Window Switching",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 99,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "expose.window-overview",
+        "name": "Exposé",
+        "score": 0.975283
+      },
+      "afterWinner": {
+        "id": "expose.window-overview",
+        "name": "Exposé",
+        "score": 0.975283
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.pablo-merino.altswitch",
+        "name": "Alt-tab switcher",
+        "score": 0.359198
+      },
+      "afterRunnerUp": {
+        "id": "io.github.pablo-merino.altswitch",
+        "name": "Alt-tab switcher",
+        "score": 0.359198
+      }
+    },
+    {
+      "id": "screenshots",
+      "name": "Screen Capture",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 20,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "chyld.easy-capture",
+        "name": "Easy Capture",
+        "score": 0.66184
+      },
+      "afterWinner": {
+        "id": "chyld.easy-capture",
+        "name": "Easy Capture",
+        "score": 0.66184
+      },
+      "beforeRunnerUp": {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss",
+        "score": 0.657446
+      },
+      "afterRunnerUp": {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss",
+        "score": 0.657446
+      }
+    },
+    {
+      "id": "screen-recording",
+      "name": "Screen Recording",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 14,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "chyld.easy-capture",
+        "name": "Easy Capture",
+        "score": 0.66184
+      },
+      "afterWinner": {
+        "id": "chyld.easy-capture",
+        "name": "Easy Capture",
+        "score": 0.66184
+      },
+      "beforeRunnerUp": {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss",
+        "score": 0.657446
+      },
+      "afterRunnerUp": {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss",
+        "score": 0.657446
+      }
+    },
+    {
+      "id": "ocr",
+      "name": "Screen Text Extraction",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 12,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss",
+        "score": 0.789234
+      },
+      "afterWinner": {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss",
+        "score": 0.789234
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.diyaclanker.omacapture",
+        "name": "Omacapture",
+        "score": 0.524425
+      },
+      "afterRunnerUp": {
+        "id": "io.github.diyaclanker.omacapture",
+        "name": "Omacapture",
+        "score": 0.524425
+      }
+    },
+    {
+      "id": "wallpaper",
+      "name": "Wallpaper",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 114,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "io.github.deunnis.lacquer",
+        "name": "Omarchy Lacquer",
+        "score": 0.799535
+      },
+      "afterWinner": {
+        "id": "io.github.deunnis.lacquer",
+        "name": "Omarchy Lacquer",
+        "score": 0.799535
+      },
+      "beforeRunnerUp": {
+        "id": "nosignal.motion-wallpaper",
+        "name": "Motion Wallpaper",
+        "score": 0.554928
+      },
+      "afterRunnerUp": {
+        "id": "nosignal.motion-wallpaper",
+        "name": "Motion Wallpaper",
+        "score": 0.554928
+      }
+    },
+    {
+      "id": "themes-appearance",
+      "name": "Themes & Appearance",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 49,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "gotar.omarchy-themes",
+        "name": "Themes Gallery",
+        "score": 0.820807
+      },
+      "afterWinner": {
+        "id": "gotar.omarchy-themes",
+        "name": "Themes Gallery",
+        "score": 0.820807
+      },
+      "beforeRunnerUp": {
+        "id": "pretty.omagen",
+        "name": "Omagen",
+        "score": 0.516054
+      },
+      "afterRunnerUp": {
+        "id": "pretty.omagen",
+        "name": "Omagen",
+        "score": 0.516054
+      }
+    },
+    {
+      "id": "color-picker",
+      "name": "Color Picker",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 4,
+      "qualifiedCount": 4,
+      "beforeWinner": {
+        "id": "io.github.ajanraj.chroma",
+        "name": "Chroma",
+        "score": 0.753481
+      },
+      "afterWinner": {
+        "id": "io.github.ajanraj.chroma",
+        "name": "Chroma",
+        "score": 0.753481
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.manateelazycat.color-picker",
+        "name": "Omarchy Color Picker",
+        "score": 0.613111
+      },
+      "afterRunnerUp": {
+        "id": "io.github.manateelazycat.color-picker",
+        "name": "Omarchy Color Picker",
+        "score": 0.613111
+      }
+    },
+    {
+      "id": "agent-monitoring",
+      "name": "Agent Monitoring",
+      "newCategory": true,
+      "changed": true,
+      "beforeCount": 0,
+      "matchedCount": 35,
+      "qualifiedCount": 1,
+      "beforeWinner": null,
+      "afterWinner": {
+        "id": "meviusisback.agent-orchestr",
+        "name": "Agent Orchestrator",
+        "score": 0.700199
+      },
+      "beforeRunnerUp": null,
+      "afterRunnerUp": null
+    },
+    {
+      "id": "agent-history",
+      "name": "Session History & Resume",
+      "newCategory": true,
+      "changed": true,
+      "beforeCount": 0,
+      "matchedCount": 11,
+      "qualifiedCount": 2,
+      "beforeWinner": null,
+      "afterWinner": {
+        "id": "sid.sessions",
+        "name": "Session Browser",
+        "score": 0.832285
+      },
+      "beforeRunnerUp": null,
+      "afterRunnerUp": {
+        "id": "anagrius.resume",
+        "name": "Resume AI Session",
+        "score": 0.47098
+      }
+    },
+    {
+      "id": "ai-chat",
+      "name": "AI Chat",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 33,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "io.github.atif-1402.ai-panel",
+        "name": "AI Panel",
+        "score": 0.773842
+      },
+      "afterWinner": {
+        "id": "io.github.atif-1402.ai-panel",
+        "name": "AI Panel",
+        "score": 0.773842
+      },
+      "beforeRunnerUp": {
+        "id": "atzingen.jarvis",
+        "name": "Jarvis",
+        "score": 0.528254
+      },
+      "afterRunnerUp": {
+        "id": "atzingen.jarvis",
+        "name": "Jarvis",
+        "score": 0.528254
+      }
+    },
+    {
+      "id": "ai-api-usage",
+      "name": "AI & API Usage",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 1,
+      "matchedCount": 75,
+      "qualifiedCount": 1,
+      "beforeWinner": {
+        "id": "io.github.viganogabriele.agent-usage-plus",
+        "name": "Agent Usage Plus",
+        "score": 0.706098
+      },
+      "afterWinner": {
+        "id": "io.github.viganogabriele.agent-usage-plus",
+        "name": "Agent Usage Plus",
+        "score": 0.706098
+      },
+      "beforeRunnerUp": null,
+      "afterRunnerUp": null
+    },
+    {
+      "id": "smart-home",
+      "name": "Smart Home Controls",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 28,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "hass",
+        "name": "Home Assistant",
+        "score": 0.971697
+      },
+      "afterWinner": {
+        "id": "hass",
+        "name": "Home Assistant",
+        "score": 0.971697
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.amitcpatel.elgato-control",
+        "name": "Elgato Control",
+        "score": 0.308455
+      },
+      "afterRunnerUp": {
+        "id": "io.github.amitcpatel.elgato-control",
+        "name": "Elgato Control",
+        "score": 0.308455
+      }
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 32,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "robzolkos.github",
+        "name": "GitHub",
+        "score": 0.955576
+      },
+      "afterWinner": {
+        "id": "robzolkos.github",
+        "name": "GitHub",
+        "score": 0.955576
+      },
+      "beforeRunnerUp": {
+        "id": "dev.git",
+        "name": "Git",
+        "score": 0.339613
+      },
+      "afterRunnerUp": {
+        "id": "dev.git",
+        "name": "Git",
+        "score": 0.339613
+      }
+    },
+    {
+      "id": "containers",
+      "name": "Container Management",
+      "newCategory": false,
+      "changed": true,
+      "beforeCount": 4,
+      "matchedCount": 23,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "io.github.randazraik.xray",
+        "name": "Omarchy X-Ray",
+        "score": 0.971899
+      },
+      "afterWinner": {
+        "id": "io.github.majkelll.omarchy-docker",
+        "name": "Docker",
+        "score": 0.962608
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.majkelll.omarchy-docker",
+        "name": "Docker",
+        "score": 0.715946
+      },
+      "afterRunnerUp": {
+        "id": "djjeane.docker-monitor",
+        "name": "Docker Monitor",
+        "score": 0.522806
+      }
+    },
+    {
+      "id": "gaming",
+      "name": "Gaming Mode",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 8,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "silvaio.gamemode",
+        "name": "Game Mode Switcher",
+        "score": 0.917594
+      },
+      "afterWinner": {
+        "id": "silvaio.gamemode",
+        "name": "Game Mode Switcher",
+        "score": 0.917594
+      },
+      "beforeRunnerUp": {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss",
+        "score": 0.394294
+      },
+      "afterRunnerUp": {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss",
+        "score": 0.394294
+      }
+    },
+    {
+      "id": "mini-games",
+      "name": "Mini-Games",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 3,
+      "matchedCount": 65,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "slcode777.omagotchi",
+        "name": "Omagotchi",
+        "score": 0.877053
+      },
+      "afterWinner": {
+        "id": "slcode777.omagotchi",
+        "name": "Omagotchi",
+        "score": 0.877053
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.ejuro.blow-off-some-steam",
+        "name": "Blow off some steam",
+        "score": 0.578953
+      },
+      "afterRunnerUp": {
+        "id": "io.github.ejuro.blow-off-some-steam",
+        "name": "Blow off some steam",
+        "score": 0.578953
+      }
+    },
+    {
+      "id": "keybinding-managers",
+      "name": "Keybinding Managers",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 11,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "meviusisback.keybinds",
+        "name": "Keybindings",
+        "score": 0.940206
+      },
+      "afterWinner": {
+        "id": "meviusisback.keybinds",
+        "name": "Keybindings",
+        "score": 0.940206
+      },
+      "beforeRunnerUp": {
+        "id": "davedes.mouse-keybind-settings",
+        "name": "Mouse & Keybind Settings",
+        "score": 0.423018
+      },
+      "afterRunnerUp": {
+        "id": "davedes.mouse-keybind-settings",
+        "name": "Mouse & Keybind Settings",
+        "score": 0.423018
+      }
+    },
+    {
+      "id": "shortcut-guides",
+      "name": "Shortcut Learning",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 3,
+      "matchedCount": 16,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "fkcodes.key-promoter",
+        "name": "Omarchy Key Promoter",
+        "score": 0.791512
+      },
+      "afterWinner": {
+        "id": "fkcodes.key-promoter",
+        "name": "Omarchy Key Promoter",
+        "score": 0.791512
+      },
+      "beforeRunnerUp": {
+        "id": "huacnlee.which-key",
+        "name": "Which Key",
+        "score": 0.587743
+      },
+      "afterRunnerUp": {
+        "id": "huacnlee.which-key",
+        "name": "Which Key",
+        "score": 0.587743
+      }
+    },
+    {
+      "id": "translation",
+      "name": "Translation",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 16,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "b7s.googletranslate",
+        "name": "Google Translate",
+        "score": 0.722374
+      },
+      "afterWinner": {
+        "id": "b7s.googletranslate",
+        "name": "Google Translate",
+        "score": 0.722374
+      },
+      "beforeRunnerUp": {
+        "id": "jankeesvw.text-transform",
+        "name": "Text Transform",
+        "score": 0.522557
+      },
+      "afterRunnerUp": {
+        "id": "jankeesvw.text-transform",
+        "name": "Text Transform",
+        "score": 0.522557
+      }
+    },
+    {
+      "id": "dictionary",
+      "name": "Word Definitions",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 13,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "tristonarmstrong.dictionary",
+        "name": "Dictionary",
+        "score": 0.949937
+      },
+      "afterWinner": {
+        "id": "tristonarmstrong.dictionary",
+        "name": "Dictionary",
+        "score": 0.949937
+      },
+      "beforeRunnerUp": {
+        "id": "dlpwaters.thesaurus",
+        "name": "Dictionary & Thesaurus",
+        "score": 0.301156
+      },
+      "afterRunnerUp": {
+        "id": "dlpwaters.thesaurus",
+        "name": "Dictionary & Thesaurus",
+        "score": 0.301156
+      }
+    },
+    {
+      "id": "prayer-times",
+      "name": "Prayer Times",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 19,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "local.prayer-times",
+        "name": "Prayer times",
+        "score": 0.914111
+      },
+      "afterWinner": {
+        "id": "local.prayer-times",
+        "name": "Prayer times",
+        "score": 0.914111
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.salemsayed.omaprayers",
+        "name": "OmaPrayers",
+        "score": 0.358739
+      },
+      "afterRunnerUp": {
+        "id": "io.github.salemsayed.omaprayers",
+        "name": "OmaPrayers",
+        "score": 0.358739
+      }
+    },
+    {
+      "id": "keyboard-lighting",
+      "name": "Keyboard Lighting",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 33,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "io.github.anes-03.keyboard-brightness",
+        "name": "Keyboard Brightness",
+        "score": 0.826457
+      },
+      "afterWinner": {
+        "id": "io.github.anes-03.keyboard-brightness",
+        "name": "Keyboard Brightness",
+        "score": 0.826457
+      },
+      "beforeRunnerUp": {
+        "id": "tedwester.legion",
+        "name": "Legion Toolkit",
+        "score": 0.52737
+      },
+      "afterRunnerUp": {
+        "id": "tedwester.legion",
+        "name": "Legion Toolkit",
+        "score": 0.52737
+      }
+    },
+    {
+      "id": "keyboard-layouts",
+      "name": "Keyboard Layout Switching",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 26,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "jesusarchive.keyboard-layout-switcher",
+        "name": "Keyboard Layout Switcher",
+        "score": 0.816978
+      },
+      "afterWinner": {
+        "id": "jesusarchive.keyboard-layout-switcher",
+        "name": "Keyboard Layout Switcher",
+        "score": 0.816978
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.ilyazar.keyboard-layout",
+        "name": "Keyboard Layout Pulse",
+        "score": 0.516773
+      },
+      "afterRunnerUp": {
+        "id": "io.github.ilyazar.keyboard-layout",
+        "name": "Keyboard Layout Pulse",
+        "score": 0.516773
+      }
+    },
+    {
+      "id": "file-search",
+      "name": "File Search",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 4,
+      "matchedCount": 15,
+      "qualifiedCount": 4,
+      "beforeWinner": {
+        "id": "jesseburlamaque.omarchy-find",
+        "name": "Omarchy Find",
+        "score": 0.896588
+      },
+      "afterWinner": {
+        "id": "jesseburlamaque.omarchy-find",
+        "name": "Omarchy Find",
+        "score": 0.896588
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.maajix.spotlight",
+        "name": "Spotlight",
+        "score": 0.826559
+      },
+      "afterRunnerUp": {
+        "id": "io.github.maajix.spotlight",
+        "name": "Spotlight",
+        "score": 0.826559
+      }
+    },
+    {
+      "id": "file-sync",
+      "name": "File Synchronization",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 4,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "io.github.ilyazar.syncthing",
+        "name": "Syncthing",
+        "score": 0.993667
+      },
+      "afterWinner": {
+        "id": "io.github.ilyazar.syncthing",
+        "name": "Syncthing",
+        "score": 0.993667
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.vitorpacheco.mega",
+        "name": "MEGA Sync",
+        "score": 0.378111
+      },
+      "afterRunnerUp": {
+        "id": "io.github.vitorpacheco.mega",
+        "name": "MEGA Sync",
+        "score": 0.378111
+      }
+    },
+    {
+      "id": "feed-readers",
+      "name": "RSS & News Readers",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 20,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "io.github.sanjyay.rss-reeder",
+        "name": "RSS-Reeder",
+        "score": 0.630698
+      },
+      "afterWinner": {
+        "id": "io.github.sanjyay.rss-reeder",
+        "name": "RSS-Reeder",
+        "score": 0.630698
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.alejandro-llanes.news",
+        "name": "News",
+        "score": 0.617058
+      },
+      "afterRunnerUp": {
+        "id": "io.github.alejandro-llanes.news",
+        "name": "News",
+        "score": 0.617058
+      }
+    },
+    {
+      "id": "sports-scores",
+      "name": "Sports Scores",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 37,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "devbook.futbar",
+        "name": "FutBar",
+        "score": 0.945996
+      },
+      "afterWinner": {
+        "id": "devbook.futbar",
+        "name": "FutBar",
+        "score": 0.945996
+      },
+      "beforeRunnerUp": {
+        "id": "sportsbar",
+        "name": "Sportsbar",
+        "score": 0.370846
+      },
+      "afterRunnerUp": {
+        "id": "sportsbar",
+        "name": "Sportsbar",
+        "score": 0.370846
+      }
+    },
+    {
+      "id": "endpoint-monitoring",
+      "name": "Endpoint & Service Monitoring",
+      "newCategory": true,
+      "changed": true,
+      "beforeCount": 0,
+      "matchedCount": 19,
+      "qualifiedCount": 3,
+      "beforeWinner": null,
+      "afterWinner": {
+        "id": "io.github.dupontbertrand.omastatus",
+        "name": "Omastatus",
+        "score": 0.745341
+      },
+      "beforeRunnerUp": null,
+      "afterRunnerUp": {
+        "id": "daan.uptime-kuma",
+        "name": "Uptime Kuma",
+        "score": 0.625171
+      }
+    },
+    {
+      "id": "service-status",
+      "name": "Service Status & Incidents",
+      "newCategory": true,
+      "changed": true,
+      "beforeCount": 0,
+      "matchedCount": 7,
+      "qualifiedCount": 2,
+      "beforeWinner": null,
+      "afterWinner": {
+        "id": "bottelet.is-it-down",
+        "name": "Is It Down?",
+        "score": 0.897534
+      },
+      "beforeRunnerUp": null,
+      "afterRunnerUp": {
+        "id": "narbs.betterstack",
+        "name": "Better Stack Status",
+        "score": 0.462514
+      }
+    },
+    {
+      "id": "system-updates",
+      "name": "System Updates",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 9,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "dizziee.system-updates",
+        "name": "System Updates",
+        "score": 0.97287
+      },
+      "afterWinner": {
+        "id": "dizziee.system-updates",
+        "name": "System Updates",
+        "score": 0.97287
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.saiiiiiph.update-center",
+        "name": "Update Center",
+        "score": 0.317178
+      },
+      "afterRunnerUp": {
+        "id": "io.github.saiiiiiph.update-center",
+        "name": "Update Center",
+        "score": 0.317178
+      }
+    },
+    {
+      "id": "radio",
+      "name": "Radio",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 28,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "akshar.radio-atlas",
+        "name": "Radio Atlas",
+        "score": 0.935176
+      },
+      "afterWinner": {
+        "id": "akshar.radio-atlas",
+        "name": "Radio Atlas",
+        "score": 0.935176
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.kaibur02.omarchy-world-radio",
+        "name": "World Radio",
+        "score": 0.316884
+      },
+      "afterRunnerUp": {
+        "id": "io.github.kaibur02.omarchy-world-radio",
+        "name": "World Radio",
+        "score": 0.316884
+      }
+    },
+    {
+      "id": "screensavers",
+      "name": "Screensavers",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 34,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "omarchy-undercover",
+        "name": "Omarchy Undercover",
+        "score": 0.936686
+      },
+      "afterWinner": {
+        "id": "omarchy-undercover",
+        "name": "Omarchy Undercover",
+        "score": 0.936686
+      },
+      "beforeRunnerUp": {
+        "id": "brianirish.screensaver",
+        "name": "Screensaver",
+        "score": 0.383019
+      },
+      "afterRunnerUp": {
+        "id": "brianirish.screensaver",
+        "name": "Screensaver",
+        "score": 0.383019
+      }
+    },
+    {
+      "id": "power-menu",
+      "name": "Power & Session",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 13,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "io.github.edgarsilva.power-button",
+        "name": "Power Button",
+        "score": 0.871941
+      },
+      "afterWinner": {
+        "id": "io.github.edgarsilva.power-button",
+        "name": "Power Button",
+        "score": 0.871941
+      },
+      "beforeRunnerUp": {
+        "id": "blackcode.power-menu",
+        "name": "Power Menu",
+        "score": 0.419006
+      },
+      "afterRunnerUp": {
+        "id": "blackcode.power-menu",
+        "name": "Power Menu",
+        "score": 0.419006
+      }
+    },
+    {
+      "id": "plugin-manager",
+      "name": "Plugin Manager",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 25,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "omaplug",
+        "name": "Plugin Manager",
+        "score": 0.979437
+      },
+      "afterWinner": {
+        "id": "omaplug",
+        "name": "Plugin Manager",
+        "score": 0.979437
+      },
+      "beforeRunnerUp": {
+        "id": "b.okomart",
+        "name": "Okomart",
+        "score": 0.344346
+      },
+      "afterRunnerUp": {
+        "id": "b.okomart",
+        "name": "Okomart",
+        "score": 0.344346
+      }
+    },
+    {
+      "id": "firewall",
+      "name": "Firewall Rules",
+      "newCategory": false,
+      "changed": true,
+      "beforeCount": 4,
+      "matchedCount": 5,
+      "qualifiedCount": 3,
+      "beforeWinner": {
+        "id": "io.github.sahzudin.omawall",
+        "name": "Omawall",
+        "score": 0.849332
+      },
+      "afterWinner": {
+        "id": "io.github.sahzudin.omawall",
+        "name": "Omawall",
+        "score": 0.880025
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.chris.snitch",
+        "name": "Snitch",
+        "score": 0.758905
+      },
+      "afterRunnerUp": {
+        "id": "illegalstudio.omarchy-firewall",
+        "name": "Firewall",
+        "score": 0.585024
+      }
+    },
+    {
+      "id": "app-network-blocking",
+      "name": "App Network Blocking",
+      "newCategory": true,
+      "changed": true,
+      "beforeCount": 0,
+      "matchedCount": 1,
+      "qualifiedCount": 1,
+      "beforeWinner": null,
+      "afterWinner": {
+        "id": "io.github.chris.snitch",
+        "name": "Snitch",
+        "score": 0.675844
+      },
+      "beforeRunnerUp": null,
+      "afterRunnerUp": null
+    },
+    {
+      "id": "dev-ports",
+      "name": "Dev Ports",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 21,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "zeru.portwatch",
+        "name": "Port Watch",
+        "score": 0.828079
+      },
+      "afterWinner": {
+        "id": "zeru.portwatch",
+        "name": "Port Watch",
+        "score": 0.828079
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.mich-nduka.omaports",
+        "name": "Omaports",
+        "score": 0.482895
+      },
+      "afterRunnerUp": {
+        "id": "io.github.mich-nduka.omaports",
+        "name": "Omaports",
+        "score": 0.482895
+      }
+    },
+    {
+      "id": "phone-integration",
+      "name": "Phone Integration",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 1,
+      "matchedCount": 13,
+      "qualifiedCount": 1,
+      "beforeWinner": {
+        "id": "omakdeconnect",
+        "name": "OmaKDEConnect",
+        "score": 0.679403
+      },
+      "afterWinner": {
+        "id": "omakdeconnect",
+        "name": "OmaKDEConnect",
+        "score": 0.679403
+      },
+      "beforeRunnerUp": null,
+      "afterRunnerUp": null
+    },
+    {
+      "id": "peripheral-battery",
+      "name": "Peripheral Batteries",
+      "newCategory": false,
+      "changed": false,
+      "beforeCount": 2,
+      "matchedCount": 69,
+      "qualifiedCount": 2,
+      "beforeWinner": {
+        "id": "io.github.r-witz.nothing-ear",
+        "name": "Nothing Audio",
+        "score": 0.927665
+      },
+      "afterWinner": {
+        "id": "io.github.r-witz.nothing-ear",
+        "name": "Nothing Audio",
+        "score": 0.927665
+      },
+      "beforeRunnerUp": {
+        "id": "io.github.69harold69.gadget-batteries",
+        "name": "Gadget Batteries",
+        "score": 0.412714
+      },
+      "afterRunnerUp": {
+        "id": "io.github.69harold69.gadget-batteries",
+        "name": "Gadget Batteries",
+        "score": 0.412714
+      }
+    }
+  ],
+  "proposalCodeRevision": "f92e2f3e7c47bbcc715bece6207eb3dda623536d-dirty",
+  "proposalCodeHashes": {
+    "build/rank.mjs": "f2aa68c498620bf68122ff5910ca4811f624621b22864a6698e7a62825b89d57",
+    "build/classification-audit.mjs": "64d02fb9b026e0c1651db44d5a4f8e2b3c5abc1ce6ec7df9078b847ca9b57c44",
+    "scripts/audit-discovery-recall.mjs": "e1af2fc34981405a0fe9693acbb6906dcafac8424464368397879c2306fd30f7",
+    "scripts/review-evidence.mjs": "d8485518548d8ecd24b5c571402e2bec214aab0482861b7fc16857b6df95ff56",
+    "build/task-fit.mjs": "8f9a4dfa0af64394472a8f35e2be60f0fc649475e878ef931dc9e486922c0fc5",
+    "build/evidence.mjs": "0665019ce4130a685c73df57e6e4a44da45b593fcdab58883effcda75b23995d",
+    "build/methodology.mjs": "598f3bde501a1d3035e9bb5409b810b367681d1632de85a94edb72c6823de8c4",
+    "build/category-migrations.mjs": "041f35b170f5d4b35b0c925c701e69021f582e5391831950320bc2945bb7d4b9",
+    "build/refresh.mjs": "c7c49bc97235609326792a0f66e1a77f3c1e9a9fc8a6afad0b790fcbb266aa29",
+    "build/render.mjs": "5468f103ebbd6c951aa58618a782f12c9f7139ce3e04d8376c82c2a3b3799787",
+    "build/publication-history.mjs": "34ac1b096b8dafaf478ab229f5598768ad8cd7f1faf66a99043369860df7c4a8",
+    "scripts/compare-task-fit.mjs": "69f530c5a8866cb9683876f0bd591446d81822d71e2b9832d6ba31e877949612"
+  },
+  "capture": {
+    "file": "test/fixtures/task-coherence-migration.json.gz",
+    "sha256": "7184a8f5adb73eb2fedc016dad1f58bbe75e66d2da53f630c9863a2d113bb7e4",
+    "catalogCount": 285,
+    "scope": "Lossless ranking projection of every baseline or proposed reviewed plugin. All scored cohorts and scores replay; full-catalog discovery/queue counts require the complete capture."
+  },
+  "cohorts": {
+    "system-monitor": [
+      {
+        "id": "harshith.system-monitor",
+        "name": "System Monitor",
+        "score": 0.817662
+      },
+      {
+        "id": "stappmus.activity-monitor",
+        "name": "Activity Monitor",
+        "score": 0.490874
+      }
+    ],
+    "vpn": [
+      {
+        "id": "io.github.grichard99.omaproton-vpn",
+        "name": "OmaProton VPN",
+        "score": 0.994717
+      },
+      {
+        "id": "jkoestinger.vpn",
+        "name": "VPN",
+        "score": 0.3231
+      }
+    ],
+    "mail": [
+      {
+        "id": "omamail",
+        "name": "Omamail",
+        "score": 0.947977
+      },
+      {
+        "id": "jankeesvw.gmail-inbox",
+        "name": "Gmail Inbox",
+        "score": 0.586396
+      },
+      {
+        "id": "37signals.hey",
+        "name": "HEY",
+        "score": 0.292555
+      }
+    ],
+    "music": [
+      {
+        "id": "crmne.mpris",
+        "name": "Media Controls + Album Art",
+        "score": 0.996213
+      },
+      {
+        "id": "custom.media",
+        "name": "Music Flow",
+        "score": 0.620388
+      },
+      {
+        "id": "bibek.media",
+        "name": "Better Media",
+        "score": 0.362601
+      }
+    ],
+    "music-players": [
+      {
+        "id": "io.github.jeremylanger.omaspotify",
+        "name": "OmaSpotify",
+        "score": 0.822403
+      },
+      {
+        "id": "vornashev.yandex-music",
+        "name": "Yandex Music",
+        "score": 0.642065
+      },
+      {
+        "id": "andreasbylund.jellyfin",
+        "name": "Jellyfin Music",
+        "score": 0.437843
+      }
+    ],
+    "weather": [
+      {
+        "id": "io.github.calebhat.weather",
+        "name": "Detailed Weather",
+        "score": 0.9717
+      },
+      {
+        "id": "ali.iweather",
+        "name": "iWeather",
+        "score": 0.297298
+      }
+    ],
+    "weather-radar": [
+      {
+        "id": "eduardodallecort.weather-radar",
+        "name": "Weather Radar",
+        "score": 0.671311
+      }
+    ],
+    "battery": [
+      {
+        "id": "crmne.omastats",
+        "name": "OmaStats",
+        "score": 0.940927
+      },
+      {
+        "id": "io.github.diegopluna.argus",
+        "name": "Argus",
+        "score": 0.778305
+      },
+      {
+        "id": "patcastle.power",
+        "name": "Power + Battery Health",
+        "score": 0.604595
+      },
+      {
+        "id": "tedwester.legion",
+        "name": "Legion Toolkit",
+        "score": 0.45728
+      },
+      {
+        "id": "aabulkhairov.battery-insights",
+        "name": "Battery Insights",
+        "score": 0.412018
+      }
+    ],
+    "clipboard": [
+      {
+        "id": "io.github.maajix.spotlight",
+        "name": "Spotlight",
+        "score": 0.937885
+      },
+      {
+        "id": "io.github.vuhuy.clipboard-manager",
+        "name": "Clipboard Manager",
+        "score": 0.365628
+      }
+    ],
+    "launcher": [
+      {
+        "id": "evindor.keystroke",
+        "name": "Keystroke",
+        "score": 0.821732
+      },
+      {
+        "id": "tyrsolution.app-launcher",
+        "name": "App Launcher",
+        "score": 0.782266
+      },
+      {
+        "id": "azterisk.menu",
+        "name": "My Omarchy menu",
+        "score": 0.34005
+      }
+    ],
+    "docks": [
+      {
+        "id": "io.github.claudsondouglas.arcdock",
+        "name": "Arc Dock",
+        "score": 0.687759
+      }
+    ],
+    "network": [
+      {
+        "id": "community.network",
+        "name": "Network Manager (with Repeater & Hotspot)",
+        "score": 0.789833
+      },
+      {
+        "id": "angeeeld.omaltbar",
+        "name": "Omaltbar",
+        "score": 0.505587
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "io.github.shivamnarkar47.omarchy-hotspot",
+        "name": "Mobile Hotspot",
+        "score": 0.791862
+      },
+      {
+        "id": "community.network",
+        "name": "Network Manager (with Repeater & Hotspot)",
+        "score": 0.551448
+      }
+    ],
+    "network-diagnostics": [
+      {
+        "id": "crmne.omastats",
+        "name": "OmaStats",
+        "score": 0.816812
+      },
+      {
+        "id": "vitals",
+        "name": "Vitals",
+        "score": 0.510549
+      }
+    ],
+    "bluetooth": [
+      {
+        "id": "ssupt.bluetooth-audio",
+        "name": "Advanced Bluetooth Audio",
+        "score": 0.947878
+      },
+      {
+        "id": "io.github.aryan-techie.bluetooth",
+        "name": "Better Bluetooth",
+        "score": 0.510911
+      },
+      {
+        "id": "angeeeld.omaltbar",
+        "name": "Omaltbar",
+        "score": 0.435413
+      }
+    ],
+    "audio": [
+      {
+        "id": "ssupt.audio-control",
+        "name": "Advanced Audio Control",
+        "score": 0.974071
+      },
+      {
+        "id": "videinfra.omaudiopanel",
+        "name": "omaudiopanel",
+        "score": 0.358045
+      }
+    ],
+    "brightness": [
+      {
+        "id": "crmne.hyprmoncfg",
+        "name": "hyprmoncfg: Multi-Monitor Manager for Omarchy",
+        "score": 0.97808
+      },
+      {
+        "id": "omarchy-display",
+        "name": "Display Settings",
+        "score": 0.45481
+      },
+      {
+        "id": "angeeeld.omaltbar",
+        "name": "Omaltbar",
+        "score": 0.376865
+      }
+    ],
+    "night-light": [
+      {
+        "id": "io.github.deunnis.lacquer",
+        "name": "Omarchy Lacquer",
+        "score": 0.943062
+      },
+      {
+        "id": "omarchy-display",
+        "name": "Display Settings",
+        "score": 0.524101
+      },
+      {
+        "id": "kenny.nightlight",
+        "name": "Night Light",
+        "score": 0.401377
+      }
+    ],
+    "display-monitors": [
+      {
+        "id": "crmne.hyprmoncfg",
+        "name": "hyprmoncfg: Multi-Monitor Manager for Omarchy",
+        "score": 0.97808
+      },
+      {
+        "id": "im0001gt.screens",
+        "name": "Screens",
+        "score": 0.635394
+      },
+      {
+        "id": "io.github.bmontythe3rd.display-manager",
+        "name": "Omarchy Display Manager",
+        "score": 0.284813
+      }
+    ],
+    "notifications": [
+      {
+        "id": "jankeesvw.notification-center",
+        "name": "Notification Center",
+        "score": 0.945844
+      },
+      {
+        "id": "njpatel.omapager",
+        "name": "Omapager",
+        "score": 0.70442
+      },
+      {
+        "id": "shavanced.notification-center",
+        "name": "Notification Center",
+        "score": 0.701189
+      },
+      {
+        "id": "abran-labs.notification-center",
+        "name": "Notification Center",
+        "score": 0.385622
+      },
+      {
+        "id": "apurva.notifications",
+        "name": "My Notifications",
+        "score": 0.285399
+      }
+    ],
+    "lock-screen": [
+      {
+        "id": "io.github.sirjul1337.lock-explorer",
+        "name": "Lock Screen Explorer",
+        "score": 0.980526
+      },
+      {
+        "id": "io.github.smoothpixels.lock-designs",
+        "name": "Lock Designs",
+        "score": 0.552125
+      },
+      {
+        "id": "bibek.lock",
+        "name": "Better Lock",
+        "score": 0.38694
+      }
+    ],
+    "idle-sleep": [
+      {
+        "id": "onlyvishesh.power-manager",
+        "name": "Omarchy Power Manager",
+        "score": 0.882637
+      },
+      {
+        "id": "lgse.sandman",
+        "name": "Sandman",
+        "score": 0.717901
+      },
+      {
+        "id": "halmylyseas.ristretto",
+        "name": "Ristretto",
+        "score": 0.312009
+      }
+    ],
+    "keep-awake": [
+      {
+        "id": "halmylyseas.ristretto",
+        "name": "Ristretto",
+        "score": 0.911299
+      },
+      {
+        "id": "io.github.krongggggg.caffeine",
+        "name": "Caffeine",
+        "score": 0.739464
+      },
+      {
+        "id": "air.auto-cafe",
+        "name": "Auto Cafe",
+        "score": 0.521362
+      },
+      {
+        "id": "ignibyte.stay-awake-sessions",
+        "name": "Stay Awake Sessions",
+        "score": 0.432541
+      }
+    ],
+    "password-manager": [
+      {
+        "id": "io.github.elevate08.qs-bitwarden-cli",
+        "name": "Bitwarden",
+        "score": 0.995068
+      },
+      {
+        "id": "io.github.salemsayed.omawarden",
+        "name": "OmaWarden",
+        "score": 0.352821
+      }
+    ],
+    "calendar": [
+      {
+        "id": "promaa.clock",
+        "name": "Chronica",
+        "score": 0.984596
+      },
+      {
+        "id": "acp.omascribe",
+        "name": "OmaScribe — AI Meeting Notes",
+        "score": 0.331699
+      }
+    ],
+    "desktop-clocks": [
+      {
+        "id": "ubeyidah.omaclock",
+        "name": "OmaClock",
+        "score": 0.667166
+      }
+    ],
+    "world-clocks": [
+      {
+        "id": "io.github.sspaeti.timezones",
+        "name": "Timezones",
+        "score": 0.930973
+      },
+      {
+        "id": "io.github.nimbleaininja.omachron",
+        "name": "Omachron World Clock",
+        "score": 0.369935
+      }
+    ],
+    "timers-alarms": [
+      {
+        "id": "io.github.pjgeutjens.clockwork",
+        "name": "Clockwork",
+        "score": 0.687647
+      }
+    ],
+    "focus": [
+      {
+        "id": "pnkm0nk.omodoro",
+        "name": "Omodoro",
+        "score": 0.804334
+      },
+      {
+        "id": "io.github.pjgeutjens.clockwork",
+        "name": "Clockwork",
+        "score": 0.552497
+      }
+    ],
+    "tasks": [
+      {
+        "id": "io.github.aryan-techie.todoist",
+        "name": "Todoist",
+        "score": 0.973979
+      },
+      {
+        "id": "crmne.todoist",
+        "name": "OmaTasks for Todoist",
+        "score": 0.700408
+      },
+      {
+        "id": "maduki-tech.omado",
+        "name": "Omado",
+        "score": 0.611422
+      },
+      {
+        "id": "luca.obsidian-daily",
+        "name": "Obsidian Daily",
+        "score": 0.555518
+      },
+      {
+        "id": "anishkn.mstodo",
+        "name": "MS To Do",
+        "score": 0.312261
+      }
+    ],
+    "notes": [
+      {
+        "id": "io.github.huligabuliga.omasticky",
+        "name": "Omasticky",
+        "score": 0.93007
+      },
+      {
+        "id": "rperaza.obsidian-notes",
+        "name": "Obsidian Notes",
+        "score": 0.817201
+      },
+      {
+        "id": "io.github.weedwhitesandwine.omascratch",
+        "name": "Omascratch",
+        "score": 0.629426
+      },
+      {
+        "id": "ablanco.notethis",
+        "name": "Have you note-this?",
+        "score": 0.48276
+      },
+      {
+        "id": "acooper.scratchpad",
+        "name": "Scratchpad",
+        "score": 0.352102
+      }
+    ],
+    "screen-time": [
+      {
+        "id": "agx.screen-time",
+        "name": "Screen Time",
+        "score": 0.927844
+      },
+      {
+        "id": "rimuru.screentime",
+        "name": "Screen Time",
+        "score": 0.339668
+      }
+    ],
+    "workspaces": [
+      {
+        "id": "tornikegomareli.spaces",
+        "name": "Spaces",
+        "score": 0.985585
+      },
+      {
+        "id": "mirador",
+        "name": "Mirador",
+        "score": 0.665074
+      },
+      {
+        "id": "aditya.workspace-icons",
+        "name": "Workspace Icons",
+        "score": 0.285737
+      }
+    ],
+    "window-management": [
+      {
+        "id": "expose.window-overview",
+        "name": "Exposé",
+        "score": 0.975283
+      },
+      {
+        "id": "io.github.pablo-merino.altswitch",
+        "name": "Alt-tab switcher",
+        "score": 0.359198
+      }
+    ],
+    "screenshots": [
+      {
+        "id": "chyld.easy-capture",
+        "name": "Easy Capture",
+        "score": 0.66184
+      },
+      {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss",
+        "score": 0.657446
+      }
+    ],
+    "screen-recording": [
+      {
+        "id": "chyld.easy-capture",
+        "name": "Easy Capture",
+        "score": 0.66184
+      },
+      {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss",
+        "score": 0.657446
+      }
+    ],
+    "ocr": [
+      {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss",
+        "score": 0.789234
+      },
+      {
+        "id": "io.github.diyaclanker.omacapture",
+        "name": "Omacapture",
+        "score": 0.524425
+      }
+    ],
+    "wallpaper": [
+      {
+        "id": "io.github.deunnis.lacquer",
+        "name": "Omarchy Lacquer",
+        "score": 0.799535
+      },
+      {
+        "id": "nosignal.motion-wallpaper",
+        "name": "Motion Wallpaper",
+        "score": 0.554928
+      }
+    ],
+    "themes-appearance": [
+      {
+        "id": "gotar.omarchy-themes",
+        "name": "Themes Gallery",
+        "score": 0.820807
+      },
+      {
+        "id": "pretty.omagen",
+        "name": "Omagen",
+        "score": 0.516054
+      }
+    ],
+    "color-picker": [
+      {
+        "id": "io.github.ajanraj.chroma",
+        "name": "Chroma",
+        "score": 0.753481
+      },
+      {
+        "id": "io.github.manateelazycat.color-picker",
+        "name": "Omarchy Color Picker",
+        "score": 0.613111
+      },
+      {
+        "id": "io.github.arcanavox.colorhistory",
+        "name": "Color History",
+        "score": 0.605869
+      },
+      {
+        "id": "loamstudios.contrast",
+        "name": "Contrast",
+        "score": 0.556504
+      }
+    ],
+    "agent-monitoring": [
+      {
+        "id": "meviusisback.agent-orchestr",
+        "name": "Agent Orchestrator",
+        "score": 0.700199
+      }
+    ],
+    "agent-history": [
+      {
+        "id": "sid.sessions",
+        "name": "Session Browser",
+        "score": 0.832285
+      },
+      {
+        "id": "anagrius.resume",
+        "name": "Resume AI Session",
+        "score": 0.47098
+      }
+    ],
+    "ai-chat": [
+      {
+        "id": "io.github.atif-1402.ai-panel",
+        "name": "AI Panel",
+        "score": 0.773842
+      },
+      {
+        "id": "atzingen.jarvis",
+        "name": "Jarvis",
+        "score": 0.528254
+      }
+    ],
+    "ai-api-usage": [
+      {
+        "id": "io.github.viganogabriele.agent-usage-plus",
+        "name": "Agent Usage Plus",
+        "score": 0.706098
+      }
+    ],
+    "smart-home": [
+      {
+        "id": "hass",
+        "name": "Home Assistant",
+        "score": 0.971697
+      },
+      {
+        "id": "io.github.amitcpatel.elgato-control",
+        "name": "Elgato Control",
+        "score": 0.308455
+      }
+    ],
+    "github": [
+      {
+        "id": "robzolkos.github",
+        "name": "GitHub",
+        "score": 0.955576
+      },
+      {
+        "id": "dev.git",
+        "name": "Git",
+        "score": 0.339613
+      }
+    ],
+    "containers": [
+      {
+        "id": "io.github.majkelll.omarchy-docker",
+        "name": "Docker",
+        "score": 0.962608
+      },
+      {
+        "id": "djjeane.docker-monitor",
+        "name": "Docker Monitor",
+        "score": 0.522806
+      },
+      {
+        "id": "abdullahmansoor.omapodman",
+        "name": "OmaPodman",
+        "score": 0.409577
+      }
+    ],
+    "gaming": [
+      {
+        "id": "silvaio.gamemode",
+        "name": "Game Mode Switcher",
+        "score": 0.917594
+      },
+      {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss",
+        "score": 0.394294
+      }
+    ],
+    "mini-games": [
+      {
+        "id": "slcode777.omagotchi",
+        "name": "Omagotchi",
+        "score": 0.877053
+      },
+      {
+        "id": "io.github.ejuro.blow-off-some-steam",
+        "name": "Blow off some steam",
+        "score": 0.578953
+      },
+      {
+        "id": "jankeesvw.omasweeper",
+        "name": "Omasweeper",
+        "score": 0.510144
+      }
+    ],
+    "keybinding-managers": [
+      {
+        "id": "meviusisback.keybinds",
+        "name": "Keybindings",
+        "score": 0.940206
+      },
+      {
+        "id": "davedes.mouse-keybind-settings",
+        "name": "Mouse & Keybind Settings",
+        "score": 0.423018
+      }
+    ],
+    "shortcut-guides": [
+      {
+        "id": "fkcodes.key-promoter",
+        "name": "Omarchy Key Promoter",
+        "score": 0.791512
+      },
+      {
+        "id": "huacnlee.which-key",
+        "name": "Which Key",
+        "score": 0.587743
+      },
+      {
+        "id": "slw.keyarchy",
+        "name": "Keyarchy",
+        "score": 0.546324
+      }
+    ],
+    "translation": [
+      {
+        "id": "b7s.googletranslate",
+        "name": "Google Translate",
+        "score": 0.722374
+      },
+      {
+        "id": "jankeesvw.text-transform",
+        "name": "Text Transform",
+        "score": 0.522557
+      }
+    ],
+    "dictionary": [
+      {
+        "id": "tristonarmstrong.dictionary",
+        "name": "Dictionary",
+        "score": 0.949937
+      },
+      {
+        "id": "dlpwaters.thesaurus",
+        "name": "Dictionary & Thesaurus",
+        "score": 0.301156
+      }
+    ],
+    "prayer-times": [
+      {
+        "id": "local.prayer-times",
+        "name": "Prayer times",
+        "score": 0.914111
+      },
+      {
+        "id": "io.github.salemsayed.omaprayers",
+        "name": "OmaPrayers",
+        "score": 0.358739
+      }
+    ],
+    "keyboard-lighting": [
+      {
+        "id": "io.github.anes-03.keyboard-brightness",
+        "name": "Keyboard Brightness",
+        "score": 0.826457
+      },
+      {
+        "id": "tedwester.legion",
+        "name": "Legion Toolkit",
+        "score": 0.52737
+      }
+    ],
+    "keyboard-layouts": [
+      {
+        "id": "jesusarchive.keyboard-layout-switcher",
+        "name": "Keyboard Layout Switcher",
+        "score": 0.816978
+      },
+      {
+        "id": "io.github.ilyazar.keyboard-layout",
+        "name": "Keyboard Layout Pulse",
+        "score": 0.516773
+      }
+    ],
+    "file-search": [
+      {
+        "id": "jesseburlamaque.omarchy-find",
+        "name": "Omarchy Find",
+        "score": 0.896588
+      },
+      {
+        "id": "io.github.maajix.spotlight",
+        "name": "Spotlight",
+        "score": 0.826559
+      },
+      {
+        "id": "crmne.files",
+        "name": "Files",
+        "score": 0.505456
+      },
+      {
+        "id": "arh.file-picker",
+        "name": "File Picker",
+        "score": 0.271242
+      }
+    ],
+    "file-sync": [
+      {
+        "id": "io.github.ilyazar.syncthing",
+        "name": "Syncthing",
+        "score": 0.993667
+      },
+      {
+        "id": "io.github.vitorpacheco.mega",
+        "name": "MEGA Sync",
+        "score": 0.378111
+      }
+    ],
+    "feed-readers": [
+      {
+        "id": "io.github.sanjyay.rss-reeder",
+        "name": "RSS-Reeder",
+        "score": 0.630698
+      },
+      {
+        "id": "io.github.alejandro-llanes.news",
+        "name": "News",
+        "score": 0.617058
+      }
+    ],
+    "sports-scores": [
+      {
+        "id": "devbook.futbar",
+        "name": "FutBar",
+        "score": 0.945996
+      },
+      {
+        "id": "sportsbar",
+        "name": "Sportsbar",
+        "score": 0.370846
+      }
+    ],
+    "endpoint-monitoring": [
+      {
+        "id": "io.github.dupontbertrand.omastatus",
+        "name": "Omastatus",
+        "score": 0.745341
+      },
+      {
+        "id": "daan.uptime-kuma",
+        "name": "Uptime Kuma",
+        "score": 0.625171
+      },
+      {
+        "id": "io.github.majkelll.omarchy-uptime",
+        "name": "Uptime",
+        "score": 0.533753
+      }
+    ],
+    "service-status": [
+      {
+        "id": "bottelet.is-it-down",
+        "name": "Is It Down?",
+        "score": 0.897534
+      },
+      {
+        "id": "narbs.betterstack",
+        "name": "Better Stack Status",
+        "score": 0.462514
+      }
+    ],
+    "system-updates": [
+      {
+        "id": "dizziee.system-updates",
+        "name": "System Updates",
+        "score": 0.97287
+      },
+      {
+        "id": "io.github.saiiiiiph.update-center",
+        "name": "Update Center",
+        "score": 0.317178
+      }
+    ],
+    "radio": [
+      {
+        "id": "akshar.radio-atlas",
+        "name": "Radio Atlas",
+        "score": 0.935176
+      },
+      {
+        "id": "io.github.kaibur02.omarchy-world-radio",
+        "name": "World Radio",
+        "score": 0.316884
+      }
+    ],
+    "screensavers": [
+      {
+        "id": "omarchy-undercover",
+        "name": "Omarchy Undercover",
+        "score": 0.936686
+      },
+      {
+        "id": "brianirish.screensaver",
+        "name": "Screensaver",
+        "score": 0.383019
+      }
+    ],
+    "power-menu": [
+      {
+        "id": "io.github.edgarsilva.power-button",
+        "name": "Power Button",
+        "score": 0.871941
+      },
+      {
+        "id": "blackcode.power-menu",
+        "name": "Power Menu",
+        "score": 0.419006
+      }
+    ],
+    "plugin-manager": [
+      {
+        "id": "omaplug",
+        "name": "Plugin Manager",
+        "score": 0.979437
+      },
+      {
+        "id": "b.okomart",
+        "name": "Okomart",
+        "score": 0.344346
+      }
+    ],
+    "firewall": [
+      {
+        "id": "io.github.sahzudin.omawall",
+        "name": "Omawall",
+        "score": 0.880025
+      },
+      {
+        "id": "illegalstudio.omarchy-firewall",
+        "name": "Firewall",
+        "score": 0.585024
+      },
+      {
+        "id": "srozen.ufw",
+        "name": "Firewall",
+        "score": 0.450171
+      }
+    ],
+    "app-network-blocking": [
+      {
+        "id": "io.github.chris.snitch",
+        "name": "Snitch",
+        "score": 0.675844
+      }
+    ],
+    "dev-ports": [
+      {
+        "id": "zeru.portwatch",
+        "name": "Port Watch",
+        "score": 0.828079
+      },
+      {
+        "id": "io.github.mich-nduka.omaports",
+        "name": "Omaports",
+        "score": 0.482895
+      }
+    ],
+    "phone-integration": [
+      {
+        "id": "omakdeconnect",
+        "name": "OmaKDEConnect",
+        "score": 0.679403
+      }
+    ],
+    "peripheral-battery": [
+      {
+        "id": "io.github.r-witz.nothing-ear",
+        "name": "Nothing Audio",
+        "score": 0.927665
+      },
+      {
+        "id": "io.github.69harold69.gadget-batteries",
+        "name": "Gadget Batteries",
+        "score": 0.412714
+      }
+    ]
+  }
+}

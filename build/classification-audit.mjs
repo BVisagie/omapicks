@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { CLASSIFICATION_VERSION, METHODOLOGY, classifyPlugin, eligibilityReason, explainClassification, prepareTaxonomy, rankPlugins } from "./rank.mjs";
+import { CLASSIFICATION_VERSION, METHODOLOGY, classifyPlugin, eligibilityReason, explainClassification, prepareTaxonomy, rankPlugins, discoveryCurationStatus } from "./rank.mjs";
 import { prepareTaskReviews } from "./task-fit.mjs";
 
 export const checksum = (value) => createHash("sha256").update(JSON.stringify(value)).digest("hex");
@@ -76,6 +76,7 @@ export function auditClassifications({ catalog, taxonomy, taskReviews = { schema
     counts: { catalog: records.length, eligible: eligible.length, classified: eligible.filter((p) => p.types.length).length, unranked: eligible.filter((p) => !p.types.length).length, assignments: eligible.reduce((n, p) => n + p.types.length, 0), changed: changes.length + removed.length, unresolved: unresolved.length },
     ...(reviewed ? { taskQualification: { qualified: records.reduce((n, p) => n + p.evidence.filter((e) => e.accepted && e.taskFit?.qualified).length, 0), pending: reviewQueue.length }, reviewQueue } : {}),
     changes: [...changes, ...removed], newListings, unresolved, rankingComparison, picks, records,
+    discoveryCuration: discoveryCurationStatus(catalog, prepared),
     state: { schemaVersion: 1, classificationVersion, generatedAt: now.toISOString(), taxonomyHash: checksum(taxonomy), plugins: records.map(({ id, name, metadataHash, types }) => ({ id, name, metadataHash, types })) }
   };
 }
@@ -97,6 +98,12 @@ export function renderClassificationAudit(report) {
   const lines = ["# Category eligibility audit", "", `${c.catalog} listings; ${c.eligible} eligible; ${c.classified} classified; ${c.unranked} unranked; ${c.assignments} discovered assignments. Eligibility and picks use methodology ${escape(report.methodologyVersion ?? "1.0.0")}.`, "",
     `${c.changed} changed listings; ${c.unresolved} assignments held for review. Comparison: ${report.comparison}.`, "",
     "Decisions are reproducible rule evaluations, not a claim of manual review of every repository. report.json contains each listing's accepted and rejected evidence, every published pick, and all membership changes. Unresolved assignments do not compete.", ""];
+  if (report.discoveryCuration) {
+    const d = report.discoveryCuration;
+    lines.push("## Listing-specific discovery decisions", "", `${d.activeIncludes} active inclusions; ${d.activeExcludes} active exclusions; ${d.expired.length} expired records requiring cleanup or review. These records do not grant recommendation qualification.`, "");
+    for (const row of d.expired) lines.push(`- ${escape(row.pluginId)} / ${escape(row.typeId)} (${escape(row.action)}): ${escape(row.reason)}.`);
+    lines.push("");
+  }
   if (report.rankingComparison) {
     lines.push("## Category and pick changes", "", "| Category | Candidates before → after | Champion before → after | Runner-up before → after |", "| --- | --- | --- | --- |");
     for (const t of report.rankingComparison) if (t.beforeCount !== t.afterCount || t.beforeWinner !== t.afterWinner || t.beforeRunnerUp !== t.afterRunnerUp) lines.push(`| ${escape(t.typeId)} | ${t.beforeCount} → ${t.afterCount} | ${escape(t.beforeWinner ?? "none")} → ${escape(t.afterWinner ?? "none")} | ${escape(t.beforeRunnerUp ?? "none")} → ${escape(t.afterRunnerUp ?? "none")} |`);

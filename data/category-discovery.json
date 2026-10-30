@@ -443,6 +443,49 @@
         "github.com/omarchy-qol/syncshell",
         "github.com/vitorpacheco/omarchy-mega"
       ]
+    },
+    {
+      "id": "editorial:task-coherence-2026-10-30",
+      "status": "accepted",
+      "reason": "Corrective migration of existing task boundaries, not expansion justified by lexical breadth. Separate incompatible outcomes and require concrete shared operations. Sparse reviewed shortlists are allowed; no source or prerequisite gate is waived. See docs/methodology-1.4.0.md and docs/analysis/2026-10-30-category-audit.json.",
+      "repositories": [
+        "github.com/ACooperDev/Scratchpad",
+        "github.com/AngeeelD/omaltbar",
+        "github.com/Bottelet/omarchy-is-it-down",
+        "github.com/Guneshbari/omarchy-network",
+        "github.com/Harshith292002/omarchy-system-monitor",
+        "github.com/LucaNerlich/obsidian-daily-qs",
+        "github.com/Majkelll/omarchy-docker",
+        "github.com/Nexus-Agni/omarchy-diskspace",
+        "github.com/RandaZraik/omarchy-xray",
+        "github.com/SirJul1337/omarchy-lock-explorer",
+        "github.com/Sudhanshugtm/omarchy-session-browser",
+        "github.com/alivault/iweather",
+        "github.com/andresblancomorales/have-you-note-this",
+        "github.com/calebhat/omarchy-weather",
+        "github.com/ccdwyer/omarchy-snitch",
+        "github.com/crmne/omarchy-mpris",
+        "github.com/devgtv/omarchy-docker",
+        "github.com/djjeane/omarchy-docker-plugin",
+        "github.com/dupontbertrand/omastatus",
+        "github.com/eduardodallecort/omarchy-weather-radar",
+        "github.com/huligabuliga/Omasticky",
+        "github.com/i228808/omapodman",
+        "github.com/illegalstudio/omarchy-firewall",
+        "github.com/jitendradara12/omaconnect",
+        "github.com/joisephdev/omarchy-obsidian",
+        "github.com/meviusisback/agent-orchestr",
+        "github.com/onlyVishesh/omarchy-power-manager",
+        "github.com/sahzudin/omawall",
+        "github.com/shivamnarkar47/omarchy-hotspot",
+        "github.com/srozen/omarchy-ufw",
+        "github.com/sspaeti/omarchy-timezones-plugin",
+        "github.com/ssupt/omarchy-audio-control",
+        "github.com/ssupt/omarchy-bluetooth-audio",
+        "github.com/stappmus/omarchy-activity-monitor",
+        "github.com/ubeyidah/omaclock",
+        "github.com/weedwhitesandwine/omascratch"
+      ]
     }
   ]
 }

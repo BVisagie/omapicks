@@ -1754,6 +1754,38 @@ kbd {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.podium.single-option,
+.showdown-pair.single-option {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 48rem;
+  margin-inline: auto;
+}
+
+.shortlist-note {
+  color: var(--muted);
+  margin-block: 1.2rem;
+}
+
+.shortlist-empty {
+  padding: clamp(1.2rem, 3vw, 2rem);
+  border-style: dashed;
+}
+
+.shortlist-empty p,
+.category-bridge p {
+  color: var(--muted);
+}
+
+.category-bridge .category-grid {
+  margin-block: 1.8rem;
+}
+
+.category-corrections {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
 .pick-card {
   display: flex;
   flex-direction: column;

@@ -4,7 +4,7 @@
     {
       "id": "system-monitor",
       "name": "System Monitor",
-      "description": "CPU, memory, temperature, and resource monitoring",
+      "description": "Inspect the computer's CPU and memory usage",
       "include": [
         "\\b(system|resource|hardware|process|activity)[ -]monitor\\b",
         "\\b(?:cpu|gpu|ram|temperature|thermal|disk)[^.]{0,45}\\b(?:stats|usage|load|monitor|readouts?|graphs?|health|consumers|temperatures?|temps|panel)\\b",
@@ -24,14 +24,15 @@
         "\\b(btop|htop|nvtop|system (?:stats|health|monitor))\\b",
         "\\b(?:hw monitor|system metrics|ram manager)\\b"
       ],
-      "task": "CPU, memory, temperature, and resource monitoring. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "task": "Inspect the computer's CPU and memory usage. Both host CPU and host memory readings are required. Disk-capacity-only and container-only panels are related specialists; temperatures and process controls are optional.",
       "exclusionScope": "clause",
       "contract": {
-        "version": 1,
-        "outcome": "CPU, memory, temperature, and resource monitoring",
+        "version": 2,
+        "outcome": "Inspect the computer's CPU and memory usage",
         "capabilitySets": [
           [
-            "inspect-resource-usage"
+            "inspect-host-cpu",
+            "inspect-host-memory"
           ]
         ]
       }
@@ -70,18 +71,18 @@
     },
     {
       "id": "mail",
-      "name": "Mail",
-      "description": "Unread mail, inbox, and email shortcuts",
+      "name": "Inbox & Mail Status",
+      "description": "Inspect unread mail and browse an inbox",
       "include": [
         "\\b(e-?mail|mailbox|gmail|imap|thunderbird|fastmail|outlook mail)\\b"
       ],
       "exclude": [
         "\\b(minimap|email (?:address|templates?|signature))\\b"
       ],
-      "task": "Unread mail, inbox, and email shortcuts. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "task": "Inspect unread mail and browse an inbox. All recommendations expose inbox state or messages. Reading full message bodies, composing mail and provider support are stated per app; an inbox widget is not a full email-client recommendation.",
       "contract": {
         "version": 1,
-        "outcome": "Unread mail, inbox, and email shortcuts",
+        "outcome": "Inspect unread mail and browse an inbox",
         "capabilitySets": [
           [
             "read-mail-status"
@@ -92,9 +93,11 @@
     {
       "id": "music",
       "name": "Media Controls",
-      "description": "View now-playing details and control an existing media player",
+      "description": "View and control playback in a media player on this computer",
       "include": [
-        "\\b(?:mpris|playerctl|now[- ]playing|media controls?|music controls?|playback controls?|media widget)\\b"
+        "\\b(?:mpris|now[- ]playing|media controls?|playback controls?|playerctl)\\b",
+        "\\bmusic controls?\\b",
+        "\\breplaces[^.]{0,40}\\bmedia widget\\b"
       ],
       "exclude": [
         "\\b(?:through|via) (?:omarchy.s |the )?media controls\\b"
@@ -102,18 +105,18 @@
       "nameInclude": [
         "\\b(?:media controls|now[- ]playing)\\b"
       ],
-      "task": "View now-playing details and control an existing media player. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "task": "View and control playback in a media player on this computer. Track details and native playback controls for a local player are required. Remote playback on a paired phone is a separate Phone Integration capability.",
       "builtIns": [
         "omarchy.media"
       ],
       "exclusionScope": "clause",
       "contract": {
-        "version": 1,
-        "outcome": "View now-playing details and control an existing media player",
+        "version": 2,
+        "outcome": "View and control playback in a media player on this computer",
         "capabilitySets": [
           [
-            "read-now-playing",
-            "control-playback"
+            "read-local-now-playing",
+            "control-local-playback"
           ]
         ]
       }
@@ -147,26 +150,48 @@
     },
     {
       "id": "weather",
-      "name": "Weather",
-      "description": "Forecasts and current conditions",
+      "name": "Weather Forecasts",
+      "description": "Read current weather conditions and an upcoming forecast",
       "include": [
-        "\\b(weather|forecast|temperature outside|meteo|precipitation)\\b",
-        "\\b(counts? down to rain|rain (starts|begins|expected)|chance of rain|rainfall|rain radar)\\b"
+        "\\b(weather|forecast|temperature outside|meteo|precipitation)\\b"
       ],
       "exclude": [
         "\\b(flight radar|space weather|weathered)\\b",
         "\\b(?:cash forecast|balance forecast|accounting|fullscreen weather overlays|rain and snow that fall over your windows|independent toggles|shader wallpaper)\\b"
       ],
-      "task": "Forecasts and current conditions. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "task": "Read current weather conditions and an upcoming forecast. General conditions and a forecast for the selected location are required. Precipitation radar and satellite passes are separate tasks.",
       "builtIns": [
         "omarchy.weather"
       ],
       "contract": {
-        "version": 1,
-        "outcome": "Forecasts and current conditions",
+        "version": 2,
+        "outcome": "Read current weather conditions and an upcoming forecast",
         "capabilitySets": [
           [
-            "read-weather"
+            "read-current-weather",
+            "read-weather-forecast"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "weather-radar",
+      "name": "Weather Radar",
+      "description": "View a precipitation radar map for a selected location",
+      "include": [
+        "\\b(?:weather radar|rain radar|precipitation radar|radar map|rainviewer)\\b",
+        "\\b(?:animated|interactive|NWS) radar(?: loop)?\\b",
+        "\\bweather[^.]{0,80}\\bradar\\b",
+        "\\b(?:radar and wind maps|views[^.]{0,50}weather[^.]{0,15}radar)\\b"
+      ],
+      "task": "View a precipitation radar map for a selected location. An in-app precipitation radar map is required. General forecasts, satellite-pass predictions and opening another website are separate capabilities.",
+      "exclusionScope": "clause",
+      "contract": {
+        "version": 2,
+        "outcome": "View a precipitation radar map for a selected location",
+        "capabilitySets": [
+          [
+            "view-precipitation-radar"
           ]
         ]
       }
@@ -279,36 +304,57 @@
     {
       "id": "network",
       "name": "Network Connections",
-      "description": "Connect, disconnect and configure Wi-Fi, Ethernet or cellular networks",
+      "description": "Inspect, join and disconnect client network connections",
       "include": [
         "\\b(?:wi-?fi|ethernet|cellular|network|modem) (?:panel|manager|connections?|controls?|settings|list|toggle)\\b",
-        "\\b(?:connect|disconnect|forget|switch|configure|toggle|disable|restore)\\w*[^.;]{0,50}\\b(?:wi-?fi|ethernet|networks?|networking|radio|links?)\\b",
-        "\\b(?:networkmanager|modemmanager|captive portal|dns provider switching|airplane mode)\\b",
-        "\\b(?:share your ethernet|wi-fi ap|wi-fi repeater|mobile hotspot|internet hotspot)\\b"
+        "\\b(?:connect|disconnect|forget|switch|configure|toggle|disable|restore)\\w*[^.;]{0,50}\\b(?:wi-?fi|ethernet|networks?|networking)\\b",
+        "\\b(?:networkmanager|modemmanager|dns provider switching|airplane mode)\\b"
       ],
       "exclude": [
         "\\b(?:social network|neural network|kde connect)\\b"
       ],
       "nameInclude": [],
-      "task": "Connect, disconnect and configure Wi-Fi, Ethernet or cellular networks. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "task": "Inspect, join and disconnect client network connections. Native client connection controls for supported Wi-Fi, Ethernet or cellular networks are required. Hosting a hotspot, toggling radios or operating VPN tunnels alone does not qualify.",
       "builtIns": [
         "omarchy.network"
       ],
       "exclusionScope": "clause",
       "contract": {
-        "version": 1,
-        "outcome": "Connect, disconnect and configure Wi-Fi, Ethernet or cellular networks",
+        "version": 2,
+        "outcome": "Inspect, join and disconnect client network connections",
         "capabilitySets": [
           [
-            "manage-network-connections"
+            "inspect-client-network",
+            "connect-client-network",
+            "disconnect-client-network"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "hotspots",
+      "name": "Hotspots & Internet Sharing",
+      "description": "Start and stop a Wi-Fi hotspot that shares an uplink",
+      "include": [
+        "\\b(?:hotspot|wi-fi (?:repeater|sharing)|wifi (?:repeater|sharing)|internet sharing|wireless access point|concurrent sta\\+ap)\\b"
+      ],
+      "task": "Start and stop a Wi-Fi hotspot that shares an uplink. Both starting and stopping the hotspot are required. Joining an existing network alone does not qualify. Concurrent-client mode, backend setup and radio support must be stated.",
+      "exclusionScope": "clause",
+      "contract": {
+        "version": 2,
+        "outcome": "Start and stop a Wi-Fi hotspot that shares an uplink",
+        "capabilitySets": [
+          [
+            "start-hotspot",
+            "stop-hotspot"
           ]
         ]
       }
     },
     {
       "id": "network-diagnostics",
-      "name": "Network Traffic & Diagnostics",
-      "description": "Measure throughput, latency and connection activity",
+      "name": "Network Traffic",
+      "description": "Read network throughput and connection activity",
       "include": [
         "\\b(?:network|wi-?fi|ethernet|bandwidth|internet|traffic) (?:stats|statistics|traffic|monitor|speed|rates?|throughput|latency|diagnostics|telemetry)\\b",
         "\\b(?:packet loss|public ip|throughput|network latency|speed test|network[^.;]{0,45}stats)\\b",
@@ -323,14 +369,14 @@
       "exclusionScope": "clause",
       "contract": {
         "version": 1,
-        "outcome": "Measure throughput, latency and connection activity",
+        "outcome": "Read network throughput and connection activity",
         "capabilitySets": [
           [
             "inspect-network-activity"
           ]
         ]
       },
-      "task": "Measure throughput, latency and connection activity. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations."
+      "task": "Read network throughput and connection activity. Traffic readings are the shared minimum. Ping, latency tests, packet-loss diagnostics and active connection troubleshooting are optional capabilities requiring their own evidence."
     },
     {
       "id": "bluetooth",
@@ -361,14 +407,12 @@
     },
     {
       "id": "audio",
-      "name": "Audio",
-      "description": "System volume, microphones, audio routing, and headset sound controls",
+      "name": "System Audio",
+      "description": "Adjust output and microphone volume and select audio devices",
       "include": [
-        "\\b(?:audio (?:mixer|controls?|routing|devices?|profiles?|sink|panel|modes?|output)|volume (?:controls?|mixer|sliders?)|microphone (?:controls?|mute|gain|privacy|effects)|noise[- ](?:control|cancell?ing|cancell?ation|suppression)|(?:bluetooth|headset|audio) codecs?|sound output|anc controls?|virtual microphone|stereo (?:reversal|balance)|per-channel volume)\\b",
-        "\\b(?:control|adjust|switch|route|mute|manage)\\w*[^.]{0,40}\\b(?:system volume|audio profiles|microphone|headphones?)\\b",
-        "\\b(?:pipewire|pulseaudio) (?:equalizer|patchbay|audio clock|mixer)\\b",
-        "\\b(?:same audio on two|mutes background browser music)\\b",
-        "\\b(?:headphones? manager|codec selection|audio policies)\\b"
+        "\\b(?:audio|sound|volume) (?:mixer|controls?|panel|routing|manager|switcher)\\b",
+        "\\b(?:microphone|input|output)[^.]{0,45}\\b(?:volume|mute|routing|device|source|sink)\\b",
+        "\\bvolume slider[^.]{0,60}\\b(?:output picker|mixer)\\b"
       ],
       "exclude": [
         "\\b(audiobook|trading volume|price, volume|volume, velocity)\\b",
@@ -379,19 +423,18 @@
         "\\b(?:audio|volume|microphone) (?:controls?|mixer|switcher|panel|priority|gain|effects|master|patchbay)\\b",
         "\\bheadphones? (?:manager|volume|controls?)\\b"
       ],
-      "task": "System volume, microphones, audio routing, and headset sound controls. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "task": "Adjust output and microphone volume and select audio devices. A system mixer with output, microphone and device selection controls is required. Bluetooth pairing, headset codec modes or output selection alone are related capabilities.",
       "builtIns": [
         "omarchy.audio"
       ],
       "contract": {
-        "version": 1,
-        "outcome": "System volume, microphones, audio routing, and headset sound controls",
+        "version": 2,
+        "outcome": "Adjust output and microphone volume and select audio devices",
         "capabilitySets": [
           [
-            "control-system-audio"
-          ],
-          [
-            "configure-headset-audio"
+            "control-output-volume",
+            "control-microphone-volume",
+            "select-audio-devices"
           ]
         ]
       }
@@ -429,7 +472,7 @@
     {
       "id": "night-light",
       "name": "Night Light",
-      "description": "Adjust and schedule computer display color temperature",
+      "description": "Control computer display color temperature for night light",
       "include": [
         "\\b(?:night ?light|blue light|hyprsunset|gammastep|screen temperature)\\b"
       ],
@@ -439,7 +482,7 @@
       "exclusionScope": "clause",
       "contract": {
         "version": 1,
-        "outcome": "Adjust and schedule computer display color temperature",
+        "outcome": "Control computer display color temperature for night light",
         "capabilitySets": [
           [
             "adjust-display-color-temperature"
@@ -449,7 +492,7 @@
           ]
         ]
       },
-      "task": "Adjust and schedule computer display color temperature. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations."
+      "task": "Control computer display color temperature for night light. Native control of the computer display is required. Manual adjustment and automatic scheduling are alternative control modes; each app states which it provides. An incidental mention, preview, transport or status-only integration does not qualify."
     },
     {
       "id": "display-monitors",
@@ -478,8 +521,8 @@
     },
     {
       "id": "notifications",
-      "name": "Notifications",
-      "description": "Notification centers, history, and do-not-disturb",
+      "name": "Notification History & Centers",
+      "description": "Browse and manage desktop notification history",
       "include": [
         "\\bnotification(?:s)? (?:cent(?:er|re)|history|manager|management|daemon|service|inbox|panel|grouping|replacement)\\b",
         "\\b(do[- ]not[- ]disturb|dnd mode|mako)\\b",
@@ -492,14 +535,14 @@
       "exclude": [
         "\\b(kde connect|does not touch the normal notification)\\b"
       ],
-      "task": "Notification centers, history, and do-not-disturb. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "task": "Browse and manage desktop notification history. Reading missed desktop notifications is the shared task. Replacing the notification daemon, do-not-disturb, snooze and delivery rules are optional app-specific capabilities.",
       "builtIns": [
         "omarchy.notifications"
       ],
       "exclusionScope": "clause",
       "contract": {
         "version": 1,
-        "outcome": "Notification centers, history, and do-not-disturb",
+        "outcome": "Browse and manage desktop notification history",
         "capabilitySets": [
           [
             "manage-desktop-notifications"
@@ -508,42 +551,94 @@
       }
     },
     {
-      "id": "lock-idle",
-      "name": "Lock & Idle",
-      "description": "Screen locking, idle behavior, and sleep prevention",
+      "id": "lock-screen",
+      "name": "Lock Screen Appearance",
+      "description": "Apply or customize the interface shown when the session is locked",
       "include": [
-        "\\b(lock screen|screen lock(?:er|ing)?|idle inhibit(?:or|ion)?|idle manager|idle timeout)\\b",
-        "\\b(prevent|disable|inhibit) (?:system )?(sleep|suspend|idle)\\b",
-        "\\b(stay awake|keep awake|no sleep|caffeine|hypridle|hyprlock)\\b",
-        "\\bsession lock\\b",
-        "\\blid[- ](close|action|switch)\\b",
-        "\\bhibernat\\w+",
-        "\\bauto[- ]suspend\\b",
-        "\\b(idle|lock|screensaver)[^.]{0,25}\\btimeouts?\\b",
-        "\\bsleep[- ]after[- ]idle\\b"
+        "\\b(?:lock[- ]screen|screen lock(?:er)?|session lock)\\b",
+        "\\b(?:hyprlock|lock designs?|lock explorer)\\b"
       ],
-      "exclude": [
-        "\\bpassword manager\\b",
-        "\\b(caps lock|rotation lock|screen auto-rotate)\\b",
-        "\\bkeyboard backlight\\b"
-      ],
-      "task": "Screen locking, idle behavior, and sleep prevention. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
-      "builtIns": [
-        "omarchy.lock",
-        "omarchy.idle"
-      ],
+      "task": "Apply or customize the interface shown when the session is locked. Changing the lock-screen presentation is required. A lock-now action, authentication-only helper or idle timer alone does not qualify.",
+      "exclusionScope": "clause",
       "contract": {
-        "version": 1,
-        "outcome": "Screen locking, idle behavior, and sleep prevention",
+        "version": 2,
+        "outcome": "Apply or customize the interface shown when the session is locked",
         "capabilitySets": [
           [
-            "configure-lock-screen"
-          ],
-          [
-            "manage-idle-behavior"
+            "apply-lock-screen-design"
           ]
         ]
-      }
+      },
+      "builtIns": [
+        "omarchy.lock"
+      ],
+      "exclude": [
+        "\\b(?:caps lock|rotation lock|password manager)\\b",
+        "\\b(?:screen lock|lock screen)[^.]{0,15}\\boff and on\\b"
+      ]
+    },
+    {
+      "id": "idle-sleep",
+      "name": "Idle & Sleep Settings",
+      "description": "Configure automatic inactivity timers and the actions they trigger",
+      "include": [
+        "\\b(?:idle|screensaver|auto[- ]lock|sleep|suspend)[^.]{0,40}\\b(?:timeouts?|timers?|timings?|delays?|settings|profiles?|actions?)\\b",
+        "\\b(?:idle manager|hypridle|lid[- ](?:close|actions?|switch)|sleep[- ]after[- ]idle)\\b",
+        "\\b(?:idle power management|idle[- ](?:settings|configuration)|(?:configure|customize)[^.]{0,30}idle)\\b",
+        "\\bidle (?:& |and )?(?:screensaver )?(?:manager|hub)\\b",
+        "\\b(?:manage|configure)\\w*[^.]{0,35}\\bidle (?:behavior|behaviour)\\b",
+        "\\b(?:screensaver|lock|sleep)[^.]{0,30}\\bper (?:power source|source)\\b"
+      ],
+      "task": "Configure automatic inactivity timers and the actions they trigger. Persistent inactivity timing and action settings are required. Lock-screen appearance, manual sleep buttons and a temporary keep-awake switch alone are separate tasks.",
+      "exclusionScope": "clause",
+      "contract": {
+        "version": 2,
+        "outcome": "Configure automatic inactivity timers and the actions they trigger",
+        "capabilitySets": [
+          [
+            "configure-idle-timeouts",
+            "configure-idle-actions"
+          ]
+        ]
+      },
+      "builtIns": [
+        "omarchy.idle"
+      ],
+      "exclude": [
+        "\\b(?:not|never)[^.]{0,65}\\bchange (?:sleep|idle) settings\\b"
+      ]
+    },
+    {
+      "id": "keep-awake",
+      "name": "Keep Awake",
+      "description": "Temporarily pause automatic inactivity actions and restore the normal policy",
+      "include": [
+        "\\b(?:(?:stay(?:s)?|keep(?:s)?)[- ]awake|no[- ]sleep|idle[- ]inhibit(?:or|ion)?|caffeine)\\b",
+        "\\b(?:prevent|disable|inhibit|pause|suppress)\\w*[^.]{0,30}\\b(?:idle|sleep|screensaver|auto[- ]lock)\\b",
+        "\\b(?:keep|hold)[^.]{0,40}\\b(?:screensaver|lock screen|sleep)[^.]{0,15}\\boff\\b",
+        "\\bkeeps? (?:the |your )?(?:(?:omarchy )?(?:computer|machine|desktop|laptop|system)s? )?awake\\b",
+        "\\b(?:toggle|switch)\\w*[^.]{0,65}\\b(?:screensaver|idle (?:screen )?lock)[^.]{0,25}\\boff and on\\b",
+        "\\btoggle whether laptop lid close triggers sleep\\b",
+        "\\bclamshell\\b"
+      ],
+      "task": "Temporarily pause automatic inactivity actions and restore the normal policy. A reversible inactivity hold is required. State whether the hold affects display blanking, locking or sleep; it does not imply prevention of every suspend path. Human caffeine intake and permanent timeout settings alone do not qualify.",
+      "exclusionScope": "clause",
+      "contract": {
+        "version": 2,
+        "outcome": "Temporarily pause automatic inactivity actions and restore the normal policy",
+        "capabilitySets": [
+          [
+            "inhibit-idle",
+            "resume-idle-policy"
+          ]
+        ]
+      },
+      "builtIns": [
+        "omarchy.idle"
+      ],
+      "exclude": [
+        "\\b(?:caffeine intake|caffeine consumption|coffee intake|mg of caffeine|caffeine tracking)\\b"
+      ]
     },
     {
       "id": "password-manager",
@@ -586,61 +681,90 @@
       }
     },
     {
-      "id": "clock-timer",
-      "name": "Clocks & Time Zones",
-      "description": "Read the time and compare time zones",
+      "id": "desktop-clocks",
+      "name": "Desktop Clocks",
+      "description": "Display a persistent clock in the bar or on the desktop",
       "include": [
-        "\\b(?:clock|world time|time zones?|timezone|local time|current time)\\b"
+        "\\b(?:(?:desktop|wallpaper|analog|analogue|digital|binary|swiss|bar|panel|waybar|calendar|local|pixel|fuzzy|word|world|multi-timezone|pinned seven-segment)[ -]clocks?|clock widgets?|desktop time|clock overlay|date/time (?:label|pill)|date and time)\\b",
+        "\\b(?:(?:omarchy|stock|community)(?:.s)? (?:bar )?clock|clock/calendar)\\b",
+        "\\b(?:desktop widgets?|wallpapers?|home screen)\\b[^.]{0,120}\\bclocks?\\b",
+        "\\b(?:overlay|panel|pill|dashboard|shade|nightstand)\\b[^.]{0,70}\\bclock\\b",
+        "\\b(?:sunrise clock|earth clock|clock, calendar|on the clock you)\\b",
+        "\\bworld[- ]clock bar (?:label|pill)\\b",
+        "\\binternet time[^;]{0,25}\\bwidget\\b",
+        "\\bworld clocks?\\b[^.]{0,70}\\b(?:visible|bar (?:pill|label|widget))\\b",
+        "\\bclock (?:with|and) (?:the )?(?:date|calendar|alarms?|weather|time zones?)\\b",
+        "\\bclocks?(?: widgets?)? (?:on|for|in) (?:the |your |my |our |this |an? )?(?:(?!(?:via|from)\\b)[a-z][a-z0-9_-]*[- ]){0,3}(?:desktop|wallpaper|bar|panel|waybar)\\b",
+        "\\bclock with (?:a |the )?world (?:map|globe)\\b",
+        "\\bclocks?\\b[^.;]{0,50}\\b(?:showing|displaying) (?:the )?(?:local time|current time|time of day)\\b"
       ],
-      "exclude": [
-        "\\b(?:clock[- ]speed|focus clock|pomodoro|clockwork|countdown|timer)\\b"
-      ],
-      "nameInclude": [
-        "\\b(?:clock|timezones?|world time)\\b"
-      ],
-      "task": "Read the time and compare time zones. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
-      "exclusionScope": "clause",
+      "task": "Display a persistent clock in the bar or on the desktop. A persistent current-time display in a bar, desktop widget or wallpaper is the shared task; presentation and location are stated per app. A popup-only agenda, lock/saver-only clock, hardware oscillator frequency, fictional stardate or countdown alone does not qualify. A clock for one chosen zone does not establish multi-zone comparison.",
+      "exclusionScope": "sentence",
       "contract": {
-        "version": 1,
-        "outcome": "Read the time and compare time zones",
+        "version": 2,
+        "outcome": "Display a persistent clock in the bar or on the desktop",
         "capabilitySets": [
           [
-            "read-time"
+            "display-desktop-clock"
+          ]
+        ]
+      },
+      "nameInclude": [
+        "\\bclocks?\\b"
+      ],
+      "exclude": [
+        "\\b(?:debt clock|stardate|theme clock|game clock|clock-side|beside the clock|next to the clock)\\b",
+        "^(?![\\s\\S]*(?:\\b(?:desktop|wallpaper|bar|panel|waybar|analog|analogue|digital|binary|swiss|calendar|local|pixel|fuzzy|word)[- ]clocks?\\b|\\b(?:date/time|date and time|time of day|local time|current time)\\b|\\bclocks? (?:with|and) (?:the )?(?:date|calendar|weather|time zones?)\\b|^\\s*(?:an? |the )?clocks?(?: widgets?)? (?:on|in|for) (?:the |your |my |our |this |an? )?(?:omarchy |hyprland )?desktop\\b|^\\s*(?:an? |the )?clocks?\\b[^.;]{0,50}\\bwith (?:the )?(?:date|calendar|weather|time zones?)\\b))[\\s\\S]*\\b(?:CPU|GPU|processors?|oscillators?|(?:over|under)clock(?:ing|ed|s)?|Radeon|NVIDIA|MHz|GHz|(?:core|memory|boost|shader|SM|audio|bus|base|engine)[- ]clocks?|clock (?:offsets?|speeds?|frequenc(?:y|ies)|cycles?))\\b",
+        "^(?![\\s\\S]*(?:\\b(?:desktop|bar|waybar)[- ]clocks?\\b|\\bclocks?(?: widgets?)? (?:on|for|in) (?:the |your |my |our |this |an? )?(?:(?:omarchy|hyprland|top|bottom|left|right|status|system|task)[- ]){0,2}(?:desktop|bar|waybar)\\b|\\bdesktop widgets?\\b[^.]{0,120}\\bclocks?\\b))[\\s\\S]*\\b(?:lock[- ]?screens?|hyprlock|screen[- ]?savers?)\\b"
+      ]
+    },
+    {
+      "id": "world-clocks",
+      "name": "World Clocks & Time Zones",
+      "description": "Read multiple time zones and compare the same moment across them",
+      "include": [
+        "\\b(?:world[- ]clocks?|time[- ]?zones?|world[- ]time)\\b",
+        "\\bclock[^.]{0,90}\\b(?:every location|multiple locations|other cities)\\b",
+        "\\bclock for kids[^.]{0,70}\\bpeople you love\\b"
+      ],
+      "task": "Read multiple time zones and compare the same moment across them. At least two zones with a comparison view are required. A decorative local clock or a single timezone label alone does not complete the task.",
+      "exclusionScope": "clause",
+      "contract": {
+        "version": 2,
+        "outcome": "Read multiple time zones and compare the same moment across them",
+        "capabilitySets": [
+          [
+            "read-multiple-time-zones",
+            "compare-time-zones"
           ]
         ]
       }
     },
     {
       "id": "timers-alarms",
-      "name": "Timers & Alarms",
-      "description": "Run timers, stopwatches and scheduled alarms",
+      "name": "Countdown Timers",
+      "description": "Start and run a configurable countdown timer",
       "include": [
-        "\\b(?:stopwatch|countdown timer|focus timer|pomodoro|alarm clock|alarm manager|timer widget|omodoro)\\b",
-        "\\b(?:set|start|manage|create|runs?)\\w*[^.;]{0,35}\\b(?:timers?|alarms?)\\b"
+        "\\b(?:countdowns?|interval timers?|pomodoro|focus timers?|timers?)\\b"
       ],
       "nameInclude": [
         "\\b(?:timers?|alarms?|pomodoro|omodoro|clockwork)\\b"
       ],
       "exclude": [
-        "\\bon a(?: [\\w-]+)? timer\\b"
+        "\\bon a(?: [\\w-]+)? timer\\b",
+        "\\b(?:per-key timers|SolidTime)\\b"
       ],
       "exclusionScope": "clause",
       "contract": {
-        "version": 1,
-        "outcome": "Run timers, stopwatches and scheduled alarms",
+        "version": 2,
+        "outcome": "Start and run a configurable countdown timer",
         "capabilitySets": [
           [
             "run-timer"
-          ],
-          [
-            "run-stopwatch"
-          ],
-          [
-            "schedule-alarm"
           ]
         ]
       },
-      "task": "Run timers, stopwatches and scheduled alarms. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations."
+      "task": "Start and run a configurable countdown timer. A countdown with a chosen duration is required. Alarm-clock scheduling and count-up stopwatches are optional extras and cannot qualify alone; structured work and break sessions also have a Focus Sessions category."
     },
     {
       "id": "focus",
@@ -681,7 +805,7 @@
     {
       "id": "notes",
       "name": "Notes",
-      "description": "Create notes and retrieve them for reading",
+      "description": "Create free-form notes and retrieve their text for reading",
       "include": [
         "\\b(scratch note|quick[- ]note|sticky notes?|note-?taking|bullet journal|daily notes?|note capture|notepad|note pad|markdown scratchpad|text scratchpad)\\b",
         "\\b(?:write|capture|create|edit|browse|search|manage)\\w*[^.]{0,35}\\bnotes\\b",
@@ -698,14 +822,14 @@
       "nameInclude": [
         "\\b(notes|obsidian)\\b"
       ],
-      "task": "Create notes and retrieve them for reading. Both note capture and retrieval are required. A read-only viewer or launcher alone is related; task-specific note formats must be disclosed.",
+      "task": "Create free-form notes and retrieve their text for reading. Ordinary text or Markdown note capture and reading are required. A tool limited to checkbox tasks belongs in Task Lists, even when it stores them in a notes application.",
       "contract": {
-        "version": 2,
-        "outcome": "Create notes and retrieve them for reading",
+        "version": 3,
+        "outcome": "Create free-form notes and retrieve their text for reading",
         "capabilitySets": [
           [
-            "capture-notes",
-            "read-notes"
+            "capture-freeform-notes",
+            "read-freeform-notes"
           ]
         ]
       }
@@ -731,7 +855,7 @@
     {
       "id": "workspaces",
       "name": "Workspaces",
-      "description": "Hyprland workspace indicators and navigation",
+      "description": "View workspace state and navigate between workspaces",
       "include": [
         "\\bworkspace (?:indicators?|switcher|overview|names?|navigation|manager|banks|tags|slots|number|icons|switching)\\b",
         "\\b(?:overview|indicators?) (?:of |for )?(?:hyprland )?workspaces\\b",
@@ -746,49 +870,43 @@
       "nameInclude": [
         "\\bworkspaces?\\b"
       ],
-      "task": "Hyprland workspace indicators and navigation. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "task": "View workspace state and navigate between workspaces. Both occupancy or active-state information and workspace navigation are required. Layout geometry controls or status-only indicators are related tools.",
       "builtIns": [
         "omarchy.workspaces"
       ],
       "contract": {
-        "version": 1,
-        "outcome": "Hyprland workspace indicators and navigation",
+        "version": 2,
+        "outcome": "View workspace state and navigate between workspaces",
         "capabilitySets": [
           [
+            "show-workspace-state",
             "navigate-workspaces"
-          ],
-          [
-            "show-workspace-state"
           ]
         ]
       }
     },
     {
       "id": "window-management",
-      "name": "Window Management",
-      "description": "Window switchers, layouts, tiling, and window rules",
+      "name": "Window Switching",
+      "description": "Find an open window and switch focus to it",
       "include": [
-        "\\b(window switcher|window management|window rules?|layout switcher|alt[+-]?tab)\\b",
-        "\\b(workspace|window) overview\\b",
-        "\\bexpos[eé](?!\\w)",
-        "\\boverview of (?:every |all )?(?:open )?windows\\b",
-        "\\b(?:tiling (?:layouts?|area)|window tiling|float every newly opened window|tiling, right-click closes)\\b",
-        "\\b(?:switch(?:es|ing)? windows|minimize hyprland windows)\\b"
+        "\\b(?:window switch(?:er|ing)?|alt[+ -]?tab|window overview|switch(?:es|ing)? windows|window search|window management|workspace overview)\\b",
+        "\\bexpos[eé](?:\\s|$|[,:])",
+        "\\b(?:live window (?:previews|thumbnails)|windows?[^.]{0,30}click to (?:focus|jump)|focus[^.]{0,25}(?:window|column))\\b",
+        "\\bminimize[^.]{0,50}\\bwindows?[^.]{0,70}\\b(?:chips|previews)\\b"
       ],
       "exclude": [
         "\\bkeyboard layouts?\\b",
-        "\\b(?:tutorial|tiling trainer|learn omarchy|raycaster|setup: after installing|tiling terminal)\\b"
+        "\\b(?:tutorial|tiling trainer|learn omarchy|raycaster|setup: after installing|tiling terminal)\\b",
+        "\\b(?:crunchyroll|video|streaming) (?:controller|player)\\b"
       ],
-      "task": "Window switchers, layouts, tiling, and window rules. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "task": "Find an open window and switch focus to it. Native window selection and activation are required. Tiling rules, layouts and other window behavior settings alone are separate tasks.",
       "contract": {
-        "version": 1,
-        "outcome": "Window switchers, layouts, tiling, and window rules",
+        "version": 2,
+        "outcome": "Find an open window and switch focus to it",
         "capabilitySets": [
           [
             "switch-windows"
-          ],
-          [
-            "configure-window-behavior"
           ]
         ]
       }
@@ -796,22 +914,24 @@
     {
       "id": "screenshots",
       "name": "Screen Capture",
-      "description": "Take, annotate and export screenshots",
+      "description": "Capture a screen image and save or export it",
       "include": [
         "\\b(?:screenshot capture|screen capture|screenshot tool|snipping tool|screenshot overlay|take (?:a )?screenshots?|capture[^.;]{0,35}screenshots?|one-click[^.;]{0,25}screenshots?)\\b",
-        "\\bscreenshot and screen[- ]recording overlay\\b"
+        "\\bscreenshot and screen[- ]recording overlay\\b",
+        "\\bscreenshot or record\\b",
+        "\\bcapture (?:your |the )?screen\\b"
       ],
       "exclude": [
         "\\b(?:screenshot history|screenshots taken|screenshot thumbnails|no screen capture)\\b"
       ],
-      "task": "Take, annotate and export screenshots. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "task": "Capture a screen image and save or export it. Image capture and export are required. Annotation, OCR and video recording are additional capabilities rather than guaranteed features.",
       "nameInclude": [
         "\\b(?:screenshot|snip(?:per|ping)?|omashot|omaflameshot|omacapture)\\b"
       ],
       "exclusionScope": "clause",
       "contract": {
         "version": 1,
-        "outcome": "Take, annotate and export screenshots",
+        "outcome": "Capture a screen image and save or export it",
         "capabilitySets": [
           [
             "capture-image",
@@ -825,7 +945,9 @@
       "name": "Screen Recording",
       "description": "Start, stop and save recordings of your screen",
       "include": [
-        "\\b(?:screen[- ]recording|screen recorder|record (?:your |the )?(?:screen|desktop)|gpu-screen-recorder|recording overlay)\\b"
+        "\\b(?:screen[- ]recording|screen recorder|record (?:your |the )?(?:screen|desktop)|gpu-screen-recorder|recording overlay)\\b",
+        "\\brecord (?:regions|apps|monitors)\\b",
+        "\\bscreenshots?[^.]{0,40}\\brecording\\b"
       ],
       "exclude": [
         "\\b(?:recording indicator|recording activity|privacy indicator|no screen capture)\\b"
@@ -933,59 +1055,87 @@
       }
     },
     {
-      "id": "ai-assistant",
-      "name": "Agent Sessions",
-      "description": "Browse, resume, launch and organize coding-agent sessions",
+      "id": "agent-monitoring",
+      "name": "Agent Monitoring",
+      "description": "Inspect running coding agents and focus a local agent session",
       "include": [
-        "\\b(?:ai coding|coding[- ]agent|agent) (?:sessions?|threads?|orchestrator|orchestration)\\b",
-        "\\b(?:browse|resume|launch|manage|organize|orchestrat)\\w*[^.;]{0,70}\\b(?:claude|codex|agent|sessions?)\\b"
+        "\\b(?:coding[- ]agents?|AI[- ]agents?|AI[- ]coding(?:[- ]agents?)?|claude(?: code)?|codex|opencode|hermes|grok|mistral vibe|github copilot|antigravity|herdr|agentsview|omaisessions|Verde agent|Orca agent|agent-deck)\\b[^.]{0,110}\\b(?:monitor|status|tracking|orchestrator|running|activity|sessions?|threads?|attention|working|waiting|blocked|busy|tool executions?|finishes|fails|waits|model/tool activity|request paths)\\b",
+        "\\b(?:sessions?|tool executions?)\\b[^.]{0,90}\\b(?:coding[- ]agents?|AI[- ]agents?|AI[- ]coding(?:[- ]agents?)?|claude(?: code)?|codex|opencode|hermes|grok|mistral vibe|github copilot|antigravity|herdr|agentsview|omaisessions|Verde agent|Orca agent|agent-deck)\\b",
+        "\\b(?:live|busy|working|waiting|blocked)[ -](?:coding[- ]agents?|AI[- ]agents?|claude|codex|herdr|hermes)\\b",
+        "\\blive view\\b[^.]{0,45}\\bagent-browser\\b",
+        "\\blive monitor[^.]{0,60}\\b(?:AI )?coding[- ]agents?\\b"
       ],
-      "exclude": [
-        "\\b(?:quota monitor|usage tracker|memory for|feed notes to)\\b"
-      ],
-      "nameInclude": [
-        "\\b(?:agent orchestrator|session browser|agent threads)\\b"
-      ],
-      "task": "Browse, resume, launch and organize coding-agent sessions. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "task": "Inspect running coding agents and focus a local agent session. Live agent activity and a native action to focus a local running session are required. Reading archived conversations and remote read-only dashboards are different scopes.",
       "exclusionScope": "clause",
       "contract": {
-        "version": 1,
-        "outcome": "Browse, resume, launch and organize coding-agent sessions",
+        "version": 2,
+        "outcome": "Inspect running coding agents and focus a local agent session",
         "capabilitySets": [
           [
-            "manage-agent-sessions"
+            "inspect-running-agents",
+            "focus-running-agent"
+          ]
+        ]
+      },
+      "exclude": [
+        "\\b(?:browse previous sessions|archived conversations?|saved conversation history)\\b",
+        "\\b(?:session limits|usage rings)\\b",
+        "\\blaunch and resume\\b",
+        "\\bkeeps?[^.]{0,45}\\bawake\\b"
+      ]
+    },
+    {
+      "id": "agent-history",
+      "name": "Session History & Resume",
+      "description": "Browse saved coding-agent conversations and resume a selected session",
+      "include": [
+        "\\b(?:coding[- ]agents?|AI[- ]coding(?:[- ]agents?)?|claude(?: code)?|codex|opencode|hermes|grok|mistral vibe|github copilot|antigravity|herdr|agentsview|omaisessions)\\b[^.]{0,180}\\b(?:past|previous|recent|saved|archived|resumable) (?:coding[- ]|agent[- ])?sessions?\\b",
+        "\\b(?:coding[- ]agents?|AI[- ]coding(?:[- ]agents?)?|claude(?: code)?|codex|opencode|hermes|grok|mistral vibe|github copilot|antigravity|herdr|agentsview|omaisessions)\\b[^.]{0,120}\\b(?:session|conversation)[ -](?:history|browser|archive|resumer?)\\b",
+        "\\b(?:resume|restore|browse|search|past|previous|archived)\\b[^.]{0,110}\\b(?:coding[- ]agents?|AI[- ]coding(?:[- ]agents?)?|claude(?: code)?|codex|opencode|hermes|grok|mistral vibe|github copilot|antigravity|herdr|agentsview|omaisessions)\\b[^.]{0,45}\\b(?:sessions?|conversations?)\\b",
+        "\\b(?:coding[- ]agents?|AI[- ]coding(?:[- ]agents?)?|claude(?: code)?|codex|opencode|hermes|grok|mistral vibe|github copilot|antigravity|herdr|agentsview|omaisessions)\\b[^.]{0,180}\\b(?:resume|resumable) (?:any |a |the |selected )?(?:sessions?|conversations?)\\b",
+        "\\b(?:past|previous|recent|saved|archived|resumable) (?:coding[- ]|agent[- ])?sessions?\\b[^.]{0,100}\\b(?:coding[- ]agents?|AI[- ]coding(?:[- ]agents?)?|claude(?: code)?|codex|opencode|hermes|grok|mistral vibe|github copilot|antigravity|herdr|agentsview|omaisessions)\\b",
+        "\\b(?:claude|codex|coding[- ]agent)\\b[^.]{0,50}\\bsessions that aren.t running\\b",
+        "\\bbrowser for\\b[^.;]{0,50}\\b(?:AI coding|coding[- ]agents?|claude(?: code)?|codex|opencode)\\b[^.;]{0,40}\\b(?:sessions?|conversations?)\\b",
+        "\\b(?:herdr|claude(?: code)?|codex|opencode|hermes) (?:agent |session )?resume\\b",
+        "\\b(?:sessions?|conversations?)(?:[ -]history)? browser for\\b[^.;]{0,50}\\b(?:AI coding|coding[- ]agents?|claude(?: code)?|codex|opencode)\\b"
+      ],
+      "task": "Browse saved coding-agent conversations and resume a selected session. Both saved-conversation discovery and targeted resumption are required. Live process monitoring or opening a generic new chat does not complete the task.",
+      "exclusionScope": "clause",
+      "contract": {
+        "version": 2,
+        "outcome": "Browse saved coding-agent conversations and resume a selected session",
+        "capabilitySets": [
+          [
+            "browse-agent-history",
+            "resume-agent-session"
           ]
         ]
       }
     },
     {
       "id": "ai-chat",
-      "name": "AI Chat & Models",
-      "description": "Chat with AI and select or manage local models",
+      "name": "AI Chat",
+      "description": "Ask conversational questions and receive AI responses",
       "include": [
-        "\\b(?:ai chat|ai assistant|chat with an? (?:llm|ai)|ollama (?:service|server|api|status)|provider and model|model launcher|default-agent switching)\\b",
-        "\\b(?:chat|conversation)[^.;]{0,50}\\b(?:ai|claude|codex|agent|llm|ollama)\\b"
-      ],
-      "nameInclude": [
-        "\\b(?:ollama status|ai assistant)\\b"
+        "\\b(?:ai chat|chat (?:panel|sidebar|assistant)|llm chat|ollama chat|voice assistant|conversational ai|chatgpt|jarvis)\\b",
+        "\\b(?:chat|conversation)[^.]{0,70}\\b(?:llm|agents?|ai|assistant|claude|hermes|openrouter)\\b",
+        "\\b(?:ai|llm|agent|hermes|claude)[^.]{0,65}\\b(?:chat|conversation|answers?|responses)\\b",
+        "\\bai assistant\\b"
       ],
       "exclude": [
         "\\b(?:usage monitor|quota monitor|ollama cloud usage)\\b"
       ],
       "exclusionScope": "clause",
       "contract": {
-        "version": 1,
-        "outcome": "Chat with AI and select or manage local models",
+        "version": 2,
+        "outcome": "Ask conversational questions and receive AI responses",
         "capabilitySets": [
           [
             "chat-with-ai"
-          ],
-          [
-            "manage-ai-models"
           ]
         ]
       },
-      "task": "Chat with AI and select or manage local models. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations."
+      "task": "Ask conversational questions and receive AI responses. Native text or voice conversation is required. Installing or administering models without a chat interface is a separate task; agent action permissions must be disclosed."
     },
     {
       "id": "ai-api-usage",
@@ -1017,8 +1167,8 @@
     },
     {
       "id": "smart-home",
-      "name": "Smart Home",
-      "description": "Home automation, lighting, and connected-device controls",
+      "name": "Smart Home Controls",
+      "description": "Control supported connected-home devices",
       "include": [
         "\\b(home assistant|home automation|smart home|homekit|smartthings)\\b",
         "\\b(philips hue|hue lights?|smart lights?|mqtt devices?)\\b",
@@ -1028,10 +1178,10 @@
       "exclude": [
         "\\bturns your monitor into a key light\\b"
       ],
-      "task": "Home automation, lighting, and connected-device controls. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "task": "Control supported connected-home devices. Recommendations must expose native device controls. Match the documented ecosystem and device type to your setup: a supported-light controller does not provide general home automation or control every Home Assistant entity.",
       "contract": {
         "version": 1,
-        "outcome": "Home automation, lighting, and connected-device controls",
+        "outcome": "Control supported connected-home devices",
         "capabilitySets": [
           [
             "control-home-devices"
@@ -1062,8 +1212,8 @@
     },
     {
       "id": "containers",
-      "name": "Containers",
-      "description": "Inspect containers and perform container operations",
+      "name": "Container Management",
+      "description": "List containers and start and stop their workloads",
       "include": [
         "\\b(?:docker|podman|container|containers|kubernetes|k8s)\\b[^.]{0,55}\\b(?:status|manage|control|monitor|start|stop|restart|logs|dashboard|panel|projects|stats)\\b",
         "\\b(?:docker|podman) in the omarchy bar\\b",
@@ -1075,40 +1225,39 @@
       "nameInclude": [
         "\\b(docker|podman|container|containers|kubernetes|k8s)\\b"
       ],
-      "task": "Inspect containers and perform container operations. Both inspection and a native operation are required. Disclose runtime and operation scope; read-only remote dashboards are related.",
+      "task": "List containers and start and stop their workloads. Both start and stop lifecycle operations are required for supported runtimes. Process inspection, restarting a running target or changing resource limits alone are related specialist tasks.",
       "contract": {
-        "version": 2,
-        "outcome": "Inspect containers and perform container operations",
+        "version": 3,
+        "outcome": "List containers and start and stop their workloads",
         "capabilitySets": [
           [
-            "inspect-containers",
-            "manage-containers"
+            "list-containers",
+            "start-containers",
+            "stop-containers"
           ]
         ]
       }
     },
     {
       "id": "gaming",
-      "name": "Gaming",
-      "description": "Game launchers, performance, and gaming status",
+      "name": "Gaming Mode",
+      "description": "Activate gaming desktop settings and restore the normal desktop",
       "include": [
-        "\\b(?:gaming (?:dashboard|mode|hud)|games? launchers?|game mode|gamemode|protondb|steam friends|steam guard|steam trends|steam game launcher|steam(?:os)? (?:host|games)|recently played steam|game sessions)\\b",
-        "\\b(?:launch|play|detect|track|gate)\\w*[^.]{0,40}\\b(?:steam|lutris|gaming|games)\\b"
+        "\\b(?:game mode|gaming mode|gamemode|gaming profile|gaming desktop|gamescope session)\\b",
+        "\\b(?:exclusive gamescope|gamescope[^.]{0,40}session)\\b"
       ],
       "exclude": [
         "\\bshows steam\\b",
         "\\b(?:wallpaper engine|gaming mouse|gaming mice|themed tray|ollama service|workspace indicators)\\b"
       ],
-      "task": "Game launchers, performance, and gaming status. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "task": "Activate gaming desktop settings and restore the normal desktop. A reversible gaming configuration is required. Launching a game or showing gaming status alone does not qualify.",
       "contract": {
-        "version": 1,
-        "outcome": "Game launchers, performance, and gaming status",
+        "version": 2,
+        "outcome": "Activate gaming desktop settings and restore the normal desktop",
         "capabilitySets": [
           [
-            "manage-game-session"
-          ],
-          [
-            "launch-games"
+            "activate-gaming-mode",
+            "restore-desktop-mode"
           ]
         ]
       }
@@ -1165,8 +1314,8 @@
     },
     {
       "id": "shortcut-guides",
-      "name": "Shortcut Guides",
-      "description": "Look up, learn, and visualize keyboard shortcuts",
+      "name": "Shortcut Learning",
+      "description": "Learn available keyboard shortcuts through lookup or coaching",
       "include": [
         "\\b(?:keybind(?:ing)?|keyboard shortcut) (?:lookup|reference|guide|visuali[sz]er|cheat ?sheet|helper|viewer|coach|trainer)\\b",
         "\\b(?:lookup|learn|teach|practice|drill|display|show|visuali[sz]e)(?:s|d|ing)?[^.]{0,50}\\b(?:keybind(?:ing)?s?|keyboard shortcuts?)\\b",
@@ -1176,10 +1325,10 @@
         "\\bshortcut guide\\b",
         "\\bguide (?:for|to)[^.]{0,30}\\b(?:keybind(?:ing)?s?|keyboard shortcuts?)\\b"
       ],
-      "task": "Look up, learn, and visualize keyboard shortcuts. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "task": "Learn available keyboard shortcuts through lookup or coaching. On-demand lookup and after-action coaching are distinct learning modes shown in each option's task explanation. Coaching alone does not establish an on-demand lookup capability; editing bindings belongs in Keybinding Managers.",
       "contract": {
         "version": 1,
-        "outcome": "Look up, learn, and visualize keyboard shortcuts",
+        "outcome": "Learn available keyboard shortcuts through lookup or coaching",
         "capabilitySets": [
           [
             "learn-keybindings"
@@ -1190,7 +1339,7 @@
     {
       "id": "translation",
       "name": "Translation",
-      "description": "Translate selected, clipboard, and on-screen text",
+      "description": "Translate text entered or pasted by the user",
       "include": [
         "\\b(google translate|deepl|quick translate|popup translator|screen translator|screen lens|translation (?:panel|popup|overlay))\\b",
         "\\btranslat(?:e|es|ed|ing|ion|or)[^.]{0,55}\\b(text|screen|clipboard|messages?|locali[sz]ation|selected|highlighted)\\b",
@@ -1199,10 +1348,10 @@
       "exclude": [
         "\\b(qur'?an|ayah|hadith|mushaf)\\b"
       ],
-      "task": "Translate selected, clipboard, and on-screen text. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "task": "Translate text entered or pasted by the user. Native translation of user-provided text is required. Capturing selected or on-screen text and OCR are optional features requiring separate evidence.",
       "contract": {
         "version": 1,
-        "outcome": "Translate selected, clipboard, and on-screen text",
+        "outcome": "Translate text entered or pasted by the user",
         "capabilitySets": [
           [
             "translate-user-text"
@@ -1212,8 +1361,8 @@
     },
     {
       "id": "dictionary",
-      "name": "Dictionary & Thesaurus",
-      "description": "Definitions, synonyms, thesaurus, and word lookup tools",
+      "name": "Word Definitions",
+      "description": "Look up word definitions",
       "include": [
         "\\b(dictionary|thesaurus|wiktionary)\\b",
         "\\b(word definitions?|define selected words?|synonyms?)\\b"
@@ -1221,10 +1370,10 @@
       "exclude": [
         "\\b(dictation|voxtype|speech[- ]to[- ]text)\\b"
       ],
-      "task": "Definitions, synonyms, thesaurus, and word lookup tools. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "task": "Look up word definitions. Definitions are the common task. Synonyms, antonyms, thesaurus features, languages and offline availability are stated per app.",
       "contract": {
         "version": 1,
-        "outcome": "Definitions, synonyms, thesaurus, and word lookup tools",
+        "outcome": "Look up word definitions",
         "capabilitySets": [
           [
             "look-up-word-definitions"
@@ -1272,24 +1421,25 @@
     },
     {
       "id": "keyboard-layouts",
-      "name": "Keyboard Layouts",
-      "description": "Switch, configure, and indicate keyboard input layouts",
+      "name": "Keyboard Layout Switching",
+      "description": "View the active keyboard layout and switch configured layouts",
       "include": [
         "\\bkeyboard (?:language|layout(?:s)?)(?: manager| switcher| picker| indicator| pulse| per[- ]app)?\\b",
         "\\b(?:switch|manage|configure|display|show|remember)(?:s|ed|ing)?[^.]{0,45}\\bkeyboard layouts?\\b",
         "\\binput (?:language|layout)(?: manager| switcher| indicator)?\\b",
         "\\bxkb (?:language\\/)?layouts?\\b"
       ],
-      "task": "Switch, configure, and indicate keyboard input layouts. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "task": "View the active keyboard layout and switch configured layouts. Both active-layout information and switching are required. Editing the underlying input configuration is an optional capability, not the shared task.",
       "builtIns": [
         "omarchy.keyboard-layout"
       ],
       "contract": {
-        "version": 1,
-        "outcome": "Switch, configure, and indicate keyboard input layouts",
+        "version": 2,
+        "outcome": "View the active keyboard layout and switch configured layouts",
         "capabilitySets": [
           [
-            "manage-keyboard-layouts"
+            "read-keyboard-layout",
+            "switch-keyboard-layout"
           ]
         ]
       }
@@ -1297,15 +1447,15 @@
     {
       "id": "file-search",
       "name": "File Search",
-      "description": "Find files with fast filename, fuzzy, and full-text search",
+      "description": "Find local files by filename or path",
       "include": [
         "\\b(file search|search files?|find files?|file finder|full[- ]text file search|fuzzy[- ]find (?:any |your )?files?|fuzzy file (?:selector|picker))\\b",
         "\\b(?:finds|searches) files\\b"
       ],
-      "task": "Find files with fast filename, fuzzy, and full-text search. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "task": "Find local files by filename or path. Finding local files is required. Full-text content search, previews and document extraction are optional features; previews alone do not establish content search.",
       "contract": {
         "version": 1,
-        "outcome": "Find files with fast filename, fuzzy, and full-text search",
+        "outcome": "Find local files by filename or path",
         "capabilitySets": [
           [
             "search-local-files"
@@ -1318,7 +1468,7 @@
       "name": "File Synchronization",
       "description": "Monitor and manage synchronization of folders between devices",
       "include": [
-        "\\b(?:syncthing|folder sync|file synchronization|file sync)\\b"
+        "\\b(?:syncthing|folder syncs?|file synchronization|file sync)\\b"
       ],
       "exclude": [
         "\\b(?:syncthing-synced|backed by markdown)\\b"
@@ -1385,24 +1535,46 @@
       }
     },
     {
-      "id": "uptime-monitoring",
-      "name": "Uptime Monitoring",
-      "description": "Monitor website, service, and endpoint availability",
+      "id": "endpoint-monitoring",
+      "name": "Endpoint & Service Monitoring",
+      "description": "Inspect health checks for user-configured endpoints or services",
       "include": [
-        "\\b(uptime kuma|statuscake|better stack status|site health|uptime monitor)\\b",
-        "\\b(?:website|service|endpoint) monitor(?:ing)?\\b",
-        "\\b(?:monitor|watch|poll)(?:s|ed|ing)?[^.]{0,45}\\b(?:sites?|websites?|endpoints?|status pages?)\\b"
+        "\\b(?:uptime|health checks?|endpoint monitor|service monitor|http monitor|uptime kuma|omakuma)\\b",
+        "\\b(?:monitor|check|probe)\\w*[^.]{0,40}\\b(?:endpoints?|services?|servers?|websites?|http|tcp)\\b",
+        "\\b(?:watch|monitor|check|probe)(?:es|s|ing)?[^.]{0,40}\\b(?:sites?|endpoints?|services?|servers?|websites?|http|tcp)\\b",
+        "\\b(?:instances?|services?|endpoints?)[^.]{0,70}\\b(?:reachable|reachability|health endpoint)\\b",
+        "/health endpoint\\b",
+        "\\b(?:controller|jenkins) health\\b"
       ],
-      "exclude": [
-        "\\b(system uptime|process monitor|system monitor|health[- ]check and repair)\\b"
-      ],
-      "task": "Monitor website, service, and endpoint availability. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "task": "Inspect health checks for user-configured endpoints or services. Checks must target endpoints selected by the user, locally or through a configured monitoring backend. Provider-published status and incident feeds alone are a different task.",
+      "exclusionScope": "clause",
       "contract": {
-        "version": 1,
-        "outcome": "Monitor website, service, and endpoint availability",
+        "version": 2,
+        "outcome": "Inspect health checks for user-configured endpoints or services",
         "capabilitySets": [
           [
-            "read-endpoint-availability"
+            "inspect-configured-target-health"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "service-status",
+      "name": "Service Status & Incidents",
+      "description": "Read provider-published service status and incident reports",
+      "include": [
+        "\\b(?:status pages?|service status|provider status|incidents?(?: reports?)?)\\b",
+        "\\b(?:game|gaming|online) server status\\b",
+        "\\b(?:microsoft 365|office 365|azure|google workspace|aws) service health\\b"
+      ],
+      "task": "Read provider-published service status and incident reports. The app must read provider-reported incidents or degradation information. A local reachability probe or a link that only opens an external status page does not establish incident-reading capability.",
+      "exclusionScope": "clause",
+      "contract": {
+        "version": 2,
+        "outcome": "Read provider-published service status and incident reports",
+        "capabilitySets": [
+          [
+            "read-provider-incidents"
           ]
         ]
       }
@@ -1510,7 +1682,7 @@
     {
       "id": "plugin-manager",
       "name": "Plugin Manager",
-      "description": "Browsing, installing, and managing Omarchy plugins",
+      "description": "Install plugins and manage installed Omarchy plugins",
       "include": [
         "\\bplugin (manager|marketplace|store|storefront|control center|directory)\\b",
         "\\b(browse|install|manage|update|remove|enable|disable)\\b[^.]{0,40}\\bplugins\\b",
@@ -1523,24 +1695,24 @@
         "\\b(security (review|scanner|scan)|capability scan|behavior analysis|source drift)\\b",
         "\\bback ?up\\b"
       ],
-      "task": "Browsing, installing, and managing Omarchy plugins. Complete native task controls may qualify as core or substantial secondary functionality. An incidental mention, preview, transport or status-only integration does not qualify for recommendations.",
+      "task": "Install plugins and manage installed Omarchy plugins. Installation plus native controls for installed plugins are required. Searchable catalogs and catalog coverage are optional features; a link to the marketplace alone is insufficient.",
       "contract": {
-        "version": 1,
-        "outcome": "Browsing, installing, and managing Omarchy plugins",
+        "version": 2,
+        "outcome": "Install plugins and manage installed Omarchy plugins",
         "capabilitySets": [
           [
-            "manage-plugins"
+            "install-plugin",
+            "manage-installed-plugins"
           ]
         ]
       }
     },
     {
       "id": "firewall",
-      "name": "Firewall",
-      "description": "Inspect and manage firewall rules or per-app network blocks",
+      "name": "Firewall Rules",
+      "description": "Inspect, add and remove host network firewall rules",
       "include": [
-        "\\b(firewall|ufw|iptables|nftables)\\b[^.]{0,45}\\b(?:rules?|controls?|manager|toggle|status|panel|allow|block|counters)\\b",
-        "\\boutbound connections?\\b",
+        "\\b(firewall|ufw|iptables|nftables)\\b[^.]{0,45}\\b(?:rules?|controls?|manager|toggle|status|panel|allow|block)\\b",
         "\\b(?:view|manage|control|toggle|configure)\\w*[^.]{0,45}\\b(?:firewall|ufw|nftables|iptables)\\b"
       ],
       "exclude": [
@@ -1551,13 +1723,37 @@
       "nameInclude": [
         "\\b(firewall|ufw|iptables|nftables)\\b"
       ],
-      "task": "Inspect and manage firewall rules or per-app network blocks. Native rule or blocking controls are required. Connection maps and read-only firewall counters alone are related.",
+      "task": "Inspect, add and remove host network firewall rules. Rules operate on host traffic such as addresses, ports or directions. Per-application outbound blocks are a separate task; reading counters alone is insufficient.",
       "contract": {
-        "version": 2,
-        "outcome": "Inspect and manage firewall rules or per-app network blocks",
+        "version": 3,
+        "outcome": "Inspect, add and remove host network firewall rules",
         "capabilitySets": [
           [
-            "manage-firewall"
+            "inspect-host-firewall-rules",
+            "add-host-firewall-rule",
+            "remove-host-firewall-rule"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "app-network-blocking",
+      "name": "App Network Blocking",
+      "description": "Inspect app connections and block or unblock an app's outbound traffic",
+      "include": [
+        "\\b(?:per[- ]app|per[- ]application|app|application)[^.]{0,45}\\b(?:firewall|network blocks?|outbound|block)\\b",
+        "\\b(?:snitch|outbound connection map)\\b"
+      ],
+      "task": "Inspect app connections and block or unblock an app's outbound traffic. App-level blocking and unblocking must be available after documented setup. Monitoring alone, host port rules and provider status information are separate tasks.",
+      "exclusionScope": "clause",
+      "contract": {
+        "version": 3,
+        "outcome": "Inspect app connections and block or unblock an app's outbound traffic",
+        "capabilitySets": [
+          [
+            "inspect-app-connections",
+            "block-app-network",
+            "unblock-app-network"
           ]
         ]
       }
@@ -1643,9 +1839,6 @@
       "io.github.geoochi.theme-sync": [
         "themes-appearance"
       ],
-      "io.github.adibains.manual-backlight-lock": [
-        "lock-idle"
-      ],
       "io.github.randazraik.xray": [
         "system-monitor",
         "containers"
@@ -1656,7 +1849,6 @@
       "angeeeld.omaltbar": [
         "audio",
         "bluetooth",
-        "network",
         "notifications",
         "brightness"
       ],
@@ -1699,8 +1891,8 @@
       "io.github.deunnis.lacquer": [
         "themes-appearance",
         "wallpaper",
-        "lock-idle",
-        "night-light"
+        "night-light",
+        "lock-screen"
       ],
       "io.github.jeremylanger.omaspotify": [
         "music-players"
@@ -1757,13 +1949,16 @@
         "shortcut-guides"
       ],
       "gaius-codius.unifi": [
-        "uptime-monitoring"
+        "endpoint-monitoring",
+        "service-status"
       ],
       "io.github.duketopceo.numbat": [
-        "uptime-monitoring"
+        "endpoint-monitoring",
+        "service-status"
       ],
       "pdaether.ploi": [
-        "uptime-monitoring"
+        "endpoint-monitoring",
+        "service-status"
       ],
       "sterre.keyboard-hud": [
         "keyboard-layouts"
@@ -1857,7 +2052,6 @@
       "angeeeld.omaltbar": {
         "audio": "README runtime dependency table documents native sink selection, Bluetooth toggle/connect, Wi-Fi lists and notification history/DND, beyond merely hosting widgets: https://github.com/AngeeelD/omaltbar (reviewed 2026-09-21).",
         "bluetooth": "README runtime dependency table documents native sink selection, Bluetooth toggle/connect, Wi-Fi lists and notification history/DND, beyond merely hosting widgets: https://github.com/AngeeelD/omaltbar (reviewed 2026-09-21).",
-        "network": "README runtime dependency table documents native sink selection, Bluetooth toggle/connect, Wi-Fi lists and notification history/DND, beyond merely hosting widgets: https://github.com/AngeeelD/omaltbar (reviewed 2026-09-21).",
         "notifications": "README runtime dependency table documents native sink selection, Bluetooth toggle/connect, Wi-Fi lists and notification history/DND, beyond merely hosting widgets: https://github.com/AngeeelD/omaltbar (reviewed 2026-09-21).",
         "brightness": "README documents the native BrightnessState slider and display-brightness write command: https://github.com/AngeeelD/omaltbar (reviewed 2026-10-12)."
       },
@@ -1896,7 +2090,6 @@
         "themes-appearance": "Retained editorial include exception. Catalog evidence: Switch between a light and a dark Omarchy theme on a local-time schedule."
       },
       "io.github.adibains.manual-backlight-lock": {
-        "lock-idle": "Retained editorial include exception. Catalog evidence: The stock Omarchy lock screen, but the keyboard backlight stays under your control: toggles stick while locked.",
         "keyboard-lighting": "Retained editorial exclude exception. Catalog evidence: The stock Omarchy lock screen, but the keyboard backlight stays under your control: toggles stick while locked."
       },
       "monorkin.voyager-disco": {
@@ -1930,13 +2123,16 @@
         "shortcut-guides": "Retained editorial exclude exception. Catalog evidence: Interactive desktop tour for Omarchy. Learn and understand the keyboard, keybindings, shortcuts, tiling windows, workspaces, menu, and bar. Optional window playground to practice tiling with demo windows. Getting-started tutorial and onboarding guide for beginners. Start it by clicking the button \"Tour\" in the bar."
       },
       "gaius-codius.unifi": {
-        "uptime-monitoring": "Retained editorial exclude exception. Catalog evidence: Read-only UniFi Network site health on the Omarchy bar"
+        "endpoint-monitoring": "Retained editorial exclude exception. Catalog evidence: Read-only UniFi Network site health on the Omarchy bar",
+        "service-status": "Retained editorial exclude exception. Catalog evidence: Read-only UniFi Network site health on the Omarchy bar"
       },
       "io.github.duketopceo.numbat": {
-        "uptime-monitoring": "Retained editorial exclude exception. Catalog evidence: AI-agent activity radar: live findings and per-agent visibility from Perplexity's numbat endpoint monitor"
+        "endpoint-monitoring": "Retained editorial exclude exception. Catalog evidence: AI-agent activity radar: live findings and per-agent visibility from Perplexity's numbat endpoint monitor",
+        "service-status": "Retained editorial exclude exception. Catalog evidence: AI-agent activity radar: live findings and per-agent visibility from Perplexity's numbat endpoint monitor"
       },
       "pdaether.ploi": {
-        "uptime-monitoring": "Retained editorial exclude exception. Catalog evidence: ploi.io servers in the Omarchy bar: server health at a glance, a dashboard popup with monitoring sparklines, sites and certificates, and quick actions."
+        "endpoint-monitoring": "Retained editorial exclude exception. Catalog evidence: ploi.io servers in the Omarchy bar: server health at a glance, a dashboard popup with monitoring sparklines, sites and certificates, and quick actions.",
+        "service-status": "Retained editorial exclude exception. Catalog evidence: ploi.io servers in the Omarchy bar: server health at a glance, a dashboard popup with monitoring sparklines, sites and certificates, and quick actions."
       },
       "sterre.keyboard-hud": {
         "keyboard-layouts": "Retained editorial exclude exception. Catalog evidence: On screen key strip and keyboard map for screencasts, stacked in either order and labelled from your actual keyboard layout."
@@ -1999,8 +2195,8 @@
       "io.github.deunnis.lacquer": {
         "themes-appearance": "README documents theme previews, switching, scheduled theme shuffle and appearance controls. Source: https://github.com/Deunnis/omarchy-lacquer (reviewed 2026-09-21).",
         "wallpaper": "README Theme & wallpaper section documents browsing and applying installed theme wallpapers. Source: https://github.com/Deunnis/omarchy-lacquer (reviewed 2026-09-21).",
-        "lock-idle": "README Screens section documents native screensaver and lock idle timing controls, plus lock-explorer integration. Source: https://github.com/Deunnis/omarchy-lacquer (reviewed 2026-09-21).",
-        "night-light": "README Desktop section documents nightlight configuration and scheduling through hyprsunset. Source: https://github.com/Deunnis/omarchy-lacquer (reviewed 2026-09-21)."
+        "night-light": "README Desktop section documents nightlight configuration and scheduling through hyprsunset. Source: https://github.com/Deunnis/omarchy-lacquer (reviewed 2026-09-21).",
+        "lock-screen": "README Screens and lockscreen-color sections document lock-screen presentation controls. Keep as a separate research lead; the stale idle review does not qualify this task. Source: https://github.com/Deunnis/omarchy-lacquer (discovery reviewed 2026-10-30)."
       },
       "io.github.jeremylanger.omaspotify": {
         "music-players": "README documents a complete Spotify music client with library and playback controls: https://github.com/jeremylanger/omaspotify (reviewed 2026-10-12)."
@@ -2046,6 +2242,916 @@
         "radio": "YouTube Music's song-seeded radio creates a music mix, not a live internet station player: https://github.com/TIerTek/omarchy-tektube (reviewed 2026-10-12)."
       }
     },
-    "review": {}
+    "review": {},
+    "discoveryExclude": [
+      {
+        "pluginId": "acrogenesis.ai-account-switcher",
+        "typeId": "agent-monitoring",
+        "listingSha256": "c87075e9d69076287df290b88158882efb5917b212e6f51c321cb0b3f3cf720b",
+        "reason": "Opening isolated coding accounts while preserving active work is account switching, without a session-state view or saved-conversation browser."
+      },
+      {
+        "pluginId": "agy.token-usage",
+        "typeId": "agent-monitoring",
+        "listingSha256": "5bed0f3ef2538d066588c9b3246287add881a2a86f4b8b2f47ed0e0042f4029a",
+        "reason": "Token usage, prompt pace and session metrics describe consumption telemetry rather than running-agent controls or archived conversations."
+      },
+      {
+        "pluginId": "anagrius.resume",
+        "typeId": "agent-monitoring",
+        "listingSha256": "b6225db5a664acc225526807f8cd1e0fe8096cca5575113e5e3b4b6b25b35493",
+        "reason": "The picker explicitly finds past coding conversations and resumes the selected one; no live-agent view is claimed."
+      },
+      {
+        "pluginId": "andreconde.tmux",
+        "typeId": "agent-monitoring",
+        "listingSha256": "bd8cf71a3c7431e51e670749fb68eecb45dd72374694c2f21616668af381a132",
+        "reason": "The panel explicitly reads status from a remote SSH host; a remote read-only viewer is outside the local running-session task."
+      },
+      {
+        "pluginId": "andrewf.keyboard-idle",
+        "typeId": "idle-sleep",
+        "listingSha256": "0de79a908c56508e6cd51241ffb027be7990a1f302d0ba99b2245343b3972e86",
+        "reason": "The idle timeout controls a keyboard backlight, not the host display, lock or sleep policy; peripheral lighting is a different target."
+      },
+      {
+        "pluginId": "ashis.satellite",
+        "typeId": "weather",
+        "listingSha256": "5f9564817e25287bf3114eb94996a1fd3b36ee5b4c20260dbda405183cfc6db1",
+        "reason": "Weather describes the placement of satellite tracking; elevation, azimuth and pass timing do not provide a weather forecast."
+      },
+      {
+        "pluginId": "atsokolas.daily",
+        "typeId": "weather",
+        "listingSha256": "4264a99af726d1055c57139ce838da702ddd0ff844e253fc25a9a17ed4ac3305",
+        "reason": "The newspaper summarizes yesterday's machine activity and weather; it does not claim current conditions or an upcoming forecast view."
+      },
+      {
+        "pluginId": "banan.banansms-monitor",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "07734f69e0f8b874a52cc8ab9c45f7da42384d271ab8dce205a84c622fdea770",
+        "reason": "SMS service limits, message-delivery reports and alerts do not establish endpoint health checks or provider availability incident reports."
+      },
+      {
+        "pluginId": "beforeugone.agents",
+        "typeId": "agent-monitoring",
+        "listingSha256": "a29257b2ff7a8c4b4a5049bd292caa3768d056148fffe06d1abb79427c62be24",
+        "reason": "The ledger aggregates coding usage, limits, costs and tokens by session; it does not claim live-session focus or conversation resumption."
+      },
+      {
+        "pluginId": "bitr0t.system-monitor",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "b1c80e29d1b5014a2e17730de64ce6f19bd95256acc1f9964dfe7b07b62c5e3d",
+        "reason": "Uptime here is host runtime alongside CPU, memory and process statistics; configured endpoint probes and provider incidents are absent."
+      },
+      {
+        "pluginId": "blackcode.omacolorbar",
+        "typeId": "weather",
+        "listingSha256": "7b508b997862cc4f0046b0adb499cb825a248b7d00ea9c919684784777cbb2f6",
+        "reason": "This recolors and hosts existing widgets while preserving their own popups; it does not claim a weather implementation of its own."
+      },
+      {
+        "pluginId": "bottelet.is-it-down",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "a669a1a087875ade78ca1df86e66a3a09d67fc28abe206b6c655e2e36c84ace8",
+        "reason": "Watching third-party status pages belongs to provider incident/status reporting; no configured endpoint probes are described."
+      },
+      {
+        "pluginId": "boundsj.raman",
+        "typeId": "service-status",
+        "listingSha256": "067f250c1cf7d19839302f3102f137afaae3f884e2384c3003a2af52842545c3",
+        "reason": "Incident alerts concern sustained RAM pressure and app resource use, rather than remote service availability or endpoint checks."
+      },
+      {
+        "pluginId": "cittadhammo.languagetool",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "63135c884ddea096523d6e509a9c3634aff1dead893b1c9e0218ea8bf8a3810b",
+        "reason": "Running and controlling a grammar-check server does not itself describe inspection of health checks or provider incident reporting."
+      },
+      {
+        "pluginId": "clouddown.fast-lid",
+        "typeId": "agent-monitoring",
+        "listingSha256": "51359da37c4ece806a1842dc07ed69a288888ca168423a909909cd3d01295b34",
+        "reason": "Keeping agents working by inhibiting lid-close suspend is an awake-hold function, not an interface for agent activity or saved conversations."
+      },
+      {
+        "pluginId": "clouddown.fast-lid",
+        "typeId": "idle-sleep",
+        "listingSha256": "51359da37c4ece806a1842dc07ed69a288888ca168423a909909cd3d01295b34",
+        "reason": "The explicit one-click inhibition of lid-close and idle suspend supports a temporary awake-hold lead, not timer configuration."
+      },
+      {
+        "pluginId": "com.johnicboom.icestream",
+        "typeId": "weather",
+        "listingSha256": "28a033b55c29c1c9a78bf675816d67f274cb9b0c59073fa73767eacc87c2e292",
+        "reason": "This streams weather-radio audio; it does not describe a readable conditions/forecast interface or precipitation map."
+      },
+      {
+        "pluginId": "com.leafbox.swell",
+        "typeId": "weather",
+        "listingSha256": "e5a9fa99a6779c11eb3bc06d135d7775b62303103b30dca56d23a4f7f7bd04a0",
+        "reason": "The interface focuses on wave-buoy swell and period forecasts, without claiming general weather conditions or radar."
+      },
+      {
+        "pluginId": "community.codex-usage",
+        "typeId": "agent-monitoring",
+        "listingSha256": "2a55cf2b65cbb7b3d1ee10bcdc6a754cde2f1e191cff249a0a0944505ceb41b7",
+        "reason": "Session/weekly usage, pace and resets describe Codex quota consumption, without current-agent state or saved-session resumption."
+      },
+      {
+        "pluginId": "costafot.android-dev",
+        "typeId": "screen-recording",
+        "listingSha256": "f4abe53bdd3c55e4864d9c24fe189847ce8b1ca7c3c968be1a2dd0d5bf2a240b",
+        "reason": "Screenshots and recording target Android devices in a developer toolkit; recording the host desktop is not claimed."
+      },
+      {
+        "pluginId": "data-budget",
+        "typeId": "hotspots",
+        "listingSha256": "8219edff4c47287cdda51e9b437404133c5c1e693abb192b2fd64b2e21759878",
+        "reason": "Per-connection data budgets track allowances and usage alerts; they do not join networks or create an internet-sharing hotspot."
+      },
+      {
+        "pluginId": "davedes.omadoctor",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "5d590fd238ff61e8dfe77bb0b2c22c954a2b301d4cc89638f2eafed20c95303e",
+        "reason": "Read-only system/audio/storage diagnostics produce a support report, not health checks for chosen service endpoints or provider incident feeds."
+      },
+      {
+        "pluginId": "dev.egoist.cpu-usage",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "a1983bbf9f45d9034e35c9ef12bb2551095a119b822704693ddc7993df3c02a0",
+        "reason": "The uptime panel is a host CPU/runtime monitor, with no user-configured service probes or published incident information."
+      },
+      {
+        "pluginId": "devmercenario.antigravity",
+        "typeId": "agent-monitoring",
+        "listingSha256": "20eb27e91671606efeea2e8cb71adb5494007bc82dcaf888d52a27911a5f906c",
+        "reason": "Quota reporting, alerts and authentication manage an account; the listing does not describe live coding-agent activity or saved-conversation retrieval."
+      },
+      {
+        "pluginId": "eduardodallecort.weather-radar",
+        "typeId": "weather",
+        "listingSha256": "d5eb8d1933654c19de9bd6e6d6bd75b8e55b683a401ad1e073059acba0944bbd",
+        "reason": "The listing specifically supplies a live radar map and storm alerts, without a general conditions-and-forecast claim."
+      },
+      {
+        "pluginId": "erijl.lock",
+        "typeId": "lock-screen",
+        "listingSha256": "c527dc368acf8fb09afbbcc9d43f657cc1d7584cd4beccc8aaa6c15e874ae2a7",
+        "reason": "FIDO2 enrollment, PAM integration and lock-on-key-removal are authentication/security actions; they do not claim a lock design or timed inactivity policy."
+      },
+      {
+        "pluginId": "gladimdim.ai-limits",
+        "typeId": "agent-monitoring",
+        "listingSha256": "9413964b079c3bb7be5d24f69ea175695a6402f3d9a29b362ab255c3bddf0e58",
+        "reason": "Quota, rate limits and usage bars are consumption telemetry rather than running-session inspection or history/resume controls."
+      },
+      {
+        "pluginId": "glunk.ai-agent",
+        "typeId": "agent-monitoring",
+        "listingSha256": "e2b14daa076410ac96a53618f92e6f71b813437c2371cc483493c357e4f801f6",
+        "reason": "A generic AI-assistant widget and its bar placement do not identify either live coding-session monitoring or saved-conversation resumption."
+      },
+      {
+        "pluginId": "gregmolnar.appsignal",
+        "typeId": "service-status",
+        "listingSha256": "a2fc868311231377f032bc368f17dd9844df51faeb08a66219cf1504003d3784",
+        "reason": "AppSignal incidents and assigned work are not described as configured endpoint health checks or provider-published availability reports."
+      },
+      {
+        "pluginId": "grivera.airwaves",
+        "typeId": "idle-sleep",
+        "listingSha256": "75b358643b217bc2dfab2f40977fb64c96df65c0aab1969fdba991dee162cab5",
+        "reason": "The sleep timer stops internet-radio playback; it does not configure host inactivity actions or hold the computer awake."
+      },
+      {
+        "pluginId": "grivera.omapier",
+        "typeId": "agent-monitoring",
+        "listingSha256": "54d33e03f3eaa2e45034fbdf6926b07cae0641dbeef587437bb6a6f15f40ff32",
+        "reason": "AI agent limits in a dock are quota information; no live coding-session controls or conversation archive are claimed."
+      },
+      {
+        "pluginId": "grivera.spacex",
+        "typeId": "weather",
+        "listingSha256": "7512e7929ffdede770b0c569888c1aa11a72b23a2c46511b5bfd6f30e6461b16",
+        "reason": "Weather is part of a SpaceX launch detail view; no independent current-location forecast is claimed."
+      },
+      {
+        "pluginId": "hakatamike.weather",
+        "typeId": "weather",
+        "listingSha256": "fbbeb805559e592876b9658a37f667c4ed04cbad6916ca685fc3159521d709bf",
+        "reason": "The stated feature is JMA rain radar/nowcast with warnings, rather than a general current-conditions forecast panel."
+      },
+      {
+        "pluginId": "harshith.aura-cycler",
+        "typeId": "weather",
+        "listingSha256": "cd060302f58cc24ead92578e26e337851f39db1456787b988f098ac69fc78689",
+        "reason": "Live weather drives an appearance runtime with atmospheric effects; no weather-reading interface is claimed."
+      },
+      {
+        "pluginId": "heast13.downtime",
+        "typeId": "idle-sleep",
+        "listingSha256": "95ab1a4466fd66fbee2a70457e203b6bc4cf6d0ab51a919cb45917e289c91768",
+        "reason": "The listing names a shutdown timer and screensaver/display actions, without saying they are configured automatic inactivity timers or a reversible awake hold."
+      },
+      {
+        "pluginId": "honor.shutdown-timer",
+        "typeId": "idle-sleep",
+        "listingSha256": "eb9e70ac23739778d29021156ef6587d49afb0d2dd06683958c7efff1473ee25",
+        "reason": "A user-started shutdown countdown is scheduling, not an inactivity-triggered policy or an awake hold."
+      },
+      {
+        "pluginId": "hungmi.battery-session",
+        "typeId": "lock-screen",
+        "listingSha256": "920fe2b1579df67fcf7f336e6884624dc4068c4f52a95d57fba6cbfd4a9254b5",
+        "reason": "This measures awake time in a battery discharge; mentioning suspend and lock in accounting rules does not provide settings for either."
+      },
+      {
+        "pluginId": "ianswope.plex",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "a31c88ce46c7d90e54436d85377e97d1c8f027cc798d002834af646acf8112b8",
+        "reason": "Plex stream and transcoding performance reports describe media workload behavior, without configurable health probes or provider incident reporting."
+      },
+      {
+        "pluginId": "io.github.0800tim.touchbard",
+        "typeId": "weather",
+        "listingSha256": "82587248f8b2e87e764702600b451c51bad00c6994c4b064a4a72b5da1e24943",
+        "reason": "Weather is presented on Apple Touch Bar hardware; the listing does not claim an Omarchy conditions/forecast view on the desktop."
+      },
+      {
+        "pluginId": "io.github.0x1ocean.server-mode",
+        "typeId": "idle-sleep",
+        "listingSha256": "6cee0797e4fc20e820cdabb5cc693d74dd929f34bb6292acecd4edf17d8148eb",
+        "reason": "Preventing sleep/lid-close suspend for remote work and timed sessions suggests an awake hold; idle timeout configuration is not stated."
+      },
+      {
+        "pluginId": "io.github.88srzh.token-monitor",
+        "typeId": "agent-monitoring",
+        "listingSha256": "c1b898a6bc694351153c597f574b9e0c1163cec9ebae533162304aa84b1e4bc4",
+        "reason": "The hub aggregates token usage, spending and account limits; these metrics do not identify running sessions or archived conversations."
+      },
+      {
+        "pluginId": "io.github.alexwest1981.sling",
+        "typeId": "firewall",
+        "listingSha256": "4e3c4e83c1e612bd14f070024a07b9487441961d44d3da7bd8c5475bfd8b6fd5",
+        "reason": "The firewall command is an external prerequisite for QR file sharing; the plugin does not provide firewall administration."
+      },
+      {
+        "pluginId": "io.github.aphelion-studios.omamoodist",
+        "typeId": "idle-sleep",
+        "listingSha256": "26bb1b39b734a49acd1ef8df4266ef70c6ca61e6f6521eb7a47c9b3ab262dd7f",
+        "reason": "The sleep timer belongs to ambient-sound playback, not host inactivity settings or a computer-awake hold."
+      },
+      {
+        "pluginId": "io.github.arthurr0.claude-usage",
+        "typeId": "agent-monitoring",
+        "listingSha256": "0136468dc6f9ad4e29c46fe8f18ce9ee3168e1a198907a6fa3cd5529279b90b7",
+        "reason": "Claude subscription session windows, meters and resets describe usage limits rather than individual coding-conversation state or resumption."
+      },
+      {
+        "pluginId": "io.github.blackscaletech.portalprompt",
+        "typeId": "network",
+        "listingSha256": "dd29c4e42a4c319020f170393c15b5a7705f4442d9ffffc990d08b66284f55aa",
+        "reason": "A captive-portal alert reports limited connectivity but does not join, select or disconnect network connections."
+      },
+      {
+        "pluginId": "io.github.chillboy0101.omarchy-hotspot",
+        "typeId": "network",
+        "listingSha256": "2b1c3fe7fe00f7b991e2c7812ecd81ca0708383720b7e417401bc7f4a9d1b7c2",
+        "reason": "Creating a Wi-Fi access point while retaining the current connection is uplink sharing; it does not establish client-network selection."
+      },
+      {
+        "pluginId": "io.github.clear-built-dev.london-motion",
+        "typeId": "weather",
+        "listingSha256": "b92faf17c15879f4ee9cdc7fb6429df2532bfb80c2d3378404c141a0e7dab059",
+        "reason": "Live weather is an optional input to animated London wallpaper; no conditions/forecast reading panel is described."
+      },
+      {
+        "pluginId": "io.github.crucialjun.aula-sc580",
+        "typeId": "idle-sleep",
+        "listingSha256": "5cefdd7b2c9097714037669b5b41fdcff497261d927294a8b5a55c7275c67a7a",
+        "reason": "The sleep timer configures an AULA mouse peripheral, not the host display/lock/suspend inactivity policy."
+      },
+      {
+        "pluginId": "io.github.daventhedude.omarchief",
+        "typeId": "agent-monitoring",
+        "listingSha256": "35a1f20ad4416fd0b74fbd91e955457343a629471fc828a12bc28478dfd14477",
+        "reason": "The companion conducts its own AI conversations and exposes generic status/settings, without a saved-session picker or existing-agent activity view."
+      },
+      {
+        "pluginId": "io.github.davidboulay.screensaver-lock",
+        "typeId": "lock-screen",
+        "listingSha256": "9f8dd35ef1bd6dbf6038ae0b1ea4475675d4fa82cd63bf8d06bcaafcbc3e7baf",
+        "reason": "Locking when a screensaver is dismissed is an event-triggered security behavior, not idle-timer configuration or applying a lock-screen design."
+      },
+      {
+        "pluginId": "io.github.davidboulay.truenas-apps-watcher",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "eb4d62f980e1adf459ffffed4683bad0ccd8424bd5b099ed0051dac6de078c95",
+        "reason": "The watcher detects and applies app/container upgrades; it does not describe service reachability checks or provider availability incidents."
+      },
+      {
+        "pluginId": "io.github.davidboulay.wifi-login-popup",
+        "typeId": "network",
+        "listingSha256": "84aef18326f6639e3df966db525ffcb517eabe09a8ade6cc6fa912928bb237f6",
+        "reason": "Opening a captive portal's web sign-in page acts after Wi-Fi association; it does not provide client-network selection or hotspot hosting."
+      },
+      {
+        "pluginId": "io.github.dedeanth.andromarchy",
+        "typeId": "app-network-blocking",
+        "listingSha256": "117e4eda87dd2ec737fe94c66e6ba78d1832746cf62dfe1dec6fd85a6194a942",
+        "reason": "Firewall checks are Waydroid setup diagnostics, without native host-rule editing or per-app outbound blocking controls."
+      },
+      {
+        "pluginId": "io.github.dishnicons.plugin-doctor",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "6508e6068251923c850fab67dc4ad090d3c9ed1ff200f285362ed736e07cacab",
+        "reason": "Manifest health checks validate installed plugin metadata; they do not probe service endpoints or consume provider incidents."
+      },
+      {
+        "pluginId": "io.github.dmitry-solomadin.desktop-restore",
+        "typeId": "agent-monitoring",
+        "listingSha256": "9b96c4395d5e2ca41b7b7b362e25a9b503d53fdfb2c81006376bb3d2fdf757d7",
+        "reason": "Saving and restoring named coding-agent sessions is a history/resume lead; source review must distinguish selective conversation resumption from bulk desktop restoration."
+      },
+      {
+        "pluginId": "io.github.duketopceo.numbat",
+        "typeId": "agent-monitoring",
+        "listingSha256": "f70a2f5599dbfb4c97f2ef2e4ba645477e3a13cf4e23a65848a371985458b155",
+        "reason": "The endpoint-monitor radar reports AI activity/findings, without identifying local coding-session focus or a saved-conversation browser."
+      },
+      {
+        "pluginId": "io.github.dzanaga.omarchy-rain-radar-belgium-netherlands-widget",
+        "typeId": "weather",
+        "listingSha256": "144e872621ff289feccf77ed258a1edb6b12e3a898f51e4a3d94e9b37d0126bc",
+        "reason": "The rain-radar name and Buienradar rain forecast support radar review; broader conditions are not claimed."
+      },
+      {
+        "pluginId": "io.github.erikburdett.tokenstats",
+        "typeId": "agent-monitoring",
+        "listingSha256": "b760b8c12fc1bdf5d67ce96223bfb9b2c2583701d2e03d69131919da48713fce",
+        "reason": "A unified resumable Claude/Codex sessions list directly supports saved-session research; token graphs alone do not establish live-agent state."
+      },
+      {
+        "pluginId": "io.github.gmantoha.claude-effort",
+        "typeId": "agent-monitoring",
+        "listingSha256": "bdc5390d15de51d74455dde7aab9c6a26cee52a3267a9eed562a0624e6cadc02",
+        "reason": "The widget changes Claude effort based on usage telemetry; it does not inspect live tasks or browse and resume conversations."
+      },
+      {
+        "pluginId": "io.github.hank-dev.listen",
+        "typeId": "idle-sleep",
+        "listingSha256": "add72cb27df9a0b751df662188ccd419f4cc356e86f80cc3e0611c345c3c02cc",
+        "reason": "The player resumes lectures/audiobooks and has a playback sleep timer; these are media controls rather than computer inactivity policy."
+      },
+      {
+        "pluginId": "io.github.hvo.omarchy-unraid",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "fd83004d30698083861ca05fabe57877821c5a613dad0cd9598d374c3e2660b7",
+        "reason": "Unraid array, disk, container and VM administration does not expressly supply configured service-health checks or provider availability incidents."
+      },
+      {
+        "pluginId": "io.github.iampoul.sysstats",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "e82475a75f386001ae020cba20ef41fe4ee55633fbbaebe43769e46a1948bf26",
+        "reason": "System Stats reports host resources and elapsed uptime, not service endpoint probes or provider incident feeds."
+      },
+      {
+        "pluginId": "io.github.jeremylongshore.listening-post",
+        "typeId": "service-status",
+        "listingSha256": "9e32e287b933722cc76f0d79fa9608fcdbb18b19615cc38d4c122e7480b38e6a",
+        "reason": "A curated AI-news brief can mention incidents and survive outages, but it does not describe provider status reports or configured health checks."
+      },
+      {
+        "pluginId": "io.github.jonathanintheclouds.omabar",
+        "typeId": "weather",
+        "listingSha256": "0dc28cf7f063dff4be88df4ca12d4eed8856eb9fafcd7483ff586410ec5969a8",
+        "reason": "Weather is a feature of MacBook Touch Bar layouts; no desktop weather-reading interface is claimed."
+      },
+      {
+        "pluginId": "io.github.joshuaswarren.remnic",
+        "typeId": "agent-monitoring",
+        "listingSha256": "c21202fb327449da2a921733be743dce395ce41d083ffe2f9be61e82dd839683",
+        "reason": "Memory capture and recall search concern agent knowledge storage, without current work-state/focus controls or a conversation-resume browser."
+      },
+      {
+        "pluginId": "io.github.linus342010.firefox-keep-awake",
+        "typeId": "idle-sleep",
+        "listingSha256": "caf01e583e9117a838cc13b90a7c446a3dd20358ed93f508a4a72b83f4c035de",
+        "reason": "Pausing idle actions during browser media playback is automatic inhibition, not changing idle timeout durations."
+      },
+      {
+        "pluginId": "io.github.linuxg33k76.hey-im-gaming-here",
+        "typeId": "lock-screen",
+        "listingSha256": "181a9e30981c1014ace7ee45462820f2f2517ee293c22becfecf20106508161f",
+        "reason": "The listing explicitly suppresses screensaver and lock during game sessions, which is a conditional awake hold rather than lock-screen appearance."
+      },
+      {
+        "pluginId": "io.github.lunanoir21.flare",
+        "typeId": "agent-monitoring",
+        "listingSha256": "0043491827f46fbec42f484bd32db537abeef1e5184fd4c50c83e3c01f9077ff",
+        "reason": "Flare describes coding-subscription usage, limits and session accounting; it does not advertise live working states or saved-conversation resumption."
+      },
+      {
+        "pluginId": "io.github.martlets.stay-clean",
+        "typeId": "keep-awake",
+        "listingSha256": "1247089dda549936c632454bdeaf94ee4aaebff56dd694cebc0a2e16d4f34cd3",
+        "reason": "The Stay Awake comparison names an input-cleaning lock, not an idle/sleep inhibitor; blocking keyboard and touchscreen events is a different task."
+      },
+      {
+        "pluginId": "io.github.mindows.mib-statuscheck",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "12dc597b246dbf303caa31681e3494dce96a3f71f5c41e4ddb412fefacf8ed11",
+        "reason": "The popup reads ongoing incidents from selected Atlassian Statuspage feeds, directly identifying provider-published status reporting."
+      },
+      {
+        "pluginId": "io.github.minyona.herdr-screensaver",
+        "typeId": "agent-monitoring",
+        "listingSha256": "acf2d3777cd65dea57137fe58f312208458704f199ac6b7bcbf49674b6dbb3b0",
+        "reason": "The screensaver explicitly generates fake agents and a pretend session, rather than observing real running or archived coding sessions."
+      },
+      {
+        "pluginId": "io.github.ngek202.tablet-toggle",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "6029bde0d25c09d5f40232bc31b97c13634a7a2a8a3431cb4a9171c5b75e6bf9",
+        "reason": "The health check diagnoses tablet-mode integration and its companion package, not user-configured network endpoints or provider incidents."
+      },
+      {
+        "pluginId": "io.github.olivoil.hurricane-tracker",
+        "typeId": "weather",
+        "listingSha256": "c1c527f86f3e3a406211c71809c72ac832aacdcd6ff4ef1ef9f1788366cad35f",
+        "reason": "This follows hurricane tracks, outlooks and discussions; it does not claim a general conditions/forecast surface or precipitation radar map."
+      },
+      {
+        "pluginId": "io.github.onatvural.screen-comfort",
+        "typeId": "keep-awake",
+        "listingSha256": "6027903951493e06572e2dbd99dec40c43fbe536ec889399bdd74cf285626b5a",
+        "reason": "The clamshell toggle belongs to monitor arrangement and dimming; no host idle/sleep inhibition is advertised."
+      },
+      {
+        "pluginId": "io.github.p3lu.video-background",
+        "typeId": "keep-awake",
+        "listingSha256": "eb90ce24bd06c906a330bbb7669e69e2b623b460d7a163a73bd8bf26d38e8092",
+        "reason": "Only wallpaper video playback pauses during locking or inactivity; the plugin does not configure the computer's idle policy or lock appearance."
+      },
+      {
+        "pluginId": "io.github.pedroolivy.flightline",
+        "typeId": "weather",
+        "listingSha256": "4fd532da7da7641844f115da30743254b495d6789b7128c5794937c1dce5bee2",
+        "reason": "Weather is only the location source for counting nearby aircraft; no weather information view is supplied."
+      },
+      {
+        "pluginId": "io.github.philippbellia.coffee-tracker",
+        "typeId": "keep-awake",
+        "listingSha256": "14036c84f9f20c14efe4456f613928d43daa554dd8d465277d0e311ca9ad144f",
+        "reason": "This tracks consumed caffeine and its decay, rather than inhibiting computer sleep or configuring inactivity."
+      },
+      {
+        "pluginId": "io.github.pjgeutjens.feed-the-flock",
+        "typeId": "agent-monitoring",
+        "listingSha256": "bcbe7041f1ef18b08b486371be76b952de47623841fd740502f7bf69e55341b0",
+        "reason": "The plugin sends arranged notes to Herdr sessions; note preparation does not advertise live-session inspection or saved-conversation selection."
+      },
+      {
+        "pluginId": "io.github.rsd.power-watch",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "5a76593c3d2f190ef489c90ec37ad4f068fbce54df5eb565c2bf1df49cac299b",
+        "reason": "Adapter power draw and its historical threshold measurements are energy telemetry, not service availability checks or incident feeds."
+      },
+      {
+        "pluginId": "io.github.saurasanchezpablo.droidcam",
+        "typeId": "network",
+        "listingSha256": "06e9f11f10cdc54471f0a998dbabda43ddd1cdb4ac0ae64d16e7c991ef53f7de",
+        "reason": "Wi-Fi is the transport for a phone-webcam stream; reconnection and camera controls do not manage host client-network associations or hotspots."
+      },
+      {
+        "pluginId": "io.github.scrambletools.auto-timezone",
+        "typeId": "world-clocks",
+        "listingSha256": "64d001c2762faeca67c6e5cc6ad6ba5359564ee25b1a78706d9ddd0aa3b607b7",
+        "reason": "The plugin sets the system timezone automatically; it does not display multiple zones or a persistent clock."
+      },
+      {
+        "pluginId": "io.github.selenophilezh.aqi",
+        "typeId": "weather",
+        "listingSha256": "b3ae440ed2674f5b18b886a6b5d5be3aee27d0d522adf235890f62d3c5946b83",
+        "reason": "AQI and pollutant breakdown are air-quality information, not current weather plus forecast or precipitation radar."
+      },
+      {
+        "pluginId": "io.github.shivamnarkar47.omarchy-hotspot",
+        "typeId": "network",
+        "listingSha256": "821b3ce2e0f2a73de757f3c15053e09fd6373c9ec45a9272dbc49a60501c35f6",
+        "reason": "The mobile hotspot toggle serves a Wi-Fi AP while retaining the uplink, which is sharing rather than client-network selection."
+      },
+      {
+        "pluginId": "io.github.soham3301.display-particles",
+        "typeId": "weather",
+        "listingSha256": "377dd3e1603564e385d650ac147ce509b4517f0e9e330d6f8863091cabc90b9e",
+        "reason": "Weather describes generated decorative particles rather than observed conditions, forecasts or radar."
+      },
+      {
+        "pluginId": "io.github.soham3301.port-watcher",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "beb3077d325d5e170b22e97aefba45fb636fbba36729f0e1270f82d109dffbcb",
+        "reason": "Port Watcher inspects connections, listeners and suspicious processes for security; it does not describe health checks of configured services."
+      },
+      {
+        "pluginId": "io.github.sonderbydk.omacaffeine",
+        "typeId": "keep-awake",
+        "listingSha256": "6c40458a8d5a029299e40ec61713115280da660503ccd67395fb6c5fde193482",
+        "reason": "This logs dietary caffeine and predicts sleep timing; correlating cups with agent tokens does not inhibit computer inactivity."
+      },
+      {
+        "pluginId": "io.github.tonciz.agents-budget",
+        "typeId": "agent-monitoring",
+        "listingSha256": "663a8d6555734929b26ceb5bbf6aa24cef6c35ad9c7ef07dbf746db85c2bdf86",
+        "reason": "The described running allowance and five-hour/week pill track budget consumption; an agents-panel location alone does not establish session monitoring or conversation history."
+      },
+      {
+        "pluginId": "io.github.tslove923.howdy-face-unlock",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "5a281f5da9d90e7f6d099dc964092c37e4d9444e23fa004f3cca9c22fe3c702a",
+        "reason": "The health check detects broken face-authentication integration after updates, not the health of configured endpoints or provider services."
+      },
+      {
+        "pluginId": "io.github.tslove923.howdy-face-unlock",
+        "typeId": "lock-screen",
+        "listingSha256": "5a281f5da9d90e7f6d099dc964092c37e4d9444e23fa004f3cca9c22fe3c702a",
+        "reason": "Howdy integration adds authentication to existing lock screens and checks its health; it does not itself claim a replacement lock interface or idle controls."
+      },
+      {
+        "pluginId": "io.github.warriorssami.jarvis-meter",
+        "typeId": "network",
+        "listingSha256": "57f8467a0325af0c0413e6268150a284d80dd9c83cdbb45afc99a3b99dbbadee",
+        "reason": "Network connections appear as telemetry inside a CPU/RAM/disk monitor, without client-network configuration or joining controls."
+      },
+      {
+        "pluginId": "io.github.weedwhitesandwine.omazone",
+        "typeId": "desktop-clocks",
+        "listingSha256": "c97ebe2095a0e1b4d4da8db30457eb4de239d0f6d2a21191637358bd5a5c8f34",
+        "reason": "The listing describes a dropdown multi-zone display, without a persistent desktop or bar clock."
+      },
+      {
+        "pluginId": "io.github.zangetsu02.fortivpn",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "8c964ca61d8a9fc03d5ad9df463db5ccf004d7ae0aff976eea0fcbf5fc4847bd",
+        "reason": "FortiVPN reports the duration and state of VPN tunnels, with tunnel controls; uptime here is not a separate endpoint-health monitor."
+      },
+      {
+        "pluginId": "io.github.zestybytes.deco-mesh",
+        "typeId": "network",
+        "listingSha256": "d1dd3cf199aae2e1b1095ab9656d65679a72232ac11f45e51e0fd2ff886dee75",
+        "reason": "Viewing connected devices on a TP-Link mesh inspects a remote router ecosystem, not the host's client connections or hotspot sharing."
+      },
+      {
+        "pluginId": "kenhara.compliantish",
+        "typeId": "lock-screen",
+        "listingSha256": "b91ef7091db9c924d36c48881dae9c90b417fe3f3195fc3b8ef3afbdf13a6bd2",
+        "reason": "Compliantish checks whether screen locking and other security measures exist; compliance inspection does not customize a lock interface or idle policy."
+      },
+      {
+        "pluginId": "kiryuuki.oma-immich",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "1e547c19f991491c24a775ba04484f221b8363779ed5b5f27fffe07a1dd5b877",
+        "reason": "Immich photo management includes unspecified server telemetry, without a claimed health-check workflow or provider incident feed."
+      },
+      {
+        "pluginId": "kuki",
+        "typeId": "weather",
+        "listingSha256": "9e940ff69dc78121b7ef74bd577445cc650a1346a6ee960f113c57abfb7247ae",
+        "reason": "These maps cover air quality, pollen, aerosols and UV rather than general weather conditions or precipitation radar."
+      },
+      {
+        "pluginId": "kzagoris.codex-router-tray",
+        "typeId": "agent-monitoring",
+        "listingSha256": "1e4d2638af4a29cfdf905f7654b7a97ce1e45cee62af241d7e0353609bd8555d",
+        "reason": "Codex Router controls providers and router usage/status; those are routing-service controls, not live coding-session states or conversation history."
+      },
+      {
+        "pluginId": "lancefaul.omarcal",
+        "typeId": "world-clocks",
+        "listingSha256": "91c941b3f527bdd65b5aa43d7f09c55c28bf180ae35550a7cc7ba5fa1dbdaec7",
+        "reason": "Time zones are calendar-event editing attributes; the listing does not claim a world-clock comparator or persistent clock."
+      },
+      {
+        "pluginId": "latecompile.caffeine-curve",
+        "typeId": "keep-awake",
+        "listingSha256": "c1faab1c9abd319ea37efd73e95d5e3b2f1c0281057fa8b975fb6de9e9714143",
+        "reason": "This logs consumed coffee and estimates its decay; it provides no computer idle inhibition despite the caffeine name."
+      },
+      {
+        "pluginId": "leewynne.omapaddock",
+        "typeId": "world-clocks",
+        "listingSha256": "18956b3a8780fb4a650aad7585eade60af3ce9e33a391067b89c8147d360cbbc",
+        "reason": "The timezone is used to render a racing schedule, not to compare multiple zones or show current civil time."
+      },
+      {
+        "pluginId": "lid-sleep",
+        "typeId": "idle-sleep",
+        "listingSha256": "4ff4ea41c6b263ee188f10f65901165ad9582010c8c3ee135baa61c9a61d0ada",
+        "reason": "A reversible lid-sleep toggle is a plausible awake-hold lead; it does not describe configuring inactivity timer durations."
+      },
+      {
+        "pluginId": "lkzwieder.opencode-usage",
+        "typeId": "agent-monitoring",
+        "listingSha256": "c1d783783032f70282f0fc0ab8ab51c8a8a5cca3a88386945f8e457e172ef9ed",
+        "reason": "The tab prices locally hosted model tokens and estimates savings; running models and an agents-panel location do not establish running-session inspection or saved-conversation retrieval."
+      },
+      {
+        "pluginId": "lonh.agents-sleep",
+        "typeId": "agent-monitoring",
+        "listingSha256": "4e0447ec3cfb3de045b9d43790aaad23a384071e433305c64512659f95c43dc6",
+        "reason": "Agents Sleep reacts to agent completion by suspending the computer; it does not advertise an agent-inspection interface or session focus."
+      },
+      {
+        "pluginId": "madmasx.hermes-pets",
+        "typeId": "agent-monitoring",
+        "listingSha256": "d0b72c986e9ef557332d35d7d3345d4ca1c82564ec5cbf97aa51fd54276e596c",
+        "reason": "The companion animates activity and waves when clicked; the described interaction is pet behavior rather than focusing or resuming an agent session."
+      },
+      {
+        "pluginId": "marcho78.uber-notebook",
+        "typeId": "agent-monitoring",
+        "listingSha256": "ffdbac9ff9816c8afee658c0dc779d4206b4efba1bc3b57e0a359fed8c8ae0bb",
+        "reason": "The AI agent works on the current notebook page in a panel; note authoring does not advertise an independent running-session monitor or conversation archive."
+      },
+      {
+        "pluginId": "michael.tea",
+        "typeId": "keep-awake",
+        "listingSha256": "ab8dfcefb8c591b10dceb72af568411af6075ba7e0e7661867b9acc995a16f1f",
+        "reason": "Tea consumption and caffeine load tracking describe dietary logging, not computer awake holds or inactivity settings."
+      },
+      {
+        "pluginId": "mmb.rainnowcast",
+        "typeId": "weather",
+        "listingSha256": "a4d74546566db40e605df5f7f3c462ae89a164bd6c04a375fa87bf69af9b3db7",
+        "reason": "Radar is the data source for a two-hour rain nowcast; neither a precipitation map nor broader current-weather readings are claimed."
+      },
+      {
+        "pluginId": "mryll.claudebar",
+        "typeId": "agent-monitoring",
+        "listingSha256": "9de272974cf2a09fb40a15e9ab41726b18f72acad38f0ac7253270e3be0e4f73",
+        "reason": "Claudebar shows subscription session/weekly limits and pacing; these are usage allowances rather than running-task states or resumable history."
+      },
+      {
+        "pluginId": "mryll.codexbar",
+        "typeId": "agent-monitoring",
+        "listingSha256": "de1c1f2cdc0255f72801a97fd3fd4a7a26c6ca150be4ea9cbf88ee895257f512",
+        "reason": "Codexbar shows subscription quotas, pacing and review limits; session is an accounting interval rather than a saved conversation or active task."
+      },
+      {
+        "pluginId": "narbs.betterstack",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "4e0f4042aded6f2f2eb9b4225627677b855bd5c27082c7a52accebcfb3d6b037",
+        "reason": "The panel consumes a Better Stack status page and recent incidents, so it belongs to published service-status reporting."
+      },
+      {
+        "pluginId": "neil.acid-alerts",
+        "typeId": "weather",
+        "listingSha256": "705e30d8d8d2ef030880b5807d7e3aabeae250163b206efc63061eac3b76ed67",
+        "reason": "The feature is warning delivery for the configured location, not general conditions/forecast reading or a radar map."
+      },
+      {
+        "pluginId": "nocram.f1",
+        "typeId": "world-clocks",
+        "listingSha256": "7ed5b45d69d592dd4f0122a7914db52dfbfbccdbdad72ac9d0db0d8b9c1cfe93",
+        "reason": "F1 timing, race countdowns and schedules in the user's timezone are sports information, not a persistent civil clock or multi-zone comparator."
+      },
+      {
+        "pluginId": "nshkr.beam-deck",
+        "typeId": "service-status",
+        "listingSha256": "a76de1cf48b2d0c19b9175b45cccb81b3b0936c836931f806953bdac8304a1e6",
+        "reason": "BEAM incident evidence, resource forecasts and scheduler trials describe runtime diagnostics, without configured endpoint checks or provider-published incident feeds."
+      },
+      {
+        "pluginId": "oliwier.auto-pilot4agents",
+        "typeId": "agent-monitoring",
+        "listingSha256": "4baecf99c84d60e4025633796e899afff0ad91c52e7d5f456e748cacfcbf69f4",
+        "reason": "Scheduled prompts run unattended agent jobs; the queue is a scheduling interface, not a live-session focus view or saved-conversation browser."
+      },
+      {
+        "pluginId": "omacheese.omastorm-nord",
+        "typeId": "weather",
+        "listingSha256": "9dae4ec724c10710402bd91de515830b3c6166a632915cd50bc9be653c585899",
+        "reason": "The listing explicitly provides live Nordic weather radar without claiming a general forecast panel."
+      },
+      {
+        "pluginId": "omanetmonitor",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "74c51f007748cc5f7b0b41ecb8768b4f2f0e10297b6038089672c5443199f2c1",
+        "reason": "OmaNetMonitor flags outbound connection geography against allowed regions, a security observation rather than target health checks or service-status feeds."
+      },
+      {
+        "pluginId": "omaoutlook",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "bcbc2453e90a972ec10f169c88feffe98626d3ac050ed41fa19f7ccaf30e015f",
+        "reason": "Weeks of uptime describes the Outlook client's reliability and memory watchdog, not a user-facing endpoint or incident monitor."
+      },
+      {
+        "pluginId": "omarchy-power.idle-sleep",
+        "typeId": "keep-awake",
+        "listingSha256": "b44d6b76d4b096a4e11db62a481ff5005c06fc917b5e7f38ba4fd4fdd75bef8d",
+        "reason": "Per-power-source idle timeouts determine suspend/hibernate actions. Merely respecting an existing Stay Awake hold does not supply a hold control."
+      },
+      {
+        "pluginId": "omarchy.wifiqr",
+        "typeId": "network",
+        "listingSha256": "41959a82620d16b760ce8b66bbcee85f4ba8738158c0a211ce480316b41abb3a",
+        "reason": "A QR code shares credentials for an existing Wi-Fi network; it neither creates a hotspot nor selects/disconnects the host's connection."
+      },
+      {
+        "pluginId": "oniomarchy.macarchy",
+        "typeId": "network",
+        "listingSha256": "e1ea17dd0f1f8442b345147f416f1b98dd737eb610ef9ee72304bc6c794fd0d7",
+        "reason": "MAC-address randomization changes an interface identifier, without claiming network selection, connection-state controls or hotspot hosting."
+      },
+      {
+        "pluginId": "pablo.uslugi",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "238d270edb86b3bdea77f9488bb19db4fcc5d27cab74953978d4aa911d5510fc",
+        "reason": "The local-services list shows ports, resource use and uptime and opens a browser; service telemetry and launch shortcuts do not establish health checks."
+      },
+      {
+        "pluginId": "pablopunk.nommarchy",
+        "typeId": "idle-sleep",
+        "listingSha256": "44aeecc5f58e7d3fd69b973f221ce919c5ec9326ee97494bdc18f7aa0a2b4fac",
+        "reason": "The sleep timeout belongs to Razer speakers, alongside EQ and eco mode; it does not control the computer's inactivity policy."
+      },
+      {
+        "pluginId": "ptrck.quattro-stats",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "ad66abf6280c97bab73c83151c7e54e63c8ec0b2bcfb45896e2c6ddfc6b24f1a",
+        "reason": "Quattro Stats is a host resource dashboard; uptime and a generic ping entry do not describe configured service-health monitoring."
+      },
+      {
+        "pluginId": "rafaelsieber.curl-check",
+        "typeId": "agent-monitoring",
+        "listingSha256": "37f99137b4237f11ffd1e3c2b562983a6aead7eb176a8eb3abae1b287c0106f8",
+        "reason": "Curl Check asks an agent to review an installation script; that review action does not inspect active agents or browse past conversations."
+      },
+      {
+        "pluginId": "remi.kbdlight",
+        "typeId": "world-clocks",
+        "listingSha256": "f0399de21bc4de0a27a11a44f1ccb91e6dfc967db95985cc07efb32ed252bfe1",
+        "reason": "The timezone informs automatic keyboard-light scheduling, not a clock display or zone comparison."
+      },
+      {
+        "pluginId": "resty.charge",
+        "typeId": "lock-screen",
+        "listingSha256": "4621dbfcedd9f98e8fb566c29c02494e58fb08e8ed5bd140f9fa3a165f750ebd",
+        "reason": "The feature sets battery charge limits; the lock/suspend text documents an external keyboard-layout workaround, not an idle-management feature."
+      },
+      {
+        "pluginId": "rio.facelock",
+        "typeId": "lock-screen",
+        "listingSha256": "834dae1d12884b21955fc5dd92db4102d9b841173c55e43a0b44492c017cfaf8",
+        "reason": "The suite supplies face/fingerprint authentication integration across greeter, sudo and lock screens; no replacement session-lock interface or idle policy is established."
+      },
+      {
+        "pluginId": "rocha.pasteimage",
+        "typeId": "agent-monitoring",
+        "listingSha256": "a67ae63700d81e191ae9c215cbaa356c1675e11f5ccd039d46e6668c76b69d60",
+        "reason": "PasteImage forwards clipboard images to the focused terminal agent; input forwarding is neither session inspection nor archived-session resumption."
+      },
+      {
+        "pluginId": "rohirik.agent-monitor",
+        "typeId": "agent-monitoring",
+        "listingSha256": "d1e8bcd891beaacf8f62e3c45fbd472425aee39f067afbaa42c77f9dccec8d1b",
+        "reason": "Despite its name, Agent Monitor describes subscription limits, daily activity and model usage, without current session states or conversation-resume controls."
+      },
+      {
+        "pluginId": "rohirik.oma-caffe",
+        "typeId": "keep-awake",
+        "listingSha256": "67778b1a03ad815be6d7a9ea43264def22d2ec4714a747778218749b22791f8f",
+        "reason": "This is coffee consumption, brewing and recipe tracking; its caffeine meter and break screen do not claim idle inhibition."
+      },
+      {
+        "pluginId": "saif.system-stats",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "89bc89d684628b6262fc8744d217ecf373ddc7593e2a4615228fe6f149a79f0f",
+        "reason": "System Stats measures the host's CPU, memory, disk and uptime; network usage history is not configured endpoint-health checking."
+      },
+      {
+        "pluginId": "seabass.clamshell",
+        "typeId": "idle-sleep",
+        "listingSha256": "9cc0bfa41e240026fb5cb6f4e088c0a8c2f776da4f3f3f2afce48cf8abee1d5b",
+        "reason": "Switching between normal lid behavior and a mode that stays awake on an external display is a reversible awake-hold lead."
+      },
+      {
+        "pluginId": "sid.wiki-wait",
+        "typeId": "agent-monitoring",
+        "listingSha256": "914d7e13d59a304317c8c8508370339726ba5a79f22a9e7ff0389ed1b484d268",
+        "reason": "Wiki Wait is a Wikipedia reader for downtime, with local activity counts; coding agents working is context rather than a session-management feature."
+      },
+      {
+        "pluginId": "skh.pibar",
+        "typeId": "agent-monitoring",
+        "listingSha256": "9c025e89ccd91b369a998762fee727a6e1a2265adb75e8e104d8c76311d5cb81",
+        "reason": "A coding-session browser and an account-usage meter do not claim live-agent activity or focus controls."
+      },
+      {
+        "pluginId": "slcode777.omaconv",
+        "typeId": "agent-monitoring",
+        "listingSha256": "b8922b061aafdb6ee1f12900a473d5c9852a93323dd15e2c8f1722c77f537347",
+        "reason": "Selecting a Claude conversation from a searchable palette and resuming in its directory directly supports history/resume discovery."
+      },
+      {
+        "pluginId": "stewartjarod.phone-sessions",
+        "typeId": "agent-monitoring",
+        "listingSha256": "97604483c3c2d949e5979eadbe4c9d7f5e1d41d3fbd62099351bcdd4c40bcbe4",
+        "reason": "The picker explicitly chooses non-running Claude sessions and opens them in a terminal, supporting saved-session resumption rather than live monitoring."
+      },
+      {
+        "pluginId": "swheel33.perfwatch",
+        "typeId": "service-status",
+        "listingSha256": "28ebb3de606063a78323457f16b1466e1cf519069f06edd084d185351213cd03",
+        "reason": "The incidents are sustained Linux performance problems captured locally, not provider-published service incidents or configured endpoint health checks."
+      },
+      {
+        "pluginId": "syndicalt.eventloom",
+        "typeId": "agent-monitoring",
+        "listingSha256": "00b61de2a6fb9a139483bed892ef32ab747f8e5ca5a7dd4f6fdd08428d9faa73",
+        "reason": "Eventloom audits past session events, tool calls and approvals in a log; it does not advertise live session focus or conversation resumption."
+      },
+      {
+        "pluginId": "szaidi.clocker",
+        "typeId": "desktop-clocks",
+        "listingSha256": "d6061e22dd84d5a3b1003b18289062bb42d5a60512c6aca25ff5da7ce9ce7623",
+        "reason": "The popup explicitly selects three cities and timezones; it does not clearly claim a persistent time label."
+      },
+      {
+        "pluginId": "szaidi.clocker",
+        "typeId": "weather",
+        "listingSha256": "d6061e22dd84d5a3b1003b18289062bb42d5a60512c6aca25ff5da7ce9ce7623",
+        "reason": "Weather describes the popup's visual inspiration rather than a weather data feature."
+      },
+      {
+        "pluginId": "tsouth89.signal",
+        "typeId": "service-status",
+        "listingSha256": "4c4ce109ffefcb92ac9141d3f0d4012d1856390ae3859089814ba21e06ac888a",
+        "reason": "Signal collects Sentry production-error incidents; error triage is not a provider's service-status feed or a configured endpoint-health check."
+      },
+      {
+        "pluginId": "vincentritter.omarain",
+        "typeId": "weather",
+        "listingSha256": "0192587d5020b51bbfc2606c7bc3e975d4414772c009b6ff5ce325ffa71e3e39",
+        "reason": "Weather adjusts decorative wallpaper rain intensity; no conditions, forecast or radar-reading interface is stated."
+      },
+      {
+        "pluginId": "vinicgobbi.nowbar",
+        "typeId": "idle-sleep",
+        "listingSha256": "cea3612851edf7d1694bab31556b68b241e619e7429f4aa8c90cd9b698592067",
+        "reason": "Now Bar surfaces ongoing activities, including a sleep countdown; it does not claim persistent inactivity policy, lock appearance or a reversible awake hold."
+      },
+      {
+        "pluginId": "wdg.omarecall",
+        "typeId": "agent-monitoring",
+        "listingSha256": "d9d627db30081f992d989dc6ed54b4d65f5f1600ea504521544da544a9fd7073",
+        "reason": "OmaRecall offers inspectable memory for agent sessions; contextual memory alone does not advertise a saved-conversation browser or targeted resumption."
+      },
+      {
+        "pluginId": "woodenplastic.information-wallpaper-overlay",
+        "typeId": "agent-monitoring",
+        "listingSha256": "c20e899229d96e8201785e6fbc2630753f71f27c84c9c135e59016b96327b8e9",
+        "reason": "The wallpaper overlay can show agent states but explicitly never takes a click; it does not supply the native local-session focus required by the task."
+      },
+      {
+        "pluginId": "yendor.portal",
+        "typeId": "network",
+        "listingSha256": "6920c541b9b8a362b4b97bb57fbadbea383a53ad17884d4837505ac77c056c9e",
+        "reason": "The assistant opens a captive-portal web login after network association; it does not select client networks or host a hotspot."
+      }
+    ],
+    "discoveryInclude": [
+      {
+        "pluginId": "davidcbradleyjr.lanes",
+        "typeId": "agent-monitoring",
+        "listingSha256": "809c924ad741b375d9accfeb0d43164758f90b92a59fd11be9b662856f8e5cbe",
+        "reason": "Workspace taskbar live-agent status is an explicit research lead; the agent domain and native focus controls still need source review."
+      },
+      {
+        "pluginId": "dev.pitwall",
+        "typeId": "agent-history",
+        "listingSha256": "d61babe912dbe801f0fedff6ce90ce1178a0e9abecc9e87262810684781a9d16",
+        "reason": "The workspace-aware bar lists live agent sessions and resume. Retain this ambiguous coding-agent research lead explicitly; source review must confirm task controls."
+      },
+      {
+        "pluginId": "dev.pitwall",
+        "typeId": "agent-monitoring",
+        "listingSha256": "d61babe912dbe801f0fedff6ce90ce1178a0e9abecc9e87262810684781a9d16",
+        "reason": "The workspace-aware bar lists live agent sessions and resume. Retain this ambiguous coding-agent research lead explicitly; source review must confirm task controls."
+      },
+      {
+        "pluginId": "io.github.dayruke.dashbots",
+        "typeId": "agent-monitoring",
+        "listingSha256": "40404aa5e8651adab2b4d8d9737a471890dd58040983e4bc43f58ac37c2c6547",
+        "reason": "A bar marker per live-agent session is an explicit research lead; coding-agent scope and focus controls still need source review."
+      },
+      {
+        "pluginId": "rickom1.agent-status",
+        "typeId": "agent-monitoring",
+        "listingSha256": "31ef0a4a9ab68889f4b4e76b6eac04a875623e9688575154bcb4a7d4737eb3ac",
+        "reason": "Live-agent status and workspace badges are an explicit research lead; the agent domain and local session controls still need source review."
+      }
+    ]
   }
 }

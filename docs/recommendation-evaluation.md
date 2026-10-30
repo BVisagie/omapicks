@@ -1,5 +1,7 @@
 # Recommendation evidence audit — 29 October 2026
 
+**Scope clarification, 30 October:** this audit supports source accuracy under the contracts used on October 29. It did not independently establish that every category groups interchangeable user workflows. The [later category-coherence audit](analysis/2026-10-30-category-audit.json) found broad contracts that admitted materially different tasks despite accurate source passages. [Methodology 1.4.0](methodology-1.4.0.md) corrects those boundaries. The historical counts and source corpus below are retained as the original evidence audit, not a claim that all of its placements remain suitable under the new tasks.
+
 The published shortlist was mostly in the right task categories. Its weaker parts were the evidence behind those placements, overstated explanations and missing setup requirements. This audit supports keeping the useful categories while making source review a prerequisite for scoring.
 
 This is a documentation and selected-source inspection, **not installation, performance or security testing**. A supported result means the inspected source describes the required workflow. It does not establish that the plugin works on every machine, is maintained well, or is better than an unreviewed alternative.

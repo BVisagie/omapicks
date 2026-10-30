@@ -1,139 +1,955 @@
 {
   "schemaVersion": 1,
   "week": "2026-W44",
-  "generatedAt": "2026-10-29T19:35:18.101Z",
+  "generatedAt": "2026-10-30T11:21:19.177Z",
   "changes": [
+    {
+      "typeId": "weather",
+      "typeName": "Weather Forecasts",
+      "kind": "displaced",
+      "previous": {
+        "id": "eduardodallecort.weather-radar",
+        "name": "Weather Radar"
+      },
+      "current": {
+        "id": "io.github.calebhat.weather",
+        "name": "Detailed Weather"
+      },
+      "reason": "task-definition-changed"
+    },
+    {
+      "typeId": "weather-radar",
+      "typeName": "Weather Radar",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "eduardodallecort.weather-radar",
+        "name": "Weather Radar"
+      }
+    },
+    {
+      "typeId": "docks",
+      "typeName": "Application Docks",
+      "kind": "displaced",
+      "previous": {
+        "id": "rosakodu.dock",
+        "name": "Dock"
+      },
+      "current": {
+        "id": "io.github.claudsondouglas.arcdock",
+        "name": "Arc Dock"
+      },
+      "reason": "awaiting-task-qualification"
+    },
     {
       "typeId": "network",
       "typeName": "Network Connections",
       "kind": "displaced",
       "previous": {
+        "id": "io.github.shivamnarkar47.omarchy-hotspot",
+        "name": "Mobile Hotspot"
+      },
+      "current": {
         "id": "community.network",
         "name": "Network Manager (with Repeater & Hotspot)"
       },
+      "reason": "task-definition-changed"
+    },
+    {
+      "typeId": "hotspots",
+      "typeName": "Hotspots & Internet Sharing",
+      "kind": "new-champion",
+      "previous": null,
       "current": {
         "id": "io.github.shivamnarkar47.omarchy-hotspot",
         "name": "Mobile Hotspot"
       }
     },
     {
-      "typeId": "shortcut-guides",
-      "typeName": "Shortcut Guides",
+      "typeId": "lock-screen",
+      "typeName": "Lock Screen Appearance",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.sirjul1337.lock-explorer",
+        "name": "Lock Screen Explorer"
+      }
+    },
+    {
+      "typeId": "idle-sleep",
+      "typeName": "Idle & Sleep Settings",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "onlyvishesh.power-manager",
+        "name": "Omarchy Power Manager"
+      }
+    },
+    {
+      "typeId": "keep-awake",
+      "typeName": "Keep Awake",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "halmylyseas.ristretto",
+        "name": "Ristretto"
+      }
+    },
+    {
+      "typeId": "calendar",
+      "typeName": "Calendar",
       "kind": "displaced",
       "previous": {
-        "id": "huacnlee.which-key",
-        "name": "Which Key"
+        "id": "tmn73.calendar",
+        "name": "Calendar"
       },
       "current": {
-        "id": "fkcodes.key-promoter",
-        "name": "Omarchy Key Promoter"
+        "id": "promaa.clock",
+        "name": "Chronica"
+      },
+      "reason": "awaiting-task-qualification"
+    },
+    {
+      "typeId": "desktop-clocks",
+      "typeName": "Desktop Clocks",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "ubeyidah.omaclock",
+        "name": "OmaClock"
       }
+    },
+    {
+      "typeId": "world-clocks",
+      "typeName": "World Clocks & Time Zones",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.sspaeti.timezones",
+        "name": "Timezones"
+      }
+    },
+    {
+      "typeId": "timers-alarms",
+      "typeName": "Countdown Timers",
+      "kind": "displaced",
+      "previous": {
+        "id": "pnkm0nk.omodoro",
+        "name": "Omodoro"
+      },
+      "current": {
+        "id": "io.github.pjgeutjens.clockwork",
+        "name": "Clockwork"
+      },
+      "reason": "task-definition-changed"
+    },
+    {
+      "typeId": "agent-monitoring",
+      "typeName": "Agent Monitoring",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "meviusisback.agent-orchestr",
+        "name": "Agent Orchestrator"
+      }
+    },
+    {
+      "typeId": "agent-history",
+      "typeName": "Session History & Resume",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "sid.sessions",
+        "name": "Session Browser"
+      }
+    },
+    {
+      "typeId": "ai-api-usage",
+      "typeName": "AI & API Usage",
+      "kind": "displaced",
+      "previous": {
+        "id": "akitaonrails.ai-usagebar",
+        "name": "AI Usage"
+      },
+      "current": {
+        "id": "io.github.viganogabriele.agent-usage-plus",
+        "name": "Agent Usage Plus"
+      },
+      "reason": "awaiting-task-qualification"
+    },
+    {
+      "typeId": "containers",
+      "typeName": "Container Management",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.randazraik.xray",
+        "name": "Omarchy X-Ray"
+      },
+      "current": {
+        "id": "io.github.majkelll.omarchy-docker",
+        "name": "Docker"
+      },
+      "reason": "task-definition-changed"
+    },
+    {
+      "typeId": "endpoint-monitoring",
+      "typeName": "Endpoint & Service Monitoring",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.dupontbertrand.omastatus",
+        "name": "Omastatus"
+      }
+    },
+    {
+      "typeId": "service-status",
+      "typeName": "Service Status & Incidents",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "bottelet.is-it-down",
+        "name": "Is It Down?"
+      }
+    },
+    {
+      "typeId": "app-network-blocking",
+      "typeName": "App Network Blocking",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "io.github.chris.snitch",
+        "name": "Snitch"
+      }
+    },
+    {
+      "typeId": "phone-integration",
+      "typeName": "Phone Integration",
+      "kind": "displaced",
+      "previous": {
+        "id": "omaconnect",
+        "name": "OmaConnect"
+      },
+      "current": {
+        "id": "omakdeconnect",
+        "name": "OmaKDEConnect"
+      },
+      "reason": "awaiting-task-qualification"
     }
   ],
   "runnerUpChanges": [
     {
-      "typeId": "docks",
-      "typeName": "Application Docks",
+      "typeId": "music",
+      "typeName": "Media Controls",
       "kind": "displaced",
       "previous": {
-        "id": "io.github.claudsondouglas.arcdock",
-        "name": "Arc Dock"
+        "id": "omaconnect",
+        "name": "OmaConnect"
       },
       "current": {
+        "id": "custom.media",
+        "name": "Music Flow"
+      },
+      "reason": "task-definition-changed"
+    },
+    {
+      "typeId": "weather",
+      "typeName": "Weather Forecasts",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.calebhat.weather",
+        "name": "Detailed Weather"
+      },
+      "current": {
+        "id": "ali.iweather",
+        "name": "iWeather"
+      },
+      "reason": "task-definition-changed"
+    },
+    {
+      "typeId": "docks",
+      "typeName": "Application Docks",
+      "kind": "vacated",
+      "previous": {
         "id": "omadock",
         "name": "Dock (OmaDock)"
-      }
+      },
+      "current": null,
+      "reason": "awaiting-task-qualification"
     },
     {
       "typeId": "network",
       "typeName": "Network Connections",
       "kind": "displaced",
       "previous": {
+        "id": "community.network",
+        "name": "Network Manager (with Repeater & Hotspot)"
+      },
+      "current": {
         "id": "angeeeld.omaltbar",
         "name": "Omaltbar"
       },
+      "reason": "task-definition-changed"
+    },
+    {
+      "typeId": "hotspots",
+      "typeName": "Hotspots & Internet Sharing",
+      "kind": "new-runner-up",
+      "previous": null,
       "current": {
         "id": "community.network",
         "name": "Network Manager (with Repeater & Hotspot)"
       }
     },
     {
-      "typeId": "night-light",
-      "typeName": "Night Light",
+      "typeId": "audio",
+      "typeName": "System Audio",
       "kind": "displaced",
       "previous": {
-        "id": "kenny.nightlight",
+        "id": "ssupt.bluetooth-audio",
+        "name": "Advanced Bluetooth Audio"
+      },
+      "current": {
+        "id": "videinfra.omaudiopanel",
+        "name": "omaudiopanel"
+      },
+      "reason": "task-definition-changed"
+    },
+    {
+      "typeId": "lock-screen",
+      "typeName": "Lock Screen Appearance",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "io.github.smoothpixels.lock-designs",
+        "name": "Lock Designs"
+      }
+    },
+    {
+      "typeId": "idle-sleep",
+      "typeName": "Idle & Sleep Settings",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "lgse.sandman",
+        "name": "Sandman"
+      }
+    },
+    {
+      "typeId": "keep-awake",
+      "typeName": "Keep Awake",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "io.github.krongggggg.caffeine",
+        "name": "Caffeine"
+      }
+    },
+    {
+      "typeId": "calendar",
+      "typeName": "Calendar",
+      "kind": "displaced",
+      "previous": {
+        "id": "promaa.clock",
+        "name": "Chronica"
+      },
+      "current": {
+        "id": "acp.omascribe",
+        "name": "OmaScribe — AI Meeting Notes"
+      }
+    },
+    {
+      "typeId": "world-clocks",
+      "typeName": "World Clocks & Time Zones",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "io.github.nimbleaininja.omachron",
+        "name": "Omachron World Clock"
+      }
+    },
+    {
+      "typeId": "timers-alarms",
+      "typeName": "Countdown Timers",
+      "kind": "vacated",
+      "previous": {
+        "id": "io.github.pjgeutjens.clockwork",
+        "name": "Clockwork"
+      },
+      "current": null,
+      "reason": "task-definition-changed"
+    },
+    {
+      "typeId": "notes",
+      "typeName": "Notes",
+      "kind": "displaced",
+      "previous": {
+        "id": "luca.obsidian-daily",
+        "name": "Obsidian Daily"
+      },
+      "current": {
+        "id": "rperaza.obsidian-notes",
+        "name": "Obsidian Notes"
+      },
+      "reason": "task-definition-changed"
+    },
+    {
+      "typeId": "agent-history",
+      "typeName": "Session History & Resume",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "anagrius.resume",
+        "name": "Resume AI Session"
+      }
+    },
+    {
+      "typeId": "ai-api-usage",
+      "typeName": "AI & API Usage",
+      "kind": "vacated",
+      "previous": {
+        "id": "io.github.viganogabriele.agent-usage-plus",
+        "name": "Agent Usage Plus"
+      },
+      "current": null
+    },
+    {
+      "typeId": "containers",
+      "typeName": "Container Management",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.majkelll.omarchy-docker",
+        "name": "Docker"
+      },
+      "current": {
+        "id": "djjeane.docker-monitor",
+        "name": "Docker Monitor"
+      },
+      "reason": "task-definition-changed"
+    },
+    {
+      "typeId": "endpoint-monitoring",
+      "typeName": "Endpoint & Service Monitoring",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "daan.uptime-kuma",
+        "name": "Uptime Kuma"
+      }
+    },
+    {
+      "typeId": "service-status",
+      "typeName": "Service Status & Incidents",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "narbs.betterstack",
+        "name": "Better Stack Status"
+      }
+    },
+    {
+      "typeId": "firewall",
+      "typeName": "Firewall Rules",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.chris.snitch",
+        "name": "Snitch"
+      },
+      "current": {
+        "id": "illegalstudio.omarchy-firewall",
+        "name": "Firewall"
+      },
+      "reason": "task-definition-changed"
+    },
+    {
+      "typeId": "phone-integration",
+      "typeName": "Phone Integration",
+      "kind": "vacated",
+      "previous": {
+        "id": "omakdeconnect",
+        "name": "OmaKDEConnect"
+      },
+      "current": null
+    }
+  ],
+  "categoryChanges": [
+    {
+      "from": {
+        "id": "lock-idle",
+        "name": "Lock & Idle"
+      },
+      "to": [
+        {
+          "id": "lock-screen",
+          "name": "Lock Screen Appearance"
+        },
+        {
+          "id": "idle-sleep",
+          "name": "Idle & Sleep Settings"
+        },
+        {
+          "id": "keep-awake",
+          "name": "Keep Awake"
+        }
+      ],
+      "kind": "split",
+      "retired": true,
+      "reason": "Choosing a lock-screen design, configuring automatic idle actions and temporarily keeping the computer awake are separate tasks.",
+      "migrationId": "task-coherence-2026-10-30"
+    },
+    {
+      "from": {
+        "id": "clock-timer",
+        "name": "Clocks & Time Zones"
+      },
+      "to": [
+        {
+          "id": "desktop-clocks",
+          "name": "Desktop Clocks"
+        },
+        {
+          "id": "world-clocks",
+          "name": "World Clocks & Time Zones"
+        }
+      ],
+      "kind": "split",
+      "retired": true,
+      "reason": "Displaying a desktop clock does not establish the ability to compare time zones.",
+      "migrationId": "task-coherence-2026-10-30"
+    },
+    {
+      "from": {
+        "id": "ai-assistant",
+        "name": "Agent Sessions"
+      },
+      "to": [
+        {
+          "id": "agent-monitoring",
+          "name": "Agent Monitoring"
+        },
+        {
+          "id": "agent-history",
+          "name": "Session History & Resume"
+        }
+      ],
+      "kind": "split",
+      "retired": true,
+      "reason": "Inspecting running agents and resuming an archived conversation require different controls.",
+      "migrationId": "task-coherence-2026-10-30"
+    },
+    {
+      "from": {
+        "id": "uptime-monitoring",
+        "name": "Uptime Monitoring"
+      },
+      "to": [
+        {
+          "id": "endpoint-monitoring",
+          "name": "Endpoint & Service Monitoring"
+        },
+        {
+          "id": "service-status",
+          "name": "Service Status & Incidents"
+        }
+      ],
+      "kind": "split",
+      "retired": true,
+      "reason": "Checks of configured targets are distinct from provider-published incident reports.",
+      "migrationId": "task-coherence-2026-10-30"
+    },
+    {
+      "from": {
+        "id": "weather",
+        "name": "Weather"
+      },
+      "to": [
+        {
+          "id": "weather",
+          "name": "Weather Forecasts"
+        },
+        {
+          "id": "weather-radar",
+          "name": "Weather Radar"
+        }
+      ],
+      "kind": "split",
+      "retired": false,
+      "reason": "General conditions and forecasts are separate from precipitation radar imagery.",
+      "migrationId": "task-coherence-2026-10-30"
+    },
+    {
+      "from": {
+        "id": "network",
+        "name": "Network Connections"
+      },
+      "to": [
+        {
+          "id": "network",
+          "name": "Network Connections"
+        },
+        {
+          "id": "hotspots",
+          "name": "Hotspots & Internet Sharing"
+        }
+      ],
+      "kind": "split",
+      "retired": false,
+      "reason": "Joining a network and sharing an existing connection through a hotspot are separate tasks.",
+      "migrationId": "task-coherence-2026-10-30"
+    },
+    {
+      "from": {
+        "id": "firewall",
+        "name": "Firewall"
+      },
+      "to": [
+        {
+          "id": "firewall",
+          "name": "Firewall Rules"
+        },
+        {
+          "id": "app-network-blocking",
+          "name": "App Network Blocking"
+        }
+      ],
+      "kind": "split",
+      "retired": false,
+      "reason": "Host port and address rules are distinct from blocking one application's outbound traffic.",
+      "migrationId": "task-coherence-2026-10-30"
+    },
+    {
+      "from": {
+        "id": "system-monitor",
+        "name": "System Monitor"
+      },
+      "to": [
+        {
+          "id": "system-monitor",
+          "name": "System Monitor"
+        }
+      ],
+      "kind": "narrowed",
+      "retired": false,
+      "reason": "The minimum task is now: Inspect the computer's CPU and memory usage. Earlier selections were reviewed against the previous definition."
+    },
+    {
+      "from": {
+        "id": "mail",
+        "name": "Mail"
+      },
+      "to": [
+        {
+          "id": "mail",
+          "name": "Inbox & Mail Status"
+        }
+      ],
+      "kind": "clarified",
+      "retired": false,
+      "reason": "The task description is clarified: Inspect unread mail and browse an inbox. Qualification requirements and existing reviews are unchanged."
+    },
+    {
+      "from": {
+        "id": "music",
+        "name": "Media Controls"
+      },
+      "to": [
+        {
+          "id": "music",
+          "name": "Media Controls"
+        }
+      ],
+      "kind": "narrowed",
+      "retired": false,
+      "reason": "The minimum task is now: View and control playback in a media player on this computer. Earlier selections were reviewed against the previous definition."
+    },
+    {
+      "from": {
+        "id": "network-diagnostics",
+        "name": "Network Traffic & Diagnostics"
+      },
+      "to": [
+        {
+          "id": "network-diagnostics",
+          "name": "Network Traffic"
+        }
+      ],
+      "kind": "clarified",
+      "retired": false,
+      "reason": "The task description is clarified: Read network throughput and connection activity. Qualification requirements and existing reviews are unchanged."
+    },
+    {
+      "from": {
+        "id": "audio",
+        "name": "Audio"
+      },
+      "to": [
+        {
+          "id": "audio",
+          "name": "System Audio"
+        }
+      ],
+      "kind": "narrowed",
+      "retired": false,
+      "reason": "The minimum task is now: Adjust output and microphone volume and select audio devices. Earlier selections were reviewed against the previous definition."
+    },
+    {
+      "from": {
+        "id": "night-light",
         "name": "Night Light"
       },
-      "current": {
-        "id": "omarchy-display",
-        "name": "Display Settings"
-      }
+      "to": [
+        {
+          "id": "night-light",
+          "name": "Night Light"
+        }
+      ],
+      "kind": "clarified",
+      "retired": false,
+      "reason": "The task description is clarified: Control computer display color temperature for night light. Qualification requirements and existing reviews are unchanged."
     },
     {
-      "typeId": "display-monitors",
-      "typeName": "Display & Monitors",
-      "kind": "displaced",
-      "previous": {
-        "id": "io.github.bmontythe3rd.display-manager",
-        "name": "Omarchy Display Manager"
+      "from": {
+        "id": "notifications",
+        "name": "Notifications"
       },
-      "current": {
-        "id": "im0001gt.screens",
-        "name": "Screens"
-      }
+      "to": [
+        {
+          "id": "notifications",
+          "name": "Notification History & Centers"
+        }
+      ],
+      "kind": "clarified",
+      "retired": false,
+      "reason": "The task description is clarified: Browse and manage desktop notification history. Qualification requirements and existing reviews are unchanged."
     },
     {
-      "typeId": "notifications",
-      "typeName": "Notifications",
-      "kind": "displaced",
-      "previous": {
-        "id": "shavanced.notification-center",
-        "name": "Notification Center"
+      "from": {
+        "id": "timers-alarms",
+        "name": "Timers & Alarms"
       },
-      "current": {
-        "id": "njpatel.omapager",
-        "name": "Omapager"
-      }
+      "to": [
+        {
+          "id": "timers-alarms",
+          "name": "Countdown Timers"
+        }
+      ],
+      "kind": "narrowed",
+      "retired": false,
+      "reason": "The minimum task is now: Start and run a configurable countdown timer. Earlier selections were reviewed against the previous definition."
     },
     {
-      "typeId": "tasks",
-      "typeName": "Task Lists",
-      "kind": "displaced",
-      "previous": {
-        "id": "maduki-tech.omado",
-        "name": "Omado"
+      "from": {
+        "id": "notes",
+        "name": "Notes"
       },
-      "current": {
-        "id": "crmne.todoist",
-        "name": "OmaTasks for Todoist"
-      }
+      "to": [
+        {
+          "id": "notes",
+          "name": "Notes"
+        }
+      ],
+      "kind": "narrowed",
+      "retired": false,
+      "reason": "The minimum task is now: Create free-form notes and retrieve their text for reading. Earlier selections were reviewed against the previous definition."
     },
     {
-      "typeId": "mini-games",
-      "typeName": "Mini-Games",
-      "kind": "displaced",
-      "previous": {
-        "id": "jankeesvw.omasweeper",
-        "name": "Omasweeper"
+      "from": {
+        "id": "workspaces",
+        "name": "Workspaces"
       },
-      "current": {
-        "id": "io.github.ejuro.blow-off-some-steam",
-        "name": "Blow off some steam"
-      }
+      "to": [
+        {
+          "id": "workspaces",
+          "name": "Workspaces"
+        }
+      ],
+      "kind": "narrowed",
+      "retired": false,
+      "reason": "The minimum task is now: View workspace state and navigate between workspaces. Earlier selections were reviewed against the previous definition."
     },
     {
-      "typeId": "shortcut-guides",
-      "typeName": "Shortcut Guides",
-      "kind": "displaced",
-      "previous": {
-        "id": "slw.keyarchy",
-        "name": "Keyarchy"
+      "from": {
+        "id": "window-management",
+        "name": "Window Management"
       },
-      "current": {
-        "id": "huacnlee.which-key",
-        "name": "Which Key"
-      }
+      "to": [
+        {
+          "id": "window-management",
+          "name": "Window Switching"
+        }
+      ],
+      "kind": "narrowed",
+      "retired": false,
+      "reason": "The minimum task is now: Find an open window and switch focus to it. Earlier selections were reviewed against the previous definition."
+    },
+    {
+      "from": {
+        "id": "screenshots",
+        "name": "Screen Capture"
+      },
+      "to": [
+        {
+          "id": "screenshots",
+          "name": "Screen Capture"
+        }
+      ],
+      "kind": "clarified",
+      "retired": false,
+      "reason": "The task description is clarified: Capture a screen image and save or export it. Qualification requirements and existing reviews are unchanged."
+    },
+    {
+      "from": {
+        "id": "ai-chat",
+        "name": "AI Chat & Models"
+      },
+      "to": [
+        {
+          "id": "ai-chat",
+          "name": "AI Chat"
+        }
+      ],
+      "kind": "narrowed",
+      "retired": false,
+      "reason": "The minimum task is now: Ask conversational questions and receive AI responses. Earlier selections were reviewed against the previous definition."
+    },
+    {
+      "from": {
+        "id": "smart-home",
+        "name": "Smart Home"
+      },
+      "to": [
+        {
+          "id": "smart-home",
+          "name": "Smart Home Controls"
+        }
+      ],
+      "kind": "clarified",
+      "retired": false,
+      "reason": "The task description is clarified: Control supported connected-home devices. Qualification requirements and existing reviews are unchanged."
+    },
+    {
+      "from": {
+        "id": "containers",
+        "name": "Containers"
+      },
+      "to": [
+        {
+          "id": "containers",
+          "name": "Container Management"
+        }
+      ],
+      "kind": "narrowed",
+      "retired": false,
+      "reason": "The minimum task is now: List containers and start and stop their workloads. Earlier selections were reviewed against the previous definition."
+    },
+    {
+      "from": {
+        "id": "gaming",
+        "name": "Gaming"
+      },
+      "to": [
+        {
+          "id": "gaming",
+          "name": "Gaming Mode"
+        }
+      ],
+      "kind": "narrowed",
+      "retired": false,
+      "reason": "The minimum task is now: Activate gaming desktop settings and restore the normal desktop. Earlier selections were reviewed against the previous definition."
+    },
+    {
+      "from": {
+        "id": "shortcut-guides",
+        "name": "Shortcut Guides"
+      },
+      "to": [
+        {
+          "id": "shortcut-guides",
+          "name": "Shortcut Learning"
+        }
+      ],
+      "kind": "clarified",
+      "retired": false,
+      "reason": "The task description is clarified: Learn available keyboard shortcuts through lookup or coaching. Qualification requirements and existing reviews are unchanged."
+    },
+    {
+      "from": {
+        "id": "translation",
+        "name": "Translation"
+      },
+      "to": [
+        {
+          "id": "translation",
+          "name": "Translation"
+        }
+      ],
+      "kind": "clarified",
+      "retired": false,
+      "reason": "The task description is clarified: Translate text entered or pasted by the user. Qualification requirements and existing reviews are unchanged."
+    },
+    {
+      "from": {
+        "id": "dictionary",
+        "name": "Dictionary & Thesaurus"
+      },
+      "to": [
+        {
+          "id": "dictionary",
+          "name": "Word Definitions"
+        }
+      ],
+      "kind": "clarified",
+      "retired": false,
+      "reason": "The task description is clarified: Look up word definitions. Qualification requirements and existing reviews are unchanged."
+    },
+    {
+      "from": {
+        "id": "keyboard-layouts",
+        "name": "Keyboard Layouts"
+      },
+      "to": [
+        {
+          "id": "keyboard-layouts",
+          "name": "Keyboard Layout Switching"
+        }
+      ],
+      "kind": "narrowed",
+      "retired": false,
+      "reason": "The minimum task is now: View the active keyboard layout and switch configured layouts. Earlier selections were reviewed against the previous definition."
+    },
+    {
+      "from": {
+        "id": "file-search",
+        "name": "File Search"
+      },
+      "to": [
+        {
+          "id": "file-search",
+          "name": "File Search"
+        }
+      ],
+      "kind": "clarified",
+      "retired": false,
+      "reason": "The task description is clarified: Find local files by filename or path. Qualification requirements and existing reviews are unchanged."
+    },
+    {
+      "from": {
+        "id": "plugin-manager",
+        "name": "Plugin Manager"
+      },
+      "to": [
+        {
+          "id": "plugin-manager",
+          "name": "Plugin Manager"
+        }
+      ],
+      "kind": "narrowed",
+      "retired": false,
+      "reason": "The minimum task is now: Install plugins and manage installed Omarchy plugins. Earlier selections were reviewed against the previous definition."
     }
-  ]
+  ],
+  "publicationBaseline": {
+    "week": "2026-W44",
+    "generatedAt": "2026-10-29T19:35:18.101Z",
+    "methodologyVersion": "1.3.0"
+  }
 }
