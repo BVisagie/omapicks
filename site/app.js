@@ -62,7 +62,7 @@ function countUp(element) {
   const suffix = element.dataset.suffix || "";
   const format = (value) => (decimals ? value.toFixed(decimals) : Math.round(value).toLocaleString("en-US")) + suffix;
   const final = format(target);
-  if (reduceMotion) { element.textContent = final; return; }
+  if (reduceMotionQuery.matches) { element.textContent = final; return; }
   // Assistive tech reads the final number throughout; only the visible copy animates.
   const live = document.createElement("span");
   live.className = "visually-hidden";
@@ -403,7 +403,7 @@ if (radarPanel && radarCanvas && radarContext && finderItems.length) {
     let nearestDistance = 24;
     for (const node of nodes) {
       const ring = rings[node.ring];
-      const angle = node.base + (reduceMotion ? 0 : time * ring.w);
+      const angle = node.base + (reduceMotionQuery.matches ? 0 : time * ring.w);
       node.x = c + Math.cos(angle) * R * ring.r;
       node.y = c + Math.sin(angle) * R * ring.r;
       const behind = (((sweep - angle) % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
@@ -448,7 +448,7 @@ if (radarPanel && radarCanvas && radarContext && finderItems.length) {
   // The loop only runs while the canvas has a size (it is display:none on phones), is on screen
   // and the document is visible.
   let onScreen = true;
-  const shouldRun = () => size > 0 && onScreen && !document.hidden && !reduceMotion;
+  const shouldRun = () => size > 0 && onScreen && !document.hidden && !reduceMotionQuery.matches;
   const stop = () => { running = false; cancelAnimationFrame(raf); };
   const start = () => {
     if (!shouldRun()) { stop(); return; }
@@ -471,15 +471,17 @@ if (radarPanel && radarCanvas && radarContext && finderItems.length) {
   radarCanvas.addEventListener("pointermove", (event) => {
     const rect = radarCanvas.getBoundingClientRect();
     pointer = { x: event.clientX - rect.left, y: event.clientY - rect.top };
-    if (reduceMotion) draw(0);
+    if (reduceMotionQuery.matches) draw(0);
   });
-  radarCanvas.addEventListener("pointerleave", () => { pointer = null; if (reduceMotion) draw(0); });
+  radarCanvas.addEventListener("pointerleave", () => { pointer = null; if (reduceMotionQuery.matches) draw(0); });
+  // A preference change after load stops the sweep on one static frame, or restarts it.
+  reduceMotionQuery.addEventListener("change", () => { if (reduceMotionQuery.matches) { stop(); draw(0); } else start(); });
   radarCanvas.addEventListener("click", () => { if (hovered?.href) window.location.assign(hovered.href); });
   document.addEventListener("visibilitychange", start);
   if ("IntersectionObserver" in window) {
     new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; start(); }).observe(radarPanel);
   }
-  themeButton?.addEventListener("click", () => { readColors(); if (reduceMotion) draw(0); });
+  themeButton?.addEventListener("click", () => { readColors(); if (reduceMotionQuery.matches) draw(0); });
   radarPanel.hidden = false;
   readColors();
   new ResizeObserver(resize).observe(radarCanvas);

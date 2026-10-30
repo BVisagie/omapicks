@@ -246,6 +246,18 @@ test("reduced motion shows every section in its final state without waiting for 
   await context.close();
 });
 
+test("the compare pill sits below the tile metadata and never covers it on hover", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  const tile = page.locator(".support").first();
+  await tile.scrollIntoViewIfNeeded();
+  await tile.hover();
+  await expect(tile.locator(".feature-action")).toHaveCSS("opacity", "1");
+  const meta = await tile.locator(".support-meta").boundingBox();
+  const pill = await tile.locator(".feature-action").boundingBox();
+  expect(pill.y).toBeGreaterThanOrEqual(meta.y + meta.height - 1);
+});
+
 test("touch screens always see the compare pill on pick tiles", async ({ browser }) => {
   const context = await browser.newContext({ hasTouch: true, viewport: { width: 1200, height: 900 } });
   const page = await context.newPage();
@@ -264,6 +276,19 @@ test("the radar and headline decode are enhancements that leave the content inta
   expect(await page.locator("[data-radar] canvas").evaluate((canvas) => canvas.width > 0)).toBe(true);
   await page.locator("[data-radar] canvas").hover({ position: { x: 145, y: 60 } });
   await expect(page.locator("[data-radar-pick]")).not.toHaveText("—");
+  // The sweep runs while motion is allowed, freezes when the preference changes, and resumes.
+  const capture = () => page.locator("[data-radar] canvas").evaluate((canvas) => canvas.toDataURL());
+  await page.mouse.move(5, 5);
+  const moving = [await capture(), await page.waitForTimeout(250).then(capture)];
+  expect(moving[0]).not.toBe(moving[1]);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.waitForTimeout(150);
+  const frozen = [await capture(), await page.waitForTimeout(250).then(capture)];
+  expect(frozen[0]).toBe(frozen[1]);
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.waitForTimeout(150);
+  const resumed = [await capture(), await page.waitForTimeout(250).then(capture)];
+  expect(resumed[0]).not.toBe(resumed[1]);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(heading, { timeout: 3000 });
   expect(await page.locator(".hero h1 .decode").count()).toBe(0);
   const context = await browser.newContext({ javaScriptEnabled: false });

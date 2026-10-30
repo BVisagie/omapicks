@@ -115,6 +115,13 @@ test("the finder triggers are named for assistive tech and the weekly tile keeps
   assert.match(html, /<h2 id="weekly-summary-heading">What changed this week<\/h2>\s*<p class="summary">/);
 });
 
+test("the atmosphere paints above the opaque body background", () => {
+  // The fixed atmosphere layer sits at z-index -1. Without a stacking context on body it would be
+  // painted beneath body's opaque background and never show.
+  assert.match(block("body"), /isolation:\s*isolate;/);
+  assert.match(block(".atmosphere"), /z-index:\s*-1;/);
+});
+
 test("contrast-probed tokens stay opaque in both themes", () => {
   // e2e reads --muted against --bg, --surface and --well as solid colours; translucent values
   // would be parsed as their first three channels and report a false contrast.

@@ -138,6 +138,9 @@ body {
   background: var(--bg);
   color: var(--ink);
   line-height: 1.6;
+  /* A stacking context of its own: the fixed atmosphere layer (z-index -1) then paints above
+     this opaque background instead of beneath it. */
+  isolation: isolate;
 }
 
 a {
@@ -1527,7 +1530,7 @@ kbd {
   position: relative;
   display: block;
   flex: 1;
-  padding: 0.85rem 0.5rem 0;
+  padding: 0.85rem 0.5rem 0.9rem;
 }
 
 .support-copy .kicker {
@@ -1549,7 +1552,6 @@ kbd {
 
 .support-copy .support-meta {
   margin: 0.3rem 0 0;
-  padding-right: 6.5rem;
   font-size: 0.8rem;
   white-space: normal;
 }
@@ -1559,11 +1561,10 @@ kbd {
   font-size: 0.8rem;
 }
 
+/* In normal flow below the metadata, so the pill (long in the reviewed vocabulary) never covers
+   text; its space is reserved even while it is faded out. */
 .feature-action {
-  position: absolute;
-  right: 0.5rem;
-  bottom: 0.2rem;
-  margin: 0;
+  margin: 0.7rem 0 0;
   transition: opacity 300ms ease, transform 400ms var(--ease), background-color 200ms ease, color 200ms ease, border-color 200ms ease;
 }
 
@@ -2772,14 +2773,8 @@ footer p a {
   }
 
   .feature-action {
-    position: static;
-    margin-top: 0.7rem;
     opacity: 1;
     transform: none;
-  }
-
-  .support-copy .support-meta {
-    padding-right: 0;
   }
 
   .podium {
