@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "classificationVersion": 3,
   "generatedAt": "2026-10-30T11:21:19.177Z",
-  "taxonomyHash": "b51e86ce5f2e3b5b52659c15c1bc22e3862583acba259a35e692e8cfb85c4c61",
+  "taxonomyHash": "e9cdd4f89b0415de79e557c32c342f4d1517cea77a8968db45e5ee8940046dac",
   "plugins": [
     {
       "id": "07dcolem.appimages",
@@ -265,9 +265,7 @@
       "id": "acrogenesis.ai-account-switcher",
       "name": "AI Account Switcher",
       "metadataHash": "cf3ab262b695f254bb4dc44232d4cfc5d98d65e1a530f0526257fed4ecb7727f",
-      "types": [
-        "agent-monitoring"
-      ]
+      "types": []
     },
     {
       "id": "acrogenesis.breakout",
@@ -398,9 +396,7 @@
       "id": "agf.agent-activity",
       "name": "Agent Activity",
       "metadataHash": "f97b6d4e02173eed8050d58eba3fb1fee3ac6c83c107ceab76b4adae239e6abb",
-      "types": [
-        "agent-monitoring"
-      ]
+      "types": []
     },
     {
       "id": "agileautomation.omafloat",
@@ -437,7 +433,6 @@
       "name": "AGY Token Usage",
       "metadataHash": "61bd1e879ac5861ace9d199425b4d85ee4de986b1e49d70f95e236619d59324d",
       "types": [
-        "agent-monitoring",
         "ai-api-usage"
       ]
     },
@@ -979,9 +974,7 @@
       "id": "andreconde.tmux",
       "name": "Remote tmux",
       "metadataHash": "ac452c2269eda8c00ae07914c7b0e1974374c52d046f21c663c1b041645013ef",
-      "types": [
-        "agent-monitoring"
-      ]
+      "types": []
     },
     {
       "id": "andreiyurik.colorful-terminals",
@@ -1022,7 +1015,6 @@
       "name": "Keyboard Backlight Idle Auto-Off",
       "metadataHash": "649c1c8e1f89d90084dc79f9741e5236400db28a278e62343efb7939804210b3",
       "types": [
-        "idle-sleep",
         "keyboard-lighting"
       ]
     },
@@ -2244,9 +2236,7 @@
       "id": "beforeugone.agents",
       "name": "BF-Agent-Ledger",
       "metadataHash": "be49bc264362f557d76c0801ff8c2e981bb3eca491cad6f451f5e33ed5b8c9d0",
-      "types": [
-        "agent-monitoring"
-      ]
+      "types": []
     },
     {
       "id": "beijingrong.smellytype",
@@ -2520,8 +2510,7 @@
       "metadataHash": "b993173112163c2712a874753d61165eba9349f53052fee15fda29be1c2f2ec5",
       "types": [
         "system-monitor",
-        "network-diagnostics",
-        "endpoint-monitoring"
+        "network-diagnostics"
       ]
     },
     {
@@ -2824,8 +2813,7 @@
       "name": "RAMen",
       "metadataHash": "fd831cb494ba43f7172cbe55c56a0d51bbca4afc2a0a6fe640fcef838dd77737",
       "types": [
-        "system-monitor",
-        "service-status"
+        "system-monitor"
       ]
     },
     {
@@ -3850,8 +3838,7 @@
       "name": "Fast Lid",
       "metadataHash": "7de54d182cdeadd3095596792a67ad921aca6a69fdca9e30e9b23b65dc4b90cc",
       "types": [
-        "keep-awake",
-        "agent-monitoring"
+        "keep-awake"
       ]
     },
     {
@@ -4489,7 +4476,6 @@
       "name": "Codex Usage",
       "metadataHash": "0e837db25ea8d270554693f50a4a6a1577706af7831f7121884fdac6c9c24483",
       "types": [
-        "agent-monitoring",
         "ai-api-usage"
       ]
     },
@@ -4707,9 +4693,7 @@
       "id": "costafot.android-dev",
       "name": "Android Dev",
       "metadataHash": "3e8684692bdf9b99ad70cf2b121f189a704b0469915b788ab26c49f9bfca2a56",
-      "types": [
-        "screen-recording"
-      ]
+      "types": []
     },
     {
       "id": "costafot.autoduck",
@@ -5265,8 +5249,7 @@
       "name": "GPU",
       "metadataHash": "7b057d980f5eaa2f0eff672f768ca574421bb2268e44c1875a541763c4be9dda",
       "types": [
-        "system-monitor",
-        "desktop-clocks"
+        "system-monitor"
       ]
     },
     {
@@ -5328,9 +5311,7 @@
       "id": "data-budget",
       "name": "Data Budget",
       "metadataHash": "6bc285082791244ece7ea4551e18ed4760d57e5c300562953bbd6c0541a4d330",
-      "types": [
-        "hotspots"
-      ]
+      "types": []
     },
     {
       "id": "datbuiquoc035.omaray",
@@ -5363,9 +5344,7 @@
       "id": "davedes.omadoctor",
       "name": "OmaDoctor",
       "metadataHash": "75293b22ebc5cfd35be1c629238614c3f56837555d21135f1dcb6ef5ef91e390",
-      "types": [
-        "endpoint-monitoring"
-      ]
+      "types": []
     },
     {
       "id": "davedes.omcontrol",
@@ -5885,8 +5864,7 @@
       "name": "CPU Usage",
       "metadataHash": "240a92ba07c8235968c36560d5aa24ae4ead4b07cd71e8b4d0e422ef896e5db1",
       "types": [
-        "system-monitor",
-        "endpoint-monitoring"
+        "system-monitor"
       ]
     },
     {
@@ -5952,6 +5930,7 @@
       "name": "Pitwall",
       "metadataHash": "2cd5a1cc4960f727087573adbb4c28925a29f943b3dad716172dfe4cea58d07c",
       "types": [
+        "agent-monitoring",
         "agent-history"
       ]
     },
@@ -6107,9 +6086,7 @@
       "id": "devinblack001.wazuh-view",
       "name": "Wazuh View",
       "metadataHash": "c72cea5537c03c3ac4a6717a4342855c456d1e6f5f8bdbc3ce08fddbd492de91",
-      "types": [
-        "agent-monitoring"
-      ]
+      "types": []
     },
     {
       "id": "devmercenario.antigravity",
@@ -8340,6 +8317,7 @@
       "types": [
         "battery",
         "idle-sleep",
+        "keep-awake",
         "keyboard-lighting",
         "peripheral-battery"
       ]
@@ -8616,7 +8594,6 @@
       "name": "AI Usage Bar",
       "metadataHash": "2f3a74b25dceb8dfcb4fd09ce2875da9c5c8cbbb895a35dc773e8090971d0896",
       "types": [
-        "agent-monitoring",
         "ai-api-usage"
       ]
     },
@@ -8722,8 +8699,7 @@
       "name": "AI Agent Assistant",
       "metadataHash": "65fcdd187f5b10a85aa23472994adfe24375152ce581b5e421c53aedf3e91b73",
       "types": [
-        "screen-time",
-        "agent-monitoring"
+        "screen-time"
       ]
     },
     {
@@ -8982,7 +8958,6 @@
       "name": "Airwaves",
       "metadataHash": "cbb4aa3d803db226d1b28082760b779449e244576bd5c535386dced0c721e0f4",
       "types": [
-        "idle-sleep",
         "timers-alarms",
         "radio"
       ]
@@ -9015,7 +8990,6 @@
         "music",
         "weather",
         "docks",
-        "agent-monitoring",
         "service-status"
       ]
     },
@@ -9176,7 +9150,9 @@
       "id": "h3nr1.d14z.jenkins",
       "name": "Jenkins Health",
       "metadataHash": "c685bb72fd273a8790c8d4280832c8c7569f4f52a2e322f82c0c75dae10891b9",
-      "types": []
+      "types": [
+        "endpoint-monitoring"
+      ]
     },
     {
       "id": "hackxit.chromecast",
@@ -9982,9 +9958,7 @@
       "id": "ianswope.plex",
       "name": "Plex",
       "metadataHash": "8c0ea4767d94f7e6ab944987b40d3113c70e992e7581e5b58423aaa085e87b76",
-      "types": [
-        "endpoint-monitoring"
-      ]
+      "types": []
     },
     {
       "id": "ianswope.renders",
@@ -11531,7 +11505,6 @@
       "metadataHash": "97b7503cba630239b0099cded067a5c505b1ed0229707585b97e23a12e25c45f",
       "types": [
         "audio",
-        "idle-sleep",
         "timers-alarms"
       ]
     },
@@ -11662,7 +11635,6 @@
       "name": "Claude Usage",
       "metadataHash": "2fa911adf14f9e924c8a8f7d12dd6678e34743cd84b2f5adc1533c4054fcd689",
       "types": [
-        "agent-monitoring",
         "ai-api-usage"
       ]
     },
@@ -13781,10 +13753,7 @@
       "id": "io.github.daventhedude.omarchief",
       "name": "Omarchief",
       "metadataHash": "ae75a5b8400049a6d832c7c9336fca2a4f917996ec256681e7f5756daa274e9e",
-      "types": [
-        "agent-monitoring",
-        "agent-history"
-      ]
+      "types": []
     },
     {
       "id": "io.github.daventhedude.steam-friends",
@@ -13813,8 +13782,7 @@
       "name": "TrueNAS Apps Watcher",
       "metadataHash": "fe31534431f80ac692659607e2a02911236d594622bec80cd8f0b14821edd014",
       "types": [
-        "containers",
-        "endpoint-monitoring"
+        "containers"
       ]
     },
     {
@@ -14145,9 +14113,7 @@
       "id": "io.github.dharmapurikar.otter",
       "name": "Otter",
       "metadataHash": "b1a1e18c63e4eef7bf94c4935db1ce46b322a7cc18adff0bf35dc2b61bdb4ac3",
-      "types": [
-        "agent-history"
-      ]
+      "types": []
     },
     {
       "id": "io.github.dicemans.docker-vms",
@@ -14250,9 +14216,7 @@
       "id": "io.github.dishnicons.plugin-doctor",
       "name": "Plugin Doctor",
       "metadataHash": "19334ad2a500e9981847cf62cf4c6466be7f2eebb66f56b1edffdc0c40277f43",
-      "types": [
-        "endpoint-monitoring"
-      ]
+      "types": []
     },
     {
       "id": "io.github.disy-mk.omeetingbar",
@@ -14371,7 +14335,7 @@
       "name": "Desktop Restore",
       "metadataHash": "fd0dfa2f30c28d28b6f4f7cb10b34d463c63f0b56336d546b9e0fe4dc935159e",
       "types": [
-        "agent-monitoring"
+        "agent-history"
       ]
     },
     {
@@ -14693,9 +14657,7 @@
       "id": "io.github.duketopceo.numbat",
       "name": "Numbat",
       "metadataHash": "c23c0ebce742d6a501a367bbf8b3a097c701310bba7a9ca76a67eb57569f330d",
-      "types": [
-        "agent-monitoring"
-      ]
+      "types": []
     },
     {
       "id": "io.github.duketopceo.pplx",
@@ -15217,7 +15179,7 @@
       "name": "Agent Pipeline",
       "metadataHash": "7e563a44fa924fc06267ee315d5fb57b0b556875a41ba9a5abba4ccac9f563e4",
       "types": [
-        "agent-history"
+        "agent-monitoring"
       ]
     },
     {
@@ -16030,9 +15992,7 @@
       "id": "io.github.gmantoha.claude-effort",
       "name": "Claude effort",
       "metadataHash": "be72aa82f65eec779bf72f30239f8aa25ed4ac012f5969825ebcc582ccb42d50",
-      "types": [
-        "agent-monitoring"
-      ]
+      "types": []
     },
     {
       "id": "io.github.godisopensource.omarchy-wacom-support",
@@ -16835,8 +16795,7 @@
       "metadataHash": "9e13de273fe84c86fe0d2a0b03265457e2932a5321a9c1a76a084c1d2603c46f",
       "types": [
         "system-monitor",
-        "containers",
-        "endpoint-monitoring"
+        "containers"
       ]
     },
     {
@@ -16919,8 +16878,7 @@
       "metadataHash": "0b1b8e0bd32189363970f97d47f17d0462787ea04cdf310ab4358655389989c8",
       "types": [
         "system-monitor",
-        "network-diagnostics",
-        "endpoint-monitoring"
+        "network-diagnostics"
       ]
     },
     {
@@ -17605,9 +17563,7 @@
       "id": "io.github.jeremylongshore.listening-post",
       "name": "Listening Post",
       "metadataHash": "f72487539aa914c30b0d1f51b51c699d41fa1b6e39f0ef0a2853e077f93baacc",
-      "types": [
-        "service-status"
-      ]
+      "types": []
     },
     {
       "id": "io.github.jeremylongshore.loose-ends",
@@ -18035,9 +17991,7 @@
       "id": "io.github.joshuaswarren.remnic",
       "name": "Remnic Recall",
       "metadataHash": "734a33031b818528e88c10c28a14c28341376c43c6b46cc83ad965cf44110d2a",
-      "types": [
-        "agent-monitoring"
-      ]
+      "types": []
     },
     {
       "id": "io.github.joshuaswarren.shiplog",
@@ -20074,7 +20028,6 @@
       "name": "Herdr Screensaver",
       "metadataHash": "f130c62ac1669c8b43ab02e7743680a6859d176700cdc2bd6dc8ae94ef7ef84e",
       "types": [
-        "agent-monitoring",
         "screensavers"
       ]
     },
@@ -20624,9 +20577,7 @@
       "id": "io.github.ngek202.tablet-toggle",
       "name": "Tablet Toggle",
       "metadataHash": "a62767ca3d24f48268a44afeec99ee435f809ff013a5fd3bd97c8e6c0772c6b9",
-      "types": [
-        "endpoint-monitoring"
-      ]
+      "types": []
     },
     {
       "id": "io.github.nicholasladwig.pianobar-pandora-widget",
@@ -20838,6 +20789,7 @@
       "name": "Chime",
       "metadataHash": "d67540a2679b8c586bdca9fdc187f5ab944c09148025f6b6c95f2a7f25e5f6f4",
       "types": [
+        "desktop-clocks",
         "world-clocks",
         "timers-alarms"
       ]
@@ -21192,7 +21144,6 @@
       "name": "Video Wallpaper",
       "metadataHash": "8014711bf4e9006de48a408d8695074803ab085929779040bce007bf2dd21ba1",
       "types": [
-        "keep-awake",
         "wallpaper"
       ]
     },
@@ -21508,8 +21459,7 @@
       "name": "Feed the Flock",
       "metadataHash": "ca559cba6ec59fe18b85fdf22928a889c7cfd0915e22429713a270be0b82ed84",
       "types": [
-        "notes",
-        "agent-monitoring"
+        "notes"
       ]
     },
     {
@@ -22339,7 +22289,6 @@
       "name": "Agent Usage",
       "metadataHash": "dabe45c50ce76911df34a3cd1c1330426f3d49184caa17e93e1fa260ca150c9d",
       "types": [
-        "agent-monitoring",
         "ai-api-usage"
       ]
     },
@@ -22962,9 +22911,7 @@
       "id": "io.github.sahzudin.omamemo",
       "name": "Omamemo",
       "metadataHash": "5859a960c98e4882a62f86f7514ded3a059131e82576330bef3c78505f7594dd",
-      "types": [
-        "agent-monitoring"
-      ]
+      "types": []
     },
     {
       "id": "io.github.sahzudin.omaport",
@@ -22979,7 +22926,6 @@
       "name": "Agent Chat",
       "metadataHash": "7d6eb6444c7d2aca4afb15f3b52d9b5a6e2af7b08154878a9a93569412931f76",
       "types": [
-        "agent-history",
         "ai-chat"
       ]
     },
@@ -23917,9 +23863,7 @@
       "id": "io.github.soham3301.port-watcher",
       "name": "Port Watcher",
       "metadataHash": "2ca982d8ffa4a9efe3530e95a9cab57db83ad6d4608f7fedfae6f11ab4a4fc53",
-      "types": [
-        "endpoint-monitoring"
-      ]
+      "types": []
     },
     {
       "id": "io.github.soham3301.spinning-disks",
@@ -25018,9 +24962,7 @@
       "id": "io.github.tslove923.howdy-face-unlock",
       "name": "Howdy Face Unlock",
       "metadataHash": "2453ac8534d15c6bf001a4dccb10b7a8594d22d082ec01dc541a6d30551e0148",
-      "types": [
-        "endpoint-monitoring"
-      ]
+      "types": []
     },
     {
       "id": "io.github.ttiimmaahh.omarivian",
@@ -25386,7 +25328,6 @@
       "name": "Agent Usage Plus",
       "metadataHash": "bec09de0681d16d20b2bd539747f8a459eb7a097ccdb7ffe0916d4647821b0b3",
       "types": [
-        "agent-history",
         "ai-api-usage"
       ]
     },
@@ -27183,15 +27124,16 @@
       "name": "AgentCron",
       "metadataHash": "6375b4ccc4d6c4c147af357f3a71f78909ff430ada6283b522bf355beeb7de6f",
       "types": [
-        "timers-alarms",
-        "agent-history"
+        "timers-alarms"
       ]
     },
     {
       "id": "jim.claude-context",
       "name": "Claude Context",
       "metadataHash": "4ad97de8b0123564718c7421b7d04a7a38d5062096c6b94a23e61e9efb5e0616",
-      "types": []
+      "types": [
+        "agent-history"
+      ]
     },
     {
       "id": "jim.ollama-chat",
@@ -27237,9 +27179,7 @@
       "id": "jinxnet.inkmode",
       "name": "Ink Mode",
       "metadataHash": "fd36c45153cdc60cbaeb760d4bb760acd9a10f165d20dfe133ed3e1d2f998373",
-      "types": [
-        "agent-monitoring"
-      ]
+      "types": []
     },
     {
       "id": "jixt.twingate",
@@ -28255,9 +28195,7 @@
       "id": "kenhara.compliantish",
       "name": "Compliantish",
       "metadataHash": "bfd3bc4384da655ad51a664952617057794e8abfe9718596935425c62f06064a",
-      "types": [
-        "lock-screen"
-      ]
+      "types": []
     },
     {
       "id": "kenhara.encyclopedic",
@@ -28442,9 +28380,7 @@
       "id": "kiryuuki.oma-immich",
       "name": "OmaImmich",
       "metadataHash": "d43a56bd551de9175af95f42344b26c957ee3436b3e5092ee881c7f25d7ff8b9",
-      "types": [
-        "endpoint-monitoring"
-      ]
+      "types": []
     },
     {
       "id": "kiryuuki.oma-kasm",
@@ -28806,9 +28742,7 @@
       "id": "kzagoris.codex-router-tray",
       "name": "Codex Router Tray",
       "metadataHash": "84bc415a4958e0b7fc48281bcff6ee7b234f18cc6c0ca86ed5c5f7f716956cf7",
-      "types": [
-        "agent-monitoring"
-      ]
+      "types": []
     },
     {
       "id": "l3aro.sudoku",
@@ -28977,7 +28911,9 @@
       "name": "BetterPower",
       "metadataHash": "59d968042c39933773de9bc7cdc1fe95c0dc8288d9affd49265ef3a1bb9d111c",
       "types": [
-        "battery"
+        "battery",
+        "idle-sleep",
+        "keep-awake"
       ]
     },
     {
@@ -29459,7 +29395,6 @@
       "metadataHash": "a27ca935ca0107588faebfb84e340253dad9c46a3a1e28085a6845051fca991e",
       "types": [
         "timers-alarms",
-        "agent-history",
         "ai-api-usage"
       ]
     },
@@ -29548,9 +29483,7 @@
       "id": "lonh.agents-sleep",
       "name": "Agents Sleep",
       "metadataHash": "dfc5ab2234168a3b4923a8b7cafec5b8e11969cd7f3e22c07bd7c7ff926bbc8d",
-      "types": [
-        "agent-monitoring"
-      ]
+      "types": []
     },
     {
       "id": "loocist.iot",
@@ -29914,9 +29847,7 @@
       "id": "madmasx.hermes-pets",
       "name": "Hermes Pets",
       "metadataHash": "b6b3968edfb38cd4445318de7970b19dfcf4a782b0fff67883f3507f323c984a",
-      "types": [
-        "agent-monitoring"
-      ]
+      "types": []
     },
     {
       "id": "madmasx.russian-phrases",
@@ -30132,9 +30063,7 @@
       "id": "marcho78.uber-notebook",
       "name": "Uber Notebook",
       "metadataHash": "d7b381fc311867cecaad44c957aab95e7356c8c827db4a5681e89e766251080a",
-      "types": [
-        "agent-monitoring"
-      ]
+      "types": []
     },
     {
       "id": "marcho78.yapper",
@@ -31416,7 +31345,9 @@
       "id": "murankar.eso-server-status",
       "name": "ESO Server Status",
       "metadataHash": "7ba337049cfaed1ae91f58d89e905025a063f28b9bc52a4a04ee7bdf829f634c",
-      "types": []
+      "types": [
+        "service-status"
+      ]
     },
     {
       "id": "murdi.named-workspaces",
@@ -32444,7 +32375,6 @@
       "name": "F1 Live",
       "metadataHash": "e4e899f67fa8e7dcf30a16eddf147321aa71a456bd1c186a87c231d09a828f94",
       "types": [
-        "world-clocks",
         "timers-alarms"
       ]
     },
@@ -34170,8 +34100,7 @@
       "name": "openzoo ingest",
       "metadataHash": "05065c0ad8b1691baf3a10cda2c8c24038c9650a77d7b0b0c30c9e4a273dab72",
       "types": [
-        "ocr",
-        "agent-history"
+        "ocr"
       ]
     },
     {
@@ -34548,8 +34477,7 @@
       "name": "Local Web Services",
       "metadataHash": "37eb3d27b66371df57b08ce24c23c024f436131617df634eb0ad84514782e6fa",
       "types": [
-        "system-monitor",
-        "endpoint-monitoring"
+        "system-monitor"
       ]
     },
     {
@@ -35471,8 +35399,7 @@
       "metadataHash": "8f08657429bb9b948086cfcdd572ed23aaa32c82198fe95703265cefb4721765",
       "types": [
         "system-monitor",
-        "network-diagnostics",
-        "endpoint-monitoring"
+        "network-diagnostics"
       ]
     },
     {
@@ -35735,9 +35662,7 @@
       "id": "rafaelsieber.curl-check",
       "name": "Curl Check",
       "metadataHash": "bc2bd8059bcd99bd937ac7bb934b2bf2516b7cd74f37ab8bd61f8aede8156ecf",
-      "types": [
-        "agent-monitoring"
-      ]
+      "types": []
     },
     {
       "id": "rafale83.hires-screensaver",
@@ -36434,7 +36359,8 @@
       "name": "AgentsView",
       "metadataHash": "2b9b4fe08d9e7762d1729ce9ac291ab998628f795ed1029c6c194c6c2b4f5c04",
       "types": [
-        "agent-monitoring"
+        "agent-monitoring",
+        "agent-history"
       ]
     },
     {
@@ -36693,9 +36619,7 @@
       "id": "rocha.pasteimage",
       "name": "PasteImage",
       "metadataHash": "79c22e5e8b1d604559ad5d65adb444d5c6ef6986c72fac16d6ccdca477227269",
-      "types": [
-        "agent-monitoring"
-      ]
+      "types": []
     },
     {
       "id": "rockeyxx.lock-plus",
@@ -36758,7 +36682,6 @@
       "name": "Agent Monitor",
       "metadataHash": "defbb7858f185711a0d366708c6cc4705e5a8bf4e1873ce17050c1f027992133",
       "types": [
-        "agent-monitoring",
         "ai-api-usage"
       ]
     },
@@ -37154,8 +37077,7 @@
       "metadataHash": "9f9c385dd98936ab2ec2ce2f446f37edee81d2e599514183387031e05b3e792d",
       "types": [
         "system-monitor",
-        "network-diagnostics",
-        "endpoint-monitoring"
+        "network-diagnostics"
       ]
     },
     {
@@ -37935,9 +37857,7 @@
       "id": "sid.wiki-wait",
       "name": "Wiki Wait",
       "metadataHash": "74341a1a15e1506dd277766e7cfe2c16ee66d90c7e4dde10a7ac4d9c434df809",
-      "types": [
-        "agent-monitoring"
-      ]
+      "types": []
     },
     {
       "id": "signal-six.kaomarchy",
@@ -39040,9 +38960,7 @@
       "id": "swheel33.perfwatch",
       "name": "Perfwatch",
       "metadataHash": "bda2d99eaf28b82a56f2e3620f78f9c2b7fa95ac9408cb7525e26b6a8e237d6d",
-      "types": [
-        "service-status"
-      ]
+      "types": []
     },
     {
       "id": "swheel33.tailbridge",
@@ -39120,9 +39038,7 @@
       "id": "syndicalt.eventloom",
       "name": "Eventloom",
       "metadataHash": "ef28e5028333006f07816af8e723dd04f1feaeeab5fa4dc347096c4ffb0dca98",
-      "types": [
-        "agent-monitoring"
-      ]
+      "types": []
     },
     {
       "id": "syndicalt.hot-apps",
@@ -40187,9 +40103,7 @@
       "id": "tsouth89.signal",
       "name": "Signal",
       "metadataHash": "99bc3b31d4621d9d4db01e67a803a62e47da9b9bd020252b1981841d5360e94f",
-      "types": [
-        "service-status"
-      ]
+      "types": []
     },
     {
       "id": "tsubaie.next-match",
@@ -40817,7 +40731,6 @@
       "name": "Now Bar",
       "metadataHash": "757f54db9ed75e8023148452bb9240e0020c50d2e16cd3406cfaa1b0fb045472",
       "types": [
-        "idle-sleep",
         "timers-alarms",
         "focus",
         "screen-recording"
@@ -41233,9 +41146,7 @@
       "id": "wdg.omarecall",
       "name": "OmaRecall",
       "metadataHash": "3c151759ab6bfca33e08da8c149d554453734ccde0d8ee421b665bc0d3826f49",
-      "types": [
-        "agent-monitoring"
-      ]
+      "types": []
     },
     {
       "id": "weblauncher",
@@ -41449,7 +41360,6 @@
       "types": [
         "lock-screen",
         "wallpaper",
-        "agent-monitoring",
         "github"
       ]
     },

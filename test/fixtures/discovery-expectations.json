@@ -32,6 +32,34 @@
       "listingSha256": "d5c95b65d5ab8c1b8c7458681f165efb7acdf617a8f4ecbeae372a50eb8ecc27"
     },
     {
+      "pluginId": "acooper.clock-timer",
+      "typeId": "clock-timer",
+      "expectedTargets": [
+        "desktop-clocks"
+      ],
+      "reason": "The date/time label is a persistent clock lead; the calendar and elapsed/countdown timers do not establish multi-zone comparison.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Date/time label with a calendar popup, plus a countdown timer and stopwatch"
+        }
+      ],
+      "listingSha256": "6131f042945f431ac35ac9ab12cacd70ce984e58a8025e89cd50432ed654c31e"
+    },
+    {
+      "pluginId": "acrogenesis.ai-account-switcher",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Opening isolated coding accounts while preserving active work is account switching, without a session-state view or saved-conversation browser.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Open isolated Codex and Claude Code accounts from the Omarchy bar without closing active sessions."
+        }
+      ],
+      "listingSha256": "c87075e9d69076287df290b88158882efb5917b212e6f51c321cb0b3f3cf720b"
+    },
+    {
       "pluginId": "adam.codex-threads",
       "typeId": "ai-assistant",
       "expectedTargets": [
@@ -60,6 +88,32 @@
         }
       ],
       "listingSha256": "315b692a674441ecd494dcab4c1bfdc1d92ae015be0deef123876f6fd8fbfd3c"
+    },
+    {
+      "pluginId": "agf.agent-activity",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Historical activity replay summarizes time, tokens and topics; it does not claim live-session focus or resumption of a saved conversation.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Local dashboard of what your coding agents (Pi, Claude Code, Codex) worked on: time, tokens, themes, topics, terms, tools and subagents, with a time slider to replay any range."
+        }
+      ],
+      "listingSha256": "8f13c0a30efb5fa3278cc344b9c7e760cf79e58b0c85043673a98be366b48578"
+    },
+    {
+      "pluginId": "agy.token-usage",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Token usage, prompt pace and session metrics describe consumption telemetry rather than running-agent controls or archived conversations.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Antigravity (AGY) token usage, prompt pace, and session metrics in a native Omarchy bar panel."
+        }
+      ],
+      "listingSha256": "5bed0f3ef2538d066588c9b3246287add881a2a86f4b8b2f47ed0e0042f4029a"
     },
     {
       "pluginId": "air.auto-cafe",
@@ -146,6 +200,22 @@
       "listingSha256": "d6121ff4f2ef84025fc5e4117260e753292daafee6df942c26344c5edae7a357"
     },
     {
+      "pluginId": "alvarosaavedra.dst-clocks",
+      "typeId": "clock-timer",
+      "expectedTargets": [
+        "desktop-clocks",
+        "world-clocks"
+      ],
+      "reason": "The bar displays several named zones with current times and lets users add/remove clocks, supporting both clock and zone-comparison discovery.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "A row of fixed timezones on the bar — flag emoji + 24h time, always DST-correct. Click to add, remove, or re-badge clocks via the Omarchy menu."
+        }
+      ],
+      "listingSha256": "c8f2e5e11097cea074c8f1388fb95593adf7aa2f8571acc239ef4795e317d0ca"
+    },
+    {
       "pluginId": "amesy.crunchyroll",
       "typeId": "window-management",
       "expectedTargets": [],
@@ -172,6 +242,47 @@
         }
       ],
       "listingSha256": "b6225db5a664acc225526807f8cd1e0fe8096cca5575113e5e3b4b6b25b35493"
+    },
+    {
+      "pluginId": "andreconde.herdr",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "Native waiting/working states and click-to-focus for local Herdr workspaces directly support running-agent monitoring.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Herdr workspace monitor for the Omarchy bar: local or remote workspaces with native agent status (waiting/working/done/idle), click to focus, two-click close. With sheprd running, shows who needs you across all machines and today's usage."
+        }
+      ],
+      "listingSha256": "6c8de6a8a12f18fcd20805d810f6ed039758c1e55e0141b02a5fe0db1234f641"
+    },
+    {
+      "pluginId": "andreconde.tmux",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "The panel explicitly reads status from a remote SSH host; a remote read-only viewer is outside the local running-session task.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Remote tmux viewer for an SSH host: sessions, windows, and Claude Code agent status (waiting/working/ready) read from pane tails, in a bar panel."
+        }
+      ],
+      "listingSha256": "bd8cf71a3c7431e51e670749fb68eecb45dd72374694c2f21616668af381a132"
+    },
+    {
+      "pluginId": "andrewf.keyboard-idle",
+      "typeId": "lock-idle",
+      "expectedTargets": [],
+      "reason": "The idle timeout controls a keyboard backlight, not the host display, lock or sleep policy; peripheral lighting is a different target.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Turns off the keyboard backlight after a configurable idle timeout and restores it on activity."
+        }
+      ],
+      "listingSha256": "0de79a908c56508e6cd51241ffb027be7990a1f302d0ba99b2245343b3972e86"
     },
     {
       "pluginId": "andy.side-panel",
@@ -246,6 +357,36 @@
         }
       ],
       "listingSha256": "10355c75e01809e98f1396b9cd9d798dce6a9a87403912780e574c9e4ad374b8"
+    },
+    {
+      "pluginId": "apollo.agent-cockpit",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "Live blocked/working states and exact tmux-pane targeting are direct leads for inspecting and focusing local coding agents.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Live Claude Code and opencode sessions with blocked/working state and exact tmux pane targeting, plus git worktree status."
+        }
+      ],
+      "listingSha256": "92d5365b5b9766ee6191d7f0b960fd78f23b3205700428752b11341d71f08cba"
+    },
+    {
+      "pluginId": "arch.herdr-status",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "Real-time Herdr coding-agent status is a relevant monitoring lead; a native focus action still needs source verification.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Visualizes real-time Herdr AI coding agent status on the navigation bar with ultra-low CPU and RAM footprint"
+        }
+      ],
+      "listingSha256": "d1c7da5be7112adcb676a6f77e6b3697f606d392892a6eb7bac0603af0ca9fe8"
     },
     {
       "pluginId": "artmins96.l2tp",
@@ -396,6 +537,21 @@
       "listingSha256": "8789be89e021d3624bc7cb06a16cbde355d2101d524e4d20e8605c526d809a25"
     },
     {
+      "pluginId": "bakugo.hermes-attention",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "The beacon reports a local Hermes approval wait and opens its flagged command; source review must establish session targeting.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Attention beacon for the Omarchy bar: pulses red when a Hermes agent is waiting for your approval. Click for the flagged command; right-click to silence."
+        }
+      ],
+      "listingSha256": "4f2af3e573734347564928a9ffd3be46343d3abc64c7bd3723b64c5304aeae68"
+    },
+    {
       "pluginId": "banan.bananet",
       "typeId": "network",
       "expectedTargets": [
@@ -411,6 +567,19 @@
       "listingSha256": "1596a407a4fb49b1f6f892d9e7aff89ccdc0739d14e942ac29c5fd51a5c084b9"
     },
     {
+      "pluginId": "banan.banansms-monitor",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "SMS service limits, message-delivery reports and alerts do not establish endpoint health checks or provider availability incident reports.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Read-only monitoring for SerwerSMS: service limits, delivery reports, alerts and encrypted local storage."
+        }
+      ],
+      "listingSha256": "07734f69e0f8b874a52cc8ab9c45f7da42384d271ab8dce205a84c622fdea770"
+    },
+    {
       "pluginId": "banan.banatik",
       "typeId": "firewall",
       "expectedTargets": [],
@@ -422,6 +591,19 @@
         }
       ],
       "listingSha256": "6098323dac0a425e08f426259462fe34cc73cf6ce3ecdb18d5100f7b96e72644"
+    },
+    {
+      "pluginId": "beforeugone.agents",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "The ledger aggregates coding usage, limits, costs and tokens by session; it does not claim live-session focus or conversation resumption.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "AI coding usage on one page: limits, a year of activity, cost at list prices, and tokens by agent, model, project, hour and session for Claude Code, Codex, OpenCode, Pi, Hermes, Gemini CLI, Grok, Kigi, Devin, Kimi Code and Fireworks. English and Chinese."
+        }
+      ],
+      "listingSha256": "a29257b2ff7a8c4b4a5049bd292caa3768d056148fffe06d1abb79427c62be24"
     },
     {
       "pluginId": "berat.analog-clock",
@@ -437,6 +619,19 @@
         }
       ],
       "listingSha256": "ced1668063d36763d502c70b2fa05bb7da48f685206be9786bb4e16bfbe3bab5"
+    },
+    {
+      "pluginId": "bibek.focusd",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Focusd sessions and history belong to Pomodoro focus tracking, not coding-agent conversations.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "A pomodoro timer for the Omarchy bar with features like streak, daily goal, sessions, stats, history, and session progress visualization."
+        }
+      ],
+      "listingSha256": "06e8423350fae3dbfe5c4bac2144267448b93afef3a8b3b2cabd96c7dbbe479a"
     },
     {
       "pluginId": "bibek.lock",
@@ -483,6 +678,19 @@
         }
       ],
       "listingSha256": "e49d9d384349efa9b983ed99be17470b6be2fa9d9d213bd5beb3d58a0d841323"
+    },
+    {
+      "pluginId": "bitr0t.system-monitor",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "Uptime here is host runtime alongside CPU, memory and process statistics; configured endpoint probes and provider incidents are absent.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Live CPU, memory, network, load, uptime, and sensor chip with a system monitor panel, process list, and standalone Task Manager window."
+        }
+      ],
+      "listingSha256": "b1c80e29d1b5014a2e17730de64ce6f19bd95256acc1f9964dfe7b07b62c5e3d"
     },
     {
       "pluginId": "blackcode.omacolorbar",
@@ -541,6 +749,21 @@
       "listingSha256": "191500931907068f17bb116ed5b0706e0a28c83141a038df1f5ea9615db0a9e6"
     },
     {
+      "pluginId": "bottelet.focus-modes",
+      "typeId": "lock-idle",
+      "expectedTargets": [
+        "keep-awake"
+      ],
+      "reason": "The Focus mode explicitly includes keep-awake and restores its settings when the mode ends, a reversible inactivity-hold lead.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "iOS-style Focus modes for your desktop. One toggle applies a whole context — notifications off, distracting sites blocked, noisy apps quarantined, theme switch, keep-awake — and gives every bit of it back when the mode ends."
+        }
+      ],
+      "listingSha256": "385524cee1df7be7c7368f12c17967a51661b0c92d81c1be2167a5b79bc075f3"
+    },
+    {
       "pluginId": "bottelet.is-it-down",
       "typeId": "uptime-monitoring",
       "expectedTargets": [
@@ -556,6 +779,19 @@
       "listingSha256": "a669a1a087875ade78ca1df86e66a3a09d67fc28abe206b6c655e2e36c84ace8"
     },
     {
+      "pluginId": "boundsj.raman",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "Incident alerts concern sustained RAM pressure and app resource use, rather than remote service availability or endpoint checks.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "RAM gauge, guarded app termination, memory history, opt-in sustained incident alerts, an on-demand storage explorer and an Apps page with CPU/RAM rails and per-app GPU memory where the kernel reports it."
+        }
+      ],
+      "listingSha256": "067f250c1cf7d19839302f3102f137afaae3f884e2384c3003a2af52842545c3"
+    },
+    {
       "pluginId": "brams.ollama-status",
       "typeId": "ai-chat",
       "expectedTargets": [],
@@ -567,6 +803,21 @@
         }
       ],
       "listingSha256": "1ad93d5d2774e4f06c27884bba61fa4c812c77da34edab843ed35d96c36ce35d"
+    },
+    {
+      "pluginId": "brianirish.screensaver",
+      "typeId": "lock-idle",
+      "expectedTargets": [
+        "idle-sleep"
+      ],
+      "reason": "Screensaver idle timing is an inactivity-setting lead; a generic screensaver toggle does not establish a temporary awake hold.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Screensaver settings: toggle, idle timing, effect picker, branding"
+        }
+      ],
+      "listingSha256": "68c657505ef4c11452f370c932fb353c7ce4aeb51757520ccc89ab0a8828c59a"
     },
     {
       "pluginId": "brightwalker25.mac-fan",
@@ -713,6 +964,21 @@
       "listingSha256": "d5f7488a6458099842f97fdff35af4828bc5b23da453c87b8f72c790e8ba58b9"
     },
     {
+      "pluginId": "cheapseatsecon.laya-attention",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "Watching agent panes for finished, failed or waiting states supports monitoring research; notification history is not conversation history.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Watches AI agent panes (herdr) and desktop notifications through the local Laya decision server: notifies only when an agent finishes, fails, or waits; closes routine notification noise; keeps a grouped notification history; and guards focus against routine focus_on_activate steals."
+        }
+      ],
+      "listingSha256": "209a28eba023416ed657c897a0d36edf26cd4d299282b021eacfc66c10ac7863"
+    },
+    {
       "pluginId": "chicks.stargazer",
       "typeId": "weather",
       "expectedTargets": [
@@ -739,6 +1005,21 @@
         }
       ],
       "listingSha256": "e130bafcff71d9d21af7f4c64def809de0ef38b601add70a9534ceb4bdc32d1f"
+    },
+    {
+      "pluginId": "chthollyphile.agent-pet",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "The pet shows live Claude/Codex work status from hooks; a native action to focus the reported session needs source review.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Desktop pet ported from dsh-pet: idle animations, drag and throw, and live Claude Code / Codex work status. Work status needs the agent hooks installed manually; see the repository README."
+        }
+      ],
+      "listingSha256": "bf42fd9a33b0cb2e7271578705cbff87b5e508b744f767cf5fee293cd2634709"
     },
     {
       "pluginId": "chupe.lid-suspend",
@@ -786,6 +1067,19 @@
       "listingSha256": "e4f4169109b4e11d6e3f359f605fcd412578a5e40f92d6d9fb9ce940132a98de"
     },
     {
+      "pluginId": "cittadhammo.languagetool",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "Running and controlling a grammar-check server does not itself describe inspection of health checks or provider incident reporting.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Run and control the local LanguageTool grammar-check server"
+        }
+      ],
+      "listingSha256": "63135c884ddea096523d6e509a9c3634aff1dead893b1c9e0218ea8bf8a3810b"
+    },
+    {
       "pluginId": "cjkaufman.omagravity",
       "typeId": "ai-assistant",
       "expectedTargets": [
@@ -814,6 +1108,19 @@
         }
       ],
       "listingSha256": "73e5275efe17e020e4e4c85faf1d1246140d70aaf48919d0f575a78ec40a04ac"
+    },
+    {
+      "pluginId": "clouddown.fast-lid",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Keeping agents working by inhibiting lid-close suspend is an awake-hold function, not an interface for agent activity or saved conversations.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Keep AI agents working while your laptop lid is closed. Inhibits lid-close and idle suspend with one click."
+        }
+      ],
+      "listingSha256": "51359da37c4ece806a1842dc07ed69a288888ca168423a909909cd3d01295b34"
     },
     {
       "pluginId": "clouddown.fast-lid",
@@ -926,6 +1233,19 @@
       "listingSha256": "479744128326c557771cc24774f1b2e3f1fc951c03e85fa6759641be0cfefc5c"
     },
     {
+      "pluginId": "community.codex-usage",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Session/weekly usage, pace and resets describe Codex quota consumption, without current-agent state or saved-session resumption.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Codex session and weekly usage, pace, and reset time in the Omarchy bar."
+        }
+      ],
+      "listingSha256": "2a55cf2b65cbb7b3d1ee10bcdc6a754cde2f1e191cff249a0a0944505ceb41b7"
+    },
+    {
       "pluginId": "community.network",
       "typeId": "network",
       "expectedTargets": [
@@ -981,6 +1301,19 @@
         }
       ],
       "listingSha256": "35d519396ba16d19716489dc88af8f8d7557d7b64203d2a6c2b67766f502c9cb"
+    },
+    {
+      "pluginId": "costafot.android-dev",
+      "typeId": "screen-recording",
+      "expectedTargets": [],
+      "reason": "Screenshots and recording target Android devices in a developer toolkit; recording the host desktop is not claimed.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "A companion plugin for the typical stuff an Android developer does on the day-to-day: devices, packages, developer toggles, screenshots and recording, APKs, the emulator, scrcpy and wireless debugging."
+        }
+      ],
+      "listingSha256": "f4abe53bdd3c55e4864d9c24fe189847ce8b1ca7c3c968be1a2dd0d5bf2a240b"
     },
     {
       "pluginId": "costafot.autoduck",
@@ -1062,6 +1395,22 @@
     },
     {
       "pluginId": "cybercivizen.clawdius",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring",
+        "agent-history"
+      ],
+      "reason": "Live work/approval states and a live/recent sessions view merit both session reviews; exact focus and selected-history resume controls remain unverified.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Clawdius, a pixel crab beside the clock, keeps an eye on your Claude Code sessions. Hover the bar's middle for an island with the moment that matters (approvals and Claude's questions, finished turns, the session at work), a new-chat view, live and recent sessions, usage, and an app search (Alt+Space) that also works out sums, runs commands and Google searches."
+        }
+      ],
+      "listingSha256": "354161e37f4c7bcd7a7ba6c835ab51c380a8715db6e4f0020696d4d41ee20531"
+    },
+    {
+      "pluginId": "cybercivizen.clawdius",
       "typeId": "clock-timer",
       "expectedTargets": [],
       "reason": "The crab sits beside an existing clock and monitors agents; it does not supply a clock.",
@@ -1132,6 +1481,19 @@
       "listingSha256": "db074fcae43cf93e60a88721b534d8329c4882553ca429434c876339f4f59182"
     },
     {
+      "pluginId": "dansmith888.gpu",
+      "typeId": "clock-timer",
+      "expectedTargets": [],
+      "reason": "GPU clocks are processor frequencies alongside VRAM and power telemetry, not civil-time displays or zone comparisons.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "GPU load, VRAM, temperature, power and clocks in the Omarchy bar. Pairs with my CPU and Bandwidth plugins: click @DanSmith888 to see all three"
+        }
+      ],
+      "listingSha256": "5448faf3adf5e134fd8ee18a5134b45ad9e088b8383cc2620847522ba9c5a04a"
+    },
+    {
       "pluginId": "dansmith888.momentum4",
       "typeId": "audio",
       "expectedTargets": [],
@@ -1143,6 +1505,21 @@
         }
       ],
       "listingSha256": "f0f82ffc84ffbb73e6e9c81dbdc9bc04b414dc17fab3209f82addaf638163408"
+    },
+    {
+      "pluginId": "daocoding.claude-agent",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "Hook-derived working/blocked/idle Claude states directly support monitoring discovery; session-focus controls need separate evidence.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Live Claude Code state in the bar — working, blocked, idle — from the hooks themselves, not a screen scrape. Needs herdr-claude-lifecycle."
+        }
+      ],
+      "listingSha256": "b0e42aebc68464bdf36416dcb3e49b615370071cc08c524d4aae69d87d257ced"
     },
     {
       "pluginId": "das6ng.network",
@@ -1160,6 +1537,32 @@
       "listingSha256": "ef2620aed624a0ebbcee8ff71f3bda54cdb5b6f0e2c827a4e9d6f95a6ecc7094"
     },
     {
+      "pluginId": "data-budget",
+      "typeId": "network",
+      "expectedTargets": [],
+      "reason": "Per-connection data budgets track allowances and usage alerts; they do not join networks or create an internet-sharing hotspot.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Track limited Wi-Fi and hotspot data allowances with per-connection budgets, automatic resets, and configurable usage alerts."
+        }
+      ],
+      "listingSha256": "8219edff4c47287cdda51e9b437404133c5c1e693abb192b2fd64b2e21759878"
+    },
+    {
+      "pluginId": "davedes.omadoctor",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "Read-only system/audio/storage diagnostics produce a support report, not health checks for chosen service endpoints or provider incident feeds.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Diagnose common Omarchy system problems. Runs read-only health checks across system, network, audio and storage, explains what each finding means, and produces a redacted diagnostic report you can paste into a bug report or support channel."
+        }
+      ],
+      "listingSha256": "5d590fd238ff61e8dfe77bb0b2c22c954a2b301d4cc89638f2eafed20c95303e"
+    },
+    {
       "pluginId": "david.headset",
       "typeId": "audio",
       "expectedTargets": [],
@@ -1171,6 +1574,21 @@
         }
       ],
       "listingSha256": "68a08071a22ce6d0a7a43e86159da87839bb14fc6047af0e52758227e99df888"
+    },
+    {
+      "pluginId": "davidcbradleyjr.lanes",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "The taskbar explicitly supplies live agent status; local session selection/focus is the remaining source-review question.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "A workspace-first taskbar for the Omarchy shell with live agent status, minimize, a top-bar widget, and a top-edge shade for calendar, clock, media, weather, and radar."
+        }
+      ],
+      "listingSha256": "809c924ad741b375d9accfeb0d43164758f90b92a59fd11be9b662856f8e5cbe"
     },
     {
       "pluginId": "davidcbradleyjr.lanes",
@@ -1263,6 +1681,35 @@
       "listingSha256": "4e31ac7211ec1e71cc1e7c4c95791c6c7d52085bc1e0ec60146415d0f86ba780"
     },
     {
+      "pluginId": "dev.egoist.cpu-usage",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "The uptime panel is a host CPU/runtime monitor, with no user-configured service probes or published incident information.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Compact CPU usage with an iStat-inspired history, temperature, process, load, and uptime panel."
+        }
+      ],
+      "listingSha256": "a1983bbf9f45d9034e35c9ef12bb2551095a119b822704693ddc7993df3c02a0"
+    },
+    {
+      "pluginId": "dev.pitwall",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring",
+        "agent-history"
+      ],
+      "reason": "Live agent sessions and resume in a workspace-aware bar are plausible leads for both session tasks; saved-session browsing still needs confirmation.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Workspace awareness: live sessions, agents, and resume in the bar."
+        }
+      ],
+      "listingSha256": "d61babe912dbe801f0fedff6ce90ce1178a0e9abecc9e87262810684781a9d16"
+    },
+    {
       "pluginId": "dev.tumbleweed.nws-weather",
       "typeId": "weather",
       "expectedTargets": [
@@ -1289,6 +1736,19 @@
         }
       ],
       "listingSha256": "1670098c90c0a79b4eb3aacc1fe3b75c827db822d42e5e3417c3fb58edc637ac"
+    },
+    {
+      "pluginId": "devinblack001.wazuh-view",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Wazuh agents are host security-monitoring processes; SCA/FIM/rootcheck status is not coding-agent session activity or conversation history.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Local Wazuh agent status in the bar: SCA, FIM, rootcheck, config, and log health, all read-only, no manager or API required"
+        }
+      ],
+      "listingSha256": "dfb9ee52583420f58551b069f34786fcc9178f8156f99a299e7d6c4067517687"
     },
     {
       "pluginId": "dimef.network",
@@ -1361,6 +1821,21 @@
         }
       ],
       "listingSha256": "a697683605a4e605ee41579d861767623fa053a8be5c135c7eeb781d7dfeaae0"
+    },
+    {
+      "pluginId": "dotfiles.idle",
+      "typeId": "lock-idle",
+      "expectedTargets": [
+        "keep-awake"
+      ],
+      "reason": "Inhibiting screensaver and automatic lock during MPRIS playback is a conditional inactivity hold, with restore behavior needing source review.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Inhibit screensaver and automatic lock during browser MPRIS playback."
+        }
+      ],
+      "listingSha256": "8b6fe0c98e7f0b37f1e94098810abe2c440687281a680a1b8dc73eac5eaea3e0"
     },
     {
       "pluginId": "dumidu.orbital-lock",
@@ -1464,6 +1939,21 @@
       "listingSha256": "d5eb8d1933654c19de9bd6e6d6bd75b8e55b683a401ad1e073059acba0944bbd"
     },
     {
+      "pluginId": "edward-kulyk.claude-sessions",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "Working/waiting Claude sessions and one-click terminal targeting directly describe the live monitoring/focus task.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Live Claude Code sessions in your bar: which are working, which are waiting for you, and one click to jump to their terminal."
+        }
+      ],
+      "listingSha256": "5a86fdc0e5627c89f38e67bff84b49e57ae95ea6f299df10009021e9ba54bb96"
+    },
+    {
       "pluginId": "eh0.headphones",
       "typeId": "audio",
       "expectedTargets": [],
@@ -1546,6 +2036,36 @@
         }
       ],
       "listingSha256": "c527dc368acf8fb09afbbcc9d43f657cc1d7584cd4beccc8aaa6c15e874ae2a7"
+    },
+    {
+      "pluginId": "evcode.hotspot",
+      "typeId": "network",
+      "expectedTargets": [
+        "hotspots"
+      ],
+      "reason": "Upstream selection and client monitoring belong to hosting a hotspot/repeater; no separate client-network joining workflow is described.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Native Wi-Fi Hotspot & Repeater manager with dynamic upstream selection, QR code pairing, and client monitoring."
+        }
+      ],
+      "listingSha256": "e8bf90c74671e2211ffe00c113454e829519ea7c2bac807c98c79f2e9ff15313"
+    },
+    {
+      "pluginId": "exeque.omarchy-http-uptime",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [
+        "endpoint-monitoring"
+      ],
+      "reason": "Explicit URL response, TLS, latency and uptime checks are configured-endpoint monitoring leads.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Monitors URLs for 2xx responses, valid SSL, response time and 24h/7d/30d uptime"
+        }
+      ],
+      "listingSha256": "9ff316488cb7bef8ceaffdfdbb03398e422e78b5a29c777ff216e95859ff7a65"
     },
     {
       "pluginId": "foamy.clock",
@@ -1680,6 +2200,52 @@
       "listingSha256": "07cc6b14d7877fd394c093572b88a4ef885e765c7f029cf106a3cf6d9a5561c6"
     },
     {
+      "pluginId": "garyliu.lunar-calendar",
+      "typeId": "clock-timer",
+      "expectedTargets": [
+        "desktop-clocks"
+      ],
+      "reason": "A date/time label provides a persistent clock lead; the lunar-calendar popup does not imply multi-zone comparison.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Date/time label with a Chinese lunar calendar popup: lunar date and jieqi (24 solar terms)"
+        }
+      ],
+      "listingSha256": "9b0d69837d4a0400cfc52db057ad22997d7f71b6235a3677f445289d02c5787d"
+    },
+    {
+      "pluginId": "gdeyoung.powercore",
+      "typeId": "lock-idle",
+      "expectedTargets": [
+        "idle-sleep",
+        "keep-awake"
+      ],
+      "reason": "Per-source screensaver/lock/sleep and smart lid behavior support policy settings; clamshell operation is a plausible awake-mode lead requiring scope review.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Battery widget replacement: per-source power profile, screensaver, lock and sleep, battery protection, clamshell and lid-close behavior (smart sleep-then-hibernate), keyboard backlight per power source, and live power draw in watts"
+        }
+      ],
+      "listingSha256": "6a1417f05b96c99851876afeb8f33281092d23e6722971d4ffbac72b10809643"
+    },
+    {
+      "pluginId": "gdeyoung.readyroom",
+      "typeId": "lock-idle",
+      "expectedTargets": [
+        "keep-awake"
+      ],
+      "reason": "The game-mode session explicitly includes keep-awake; source review must confirm how normal inactivity policy resumes.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Omarchy gaming panel: a game-mode session (keep-awake, do-not-disturb, night light, performance power profile), controller and gamepad battery + rumble test, a gpu-screen-recorder instant-replay buffer with one-key clip saving, and a CPU/GPU/VRAM stats overlay that pairs with MangoHud for FPS. Replaces six bar widgets with one pre-game ritual."
+        }
+      ],
+      "listingSha256": "682b7a14f8a0b6262634085ffd58515b75c5da73e5393d41ff98b904aa280391"
+    },
+    {
       "pluginId": "gdeyoung.timepiece",
       "typeId": "clock-timer",
       "expectedTargets": [
@@ -1746,6 +2312,34 @@
       "listingSha256": "c92b530dbca30bbeea1a9f7edee0a19903e6c8b8717d66c1caeb90b2d6b6fdd1"
     },
     {
+      "pluginId": "gg.arkship.herdr-dot",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "The bar counts waiting agents and opens a list with a jump action, including local sessions as well as SSH hosts.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "A dot in the bar counting the herdr agents waiting for you, across every herdr session on this computer and on your SSH hosts; click it for the list and jump to one"
+        }
+      ],
+      "listingSha256": "ecd331e21c77d2a291c8495d1befd9f05954df6b5a9ecb45e57b3fd9b2f08827"
+    },
+    {
+      "pluginId": "gg.arkship.ssh-mic-bridge",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "SSH audio transport supplies a microphone for agent voice conversations; it does not browse or resume those conversations or inspect agent work.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Stream your microphone over SSH into a virtual mic on a server, so Claude Code's /voice (or any app there) hears you, and talk two-way with Codex CLI's /voice conversations"
+        }
+      ],
+      "listingSha256": "3906c4e4a978912b0f1b2945fbba8c2e7ef054cc87ea2ad122ce4046a8b5b0b6"
+    },
+    {
       "pluginId": "gigasolo.omavoice",
       "typeId": "audio",
       "expectedTargets": [],
@@ -1757,6 +2351,19 @@
         }
       ],
       "listingSha256": "3d9cdf9df30a87716f0c1b0e5e08624ca56214f56431fb02b561242036c974bd"
+    },
+    {
+      "pluginId": "gladimdim.ai-limits",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Quota, rate limits and usage bars are consumption telemetry rather than running-session inspection or history/resume controls.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Claude Code, Grok, Codex and Antigravity usage, quota and rate limit tracking as old-school ASCII progress bars in your Omarchy dock."
+        }
+      ],
+      "listingSha256": "9413964b079c3bb7be5d24f69ea175695a6402f3d9a29b362ab255c3bddf0e58"
     },
     {
       "pluginId": "glasschan.oma-swiss",
@@ -1772,6 +2379,19 @@
         }
       ],
       "listingSha256": "194f7f5e384aa4c0a2e3797d18ee566641cab424e970b95ae2f8eed4b143a57c"
+    },
+    {
+      "pluginId": "glunk.ai-agent",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "A generic AI-assistant widget and its bar placement do not identify either live coding-session monitoring or saved-conversation resumption.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Your AI agent assistant widget for the Omarchy status bar, sitting right next to screen time."
+        }
+      ],
+      "listingSha256": "e2b14daa076410ac96a53618f92e6f71b813437c2371cc483493c357e4f801f6"
     },
     {
       "pluginId": "gotro.noaa-weather",
@@ -1817,6 +2437,19 @@
       "listingSha256": "662d68b2b14d7cc408dbbdb03f093127b706b0d0c59e5c5786cbb755629ca817"
     },
     {
+      "pluginId": "gregmolnar.appsignal",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "AppSignal incidents and assigned work are not described as configured endpoint health checks or provider-published availability reports.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Open incidents and assigned work-in-progress from AppSignal."
+        }
+      ],
+      "listingSha256": "a2fc868311231377f032bc368f17dd9844df51faeb08a66219cf1504003d3784"
+    },
+    {
       "pluginId": "grivera.agents",
       "typeId": "ai-assistant",
       "expectedTargets": [
@@ -1830,6 +2463,47 @@
         }
       ],
       "listingSha256": "f14c96998447b2d6b936f8a8649474d67115dd47ed2baa5ac11d1af76e27902c"
+    },
+    {
+      "pluginId": "grivera.airwaves",
+      "typeId": "lock-idle",
+      "expectedTargets": [],
+      "reason": "The sleep timer stops internet-radio playback; it does not configure host inactivity actions or hold the computer awake.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Ad-free internet radio in your bar: 80 listener-supported stations from SomaFM, Radio Paradise, NTS and FIP, with a live visualizer, album art, likes and a sleep timer"
+        }
+      ],
+      "listingSha256": "75b358643b217bc2dfab2f40977fb64c96df65c0aab1969fdba991dee162cab5"
+    },
+    {
+      "pluginId": "grivera.omapier",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "AI agent limits in a dock are quota information; no live coding-session controls or conversation archive are claimed.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "A glass dock for Omarchy with widgets (weather, AI agent limits, now playing, downloads, system graphs, status pages) and Dorito, an orange cat who lives on it"
+        }
+      ],
+      "listingSha256": "54d33e03f3eaa2e45034fbdf6926b07cae0641dbeef587437bb6a6f15f40ff32"
+    },
+    {
+      "pluginId": "grivera.omapier",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [
+        "service-status"
+      ],
+      "reason": "Status-page widgets are a plausible provider-status lead; source review must establish native incident content rather than external links alone.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "A glass dock for Omarchy with widgets (weather, AI agent limits, now playing, downloads, system graphs, status pages) and Dorito, an orange cat who lives on it"
+        }
+      ],
+      "listingSha256": "54d33e03f3eaa2e45034fbdf6926b07cae0641dbeef587437bb6a6f15f40ff32"
     },
     {
       "pluginId": "grivera.omapier",
@@ -1888,6 +2562,21 @@
       "listingSha256": "a57d9f9c3fdb0c557e077a2b3bca1c826c7e93811d4845d7f69d9a8e8dc88ec3"
     },
     {
+      "pluginId": "h3nr1.d14z.jenkins",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [
+        "endpoint-monitoring"
+      ],
+      "reason": "Polling the configured Jenkins controller/nodes and reporting agents down or outages directly supports service-health monitoring.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Jenkins health in the Omarchy bar: live polling of controller, nodes (workspace and /tmp disk), queue, jobs, and updates; notifications for outages, node and disk changes, job failures, queue backlogs, maintenance; opt-in live disk probing of agents (usable space and volume totals, percentage thresholds); critical at a third or more agents down; safe actions (quiet-down, cancel queue item, state-checked node toggles) plus an opt-in per-node workspace wipe (admin token, per-job checks)."
+        }
+      ],
+      "listingSha256": "f828bd215c6ccb2a9dab8f8efa6c7ee4d81cab907342e49cb850771761b62f27"
+    },
+    {
       "pluginId": "hakatamike.weather",
       "typeId": "weather",
       "expectedTargets": [
@@ -1916,6 +2605,19 @@
         }
       ],
       "listingSha256": "cfba2c19e90ae4c042a7a7b8cacdf7967ad5bd87eb99b09a0a8d6774bf458f47"
+    },
+    {
+      "pluginId": "hanssound.screencast-indicator",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Recent session history describes screen capture activity and app attribution, not coding-agent conversations.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Purple screen capture indicator with app attribution and recent session history"
+        }
+      ],
+      "listingSha256": "a6e274f71edbbe48c1f5bef1f98991288b3960e8350eced756f116cb23188f2d"
     },
     {
       "pluginId": "harshith.aura-cycler",
@@ -1970,6 +2672,19 @@
       "listingSha256": "cbcac79f20f8a24e750ca1aa78be3ddef282166f96582c60ca8e044a8a87d476"
     },
     {
+      "pluginId": "heast13.downtime",
+      "typeId": "lock-idle",
+      "expectedTargets": [],
+      "reason": "The listing names a shutdown timer and screensaver/display actions, without saying they are configured automatic inactivity timers or a reversible awake hold.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Screensaver, screen-off, sleep, shutdown timer and wallpaper rotation in one bar widget."
+        }
+      ],
+      "listingSha256": "95ab1a4466fd66fbee2a70457e203b6bc4cf6d0ab51a919cb45917e289c91768"
+    },
+    {
       "pluginId": "hehh2001.lunar-clock",
       "typeId": "clock-timer",
       "expectedTargets": [
@@ -2000,6 +2715,21 @@
       "listingSha256": "9afa3bef9c90a48aa96fbfaf5a38356184159a1463a22a575617b72e9c9b7655"
     },
     {
+      "pluginId": "hermea",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "A Hermes status dashboard with profile actions is a plausible agent-monitoring lead; live activity and local focus require source evidence.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "A focused Hermes status dashboard with profile-aware actions."
+        }
+      ],
+      "listingSha256": "27d483126447b14fd776481c549ad4ebe9f04e125bdd18a2603e0f6ae131bab1"
+    },
+    {
       "pluginId": "hjanuschka.omarchy-pi",
       "typeId": "ai-chat",
       "expectedTargets": [
@@ -2026,6 +2756,21 @@
         }
       ],
       "listingSha256": "eb9e70ac23739778d29021156ef6587d49afb0d2dd06683958c7efff1473ee25"
+    },
+    {
+      "pluginId": "howaboua.herdr",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "Live events and completions across local Herdr sessions support activity monitoring; saved SSH machines are host definitions, not archived conversations.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Live agent events and recent completions across local Herdr sessions and saved SSH machines."
+        }
+      ],
+      "listingSha256": "41b3c6763c7c74ed3af64f081f090278e8257370752b304106e96266db6c62c3"
     },
     {
       "pluginId": "hpastrana.face-lock",
@@ -2097,6 +2842,19 @@
         }
       ],
       "listingSha256": "590d9c3d8ba383cde7622dfb51de46d3d8ddd7c60e789812c0693e7208ba1a60"
+    },
+    {
+      "pluginId": "ianswope.plex",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "Plex stream and transcoding performance reports describe media workload behavior, without configurable health probes or provider incident reporting.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Plex streams in the Omarchy bar: who is watching what, whether the server is transcoding for them, and whether that transcode is keeping up."
+        }
+      ],
+      "listingSha256": "a31c88ce46c7d90e54436d85377e97d1c8f027cc798d002834af646acf8112b8"
     },
     {
       "pluginId": "ignibyte.kids-clock",
@@ -2220,6 +2978,19 @@
       "listingSha256": "6cee0797e4fc20e820cdabb5cc693d74dd929f34bb6292acecd4edf17d8148eb"
     },
     {
+      "pluginId": "io.github.0xapotheosis.omato",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "The saved sessions belong to a Pomodoro timer; they are not coding-agent conversations to resume.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Pomodoro timer with a live countdown in the bar, a daily goal, streaks, and synced session history."
+        }
+      ],
+      "listingSha256": "c80d57d826a5001544d3fb52c2559417b0fb902f59319ff80d92af89d857cdc1"
+    },
+    {
       "pluginId": "io.github.14brussell.steam-icons",
       "typeId": "gaming",
       "expectedTargets": [],
@@ -2231,6 +3002,34 @@
         }
       ],
       "listingSha256": "11c5afd94385854f6cb59f9bc8004ebaed625b03373b70c28def206d0d59f2c4"
+    },
+    {
+      "pluginId": "io.github.5d0tal1gat0r.agent-watcher",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "The pill enumerates coding sessions and signals finished/waiting agents; a native session-focus action remains to be verified.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Every Claude Code, Codex, Gemini CLI and OpenCode session across your workspaces in one bar pill — it blinks when an agent finishes or waits for you."
+        }
+      ],
+      "listingSha256": "4eb7c67895ef11e4149500da506dde63c13f2232e4a9be540a2a7a9a168f2a35"
+    },
+    {
+      "pluginId": "io.github.5h3rd1l.omasearch",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Recent AI-search chats accompany a question/answer overlay; the listing does not claim saved coding-session discovery and targeted resumption.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Quick AI search for Omarchy: one key opens an overlay where Enter asks Claude (or your default agent) and Ctrl+Enter searches Google in your default browser. Formatted answers, commands you approve, pasted images and recent chats."
+        }
+      ],
+      "listingSha256": "1fa717dc927f3496bbe613e7af55fd69a7f511f24f1755daf0bb96dd679ad285"
     },
     {
       "pluginId": "io.github.5h3rd1l.soundpeats",
@@ -2298,6 +3097,22 @@
         }
       ],
       "listingSha256": "efd9d5047f6bbe153a978f271cc5dc4987b3fbe3f8959b787940223d658500b3"
+    },
+    {
+      "pluginId": "io.github.adrianoverdijk.screensaver",
+      "typeId": "lock-idle",
+      "expectedTargets": [
+        "idle-sleep",
+        "keep-awake"
+      ],
+      "reason": "Screensaver/lock timing and an explicit stay-awake toggle support policy settings and reversible idle inhibition separately.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Screensaver and lock timing in your bar, a coffee (stay-awake) toggle, and your own text on the screensaver in the Omarchy logo lettering."
+        }
+      ],
+      "listingSha256": "908cb22cfeefe9808d2e09e6775a0dc8de8cd254cd071ff133fd33b07e2732c4"
     },
     {
       "pluginId": "io.github.ahmadrun.jbl-control",
@@ -2460,6 +3275,45 @@
       "listingSha256": "46788b2ea5b9866494ccb9479209bd3c00523186dd16fdda2984257e5195764a"
     },
     {
+      "pluginId": "io.github.anujraja.chatgpt-archive",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "The tool exports ChatGPT chats and schedules backups; exporting generic chat archives is not selecting and resuming coding-agent sessions.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Bar panel to log in to ChatGPT, export chats with progress, and schedule daily or weekly archives."
+        }
+      ],
+      "listingSha256": "57da8367f50710f5e5e63c3f6a5e0bdefe3adb7df2dc505bf4f099f5c1424d77"
+    },
+    {
+      "pluginId": "io.github.aphelion-studios.omamoodist",
+      "typeId": "lock-idle",
+      "expectedTargets": [],
+      "reason": "The sleep timer belongs to ambient-sound playback, not host inactivity settings or a computer-awake hold.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "A layered ambient-sound mixer for the bar: 84 recorded loops from the Moodist library, any number combined with their own volumes, saved presets, a binaural-beat generator and a sleep timer. Sound files download on first use."
+        }
+      ],
+      "listingSha256": "26bb1b39b734a49acd1ef8df4266ef70c6ca61e6f6521eb7a47c9b3ab262dd7f"
+    },
+    {
+      "pluginId": "io.github.arthurr0.claude-usage",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Claude subscription session windows, meters and resets describe usage limits rather than individual coding-conversation state or resumption.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Claude subscription limits (5-hour session and weekly windows) in the Omarchy bar, with a popup showing every window, its meter and reset time."
+        }
+      ],
+      "listingSha256": "0136468dc6f9ad4e29c46fe8f18ce9ee3168e1a198907a6fa3cd5529279b90b7"
+    },
+    {
       "pluginId": "io.github.aryan-techie.clock",
       "typeId": "clock-timer",
       "expectedTargets": [
@@ -2562,6 +3416,21 @@
         }
       ],
       "listingSha256": "b5507e8de7af8a873e371ec70ff74ea23b2e49e944728d5d628645ccca278fd4"
+    },
+    {
+      "pluginId": "io.github.aval4nch.agents-claude-status",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "Live working/waiting/blocked Claude state with a per-session list directly supports monitoring discovery; focus actions need review.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Omarchy's agents panel plus live Claude Code session status on the same bar icon: colour and pulse for working, waiting and blocked, and a per-session list under Limits."
+        }
+      ],
+      "listingSha256": "dfa8c793e764534691ef0ccf4803a80a29c6bf29f203edd9026374eb1f33e38a"
     },
     {
       "pluginId": "io.github.avillagran.omarchy-mailbox",
@@ -2741,6 +3610,21 @@
       "listingSha256": "8de3fa141cce4fd6903f480fc72611ee37255011501bf41d3748ede6e8bd495c"
     },
     {
+      "pluginId": "io.github.camerontucker.omaquickcalc",
+      "typeId": "clock-timer",
+      "expectedTargets": [
+        "world-clocks"
+      ],
+      "reason": "Timezone calculations in the modal calculator are a plausible time-conversion lead; source review must confirm comparison of the same moment across zones.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "A fast modal calculator for Omarchy with live math, local tax reports, currencies, units, dates, timezones, history, and Transform in Place"
+        }
+      ],
+      "listingSha256": "e7fad2b63b334491b3e79a89bb6fa4b14ab832aadd64cd09ff78f2578dcb3a80"
+    },
+    {
       "pluginId": "io.github.captainawesomedi.omaclock",
       "typeId": "clock-timer",
       "expectedTargets": [
@@ -2755,6 +3639,19 @@
         }
       ],
       "listingSha256": "112ae410baed169e2a82c38f930629025c1b195043f4a04a8fba20a84b513197"
+    },
+    {
+      "pluginId": "io.github.charlie0113-t.omarchy-lab",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "AI coding is a benchmark workload alongside hardware tests; running benchmarks does not establish a coding-session monitor or archive browser.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Benchmark your Omarchy machine from the bar: hardware (CPU, memory, disk), AI agent coding, and everyday multitasking with a browser and update load. Tests run only when you pick one, in a terminal you can see and stop. Results can be shared as a GitHub issue. English, 简体中文, 繁體中文 and 日本語."
+        }
+      ],
+      "listingSha256": "2e6a4fb8b630b5bfeafb6a10a617b48bb7a7518a0b223051b8bd537f041e212a"
     },
     {
       "pluginId": "io.github.chillboy0101.omarchy-hotspot",
@@ -2875,6 +3772,19 @@
       "listingSha256": "7df4b30bf9a1297b383ec38ee92b6cf0034b90b1800b5f3b46b66f76776088da"
     },
     {
+      "pluginId": "io.github.crucialjun.aula-sc580",
+      "typeId": "lock-idle",
+      "expectedTargets": [],
+      "reason": "The sleep timer configures an AULA mouse peripheral, not the host display/lock/suspend inactivity policy.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Battery, DPI stages, polling rate, sleep timer, click debounce and button remapping (incl. captured keyboard shortcuts) for the AULA SC580 / SC580X mouse"
+        }
+      ],
+      "listingSha256": "5cefdd7b2c9097714037669b5b41fdcff497261d927294a8b5a55c7275c67a7a"
+    },
+    {
       "pluginId": "io.github.cylon58.boot-wake",
       "typeId": "lock-idle",
       "expectedTargets": [
@@ -2933,6 +3843,19 @@
       "listingSha256": "b2d3987d5e55ed1bf0879617cf26ddd61f83846a14c0d5fbf6157ac83708047f"
     },
     {
+      "pluginId": "io.github.daventhedude.omarchief",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "The companion conducts its own AI conversations and exposes generic status/settings, without a saved-session picker or existing-agent activity view.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Your desktop's chief of staff: an Omarchy-native, theme-aware companion that lives at the screen edge, takes orders through your configured AI agent, and keeps session-aware conversations in place. Drag or tuck it, move it across monitors, get replies in a bubble or hand work to Omarchy's native console, and keep status and settings one click away in the bar — without a daemon, hook, or extra package."
+        }
+      ],
+      "listingSha256": "35a1f20ad4416fd0b74fbd91e955457343a629471fc828a12bc28478dfd14477"
+    },
+    {
       "pluginId": "io.github.daventhedude.steam-friends",
       "typeId": "gaming",
       "expectedTargets": [],
@@ -2957,6 +3880,19 @@
         }
       ],
       "listingSha256": "9f8dd35ef1bd6dbf6038ae0b1ea4475675d4fa82cd63bf8d06bcaafcbc3e7baf"
+    },
+    {
+      "pluginId": "io.github.davidboulay.truenas-apps-watcher",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "The watcher detects and applies app/container upgrades; it does not describe service reachability checks or provider availability incidents.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Watches a TrueNAS SCALE server for pending app upgrades and newer container images — and, through Portainer, for updates to the containers TrueNAS doesn't manage — and applies them from the bar."
+        }
+      ],
+      "listingSha256": "eb4d62f980e1adf459ffffed4683bad0ccd8424bd5b099ed0051dac6de078c95"
     },
     {
       "pluginId": "io.github.davidboulay.wifi-login-popup",
@@ -3002,6 +3938,19 @@
       "listingSha256": "40404aa5e8651adab2b4d8d9737a471890dd58040983e4bc43f58ac37c2c6547"
     },
     {
+      "pluginId": "io.github.dedeanth.andromarchy",
+      "typeId": "firewall",
+      "expectedTargets": [],
+      "reason": "Firewall checks are Waydroid setup diagnostics, without native host-rule editing or per-app outbound blocking controls.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Waydroid in the Omarchy bar: start and stop Android, launch apps, see its memory and CPU, and check binder, firewall, ARM translation and network"
+        }
+      ],
+      "listingSha256": "117e4eda87dd2ec737fe94c66e6ba78d1832746cf62dfe1dec6fd85a6194a942"
+    },
+    {
       "pluginId": "io.github.delarosa1312.sony-xm5",
       "typeId": "audio",
       "expectedTargets": [],
@@ -3045,6 +3994,34 @@
       "listingSha256": "c2ac6a2d62a354b21ae12deea867c8c23df785c63f7c1ac79fdc51bfb978cd47"
     },
     {
+      "pluginId": "io.github.devanshu.omaspot",
+      "typeId": "network",
+      "expectedTargets": [
+        "hotspots"
+      ],
+      "reason": "The create_ap controller explicitly manages a Wi-Fi hotspot, making uplink-sharing controls a direct research lead.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "A compact Omarchy bar controller for a create_ap Wi-Fi hotspot."
+        }
+      ],
+      "listingSha256": "43129608f66696cd1fc5f2472083ac5210821a2bb59f1805772fa337a3bac9b4"
+    },
+    {
+      "pluginId": "io.github.dharmapurikar.otter",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Recent conversations are recorded human meetings with transcripts and summaries, not coding-agent sessions.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Otter.ai in the Omarchy bar: records meetings from PipeWire as they are detected -- microphone and system audio, live transcript, AI summaries, and your recent conversations. No meeting bot; nothing joins your calls."
+        }
+      ],
+      "listingSha256": "f48fb9215bc0371d53901e4ab5fdf2644edb44e309d10e88f7288ff3bd3b25d9"
+    },
+    {
       "pluginId": "io.github.diegogardini.omarchy-rain-radar-denmark-widget",
       "typeId": "weather",
       "expectedTargets": [
@@ -3058,6 +4035,34 @@
         }
       ],
       "listingSha256": "2cd7e36d84c9d78dde4df6c6143015d3e317716221883a9e742643dfa93c60aa"
+    },
+    {
+      "pluginId": "io.github.digitalbase.tailscale-services",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [
+        "endpoint-monitoring"
+      ],
+      "reason": "Live reachability of configured Tailscale HTTPS services directly supports endpoint-health monitoring.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Clickable Tailscale HTTPS services with live reachability status"
+        }
+      ],
+      "listingSha256": "7fb5d31eeb6f06ef180d982a650c2970b7e2e8687d3d24e85705885f8274b944"
+    },
+    {
+      "pluginId": "io.github.dishnicons.plugin-doctor",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "Manifest health checks validate installed plugin metadata; they do not probe service endpoints or consume provider incidents.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Read-only manifest health checks for installed Omarchy plugins."
+        }
+      ],
+      "listingSha256": "6508e6068251923c850fab67dc4ad090d3c9ed1ff200f285362ed736e07cacab"
     },
     {
       "pluginId": "io.github.djrcx.layout-switcher",
@@ -3114,6 +4119,21 @@
       "listingSha256": "988c53d45abe88e3c0ed5b08729ef0f74e6679d752ac8da4684fe0c4b9a866f1"
     },
     {
+      "pluginId": "io.github.dmitry-solomadin.desktop-restore",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-history"
+      ],
+      "reason": "Saving and restoring named coding-agent sessions is a history/resume lead; source review must distinguish selective conversation resumption from bulk desktop restoration.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Restore desktop workspaces and OpenCode, Codex, Claude Code and herdr sessions with fast silent shutdown saves"
+        }
+      ],
+      "listingSha256": "9b96c4395d5e2ca41b7b7b362e25a9b503d53fdfb2c81006376bb3d2fdf757d7"
+    },
+    {
       "pluginId": "io.github.dreed47.tempest-weather",
       "typeId": "weather",
       "expectedTargets": [
@@ -3132,6 +4152,19 @@
         }
       ],
       "listingSha256": "acc997b978e294efcbb7ff1f50cdb523307a96ea970c00e7b1b7799c32b10c00"
+    },
+    {
+      "pluginId": "io.github.duketopceo.numbat",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "The endpoint-monitor radar reports AI activity/findings, without identifying local coding-session focus or a saved-conversation browser.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "AI-agent activity radar: live findings and per-agent visibility from Perplexity's numbat endpoint monitor"
+        }
+      ],
+      "listingSha256": "f70a2f5599dbfb4c97f2ef2e4ba645477e3a13cf4e23a65848a371985458b155"
     },
     {
       "pluginId": "io.github.dupontbertrand.omastatus",
@@ -3207,6 +4240,21 @@
       "listingSha256": "cc71cfca8a5437b64e6d6d80fc7300c73f56d5434e1d2b3149288587f40fe794"
     },
     {
+      "pluginId": "io.github.ericyhm80.agent-pipeline",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "Live model/tool activity from local coding-agent reporters is a monitoring lead; timing/cost history is not conversation history, and focus remains unverified.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "See what your AI agent actually does: live request paths, reported model/tool activity, timing, cost, health and history. Opt in to Pi or Codex reporters, or manually report checkpoints from Claude Code, OpenClaw, Hermes, GrokBot and other agents via CLI."
+        }
+      ],
+      "listingSha256": "fbecb0a9c38b9cf0fc3843639c686582f624bf7c072dc338e3cef3111abb6f76"
+    },
+    {
       "pluginId": "io.github.erikabel.little-stereo",
       "typeId": "audio",
       "expectedTargets": [],
@@ -3220,6 +4268,21 @@
       "listingSha256": "d56079fe3468e75bab6fb3b3367deb695db1a350e34260c17c7dc79271016adf"
     },
     {
+      "pluginId": "io.github.erikburdett.tokenstats",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-history"
+      ],
+      "reason": "A unified resumable Claude/Codex sessions list directly supports saved-session research; token graphs alone do not establish live-agent state.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Local LLM tokens per hour in the bar, with an exact-count graph, history, cloud comparison, and Claude Code / Codex agent tracking with a unified resumable sessions list"
+        }
+      ],
+      "listingSha256": "b760b8c12fc1bdf5d67ce96223bfb9b2c2583701d2e03d69131919da48713fce"
+    },
+    {
       "pluginId": "io.github.erikburdett.wavebar",
       "typeId": "ai-assistant",
       "expectedTargets": [],
@@ -3231,6 +4294,36 @@
         }
       ],
       "listingSha256": "1e6b184aac90777b6b2a7dbceb153ecdb9ef10ac86a3fe00874c67d9b00eee99"
+    },
+    {
+      "pluginId": "io.github.eszanon.herdr",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "Herdr coding-agent waiting indicators are a live-monitoring lead; local session-focus behavior needs confirmation.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Shows Herdr coding agents in the Omarchy bar and flags the ones waiting on you."
+        }
+      ],
+      "listingSha256": "26ab17e5905faba7e4c26e1da23d37be7c9936cb0c72665d2937873e19a3e8e9"
+    },
+    {
+      "pluginId": "io.github.fabean.herdr",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "Explicit Herdr activity and status monitoring is a relevant lead, with session targeting still requiring source review.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Monitor Herdr agent activity and status from the Omarchy bar."
+        }
+      ],
+      "listingSha256": "75f6ccd30cdf6bfd7224443b70562de0cd983c13ea649bf9e22510c0d7a49f65"
     },
     {
       "pluginId": "io.github.felixdacraft.omasony",
@@ -3318,6 +4411,21 @@
       "listingSha256": "29d70cd8b82472185908b66c9742ef56d9a3cc3dad661809e7d0cead1a8bf005"
     },
     {
+      "pluginId": "io.github.frigstah.netscope",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [
+        "endpoint-monitoring"
+      ],
+      "reason": "Probing chosen hosts and continuously monitoring network-device availability is a plausible configured-target monitoring lead; exact health semantics need review.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "LAN reconnaissance for Omarchy: local IPs per interface, public IP, Wi-Fi and IPv6 context, and every device on the network with its vendor and guessed type. Probe any host's TCP ports, get a security-posture score, and run an AI investigation of a device or the whole network. Continuous monitoring names devices and alerts on new arrivals; export reports and drive it from a bar widget, a window, or a terminal UI. Developed for and by frig."
+        }
+      ],
+      "listingSha256": "7ee91ca301654f5db29a3281bd1b36cb368b954dfd92df73826addfc6d596b28"
+    },
+    {
       "pluginId": "io.github.gardnmi.window-shelf",
       "typeId": "window-management",
       "expectedTargets": [
@@ -3346,6 +4454,49 @@
         }
       ],
       "listingSha256": "d4a5b2fcc3481023cea23155493cbc9f6b1177e17655eb95313079472a00ca60"
+    },
+    {
+      "pluginId": "io.github.giannileggio.agent-deck",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "Running/waiting/idle/error state and a click-through session list directly support live-agent monitoring research.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Live agent-deck session status (running/waiting/idle/error) in the bar, with a click-through session list."
+        }
+      ],
+      "listingSha256": "e47cf3856b343d7c3910c0f14380194c2763f1c7e53e0a175f8447f2b5dcc385"
+    },
+    {
+      "pluginId": "io.github.glacierhubab.den-agents",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "Running-agent counts, attention state and an action to open Den support live-session research; targeted local focus needs verification.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Your Claude Code agents at a glance in the bar: how many are running and whether one needs you. Click to open Den."
+        }
+      ],
+      "listingSha256": "899e0b0cc3fbbef057c9011776be000686a9bf167f532fbfe24023abea6fdacd"
+    },
+    {
+      "pluginId": "io.github.gmantoha.claude-effort",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "The widget changes Claude effort based on usage telemetry; it does not inspect live tasks or browse and resume conversations.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Steers Claude Code's effort level from the Claude session usage that the Agents panel collects."
+        }
+      ],
+      "listingSha256": "bdc5390d15de51d74455dde7aab9c6a26cee52a3267a9eed562a0624e6cadc02"
     },
     {
       "pluginId": "io.github.grechman.dynamic-bar",
@@ -3406,6 +4557,19 @@
         }
       ],
       "listingSha256": "6c3aea71842e481e6c488af088211dee37138c8c6fef905c01e2d59d90d87480"
+    },
+    {
+      "pluginId": "io.github.hank-dev.listen",
+      "typeId": "lock-idle",
+      "expectedTargets": [],
+      "reason": "The player resumes lectures/audiobooks and has a playback sleep timer; these are media controls rather than computer inactivity policy.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "A lecture- and audiobook-first player with resume, speed, sleep timer, playlists, and bookmarks"
+        }
+      ],
+      "listingSha256": "add72cb27df9a0b751df662188ccd419f4cc356e86f80cc3e0611c345c3c02cc"
     },
     {
       "pluginId": "io.github.harryparkes.firefox-sessions",
@@ -3612,6 +4776,19 @@
       "listingSha256": "0dc8f603c5a200b63dc7c484386651aae7bc50a57120dd07c00d88a618c68aab"
     },
     {
+      "pluginId": "io.github.hvo.omarchy-unraid",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "Unraid array, disk, container and VM administration does not expressly supply configured service-health checks or provider availability incidents.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Monitor and manage an Unraid server from the bar: array state, disk health, Docker containers, VMs, and one-click WebUI launch."
+        }
+      ],
+      "listingSha256": "fd83004d30698083861ca05fabe57877821c5a613dad0cd9598d374c3e2660b7"
+    },
+    {
       "pluginId": "io.github.iampoul.fishing-conditions",
       "typeId": "weather",
       "expectedTargets": [
@@ -3625,6 +4802,19 @@
         }
       ],
       "listingSha256": "4fd86cdca0953df692f31014337b7d053dc86207bb59b6948d46be6c7a9c297f"
+    },
+    {
+      "pluginId": "io.github.iampoul.sysstats",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "System Stats reports host resources and elapsed uptime, not service endpoint probes or provider incident feeds.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "System monitoring: CPU, memory, disk, temperature, fans, network, and uptime."
+        }
+      ],
+      "listingSha256": "e82475a75f386001ae020cba20ef41fe4ee55633fbbaebe43769e46a1948bf26"
     },
     {
       "pluginId": "io.github.imargorsi.hotspot",
@@ -3666,6 +4856,21 @@
         }
       ],
       "listingSha256": "d4e905b03f2d672ae3cee96503ba9e981565918fd6e5a0dc51fea1bfbb0e186f"
+    },
+    {
+      "pluginId": "io.github.jcarcinogen.blackdrop",
+      "typeId": "lock-idle",
+      "expectedTargets": [
+        "keep-awake"
+      ],
+      "reason": "The visualizer explicitly inhibits idle while active to keep its display/audio alive; it is a secondary hold lead whose restoration needs verification.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Classic Winamp visualization nostalgia for Omarchy: fullscreen, music-reactive motion with 12 presets. Left/Right switches presets, Up saves one, Down gives Random per song. Blackdrop covers the bar and inhibits idle, so the display and its audio stay alive; silence becomes OLED-friendly true black with a drifting neon Omarchy mark. Installed from the marketplace it shows a setup card that finishes the one-time projectM packages and its reversible configuration in one visible step."
+        }
+      ],
+      "listingSha256": "03e03cacb7f5ca42b55cb20935be58304e0f66f4aebab49c034a2f6a77da35f7"
     },
     {
       "pluginId": "io.github.jcarcinogen.gaming-console",
@@ -3769,6 +4974,19 @@
       "listingSha256": "f19a2969dc89815f6c4c5f26f107d3ef114a2627bcc0925fc5204276a73a01a0"
     },
     {
+      "pluginId": "io.github.jeremylongshore.listening-post",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "A curated AI-news brief can mention incidents and survive outages, but it does not describe provider status reports or configured health checks.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Listening Post brings your Perception signal room into the Omarchy bar: ranked AI releases, pricing changes, incidents, engineering notes, and a five-item daily brief. Open its panel, pair with a device token from oma.intentsolutions.io/perception/. Your token stays out of process arguments and logs. It retains its last good field through outages and syncs read state to your account. Without a token, 33 curated HTTPS feeds remain available as a migration fallback. No article bodies or telemetry."
+        }
+      ],
+      "listingSha256": "9e32e287b933722cc76f0d79fa9608fcdbb18b19615cc38d4c122e7480b38e6a"
+    },
+    {
       "pluginId": "io.github.jesutov2.eclipse-ember-lock",
       "typeId": "lock-idle",
       "expectedTargets": [
@@ -3828,6 +5046,19 @@
       "listingSha256": "4eff1ecf649fb3ace594a1133f00970e829ba7f3447d26b28dae5462377e4fc5"
     },
     {
+      "pluginId": "io.github.jkro.miners",
+      "typeId": "clock-timer",
+      "expectedTargets": [],
+      "reason": "Fleet GPU clocks are workload frequencies beside utilization and temperature, not current civil-time displays.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Fleet-wide GPU work management in the Omarchy bar: per-GPU utilization, VRAM, power, temperature, clocks and owning workload; miners with hashrate, power, pause/resume and estimated PRL/XMR earnings; LLM, image/audio and Jellyfin transcode workloads; k3s GPU pods; on-disk model inventory. Read-only by default — the only control (miner pause/resume) needs an explicit click plus confirmation."
+        }
+      ],
+      "listingSha256": "5b7de7a941338f406efb1ea5bb040533233471caf857c2ee55568753c6850c8a"
+    },
+    {
       "pluginId": "io.github.jonathanintheclouds.omabar",
       "typeId": "weather",
       "expectedTargets": [],
@@ -3839,6 +5070,34 @@
         }
       ],
       "listingSha256": "0dc28cf7f063dff4be88df4ca12d4eed8856eb9fafcd7483ff586410ec5969a8"
+    },
+    {
+      "pluginId": "io.github.jonathanriche.verde",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "Verde activity, approvals and workspace status are relevant live-agent signals; native local focus remains a source-review question.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Monitor Verde agent activity, approvals, and workspace status from the Omarchy bar."
+        }
+      ],
+      "listingSha256": "64dbe9242913deb32edee9fe9f17e1647cd6f6c216937ed709fe7620658be038"
+    },
+    {
+      "pluginId": "io.github.joshuaswarren.remnic",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Memory capture and recall search concern agent knowledge storage, without current work-state/focus controls or a conversation-resume browser.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Your AI agents' memory in the Omarchy bar: live capture activity, recall search, and a morning briefing panel powered by Remnic."
+        }
+      ],
+      "listingSha256": "c21202fb327449da2a921733be743dce395ce41d083ffe2f9be61e82dd839683"
     },
     {
       "pluginId": "io.github.jramiresbrito.idle-timings",
@@ -3976,6 +5235,21 @@
       "listingSha256": "cafda21b7d96bc0ab48d884e6ca294e3ed37b2a2087d7477783fd76243c2aaac"
     },
     {
+      "pluginId": "io.github.leofle.cleanlock",
+      "typeId": "lock-idle",
+      "expectedTargets": [
+        "keep-awake"
+      ],
+      "reason": "The cleaning mode explicitly inhibits sleep/idle while active and is reversible through unlock, making a scoped awake hold a plausible secondary task.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Lock keyboard and/or trackpad for cleaning. Unlock by holding one Super/Windows key for 5 seconds. Inhibits sleep/idle while active and auto-unlocks if the session locks."
+        }
+      ],
+      "listingSha256": "3ae236e7b0bb8cdb8d477eeda4204772dc6ce738dbf7340462ce3cf5283ae5bc"
+    },
+    {
       "pluginId": "io.github.leonaffi-byte.zenbook",
       "typeId": "lock-idle",
       "expectedTargets": [
@@ -4047,6 +5321,19 @@
       "listingSha256": "51cf9ed9bd50bd99b244d3472562258376a25de8276d94bb4a92acfff15e727f"
     },
     {
+      "pluginId": "io.github.ludoplex.omamarket",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Browsing Claude plugins in software marketplaces is catalog discovery; it does not browse saved Claude conversations or monitor active sessions.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Browse software marketplaces (Odoo Apps, MCP registry, Atlassian, JetBrains, Shopify, Claude plugins) from the bar. The publisher's own listings are shown first, labeled; the store's results follow in native order."
+        }
+      ],
+      "listingSha256": "5aeefae3fc5da91493000a224bfe5f03c10447235d89ca10fa26b91bc455f06d"
+    },
+    {
       "pluginId": "io.github.lunanoir21.desktop-widget-control",
       "typeId": "weather",
       "expectedTargets": [
@@ -4075,6 +5362,19 @@
         }
       ],
       "listingSha256": "8fac7ccc2c2044bf419b66bd725d3cc68436d7ac85d7ac81db044df2629b4418"
+    },
+    {
+      "pluginId": "io.github.lunanoir21.flare",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Flare describes coding-subscription usage, limits and session accounting; it does not advertise live working states or saved-conversation resumption.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "AI usage notch for Omarchy — Claude Code, Codex, OpenCode, Cursor, Antigravity and Kiro limits and sessions in one edge-mounted notch."
+        }
+      ],
+      "listingSha256": "0043491827f46fbec42f484bd32db537abeef1e5184fd4c50c83e3c01f9077ff"
     },
     {
       "pluginId": "io.github.lxp-git.stay-awake-indicators",
@@ -4135,6 +5435,21 @@
         }
       ],
       "listingSha256": "c33af2e7363a021fa1fb2013bd5e6a9336bd68333a650f7260ee10a4d676452b"
+    },
+    {
+      "pluginId": "io.github.majkelll.omarchy-remote-servers",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [
+        "endpoint-monitoring"
+      ],
+      "reason": "The chosen SSH servers are monitored for drops and recoveries, making their availability a configured-target health lead.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Keep a list of your own SSH servers in the bar: open a console, watch live load/RAM/uptime, and get told when one drops or comes back. One button sets up key-based auth, so no password is ever stored or asked for again."
+        }
+      ],
+      "listingSha256": "dea8693a400b6081f3a2f15cde96ea85e78df4506fc2e681ffa756a5ef5c8711"
     },
     {
       "pluginId": "io.github.majkelll.omarchy-uptime",
@@ -4228,6 +5543,21 @@
       "listingSha256": "74308be344869a7923669b04a4b80da559ce6749c05bca164506588ea8933c45"
     },
     {
+      "pluginId": "io.github.marlonazevedo.agent-pet",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "The pet reports which local Claude/Codex sessions are working or need attention; native session focus still needs source verification.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "A tiny retro computer on the bar that watches your local Claude Code and Codex sessions: who is working, who needs you, usage limits per agent and today's summary."
+        }
+      ],
+      "listingSha256": "d730a901f138dbd6e465cdc6dd098a8279577e0a928776e846926106b8220334"
+    },
+    {
       "pluginId": "io.github.martlets.stay-clean",
       "typeId": "lock-idle",
       "expectedTargets": [],
@@ -4267,6 +5597,21 @@
         }
       ],
       "listingSha256": "a069eed97407a40d5ca0469aee6d736ac5b8d14740ffc8bbfb2208a310956019"
+    },
+    {
+      "pluginId": "io.github.mbot11.hermes-deck",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "Live Hermes status, session controls and a drop-down TUI suggest running-agent inspection; session focus requires review, while archived history is not claimed.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Live Hermes Agent companion for Omarchy: status, sessions, usage, kanban, controls, and a drop-down TUI."
+        }
+      ],
+      "listingSha256": "2db5e9945ab127e993ed14067de144ec0be37f6a8552a638430fe1b26c9664fc"
     },
     {
       "pluginId": "io.github.mbradaschia.oma-zotero",
@@ -4312,6 +5657,34 @@
       "listingSha256": "4536277a046c7eb611acf1598ebe23c21c5c3ca1fe5c7952692219fe8ed7ef17"
     },
     {
+      "pluginId": "io.github.mindows.mib-statuscheck",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [
+        "service-status"
+      ],
+      "reason": "The popup reads ongoing incidents from selected Atlassian Statuspage feeds, directly identifying provider-published status reporting.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Watch up to 10 Atlassian Statuspage services: 39 presets, or paste any status page URL and it is verified before it is added. One quiet notification per status change, and a keyboard-driven popup with the ongoing incident."
+        }
+      ],
+      "listingSha256": "12dc597b246dbf303caa31681e3494dce96a3f71f5c41e4ddb412fefacf8ed11"
+    },
+    {
+      "pluginId": "io.github.minyona.herdr-screensaver",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "The screensaver explicitly generates fake agents and a pretend session, rather than observing real running or archived coding sessions.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "A screensaver that pretends to be a live Herdr session: fake agents, generated live, with hidden easter eggs. Follows your Omarchy theme; locks on wake. Idle takeover is opt-in."
+        }
+      ],
+      "listingSha256": "acf2d3777cd65dea57137fe58f312208458704f199ac6b7bcbf49674b6dbb3b0"
+    },
+    {
       "pluginId": "io.github.mousefirst.controls",
       "typeId": "window-management",
       "expectedTargets": [
@@ -4325,6 +5698,21 @@
         }
       ],
       "listingSha256": "27aef5cdc755468da44ef6f0b637b33c08084cb73ebe5b9e2dddceb57608a564"
+    },
+    {
+      "pluginId": "io.github.mphaxise.keepalive",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "Named desktop agent sessions expose working, attention and orphaned states; source review must establish native focus of the corresponding session.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Keepalive: coding agents that stay running on the desktop as named omarchy-agent-session records. The bar shows who needs you, who is working, what finished today, and what got orphaned."
+        }
+      ],
+      "listingSha256": "4c6938fc77fa11244f674f6b3280ddac23764b10bc05f4eeb147d59a8ac0659f"
     },
     {
       "pluginId": "io.github.mrdulasolutions.solar-clock",
@@ -4384,6 +5772,19 @@
       "listingSha256": "e4815aef9554b67b02a5edba406d1c567f087769d61496d6bf64082953b46261"
     },
     {
+      "pluginId": "io.github.ngek202.tablet-toggle",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "The health check diagnoses tablet-mode integration and its companion package, not user-configured network endpoints or provider incidents.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Tablet-mode toggle bar-widget for convertible laptops. Left-click toggles tablet mode; right-click runs an interactive health check (repair only if problems are found). If the companion package is missing, either click installs it visibly (pinned, idempotent). After install: SUPER+B = on-screen keyboard (SAM OSK) · SUPER+SHIFT+T = tablet mode · 3-finger swipes = pages and tablet exit. Companion to the tablet-kbd package."
+        }
+      ],
+      "listingSha256": "6029bde0d25c09d5f40232bc31b97c13634a7a2a8a3431cb4a9171c5b75e6bf9"
+    },
+    {
       "pluginId": "io.github.nimbleaininja.omachron",
       "typeId": "clock-timer",
       "expectedTargets": [
@@ -4440,6 +5841,22 @@
     },
     {
       "pluginId": "io.github.nousd.chime",
+      "typeId": "clock-timer",
+      "expectedTargets": [
+        "desktop-clocks",
+        "world-clocks"
+      ],
+      "reason": "World clocks stay visible in the bar, supporting persistent time display and a plausible multi-zone comparison lead; source review must confirm zone controls.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Alarms, world clocks, timers and a stopwatch that stay visible in the Omarchy bar while they run."
+        }
+      ],
+      "listingSha256": "afdca60586962b337d4d5f9efba0652ad4db2d91562e287edb31bc5f25cb879c"
+    },
+    {
+      "pluginId": "io.github.nousd.chime",
       "typeId": "timers-alarms",
       "expectedTargets": [
         "timers-alarms"
@@ -4467,6 +5884,21 @@
         }
       ],
       "listingSha256": "665ba0458523e776b4cca6788876e7232e944ddc1b2884625ecea20c39f78362"
+    },
+    {
+      "pluginId": "io.github.ofelcan164.muster",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "Muster surfaces each coding agent and attention needs in Herdr tiles; inspect/focus behavior is a plausible native monitoring lead.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Muster, the herdr plugin that keeps watch over your coding agents, in the Omarchy bar: what needs you across every agent, each agent's tile, and the orchestrator's last word."
+        }
+      ],
+      "listingSha256": "27091782066e21dd95c74055d482166e82b9c38fc57335351e81b21df5ca81ff"
     },
     {
       "pluginId": "io.github.olivoil.hurricane-tracker",
@@ -4543,6 +5975,19 @@
       "listingSha256": "26691d8d9c47408d6e2394502d23cd14d43316a31aa5b69a1efce0fa14bc9a32"
     },
     {
+      "pluginId": "io.github.onatvural.screen-comfort",
+      "typeId": "lock-idle",
+      "expectedTargets": [],
+      "reason": "The clamshell toggle belongs to monitor arrangement and dimming; no host idle/sleep inhibition is advertised.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Take the glare out of a harsh display and put your displays where they actually sit: software dimming below the backlight floor, colour warmth, per-app levels that dim the screen while that app's workspace is active, and a drag-and-drop multi-monitor arrangement with a clamshell toggle."
+        }
+      ],
+      "listingSha256": "6027903951493e06572e2dbd99dec40c43fbe536ec889399bdd74cf285626b5a"
+    },
+    {
       "pluginId": "io.github.oppenheimer-rick.oma-play",
       "typeId": "gaming",
       "expectedTargets": [],
@@ -4569,6 +6014,19 @@
         }
       ],
       "listingSha256": "58b7e73313f3f62354604972d80cafbbe9478d2643e474a6d81a339bfab02db8"
+    },
+    {
+      "pluginId": "io.github.p3lu.video-background",
+      "typeId": "lock-idle",
+      "expectedTargets": [],
+      "reason": "Only wallpaper video playback pauses during locking or inactivity; the plugin does not configure the computer's idle policy or lock appearance.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Desktop wallpaper renderer. Plays the active theme's looping video when it ships a videos/ directory, and otherwise behaves like the stock image background. Videos pause while locked or idle, and the active clip survives shell restarts. Pairs with the companion video-wallpaper theme (p3lusa/video-wallpaper) which ships the clip library and neon skin — the theme alone only shows static images."
+        }
+      ],
+      "listingSha256": "eb90ce24bd06c906a330bbb7669e69e2b623b460d7a163a73bd8bf26d38e8092"
     },
     {
       "pluginId": "io.github.p3lu.wg-omarchy-nmcli",
@@ -4638,6 +6096,19 @@
         }
       ],
       "listingSha256": "14036c84f9f20c14efe4456f613928d43daa554dd8d465277d0e311ca9ad144f"
+    },
+    {
+      "pluginId": "io.github.pjgeutjens.feed-the-flock",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "The plugin sends arranged notes to Herdr sessions; note preparation does not advertise live-session inspection or saved-conversation selection.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Capture, arrange, and feed notes to Herdr agent sessions."
+        }
+      ],
+      "listingSha256": "bcbe7041f1ef18b08b486371be76b952de47623841fd740502f7bf69e55341b0"
     },
     {
       "pluginId": "io.github.pow3r-droid.omatiles",
@@ -4823,6 +6294,21 @@
       "listingSha256": "ec33399d44b1820bd7628678637208412a83c119f00a7b753ac7e18d6eb7ed84"
     },
     {
+      "pluginId": "io.github.rawritude.simple-hotspot",
+      "typeId": "network",
+      "expectedTargets": [
+        "hotspots"
+      ],
+      "reason": "The local access point shares an existing Wi-Fi uplink through a toggle and persistent SSID/password; no client-network selection interface is claimed.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Share this laptop's Wi-Fi uplink with a phone, without dropping the uplink. Built for one-device networks — planes, hotels, conference Wi-Fi — where the laptop holds the paid session and the phone joins a local AP NAT'd out through it. A toggle and a password field; the SSID and password persist so a phone that has joined once reconnects on its own."
+        }
+      ],
+      "listingSha256": "5fa895cec26db19cc8af0b36980c90d3fba1ac85042e71f5a0e0b6f679a19eb6"
+    },
+    {
       "pluginId": "io.github.rbmrs.smart-enter",
       "typeId": "lock-idle",
       "expectedTargets": [
@@ -4836,6 +6322,19 @@
         }
       ],
       "listingSha256": "fdf1043064baca7c622def53b0143e5d80c040c0635bc8ec7ab6cb89703d6565"
+    },
+    {
+      "pluginId": "io.github.rektyrowdyy.agent-usage",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "The inline view is explicitly session and weekly usage for the default agent, rather than running-task states or resumable conversations.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "The Omarchy Agents widget with a toggleable inline view: left-click to show your default agent's session and weekly usage right in the bar."
+        }
+      ],
+      "listingSha256": "0a3b6a783a9835c055f9d94d1072fbf5a58c3cf332043f4c54d328e582530254"
     },
     {
       "pluginId": "io.github.rk4500.crossfade-lock",
@@ -4950,6 +6449,34 @@
       "listingSha256": "c8cdcfdda8e526786ef5b9c82e3d93e1cba573491c51781199a86e7e36b2f64e"
     },
     {
+      "pluginId": "io.github.rsd.power-watch",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "Adapter power draw and its historical threshold measurements are energy telemetry, not service availability checks or incident feeds.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Estimated or measured AC adapter load from the power-watch service, colored against its threshold, with 1h/24h/7d history."
+        }
+      ],
+      "listingSha256": "5a76593c3d2f190ef489c90ec37ad4f068fbce54df5eb565c2bf1df49cac299b"
+    },
+    {
+      "pluginId": "io.github.rustyoz.power-idle",
+      "typeId": "lock-idle",
+      "expectedTargets": [
+        "idle-sleep"
+      ],
+      "reason": "Separate battery/AC idle timeouts configure screensaver, display-off, lock and suspend actions; no lock design or temporary awake switch is claimed.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Idle and power-profile settings with separate timeouts for plugged in vs on battery: screensaver, turn off screen, lock, and suspend."
+        }
+      ],
+      "listingSha256": "582bef1be8fe87c29c0727e2522b53037998e7e552a22e5dc44b8da90a6680a2"
+    },
+    {
       "pluginId": "io.github.s-w-3.soundcore",
       "typeId": "audio",
       "expectedTargets": [],
@@ -4976,6 +6503,32 @@
         }
       ],
       "listingSha256": "b499b8f49fef65842849ddfe8ce58ce1700efaf12d2d28f74caf57e5d1db1f1d"
+    },
+    {
+      "pluginId": "io.github.sahzudin.omamemo",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Agents working is the occasion for a memory game; the game does not inspect or resume agent sessions.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Keep your brain live while your agents are working: a tiny Omarchy memory game in the bar."
+        }
+      ],
+      "listingSha256": "4eafcb880034e09816412e4d9d14c021c77a43fea44ad641cac07a86b6ad4704"
+    },
+    {
+      "pluginId": "io.github.sahzudin.omarchy-chat",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Reusable past questions feed a new terminal prompt; this advertises prompt history rather than browsing and resuming saved coding conversations.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "A single prompt box that asks your default Omarchy coding agent in a terminal, with a re-usable history of past questions."
+        }
+      ],
+      "listingSha256": "28be1010226e7f64d8db4df37d9cc70d8287028e99d5134f68484d273447e64c"
     },
     {
       "pluginId": "io.github.sahzudin.omawall",
@@ -5006,6 +6559,21 @@
         }
       ],
       "listingSha256": "3ea1b4a59aa2d953aafff305035d5c68eb43602c16a1c65e2134a3af3fc21178"
+    },
+    {
+      "pluginId": "io.github.salemsayed.omaherd",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "A local and remote Herdr attention inbox is a plausible running-agent monitoring lead; native local-session focus remains to be established.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "A local and remote HerdR attention inbox for the Omarchy bar."
+        }
+      ],
+      "listingSha256": "521a670fa125370a140ad3eaf00ffa3979c991d2b6ab73e836decd19d189d763"
     },
     {
       "pluginId": "io.github.samuosorio.power-menu",
@@ -5256,6 +6824,19 @@
       "listingSha256": "377dd3e1603564e385d650ac147ce509b4517f0e9e330d6f8863091cabc90b9e"
     },
     {
+      "pluginId": "io.github.soham3301.port-watcher",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "Port Watcher inspects connections, listeners and suspicious processes for security; it does not describe health checks of configured services.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "A tiny security monitor for the Omarchy bar: watches established TCP/UDP connections, new remote IPs, new listeners and suspicious processes."
+        }
+      ],
+      "listingSha256": "beb3077d325d5e170b22e97aefba45fb636fbba36729f0e1270f82d109dffbcb"
+    },
+    {
       "pluginId": "io.github.sohanemon.auto-suspend",
       "typeId": "lock-idle",
       "expectedTargets": [
@@ -5448,6 +7029,19 @@
       "listingSha256": "b7fe370e28838fb3945a178ef20d5dbc09411332c5645c4e5f886b359c3c6740"
     },
     {
+      "pluginId": "io.github.thisisgm.omapods",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Conversation awareness is an AirPods audio feature, alongside battery and listening controls; it has no coding-session meaning.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "AirPods in the Omarchy bar: per-pod and case battery, listening mode, adaptive noise level, conversation awareness, one-bud ANC and ear detection."
+        }
+      ],
+      "listingSha256": "da17a93c82e63d13299b10a5997729425ece0afc81b80b99e40ed24de0f5f1ca"
+    },
+    {
       "pluginId": "io.github.tlun0911.stopwatch",
       "typeId": "timers-alarms",
       "expectedTargets": [],
@@ -5502,6 +7096,19 @@
       "listingSha256": "5a281f5da9d90e7f6d099dc964092c37e4d9444e23fa004f3cca9c22fe3c702a"
     },
     {
+      "pluginId": "io.github.tslove923.howdy-face-unlock",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "The health check detects broken face-authentication integration after updates, not the health of configured endpoints or provider services.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Windows Hello-style face unlock for IR cameras on Omarchy, via Howdy: mirrors the fingerprint flow (setup/remove scripts, Setup > Security menu entries) and works on the stock lock screen and Lock Screen Explorer, with a health check that warns if an update breaks it."
+        }
+      ],
+      "listingSha256": "5a281f5da9d90e7f6d099dc964092c37e4d9444e23fa004f3cca9c22fe3c702a"
+    },
+    {
       "pluginId": "io.github.tug-benson.power-managment",
       "typeId": "lock-idle",
       "expectedTargets": [
@@ -5545,6 +7152,19 @@
       "listingSha256": "66afac1b51193c8b35a09f08336ce160ea0cab443c3e76e41f3d387c3ad3b408"
     },
     {
+      "pluginId": "io.github.viganogabriele.agent-usage-plus",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Token history and live subscription limits are account usage metrics, not current agent task states or saved conversations to resume.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Live AI coding-subscription usage, limits, API-rate estimates, and token history in a native Omarchy bar panel."
+        }
+      ],
+      "listingSha256": "8e04fae89f66cb38bfb67ef638a1679d7d39178017fd9d2e5d8b95b327b0242c"
+    },
+    {
       "pluginId": "io.github.vitorpacheco.mega",
       "typeId": "file-sync",
       "expectedTargets": [
@@ -5584,6 +7204,21 @@
         }
       ],
       "listingSha256": "57f8467a0325af0c0413e6268150a284d80dd9c83cdbb45afc99a3b99dbbadee"
+    },
+    {
+      "pluginId": "io.github.wbarakat.session-restore",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-history"
+      ],
+      "reason": "Optional Herdr agent resumption after restoring a saved desktop is a plausible session-resume lead; independent conversation browsing must be verified.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Save open windows before reboot or shutdown and restore them on the next boot — dual-boot friendly, with optional herdr agent resume"
+        }
+      ],
+      "listingSha256": "d231d6f58940ceb5f60e5fc3cfa1184cb10ad0d9210f94eeb8c7b3f71e17779f"
     },
     {
       "pluginId": "io.github.weedwhitesandwine.omazone",
@@ -5631,6 +7266,19 @@
       "listingSha256": "09e7f2360dce24f5ff1da7963148a51e8d336ba79ff3c7e171c9e807a412b0ea"
     },
     {
+      "pluginId": "io.github.x3me.nexthop",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "Nexthop diagnoses the Wi-Fi/ISP path with latency, jitter, loss and speed tests; it does not advertise user-selected service health checks or vendor incidents.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Splits your Wi-Fi from your ISP, hop by hop. Continuous latency, jitter and loss on both legs of your connection, with history, outage detection and speed tests."
+        }
+      ],
+      "listingSha256": "1e8b87b947fc86bafb42e72337026ca0a8dfc9e7682f4d9ea63800b80baa6e70"
+    },
+    {
       "pluginId": "io.github.yeutterg.lock-pin",
       "typeId": "lock-idle",
       "expectedTargets": [
@@ -5644,6 +7292,19 @@
         }
       ],
       "listingSha256": "5f8fb781c689887cbbd0db84c7c88ec61f8b20a371f55c72cee35aff003f1489"
+    },
+    {
+      "pluginId": "io.github.zangetsu02.fortivpn",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "FortiVPN reports the duration and state of VPN tunnels, with tunnel controls; uptime here is not a separate endpoint-health monitor.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Fortinet VPN status in the Omarchy bar: connection state, assigned IP, uptime and traffic, with connect and disconnect from the panel. Drives either FortiClient or openfortivpn, across as many profiles as are installed."
+        }
+      ],
+      "listingSha256": "8c964ca61d8a9fc03d5ad9df463db5ccf004d7ae0aff976eea0fcbf5fc4847bd"
     },
     {
       "pluginId": "io.github.zestybytes.deco-mesh",
@@ -5775,6 +7436,62 @@
       "listingSha256": "9c5059d3fa3b4fc0ac16c6f549fd6adcc88c6c84f8774f0bfd7318cafbadadf4"
     },
     {
+      "pluginId": "jesseburlamaque.antigravity-usage",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "Active Antigravity sessions and tool telemetry support a live-agent inspection lead; prompt/usage history does not itself establish saved-session resumption.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Antigravity active sessions, live quota metrics (/usage), model breakdown, prompt history, and tool telemetry in the Omarchy bar."
+        }
+      ],
+      "listingSha256": "2e31875265cc87344db397ca4e735b802d8a84050fe8ad528a67dccdec9e4dbb"
+    },
+    {
+      "pluginId": "jikotheguy.agentcron",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "AgentCron schedules jobs and retains execution history and approvals; it does not describe conversation browsing or live session focus.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Scheduled agent jobs on systemd user timers, with run history and approval in the bar."
+        }
+      ],
+      "listingSha256": "14a6c440cb5f3f101d4f680520f98fcac0bd70b42e74df13b94a5445a0748c12"
+    },
+    {
+      "pluginId": "jim.claude-context",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-history"
+      ],
+      "reason": "The picker browses recent Claude coding sessions to inspect context; it is a plausible history lead, with selected-session resumption still requiring source review.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Claude Code's /context in a bar panel: the context-window grid, a per-category legend with tokens and share, and a picker for recent sessions."
+        }
+      ],
+      "listingSha256": "05eca3f64751c33904502b5e8c84a16df350a8ba3f1c9bcf44f47e4d27f13938"
+    },
+    {
+      "pluginId": "jinxnet.inkmode",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Coding sessions describe when to use a screen-reading filter; Ink Mode does not inspect agents or expose saved conversations.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "A print-like filter for the whole screen — good for books and graphic novels, long coding sessions, and night-time viewing. Color Ink keeps hue without the glow; Ink is warm grayscale. Last mode comes back after login and Style changes."
+        }
+      ],
+      "listingSha256": "f3d8a8972d35030555d07f4807e4e839623bf1e2db54db649f8c1482e96d4070"
+    },
+    {
       "pluginId": "jkarmel.zoom-controls",
       "typeId": "audio",
       "expectedTargets": [],
@@ -5786,6 +7503,21 @@
         }
       ],
       "listingSha256": "a79bae0f9b702a548353187004674215901807957df9a5c4df4e80c63b48c3d6"
+    },
+    {
+      "pluginId": "jkwuc89.wallpaper-screensaver-settings",
+      "typeId": "lock-idle",
+      "expectedTargets": [
+        "idle-sleep"
+      ],
+      "reason": "The screensaver's settings explicitly include idle timings; image-folder and slideshow appearance do not imply lock-screen customization.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Configure the wallpaper-slideshow screensaver: image folder, per-image duration, and idle timings"
+        }
+      ],
+      "listingSha256": "0e09b325c676bfe1b8d5fecfcf4fe7b602e312f1385abf9a77fa5220492287ed"
     },
     {
       "pluginId": "jmaeder.swissweather",
@@ -5952,6 +7684,21 @@
       "listingSha256": "e7e741b31fb48cc449625a39682e8047ead636d54921fbb8b0c2126f9cda3060"
     },
     {
+      "pluginId": "kb2uka.terminal-deck",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "Terminal Deck identifies open terminals and their running AI agents across workspaces, a plausible running-session inspection and navigation lead.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "See every open terminal across all workspaces, its session name, and the AI agent running inside it, from one bar icon."
+        }
+      ],
+      "listingSha256": "e478b19a0b3dd956a2b47d318ba1d8c50dcd7ed85ad3e6a179dea9bcadfdb8ce"
+    },
+    {
       "pluginId": "keis.vibe",
       "typeId": "ai-assistant",
       "expectedTargets": [
@@ -5965,6 +7712,50 @@
         }
       ],
       "listingSha256": "b704d33a02fe2d53f7e7cff3ecaf4dd9bf7688cee644a881ab6bc200a956d3c1"
+    },
+    {
+      "pluginId": "kelso.hermes-sessions",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring",
+        "agent-history"
+      ],
+      "reason": "Hermes current activity supports monitoring, while past sessions can explicitly reopen in a TUI; local focus controls still need verification.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Hermes agent status in the Omarchy bar: current activity plus past sessions, clickable to reopen in a hermes TUI."
+        }
+      ],
+      "listingSha256": "0918a1104977b3ec30bae269de6d6e1c9fe22d87db475ad3046eab21dd0e18c5"
+    },
+    {
+      "pluginId": "kenhara.compliantish",
+      "typeId": "lock-idle",
+      "expectedTargets": [],
+      "reason": "Compliantish checks whether screen locking and other security measures exist; compliance inspection does not customize a lock interface or idle policy.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Local workstation checks for Omarchy — yes, the name is the joke. Disk encryption, screen lock, antivirus, password manager, automatic updates. Unofficial Vanta/Drata-inspired compliance desk; not affiliated. No vendor API."
+        }
+      ],
+      "listingSha256": "b91ef7091db9c924d36c48881dae9c90b417fe3f3195fc3b8ef3afbdf13a6bd2"
+    },
+    {
+      "pluginId": "kevano.local-ai-dashboard",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [
+        "endpoint-monitoring"
+      ],
+      "reason": "Monitoring chosen local model services and their current status is a plausible configured-service health lead; actual health checks must be distinguished from resource metrics.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Monitor and control local ai model services like llama-server/ollama from the Omarchy bar. Start and stop the systemd background service, view available models with current model status, monitor CPU/GPU/DRAM/VRAM usage, with quick access to view debug output via a new terminal session, and one click open your config files via nvim."
+        }
+      ],
+      "listingSha256": "11746f1209b78fe252b2291d55dff86db5096e3bbcde22b83033176086dd8ade"
     },
     {
       "pluginId": "kevinbsr.omahub",
@@ -6008,6 +7799,19 @@
         }
       ],
       "listingSha256": "305a4b2e56721e06fb0b716a5f5a74b310fc35691a26a53adaa139abf7129437"
+    },
+    {
+      "pluginId": "kiryuuki.oma-immich",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "Immich photo management includes unspecified server telemetry, without a claimed health-check workflow or provider incident feed.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Immich photo management, watchfolder auto-upload, memories, and server telemetry for Omarchy desktop."
+        }
+      ],
+      "listingSha256": "1e547c19f991491c24a775ba04484f221b8363779ed5b5f27fffe07a1dd5b877"
     },
     {
       "pluginId": "kiryuuki.oma-kasm",
@@ -6090,6 +7894,19 @@
       "listingSha256": "9e940ff69dc78121b7ef74bd577445cc650a1346a6ee960f113c57abfb7247ae"
     },
     {
+      "pluginId": "kzagoris.codex-router-tray",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Codex Router controls providers and router usage/status; those are routing-service controls, not live coding-session states or conversation history.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Codex Router status, usage, providers, and controls in a native bar panel."
+        }
+      ],
+      "listingSha256": "1e4d2638af4a29cfdf905f7654b7a97ce1e45cee62af241d7e0353609bd8555d"
+    },
+    {
       "pluginId": "lancefaul.omarcal",
       "typeId": "clock-timer",
       "expectedTargets": [],
@@ -6116,6 +7933,22 @@
       "listingSha256": "c1faab1c9abd319ea37efd73e95d5e3b2f1c0281057fa8b975fb6de9e9714143"
     },
     {
+      "pluginId": "leakz.betterpower",
+      "typeId": "lock-idle",
+      "expectedTargets": [
+        "idle-sleep",
+        "keep-awake"
+      ],
+      "reason": "Per-power-source screensaver/lock/sleep settings and clamshell lid control suggest persistent policy and an awake mode; timer and hold scope require source review.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Power profile, screensaver, lock and sleep per power source, battery protection, clamshell lid control, and a bar-wide battery gauge"
+        }
+      ],
+      "listingSha256": "7e4dfae0a475cc1416df64365cab3e569546d0336f728f8beb9da32547e5f23e"
+    },
+    {
       "pluginId": "leewynne.omapaddock",
       "typeId": "clock-timer",
       "expectedTargets": [],
@@ -6127,6 +7960,19 @@
         }
       ],
       "listingSha256": "18956b3a8780fb4a650aad7585eade60af3ce9e33a391067b89c8147d360cbbc"
+    },
+    {
+      "pluginId": "lef.password-store",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "The sessions belong to browser-based password vaults; this launcher does not inspect coding agents or resume their conversations.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Quick launcher for your web password vault — Bitwarden, Vaultwarden (self-hosted), 1Password or LastPass. Stores no credentials, no master password, no secrets: sessions live in your browser."
+        }
+      ],
+      "listingSha256": "a8c82506dc1974701de3cdbeb3e8350f7ef8e4f5c01d259b78adaab9033f7465"
     },
     {
       "pluginId": "leomoon-studios.omarchy-world-clock",
@@ -6143,6 +7989,19 @@
         }
       ],
       "listingSha256": "7290e8bde4e873d173017c24f73f5bf18540e8d0b3daa443b9a4d7fdbd034b5d"
+    },
+    {
+      "pluginId": "leonrlr4.rdt",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "The reused session authenticates a Reddit feed in the browser; it is unrelated to coding-agent session monitoring or history.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Your Reddit feed in the Omarchy bar, read with the session you are already signed in to in your browser. Unread count on the pill, posts and comments in the popup."
+        }
+      ],
+      "listingSha256": "d960173f9155d71d9b95f536eeeeba5e3f68b1189360c32eff05164ccfc12d37"
     },
     {
       "pluginId": "lgse.sandman",
@@ -6190,6 +8049,19 @@
       "listingSha256": "c06144154612709d0ac05710a83a4210a1205ac9b8bd84e480b07454ff68d887"
     },
     {
+      "pluginId": "lobo.on-the-minute",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "The history records workout timer sessions, not coding-agent conversations or running agent activity.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Customizable EMOM (Every Minute On the Minute) workout timer with per-minute and 5-second-warning cues, plus session history."
+        }
+      ],
+      "listingSha256": "920a8f5f0e3e2d42cb8023af81fa951fa2a4dff00bffc5b86df0450bdb3b79f1"
+    },
+    {
       "pluginId": "local.cpu-mode",
       "typeId": "clock-timer",
       "expectedTargets": [],
@@ -6201,6 +8073,19 @@
         }
       ],
       "listingSha256": "d121c7d48628c6cb9f6778a73b9e8a8bc97e8c153e72312f039720674d737b2f"
+    },
+    {
+      "pluginId": "local.opencode-go",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "OpenCode Go presents account switching, usage and token history; those metrics do not expose saved conversations or running-task activity.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "OpenCode Go usage, account switching, reset countdowns, and token history."
+        }
+      ],
+      "listingSha256": "db984ae7d2846255cb7af7319d002b813b97ef6decf4a7591231538b099dd83f"
     },
     {
       "pluginId": "local.vpn-toggle",
@@ -6216,6 +8101,19 @@
         }
       ],
       "listingSha256": "0646f59f1d26ddf909a5d5ba9d61167873dde52d5fd092d9a7974327b8a6bc69"
+    },
+    {
+      "pluginId": "lonh.agents-sleep",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Agents Sleep reacts to agent completion by suspending the computer; it does not advertise an agent-inspection interface or session focus.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Suspend the computer once every Claude agent and subagent has finished working."
+        }
+      ],
+      "listingSha256": "4e0447ec3cfb3de045b9d43790aaad23a384071e433305c64512659f95c43dc6"
     },
     {
       "pluginId": "luffy.lock",
@@ -6323,6 +8221,19 @@
       "listingSha256": "fc6824493b2bde860fba22feb5e687af8e7a3dfe971cfe0ec0914273ae6f7cc3"
     },
     {
+      "pluginId": "madmasx.hermes-pets",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "The companion animates activity and waves when clicked; the described interaction is pet behavior rather than focusing or resuming an agent session.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Animated Hermes petdex companion in the Omarchy bar: it plays sprite sheets from ~/.hermes/pets, looks at your cursor, waves when clicked, and can be pinned to the desktop. Reacts to Hermes agent activity when the activity hook is wired in."
+        }
+      ],
+      "listingSha256": "d0b72c986e9ef557332d35d7d3345d4ca1c82564ec5cbf97aa51fd54276e596c"
+    },
+    {
       "pluginId": "magicmike.frontrow",
       "typeId": "ai-assistant",
       "expectedTargets": [],
@@ -6334,6 +8245,19 @@
         }
       ],
       "listingSha256": "280a108eaa483130ca35376eded5466054ff1b8a1d99ed21fdbd99269f65ddce"
+    },
+    {
+      "pluginId": "marcho78.uber-notebook",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "The AI agent works on the current notebook page in a panel; note authoring does not advertise an independent running-session monitor or conversation archive.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Your notes in the Omarchy shell. Press Super+N (or click the notebook in the top bar) and Pages opens: a workspace of pages made of blocks, the Notion way, with to-dos, toggles, tables, boards, mind maps, sketches, equations, diagrams, pictures and files, and your AI agent (Claude Code, Grok or Codex) working on a page in a panel. Or paper notebooks that move to Pages in a click. Quick notes from anywhere with Super+Alt+N, search across everything, and plain files in ~/Documents/Uber Notebook."
+        }
+      ],
+      "listingSha256": "ffdbac9ff9816c8afee658c0dc779d4206b4efba1bc3b57e0a359fed8c8ae0bb"
     },
     {
       "pluginId": "marco.omarchy-info",
@@ -6349,6 +8273,19 @@
         }
       ],
       "listingSha256": "c6c411dffabb17017848807589bd86d62167c569066c4e8b2af3b55b14fb9587"
+    },
+    {
+      "pluginId": "marco.pi-memoria",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Pi memoria measures disk occupied by stored sessions and extensions; a storage breakdown is not browsing and resuming the conversations.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Shows how much disk pi's stored memory uses: session history, skills, extensions and themes. Click for a breakdown."
+        }
+      ],
+      "listingSha256": "8c0ee584a9690cbdaa757705b17453cbc27094a59fc1ec7c1604a50ff93ca741"
     },
     {
       "pluginId": "marska.wireguard",
@@ -6602,6 +8539,47 @@
       "listingSha256": "007cbcbbcaaefdf5adcd30c9583135753c43f3fb3565e972b90829eb1b991791"
     },
     {
+      "pluginId": "mrpbennett.herdr-agents",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "Herdr agent state, activity and workspace are visible, and click-to-focus is explicit, directly supporting the live-agent monitoring task.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Live Herdr agent status in the Omarchy bar: every agent's state, current activity, workspace, and click-to-focus."
+        }
+      ],
+      "listingSha256": "ebe7383fc785c12ced5deed5cd60734582d26f6796796e7112d870bfcdd340d6"
+    },
+    {
+      "pluginId": "mryll.claudebar",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Claudebar shows subscription session/weekly limits and pacing; these are usage allowances rather than running-task states or resumable history.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Claude AI plan usage (claudebar) in the Omarchy bar: session, weekly, and per-model limits with pacing."
+        }
+      ],
+      "listingSha256": "9de272974cf2a09fb40a15e9ab41726b18f72acad38f0ac7253270e3be0e4f73"
+    },
+    {
+      "pluginId": "mryll.codexbar",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Codexbar shows subscription quotas, pacing and review limits; session is an accounting interval rather than a saved conversation or active task.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "OpenAI Codex subscription usage (codexbar) in the Omarchy bar: session, weekly, code-review and per-model limits with pacing."
+        }
+      ],
+      "listingSha256": "de1c1f2cdc0255f72801a97fd3fd4a7a26c6ca150be4ea9cbf88ee895257f512"
+    },
+    {
       "pluginId": "mryll.meteobar",
       "typeId": "weather",
       "expectedTargets": [
@@ -6615,6 +8593,21 @@
         }
       ],
       "listingSha256": "6289af21f1665991123b63c17cd8d4b369a824f535958cc4da87cf76a1788fb6"
+    },
+    {
+      "pluginId": "murankar.eso-server-status",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [
+        "service-status"
+      ],
+      "reason": "A dedicated ESO service-status indicator is a plausible provider-status lead; source review must confirm provider reporting rather than local reachability probes.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Elder Scrolls Online server status indicator with shared, outage-aware polling"
+        }
+      ],
+      "listingSha256": "90004b46d12e3510f0a6fcc5724e0889da2c8cfd9451859394633413eddea886"
     },
     {
       "pluginId": "nagualcode.thetinybuttons",
@@ -6791,6 +8784,21 @@
       "listingSha256": "13fb458c71f4b144e45076fe6a3b9677b85123312987af9bfbdf960eba757f93"
     },
     {
+      "pluginId": "njpatel.omaherdr",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "Live Herdr agents and spaces have a keypress to jump to an available target; source review can verify the supported local focus path.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "TUI-style panel for herdr: live agents and spaces, persistent attention across attached machines and opt-in saved machines, and one keypress to jump to an available target."
+        }
+      ],
+      "listingSha256": "f9823c23290acaf310217b44320e863983204d7113fd26f6c5b7f41380d72798"
+    },
+    {
       "pluginId": "no.koka.uptime-monitor",
       "typeId": "uptime-monitoring",
       "expectedTargets": [
@@ -6804,6 +8812,62 @@
         }
       ],
       "listingSha256": "7c292b3c31445e3b80508937d27ed7efeea2162106bae86df071f0e5ee6f5dd0"
+    },
+    {
+      "pluginId": "nocram.f1",
+      "typeId": "clock-timer",
+      "expectedTargets": [],
+      "reason": "F1 timing, race countdowns and schedules in the user's timezone are sports information, not a persistent civil clock or multi-zone comparator.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Live F1 in the Omarchy bar: a live timing tower while a session is running, live driver standings carrying the points gap from your pinned driver (Max Verstappen by default) to the championship leader, plus the next Grand Prix countdown and the full weekend schedule in your local timezone."
+        }
+      ],
+      "listingSha256": "7ed5b45d69d592dd4f0122a7914db52dfbfbccdbdad72ac9d0db0d8b9c1cfe93"
+    },
+    {
+      "pluginId": "nomdelasociete.dsmn",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Agent activity only triggers a sleep inhibitor and timer; no running-session inspection or archived conversation controls are advertised.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Keeps your Omarchy computer awake while a local coding agent is working, then lets it sleep when that work stops. Claude Code, Cursor, Codex, Grok, and Pi can keep a timer going from the bar. You can also start 30 minutes, 90 minutes, or a length you choose, up to 8 hours. Stop, or the end of the timer, allows sleep again. The screen can still blank and the session can still lock. Installing it does not add hooks or change sleep settings. Those stay in Settings, and only if you ask."
+        }
+      ],
+      "listingSha256": "258c948f6d32ebf7d982de899746e9985e0d884779103e5b8393ad1cca8af556"
+    },
+    {
+      "pluginId": "nomdelasociete.dsmn",
+      "typeId": "lock-idle",
+      "expectedTargets": [
+        "keep-awake"
+      ],
+      "reason": "The temporary timer or active agent holds off sleep until stopped or expired; the listing explicitly leaves locking, blanking and permanent sleep settings separate.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Keeps your Omarchy computer awake while a local coding agent is working, then lets it sleep when that work stops. Claude Code, Cursor, Codex, Grok, and Pi can keep a timer going from the bar. You can also start 30 minutes, 90 minutes, or a length you choose, up to 8 hours. Stop, or the end of the timer, allows sleep again. The screen can still blank and the session can still lock. Installing it does not add hooks or change sleep settings. Those stay in Settings, and only if you ask."
+        }
+      ],
+      "listingSha256": "258c948f6d32ebf7d982de899746e9985e0d884779103e5b8393ad1cca8af556"
+    },
+    {
+      "pluginId": "nomdelasociete.macpro",
+      "typeId": "lock-idle",
+      "expectedTargets": [
+        "keep-awake"
+      ],
+      "reason": "The machine-specific suite advertises Sleep off, a plausible sleep-inhibition lead; review must establish reversibility and scope, rather than assuming timer or lock-design controls.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "The go-to plugin for a Late 2013 Mac Pro (aka Trashcan or Cylinder). Everything this machine needs to run nicely on Omarchy: both FirePros (D300, D500 or D700), a lock that keeps the picture, Sleep off, auto Wi-Fi repair, and GPU per app. One Apply and you're at 100%."
+        }
+      ],
+      "listingSha256": "27f3acd916de4658998fc5db039ec7730a5ba67f3b6f32caa225d071c18a6502"
     },
     {
       "pluginId": "nosignal.gliff-manager",
@@ -6849,6 +8913,19 @@
       "listingSha256": "8da6642d8dc36446a1d4a5ab51b634a3ea4891aac7aaf0674b866db7ec69de07"
     },
     {
+      "pluginId": "nshkr.beam-deck",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "BEAM incident evidence, resource forecasts and scheduler trials describe runtime diagnostics, without configured endpoint checks or provider-published incident feeds.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Agentless BEAM cockpit: conservative resource forecasts, incident evidence, flight recorder, focused OTP diagnostics, persistent pins, and reversible scheduler trials."
+        }
+      ],
+      "listingSha256": "a76de1cf48b2d0c19b9175b45cccb81b3b0936c836931f806953bdac8304a1e6"
+    },
+    {
       "pluginId": "nzkritik.matrix-lock",
       "typeId": "lock-idle",
       "expectedTargets": [
@@ -6877,6 +8954,19 @@
         }
       ],
       "listingSha256": "ac89c52ec6c8f84a3f114a759df307ecb8313eb566a656bb4550c0f4ba79fac8"
+    },
+    {
+      "pluginId": "oliwier.auto-pilot4agents",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Scheduled prompts run unattended agent jobs; the queue is a scheduling interface, not a live-session focus view or saved-conversation browser.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Prompt scheduler for AI coding agents: write prompts now and Auto Pilot sends each one later to a Claude Code, OpenCode, Codex, Gemini CLI, Cursor Agent or Pi session, in a few minutes, at a clock time, or right after a usage or rate limit resets. Scheduled jobs wait in a queue in the bar and run headless and unattended, even overnight, as cron-like systemd user timers, so your automation fires while the screen is locked."
+        }
+      ],
+      "listingSha256": "4baecf99c84d60e4025633796e899afff0ad91c52e7d5f456e748cacfcbf69f4"
     },
     {
       "pluginId": "oliwier.auto-pilot4agents",
@@ -6948,6 +9038,21 @@
       "listingSha256": "7f10a401a28403c0edb957d740fdb93190727118adb76b455a998c418f3662e7"
     },
     {
+      "pluginId": "omaherdrbar",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "The running Herdr session exposes working, blocked and idle states; native session focus remains a source-review requirement.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Agent status from the running herdr session: working, blocked, idle"
+        }
+      ],
+      "listingSha256": "2bf0fd2c868e91f3427ac758cb950b4eaa4e670222be239902da5cd39ec38028"
+    },
+    {
       "pluginId": "omajitjadhav.touchpad-edge",
       "typeId": "audio",
       "expectedTargets": [],
@@ -6976,6 +9081,19 @@
       "listingSha256": "98a4a91cc13c61ee47afbb0ba8b67e22626fed342c18ce7c4e82bd5d82693a36"
     },
     {
+      "pluginId": "omanetmonitor",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "OmaNetMonitor flags outbound connection geography against allowed regions, a security observation rather than target health checks or service-status feeds.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Watches outbound TCP connections and flags any whose remote IP geolocates outside your allowed countries/regions."
+        }
+      ],
+      "listingSha256": "74c51f007748cc5f7b0b41ecb8768b4f2f0e10297b6038089672c5443199f2c1"
+    },
+    {
       "pluginId": "omanetwork.center",
       "typeId": "network",
       "expectedTargets": [
@@ -6989,6 +9107,34 @@
         }
       ],
       "listingSha256": "20a8b587b737b16d420508add10a78c738bbb07f66f28bf404bf127d9dc245e4"
+    },
+    {
+      "pluginId": "omaoutlook",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "Weeks of uptime describes the Outlook client's reliability and memory watchdog, not a user-facing endpoint or incident monitor.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Microsoft Outlook for Omarchy: the real Outlook web client in its own window, re-skinned live with your Omarchy theme and behaving like the Outlook app. Every sign-in works, links in mail open in your browser, popouts and new mails get Outlook windows, mailto starts a message, Teams links go to Teams. Unread badge in the bar, notifications, printing, and a memory watchdog for weeks of uptime."
+        }
+      ],
+      "listingSha256": "bcbc2453e90a972ec10f169c88feffe98626d3ac050ed41fa19f7ccaf30e015f"
+    },
+    {
+      "pluginId": "omapets",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "The bar pet reflects coding-agent activity, providing a plausible live-state lead; source review must establish useful state inspection and native focus controls.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "An animated Codex-compatible pet that reflects coding-agent activity in the Omarchy top bar."
+        }
+      ],
+      "listingSha256": "4b85e292881874d52731c39301474e41ab469ff0ef3ee1223cee9dccf0222a20"
     },
     {
       "pluginId": "omarchy-focus-gate",
@@ -7250,6 +9396,19 @@
       "listingSha256": "ae6d233853f1b538cf884f5924ca30ce19b45b9fa0c5dd3fac8cf720343f306c"
     },
     {
+      "pluginId": "openzoo-ingest",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Openzoo ingest collects transcripts and other desktop data into a memory store; ingestion does not itself offer a session browser or targeted resume action.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Everything your machine produces, bound into your own local leCore memory every ten minutes: clipboard, notifications, screenshots (OCR), coding-agent transcripts, shell history. Local by default; nothing leaves unasked. Pairs with the openzoo bar widget, which recalls over it."
+        }
+      ],
+      "listingSha256": "eb4931a596df3884d07f0813f32f8f404b5acb39230d9abe1d52b07c45779091"
+    },
+    {
       "pluginId": "org.omarchy.keycontroller",
       "typeId": "timers-alarms",
       "expectedTargets": [],
@@ -7261,6 +9420,21 @@
         }
       ],
       "listingSha256": "701f28b17b1bacba4dc315ad32f08b6881021c16dc44db6e0a9429ed6c12c89d"
+    },
+    {
+      "pluginId": "org.user.media-awake",
+      "typeId": "lock-idle",
+      "expectedTargets": [
+        "keep-awake"
+      ],
+      "reason": "Preventing idle sleep during media playback is a conditional awake hold; source review must confirm disable/restore behavior and the affected inactivity actions.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Prevents idle sleep while media is playing"
+        }
+      ],
+      "listingSha256": "ed66d11dbda4a5689c6fac4851c4a3e6092a7374909d03d524089b2eb12ab3e7"
     },
     {
       "pluginId": "orviwan.vibesworldtime",
@@ -7277,6 +9451,47 @@
         }
       ],
       "listingSha256": "0600bca1e878cdbf2abce522df7b5f30ec31ff7bd2cfe6e89f05d685271298e5"
+    },
+    {
+      "pluginId": "ozdil.netradar",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [
+        "endpoint-monitoring"
+      ],
+      "reason": "NetRadar's local-network radar and ping monitor are plausible checks of chosen network targets; configuration and health-state presentation require verification.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Zero-trust local network scanner, ARP/ICMP device radar, ping monitor, and hardened SSH/Web service launcher for Omarchy Linux."
+        }
+      ],
+      "listingSha256": "7d3f8b12650fb34009ed41d5be0215a5f4a8165673c0b9e8d806fefe7bf7183b"
+    },
+    {
+      "pluginId": "pablo.uslugi",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "The local-services list shows ports, resource use and uptime and opens a browser; service telemetry and launch shortcuts do not establish health checks.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Local web services (Docker/venv/system services) with ports, CPU/RAM, uptime — click opens the browser. PL/EN auto."
+        }
+      ],
+      "listingSha256": "238d270edb86b3bdea77f9488bb19db4fcc5d27cab74953978d4aa911d5510fc"
+    },
+    {
+      "pluginId": "pablopunk.nommarchy",
+      "typeId": "lock-idle",
+      "expectedTargets": [],
+      "reason": "The sleep timeout belongs to Razer speakers, alongside EQ and eco mode; it does not control the computer's inactivity policy.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Razer Nommo V2 X control — 10-band EQ, presets, eco mode, sleep timeout. A tray icon opens the control panel; launch it like an app from the menu, and Quit removes it from the bar."
+        }
+      ],
+      "listingSha256": "44aeecc5f58e7d3fd69b973f221ce919c5ec9326ee97494bdc18f7aa0a2b4fac"
     },
     {
       "pluginId": "parm.clock",
@@ -7397,6 +9612,21 @@
       "listingSha256": "921be2db8f37b1a71dcceccdc4f22a39a0744f18fa01b62585b10de37540300e"
     },
     {
+      "pluginId": "praefectus.opencode",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "Live OpenCode agent counts and session switching explicitly support inspecting and focusing currently running sessions, without claiming saved history.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Live OpenCode agent counts and session switching in the Omarchy bar."
+        }
+      ],
+      "listingSha256": "2d9a05e6c781b422f83309ab5236e4e5241e4034c5cd8bd9355184fc476fee1a"
+    },
+    {
       "pluginId": "priard.inair",
       "typeId": "weather",
       "expectedTargets": [
@@ -7410,6 +9640,32 @@
         }
       ],
       "listingSha256": "346cbece1826f1791abc23164fae8f8b78808e99578fc03f4c261d400a5d023b"
+    },
+    {
+      "pluginId": "ptrck.quattro-stats",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "Quattro Stats is a host resource dashboard; uptime and a generic ping entry do not describe configured service-health monitoring.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "iStat-style system monitor: CPU/GPU/MEM and disk/network throughput in the bar, a full dashboard (CPU, memory, storage, network, temps & fans, battery, uptime, load, ping) in the popup."
+        }
+      ],
+      "listingSha256": "ad66abf6280c97bab73c83151c7e54e63c8ec0b2bcfb45896e2c6ddfc6b24f1a"
+    },
+    {
+      "pluginId": "puck.forza-fx-2200lcd",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "The outage history concerns electrical power to a UPS; it is neither provider service incidents nor endpoint health checks.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Forza FX-2200LCD UPS status: charge, runtime, load, voltages and an outage history, from NUT on this PC or a home server"
+        }
+      ],
+      "listingSha256": "e4267e7427fe33a1456ea5d2450f8317e7490f9a53ace081fd17dd70e5907176"
     },
     {
       "pluginId": "qdot.omasky",
@@ -7436,6 +9692,34 @@
         }
       ],
       "listingSha256": "76d27f54468f3912bca0e8332ba4eaf1b38af75b4fdf2064d78e6426a949a1e6"
+    },
+    {
+      "pluginId": "rafaelsieber.curl-check",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Curl Check asks an agent to review an installation script; that review action does not inspect active agents or browse past conversations.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Review curl|bash install scripts with your default AI coding agent before running them, right from the Install menu."
+        }
+      ],
+      "listingSha256": "37f99137b4237f11ffd1e3c2b562983a6aead7eb176a8eb3abae1b287c0106f8"
+    },
+    {
+      "pluginId": "rafale83.hires-screensaver",
+      "typeId": "lock-idle",
+      "expectedTargets": [
+        "idle-sleep"
+      ],
+      "reason": "The screensaver settings include lock timing, a plausible inactivity-action configuration lead; its mosaic appearance is not a lock-screen design claim.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "High-res Adwaita mosaic screensaver with a settings panel for text, lock timing, effects, AI logos, and photos."
+        }
+      ],
+      "listingSha256": "136104332e3e5b5b507ce5716dc090fe78e1a114b1cb291bb10dc6c19dffdaa1"
     },
     {
       "pluginId": "ram-devv1.focus-island",
@@ -7539,6 +9823,19 @@
       "listingSha256": "f0399de21bc4de0a27a11a44f1ccb91e6dfc967db95985cc07efb32ed252bfe1"
     },
     {
+      "pluginId": "resn3t.pomodoro",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "The saved sessions are Pomodoro focus intervals with points and streaks, not coding-agent conversations.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Pomodoro timer with bar-native controls, right-click settings, alert response tracking, points, streaks, and session history"
+        }
+      ],
+      "listingSha256": "3affea76a174b7a565ac96602bf04c5c65d4a109db394bab7ee2b5c620a2a2a8"
+    },
+    {
       "pluginId": "resty.charge",
       "typeId": "lock-idle",
       "expectedTargets": [],
@@ -7550,6 +9847,52 @@
         }
       ],
       "listingSha256": "4621dbfcedd9f98e8fb566c29c02494e58fb08e8ed5bd140f9fa3a165f750ebd"
+    },
+    {
+      "pluginId": "rickom1.agent-status",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "Live agent status combined with workspace badges is a plausible active-agent inspection lead; native focus behavior still requires source evidence.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Customizable live agent status and workspace badges for Omarchy."
+        }
+      ],
+      "listingSha256": "31ef0a4a9ab68889f4b4e76b6eac04a875623e9688575154bcb4a7d4737eb3ac"
+    },
+    {
+      "pluginId": "riclib.agentsview",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring",
+        "agent-history"
+      ],
+      "reason": "AgentsView shows sessions running now and explicitly searches past sessions with a click to resume them, supporting both successor tasks.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "AgentsView in the Omarchy bar — the sessions running now, today's scoreboard, search across every past session, and a click to resume any of them in luvus."
+        }
+      ],
+      "listingSha256": "7f94b7a0735687a948b6e0ec20596f44ca1b80d1fa038c10d164d5ca7c99a43f"
+    },
+    {
+      "pluginId": "riclib.luvus",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "Luvus identifies working and blocked coding agents and offers a click to reach them, directly supporting running-session monitoring and focus.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Your luvus coding agents in the Omarchy bar — who is working, who is blocked, and a click to go there."
+        }
+      ],
+      "listingSha256": "e5cfe1d9610d31833234654b5b3c5e32467d36f378a93e24f6ab7f4f376824d6"
     },
     {
       "pluginId": "rimuru.screentime",
@@ -7668,6 +10011,19 @@
       "listingSha256": "b7bf66c18a9483d67d15f62c3e0b8deb203783e4afc4e20441bb97ede777d347"
     },
     {
+      "pluginId": "rocha.pasteimage",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "PasteImage forwards clipboard images to the focused terminal agent; input forwarding is neither session inspection nor archived-session resumption.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Paste screenshots into AI coding agents running in your terminal. Makes SUPER+V send Ctrl+V when a terminal is focused and the clipboard holds an image, so Claude Code and other TUIs can attach it."
+        }
+      ],
+      "listingSha256": "a67ae63700d81e191ae9c215cbaa356c1675e11f5ccd039d46e6668c76b69d60"
+    },
+    {
       "pluginId": "rockeyxx.lock-plus",
       "typeId": "clock-timer",
       "expectedTargets": [],
@@ -7722,6 +10078,19 @@
         }
       ],
       "listingSha256": "46b4211cfd8e9e64d16973916273a84c1e907250247e83a624ff052856a3c47b"
+    },
+    {
+      "pluginId": "rohirik.agent-monitor",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Despite its name, Agent Monitor describes subscription limits, daily activity and model usage, without current session states or conversation-resume controls.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "AI coding agent dashboard: subscription limits, daily activity, and model usage for Claude Code, Codex, OpenCode, Hermes, pi, OpenRouter, and more."
+        }
+      ],
+      "listingSha256": "d1e8bcd891beaacf8f62e3c45fbd472425aee39f067afbaa42c77f9dccec8d1b"
     },
     {
       "pluginId": "rohirik.agent-updater",
@@ -7809,6 +10178,19 @@
         }
       ],
       "listingSha256": "1000c52c7fe3c858ed5de5c566d94ba6bac656d2f2bff51a2745b5adb8f1d19c"
+    },
+    {
+      "pluginId": "saif.system-stats",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "System Stats measures the host's CPU, memory, disk and uptime; network usage history is not configured endpoint-health checking.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "CPU, temperature, memory, disk, uptime, and live network monitor with usage bars, history graphs, and a btop launcher"
+        }
+      ],
+      "listingSha256": "89bc89d684628b6262fc8744d217ecf373ddc7593e2a4615228fe6f149a79f0f"
     },
     {
       "pluginId": "salah.prayer-times",
@@ -7997,6 +10379,19 @@
         }
       ],
       "listingSha256": "3ca79ca3cf021c42e7055c2d1e7c631ece216319c7b830fe75e77f2c4fd3c475"
+    },
+    {
+      "pluginId": "sid.wiki-wait",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Wiki Wait is a Wikipedia reader for downtime, with local activity counts; coding agents working is context rather than a session-management feature.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "A calm Wikipedia reader for the minutes while coding agents work, with privacy-preserving local activity counts."
+        }
+      ],
+      "listingSha256": "914d7e13d59a304317c8c8508370339726ba5a79f22a9e7ff0389ed1b484d268"
     },
     {
       "pluginId": "simonez.vkeyboard",
@@ -8252,6 +10647,19 @@
       "listingSha256": "7f4fac565e24f5106d7e602dd61ffa91dbf6fa507a772ace5934b07e83de1110"
     },
     {
+      "pluginId": "supercleanse.agents",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "The specified controls manage the TeamClaude proxy, account quotas and request logs; they do not advertise running coding-session inspection or saved conversations.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Omarchy's Agents panel plus a TeamClaude tab: start and stop the TeamClaude proxy, per-account session and weekly quota meters with prefer, enable and remove controls, and a live request console."
+        }
+      ],
+      "listingSha256": "782cf5ba4fa89c13bad387912cb0e19f119c04bedde1bb55e3a6169ee00c2380"
+    },
+    {
       "pluginId": "sven-strothoff.browser-switcher",
       "typeId": "network",
       "expectedTargets": [],
@@ -8280,6 +10688,32 @@
       "listingSha256": "b9a858d3d6ab0232ab757416026a02da0a03497284c1221f610469b09b83c809"
     },
     {
+      "pluginId": "swheel33.perfwatch",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "The incidents are sustained Linux performance problems captured locally, not provider-published service incidents or configured endpoint health checks.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Record and review sustained Linux performance incidents from the Omarchy bar."
+        }
+      ],
+      "listingSha256": "28ebb3de606063a78323457f16b1466e1cf519069f06edd084d185351213cd03"
+    },
+    {
+      "pluginId": "syndicalt.eventloom",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Eventloom audits past session events, tool calls and approvals in a log; it does not advertise live session focus or conversation resumption.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "One local, append-only, tamper-evident log of what the AI agents on this machine did: sessions, tool calls, approvals and outcomes from supported Omarchy agents, with a woven Tapestry view. Installs the eventloom CLI and its adapters when enabled."
+        }
+      ],
+      "listingSha256": "00b61de2a6fb9a139483bed892ef32ab747f8e5ca5a7dd4f6fdd08428d9faa73"
+    },
+    {
       "pluginId": "szaidi.clocker",
       "typeId": "clock-timer",
       "expectedTargets": [
@@ -8306,6 +10740,21 @@
         }
       ],
       "listingSha256": "d6061e22dd84d5a3b1003b18289062bb42d5a60512c6aca25ff5da7ce9ce7623"
+    },
+    {
+      "pluginId": "taylorburke.claude-strip",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "The terminal strip reports a running Claude session's project, task and tools, making live-agent inspection plausible; verify native session-focus behavior.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "A thin strip at the top of each terminal window running Claude Code, showing the session's project, task and running tools. Terminal-agnostic; pair with the session-strip Claude Code mod."
+        }
+      ],
+      "listingSha256": "623860cc5c8bc20cc1a93f86fe4b5ed384bccaf043b91df8749a89cfb0fd0816"
     },
     {
       "pluginId": "tech.loopedmatrix.ohmtabs",
@@ -8379,6 +10828,32 @@
       "listingSha256": "06957311a3654d374f353103f24f415d0332c5e31cb236d6d18e77a108ef1e43"
     },
     {
+      "pluginId": "tirade.nyc-subway",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "The provider feeds describe trains, planned works and lift outages; transit service information is outside software endpoint and provider-status tasks.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Live NYC subway arrivals for any station from the MTA's GTFS-realtime feeds — no API key needed. Shows the next trains in the bar and a full detail popup: whole-station boards (even Times Sq, across every feed), each train's real destination, service alerts split from planned work, elevator and escalator outages, a trip planner that knows when an express transfer beats riding direct, per-train stop lists, leave-now reminders, and favorite stations with automatic AM/PM commute switching."
+        }
+      ],
+      "listingSha256": "c33a76793c1581779fe5f593174612f9486d0381504bd392f9b0ef521b512f46"
+    },
+    {
+      "pluginId": "tomv.battery-usage",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "Session history records battery charge and discharge cycles, not coding conversations or live agent work.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Live battery draw with charge/discharge session history, a consumption graph, stats and an optional web dashboard."
+        }
+      ],
+      "listingSha256": "8c7ce53edd53d9cb8ed2d2bb82727ebfa5542f4d32204755c7f2f085a6a75b67"
+    },
+    {
       "pluginId": "tomv.lte",
       "typeId": "network",
       "expectedTargets": [
@@ -8392,6 +10867,19 @@
         }
       ],
       "listingSha256": "d069c39094455c9e3c455e4e0e022eb8940f3fc4e30c9770819061e1ffbbbe23"
+    },
+    {
+      "pluginId": "tsouth89.signal",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [],
+      "reason": "Signal collects Sentry production-error incidents; error triage is not a provider's service-status feed or a configured endpoint-health check.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "A quiet Sentry incident inbox for the Omarchy bar. Production stays invisible until it needs you."
+        }
+      ],
+      "listingSha256": "4c4ce109ffefcb92ac9141d3f0d4012d1856390ae3859089814ba21e06ac888a"
     },
     {
       "pluginId": "ttt.olook-calendar",
@@ -8510,6 +10998,21 @@
       "listingSha256": "050a48e5cb9f6eb117b56243f2c17a39b3cf4b96d80222726e1b53a7225a130b"
     },
     {
+      "pluginId": "uvindu.opencode-sessions",
+      "typeId": "ai-assistant",
+      "expectedTargets": [
+        "agent-monitoring"
+      ],
+      "reason": "Live OpenCode sessions expose status and a click-to-attach action, directly identifying the active-session monitoring and focus workflow.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Live opencode sessions with status, model, path and token usage; click to attach. Totals and connected MCPs at the bottom."
+        }
+      ],
+      "listingSha256": "256283020a3e223e2032b7695c3108c47f1a3d06a440f280286f2f8d0519e982"
+    },
+    {
       "pluginId": "valleytheknight.powerplan",
       "typeId": "lock-idle",
       "expectedTargets": [
@@ -8523,6 +11026,21 @@
         }
       ],
       "listingSha256": "81f86abb186047aa612448d1b190a4b0bee86360869b2a8e46c85b57cb3b7ce8"
+    },
+    {
+      "pluginId": "vesp.omasnitch",
+      "typeId": "firewall",
+      "expectedTargets": [
+        "app-network-blocking"
+      ],
+      "reason": "The firewall and connection monitor explicitly operate at application level, making app blocking a lead rather than general host address/port rules.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Application-level network firewall and connection monitor for Omarchy."
+        }
+      ],
+      "listingSha256": "e0bd9d3313082a52fa79a8342d0440c6d117f709b7a78e93ad9d6cd6281bdc5c"
     },
     {
       "pluginId": "vimarchy",
@@ -8551,6 +11069,19 @@
         }
       ],
       "listingSha256": "0192587d5020b51bbfc2606c7bc3e975d4414772c009b6ff5ce325ffa71e3e39"
+    },
+    {
+      "pluginId": "vinicgobbi.nowbar",
+      "typeId": "lock-idle",
+      "expectedTargets": [],
+      "reason": "Now Bar surfaces ongoing activities, including a sleep countdown; it does not claim persistent inactivity policy, lock appearance or a reversible awake hold.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Samsung-style Now Bar: one pill in the bar for what's going on right now (media players, timer, stopwatch, Pomodoro, sleep timer, reminders, screen recording, dictation, camera/mic in use, modes and VPN, charging and low battery, Bluetooth, screenshots, and live updates from scripts), with a Now Brief when nothing is. Scroll to switch, click for the details."
+        }
+      ],
+      "listingSha256": "cea3612851edf7d1694bab31556b68b241e619e7429f4aa8c90cd9b698592067"
     },
     {
       "pluginId": "vinicgobbi.vpn",
@@ -8626,6 +11157,34 @@
       "listingSha256": "898c923d4267d0b0a7de433b5af7b5ac6fda4ae39acbe605aed3ae515b3c3f67"
     },
     {
+      "pluginId": "wdg.omarecall",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "OmaRecall offers inspectable memory for agent sessions; contextual memory alone does not advertise a saved-conversation browser or targeted resumption.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Local, inspectable memory for AI agent sessions."
+        }
+      ],
+      "listingSha256": "d9d627db30081f992d989dc6ed54b4d65f5f1600ea504521544da544a9fd7073"
+    },
+    {
+      "pluginId": "whimsy",
+      "typeId": "clock-timer",
+      "expectedTargets": [
+        "desktop-clocks"
+      ],
+      "reason": "The collection explicitly places civil-time clock styles as desktop widgets; no multiple-zone comparison is claimed.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "A playful collection of desktop widgets for Omarchy: typographic clocks and date displays, analog/flip/cyber clocks, day progress, retro cassette and vinyl music players, audio visualizers, volume, hardware telemetry pills/rings, and weather styles — all placed as drag-to-desktop widgets."
+        }
+      ],
+      "listingSha256": "56499c77be4b5aaf0670a2b1c5db863dd47b44a62e83b1bdd7356a9cab014895"
+    },
+    {
       "pluginId": "whimsy",
       "typeId": "weather",
       "expectedTargets": [
@@ -8669,6 +11228,19 @@
         }
       ],
       "listingSha256": "3e4faf6380bf13ac06c6d967376e3e12cb5fc21ed2eeb36061f6b0a96ef2c36c"
+    },
+    {
+      "pluginId": "woodenplastic.information-wallpaper-overlay",
+      "typeId": "ai-assistant",
+      "expectedTargets": [],
+      "reason": "The wallpaper overlay can show agent states but explicitly never takes a click; it does not supply the native local-session focus required by the task.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Information on your wallpaper: up to six tiles behind your windows, laid out the way Hyprland tiles windows. GitHub repos with a year of commits and live Actions runs; herdr's coding agents, working or waiting for you; builds, flashing and updates, passed or failed; what's playing; or any installed plugin's menu, shown live. Follows your theme, gaps and rounding, never takes a click, uses your gh login, and can fill the lock screen too."
+        }
+      ],
+      "listingSha256": "c20e899229d96e8201785e6fbc2630753f71f27c84c9c135e59016b96327b8e9"
     },
     {
       "pluginId": "woodenplastic.information-wallpaper-overlay",
@@ -8757,6 +11329,21 @@
         }
       ],
       "listingSha256": "e4bd273726ae934b414fd73bb08d437bc8f9185b3212766f1f9197b90634caf8"
+    },
+    {
+      "pluginId": "zeeshan.omniroute",
+      "typeId": "uptime-monitoring",
+      "expectedTargets": [
+        "endpoint-monitoring"
+      ],
+      "reason": "Monitoring a configured OmniRoute service through its HTTP API is a plausible service-health lead; source review must distinguish availability checks from usage telemetry.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Theme-aware OmniRoute monitoring over its HTTP API; Rust backend requires an explicit build (see README)"
+        }
+      ],
+      "listingSha256": "1f2b97c6fbbf223dddb950bca366d269725427f080f7bdbdfb2a61a371784e49"
     },
     {
       "pluginId": "zen.awake",

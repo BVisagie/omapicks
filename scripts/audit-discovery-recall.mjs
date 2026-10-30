@@ -1,34 +1,60 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { gunzipSync } from "node:zlib";
-import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
-import { classifyPlugin, prepareTaxonomy } from "../build/rank.mjs";
+import { classifyPlugin, prepareTaxonomy, discoveryListingHash } from "../build/rank.mjs";
 import { CATEGORY_MIGRATIONS } from "../build/category-migrations.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const successors = new Map(CATEGORY_MIGRATIONS.find((migration) => migration.id === "task-coherence-2026-10-30")
   .changes.map((change) => [change.from.id, change.to.map((type) => type.id)]));
 const key = (assignment) => `${assignment.pluginId}/${assignment.typeId}`;
-export const discoveryListingHash = (plugin) => createHash("sha256")
-  .update(JSON.stringify(plugin ? { id: plugin.id, name: plugin.name, description: plugin.description } : null)).digest("hex");
+export { discoveryListingHash };
 
-// Expectations are separately authored from captured listing text, before comparing classifier
-// output. The generated report must never be used as its own expected answer. This is an audit
-// of research routing, not evidence of task qualification or an estimate of catalog-wide recall.
-export function auditDiscoveryRecall(fixture, taxonomy, expectations = [], taskReviews = { assignments: [] }) {
+export function discoveryAuditInventory(fixture, taxonomy) {
   const initial = prepareTaxonomy(fixture.initialTaxonomy);
   const current = prepareTaxonomy(taxonomy);
+  const proposals = (fixture.proposalDiscoveries ?? []).map(({ revision, assignments }) => ({ revision, routes: new Map(assignments.map(({ pluginId, typeIds }) => [pluginId, typeIds])) }));
   const plugins = new Map(fixture.plugins.map((plugin) => [plugin.id, plugin]));
   const matches = new Map(fixture.plugins.map((plugin) => [plugin.id, {
-    initial: classifyPlugin(plugin, initial), current: classifyPlugin(plugin, current)
+    initial: classifyPlugin(plugin, initial), current: classifyPlugin(plugin, current),
+    proposals: proposals.map(({ revision, routes }) => ({ revision, types: routes.get(plugin.id) ?? [] }))
   }]));
+  const assignments = new Map();
+  const add = (pluginId, typeId, origin) => {
+    const id = key({ pluginId, typeId });
+    const row = assignments.get(id) ?? { pluginId, typeId, origins: [] };
+    if (!row.origins.includes(origin)) row.origins.push(origin);
+    assignments.set(id, row);
+  };
+  const baseline = [...fixture.baselineAssignments, ...(fixture.regressionAssignments ?? [])];
+  if (new Set(baseline.map(key)).size !== baseline.length) throw new Error("Duplicate baseline discovery assignment");
+  for (const row of baseline) for (const origin of row.origins) add(row.pluginId, row.typeId, origin);
+  const parents = new Map([...successors].flatMap(([from, targets]) => targets.map((id) => [id, from])));
+  for (const [pluginId, match] of matches) {
+    for (const [origin, types] of [["initial-successor-discovery", match.initial], ["current-successor-discovery", match.current],
+      ...match.proposals.map(({ revision, types }) => [`proposal-${revision}-successor-discovery`, types])]) {
+      for (const typeId of types) if (parents.has(typeId)) add(pluginId, parents.get(typeId), origin);
+    }
+    // A broad rule repair can also affect a retained category. Audit every gained/lost
+    // route between the preserved follow-up proposals and current rules, not just splits.
+    const versions = [...match.proposals.map((p) => p.types), match.current];
+    for (const typeId of new Set(versions.flat())) if (!parents.has(typeId) &&
+      versions.some((types) => types.includes(typeId)) && versions.some((types) => !types.includes(typeId))) {
+      add(pluginId, typeId, "proposal-discovery-change");
+    }
+  }
+  return { plugins, matches, assignments: [...assignments.values()].sort((a, b) => key(a).localeCompare(key(b))) };
+}
+
+// Target judgments are authored from listing evidence, independently of the classifier.
+// The generated report is never its own expected answer; this does not measure catalog-wide recall.
+export function auditDiscoveryRecall(fixture, taxonomy, expectations = [], taskReviews = { assignments: [] }) {
+  const { plugins, matches, assignments } = discoveryAuditInventory(fixture, taxonomy);
   const judgments = new Map(expectations.map((entry) => [key(entry), entry]));
   const reviewed = new Map(taskReviews.assignments.filter((entry) => ["qualified", "related"].includes(entry.decision))
     .map((entry) => [key(entry), { typeId: entry.typeId, decision: entry.decision, contractVersion: entry.contractVersion }]));
   if (judgments.size !== expectations.length) throw new Error("Duplicate discovery expectation");
-  const assignments = [...fixture.baselineAssignments, ...(fixture.regressionAssignments ?? [])];
-  if (new Set(assignments.map(key)).size !== assignments.length) throw new Error("Duplicate baseline discovery assignment");
   const rows = [];
   for (const assignment of assignments) {
     const targets = successors.get(assignment.typeId) ?? [assignment.typeId];
@@ -36,10 +62,10 @@ export function auditDiscoveryRecall(fixture, taxonomy, expectations = [], taskR
     const match = matches.get(assignment.pluginId) ?? { initial: [], current: [] };
     const initialTargets = targets.filter((id) => match.initial.includes(id));
     const currentTargets = targets.filter((id) => match.current.includes(id));
-    // Check every baseline lead in every split, even if it still reaches one successor.
+    // Check every discovered lead in every split, even if it still reaches one successor.
     // Also retain the initial proposal's losses, new losses and named regression cases.
     if (!successors.has(assignment.typeId) && initialTargets.length && currentTargets.length &&
-        !assignment.origins.includes("review-regression")) continue;
+        !assignment.origins.includes("review-regression") && !assignment.origins.includes("proposal-discovery-change")) continue;
     const judgment = judgments.get(key(assignment));
     const issues = [];
     if (!judgment) issues.push("missing-expectation");
@@ -60,19 +86,20 @@ export function auditDiscoveryRecall(fixture, taxonomy, expectations = [], taskR
     const retainedReviews = targets.map((typeId) => reviewed.get(`${assignment.pluginId}/${typeId}`)).filter(Boolean);
     rows.push({ pluginId: assignment.pluginId, typeId: assignment.typeId,
       name: plugin?.name ?? null, description: plugin?.description ?? null,
-      baselineOrigins: assignment.origins, successors: targets, initialTargets, currentTargets, expectedTargets,
+      inventoryOrigins: assignment.origins, successors: targets, initialTargets, currentTargets, expectedTargets,
       missingTargets, unexpectedTargets, otherCurrentTasks: match.current.filter((id) => !targets.includes(id)),
       reason: judgment?.reason ?? "", evidence: judgment?.evidence ?? [],
       ...(retainedReviews.length ? { retainedEditorialDecisions: retainedReviews } : {}), issues });
   }
   const expected = new Set(rows.map(key));
   const obsoleteExpectations = expectations.filter((entry) => !expected.has(key(entry))).map(key);
-  return { schemaVersion: 2, capturedAt: fixture.capturedAt, catalogGeneratedAt: fixture.catalogGeneratedAt,
+  return { schemaVersion: 3, capturedAt: fixture.capturedAt, catalogGeneratedAt: fixture.catalogGeneratedAt,
     baselineRevision: fixture.baselineRevision, initialProposalRevision: fixture.initialProposalRevision,
-    scope: "Per old-category assignment: all seven splits, initial or new discovery losses, and named regressions. Independently authored target sets are checked against every successor, including unwanted matches. Source-reviewed membership and qualification remain separate. This targeted audit is not catalog-wide recall.",
+    preservedProposals: (fixture.proposalDiscoveries ?? []).map(({ revision, taxonomySha256 }) => ({ revision, taxonomySha256 })),
+    scope: "Per old-category assignment: all seven splits across baseline, initial, preserved proposals and current rules, including successor-only leads; changed routes in retained categories and named regressions. Independently authored target sets are checked against every successor, including unwanted matches. Source-reviewed membership and qualification remain separate. This targeted audit is not catalog-wide recall.",
     summary: { catalogListings: fixture.plugins.length, baselineAssignments: fixture.baselineAssignments.length,
       auditedAssignments: rows.length, splitAssignments: rows.filter((row) => successors.has(row.typeId)).length,
-      originalLostAssignments: rows.filter((row) => !row.initialTargets.length).length,
+      initiallyUnmatchedAssignments: rows.filter((row) => !row.initialTargets.length).length,
       expectedRoutes: rows.reduce((n, row) => n + row.expectedTargets.length, 0),
       matchedRoutes: rows.reduce((n, row) => n + row.currentTargets.filter((id) => row.expectedTargets.includes(id)).length, 0),
       missingRoutes: rows.reduce((n, row) => n + row.missingTargets.length, 0),

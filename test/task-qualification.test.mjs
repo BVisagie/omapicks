@@ -3,7 +3,7 @@ import { readFile, mkdtemp, mkdir, writeFile, rm } from "node:fs/promises";
 import path from "node:path";
 import os from "node:os";
 import test from "node:test";
-import { classifyPlugin, prepareTaxonomy, rankPlugins as rankLatest, methodologyFor, pickWithHysteresis } from "../build/rank.mjs";
+import { classifyPlugin, prepareTaxonomy, rankPlugins as rankLatest, methodologyFor, pickWithHysteresis, discoveryListingHash } from "../build/rank.mjs";
 import { assertTaskQualifiedSnapshot, explainTaskFit, prepareTaskReviews, taskMetadataHash, updateTaskReviewQueue } from "../build/task-fit.mjs";
 import { auditClassifications as auditLatest, checksum, renderClassificationAudit } from "../build/classification-audit.mjs";
 import { refresh as refreshLatest, replayChanges, validateFeeds } from "../build/refresh.mjs";
@@ -62,6 +62,21 @@ test("a changed claim removes an incumbent immediately and stays in the queue ev
   assert.equal(pending.status, "stale-metadata");
   assert.equal(pending.previousPick, true);
   assertTaskQualifiedSnapshot(after.rankings);
+});
+
+test("listing-bound discovery exclusions expire and cannot veto reviewed capabilities", () => {
+  const p = plugin("indicator", "Screenshot recording indicator.");
+  const scoped = { ...taxonomy, overrides: { discoveryExclude: [{ pluginId: p.id, typeId: "capture",
+    listingSha256: discoveryListingHash(p), reason: "The listing only advertises recording status, not image capture." }] } };
+  const prepared = prepareTaxonomy(scoped);
+  assert.deepEqual(classifyPlugin(p, prepared), []);
+  assert.deepEqual(classifyPlugin({ ...p, id: "different-plugin" }, prepared), ["capture"]);
+  assert.deepEqual(classifyPlugin({ ...p, description: "Screenshot capture with a status indicator." }, prepared), ["capture"]);
+  const related = review(p, { decision: "related", role: "integration", capabilities: [] });
+  assert.equal(rankPlugins(inputs([p], [related], { taxonomy: scoped })).rankings.types[0].relatedTools[0].id, p.id);
+  assert.equal(rankPlugins(inputs([p], [review(p)], { taxonomy: scoped })).rankings.types[0].winner.id, p.id);
+  const duplicate = structuredClone(scoped); duplicate.overrides.discoveryExclude.push(duplicate.overrides.discoveryExclude[0]);
+  assert.throws(() => prepareTaxonomy(duplicate), /Duplicate discovery exclusion/);
 });
 
 test("contract changes, explicit holds and exclusions cannot reuse an old qualification", () => {

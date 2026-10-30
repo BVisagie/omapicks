@@ -172,11 +172,7 @@
             "read-weather-forecast"
           ]
         ]
-      },
-      "descriptionExclude": [
-        "\\b(?:satellites beside the weather|newspaper about yesterday|hosts the real widget|weather radio|wave buoy|SpaceX launches|appearance runtime|Touch Bar|animated[^.]{0,20}wallpapers|hurricane tracker|air traffic|AQI pill|drifting particles|air quality, pollen|weather-inspired|weather-tinted|weather service alerts)\\b",
-        "^(?!.*\\b(?:current conditions|hourly|[0-9]+[- ]day forecast|temperature|humidity|general weather)\\b).*\\b(?:rain radar|weather radar|radar rain|rain nowcast|rain forecast|rain starts|weather warnings)\\b"
-      ]
+      }
     },
     {
       "id": "weather-radar",
@@ -198,10 +194,7 @@
             "view-precipitation-radar"
           ]
         ]
-      },
-      "descriptionExclude": [
-        "\\bopen radar in the default browser\\b"
-      ]
+      }
     },
     {
       "id": "battery",
@@ -336,12 +329,7 @@
             "disconnect-client-network"
           ]
         ]
-      },
-      "descriptionExclude": [
-        "\\b(?:captive[- ]portal|NetworkManager detects|TP-Link Deco|network interface.s MAC address|as a webcam|system monitor)[^.]*",
-        "\\bshare the connected Wi-Fi network as a scannable QR code\\b",
-        "^Mobile hotspot toggle: serves a Wi-Fi AP\\b"
-      ]
+      }
     },
     {
       "id": "hotspots",
@@ -587,10 +575,6 @@
       "exclude": [
         "\\b(?:caps lock|rotation lock|password manager)\\b",
         "\\b(?:screen lock|lock screen)[^.]{0,15}\\boff and on\\b"
-      ],
-      "descriptionExclude": [
-        "\\b(?:FIDO2/U2F|pam_u2f|face unlock|face[^.]{0,20}fingerprint biometrics)\\b",
-        "\\b(?:lock screen included|screensaver is dismissed|lock screen off|battery charge-limit)\\b"
       ]
     },
     {
@@ -602,7 +586,8 @@
         "\\b(?:idle manager|hypridle|lid[- ](?:close|actions?|switch)|sleep[- ]after[- ]idle)\\b",
         "\\b(?:idle power management|idle[- ](?:settings|configuration)|(?:configure|customize)[^.]{0,30}idle)\\b",
         "\\bidle (?:& |and )?(?:screensaver )?(?:manager|hub)\\b",
-        "\\b(?:manage|configure)\\w*[^.]{0,35}\\bidle (?:behavior|behaviour)\\b"
+        "\\b(?:manage|configure)\\w*[^.]{0,35}\\bidle (?:behavior|behaviour)\\b",
+        "\\b(?:screensaver|lock|sleep)[^.]{0,30}\\bper (?:power source|source)\\b"
       ],
       "task": "Configure automatic inactivity timers and the actions they trigger. Persistent inactivity timing and action settings are required. Lock-screen appearance, manual sleep buttons and a temporary keep-awake switch alone are separate tasks.",
       "exclusionScope": "clause",
@@ -621,9 +606,6 @@
       ],
       "exclude": [
         "\\b(?:not|never)[^.]{0,65}\\bchange (?:sleep|idle) settings\\b"
-      ],
-      "descriptionExclude": [
-        "\\b(?:inhibits? lid-close|prevent sleep|idle actions paused|two-mode lid switch|toggle whether laptop lid close|schedule shutdown)\\b"
       ]
     },
     {
@@ -636,7 +618,8 @@
         "\\b(?:keep|hold)[^.]{0,40}\\b(?:screensaver|lock screen|sleep)[^.]{0,15}\\boff\\b",
         "\\bkeeps? (?:the |your )?(?:(?:omarchy )?(?:computer|machine|desktop|laptop|system)s? )?awake\\b",
         "\\b(?:toggle|switch)\\w*[^.]{0,65}\\b(?:screensaver|idle (?:screen )?lock)[^.]{0,25}\\boff and on\\b",
-        "\\btoggle whether laptop lid close triggers sleep\\b"
+        "\\btoggle whether laptop lid close triggers sleep\\b",
+        "\\bclamshell\\b"
       ],
       "task": "Temporarily pause automatic inactivity actions and restore the normal policy. A reversible inactivity hold is required. State whether the hold affects display blanking, locking or sleep; it does not imply prevention of every suspend path. Human caffeine intake and permanent timeout settings alone do not qualify.",
       "exclusionScope": "clause",
@@ -655,9 +638,6 @@
       ],
       "exclude": [
         "\\b(?:caffeine intake|caffeine consumption|coffee intake|mg of caffeine|caffeine tracking)\\b"
-      ],
-      "descriptionExclude": [
-        "\\b(?:caffeine tracker|track your caffeine|track cups|coffee suite|log a coffee|stay awake for cleaning|respects stay awake)\\b"
       ]
     },
     {
@@ -711,10 +691,11 @@
         "\\b(?:overlay|panel|pill|dashboard|shade|nightstand)[^.]{0,70}\\bclock\\b",
         "\\b(?:sunrise clock|earth clock|clock, calendar|on the clock you)\\b",
         "\\bworld[- ]clock bar (?:label|pill)\\b",
-        "\\binternet time[^;]{0,25}\\bwidget\\b"
+        "\\binternet time[^;]{0,25}\\bwidget\\b",
+        "\\bworld clocks?\\b[^.]{0,70}\\b(?:visible|bar (?:pill|label|widget))\\b"
       ],
       "task": "Display a persistent clock in the bar or on the desktop. A persistent current-time display in a bar, desktop widget or wallpaper is the shared task; presentation and location are stated per app. A popup-only agenda, lock/saver-only clock, hardware oscillator frequency, fictional stardate or countdown alone does not qualify. A clock for one chosen zone does not establish multi-zone comparison.",
-      "exclusionScope": "field",
+      "exclusionScope": "clause",
       "contract": {
         "version": 2,
         "outcome": "Display a persistent clock in the bar or on the desktop",
@@ -729,11 +710,7 @@
       ],
       "exclude": [
         "\\b(?:debt clock|stardate|theme clock|game clock|clock speed|clock frequency|audio clock|CPU clock|GPU clock|clock-side|beside the clock|next to the clock)\\b",
-        "\\b(?:CPU|GPU|thermal|temperatures?|MHz|GHz)[^.]{0,45}\\bclock\\b|\\bclock[^.]{0,35}\\b(?:CPU|GPU|temperatures?|MHz|GHz)\\b",
-        "\\block screen reskinned\\b"
-      ],
-      "descriptionExclude": [
-        "\\b(?:FX session clock|World Clock popup)\\b"
+        "\\b(?:CPU|GPU|processor|oscillator|MHz|GHz)[^.]{0,45}\\bclock\\b|\\bclock[^.]{0,35}\\b(?:CPU|GPU|processor|oscillator|MHz|GHz)\\b"
       ]
     },
     {
@@ -756,10 +733,7 @@
             "compare-time-zones"
           ]
         ]
-      },
-      "descriptionExclude": [
-        "\\b(?:automatically set the timezone|keyboard backlight|calendar in the bar|race weekend.s schedule)\\b"
-      ]
+      }
     },
     {
       "id": "timers-alarms",
@@ -1085,7 +1059,10 @@
         "\\b(?:agent|coding|claude|codex|opencode|hermes|herdr|grok|antigravity)[^.]{0,90}\\b(?:sessions?|threads?|attention|working|waiting|blocked|busy|tool executions?)\\b",
         "\\b(?:live|busy|working|waiting|blocked)[ -](?:coding[- ]?)?(?:agents?|claude|codex|herdr|hermes)\\b",
         "\\b(?:sessions?|tool executions?)[^.]{0,90}\\b(?:hermes|claude|codex|herdr|antigravity)\\b",
-        "\\blive view[^.]{0,45}agent-browser\\b"
+        "\\blive view[^.]{0,45}agent-browser\\b",
+        "\\blive sessions[^.]{0,35}\\bagents?\\b",
+        "\\bagents?\\b[^.]{0,30}\\b(?:finishes|fails|waits)\\b",
+        "\\bagents?\\b[^.]{0,85}\\b(?:model/tool activity|request paths)\\b"
       ],
       "task": "Inspect running coding agents and focus a local agent session. Live agent activity and a native action to focus a local running session are required. Reading archived conversations and remote read-only dashboards are different scopes.",
       "exclusionScope": "clause",
@@ -1104,9 +1081,6 @@
         "\\b(?:session limits|usage rings)\\b",
         "\\blaunch and resume\\b",
         "\\bkeeps?[^.]{0,45}\\bawake\\b"
-      ],
-      "descriptionExclude": [
-        "\\b(?:picker for past|resume any[^.]{0,40}conversation|sessions that aren.t running|launch and resume)\\b"
       ]
     },
     {
@@ -1114,10 +1088,15 @@
       "name": "Session History & Resume",
       "description": "Browse saved coding-agent conversations and resume a selected session",
       "include": [
-        "\\b(?:coding|ai|claude|codex|opencode|hermes|grok|agent)[^.]{0,100}\\b(?:history|resume|session browser|conversation browser|archive|past sessions|conversations?)\\b",
-        "\\b(?:resume|browse|past)\\b[^.]{0,110}\\b(?:agents?|coding|claude|codex|vibe|copilot|antigravity|herdr)\\b",
-        "\\b(?:claude|codex|coding)[^.]{0,50}\\bsessions that aren.t running\\b",
-        "\\bbrowser for[^.]{0,40}\\b(?:coding|agent) sessions?\\b"
+        "\\b(?:coding|ai|claude|codex|opencode|hermes|grok|agents?|vibe|copilot|antigravity|herdr)\\b[^.]{0,100}\\b(?:session|conversation)[ -](?:history|browser|archive|resumer?)\\b",
+        "\\b(?:resume|restore|browse|search|past|previous|archived)\\b[^.]{0,110}\\b(?:coding|ai|claude|codex|opencode|hermes|grok|agents?|vibe|copilot|antigravity|herdr)\\b[^.]{0,45}\\b(?:sessions?|conversations?)\\b",
+        "\\bpast sessions?\\b[^.]{0,70}\\bresume\\b",
+        "\\b(?:claude|codex|coding)\\b[^.]{0,50}\\bsessions that aren.t running\\b",
+        "\\bbrowser for[^.]{0,40}\\b(?:coding|agent) sessions?\\b",
+        "\\b(?:claude|codex|coding|agents?|opencode|herdr|grok)\\b[^.]{0,180}\\bresume\\b[^.]{0,25}\\bsessions?\\b",
+        "\\b(?:previous|past|saved|archived) sessions?\\b[^.]{0,65}\\b(?:coding|agents?|claude|codex|grok|opencode)\\b",
+        "\\b(?:past|previous|recent|resumable|saved) (?:coding[- ]|agent[- ])?sessions?\\b",
+        "\\b(?:herdr|claude|codex|opencode|agents?)\\b[^.]{0,55}\\b(?:resume|resumable)\\b"
       ],
       "task": "Browse saved coding-agent conversations and resume a selected session. Both saved-conversation discovery and targeted resumption are required. Live process monitoring or opening a generic new chat does not complete the task.",
       "exclusionScope": "clause",
@@ -1563,7 +1542,8 @@
         "\\b(?:monitor|check|probe)\\w*[^.]{0,40}\\b(?:endpoints?|services?|servers?|websites?|http|tcp)\\b",
         "\\b(?:watch|monitor|check|probe)(?:es|s|ing)?[^.]{0,40}\\b(?:sites?|endpoints?|services?|servers?|websites?|http|tcp)\\b",
         "\\b(?:instances?|services?|endpoints?)[^.]{0,70}\\b(?:reachable|reachability|health endpoint)\\b",
-        "/health endpoint\\b"
+        "/health endpoint\\b",
+        "\\b(?:service|controller|jenkins) health\\b"
       ],
       "task": "Inspect health checks for user-configured endpoints or services. Checks must target endpoints selected by the user, locally or through a configured monitoring backend. Provider-published status and incident feeds alone are a different task.",
       "exclusionScope": "clause",
@@ -1575,17 +1555,15 @@
             "inspect-configured-target-health"
           ]
         ]
-      },
-      "descriptionExclude": [
-        "\\bstatus pages?\\b"
-      ]
+      }
     },
     {
       "id": "service-status",
       "name": "Service Status & Incidents",
       "description": "Read provider-published service status and incident reports",
       "include": [
-        "\\b(?:status pages?|service status|provider status|incidents?(?: reports?)?)\\b"
+        "\\b(?:status pages?|service status|provider status|incidents?(?: reports?)?)\\b",
+        "\\b(?:game|gaming|online) server status\\b"
       ],
       "task": "Read provider-published service status and incident reports. The app must read provider-reported incidents or degradation information. A local reachability probe or a link that only opens an external status page does not establish incident-reading capability.",
       "exclusionScope": "clause",
@@ -1754,10 +1732,7 @@
             "remove-host-firewall-rule"
           ]
         ]
-      },
-      "descriptionExclude": [
-        "\\b(?:per-app firewall|manual step[^.]*firewall|read-only user)\\b"
-      ]
+      }
     },
     {
       "id": "app-network-blocking",
@@ -2265,6 +2240,938 @@
         "radio": "YouTube Music's song-seeded radio creates a music mix, not a live internet station player: https://github.com/TIerTek/omarchy-tektube (reviewed 2026-10-12)."
       }
     },
-    "review": {}
+    "review": {},
+    "discoveryExclude": [
+      {
+        "pluginId": "acrogenesis.ai-account-switcher",
+        "typeId": "agent-monitoring",
+        "listingSha256": "c87075e9d69076287df290b88158882efb5917b212e6f51c321cb0b3f3cf720b",
+        "reason": "Opening isolated coding accounts while preserving active work is account switching, without a session-state view or saved-conversation browser."
+      },
+      {
+        "pluginId": "agf.agent-activity",
+        "typeId": "agent-monitoring",
+        "listingSha256": "8f13c0a30efb5fa3278cc344b9c7e760cf79e58b0c85043673a98be366b48578",
+        "reason": "Historical activity replay summarizes time, tokens and topics; it does not claim live-session focus or resumption of a saved conversation."
+      },
+      {
+        "pluginId": "agy.token-usage",
+        "typeId": "agent-monitoring",
+        "listingSha256": "5bed0f3ef2538d066588c9b3246287add881a2a86f4b8b2f47ed0e0042f4029a",
+        "reason": "Token usage, prompt pace and session metrics describe consumption telemetry rather than running-agent controls or archived conversations."
+      },
+      {
+        "pluginId": "anagrius.resume",
+        "typeId": "agent-monitoring",
+        "listingSha256": "b6225db5a664acc225526807f8cd1e0fe8096cca5575113e5e3b4b6b25b35493",
+        "reason": "The picker explicitly finds past coding conversations and resumes the selected one; no live-agent view is claimed."
+      },
+      {
+        "pluginId": "andreconde.tmux",
+        "typeId": "agent-monitoring",
+        "listingSha256": "bd8cf71a3c7431e51e670749fb68eecb45dd72374694c2f21616668af381a132",
+        "reason": "The panel explicitly reads status from a remote SSH host; a remote read-only viewer is outside the local running-session task."
+      },
+      {
+        "pluginId": "andrewf.keyboard-idle",
+        "typeId": "idle-sleep",
+        "listingSha256": "0de79a908c56508e6cd51241ffb027be7990a1f302d0ba99b2245343b3972e86",
+        "reason": "The idle timeout controls a keyboard backlight, not the host display, lock or sleep policy; peripheral lighting is a different target."
+      },
+      {
+        "pluginId": "ashis.satellite",
+        "typeId": "weather",
+        "listingSha256": "5f9564817e25287bf3114eb94996a1fd3b36ee5b4c20260dbda405183cfc6db1",
+        "reason": "Weather describes the placement of satellite tracking; elevation, azimuth and pass timing do not provide a weather forecast."
+      },
+      {
+        "pluginId": "atsokolas.daily",
+        "typeId": "weather",
+        "listingSha256": "4264a99af726d1055c57139ce838da702ddd0ff844e253fc25a9a17ed4ac3305",
+        "reason": "The newspaper summarizes yesterday's machine activity and weather; it does not claim current conditions or an upcoming forecast view."
+      },
+      {
+        "pluginId": "banan.banansms-monitor",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "07734f69e0f8b874a52cc8ab9c45f7da42384d271ab8dce205a84c622fdea770",
+        "reason": "SMS service limits, message-delivery reports and alerts do not establish endpoint health checks or provider availability incident reports."
+      },
+      {
+        "pluginId": "beforeugone.agents",
+        "typeId": "agent-monitoring",
+        "listingSha256": "a29257b2ff7a8c4b4a5049bd292caa3768d056148fffe06d1abb79427c62be24",
+        "reason": "The ledger aggregates coding usage, limits, costs and tokens by session; it does not claim live-session focus or conversation resumption."
+      },
+      {
+        "pluginId": "bitr0t.system-monitor",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "b1c80e29d1b5014a2e17730de64ce6f19bd95256acc1f9964dfe7b07b62c5e3d",
+        "reason": "Uptime here is host runtime alongside CPU, memory and process statistics; configured endpoint probes and provider incidents are absent."
+      },
+      {
+        "pluginId": "blackcode.omacolorbar",
+        "typeId": "weather",
+        "listingSha256": "7b508b997862cc4f0046b0adb499cb825a248b7d00ea9c919684784777cbb2f6",
+        "reason": "This recolors and hosts existing widgets while preserving their own popups; it does not claim a weather implementation of its own."
+      },
+      {
+        "pluginId": "bottelet.is-it-down",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "a669a1a087875ade78ca1df86e66a3a09d67fc28abe206b6c655e2e36c84ace8",
+        "reason": "Watching third-party status pages belongs to provider incident/status reporting; no configured endpoint probes are described."
+      },
+      {
+        "pluginId": "boundsj.raman",
+        "typeId": "service-status",
+        "listingSha256": "067f250c1cf7d19839302f3102f137afaae3f884e2384c3003a2af52842545c3",
+        "reason": "Incident alerts concern sustained RAM pressure and app resource use, rather than remote service availability or endpoint checks."
+      },
+      {
+        "pluginId": "brightwalker25.mac-fan",
+        "typeId": "desktop-clocks",
+        "listingSha256": "88b53fc4a9c0d478c490277d619439b4923018dfd3cf5d89b8ac81d1e354298f",
+        "reason": "Clock appears beside CPU temperature and throttling in a fan panel, so it denotes processor frequency rather than civil time."
+      },
+      {
+        "pluginId": "cittadhammo.languagetool",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "63135c884ddea096523d6e509a9c3634aff1dead893b1c9e0218ea8bf8a3810b",
+        "reason": "Running and controlling a grammar-check server does not itself describe inspection of health checks or provider incident reporting."
+      },
+      {
+        "pluginId": "clouddown.fast-lid",
+        "typeId": "agent-monitoring",
+        "listingSha256": "51359da37c4ece806a1842dc07ed69a288888ca168423a909909cd3d01295b34",
+        "reason": "Keeping agents working by inhibiting lid-close suspend is an awake-hold function, not an interface for agent activity or saved conversations."
+      },
+      {
+        "pluginId": "clouddown.fast-lid",
+        "typeId": "idle-sleep",
+        "listingSha256": "51359da37c4ece806a1842dc07ed69a288888ca168423a909909cd3d01295b34",
+        "reason": "The explicit one-click inhibition of lid-close and idle suspend supports a temporary awake-hold lead, not timer configuration."
+      },
+      {
+        "pluginId": "com.johnicboom.icestream",
+        "typeId": "weather",
+        "listingSha256": "28a033b55c29c1c9a78bf675816d67f274cb9b0c59073fa73767eacc87c2e292",
+        "reason": "This streams weather-radio audio; it does not describe a readable conditions/forecast interface or precipitation map."
+      },
+      {
+        "pluginId": "com.leafbox.swell",
+        "typeId": "weather",
+        "listingSha256": "e5a9fa99a6779c11eb3bc06d135d7775b62303103b30dca56d23a4f7f7bd04a0",
+        "reason": "The interface focuses on wave-buoy swell and period forecasts, without claiming general weather conditions or radar."
+      },
+      {
+        "pluginId": "community.codex-usage",
+        "typeId": "agent-monitoring",
+        "listingSha256": "2a55cf2b65cbb7b3d1ee10bcdc6a754cde2f1e191cff249a0a0944505ceb41b7",
+        "reason": "Session/weekly usage, pace and resets describe Codex quota consumption, without current-agent state or saved-session resumption."
+      },
+      {
+        "pluginId": "costafot.android-dev",
+        "typeId": "screen-recording",
+        "listingSha256": "f4abe53bdd3c55e4864d9c24fe189847ce8b1ca7c3c968be1a2dd0d5bf2a240b",
+        "reason": "Screenshots and recording target Android devices in a developer toolkit; recording the host desktop is not claimed."
+      },
+      {
+        "pluginId": "dansmith888.cpu",
+        "typeId": "desktop-clocks",
+        "listingSha256": "db074fcae43cf93e60a88721b534d8329c4882553ca429434c876339f4f59182",
+        "reason": "Clock is part of CPU telemetry alongside load and temperature, not a civil-time display."
+      },
+      {
+        "pluginId": "dansmith888.gpu",
+        "typeId": "desktop-clocks",
+        "listingSha256": "5448faf3adf5e134fd8ee18a5134b45ad9e088b8383cc2620847522ba9c5a04a",
+        "reason": "GPU clocks are processor frequencies alongside VRAM and power telemetry, not civil-time displays or zone comparisons."
+      },
+      {
+        "pluginId": "data-budget",
+        "typeId": "hotspots",
+        "listingSha256": "8219edff4c47287cdda51e9b437404133c5c1e693abb192b2fd64b2e21759878",
+        "reason": "Per-connection data budgets track allowances and usage alerts; they do not join networks or create an internet-sharing hotspot."
+      },
+      {
+        "pluginId": "davedes.omadoctor",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "5d590fd238ff61e8dfe77bb0b2c22c954a2b301d4cc89638f2eafed20c95303e",
+        "reason": "Read-only system/audio/storage diagnostics produce a support report, not health checks for chosen service endpoints or provider incident feeds."
+      },
+      {
+        "pluginId": "dev.egoist.cpu-usage",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "a1983bbf9f45d9034e35c9ef12bb2551095a119b822704693ddc7993df3c02a0",
+        "reason": "The uptime panel is a host CPU/runtime monitor, with no user-configured service probes or published incident information."
+      },
+      {
+        "pluginId": "devinblack001.wazuh-view",
+        "typeId": "agent-monitoring",
+        "listingSha256": "dfb9ee52583420f58551b069f34786fcc9178f8156f99a299e7d6c4067517687",
+        "reason": "Wazuh agents are host security-monitoring processes; SCA/FIM/rootcheck status is not coding-agent session activity or conversation history."
+      },
+      {
+        "pluginId": "eduardodallecort.weather-radar",
+        "typeId": "weather",
+        "listingSha256": "d5eb8d1933654c19de9bd6e6d6bd75b8e55b683a401ad1e073059acba0944bbd",
+        "reason": "The listing specifically supplies a live radar map and storm alerts, without a general conditions-and-forecast claim."
+      },
+      {
+        "pluginId": "erijl.lock",
+        "typeId": "lock-screen",
+        "listingSha256": "c527dc368acf8fb09afbbcc9d43f657cc1d7584cd4beccc8aaa6c15e874ae2a7",
+        "reason": "FIDO2 enrollment, PAM integration and lock-on-key-removal are authentication/security actions; they do not claim a lock design or timed inactivity policy."
+      },
+      {
+        "pluginId": "gladimdim.ai-limits",
+        "typeId": "agent-monitoring",
+        "listingSha256": "9413964b079c3bb7be5d24f69ea175695a6402f3d9a29b362ab255c3bddf0e58",
+        "reason": "Quota, rate limits and usage bars are consumption telemetry rather than running-session inspection or history/resume controls."
+      },
+      {
+        "pluginId": "glunk.ai-agent",
+        "typeId": "agent-monitoring",
+        "listingSha256": "e2b14daa076410ac96a53618f92e6f71b813437c2371cc483493c357e4f801f6",
+        "reason": "A generic AI-assistant widget and its bar placement do not identify either live coding-session monitoring or saved-conversation resumption."
+      },
+      {
+        "pluginId": "gregmolnar.appsignal",
+        "typeId": "service-status",
+        "listingSha256": "a2fc868311231377f032bc368f17dd9844df51faeb08a66219cf1504003d3784",
+        "reason": "AppSignal incidents and assigned work are not described as configured endpoint health checks or provider-published availability reports."
+      },
+      {
+        "pluginId": "grivera.airwaves",
+        "typeId": "idle-sleep",
+        "listingSha256": "75b358643b217bc2dfab2f40977fb64c96df65c0aab1969fdba991dee162cab5",
+        "reason": "The sleep timer stops internet-radio playback; it does not configure host inactivity actions or hold the computer awake."
+      },
+      {
+        "pluginId": "grivera.omapier",
+        "typeId": "agent-monitoring",
+        "listingSha256": "54d33e03f3eaa2e45034fbdf6926b07cae0641dbeef587437bb6a6f15f40ff32",
+        "reason": "AI agent limits in a dock are quota information; no live coding-session controls or conversation archive are claimed."
+      },
+      {
+        "pluginId": "grivera.spacex",
+        "typeId": "weather",
+        "listingSha256": "7512e7929ffdede770b0c569888c1aa11a72b23a2c46511b5bfd6f30e6461b16",
+        "reason": "Weather is part of a SpaceX launch detail view; no independent current-location forecast is claimed."
+      },
+      {
+        "pluginId": "hakatamike.weather",
+        "typeId": "weather",
+        "listingSha256": "fbbeb805559e592876b9658a37f667c4ed04cbad6916ca685fc3159521d709bf",
+        "reason": "The stated feature is JMA rain radar/nowcast with warnings, rather than a general current-conditions forecast panel."
+      },
+      {
+        "pluginId": "hanssound.screencast-indicator",
+        "typeId": "agent-history",
+        "listingSha256": "a6e274f71edbbe48c1f5bef1f98991288b3960e8350eced756f116cb23188f2d",
+        "reason": "Recent session history describes screen capture activity and app attribution, not coding-agent conversations."
+      },
+      {
+        "pluginId": "harshith.aura-cycler",
+        "typeId": "weather",
+        "listingSha256": "cd060302f58cc24ead92578e26e337851f39db1456787b988f098ac69fc78689",
+        "reason": "Live weather drives an appearance runtime with atmospheric effects; no weather-reading interface is claimed."
+      },
+      {
+        "pluginId": "heast13.downtime",
+        "typeId": "idle-sleep",
+        "listingSha256": "95ab1a4466fd66fbee2a70457e203b6bc4cf6d0ab51a919cb45917e289c91768",
+        "reason": "The listing names a shutdown timer and screensaver/display actions, without saying they are configured automatic inactivity timers or a reversible awake hold."
+      },
+      {
+        "pluginId": "honor.shutdown-timer",
+        "typeId": "idle-sleep",
+        "listingSha256": "eb9e70ac23739778d29021156ef6587d49afb0d2dd06683958c7efff1473ee25",
+        "reason": "A user-started shutdown countdown is scheduling, not an inactivity-triggered policy or an awake hold."
+      },
+      {
+        "pluginId": "hungmi.battery-session",
+        "typeId": "lock-screen",
+        "listingSha256": "920fe2b1579df67fcf7f336e6884624dc4068c4f52a95d57fba6cbfd4a9254b5",
+        "reason": "This measures awake time in a battery discharge; mentioning suspend and lock in accounting rules does not provide settings for either."
+      },
+      {
+        "pluginId": "ianswope.plex",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "a31c88ce46c7d90e54436d85377e97d1c8f027cc798d002834af646acf8112b8",
+        "reason": "Plex stream and transcoding performance reports describe media workload behavior, without configurable health probes or provider incident reporting."
+      },
+      {
+        "pluginId": "io.github.0800tim.touchbard",
+        "typeId": "weather",
+        "listingSha256": "82587248f8b2e87e764702600b451c51bad00c6994c4b064a4a72b5da1e24943",
+        "reason": "Weather is presented on Apple Touch Bar hardware; the listing does not claim an Omarchy conditions/forecast view on the desktop."
+      },
+      {
+        "pluginId": "io.github.0x1ocean.server-mode",
+        "typeId": "idle-sleep",
+        "listingSha256": "6cee0797e4fc20e820cdabb5cc693d74dd929f34bb6292acecd4edf17d8148eb",
+        "reason": "Preventing sleep/lid-close suspend for remote work and timed sessions suggests an awake hold; idle timeout configuration is not stated."
+      },
+      {
+        "pluginId": "io.github.alexwest1981.sling",
+        "typeId": "firewall",
+        "listingSha256": "4e3c4e83c1e612bd14f070024a07b9487441961d44d3da7bd8c5475bfd8b6fd5",
+        "reason": "The firewall command is an external prerequisite for QR file sharing; the plugin does not provide firewall administration."
+      },
+      {
+        "pluginId": "io.github.aphelion-studios.omamoodist",
+        "typeId": "idle-sleep",
+        "listingSha256": "26bb1b39b734a49acd1ef8df4266ef70c6ca61e6f6521eb7a47c9b3ab262dd7f",
+        "reason": "The sleep timer belongs to ambient-sound playback, not host inactivity settings or a computer-awake hold."
+      },
+      {
+        "pluginId": "io.github.arthurr0.claude-usage",
+        "typeId": "agent-monitoring",
+        "listingSha256": "0136468dc6f9ad4e29c46fe8f18ce9ee3168e1a198907a6fa3cd5529279b90b7",
+        "reason": "Claude subscription session windows, meters and resets describe usage limits rather than individual coding-conversation state or resumption."
+      },
+      {
+        "pluginId": "io.github.bblicke1.omarkdash",
+        "typeId": "desktop-clocks",
+        "listingSha256": "7b0bbf873c7717b3661d6fe2c1dba1f2da51732c7677f1363ff0a8ac4321e66d",
+        "reason": "SM clock and temperatures are accelerator telemetry alongside GPU utilization and power, not civil time."
+      },
+      {
+        "pluginId": "io.github.blackscaletech.portalprompt",
+        "typeId": "network",
+        "listingSha256": "dd29c4e42a4c319020f170393c15b5a7705f4442d9ffffc990d08b66284f55aa",
+        "reason": "A captive-portal alert reports limited connectivity but does not join, select or disconnect network connections."
+      },
+      {
+        "pluginId": "io.github.chillboy0101.omarchy-hotspot",
+        "typeId": "network",
+        "listingSha256": "2b1c3fe7fe00f7b991e2c7812ecd81ca0708383720b7e417401bc7f4a9d1b7c2",
+        "reason": "Creating a Wi-Fi access point while retaining the current connection is uplink sharing; it does not establish client-network selection."
+      },
+      {
+        "pluginId": "io.github.clear-built-dev.london-motion",
+        "typeId": "weather",
+        "listingSha256": "b92faf17c15879f4ee9cdc7fb6429df2532bfb80c2d3378404c141a0e7dab059",
+        "reason": "Live weather is an optional input to animated London wallpaper; no conditions/forecast reading panel is described."
+      },
+      {
+        "pluginId": "io.github.crucialjun.aula-sc580",
+        "typeId": "idle-sleep",
+        "listingSha256": "5cefdd7b2c9097714037669b5b41fdcff497261d927294a8b5a55c7275c67a7a",
+        "reason": "The sleep timer configures an AULA mouse peripheral, not the host display/lock/suspend inactivity policy."
+      },
+      {
+        "pluginId": "io.github.daventhedude.omarchief",
+        "typeId": "agent-monitoring",
+        "listingSha256": "35a1f20ad4416fd0b74fbd91e955457343a629471fc828a12bc28478dfd14477",
+        "reason": "The companion conducts its own AI conversations and exposes generic status/settings, without a saved-session picker or existing-agent activity view."
+      },
+      {
+        "pluginId": "io.github.davidboulay.screensaver-lock",
+        "typeId": "lock-screen",
+        "listingSha256": "9f8dd35ef1bd6dbf6038ae0b1ea4475675d4fa82cd63bf8d06bcaafcbc3e7baf",
+        "reason": "Locking when a screensaver is dismissed is an event-triggered security behavior, not idle-timer configuration or applying a lock-screen design."
+      },
+      {
+        "pluginId": "io.github.davidboulay.truenas-apps-watcher",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "eb4d62f980e1adf459ffffed4683bad0ccd8424bd5b099ed0051dac6de078c95",
+        "reason": "The watcher detects and applies app/container upgrades; it does not describe service reachability checks or provider availability incidents."
+      },
+      {
+        "pluginId": "io.github.davidboulay.wifi-login-popup",
+        "typeId": "network",
+        "listingSha256": "84aef18326f6639e3df966db525ffcb517eabe09a8ade6cc6fa912928bb237f6",
+        "reason": "Opening a captive portal's web sign-in page acts after Wi-Fi association; it does not provide client-network selection or hotspot hosting."
+      },
+      {
+        "pluginId": "io.github.dedeanth.andromarchy",
+        "typeId": "app-network-blocking",
+        "listingSha256": "117e4eda87dd2ec737fe94c66e6ba78d1832746cf62dfe1dec6fd85a6194a942",
+        "reason": "Firewall checks are Waydroid setup diagnostics, without native host-rule editing or per-app outbound blocking controls."
+      },
+      {
+        "pluginId": "io.github.dishnicons.plugin-doctor",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "6508e6068251923c850fab67dc4ad090d3c9ed1ff200f285362ed736e07cacab",
+        "reason": "Manifest health checks validate installed plugin metadata; they do not probe service endpoints or consume provider incidents."
+      },
+      {
+        "pluginId": "io.github.dmitry-solomadin.desktop-restore",
+        "typeId": "agent-monitoring",
+        "listingSha256": "9b96c4395d5e2ca41b7b7b362e25a9b503d53fdfb2c81006376bb3d2fdf757d7",
+        "reason": "Saving and restoring named coding-agent sessions is a history/resume lead; source review must distinguish selective conversation resumption from bulk desktop restoration."
+      },
+      {
+        "pluginId": "io.github.duketopceo.numbat",
+        "typeId": "agent-monitoring",
+        "listingSha256": "f70a2f5599dbfb4c97f2ef2e4ba645477e3a13cf4e23a65848a371985458b155",
+        "reason": "The endpoint-monitor radar reports AI activity/findings, without identifying local coding-session focus or a saved-conversation browser."
+      },
+      {
+        "pluginId": "io.github.dzanaga.omarchy-rain-radar-belgium-netherlands-widget",
+        "typeId": "weather",
+        "listingSha256": "144e872621ff289feccf77ed258a1edb6b12e3a898f51e4a3d94e9b37d0126bc",
+        "reason": "The rain-radar name and Buienradar rain forecast support radar review; broader conditions are not claimed."
+      },
+      {
+        "pluginId": "io.github.erikburdett.tokenstats",
+        "typeId": "agent-monitoring",
+        "listingSha256": "b760b8c12fc1bdf5d67ce96223bfb9b2c2583701d2e03d69131919da48713fce",
+        "reason": "A unified resumable Claude/Codex sessions list directly supports saved-session research; token graphs alone do not establish live-agent state."
+      },
+      {
+        "pluginId": "io.github.gmantoha.claude-effort",
+        "typeId": "agent-monitoring",
+        "listingSha256": "bdc5390d15de51d74455dde7aab9c6a26cee52a3267a9eed562a0624e6cadc02",
+        "reason": "The widget changes Claude effort based on usage telemetry; it does not inspect live tasks or browse and resume conversations."
+      },
+      {
+        "pluginId": "io.github.hank-dev.listen",
+        "typeId": "idle-sleep",
+        "listingSha256": "add72cb27df9a0b751df662188ccd419f4cc356e86f80cc3e0611c345c3c02cc",
+        "reason": "The player resumes lectures/audiobooks and has a playback sleep timer; these are media controls rather than computer inactivity policy."
+      },
+      {
+        "pluginId": "io.github.hvo.omarchy-unraid",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "fd83004d30698083861ca05fabe57877821c5a613dad0cd9598d374c3e2660b7",
+        "reason": "Unraid array, disk, container and VM administration does not expressly supply configured service-health checks or provider availability incidents."
+      },
+      {
+        "pluginId": "io.github.iampoul.sysstats",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "e82475a75f386001ae020cba20ef41fe4ee55633fbbaebe43769e46a1948bf26",
+        "reason": "System Stats reports host resources and elapsed uptime, not service endpoint probes or provider incident feeds."
+      },
+      {
+        "pluginId": "io.github.jeremylongshore.listening-post",
+        "typeId": "service-status",
+        "listingSha256": "9e32e287b933722cc76f0d79fa9608fcdbb18b19615cc38d4c122e7480b38e6a",
+        "reason": "A curated AI-news brief can mention incidents and survive outages, but it does not describe provider status reports or configured health checks."
+      },
+      {
+        "pluginId": "io.github.jkro.miners",
+        "typeId": "desktop-clocks",
+        "listingSha256": "5b7de7a941338f406efb1ea5bb040533233471caf857c2ee55568753c6850c8a",
+        "reason": "Fleet GPU clocks are workload frequencies beside utilization and temperature, not current civil-time displays."
+      },
+      {
+        "pluginId": "io.github.jonathanintheclouds.omabar",
+        "typeId": "weather",
+        "listingSha256": "0dc28cf7f063dff4be88df4ca12d4eed8856eb9fafcd7483ff586410ec5969a8",
+        "reason": "Weather is a feature of MacBook Touch Bar layouts; no desktop weather-reading interface is claimed."
+      },
+      {
+        "pluginId": "io.github.joshuaswarren.remnic",
+        "typeId": "agent-monitoring",
+        "listingSha256": "c21202fb327449da2a921733be743dce395ce41d083ffe2f9be61e82dd839683",
+        "reason": "Memory capture and recall search concern agent knowledge storage, without current work-state/focus controls or a conversation-resume browser."
+      },
+      {
+        "pluginId": "io.github.linus342010.firefox-keep-awake",
+        "typeId": "idle-sleep",
+        "listingSha256": "caf01e583e9117a838cc13b90a7c446a3dd20358ed93f508a4a72b83f4c035de",
+        "reason": "Pausing idle actions during browser media playback is automatic inhibition, not changing idle timeout durations."
+      },
+      {
+        "pluginId": "io.github.linuxg33k76.hey-im-gaming-here",
+        "typeId": "lock-screen",
+        "listingSha256": "181a9e30981c1014ace7ee45462820f2f2517ee293c22becfecf20106508161f",
+        "reason": "The listing explicitly suppresses screensaver and lock during game sessions, which is a conditional awake hold rather than lock-screen appearance."
+      },
+      {
+        "pluginId": "io.github.lunanoir21.flare",
+        "typeId": "agent-monitoring",
+        "listingSha256": "0043491827f46fbec42f484bd32db537abeef1e5184fd4c50c83e3c01f9077ff",
+        "reason": "Flare describes coding-subscription usage, limits and session accounting; it does not advertise live working states or saved-conversation resumption."
+      },
+      {
+        "pluginId": "io.github.martlets.stay-clean",
+        "typeId": "keep-awake",
+        "listingSha256": "1247089dda549936c632454bdeaf94ee4aaebff56dd694cebc0a2e16d4f34cd3",
+        "reason": "The Stay Awake comparison names an input-cleaning lock, not an idle/sleep inhibitor; blocking keyboard and touchscreen events is a different task."
+      },
+      {
+        "pluginId": "io.github.mindows.mib-statuscheck",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "12dc597b246dbf303caa31681e3494dce96a3f71f5c41e4ddb412fefacf8ed11",
+        "reason": "The popup reads ongoing incidents from selected Atlassian Statuspage feeds, directly identifying provider-published status reporting."
+      },
+      {
+        "pluginId": "io.github.minyona.herdr-screensaver",
+        "typeId": "agent-monitoring",
+        "listingSha256": "acf2d3777cd65dea57137fe58f312208458704f199ac6b7bcbf49674b6dbb3b0",
+        "reason": "The screensaver explicitly generates fake agents and a pretend session, rather than observing real running or archived coding sessions."
+      },
+      {
+        "pluginId": "io.github.ngek202.tablet-toggle",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "6029bde0d25c09d5f40232bc31b97c13634a7a2a8a3431cb4a9171c5b75e6bf9",
+        "reason": "The health check diagnoses tablet-mode integration and its companion package, not user-configured network endpoints or provider incidents."
+      },
+      {
+        "pluginId": "io.github.olivoil.hurricane-tracker",
+        "typeId": "weather",
+        "listingSha256": "c1c527f86f3e3a406211c71809c72ac832aacdcd6ff4ef1ef9f1788366cad35f",
+        "reason": "This follows hurricane tracks, outlooks and discussions; it does not claim a general conditions/forecast surface or precipitation radar map."
+      },
+      {
+        "pluginId": "io.github.onatvural.screen-comfort",
+        "typeId": "keep-awake",
+        "listingSha256": "6027903951493e06572e2dbd99dec40c43fbe536ec889399bdd74cf285626b5a",
+        "reason": "The clamshell toggle belongs to monitor arrangement and dimming; no host idle/sleep inhibition is advertised."
+      },
+      {
+        "pluginId": "io.github.p3lu.video-background",
+        "typeId": "keep-awake",
+        "listingSha256": "eb90ce24bd06c906a330bbb7669e69e2b623b460d7a163a73bd8bf26d38e8092",
+        "reason": "Only wallpaper video playback pauses during locking or inactivity; the plugin does not configure the computer's idle policy or lock appearance."
+      },
+      {
+        "pluginId": "io.github.pedroolivy.flightline",
+        "typeId": "weather",
+        "listingSha256": "4fd532da7da7641844f115da30743254b495d6789b7128c5794937c1dce5bee2",
+        "reason": "Weather is only the location source for counting nearby aircraft; no weather information view is supplied."
+      },
+      {
+        "pluginId": "io.github.philippbellia.coffee-tracker",
+        "typeId": "keep-awake",
+        "listingSha256": "14036c84f9f20c14efe4456f613928d43daa554dd8d465277d0e311ca9ad144f",
+        "reason": "This tracks consumed caffeine and its decay, rather than inhibiting computer sleep or configuring inactivity."
+      },
+      {
+        "pluginId": "io.github.pjgeutjens.feed-the-flock",
+        "typeId": "agent-monitoring",
+        "listingSha256": "bcbe7041f1ef18b08b486371be76b952de47623841fd740502f7bf69e55341b0",
+        "reason": "The plugin sends arranged notes to Herdr sessions; note preparation does not advertise live-session inspection or saved-conversation selection."
+      },
+      {
+        "pluginId": "io.github.prostratepossum.starwatch-lock",
+        "typeId": "desktop-clocks",
+        "listingSha256": "f6a0e14029bb913a960fb7dd2685fb98a1bdaf2bc636068e5979d1040530b8f6",
+        "reason": "The glowing clock is part of a lock-screen reskin and therefore is not an unlocked desktop or bar clock."
+      },
+      {
+        "pluginId": "io.github.rektyrowdyy.agent-usage",
+        "typeId": "agent-monitoring",
+        "listingSha256": "0a3b6a783a9835c055f9d94d1072fbf5a58c3cf332043f4c54d328e582530254",
+        "reason": "The inline view is explicitly session and weekly usage for the default agent, rather than running-task states or resumable conversations."
+      },
+      {
+        "pluginId": "io.github.rsd.power-watch",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "5a76593c3d2f190ef489c90ec37ad4f068fbce54df5eb565c2bf1df49cac299b",
+        "reason": "Adapter power draw and its historical threshold measurements are energy telemetry, not service availability checks or incident feeds."
+      },
+      {
+        "pluginId": "io.github.sahzudin.omamemo",
+        "typeId": "agent-monitoring",
+        "listingSha256": "4eafcb880034e09816412e4d9d14c021c77a43fea44ad641cac07a86b6ad4704",
+        "reason": "Agents working is the occasion for a memory game; the game does not inspect or resume agent sessions."
+      },
+      {
+        "pluginId": "io.github.saurasanchezpablo.droidcam",
+        "typeId": "network",
+        "listingSha256": "06e9f11f10cdc54471f0a998dbabda43ddd1cdb4ac0ae64d16e7c991ef53f7de",
+        "reason": "Wi-Fi is the transport for a phone-webcam stream; reconnection and camera controls do not manage host client-network associations or hotspots."
+      },
+      {
+        "pluginId": "io.github.scrambletools.auto-timezone",
+        "typeId": "world-clocks",
+        "listingSha256": "64d001c2762faeca67c6e5cc6ad6ba5359564ee25b1a78706d9ddd0aa3b607b7",
+        "reason": "The plugin sets the system timezone automatically; it does not display multiple zones or a persistent clock."
+      },
+      {
+        "pluginId": "io.github.selenophilezh.aqi",
+        "typeId": "weather",
+        "listingSha256": "b3ae440ed2674f5b18b886a6b5d5be3aee27d0d522adf235890f62d3c5946b83",
+        "reason": "AQI and pollutant breakdown are air-quality information, not current weather plus forecast or precipitation radar."
+      },
+      {
+        "pluginId": "io.github.shivamnarkar47.omarchy-hotspot",
+        "typeId": "network",
+        "listingSha256": "821b3ce2e0f2a73de757f3c15053e09fd6373c9ec45a9272dbc49a60501c35f6",
+        "reason": "The mobile hotspot toggle serves a Wi-Fi AP while retaining the uplink, which is sharing rather than client-network selection."
+      },
+      {
+        "pluginId": "io.github.soham3301.display-particles",
+        "typeId": "weather",
+        "listingSha256": "377dd3e1603564e385d650ac147ce509b4517f0e9e330d6f8863091cabc90b9e",
+        "reason": "Weather describes generated decorative particles rather than observed conditions, forecasts or radar."
+      },
+      {
+        "pluginId": "io.github.soham3301.port-watcher",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "beb3077d325d5e170b22e97aefba45fb636fbba36729f0e1270f82d109dffbcb",
+        "reason": "Port Watcher inspects connections, listeners and suspicious processes for security; it does not describe health checks of configured services."
+      },
+      {
+        "pluginId": "io.github.sonderbydk.omacaffeine",
+        "typeId": "keep-awake",
+        "listingSha256": "6c40458a8d5a029299e40ec61713115280da660503ccd67395fb6c5fde193482",
+        "reason": "This logs dietary caffeine and predicts sleep timing; correlating cups with agent tokens does not inhibit computer inactivity."
+      },
+      {
+        "pluginId": "io.github.tslove923.howdy-face-unlock",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "5a281f5da9d90e7f6d099dc964092c37e4d9444e23fa004f3cca9c22fe3c702a",
+        "reason": "The health check detects broken face-authentication integration after updates, not the health of configured endpoints or provider services."
+      },
+      {
+        "pluginId": "io.github.tslove923.howdy-face-unlock",
+        "typeId": "lock-screen",
+        "listingSha256": "5a281f5da9d90e7f6d099dc964092c37e4d9444e23fa004f3cca9c22fe3c702a",
+        "reason": "Howdy integration adds authentication to existing lock screens and checks its health; it does not itself claim a replacement lock interface or idle controls."
+      },
+      {
+        "pluginId": "io.github.warriorssami.jarvis-meter",
+        "typeId": "network",
+        "listingSha256": "57f8467a0325af0c0413e6268150a284d80dd9c83cdbb45afc99a3b99dbbadee",
+        "reason": "Network connections appear as telemetry inside a CPU/RAM/disk monitor, without client-network configuration or joining controls."
+      },
+      {
+        "pluginId": "io.github.zangetsu02.fortivpn",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "8c964ca61d8a9fc03d5ad9df463db5ccf004d7ae0aff976eea0fcbf5fc4847bd",
+        "reason": "FortiVPN reports the duration and state of VPN tunnels, with tunnel controls; uptime here is not a separate endpoint-health monitor."
+      },
+      {
+        "pluginId": "io.github.zestybytes.deco-mesh",
+        "typeId": "network",
+        "listingSha256": "d1dd3cf199aae2e1b1095ab9656d65679a72232ac11f45e51e0fd2ff886dee75",
+        "reason": "Viewing connected devices on a TP-Link mesh inspects a remote router ecosystem, not the host's client connections or hotspot sharing."
+      },
+      {
+        "pluginId": "jinxnet.inkmode",
+        "typeId": "agent-monitoring",
+        "listingSha256": "f3d8a8972d35030555d07f4807e4e839623bf1e2db54db649f8c1482e96d4070",
+        "reason": "Coding sessions describe when to use a screen-reading filter; Ink Mode does not inspect agents or expose saved conversations."
+      },
+      {
+        "pluginId": "keis.vibe",
+        "typeId": "agent-monitoring",
+        "listingSha256": "b704d33a02fe2d53f7e7cff3ecaf4dd9bf7688cee644a881ab6bc200a956d3c1",
+        "reason": "The listing explicitly resumes named coding-agent sessions, supporting saved-session research; launching alone does not establish a live monitor."
+      },
+      {
+        "pluginId": "kenhara.compliantish",
+        "typeId": "lock-screen",
+        "listingSha256": "b91ef7091db9c924d36c48881dae9c90b417fe3f3195fc3b8ef3afbdf13a6bd2",
+        "reason": "Compliantish checks whether screen locking and other security measures exist; compliance inspection does not customize a lock interface or idle policy."
+      },
+      {
+        "pluginId": "khizarimran.fxdesk",
+        "typeId": "desktop-clocks",
+        "listingSha256": "305a4b2e56721e06fb0b716a5f5a74b310fc35691a26a53adaa139abf7129437",
+        "reason": "The clock tracks FX trading sessions alongside economic releases; a general civil-time display or multi-zone comparator is not stated."
+      },
+      {
+        "pluginId": "kiryuuki.oma-immich",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "1e547c19f991491c24a775ba04484f221b8363779ed5b5f27fffe07a1dd5b877",
+        "reason": "Immich photo management includes unspecified server telemetry, without a claimed health-check workflow or provider incident feed."
+      },
+      {
+        "pluginId": "kuki",
+        "typeId": "weather",
+        "listingSha256": "9e940ff69dc78121b7ef74bd577445cc650a1346a6ee960f113c57abfb7247ae",
+        "reason": "These maps cover air quality, pollen, aerosols and UV rather than general weather conditions or precipitation radar."
+      },
+      {
+        "pluginId": "kzagoris.codex-router-tray",
+        "typeId": "agent-monitoring",
+        "listingSha256": "1e4d2638af4a29cfdf905f7654b7a97ce1e45cee62af241d7e0353609bd8555d",
+        "reason": "Codex Router controls providers and router usage/status; those are routing-service controls, not live coding-session states or conversation history."
+      },
+      {
+        "pluginId": "lancefaul.omarcal",
+        "typeId": "world-clocks",
+        "listingSha256": "91c941b3f527bdd65b5aa43d7f09c55c28bf180ae35550a7cc7ba5fa1dbdaec7",
+        "reason": "Time zones are calendar-event editing attributes; the listing does not claim a world-clock comparator or persistent clock."
+      },
+      {
+        "pluginId": "latecompile.caffeine-curve",
+        "typeId": "keep-awake",
+        "listingSha256": "c1faab1c9abd319ea37efd73e95d5e3b2f1c0281057fa8b975fb6de9e9714143",
+        "reason": "This logs consumed coffee and estimates its decay; it provides no computer idle inhibition despite the caffeine name."
+      },
+      {
+        "pluginId": "leewynne.omapaddock",
+        "typeId": "world-clocks",
+        "listingSha256": "18956b3a8780fb4a650aad7585eade60af3ce9e33a391067b89c8147d360cbbc",
+        "reason": "The timezone is used to render a racing schedule, not to compare multiple zones or show current civil time."
+      },
+      {
+        "pluginId": "lid-sleep",
+        "typeId": "idle-sleep",
+        "listingSha256": "4ff4ea41c6b263ee188f10f65901165ad9582010c8c3ee135baa61c9a61d0ada",
+        "reason": "A reversible lid-sleep toggle is a plausible awake-hold lead; it does not describe configuring inactivity timer durations."
+      },
+      {
+        "pluginId": "lonh.agents-sleep",
+        "typeId": "agent-monitoring",
+        "listingSha256": "4e0447ec3cfb3de045b9d43790aaad23a384071e433305c64512659f95c43dc6",
+        "reason": "Agents Sleep reacts to agent completion by suspending the computer; it does not advertise an agent-inspection interface or session focus."
+      },
+      {
+        "pluginId": "madmasx.hermes-pets",
+        "typeId": "agent-monitoring",
+        "listingSha256": "d0b72c986e9ef557332d35d7d3345d4ca1c82564ec5cbf97aa51fd54276e596c",
+        "reason": "The companion animates activity and waves when clicked; the described interaction is pet behavior rather than focusing or resuming an agent session."
+      },
+      {
+        "pluginId": "marcho78.uber-notebook",
+        "typeId": "agent-monitoring",
+        "listingSha256": "ffdbac9ff9816c8afee658c0dc779d4206b4efba1bc3b57e0a359fed8c8ae0bb",
+        "reason": "The AI agent works on the current notebook page in a panel; note authoring does not advertise an independent running-session monitor or conversation archive."
+      },
+      {
+        "pluginId": "michael.tea",
+        "typeId": "keep-awake",
+        "listingSha256": "ab8dfcefb8c591b10dceb72af568411af6075ba7e0e7661867b9acc995a16f1f",
+        "reason": "Tea consumption and caffeine load tracking describe dietary logging, not computer awake holds or inactivity settings."
+      },
+      {
+        "pluginId": "mmb.rainnowcast",
+        "typeId": "weather",
+        "listingSha256": "a4d74546566db40e605df5f7f3c462ae89a164bd6c04a375fa87bf69af9b3db7",
+        "reason": "Radar is the data source for a two-hour rain nowcast; neither a precipitation map nor broader current-weather readings are claimed."
+      },
+      {
+        "pluginId": "mryll.claudebar",
+        "typeId": "agent-monitoring",
+        "listingSha256": "9de272974cf2a09fb40a15e9ab41726b18f72acad38f0ac7253270e3be0e4f73",
+        "reason": "Claudebar shows subscription session/weekly limits and pacing; these are usage allowances rather than running-task states or resumable history."
+      },
+      {
+        "pluginId": "mryll.codexbar",
+        "typeId": "agent-monitoring",
+        "listingSha256": "de1c1f2cdc0255f72801a97fd3fd4a7a26c6ca150be4ea9cbf88ee895257f512",
+        "reason": "Codexbar shows subscription quotas, pacing and review limits; session is an accounting interval rather than a saved conversation or active task."
+      },
+      {
+        "pluginId": "narbs.betterstack",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "4e0f4042aded6f2f2eb9b4225627677b855bd5c27082c7a52accebcfb3d6b037",
+        "reason": "The panel consumes a Better Stack status page and recent incidents, so it belongs to published service-status reporting."
+      },
+      {
+        "pluginId": "neil.acid-alerts",
+        "typeId": "weather",
+        "listingSha256": "705e30d8d8d2ef030880b5807d7e3aabeae250163b206efc63061eac3b76ed67",
+        "reason": "The feature is warning delivery for the configured location, not general conditions/forecast reading or a radar map."
+      },
+      {
+        "pluginId": "nocram.f1",
+        "typeId": "world-clocks",
+        "listingSha256": "7ed5b45d69d592dd4f0122a7914db52dfbfbccdbdad72ac9d0db0d8b9c1cfe93",
+        "reason": "F1 timing, race countdowns and schedules in the user's timezone are sports information, not a persistent civil clock or multi-zone comparator."
+      },
+      {
+        "pluginId": "nshkr.beam-deck",
+        "typeId": "service-status",
+        "listingSha256": "a76de1cf48b2d0c19b9175b45cccb81b3b0936c836931f806953bdac8304a1e6",
+        "reason": "BEAM incident evidence, resource forecasts and scheduler trials describe runtime diagnostics, without configured endpoint checks or provider-published incident feeds."
+      },
+      {
+        "pluginId": "oliwier.auto-pilot4agents",
+        "typeId": "agent-monitoring",
+        "listingSha256": "4baecf99c84d60e4025633796e899afff0ad91c52e7d5f456e748cacfcbf69f4",
+        "reason": "Scheduled prompts run unattended agent jobs; the queue is a scheduling interface, not a live-session focus view or saved-conversation browser."
+      },
+      {
+        "pluginId": "omacheese.omastorm-nord",
+        "typeId": "weather",
+        "listingSha256": "9dae4ec724c10710402bd91de515830b3c6166a632915cd50bc9be653c585899",
+        "reason": "The listing explicitly provides live Nordic weather radar without claiming a general forecast panel."
+      },
+      {
+        "pluginId": "omanetmonitor",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "74c51f007748cc5f7b0b41ecb8768b4f2f0e10297b6038089672c5443199f2c1",
+        "reason": "OmaNetMonitor flags outbound connection geography against allowed regions, a security observation rather than target health checks or service-status feeds."
+      },
+      {
+        "pluginId": "omaoutlook",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "bcbc2453e90a972ec10f169c88feffe98626d3ac050ed41fa19f7ccaf30e015f",
+        "reason": "Weeks of uptime describes the Outlook client's reliability and memory watchdog, not a user-facing endpoint or incident monitor."
+      },
+      {
+        "pluginId": "omarchy-power.idle-sleep",
+        "typeId": "keep-awake",
+        "listingSha256": "b44d6b76d4b096a4e11db62a481ff5005c06fc917b5e7f38ba4fd4fdd75bef8d",
+        "reason": "Per-power-source idle timeouts determine suspend/hibernate actions. Merely respecting an existing Stay Awake hold does not supply a hold control."
+      },
+      {
+        "pluginId": "omarchy.wifiqr",
+        "typeId": "network",
+        "listingSha256": "41959a82620d16b760ce8b66bbcee85f4ba8738158c0a211ce480316b41abb3a",
+        "reason": "A QR code shares credentials for an existing Wi-Fi network; it neither creates a hotspot nor selects/disconnects the host's connection."
+      },
+      {
+        "pluginId": "oniomarchy.macarchy",
+        "typeId": "network",
+        "listingSha256": "e1ea17dd0f1f8442b345147f416f1b98dd737eb610ef9ee72304bc6c794fd0d7",
+        "reason": "MAC-address randomization changes an interface identifier, without claiming network selection, connection-state controls or hotspot hosting."
+      },
+      {
+        "pluginId": "pablo.uslugi",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "238d270edb86b3bdea77f9488bb19db4fcc5d27cab74953978d4aa911d5510fc",
+        "reason": "The local-services list shows ports, resource use and uptime and opens a browser; service telemetry and launch shortcuts do not establish health checks."
+      },
+      {
+        "pluginId": "pablopunk.nommarchy",
+        "typeId": "idle-sleep",
+        "listingSha256": "44aeecc5f58e7d3fd69b973f221ce919c5ec9326ee97494bdc18f7aa0a2b4fac",
+        "reason": "The sleep timeout belongs to Razer speakers, alongside EQ and eco mode; it does not control the computer's inactivity policy."
+      },
+      {
+        "pluginId": "ptrck.quattro-stats",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "ad66abf6280c97bab73c83151c7e54e63c8ec0b2bcfb45896e2c6ddfc6b24f1a",
+        "reason": "Quattro Stats is a host resource dashboard; uptime and a generic ping entry do not describe configured service-health monitoring."
+      },
+      {
+        "pluginId": "rafaelsieber.curl-check",
+        "typeId": "agent-monitoring",
+        "listingSha256": "37f99137b4237f11ffd1e3c2b562983a6aead7eb176a8eb3abae1b287c0106f8",
+        "reason": "Curl Check asks an agent to review an installation script; that review action does not inspect active agents or browse past conversations."
+      },
+      {
+        "pluginId": "remi.kbdlight",
+        "typeId": "world-clocks",
+        "listingSha256": "f0399de21bc4de0a27a11a44f1ccb91e6dfc967db95985cc07efb32ed252bfe1",
+        "reason": "The timezone informs automatic keyboard-light scheduling, not a clock display or zone comparison."
+      },
+      {
+        "pluginId": "resty.charge",
+        "typeId": "lock-screen",
+        "listingSha256": "4621dbfcedd9f98e8fb566c29c02494e58fb08e8ed5bd140f9fa3a165f750ebd",
+        "reason": "The feature sets battery charge limits; the lock/suspend text documents an external keyboard-layout workaround, not an idle-management feature."
+      },
+      {
+        "pluginId": "rio.facelock",
+        "typeId": "lock-screen",
+        "listingSha256": "834dae1d12884b21955fc5dd92db4102d9b841173c55e43a0b44492c017cfaf8",
+        "reason": "The suite supplies face/fingerprint authentication integration across greeter, sudo and lock screens; no replacement session-lock interface or idle policy is established."
+      },
+      {
+        "pluginId": "rocha.pasteimage",
+        "typeId": "agent-monitoring",
+        "listingSha256": "a67ae63700d81e191ae9c215cbaa356c1675e11f5ccd039d46e6668c76b69d60",
+        "reason": "PasteImage forwards clipboard images to the focused terminal agent; input forwarding is neither session inspection nor archived-session resumption."
+      },
+      {
+        "pluginId": "rohirik.agent-monitor",
+        "typeId": "agent-monitoring",
+        "listingSha256": "d1e8bcd891beaacf8f62e3c45fbd472425aee39f067afbaa42c77f9dccec8d1b",
+        "reason": "Despite its name, Agent Monitor describes subscription limits, daily activity and model usage, without current session states or conversation-resume controls."
+      },
+      {
+        "pluginId": "rohirik.oma-caffe",
+        "typeId": "keep-awake",
+        "listingSha256": "67778b1a03ad815be6d7a9ea43264def22d2ec4714a747778218749b22791f8f",
+        "reason": "This is coffee consumption, brewing and recipe tracking; its caffeine meter and break screen do not claim idle inhibition."
+      },
+      {
+        "pluginId": "saif.system-stats",
+        "typeId": "endpoint-monitoring",
+        "listingSha256": "89bc89d684628b6262fc8744d217ecf373ddc7593e2a4615228fe6f149a79f0f",
+        "reason": "System Stats measures the host's CPU, memory, disk and uptime; network usage history is not configured endpoint-health checking."
+      },
+      {
+        "pluginId": "seabass.clamshell",
+        "typeId": "idle-sleep",
+        "listingSha256": "9cc0bfa41e240026fb5cb6f4e088c0a8c2f776da4f3f3f2afce48cf8abee1d5b",
+        "reason": "Switching between normal lid behavior and a mode that stays awake on an external display is a reversible awake-hold lead."
+      },
+      {
+        "pluginId": "sid.wiki-wait",
+        "typeId": "agent-monitoring",
+        "listingSha256": "914d7e13d59a304317c8c8508370339726ba5a79f22a9e7ff0389ed1b484d268",
+        "reason": "Wiki Wait is a Wikipedia reader for downtime, with local activity counts; coding agents working is context rather than a session-management feature."
+      },
+      {
+        "pluginId": "slcode777.omaconv",
+        "typeId": "agent-monitoring",
+        "listingSha256": "b8922b061aafdb6ee1f12900a473d5c9852a93323dd15e2c8f1722c77f537347",
+        "reason": "Selecting a Claude conversation from a searchable palette and resuming in its directory directly supports history/resume discovery."
+      },
+      {
+        "pluginId": "stewartjarod.phone-sessions",
+        "typeId": "agent-monitoring",
+        "listingSha256": "97604483c3c2d949e5979eadbe4c9d7f5e1d41d3fbd62099351bcdd4c40bcbe4",
+        "reason": "The picker explicitly chooses non-running Claude sessions and opens them in a terminal, supporting saved-session resumption rather than live monitoring."
+      },
+      {
+        "pluginId": "supercleanse.agents",
+        "typeId": "agent-monitoring",
+        "listingSha256": "782cf5ba4fa89c13bad387912cb0e19f119c04bedde1bb55e3a6169ee00c2380",
+        "reason": "The specified controls manage the TeamClaude proxy, account quotas and request logs; they do not advertise running coding-session inspection or saved conversations."
+      },
+      {
+        "pluginId": "swheel33.perfwatch",
+        "typeId": "service-status",
+        "listingSha256": "28ebb3de606063a78323457f16b1466e1cf519069f06edd084d185351213cd03",
+        "reason": "The incidents are sustained Linux performance problems captured locally, not provider-published service incidents or configured endpoint health checks."
+      },
+      {
+        "pluginId": "syndicalt.eventloom",
+        "typeId": "agent-monitoring",
+        "listingSha256": "00b61de2a6fb9a139483bed892ef32ab747f8e5ca5a7dd4f6fdd08428d9faa73",
+        "reason": "Eventloom audits past session events, tool calls and approvals in a log; it does not advertise live session focus or conversation resumption."
+      },
+      {
+        "pluginId": "szaidi.clocker",
+        "typeId": "desktop-clocks",
+        "listingSha256": "d6061e22dd84d5a3b1003b18289062bb42d5a60512c6aca25ff5da7ce9ce7623",
+        "reason": "The popup explicitly selects three cities and timezones; it does not clearly claim a persistent time label."
+      },
+      {
+        "pluginId": "szaidi.clocker",
+        "typeId": "weather",
+        "listingSha256": "d6061e22dd84d5a3b1003b18289062bb42d5a60512c6aca25ff5da7ce9ce7623",
+        "reason": "Weather describes the popup's visual inspiration rather than a weather data feature."
+      },
+      {
+        "pluginId": "tsouth89.signal",
+        "typeId": "service-status",
+        "listingSha256": "4c4ce109ffefcb92ac9141d3f0d4012d1856390ae3859089814ba21e06ac888a",
+        "reason": "Signal collects Sentry production-error incidents; error triage is not a provider's service-status feed or a configured endpoint-health check."
+      },
+      {
+        "pluginId": "vincentritter.omarain",
+        "typeId": "weather",
+        "listingSha256": "0192587d5020b51bbfc2606c7bc3e975d4414772c009b6ff5ce325ffa71e3e39",
+        "reason": "Weather adjusts decorative wallpaper rain intensity; no conditions, forecast or radar-reading interface is stated."
+      },
+      {
+        "pluginId": "vinicgobbi.nowbar",
+        "typeId": "idle-sleep",
+        "listingSha256": "cea3612851edf7d1694bab31556b68b241e619e7429f4aa8c90cd9b698592067",
+        "reason": "Now Bar surfaces ongoing activities, including a sleep countdown; it does not claim persistent inactivity policy, lock appearance or a reversible awake hold."
+      },
+      {
+        "pluginId": "wdg.omarecall",
+        "typeId": "agent-monitoring",
+        "listingSha256": "d9d627db30081f992d989dc6ed54b4d65f5f1600ea504521544da544a9fd7073",
+        "reason": "OmaRecall offers inspectable memory for agent sessions; contextual memory alone does not advertise a saved-conversation browser or targeted resumption."
+      },
+      {
+        "pluginId": "woodenplastic.information-wallpaper-overlay",
+        "typeId": "agent-monitoring",
+        "listingSha256": "c20e899229d96e8201785e6fbc2630753f71f27c84c9c135e59016b96327b8e9",
+        "reason": "The wallpaper overlay can show agent states but explicitly never takes a click; it does not supply the native local-session focus required by the task."
+      },
+      {
+        "pluginId": "yendor.portal",
+        "typeId": "network",
+        "listingSha256": "6920c541b9b8a362b4b97bb57fbadbea383a53ad17884d4837505ac77c056c9e",
+        "reason": "The assistant opens a captive-portal web login after network association; it does not select client networks or host a hotspot."
+      }
+    ]
   }
 }

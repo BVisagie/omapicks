@@ -26,7 +26,7 @@
       "count": 6247
     },
     "taxonomy": {
-      "sha256": "b51e86ce5f2e3b5b52659c15c1bc22e3862583acba259a35e692e8cfb85c4c61",
+      "sha256": "e9cdd4f89b0415de79e557c32c342f4d1517cea77a8968db45e5ee8940046dac",
       "classificationVersion": 3,
       "typeCount": 72
     },
@@ -4305,8 +4305,8 @@
       "name": "Hotspots & Internet Sharing",
       "description": "Start and stop a Wi-Fi hotspot that shares an uplink",
       "eligibleCount": 2,
-      "matchedCount": 6,
-      "pendingCount": 4,
+      "matchedCount": 5,
+      "pendingCount": 3,
       "taskContract": {
         "version": 2,
         "outcome": "Start and stop a Wi-Fi hotspot that shares an uplink",
@@ -7345,8 +7345,8 @@
       "name": "Lock Screen Appearance",
       "description": "Apply or customize the interface shown when the session is locked",
       "eligibleCount": 3,
-      "matchedCount": 35,
-      "pendingCount": 32,
+      "matchedCount": 34,
+      "pendingCount": 31,
       "taskContract": {
         "version": 2,
         "outcome": "Apply or customize the interface shown when the session is locked",
@@ -7732,8 +7732,8 @@
       "name": "Idle & Sleep Settings",
       "description": "Configure automatic inactivity timers and the actions they trigger",
       "eligibleCount": 3,
-      "matchedCount": 27,
-      "pendingCount": 24,
+      "matchedCount": 24,
+      "pendingCount": 21,
       "taskContract": {
         "version": 2,
         "outcome": "Configure automatic inactivity timers and the actions they trigger",
@@ -8118,8 +8118,8 @@
       "name": "Keep Awake",
       "description": "Temporarily pause automatic inactivity actions and restore the normal policy",
       "eligibleCount": 4,
-      "matchedCount": 37,
-      "pendingCount": 33,
+      "matchedCount": 38,
+      "pendingCount": 34,
       "taskContract": {
         "version": 2,
         "outcome": "Temporarily pause automatic inactivity actions and restore the normal policy",
@@ -9347,8 +9347,8 @@
       "name": "World Clocks & Time Zones",
       "description": "Read multiple time zones and compare the same moment across them",
       "eligibleCount": 2,
-      "matchedCount": 27,
-      "pendingCount": 25,
+      "matchedCount": 26,
+      "pendingCount": 24,
       "taskContract": {
         "version": 2,
         "outcome": "Read multiple time zones and compare the same moment across them",
@@ -12560,8 +12560,8 @@
       "name": "Screen Recording",
       "description": "Start, stop and save recordings of your screen",
       "eligibleCount": 2,
-      "matchedCount": 15,
-      "pendingCount": 10,
+      "matchedCount": 14,
+      "pendingCount": 9,
       "taskContract": {
         "version": 1,
         "outcome": "Start, stop and save recordings of your screen",
@@ -14192,8 +14192,8 @@
       "name": "Agent Monitoring",
       "description": "Inspect running coding agents and focus a local agent session",
       "eligibleCount": 1,
-      "matchedCount": 65,
-      "pendingCount": 64,
+      "matchedCount": 34,
+      "pendingCount": 33,
       "taskContract": {
         "version": 2,
         "outcome": "Inspect running coding agents and focus a local agent session",
@@ -14336,8 +14336,8 @@
       "name": "Session History & Resume",
       "description": "Browse saved coding-agent conversations and resume a selected session",
       "eligibleCount": 2,
-      "matchedCount": 16,
-      "pendingCount": 14,
+      "matchedCount": 11,
+      "pendingCount": 9,
       "taskContract": {
         "version": 2,
         "outcome": "Browse saved coding-agent conversations and resume a selected session",
@@ -19781,8 +19781,8 @@
       "name": "Endpoint & Service Monitoring",
       "description": "Inspect health checks for user-configured endpoints or services",
       "eligibleCount": 3,
-      "matchedCount": 33,
-      "pendingCount": 30,
+      "matchedCount": 19,
+      "pendingCount": 16,
       "taskContract": {
         "version": 2,
         "outcome": "Inspect health checks for user-configured endpoints or services",
@@ -20153,8 +20153,8 @@
       "name": "Service Status & Incidents",
       "description": "Read provider-published service status and incident reports",
       "eligibleCount": 2,
-      "matchedCount": 10,
-      "pendingCount": 8,
+      "matchedCount": 7,
+      "pendingCount": 5,
       "taskContract": {
         "version": 2,
         "outcome": "Read provider-published service status and incident reports",

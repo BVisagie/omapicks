@@ -2,11 +2,11 @@
   "schemaVersion": 1,
   "generatedAt": "2026-10-30T11:21:19.177Z",
   "catalogCount": 6153,
-  "eligibleClassifiedCount": 2367,
-  "classificationAssignments": 3004,
+  "eligibleClassifiedCount": 2336,
+  "classificationAssignments": 2945,
   "qualifiedAssignments": 170,
-  "pendingAssignments": 2804,
-  "uniqueUnclassifiedCount": 2457,
+  "pendingAssignments": 2745,
+  "uniqueUnclassifiedCount": 2488,
   "excluded": {
     "not-installable": 1218,
     "compatibility-failed": 19,
@@ -596,6 +596,11 @@
       "id": "realgbb.flipnotes",
       "name": "Flipnotes",
       "category": "Productivity"
+    },
+    {
+      "id": "swheel33.perfwatch",
+      "name": "Perfwatch",
+      "category": "System"
     },
     {
       "id": "io.github.andy-spike.herdr-theme-sync",
@@ -1248,6 +1253,11 @@
       "category": "Widgets"
     },
     {
+      "id": "io.github.sahzudin.omamemo",
+      "name": "Omamemo",
+      "category": "Widgets"
+    },
+    {
       "id": "io.github.brm-src.ai-quick-clean",
       "name": "ai quick clean",
       "category": "Productivity"
@@ -1433,6 +1443,11 @@
       "category": "Hardware"
     },
     {
+      "id": "tsouth89.signal",
+      "name": "Signal",
+      "category": "Developer Tools"
+    },
+    {
       "id": "io.github.waynekruger.fretwise",
       "name": "Fretwise",
       "category": "Widgets"
@@ -1563,6 +1578,16 @@
       "category": "Appearance"
     },
     {
+      "id": "io.github.joshuaswarren.remnic",
+      "name": "Remnic Recall",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "andreconde.tmux",
+      "name": "Remote tmux",
+      "category": "Developer Tools"
+    },
+    {
       "id": "io.github.yogeshojha.blip",
       "name": "Blip",
       "category": "System"
@@ -1626,6 +1651,11 @@
       "id": "community.fnos-sync",
       "name": "FN sync",
       "category": "Productivity"
+    },
+    {
+      "id": "kzagoris.codex-router-tray",
+      "name": "Codex Router Tray",
+      "category": "Developer Tools"
     },
     {
       "id": "omwatch",
@@ -2153,6 +2183,11 @@
       "category": "Widgets"
     },
     {
+      "id": "io.github.daventhedude.omarchief",
+      "name": "Omarchief",
+      "category": "Desktop"
+    },
+    {
       "id": "quakattro",
       "name": "Quakattro",
       "category": "Other"
@@ -2443,6 +2478,11 @@
       "category": "Productivity"
     },
     {
+      "id": "kenhara.compliantish",
+      "name": "Compliantish",
+      "category": "System"
+    },
+    {
       "id": "sojoodi.memory-lane",
       "name": "Memory Lane",
       "category": "Productivity"
@@ -2456,6 +2496,11 @@
       "id": "io.github.jeffcortez23.omarchy-projector-cast",
       "name": "Projector & Cast",
       "category": "Widgets"
+    },
+    {
+      "id": "rafaelsieber.curl-check",
+      "name": "Curl Check",
+      "category": "System"
     },
     {
       "id": "io.pixygon.thread",
@@ -2556,6 +2601,11 @@
       "id": "elmorsy.autohide-bar",
       "name": "Autohide Bar",
       "category": "Appearance"
+    },
+    {
+      "id": "rocha.pasteimage",
+      "name": "PasteImage",
+      "category": "Developer Tools"
     },
     {
       "id": "omakase",
@@ -2696,6 +2746,11 @@
       "id": "soprano.quotes",
       "name": "Soprano",
       "category": "Other"
+    },
+    {
+      "id": "io.github.jeremylongshore.listening-post",
+      "name": "Listening Post",
+      "category": "Widgets"
     },
     {
       "id": "io.github.elevate08.ynab-glance",
@@ -2940,6 +2995,11 @@
     {
       "id": "io.github.rookepoole.market-pulse",
       "name": "Market Pulse",
+      "category": "Widgets"
+    },
+    {
+      "id": "sid.wiki-wait",
+      "name": "Wiki Wait",
       "category": "Widgets"
     },
     {
@@ -3303,6 +3363,11 @@
       "category": "Productivity"
     },
     {
+      "id": "ianswope.plex",
+      "name": "Plex",
+      "category": "Widgets"
+    },
+    {
       "id": "com.bryon.omarchy-menu-prefixes",
       "name": "Omarchy Menu Prefixes",
       "category": "Productivity"
@@ -3546,6 +3611,11 @@
       "id": "bert.flyby",
       "name": "Flyby",
       "category": "Widgets"
+    },
+    {
+      "id": "devinblack001.wazuh-view",
+      "name": "Wazuh View",
+      "category": "System"
     },
     {
       "id": "io.github.majesticio.eye-in-the-sky",
@@ -3978,6 +4048,11 @@
       "category": "Hardware"
     },
     {
+      "id": "jinxnet.inkmode",
+      "name": "Ink Mode",
+      "category": "Appearance"
+    },
+    {
       "id": "io.github.katsari.nook",
       "name": "Nook",
       "category": "Widgets"
@@ -4088,9 +4163,19 @@
       "category": "Widgets"
     },
     {
+      "id": "io.github.tslove923.howdy-face-unlock",
+      "name": "Howdy Face Unlock",
+      "category": "System"
+    },
+    {
       "id": "nenadjokic.nvidia-hybrid",
       "name": "NVIDIA Hybrid",
       "category": "Hardware"
+    },
+    {
+      "id": "wdg.omarecall",
+      "name": "OmaRecall",
+      "category": "Developer Tools"
     },
     {
       "id": "shl.deeplok",
@@ -4331,6 +4416,11 @@
       "id": "leomoon-studios.omarchy-screencast-keys",
       "name": "Omarchy Screencast Keys",
       "category": "Productivity"
+    },
+    {
+      "id": "acrogenesis.ai-account-switcher",
+      "name": "AI Account Switcher",
+      "category": "Developer Tools"
     },
     {
       "id": "io.github.mtolhuys.news-radar",
@@ -5548,6 +5638,11 @@
       "category": "Hardware"
     },
     {
+      "id": "kiryuuki.oma-immich",
+      "name": "OmaImmich",
+      "category": "Widgets"
+    },
+    {
       "id": "bhanu.omavideos",
       "name": "OmaVideos",
       "category": "Widgets"
@@ -5858,6 +5953,11 @@
       "category": "Other"
     },
     {
+      "id": "io.github.ngek202.tablet-toggle",
+      "name": "Tablet Toggle",
+      "category": "Hardware"
+    },
+    {
       "id": "dictdrawer",
       "name": "DictDrawer",
       "category": "Productivity"
@@ -5998,6 +6098,11 @@
       "category": "Hardware"
     },
     {
+      "id": "costafot.android-dev",
+      "name": "Android Dev",
+      "category": "Developer Tools"
+    },
+    {
       "id": "clartek.omamesh",
       "name": "Omamesh",
       "category": "Hardware"
@@ -6031,11 +6136,6 @@
       "id": "marcford.gmessages",
       "name": "Google Messages",
       "category": "Productivity"
-    },
-    {
-      "id": "h3nr1.d14z.jenkins",
-      "name": "Jenkins Health",
-      "category": "Developer Tools"
     },
     {
       "id": "luinbytes.island",
@@ -6218,6 +6318,11 @@
       "category": "System"
     },
     {
+      "id": "io.github.gmantoha.claude-effort",
+      "name": "Claude effort",
+      "category": "Developer Tools"
+    },
+    {
       "id": "joramser.camera-test",
       "name": "Camera Test",
       "category": "Hardware"
@@ -6236,6 +6341,11 @@
       "id": "faperac.displays",
       "name": "Displays Arranger",
       "category": "Hardware"
+    },
+    {
+      "id": "io.github.dishnicons.plugin-doctor",
+      "name": "Plugin Doctor",
+      "category": "System"
     },
     {
       "id": "mghizdavet.things",
@@ -6833,6 +6943,11 @@
       "category": "Productivity"
     },
     {
+      "id": "io.github.dharmapurikar.otter",
+      "name": "Otter",
+      "category": "Productivity"
+    },
+    {
       "id": "io.github.bruce-forte.mcp-server",
       "name": "MCP Server",
       "category": "Developer Tools"
@@ -7375,6 +7490,11 @@
     {
       "id": "io.github.duketopceo.bumblebee",
       "name": "Bumblebee",
+      "category": "System"
+    },
+    {
+      "id": "io.github.duketopceo.numbat",
+      "name": "Numbat",
       "category": "System"
     },
     {
@@ -9588,6 +9708,11 @@
       "category": "Appearance"
     },
     {
+      "id": "agf.agent-activity",
+      "name": "Agent Activity",
+      "category": "Developer Tools"
+    },
+    {
       "id": "coding-sparrow.devkit",
       "name": "DevKit",
       "category": "Developer Tools"
@@ -9848,11 +9973,6 @@
       "category": "Productivity"
     },
     {
-      "id": "murankar.eso-server-status",
-      "name": "ESO Server Status",
-      "category": "Widgets"
-    },
-    {
       "id": "jimmibram.chrome-launcher",
       "name": "Chrome Launcher",
       "category": "Productivity"
@@ -9970,6 +10090,11 @@
     {
       "id": "omacam.plugin",
       "name": "Camera",
+      "category": "Widgets"
+    },
+    {
+      "id": "madmasx.hermes-pets",
+      "name": "Hermes Pets",
       "category": "Widgets"
     },
     {
@@ -10293,9 +10418,14 @@
       "category": "Desktop"
     },
     {
-      "id": "jim.claude-context",
-      "name": "Claude Context",
-      "category": "Developer Tools"
+      "id": "davedes.omadoctor",
+      "name": "OmaDoctor",
+      "category": "System"
+    },
+    {
+      "id": "data-budget",
+      "name": "Data Budget",
+      "category": "System"
     },
     {
       "id": "io.github.sash-rift.junction",
@@ -10723,6 +10853,11 @@
       "category": "Productivity"
     },
     {
+      "id": "beforeugone.agents",
+      "name": "BF-Agent-Ledger",
+      "category": "Widgets"
+    },
+    {
       "id": "pbjorklund.omaip",
       "name": "OmaIP",
       "category": "Widgets"
@@ -10796,6 +10931,11 @@
       "id": "io.github.cotopena.omapeek",
       "name": "OmaPeek",
       "category": "Desktop"
+    },
+    {
+      "id": "lonh.agents-sleep",
+      "name": "Agents Sleep",
+      "category": "Widgets"
     },
     {
       "id": "io.github.pro-termux-arch.systemd-ease",
@@ -10998,6 +11138,11 @@
       "category": "Appearance"
     },
     {
+      "id": "marcho78.uber-notebook",
+      "name": "Uber Notebook",
+      "category": "Productivity"
+    },
+    {
       "id": "io.github.basantpandey.power-rename",
       "name": "Power Rename",
       "category": "Productivity"
@@ -11148,6 +11293,11 @@
       "category": "Productivity"
     },
     {
+      "id": "io.github.soham3301.port-watcher",
+      "name": "Port Watcher",
+      "category": "System"
+    },
+    {
       "id": "mcp64.server-monitor",
       "name": "Server Monitor",
       "category": "Widgets"
@@ -11191,6 +11341,11 @@
       "id": "io.github.yeutterg.display-rotation",
       "name": "Display with Rotation",
       "category": "System"
+    },
+    {
+      "id": "syndicalt.eventloom",
+      "name": "Eventloom",
+      "category": "Developer Tools"
     },
     {
       "id": "io.github.sjmaquina.ssh-desk",

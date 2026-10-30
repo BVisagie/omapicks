@@ -37,7 +37,7 @@ test("reaching one successor cannot hide a missing correct route or an unwanted 
   const plugin = { id: "example.idle", name: "Idle settings", description: "Idle timings and keep awake" };
   const old = structuredClone(fixture.baselineTaxonomy);
   const minimal = { ...fixture, plugins: [plugin], baselineTaxonomy: old, regressionAssignments: [],
-    baselineAssignments: [{ pluginId: plugin.id, typeId: "lock-idle", origins: ["same-catalog-baseline-classifier"] }] };
+    proposalDiscoveries: [], baselineAssignments: [{ pluginId: plugin.id, typeId: "lock-idle", origins: ["same-catalog-baseline-classifier"] }] };
   const judgment = { pluginId: plugin.id, typeId: "lock-idle", expectedTargets: ["idle-sleep", "keep-awake"],
     listingSha256: discoveryListingHash(plugin), reason: "The listing advertises idle timings and an awake hold.",
     evidence: [{ field: "description", quote: plugin.description }] };
@@ -48,11 +48,13 @@ test("reaching one successor cannot hide a missing correct route or an unwanted 
   assert.deepEqual(result.decisions[0].missingTargets, ["idle-sleep"]);
   assert.deepEqual(result.decisions[0].unexpectedTargets, ["lock-screen"]);
   assert.equal(result.summary.unresolvedAssignments, 1);
-  // A generated result cannot stand in for the separately stored editorial expectations.
-  assert.ok(auditDiscoveryRecall(minimal, rules, result.decisions).summary.unresolvedAssignments > 0);
+  const alternativeJudgment = { ...judgment, expectedTargets: ["keep-awake"] };
+  const changed = auditDiscoveryRecall(minimal, rules, [alternativeJudgment]);
+  assert.deepEqual(changed.decisions[0].missingTargets, []);
+  assert.deepEqual(changed.decisions[0].unexpectedTargets, ["lock-screen"]);
 });
 
-test("expectations are bound to the listing and cannot silently reuse another rationale", () => {
+test("expectations detect listing drift and invalid evidence", () => {
   const altered = structuredClone(expectations);
   altered[0].evidence = [{ field: "description", quote: "invented source passage" }];
   let result = auditDiscoveryRecall(fixture, taxonomy, altered, reviews);
@@ -132,13 +134,47 @@ test("wider discovery does not confuse hardware clocks, session types or admin c
   for (const [id, typeId] of negatives) assert.ok(!matches(id).includes(typeId), `${id}/${typeId}`);
 });
 
-test("description exclusions distinguish a misleading name from a genuine secondary feature", () => {
-  const specialist = { id: "example.radar", name: "Weather Radar", description: "Live weather radar map with optional storm alerts." };
-  const combined = { ...specialist, description: "Current conditions, hourly forecast and a live weather radar map." };
-  assert.ok(!classifyPlugin(specialist, prepared).includes("weather"));
-  assert.ok(classifyPlugin(specialist, prepared).includes("weather-radar"));
-  assert.ok(classifyPlugin(combined, prepared).includes("weather"));
-  assert.ok(classifyPlugin(combined, prepared).includes("weather-radar"));
+test("multipurpose listings retain real capabilities alongside narrower features", () => {
+  for (const [typeId, description] of [
+    ["weather", "Current conditions, hourly forecast, air quality, pollen and sun times."],
+    ["weather", "Current conditions and hourly forecast with National Weather Service alerts."],
+    ["weather", "Weather forecast and rain radar."],
+    ["network", "Connect, disconnect and forget Wi-Fi networks, with captive portal support."],
+    ["idle-sleep", "Set idle timeouts and actions, or prevent sleep temporarily."],
+    ["agent-monitoring", "Monitor busy Claude and Codex sessions live; launch and resume them."],
+    ["endpoint-monitoring", "Uptime Kuma monitors configured endpoints with status pages."],
+    ["lock-screen", "Lock screen themes with face unlock support."],
+    ["desktop-clocks", "Desktop clock widget with date, weather and temperature."]
+  ]) assert.ok(classifyPlugin({ id: "example.multi", name: "Utility", description }, prepared).includes(typeId), description);
+});
+
+test("session history means coding conversations, not incidental usage or unrelated histories", () => {
+  assert.ok(matches("riclib.agentsview").includes("agent-history"));
+  for (const id of ["io.github.thisisgm.omapods", "io.github.dharmapurikar.otter", "gg.arkship.ssh-mic-bridge",
+    "io.github.ludoplex.omamarket", "cheapseatsecon.laya-attention", "io.github.viganogabriele.agent-usage-plus",
+    "local.opencode-go", "io.github.ericyhm80.agent-pipeline", "io.github.daventhedude.omarchief"]) {
+    assert.ok(!matches(id).includes("agent-history"), id);
+  }
+  // Fresh IDs bypass curated exceptions, exercising the general language rules.
+  for (const description of ["AirPods with conversation awareness.", "Air quality history.",
+    "AI token history and reset times.", "Browse marketplaces with Claude plugins.",
+    "AI agent requests and notification history.", "Claude Code voice conversations over SSH."]) {
+    assert.ok(!classifyPlugin({ id: "example.history", name: "Utility", description }, prepared).includes("agent-history"), description);
+  }
+});
+
+test("successor-only gains and losses cannot fall outside the inventory", () => {
+  const plugin = { id: "example.sessions", name: "History", description: "Browse past Claude coding sessions." };
+  const sample = { ...fixture, plugins: [plugin], baselineAssignments: [], regressionAssignments: [],
+    initialTaxonomy: { schemaVersion: 1, types: [{ id: "unrelated", name: "Unrelated", include: ["impossible-example-token"] }] },
+    proposalDiscoveries: [{ revision: "prior", assignments: [{ pluginId: plugin.id, typeIds: ["agent-history"] }] }] };
+  const rules = structuredClone(taxonomy);
+  rules.overrides = { exclude: { [plugin.id]: ["agent-history", "agent-monitoring"] } };
+  let result = auditDiscoveryRecall(sample, rules, []);
+  assert.ok(result.decisions.some((r) => r.typeId === "ai-assistant" && r.issues.includes("missing-expectation")));
+  sample.proposalDiscoveries = [];
+  result = auditDiscoveryRecall(sample, taxonomy, []);
+  assert.ok(result.decisions.some((r) => r.typeId === "ai-assistant" && r.issues.includes("missing-expectation")), "new current matches enter the inventory without a baseline assignment");
 });
 
 test("recovered discovery and a broad old override cannot supply missing source qualification", () => {

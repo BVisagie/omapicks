@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { CURRENT_METHODOLOGY_VERSION, methodologyFor, snapshotMethodology } from "./methodology.mjs";
 import { explainTaskFit, prepareTaskReviews, preserveTaskReviewHistory, taskMetadataHash, validateTaskContracts } from "./task-fit.mjs";
 import { taskDefinitionChanged } from "./category-migrations.mjs";
@@ -97,14 +98,12 @@ export function prepareTaxonomy(taxonomy) {
     ids.add(type.id);
     assert(typeof type.name === "string" && type.name.length > 0, `${label}.name is required`);
     assert(type.exclusionScope == null || ["field", "clause"].includes(type.exclusionScope), `${label}.exclusionScope is invalid`);
-    assert(type.descriptionExclude == null || Array.isArray(type.descriptionExclude), `${label}.descriptionExclude must be an array`);
     // Omarchy built-ins shown beside a category's picks. Display only: never classified or ranked.
     assert(type.builtIns == null || (Array.isArray(type.builtIns) &&
       type.builtIns.every((id) => typeof id === "string" && id.length > 0)), `${label}.builtIns must be an array of plugin IDs`);
     return {
       ...type,
       includePatterns: compilePatterns(type.include, `${label}.include`),
-      descriptionExclusionPatterns: type.descriptionExclude?.length ? compilePatterns(type.descriptionExclude, `${label}.descriptionExclude`) : [],
       namePatterns: type.nameInclude == null || (Array.isArray(type.nameInclude) && !type.nameInclude.length) ? [] : compilePatterns(type.nameInclude, `${label}.nameInclude`),
       excludePatterns: type.exclude == null || (Array.isArray(type.exclude) && type.exclude.length === 0)
         ? [] : compilePatterns(type.exclude, `${label}.exclude`)
@@ -126,7 +125,17 @@ export function prepareTaxonomy(taxonomy) {
       assert(typeof reason === "string" && reason.trim().length > 0, `Missing reason for ${pluginId}/${typeId}`);
     }
   }
-  return { types, overrides: { include: overrides.include ?? {}, exclude: overrides.exclude ?? {}, review: overrides.review ?? {}, reasons: overrides.reasons ?? {} } };
+  const discoveryExclusions = new Map();
+  assert(overrides.discoveryExclude == null || Array.isArray(overrides.discoveryExclude), "overrides.discoveryExclude must be an array");
+  for (const entry of overrides.discoveryExclude ?? []) {
+    assert(typeof entry.pluginId === "string" && entry.pluginId.length && ids.has(entry.typeId), "Invalid discovery exclusion target");
+    assert(/^[a-f0-9]{64}$/.test(entry.listingSha256), "Discovery exclusion requires a listing hash");
+    assert(typeof entry.reason === "string" && entry.reason.trim().length, "Discovery exclusion requires a reason");
+    const key = `${entry.pluginId}/${entry.typeId}`;
+    assert(!discoveryExclusions.has(key), `Duplicate discovery exclusion: ${key}`);
+    discoveryExclusions.set(key, entry);
+  }
+  return { types, discoveryExclusions, overrides: { include: overrides.include ?? {}, exclude: overrides.exclude ?? {}, review: overrides.review ?? {}, reasons: overrides.reasons ?? {} } };
 }
 
 function matchedEvidence(patterns, fields, rule, version = CLASSIFICATION_VERSION) {
@@ -153,6 +162,11 @@ function matchedEvidence(patterns, fields, rule, version = CLASSIFICATION_VERSIO
   return evidence;
 }
 
+// Catalog-only editorial exclusions expire on any name/description change. They only
+// suppress raw discovery, never a current source-qualified or related assignment.
+export const discoveryListingHash = (plugin) => createHash("sha256")
+  .update(JSON.stringify(plugin ? { id: plugin.id, name: plugin.name, description: plugin.description } : null)).digest("hex");
+
 // Match fields separately: concatenation can manufacture phrases across field boundaries.
 // Tags, kind and upstream category are context for reviewers, never eligibility evidence.
 export function explainClassification(plugin, preparedTaxonomy, version = CLASSIFICATION_VERSION, taskReviews = null) {
@@ -161,22 +175,23 @@ export function explainClassification(plugin, preparedTaxonomy, version = CLASSI
   const forced = new Set(preparedTaxonomy.overrides.include[plugin.id] ?? []);
   const blocked = new Set(preparedTaxonomy.overrides.exclude[plugin.id] ?? []);
   const review = new Set(preparedTaxonomy.overrides.review[plugin.id] ?? []);
+  const listingHash = preparedTaxonomy.discoveryExclusions.size ? discoveryListingHash(plugin) : null;
   return preparedTaxonomy.types.map((type) => {
+    const exclusion = preparedTaxonomy.discoveryExclusions.get(`${plugin.id}/${type.id}`);
+    const discoveryExclusion = exclusion?.listingSha256 === listingHash ? exclusion : null;
     const evidence = [
       ...matchedEvidence(type.includePatterns, fields, "include", version),
       ...matchedEvidence(type.namePatterns, { name: plugin.name }, "nameInclude", version)
     ];
     const positive = evidence.filter((match) => !match.ignored);
-    const descriptionExclusions = matchedEvidence(type.descriptionExclusionPatterns, { description: plugin.description }, "exclude", version);
-    const exclusions = [...matchedEvidence(type.excludePatterns, fields, "exclude", version), ...descriptionExclusions];
-    // Description-only exclusions resolve misleading names without blocking a separately reviewed task.
-    const allowed = descriptionExclusions.length ? [] : version >= 3 && type.exclusionScope === "clause"
+    const exclusions = matchedEvidence(type.excludePatterns, fields, "exclude", version);
+    const allowed = version >= 3 && type.exclusionScope === "clause"
       ? positive.filter((match) => !type.excludePatterns.some((pattern) => pattern.test(match.context))) : exclusions.length ? [] : positive;
     const taskFit = taskReviews ? explainTaskFit(plugin, type, taskReviews) : null;
     const decision = review.has(type.id) ? "review" : blocked.has(type.id) ? "override-exclude"
       : taskFit?.status === "rejected" ? "task-rejected"
         : taskFit?.qualified || taskFit?.status === "related" ? "reviewed-task"
-          : forced.has(type.id) ? "override-include" : allowed.length ? "task-match"
+          : discoveryExclusion ? "discovery-exclude" : forced.has(type.id) ? "override-include" : allowed.length ? "task-match"
         : exclusions.length ? "excluded" : "no-task-evidence";
     return {
       typeId: type.id,
@@ -184,7 +199,7 @@ export function explainClassification(plugin, preparedTaxonomy, version = CLASSI
       decision,
       evidence,
       exclusions,
-      reason: preparedTaxonomy.overrides.reasons[plugin.id]?.[type.id] ?? taskFit?.reason ?? null,
+      reason: decision === "discovery-exclude" ? discoveryExclusion.reason : preparedTaxonomy.overrides.reasons[plugin.id]?.[type.id] ?? taskFit?.reason ?? null,
       ...(taskFit ? { taskFit } : {})
     };
   });
