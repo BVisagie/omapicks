@@ -246,6 +246,21 @@ test("rounded ties retain stored precision and single or empty shortlists stay h
   assert.doesNotMatch(renderFixtureType(type, rankings), /class="glass popularity-comparison"/);
 });
 
+test("popularity index rounds decimal half-points up without rounding the bars or stored scores", () => {
+  const rankings = snapshot();
+  const type = rankings.types[0];
+  type.runnerUp = null;
+  type.eligibleCount = 1;
+  for (const [score, expected] of [[0.145, 15], [0.285, 29], [0.565, 57], [0.575, 58], [0.144999, 14], [0.145001, 15], [1, 100]]) {
+    type.winner.score = score;
+    const html = renderFixtureType(type, rankings);
+    assert.ok(html.includes(`class="popularity-value">${expected} <span>/ 100`), `score ${score}`);
+    assert.ok(html.includes(`class="popularity-fill" style="width:${score * 100}%"`));
+    assert.ok(html.includes(`<code>${score}</code>`));
+    assert.equal(type.winner.score, score);
+  }
+});
+
 test("historical snapshots keep their original score presentation", () => {
   const legacy = { ...snapshot(), methodologyVersion: "1.2.0", week: "2026-W43" };
   const old = renderFixtureType(legacy.types[0], legacy);

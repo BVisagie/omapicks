@@ -585,8 +585,11 @@ function popularityComparison(type, week, signals) {
     <ol class="popularity-list" role="list">
       ${candidates.map((candidate, index) => {
         const value = Number.isFinite(candidate.score) ? clamp01(candidate.score) * 100 : null;
+        // Stored scores have six decimal places. Round from integer millionths so
+        // decimal half-points such as 0.145 do not fall below 14.5 in binary arithmetic.
+        const rounded = value === null ? null : Math.round(Math.round(clamp01(candidate.score) * 1_000_000) / 10_000);
         return `<li class="popularity-row">
-          <div class="popularity-label"><span class="popularity-name"><span class="popularity-position">#${index + 1}</span> ${escapeHtml(candidate.name)}</span><span class="popularity-value">${value === null ? "Unavailable" : `${Math.round(value)} <span>/ 100</span>`}</span></div>
+          <div class="popularity-label"><span class="popularity-name"><span class="popularity-position">#${index + 1}</span> ${escapeHtml(candidate.name)}</span><span class="popularity-value">${rounded === null ? "Unavailable" : `${rounded} <span>/ 100</span>`}</span></div>
           <span class="popularity-track" aria-hidden="true"><span class="popularity-fill" style="width:${value ?? 0}%"></span></span>
         </li>`;
       }).join("")}
