@@ -201,7 +201,7 @@ test("clock context handles location qualifiers, telemetry modifiers and lock-on
   const raw = prepareTaxonomy({ ...taxonomy, overrides: {} });
   const unexcluded = prepareTaxonomy({ ...taxonomy, overrides: {}, types: taxonomy.types.map((t) => t.id === "desktop-clocks" ? { ...t, exclude: [] } : t) });
   const plugin = (description) => ({ id: "fresh.clock-context", name: "Utility", description });
-  for (const location of ["the Omarchy bar", "your Omarchy bar", "the top bar", "the bottom panel", "Waybar", "the Omarchy desktop", "the desktop"]) {
+  for (const location of ["the Omarchy bar", "your Omarchy bar", "my Omarchy bar", "our top bar", "the floating panel", "the top bar", "the bottom panel", "Waybar", "the Omarchy desktop", "the desktop"]) {
     for (const noun of ["A clock", "Clocks"]) {
       assert.ok(classifyPlugin(plugin(`${noun} in ${location} with seconds.`), raw).includes("desktop-clocks"), `${noun} / ${location}`);
     }
@@ -211,12 +211,21 @@ test("clock context handles location qualifiers, telemetry modifiers and lock-on
     "GPU dashboard: core clock, memory clock, temperature and fan speed.",
     "Panel showing GPU utilization and the current clock.",
     "Overclocking panel for your GPU with clock offsets.",
+    "Overclocked clocks in the bar.",
     "Dashboard for CPU frequency; clock in MHz.",
     "CPU load, per-core activity, temperature and clock in the bar.",
     "CPU load, per-core activity, temperature and clock in the Omarchy bar.",
     "Lock screen with a large digital clock and date.",
     "Lockscreen themed with a digital clock.",
     "A screensaver with an analog clock.",
+    "Clock for the lock screen wallpaper.",
+    "Lock screen clock in the top-right of the wallpaper.",
+    "Lock screen with a clock in the panel.",
+    "Adjust clocks in the Radeon control panel.",
+    "Set fan curves and clocks in the NVIDIA settings panel.",
+    "Digital clock for the lock screen wallpaper.",
+    "Lock screen with a digital clock in the panel.",
+    "Lock screen with a digital clock in the top-right of the wallpaper.",
     ...["core", "memory", "boost", "shader"].map((modifier) => `GPU ${modifier} clock in your top bar.`)
   ];
   for (const description of rejected) {
@@ -229,12 +238,19 @@ test("clock context handles location qualifiers, telemetry modifiers and lock-on
     "CPU temperature, GPU core clock and a desktop clock showing local time.",
     "CPU monitoring with a digital clock and date.",
     "CPU monitoring plus a bar clock with seconds.",
+    "Clock on the desktop with CPU and GPU temperature.",
+    "Clock on the desktop next to the CPU graph.",
+    "Clock in the bar with the date; also CPU usage.",
     "GPU telemetry plus a Waybar clock showing local time.",
     "GPU telemetry. A clock in the Omarchy bar shows the time.",
     "Lock-screen designs and a desktop clock widget.",
     "An analog clock in the Omarchy bar, plus a lock-screen theme.",
     "Lockscreen with a digital clock. Desktop clocks with weather."
   ]) assert.ok(classifyPlugin(plugin(description), raw).includes("desktop-clocks"), description);
+  for (const description of [
+    "Clock in via the Omarchy bar.",
+    "Clock in from Waybar with Kimai."
+  ]) assert.ok(!classifyPlugin(plugin(description), raw).includes("desktop-clocks"), description);
 });
 
 test("coding-tool browsers need session or conversation scope before entering history", () => {
@@ -242,8 +258,18 @@ test("coding-tool browsers need session or conversation scope before entering hi
   for (const description of ["Skill browser for Claude Code", "Prompt library browser for Claude", "MCP server browser for Codex and OpenCode"]) {
     assert.ok(!classifyPlugin({ id: "fresh.browser", name: "Utility", description }, raw).includes("agent-history"), description);
   }
-  for (const description of ["A browser for every AI coding session", "A browser for Claude Code conversations", "Browser for Codex sessions with resume controls"]) {
+  for (const description of ["A browser for every AI coding session", "A browser for Claude Code conversations", "Browser for Codex sessions with resume controls",
+    "Session browser for Claude Code.", "Session browser for Claude Code: pick one and resume it.",
+    "Conversation browser for Claude Code and Codex.", "A fast session browser for AI coding agents.",
+    "Session history browser for Codex and OpenCode."]) {
     assert.ok(classifyPlugin({ id: "fresh.browser", name: "Utility", description }, raw).includes("agent-history"), description);
+  }
+  for (const subject of ["Claude Code", "Codex", "OpenCode", "AI coding agents"]) {
+    for (const task of ["session", "conversation", "session history"]) {
+      for (const description of [`${task} browser for ${subject}`, `Browser for ${subject} ${task}`, `${subject} ${task} browser`]) {
+        assert.ok(classifyPlugin({ id: "fresh.browser-order", name: "Utility", description }, raw).includes("agent-history"), description);
+      }
+    }
   }
 });
 

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "capturedAt": "2026-10-30T11:21:19.177Z",
   "inputHash": "741a7ddb65201cad313a71411e589b5325fad668b38942ff4d97465221d3a4cd",
-  "taxonomyHash": "b267d3fec347e156cc232900c4f38f9fcef4da496d5712d9707ccb459de711d0",
+  "taxonomyHash": "9db3e455789350983e2b49a30810c8f993f0b98745c16c9efa35289bc5c1c2b0",
   "taskReviewsHash": "52dd4a4476d9875cad7cf791334396a57aba8378906987abb6418733817f6eb0",
   "pluginProfilesHash": "498e4ae34448fd965e580d3f2dce4f996d8603644742972eae04144e98110d94",
   "evidenceObservationsHash": "3f7963a44a2d8b0b972ec13901b0ff8accf5a475c709e9d375d97421078df9c4",
@@ -2496,7 +2496,7 @@
       }
     }
   ],
-  "proposalCodeRevision": "c33c79cc3504e10cbad66c8bf0d70db8735c9584-dirty",
+  "proposalCodeRevision": "f92e2f3e7c47bbcc715bece6207eb3dda623536d-dirty",
   "proposalCodeHashes": {
     "build/rank.mjs": "f2aa68c498620bf68122ff5910ca4811f624621b22864a6698e7a62825b89d57",
     "build/classification-audit.mjs": "64d02fb9b026e0c1651db44d5a4f8e2b3c5abc1ce6ec7df9078b847ca9b57c44",
@@ -2513,7 +2513,7 @@
   },
   "capture": {
     "file": "test/fixtures/task-coherence-migration.json.gz",
-    "sha256": "442e13a23c12e68bb28b78686bb650d627435331532a01d0c8640be882430bde",
+    "sha256": "7184a8f5adb73eb2fedc016dad1f58bbe75e66d2da53f630c9863a2d113bb7e4",
     "catalogCount": 285,
     "scope": "Lossless ranking projection of every baseline or proposed reviewed plugin. All scored cohorts and scores replay; full-catalog discovery/queue counts require the complete capture."
   },
