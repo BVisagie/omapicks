@@ -1234,7 +1234,7 @@ function methodologyPage(rankings) {
     ${method.eligibility.reviewedTaskEvidence ? `<p>Category matching supplies research leads. A recommendation needs a source-backed task decision in <code>data/task-reviews.json</code> that satisfies the category's minimum capabilities. Native core and substantial secondary capabilities qualify equally. Thin integrations are shown as related tools; pending, rejected and stale decisions cannot enter the podium. ${reviewedPresentation(method) ? "Repository identity, task contracts, and the recorded evidence determine validity. Listing changes enter reconciliation; changed supporting evidence needs re-review. Shared plugin requirements accompany every task assignment." : "A changed name, description, repository or task contract invalidates the decision until review."} Reviews describe publicly documented capabilities, not installation testing. Requirements and limitations appear with each choice.</p>
     <p>Each capture includes the complete review file and its checksum. The priority queue includes new claims, previous picks with changed evidence and prospective challengers. These research scores cannot confer eligibility. Popularity is normalized within the reviewed cohort; it remains evidence about the whole plugin, not measured adoption of an individual capability.</p>` : ""}
     <p>${copy.score}</p>
-    <ul class="weight-list">${weights}</ul>
+    <ul class="weight-list" data-animate>${weights}</ul>
     ${copy.afterWeights.map((paragraph) => `<p>${paragraph}</p>`).join("\n    ")}
     <h2>Stability</h2>
     <p>${escapeHtml(copy.stabilityRule)}</p>
@@ -1352,7 +1352,7 @@ function changelogPage(history) {
         weeks.length
           ? weeks
               .map(
-                (entry) => `<section>
+                (entry) => `<section class="glass reveal">
                   <h2>${weekLabel(entry.week, entry.generatedAt)}</h2>
                   ${changeList(entry)}
                   ${runnerUpList(entry)}
@@ -1362,7 +1362,7 @@ function changelogPage(history) {
           : "<p>No weekly history has been published yet.</p>"
       }
     </div>
-    <aside class="rss-callout">
+    <aside class="glass rss-callout">
       <p class="kicker">Follow the ranking</p>
       <h2>Get ${modern ? "weekly selection" : "champion"} changes in your reader</h2>
       <p>The RSS feed only publishes meaningful changes, so quiet weeks stay quiet.</p>
@@ -1459,9 +1459,9 @@ function feedPage(entries, modern = entries.some((entry) => entry.modern)) {
     <p class="eyebrow">RSS feed</p>
     <h1>${title}</h1>
     <p class="page-lede">${description} Feed readers receive the same RSS 2.0 entries.</p>
-    <p class="feed-subscribe"><strong>Subscribe:</strong> copy <a href="/feed.xml">${ORIGIN}/feed.xml</a> into your feed reader.</p>
+    <p class="glass feed-subscribe"><strong>Subscribe:</strong> copy <a href="/feed.xml">${ORIGIN}/feed.xml</a> into your feed reader.</p>
     <section class="feed-entries" aria-label="Recent changes">
-      ${entries.length ? entries.map((entry) => `<article>
+      ${entries.length ? entries.map((entry) => `<article class="glass">
         ${entry.published ? `<time datetime="${escapeHtml(entry.publishedAt)}">${escapeHtml(entry.published)}</time>` : "<span></span>"}
         <div><h2><a href="${escapeHtml(entry.path)}">${escapeHtml(entry.title)}</a></h2>
         <p>${escapeHtml(entry.description)}</p></div>
@@ -1632,7 +1632,7 @@ export async function render({ root = ROOT } = {}) {
       description: "This OmaPicks page does not exist.",
       pathname: "/404.html",
       image: socialImage(),
-      body: `<section class="page-section prose"><p class="eyebrow">404</p><h1>This page isn't here</h1><p class="page-lede"><a href="/">Back to this week's picks</a></p></section>`
+      body: `<section class="page-section prose not-found"><p class="eyebrow">404</p><h1>This page isn't here</h1><p class="page-lede"><a href="/">Back to this week's picks</a></p></section>`
     })
   );
   return { typeCount: rankings.types.length, historyCount: history.length, output: DIST };
