@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { CATEGORY_MIGRATIONS, categoryChangesBetween, migrationsForSnapshot } from "../build/category-migrations.mjs";
+import { CATEGORY_MIGRATIONS, categoryChangesBetween, migrationsForSnapshot, taskDefinitionChanged } from "../build/category-migrations.mjs";
 import { changesBetween, runnerUpChangesBetween } from "../build/rank.mjs";
 import { methodologyFor } from "../build/methodology.mjs";
 
@@ -57,4 +57,22 @@ test("different task requirements are distinguished from popularity displacement
   // Global availability evidence remains independently meaningful during a migration.
   const context = { catalogIds: new Set(["a", "b", "c", "d"]), exclusions: new Map([["a", "repository-unreachable"]]) };
   assert.equal(changesBetween(before, after, context)[0].reason, "repository-unreachable");
+});
+
+test("wording clarifications do not imply requalification or explain a popularity change", () => {
+  const before = snapshot("1.3.0", [type("notes")]);
+  const after = snapshot("1.4.0", [type("notes", 1, "c", "d")]);
+  after.types[0].taskContract.outcome = "A clearer description of the same task";
+  assert.equal(taskDefinitionChanged(before.types[0], after.types[0]), false);
+  const [event] = categoryChangesBetween(before, after);
+  assert.equal(event.kind, "clarified");
+  assert.match(event.reason, /Qualification requirements and existing reviews are unchanged/);
+  assert.doesNotMatch(event.reason, /previous definition/);
+  assert.equal(changesBetween(before, after)[0].reason, undefined);
+  assert.equal(runnerUpChangesBetween(before, after)[0].reason, undefined);
+  after.types[0].taskContract.capabilitySets = [["different-task"]];
+  assert.equal(taskDefinitionChanged(before.types[0], after.types[0]), true);
+  assert.equal(categoryChangesBetween(before, after)[0].kind, "narrowed");
+  const reordered = (sets) => ({ taskContract: { version: 1, capabilitySets: sets } });
+  assert.equal(taskDefinitionChanged(reordered([["a", "b"], ["c"]]), reordered([["c"], ["b", "a"]])), false);
 });

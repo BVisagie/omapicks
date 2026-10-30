@@ -672,22 +672,43 @@ test("weekly summary compares snapshots and handles unchanged and vacant picks",
   assert.match(renderFixtureHome(current, [previous]), /the champion spot is vacant/);
 });
 
-test("feed keeps the newest 50 changes, words vacancies plainly, and skips bad dates", () => {
+test("homepage uses recorded same-week events even when a previous-week comparison disagrees", () => {
+  const current = { ...fixtureRankings(fixtureCandidate({ name: "Client", id: "client" })), methodologyVersion: "1.4.0" };
+  current.types[0].id = "network";
+  current.types[0].name = "Network Connections";
+  const previous = { ...structuredClone(current), week: "2026-W35" };
+  // The previous week had the same leader, but this migration replaces a same-week hotspot pick.
+  const event = { typeId: "network", typeName: "Network Connections", kind: "displaced", reason: "task-definition-changed",
+    previous: { id: "hotspot", name: "Hotspot" }, current: { id: "client", name: "Client" } };
+  const history = [previous, { ...current, changes: [event] }];
+  const html = renderFixtureHome(current, history);
+  assert.match(html, /1 category has a leading-option change/);
+  assert.match(html, /<b>Client<\/b> <em>is selected under the updated task definition/);
+  assert.match(html, /<dt>Leading-option changes<\/dt><dd data-count="1">1<\/dd>/);
+  // An explicitly empty event set must not revive an earlier week's displacement.
+  previous.types[0].winner = fixtureCandidate({ id: "old", name: "Old" });
+  history[1].changes = [];
+  const unchanged = renderFixtureHome(current, history);
+  assert.match(unchanged, /The leading reviewed options are unchanged/);
+  assert.match(unchanged, /<dt>Leading-option changes<\/dt><dd data-count="0">0<\/dd>/);
+});
+
+test("feed keeps the newest 100 changes, words vacancies plainly, and skips bad dates", () => {
   const change = (i) => ({ typeId: `type-${i}`, typeName: `Type ${i}`, current: { id: `p${i}`, name: `Plugin ${i}` }, previous: null });
   const history = [
-    { week: "2026-W30", generatedAt: "2026-07-20T06:00:00Z", changes: Array.from({ length: 30 }, (_, i) => change(i)) },
+    { week: "2026-W30", generatedAt: "2026-07-20T06:00:00Z", changes: Array.from({ length: 60 }, (_, i) => change(i)) },
     { week: "2026-W31", changes: [{ typeId: "music", typeName: "Music", current: null, previous: { id: "old", name: "Old Player" } }] },
-    { week: "2026-W32", generatedAt: "2026-08-03T06:00:00Z", changes: Array.from({ length: 30 }, (_, i) => change(i + 30)) }
+    { week: "2026-W32", generatedAt: "2026-08-03T06:00:00Z", changes: Array.from({ length: 60 }, (_, i) => change(i + 60)) }
   ];
   const { page, rss } = renderFixtureFeed(history);
-  assert.equal([...rss.matchAll(/<item>/g)].length, 50);
-  assert.equal([...page.matchAll(/<article class="glass">/g)].length, 50);
-  assert.match(rss, /<title>Plugin 30 is the Type 30 champion<\/title>/);
+  assert.equal([...rss.matchAll(/<item>/g)].length, 100);
+  assert.equal([...page.matchAll(/<article class="glass">/g)].length, 100);
+  assert.match(rss, /<title>Plugin 60 is the Type 60 champion<\/title>/);
   assert.match(rss, /<description>Music has no champion this week\.<\/description>/);
   assert.match(page, /Music has no champion this week\./);
   assert.doesNotMatch(page, /No plugin/);
   assert.doesNotMatch(page + rss, /Invalid Date/);
-  assert.equal([...rss.matchAll(/<pubDate>/g)].length, 49);
+  assert.equal([...rss.matchAll(/<pubDate>/g)].length, 99);
 });
 
 test("discovery metadata uses taxonomy categories and related navigation stays compact", async () => {
@@ -890,6 +911,13 @@ test("category corrections and requalification do not masquerade as competitive 
   assert.match(rss, /Client is selected under the updated Network Connections task definition/);
   assert.doesNotMatch(rss, /Client replaced Hotspot/);
   assert.match(rss, /Hotspot replaced Former/);
+  assert.match(rss, /Network Connections second reviewed option spot is vacant/);
+  assert.match(rss, /No second reviewed option is selected under the updated Network Connections task definition/);
+  assert.match(rss, /2026-W44:runner-up:network:vacant/);
+  const sameCandidate = renderFixtureFeed([{ ...current, runnerUpChanges: [{ ...current.changes[0] }] }]);
+  assert.match(sameCandidate.rss, /Client is selected as the second reviewed option under the updated Network Connections task definition/);
+  const guids = [...sameCandidate.rss.matchAll(/<guid[^>]*>(.*?)<\/guid>/g)].map((match) => match[1]);
+  assert.equal(new Set(guids).size, guids.length);
   const onlyCorrection = renderFixtureFeed([{ ...current, changes: [], runnerUpChanges: [] }]);
   assert.equal([...onlyCorrection.rss.matchAll(/<item>/g)].length, 1);
 });

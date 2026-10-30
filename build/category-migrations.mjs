@@ -35,8 +35,10 @@ export function migrationsForSnapshot(snapshot) {
 }
 
 export function taskDefinitionChanged(before, after) {
-  return Boolean(before?.taskContract && after?.taskContract &&
-    JSON.stringify(before.taskContract) !== JSON.stringify(after.taskContract));
+  if (!before?.taskContract || !after?.taskContract) return false;
+  const requirements = ({ version, capabilitySets }) => JSON.stringify({ version,
+    capabilitySets: capabilitySets.map((set) => [...set].sort()).sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b))) });
+  return requirements(before.taskContract) !== requirements(after.taskContract);
 }
 
 export function categoryChangesBetween(previous, current) {
@@ -56,10 +58,14 @@ export function categoryChangesBetween(previous, current) {
   const covered = new Set(result.map((entry) => entry.from.id));
   for (const type of current.types) {
     const old = prior.get(type.id);
-    if (!covered.has(type.id) && taskDefinitionChanged(old, type)) {
+    const requalified = taskDefinitionChanged(old, type);
+    const clarified = old?.taskContract && type.taskContract && old.taskContract.outcome !== type.taskContract.outcome;
+    if (!covered.has(type.id) && (requalified || clarified)) {
       result.push({ from: { id: old.id, name: old.name }, to: [{ id: type.id, name: type.name }],
-        kind: "narrowed", retired: false,
-        reason: `The minimum task is now: ${type.taskContract.outcome}. Earlier selections were reviewed against the previous definition.` });
+        kind: requalified ? "narrowed" : "clarified", retired: false,
+        reason: requalified
+          ? `The minimum task is now: ${type.taskContract.outcome}. Earlier selections were reviewed against the previous definition.`
+          : `The task description is clarified: ${type.taskContract.outcome}. Qualification requirements and existing reviews are unchanged.` });
     }
   }
   return result;

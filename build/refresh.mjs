@@ -549,7 +549,8 @@ async function removeStaleImages(rankings, root) {
 }
 
 // `republish` deliberately recalculates a week that already has a snapshot (for example after a
-// methodology change). It still validates feeds and keeps the week's earlier changelog events.
+// methodology change). It validates feeds, retains same-methodology events, and starts a new
+// event set when the methodology changes.
 export async function refresh({
   now = new Date(),
   dryRun = false,

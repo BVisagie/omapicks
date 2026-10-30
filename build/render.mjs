@@ -1000,13 +1000,13 @@ function newListingsNote(rankings) {
       ${shown.length ? `<ul>${shown.join("")}</ul>` : ""}`;
 }
 
-// Changes shown on the home page come from the previous published week when one exists,
-// otherwise from the snapshot's own recorded changes.
+// The publication's recorded events are authoritative, including same-week migrations.
+// Recompute only for older snapshots without a recorded event set.
 function weeklyChanges(rankings, history) {
   const previous = history.filter((snapshot) => snapshot.week < rankings.week)
     .sort((a, b) => b.week.localeCompare(a.week))[0];
   const current = history.find((snapshot) => snapshot.week === rankings.week);
-  const changes = previous ? changesBetween(previous, rankings) : current?.changes ?? [];
+  const changes = current?.changes ?? (previous ? changesBetween(previous, rankings) : []);
   return { previous, current, changes };
 }
 
@@ -1342,6 +1342,7 @@ function historyChanges(history) {
       week: snapshot.week,
       generatedAt: snapshot.generatedAt,
       modern: reviewedPresentation(snapshotMethodology(snapshot)),
+      taskCoherence: Boolean(snapshotMethodology(snapshot).eligibility.taskCoherence),
       changes: snapshot.changes ?? [],
       categoryChanges: snapshot.categoryChanges ?? [],
       // Snapshots before runner-up events were persisted have none recorded, not "no changes".
@@ -1431,7 +1432,7 @@ function changelogPage(history) {
               .map(
                 (entry) => `<section class="glass reveal">
                   <h2>${weekLabel(entry.week, entry.generatedAt)}</h2>
-                  ${entry.categoryChanges.length ? `<section class="category-corrections"><h3 class="timeline-subhead">Category corrections</h3><p>These task definitions changed in this publication. Earlier selections used their recorded definitions.</p><ul class="change-list">${entry.categoryChanges.map((change) => `<li><strong>${escapeHtml(change.from.name)}</strong>: ${change.retired ? "separated into" : change.kind === "split" ? "now distinguishes" : "clarified as"} ${change.to.map((type) => `<a href="/picks/${encodeURIComponent(type.id)}/">${escapeHtml(type.name)}</a>`).join(", ")}. ${escapeHtml(change.reason)}</li>`).join("")}</ul></section>` : ""}
+                  ${entry.categoryChanges.length ? `<section class="category-corrections"><h3 class="timeline-subhead">Category corrections</h3><p>Task boundaries or descriptions were updated in this publication. Each entry distinguishes changed requirements from wording clarifications.</p><ul class="change-list">${entry.categoryChanges.map((change) => `<li><strong>${escapeHtml(change.from.name)}</strong>: ${change.retired ? "separated into" : change.kind === "split" ? "now distinguishes" : "clarified as"} ${change.to.map((type) => `<a href="/picks/${encodeURIComponent(type.id)}/">${escapeHtml(type.name)}</a>`).join(", ")}. ${escapeHtml(change.reason)}</li>`).join("")}</ul></section>` : ""}
                   ${changeList(entry)}
                   ${runnerUpList(entry)}
                 </section>`
@@ -1511,13 +1512,20 @@ function feedEntries(history) {
         week: snapshot.week,
         modern: snapshot.modern,
         generatedAt: snapshot.generatedAt
-      }))
+      })),
+      ...(snapshot.taskCoherence ? snapshot.runnerUpChanges.map((change) => ({
+        ...change,
+        slot: "runner-up",
+        week: snapshot.week,
+        modern: snapshot.modern,
+        generatedAt: snapshot.generatedAt
+      })) : [])
     ])
-    .slice(0, 50)
+    .slice(0, 100)
     .map((entry) => {
       const date = new Date(entry.generatedAt ?? NaN);
       const dated = !Number.isNaN(date.getTime());
-      const label = entry.modern ? "leading reviewed option" : "champion";
+      const label = entry.slot === "runner-up" ? "second reviewed option" : entry.modern ? "leading reviewed option" : "champion";
       if (entry.categoryChange) {
         const change = entry.categoryChange;
         return {
@@ -1536,14 +1544,14 @@ function feedEntries(history) {
           ? `${entry.current.name} is the ${entry.typeName} ${label}`
           : `${entry.typeName} ${label} spot is vacant`,
         description: entry.reason === "task-definition-changed"
-          ? `${entry.current ? `${entry.current.name} is selected` : "No reviewed option qualifies"} under the updated ${entry.typeName} task definition. This publication corrects the category comparison.`
+          ? `${entry.current ? `${entry.current.name} is selected${entry.slot === "runner-up" ? " as the second reviewed option" : ""}` : `No ${label} is selected`} under the updated ${entry.typeName} task definition. This publication corrects the category comparison.`
           : !entry.current
           ? `${entry.typeName} has no ${label} this week.`
           : entry.previous
             ? `${entry.current.name} replaced ${entry.previous.name}.`
             : `${entry.current.name} became the first ${label}.`,
         path: `/picks/${encodeURIComponent(entry.typeId)}/`,
-        guid: `${entry.week}:${entry.typeId}:${entry.current?.id ?? "vacant"}`,
+        guid: `${entry.week}:${entry.slot === "runner-up" ? "runner-up:" : ""}${entry.typeId}:${entry.current?.id ?? "vacant"}`,
         publishedAt: dated ? date.toISOString() : "",
         published: dated ? date.toUTCString() : ""
       };

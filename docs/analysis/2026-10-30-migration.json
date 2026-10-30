@@ -191,9 +191,9 @@
           "name": "Inbox & Mail Status"
         }
       ],
-      "kind": "narrowed",
+      "kind": "clarified",
       "retired": false,
-      "reason": "The minimum task is now: Inspect unread mail and browse an inbox. Earlier selections were reviewed against the previous definition."
+      "reason": "The task description is clarified: Inspect unread mail and browse an inbox. Qualification requirements and existing reviews are unchanged."
     },
     {
       "from": {
@@ -221,9 +221,9 @@
           "name": "Network Traffic"
         }
       ],
-      "kind": "narrowed",
+      "kind": "clarified",
       "retired": false,
-      "reason": "The minimum task is now: Read network throughput and connection activity. Earlier selections were reviewed against the previous definition."
+      "reason": "The task description is clarified: Read network throughput and connection activity. Qualification requirements and existing reviews are unchanged."
     },
     {
       "from": {
@@ -251,9 +251,9 @@
           "name": "Notification History & Centers"
         }
       ],
-      "kind": "narrowed",
+      "kind": "clarified",
       "retired": false,
-      "reason": "The minimum task is now: Browse and manage desktop notification history. Earlier selections were reviewed against the previous definition."
+      "reason": "The task description is clarified: Browse and manage desktop notification history. Qualification requirements and existing reviews are unchanged."
     },
     {
       "from": {
@@ -326,9 +326,9 @@
           "name": "Screen Capture"
         }
       ],
-      "kind": "narrowed",
+      "kind": "clarified",
       "retired": false,
-      "reason": "The minimum task is now: Capture a screen image and save or export it. Earlier selections were reviewed against the previous definition."
+      "reason": "The task description is clarified: Capture a screen image and save or export it. Qualification requirements and existing reviews are unchanged."
     },
     {
       "from": {
@@ -356,9 +356,9 @@
           "name": "Smart Home Controls"
         }
       ],
-      "kind": "narrowed",
+      "kind": "clarified",
       "retired": false,
-      "reason": "The minimum task is now: Control supported connected-home devices. Earlier selections were reviewed against the previous definition."
+      "reason": "The task description is clarified: Control supported connected-home devices. Qualification requirements and existing reviews are unchanged."
     },
     {
       "from": {
@@ -401,9 +401,9 @@
           "name": "Shortcut Learning"
         }
       ],
-      "kind": "narrowed",
+      "kind": "clarified",
       "retired": false,
-      "reason": "The minimum task is now: Learn available keyboard shortcuts through lookup or coaching. Earlier selections were reviewed against the previous definition."
+      "reason": "The task description is clarified: Learn available keyboard shortcuts through lookup or coaching. Qualification requirements and existing reviews are unchanged."
     },
     {
       "from": {
@@ -416,9 +416,9 @@
           "name": "Translation"
         }
       ],
-      "kind": "narrowed",
+      "kind": "clarified",
       "retired": false,
-      "reason": "The minimum task is now: Translate text entered or pasted by the user. Earlier selections were reviewed against the previous definition."
+      "reason": "The task description is clarified: Translate text entered or pasted by the user. Qualification requirements and existing reviews are unchanged."
     },
     {
       "from": {
@@ -431,9 +431,9 @@
           "name": "Word Definitions"
         }
       ],
-      "kind": "narrowed",
+      "kind": "clarified",
       "retired": false,
-      "reason": "The minimum task is now: Look up word definitions. Earlier selections were reviewed against the previous definition."
+      "reason": "The task description is clarified: Look up word definitions. Qualification requirements and existing reviews are unchanged."
     },
     {
       "from": {
@@ -461,9 +461,9 @@
           "name": "File Search"
         }
       ],
-      "kind": "narrowed",
+      "kind": "clarified",
       "retired": false,
-      "reason": "The minimum task is now: Find local files by filename or path. Earlier selections were reviewed against the previous definition."
+      "reason": "The task description is clarified: Find local files by filename or path. Qualification requirements and existing reviews are unchanged."
     },
     {
       "from": {
@@ -2513,18 +2513,18 @@
       }
     }
   ],
-  "proposalCodeRevision": "abcb9dc5e2f537887e197d4daa4ebb87ba5b5687-dirty",
+  "proposalCodeRevision": "3ad19b80e3468f41b479413e15dcda269838aba4-dirty",
   "proposalCodeHashes": {
     "build/rank.mjs": "cd7da3fb75ca04a266a5bb8d17034bd84b8e5009cc8cbd9cfccf55a45782d42b",
     "build/task-fit.mjs": "8f9a4dfa0af64394472a8f35e2be60f0fc649475e878ef931dc9e486922c0fc5",
     "build/evidence.mjs": "0665019ce4130a685c73df57e6e4a44da45b593fcdab58883effcda75b23995d",
     "build/methodology.mjs": "598f3bde501a1d3035e9bb5409b810b367681d1632de85a94edb72c6823de8c4",
-    "build/category-migrations.mjs": "54f3f00b5d86acef4f0732f22f5510048dab06022107ec84e9cffa6278863128",
+    "build/category-migrations.mjs": "041f35b170f5d4b35b0c925c701e69021f582e5391831950320bc2945bb7d4b9",
     "scripts/compare-task-fit.mjs": "69f530c5a8866cb9683876f0bd591446d81822d71e2b9832d6ba31e877949612"
   },
   "capture": {
     "file": "test/fixtures/task-coherence-migration.json.gz",
-    "sha256": "9dda675deb74efc49beb504817cc8c34b3dd7bc076d0d0b835327854deb19f09",
+    "sha256": "a615759885428fb109c40de45e40ddd61a846e2a36e852d46fdc3dea0f8556e8",
     "catalogCount": 285,
     "scope": "Lossless ranking projection of every baseline or proposed reviewed plugin. All scored cohorts and scores replay; full-catalog discovery/queue counts require the complete capture."
   },
