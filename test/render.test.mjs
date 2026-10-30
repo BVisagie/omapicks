@@ -507,7 +507,7 @@ test("production render emits the offline site, SEO files, RSS, and immutable ba
   assert.doesNotMatch(home, /platform\.twitter\.com/);
   assert.doesNotMatch(pick, /platform\.twitter\.com/);
   assert.doesNotMatch(home, /widgets\.js/);
-  if (pickType.winner) assert.match(pick, modern ? /Marketplace popularity/ : /How they compare/);
+  if (pickType.winner) assert.match(pick, modern ? /Popularity among reviewed/ : /How they compare/);
   if (pickType.winner) assert.match(pick, /These bars are raw public counts/);
   // The live Weather race may be a clear win, a close race, or a champion held by the
   // stability rule; each sentence has its own fixture test above.

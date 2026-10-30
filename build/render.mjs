@@ -575,23 +575,50 @@ function recordedMetric(candidates, metric) {
   return metric !== "copyViewRatio" || candidates.some((candidate) => candidate?.metrics && "copyViewRatio" in candidate.metrics);
 }
 
-function scoreComparison(type, method) {
+function popularityComparison(type, week, signals) {
+  const candidates = [type.winner, type.runnerUp].filter(Boolean);
+  const count = `${type.eligibleCount} qualified ${type.eligibleCount === 1 ? "option" : "options"}`;
+  return `<section class="glass popularity-comparison" aria-labelledby="comparison-heading">
+    <p class="kicker">Popularity index · 0–100</p>
+    <h2 id="comparison-heading">Popularity among reviewed ${escapeHtml(type.name)} options</h2>
+    <p class="popularity-context">${candidates.length > 1 ? `Top ${candidates.length} of ` : ""}${count} · ${escapeHtml(week)}</p>
+    <ol class="popularity-list" role="list">
+      ${candidates.map((candidate, index) => {
+        const value = Number.isFinite(candidate.score) ? clamp01(candidate.score) * 100 : null;
+        return `<li class="popularity-row">
+          <div class="popularity-label"><span class="popularity-name"><span class="popularity-position">#${index + 1}</span> ${escapeHtml(candidate.name)}</span><span class="popularity-value">${value === null ? "Unavailable" : `${Math.round(value)} <span>/ 100</span>`}</span></div>
+          <span class="popularity-track" aria-hidden="true"><span class="popularity-fill" style="width:${value ?? 0}%"></span></span>
+        </li>`;
+      }).join("")}
+    </ol>
+    <p class="popularity-note">Relative popularity for this category and week; not a quality rating or success percentage.</p>
+    <details class="popularity-details">
+      <summary>Why this order?</summary>
+      <p>The index is the combined score multiplied by 100 and rounded for display. Ordering uses full scores; exact ties are broken by install-command copies, hearts, GitHub stars, then plugin ID. Equal displayed numbers can hide small score differences.</p>
+      <p>Stored scores: ${candidates.map((candidate) => `${escapeHtml(candidate.name)} <code>${Number.isFinite(candidate.score) ? candidate.score : "unavailable"}</code>`).join("; ")}.</p>
+      <p>Signals are normalized within this week's qualified category. Scores describe the whole plugin, not measured use of its ${escapeHtml(type.name.toLowerCase())} capability, and should not be compared across categories or weeks.</p>
+      ${signals}
+    </details>
+  </section>`;
+}
+
+function scoreComparison(type, method, week) {
   const { winner, runnerUp } = type;
   if (!winner) return "";
+  const modern = reviewedPresentation(method);
   const candidates = [winner, runnerUp].filter(Boolean);
   const lead = scoreLead(winner, runnerUp);
   const hidden = hiddenLeader(type);
-  const scores = runnerUp
+  const scores = modern ? "" : runnerUp
     ? `Combined scores in this category: ${escapeHtml(winner.name)} ${winner.score.toFixed(3)}, ${escapeHtml(runnerUp.name)} ${runnerUp.score.toFixed(3)}${lead != null ? ` (${scorePercent(lead)} apart)` : ""}.`
     : `Combined score in this category: ${winner.score.toFixed(3)} of 1.00.`;
   const hiddenNote = hidden
     ? ` The top score this week was ${escapeHtml(hidden.name)} at ${hidden.score.toFixed(3)}; it is not shown because both places stay with their holders until beaten by more than ${methodologyCopy(method).stability}.`
     : "";
-  return `<section class="score-comparison" aria-labelledby="comparison-heading" data-animate>
-    <div class="comparison-heading">
+  const signals = `<div class="comparison-heading">
       <div>
         <p class="kicker">Marketplace counts</p>
-        <h2 id="comparison-heading">${reviewedPresentation(method) ? "Marketplace popularity" : "How they compare"}</h2>
+        ${modern ? '<h3>Marketplace signals</h3>' : '<h2 id="comparison-heading">How they compare</h2>'}
       </div>
       <p>These bars are raw public counts for ${runnerUp ? "these two plugins" : "this plugin"}, not the ranking itself.${reviewedPresentation(method) ? " The combined score orders this reviewed shortlist; it is not a quality grade, confidence percentage, or measure of task success." : ""} Install-command copies count most. Freshness is how recently the repository was updated.${recordedMetric(candidates, "copyViewRatio") && methodologyCopy(method).comparison ? ` ${escapeHtml(methodologyCopy(method).comparison)}` : ""} ${scores}${hiddenNote} <a href="/methodology/">How the ranking is calculated</a></p>
     </div>
@@ -608,15 +635,16 @@ function scoreComparison(type, method) {
         const values = candidates.map((candidate) => metricValue(candidate, metric, method));
         const max = Math.max(...values, ["freshness", "copyViewRatio"].includes(metric) ? 0.01 : 1);
         return `<tr class="comparison-row">
-          <th scope="row" class="comparison-metric">${metricLabel(metric)}</th>
+          <th scope="row" class="comparison-metric">${modern && metric === "copies" ? "Install-command copies" : metricLabel(metric)}</th>
           <td>${comparisonBar(winner, metric, max, method)}</td>
           ${runnerUp ? `<td>${comparisonBar(runnerUp, metric, max, method)}</td>` : ""}
         </tr>`;
       }).join("")}
       </tbody>
     </table>
-    </div>
-  </section>`;
+    </div>`;
+  return modern ? popularityComparison(type, week, signals)
+    : `<section class="score-comparison" aria-labelledby="comparison-heading" data-animate>${signals}</section>`;
 }
 
 function releaseLabels(candidate) {
@@ -684,7 +712,7 @@ function candidateCard(candidate, place, type, week, { runnerUp = null, topScore
   const badgePath = `/badges/${encodeURIComponent(week)}/${encodeURIComponent(type.id)}/${encodeURIComponent(candidate.id)}.svg`;
   const labels = pickLabels(method);
   const rank = place === "winner" ? `01 ${labels.first}` : `02 ${labels.second}`;
-  const extras = [statusPill(candidate), scoreDial(candidate)];
+  const extras = [statusPill(candidate), reviewedPresentation(method) ? "" : scoreDial(candidate)];
   const badgeMarkdown = `[![OmaPicks ${type.name} ${labels.first.toLowerCase()}](${ORIGIN}${badgePath})](${ORIGIN}/picks/${type.id}/)`;
   const reason = place === "winner" && !reviewedPresentation(method) ? winningReason(candidate, runnerUp, topScorer, method) : "";
   return `<article class="glass tilt pick-card ${place === "winner" ? "champion" : ""}">
@@ -1185,11 +1213,11 @@ function typePage(type, rankings) {
     ${builtInNote(type, method)}
     <div class="podium" data-animate>
       ${candidateCard(type.winner, "winner", type, rankings.week, { runnerUp: type.runnerUp, topScorer: type.topScorer, method, generatedAt: rankings.generatedAt })}
-      ${scoreboard(type, method)}
+      ${modern ? "" : scoreboard(type, method)}
       ${candidateCard(type.runnerUp, "runner-up", type, rankings.week, { method, generatedAt: rankings.generatedAt })}
     </div>
     ${modern ? moreTaskChoices(type, method) : ""}
-    ${scoreComparison(type, method)}
+    ${scoreComparison(type, method, rankings.week)}
     ${modern ? "" : moreTaskChoices(type, method)}
     <aside class="method-note reveal">
       <h2>How we pick</h2>
