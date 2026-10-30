@@ -522,8 +522,9 @@ kbd {
   content: "# ";
 }
 
+/* A positive top margin: the heading wraps on phones and its underlined link would meet the note. */
 .showdown-note {
-  margin: -0.4rem 0 0.9rem;
+  margin: 0.45rem 0 0.9rem;
   color: var(--muted);
   font-family: var(--mono);
   font-size: 0.78rem;
@@ -2942,11 +2943,14 @@ footer p a {
     gap: 0.25rem;
   }
 
+  /* minmax(0, …), not 1fr, as at the wider breakpoints. With a bare 1fr, Safari and WebKitGTK sized
+     the showdown pair's .reveal wrapper from its card's 16:10 media well (last height plus side
+     margins), so the featured card widened on every layout pass. */
   .supporting,
   .showdown-pair,
   .podium,
   .first-champions {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .catalog-header {

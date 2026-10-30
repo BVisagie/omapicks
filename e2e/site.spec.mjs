@@ -152,6 +152,16 @@ for (const theme of ["light", "dark"]) {
       for (const route of ["/", "/picks/network/", "/picks/screenshots/"]) {
         await page.goto(route);
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${route} at ${width}px`).toBe(true);
+        if (route === "/") {
+          // The featured heading wraps on phones; its note starts below the underlined link, whose
+          // last line box reaches past the heading's own box.
+          const gap = await page.locator(".showdown:visible").evaluate((showdown) => {
+            const heading = showdown.querySelector(".showdown-head h2");
+            const link = [...heading.querySelector("a").getClientRects()].at(-1);
+            return showdown.querySelector(".showdown-note").getBoundingClientRect().top - Math.max(heading.getBoundingClientRect().bottom, link.bottom);
+          });
+          expect(gap, `featured note at ${width}px`).toBeGreaterThanOrEqual(0);
+        }
         const colors = await page.evaluate(() => {
           const probe = document.createElement("span");
           document.body.append(probe);
