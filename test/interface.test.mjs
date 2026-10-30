@@ -180,11 +180,12 @@ test("card grids never size a column track from its content", () => {
   // bare 1fr track (an auto minimum) fed that size back, so the featured card widened on every
   // layout pass and iOS zoomed the page out without end. Playwright's WebKit build does not
   // reproduce it, so the stylesheet is checked directly: every track minimum is a fixed length.
-  for (const columns of ["1fr", "auto", "repeat(2, 1fr)", "minmax( auto, 1fr)", "MINMAX(AUTO,1FR)", "minmax(min-content , 1fr)", "fit-content(20rem)"]) {
+  for (const columns of ["1fr", "auto", "min-content", "max-content", "repeat(2, 1fr)", "minmax( auto, 1fr)", "MINMAX(AUTO,1FR)",
+    "minmax(min-content , 1fr)", "minmax(auto, max-content)", "fit-content(20rem)"]) {
     assert.equal(trackMinimums(columns).every(fixedMinimum), false, columns);
   }
   for (const columns of ["minmax(0, 1fr)", "repeat(2, minmax(0, 1fr))", "minmax(0, 1fr) minmax(13rem, 0.5fr) minmax(0, 1fr)",
-    "minmax(calc(1rem + 1px), 1fr)", "repeat(auto-fit, minmax(min(100%, 24rem), 1fr))"]) {
+    "minmax(0, max-content)", "minmax(calc(1rem + 1px), 1fr)", "repeat(auto-fit, minmax(0, 1fr))", "repeat(auto-fit, minmax(min(100%, 24rem), 1fr))"]) {
     assert.equal(trackMinimums(columns).every(fixedMinimum), true, columns);
   }
   assert.deepEqual(subjectParts(".podium:not(:where(:has(.scoreboard)))"), [".podium", ":not"]);
@@ -195,7 +196,7 @@ test("card grids never size a column track from its content", () => {
   const checked = [];
   for (const [, prelude, body] of styles.replace(/\/\*[\s\S]*?\*\//g, "").matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
     const selectors = splitTopLevel(prelude, /,/).filter((selector) => cardGrids.some((grid) => subjectParts(selector).includes(grid)));
-    const declarations = [...body.matchAll(/grid-template-columns:\s*([^;]+);/g)].map(([, columns]) => columns.trim());
+    const declarations = [...body.matchAll(/grid-template-columns:\s*([^;]+)/g)].map(([, columns]) => columns.trim());
     if (!selectors.length || !declarations.length) continue;
     for (const selector of selectors) {
       checked.push(selector);

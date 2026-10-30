@@ -2943,8 +2943,9 @@ footer p a {
     gap: 0.25rem;
   }
 
-  /* minmax(0, …), not 1fr: Safari and WebKitGTK size a card's 16:10 media well from its last
-     height plus its margins, so an auto track minimum widened the card on every layout pass. */
+  /* minmax(0, …), not 1fr, as at the wider breakpoints. With a bare 1fr, Safari and WebKitGTK sized
+     the showdown pair's .reveal wrapper from its card's 16:10 media well (last height plus side
+     margins), so the featured card widened on every layout pass. */
   .supporting,
   .showdown-pair,
   .podium,
