@@ -4,6 +4,8 @@ Prepared 2026-10-29 on branch `feat/futuristic-ui-proposals`, cut from `origin/m
 
 **Status after review:** Signal is the base concept, Podium's rounding, tile system and light palette are the parts to carry over, and Blueprint is set aside for this site. [Proposal 4](#proposal-4--signal--podium-the-blend) is that blend and is the recommended direction.
 
+**Status after implementation (2026-10-30):** Proposal 4 is ported to the whole site on branch `feat/signal-podium-interface` following [`IMPLEMENTATION-PLAN.md`](IMPLEMENTATION-PLAN.md). The mockups stay here as the design record; where the port differs (methodology-dependent labels, the inline finder that becomes the palette, score visuals gated by the reviewed-presentation rule, frozen badges), the plan's decisions D1–D8 are the reference.
+
 ## View the mockups
 
 Open [`index.html`](index.html) for a launcher, or each page directly:
