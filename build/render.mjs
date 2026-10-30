@@ -117,17 +117,18 @@ function outboundLink(href, label, className) {
   return `<a href="${url}"${cls}${extra}>${label}</a>`;
 }
 
-function xShareLink(text, url, label) {
-  return outboundLink(`https://x.com/intent/post?${new URLSearchParams({ text: `${text} ${url}` })}`, label, "text-link");
+function xShareLink(text, url, label, className = "text-link") {
+  return outboundLink(`https://x.com/intent/post?${new URLSearchParams({ text: `${text} ${url}` })}`, label, className);
 }
 
-function shareLinks(text, url, label) {
+// Hero share links stay text links; the category page renders them as pills.
+function shareLinks(text, url, label, className = "text-link") {
   const email = `mailto:?${new URLSearchParams({ subject: "OmaPicks weekly picks", body: `${text}\n${url}` }).toString().replaceAll("+", "%20")}`;
   return `<span class="share-links">
-    ${xShareLink(text, url, label)}
-    <a class="text-link" href="${escapeHtml(email)}">Email</a>
-    <button type="button" class="text-link" data-copy-link="${escapeHtml(url)}" hidden>Copy link</button>
-    <button type="button" class="text-link" data-share-url="${escapeHtml(url)}" data-share-text="${escapeHtml(text)}" hidden>Share…</button>
+    ${xShareLink(text, url, label, className)}
+    <a class="${className}" href="${escapeHtml(email)}">Email</a>
+    <button type="button" class="${className}" data-copy-link="${escapeHtml(url)}" hidden>Copy link</button>
+    <button type="button" class="${className}" data-share-url="${escapeHtml(url)}" data-share-text="${escapeHtml(text)}" hidden>Share…</button>
     <span class="share-status" data-share-status role="status"></span>
   </span>`;
 }
@@ -586,7 +587,7 @@ function scoreComparison(type, method) {
   const hiddenNote = hidden
     ? ` The top score this week was ${escapeHtml(hidden.name)} at ${hidden.score.toFixed(3)}; it is not shown because both places stay with their holders until beaten by more than ${methodologyCopy(method).stability}.`
     : "";
-  return `<section class="score-comparison" aria-labelledby="comparison-heading">
+  return `<section class="score-comparison" aria-labelledby="comparison-heading" data-animate>
     <div class="comparison-heading">
       <div>
         <p class="kicker">Marketplace counts</p>
@@ -594,6 +595,7 @@ function scoreComparison(type, method) {
       </div>
       <p>These bars are raw public counts for ${runnerUp ? "these two plugins" : "this plugin"}, not the ranking itself.${reviewedPresentation(method) ? " The combined score orders this reviewed shortlist; it is not a quality grade, confidence percentage, or measure of task success." : ""} Install-command copies count most. Freshness is how recently the repository was updated.${recordedMetric(candidates, "copyViewRatio") && methodologyCopy(method).comparison ? ` ${escapeHtml(methodologyCopy(method).comparison)}` : ""} ${scores}${hiddenNote} <a href="/methodology/">How the ranking is calculated</a></p>
     </div>
+    <div class="glass compare-panel">
     <table class="comparison-table">
       <caption class="visually-hidden">Marketplace signals by plugin</caption>
       <thead><tr class="comparison-head">
@@ -613,6 +615,7 @@ function scoreComparison(type, method) {
       }).join("")}
       </tbody>
     </table>
+    </div>
   </section>`;
 }
 
@@ -646,7 +649,7 @@ function listingAge(candidate, generatedAt) {
 function builtInNote(type, method) {
   const builtIns = (type.builtIns ?? []).filter((entry) => entry?.id);
   if (!builtIns.length) return "";
-  return `<aside class="builtin-note" aria-labelledby="builtin-heading">
+  return `<aside class="glass builtin-note" aria-labelledby="builtin-heading">
       <h2 id="builtin-heading">Included with Omarchy</h2>
       <div>
         <p>Built into Omarchy Quattro; not ranked. Try ${builtIns.length === 1 ? "it" : "them"} before installing a plugin.</p>
@@ -667,15 +670,24 @@ function previewFrame(candidate) {
   return `<div class="preview-frame">${mediaImage(candidate)}</div>`;
 }
 
+// Podium's score dial: the ring fills to the combined score once the podium scrolls into view
+// (CSS, keyed off .is-in); the number is server-rendered so it reads without scripts.
+const DIAL_CIRCUMFERENCE = 276.46;
+function scoreDial(candidate) {
+  if (!Number.isFinite(candidate?.score)) return "";
+  const value = clamp01(candidate.score);
+  return `<span class="dial" style="--v: ${value}" role="img" aria-label="Combined popularity score ${value.toFixed(3)}"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle class="track" cx="50" cy="50" r="44"/><circle class="fill" cx="50" cy="50" r="44"/></svg><span class="val" aria-hidden="true">${value.toFixed(3)}</span></span>`;
+}
+
 function candidateCard(candidate, place, type, week, { runnerUp = null, topScorer = null, method = METHODOLOGY, generatedAt = null } = {}) {
-  if (!candidate) return `<article class="pick-card empty"><p>${method.eligibility.reviewedTaskEvidence ? "No reviewed recommendation for this place yet." : "No eligible plugin this week."}</p></article>`;
+  if (!candidate) return `<article class="glass pick-card empty"><p>${method.eligibility.reviewedTaskEvidence ? "No reviewed recommendation for this place yet." : "No eligible plugin this week."}</p></article>`;
   const badgePath = `/badges/${encodeURIComponent(week)}/${encodeURIComponent(type.id)}/${encodeURIComponent(candidate.id)}.svg`;
   const labels = pickLabels(method);
   const rank = place === "winner" ? `01 ${labels.first}` : `02 ${labels.second}`;
-  const extras = [statusPill(candidate)];
+  const extras = [statusPill(candidate), scoreDial(candidate)];
   const badgeMarkdown = `[![OmaPicks ${type.name} ${labels.first.toLowerCase()}](${ORIGIN}${badgePath})](${ORIGIN}/picks/${type.id}/)`;
   const reason = place === "winner" && !reviewedPresentation(method) ? winningReason(candidate, runnerUp, topScorer, method) : "";
-  return `<article class="pick-card ${place === "winner" ? "champion" : ""}">
+  return `<article class="glass tilt pick-card ${place === "winner" ? "champion" : ""}">
     <div class="card-label"><span>${rank}</span><span class="card-flags">${extras.join("")}</span></div>
     ${previewFrame(candidate)}
     <div class="card-body">
@@ -1115,6 +1127,28 @@ function homePage(rankings, history = []) {
   });
 }
 
+// The scoreboard between the two cards. The numbers are already printed in the comparison
+// section; for reviewed snapshots the footer repeats that the score only orders the shortlist,
+// and the "apart" badge appears only where legacy pages show a delta.
+function scoreboard(type, method) {
+  const { winner, runnerUp } = type;
+  if (!winner || !Number.isFinite(winner.score)) return "";
+  const modern = reviewedPresentation(method);
+  const share = scoreShare(type);
+  const lead = runnerUp ? scoreLead(winner, runnerUp) : null;
+  const score = (candidate, win) => `<div class="score-pair"><span class="score-num${win ? " win" : ""}" data-count="${candidate.score.toFixed(3)}" data-decimals="3">${candidate.score.toFixed(3)}</span><span class="score-name">${escapeHtml(candidate.name.toLowerCase())}</span></div>`;
+  return `<div class="glass scoreboard">
+    <p class="kicker">combined popularity score</p>
+    ${score(winner, true)}
+    ${runnerUp && Number.isFinite(runnerUp.score) ? `<span class="score-vs" aria-hidden="true">VS</span>
+    ${score(runnerUp, false)}
+    ${share !== null && !modern ? `<div class="meter" role="img" aria-label="${escapeHtml(winner.name)} holds ${share}% of the combined score"><span style="--v: ${share}%"></span></div>` : ""}
+    ${!modern && lead !== null && lead !== 0 ? `<span class="score-apart"><b>${escapeHtml(scorePercent(lead))}</b> apart</span>` : ""}` : ""}
+    <span class="score-count">${modern ? `${type.eligibleCount} qualified ${type.eligibleCount === 1 ? "option" : "options"}` : competedLabel(type.eligibleCount)}</span>
+    ${modern ? `<p class="score-note">Orders this reviewed shortlist; not a quality grade, confidence percentage or measure of task success.</p>` : ""}
+  </div>`;
+}
+
 function typePage(type, rankings) {
   const method = snapshotMethodology(rankings);
   const modern = reviewedPresentation(method);
@@ -1141,21 +1175,23 @@ function typePage(type, rankings) {
             ? shareLinks(
                 modern ? `Compare ${type.winner.name} and other reviewed ${type.name} options on OmaPicks.` : `${type.winner.name} is this week's ${type.name} champion on OmaPicks.`,
                 `${ORIGIN}/picks/${encodeURIComponent(type.id)}/`,
-                "Share this ranking on X"
+                "Share this ranking on X",
+                "pill"
               )
             : ""
         }
       </div>
     </section>
     ${builtInNote(type, method)}
-    <div class="podium">
+    <div class="podium" data-animate>
       ${candidateCard(type.winner, "winner", type, rankings.week, { runnerUp: type.runnerUp, topScorer: type.topScorer, method, generatedAt: rankings.generatedAt })}
+      ${scoreboard(type, method)}
       ${candidateCard(type.runnerUp, "runner-up", type, rankings.week, { method, generatedAt: rankings.generatedAt })}
     </div>
     ${modern ? moreTaskChoices(type, method) : ""}
     ${scoreComparison(type, method)}
     ${modern ? "" : moreTaskChoices(type, method)}
-    <aside class="method-note">
+    <aside class="method-note reveal">
       <h2>How we pick</h2>
       <p>${escapeHtml(methodologyCopy(method).note)} <a href="/methodology/">Full scoring notes</a></p>
     </aside>

@@ -193,3 +193,37 @@ test("retained modern history describes qualification holds at their publication
   assert.doesNotMatch(html, /Rain is awaiting/);
   assert.match(html, /Rain<\/strong> replaced Other/);
 });
+
+test("score dials and the scoreboard follow the reviewed-presentation rule", () => {
+  const modern = snapshot();
+  const html = renderFixtureType(modern.types[0], modern);
+  assert.match(html, /<article class="glass tilt pick-card champion">/);
+  assert.match(html, /<article class="glass tilt pick-card ">/);
+  assert.match(html, /<span class="dial" style="--v: 0\.8" role="img" aria-label="Combined popularity score 0\.800">/);
+  assert.match(html, /aria-label="Combined popularity score 0\.700"/);
+  assert.match(html, /<p class="kicker">combined popularity score<\/p>/);
+  assert.match(html, /class="score-num win" data-count="0\.800" data-decimals="3">0\.800</);
+  assert.match(html, /<span class="score-count">3 qualified options<\/span>/);
+  assert.match(html, /Orders this reviewed shortlist; not a quality grade/);
+  assert.doesNotMatch(html, /score-apart|class="meter"/, "reviewed pages never show the lead or the share bar");
+  // The scoreboard sits between the two cards inside the podium.
+  const champion = html.indexOf('pick-card champion">');
+  const board = html.indexOf('<div class="glass scoreboard">');
+  const other = html.indexOf('pick-card ">');
+  assert.ok(champion > -1 && champion < board && board < other);
+  assert.ok(html.indexOf('class="podium" data-animate>') < champion);
+  assert.match(html, /<span class="share-links">\s*<a href="https:\/\/x\.com[^"]*" class="pill"/);
+
+  const legacy = { ...snapshot(), methodologyVersion: "1.2.0", week: "2026-W43" };
+  const old = renderFixtureType(legacy.types[0], legacy);
+  assert.match(old, /<span class="score-apart"><b>14\.3%<\/b> apart<\/span>/);
+  assert.match(old, /aria-label="Forecast forecast holds 53\.3% of the combined score"/);
+  assert.match(old, /<span class="score-count">3 plugins competed<\/span>/);
+  assert.doesNotMatch(old, /score-note/);
+
+  const solo = { ...snapshot(), types: [{ ...snapshot().types[0], runnerUp: null, eligibleCount: 1 }] };
+  const single = renderFixtureType(solo.types[0], solo);
+  assert.match(single, /<div class="glass scoreboard">/);
+  assert.doesNotMatch(single, /score-vs|class="meter"|score-apart/);
+  assert.match(single, /<span class="score-count">1 qualified option<\/span>/);
+});

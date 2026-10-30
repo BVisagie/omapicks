@@ -1742,11 +1742,20 @@ kbd {
   color: var(--muted);
 }
 
+.type-intro h1 {
+  text-shadow: 0 0 40px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+/* Versus layout: the two cards either side of the scoreboard. */
 .podium {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr) minmax(13rem, 0.5fr) minmax(0, 1fr);
   gap: 1.2rem;
   align-items: stretch;
+}
+
+.podium:not(:has(.scoreboard)) {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .pick-card {
@@ -1754,51 +1763,182 @@ kbd {
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  border: 1px solid var(--line);
-  background: var(--surface);
-  transition: border-color 120ms ease, box-shadow 120ms ease;
-}
-
-.pick-card:hover {
-  border-color: var(--accent);
 }
 
 .pick-card.empty {
   min-height: 18rem;
   align-items: center;
   justify-content: center;
+  border-style: dashed;
+  color: var(--muted);
 }
 
 .pick-card.champion {
-  border-color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
 }
 
 .card-label {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.5rem 0.8rem;
   align-items: center;
   justify-content: space-between;
-  min-height: 2.8rem;
-  padding: 0.55rem 1rem;
-  border-bottom: 1px solid var(--line);
+  min-height: 3.2rem;
+  padding: 0.6rem 0.8rem 0.5rem 1.1rem;
+  color: var(--muted);
   font-family: var(--mono);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .pick-card.champion .card-label {
-  border-bottom-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 18%, var(--surface));
-  color: var(--ink);
+  color: var(--accent-text);
 }
 
 .card-flags {
   display: flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.7rem;
+}
+
+/* Score dial: the ring fills to --v (0-1) once the podium is in view. */
+.dial {
+  position: relative;
+  display: inline-grid;
+  flex: none;
+  width: 56px;
+  height: 56px;
+  place-items: center;
+}
+
+.dial svg {
+  grid-area: 1 / 1;
+  width: 56px;
+  height: 56px;
+  transform: rotate(-90deg);
+}
+
+.dial circle {
+  fill: none;
+  stroke-width: 7;
+  stroke-linecap: round;
+}
+
+.dial .track {
+  stroke: var(--line-strong);
+}
+
+.dial .fill {
+  stroke: var(--muted);
+  stroke-dasharray: 276.46;
+  stroke-dashoffset: calc(276.46 * (1 - var(--v, 0)));
+}
+
+.pick-card.champion .dial .fill {
+  stroke: var(--accent);
+  filter: drop-shadow(0 0 5px var(--glow));
+}
+
+.dial .val {
+  grid-area: 1 / 1;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  font-variant-numeric: tabular-nums;
+}
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  .js [data-animate]:not(.is-in) .dial .fill {
+    stroke-dashoffset: 276.46;
+  }
+
+  .js .is-in .dial .fill {
+    transition: stroke-dashoffset 1400ms var(--ease);
+  }
+}
+
+/* Scoreboard */
+.scoreboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  padding: 1.6rem 1rem;
+  text-align: center;
+  font-family: var(--mono);
+}
+
+.scoreboard .kicker {
+  margin: 0;
+}
+
+.score-pair {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.score-num {
+  font-size: 2.7rem;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.score-num.win {
+  color: var(--accent-text);
+  text-shadow: 0 0 24px var(--glow);
+}
+
+.score-name {
+  color: var(--muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.score-vs {
+  color: var(--muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+}
+
+.scoreboard .meter {
+  width: 100%;
+  margin: 0;
+}
+
+.score-apart {
+  padding: 0.35rem 0.9rem;
+  border-radius: var(--r-pill);
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 0.78rem;
+  font-weight: 700;
+  box-shadow: var(--tile-shadow-hover);
+}
+
+.score-apart b {
+  color: inherit;
+  font-variant-numeric: tabular-nums;
+}
+
+.score-count {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.score-note {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.76rem;
+  line-height: 1.45;
 }
 
 .delta {
@@ -1829,8 +1969,12 @@ kbd {
 }
 
 .preview-frame {
+  position: relative;
   aspect-ratio: 16 / 9;
-  border-bottom: 1px solid var(--line);
+  margin: 0 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r-inner);
+  background: var(--bg-2);
 }
 
 .card-body {
@@ -1880,22 +2024,44 @@ kbd {
   color: var(--accent-text);
 }
 
+/* Comparison bars: rounded; the leading option's column glows, the other stays muted. The
+   table semantics stay intact for assistive tech. */
 .signal-bar {
-  height: 4px;
+  position: relative;
+  height: 9px;
   overflow: hidden;
-  background: var(--well);
+  border-radius: var(--r-pill);
+  background: var(--surface-2);
 }
 
 .signal-bar span {
   display: block;
   height: 100%;
-  background: var(--accent);
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--muted), color-mix(in srgb, var(--muted) 45%, transparent));
+}
+
+.comparison-row td:first-of-type .signal-bar span {
+  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 45%, transparent));
+  box-shadow: 0 0 12px var(--glow);
+}
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  .js [data-animate]:not(.is-in) .signal-bar span {
+    width: 0 !important;
+  }
+
+  .js .is-in .signal-bar span {
+    transition: width 1300ms var(--ease-out);
+  }
 }
 
 .command-row {
   display: flex;
-  border: 1px solid var(--line);
-  background: var(--bg);
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-inner);
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
 }
 
 .card-body > .command-row {
@@ -1906,20 +2072,30 @@ kbd {
   min-width: 0;
   flex: 1;
   overflow: hidden;
-  padding: 0.7rem 0.75rem;
+  padding: 0.7rem 0.8rem;
   font-family: var(--mono);
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .command-row button {
-  border: 0;
-  border-left: 1px solid var(--line);
-  background: var(--well);
-  color: var(--ink);
+  margin: 0.3rem;
   padding: 0 0.9rem;
-  font-size: 0.8rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-pill);
+  background: var(--surface-2);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  font-weight: 650;
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+}
+
+.command-row button:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .card-links {
@@ -2001,11 +2177,14 @@ kbd {
   font-size: 0.9rem;
 }
 
+.compare-panel {
+  padding: 0.4rem 1.2rem 0.6rem;
+}
+
 .comparison-table {
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
-  border-top: 1px solid var(--ink);
   font-family: var(--mono);
 }
 
@@ -2019,6 +2198,14 @@ kbd {
 .comparison-table th:first-child {
   width: 7rem;
   padding-left: 0;
+}
+
+.comparison-table thead th {
+  color: var(--muted);
+}
+
+.comparison-table thead th:nth-child(2) {
+  color: var(--accent-text);
 }
 
 .comparison-head {
@@ -2056,7 +2243,7 @@ kbd {
   grid-template-columns: 10rem 1fr;
   gap: 1.5rem;
   margin: 2.8rem 0 3.6rem;
-  padding-top: 1.4rem;
+  padding-top: 1.6rem;
   border-top: 1px solid var(--line);
 }
 
@@ -2076,6 +2263,7 @@ kbd {
 
 .category-directory-head > a {
   color: var(--accent-text);
+  font-family: var(--mono);
   font-size: 0.84rem;
   font-weight: 650;
 }
@@ -2083,21 +2271,28 @@ kbd {
 .category-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  border-top: 1px solid var(--ink);
+  gap: 0.8rem;
 }
 
 .category-grid a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
   min-width: 0;
-  padding: 0.8rem 0.8rem 0.8rem 0;
-  border-bottom: 1px solid var(--line);
+  padding: 0.9rem 1.05rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--glass-bg);
+  box-shadow: var(--tile-shadow);
   color: inherit;
   text-decoration: none;
+  transition: transform 400ms var(--ease), border-color 300ms ease, box-shadow 400ms ease;
 }
 
-.category-grid a:nth-child(3n + 2),
-.category-grid a:nth-child(3n + 3) {
-  padding-left: 0.8rem;
-  border-left: 1px solid var(--line);
+.category-grid a:hover {
+  transform: translateY(-2px);
+  border-color: var(--line-strong);
+  box-shadow: var(--tile-shadow-hover);
 }
 
 .category-grid span,
@@ -2114,7 +2309,6 @@ kbd {
 }
 
 .category-grid strong {
-  margin-top: 0.12rem;
   font-family: var(--mono);
   font-size: 1rem;
 }
@@ -2126,14 +2320,23 @@ kbd {
 .category-pagination {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
   margin-top: 1.4rem;
 }
 
 .category-pagination a {
   display: flex;
   flex-direction: column;
-  padding: 0.8rem 0;
+  padding: 0.8rem 1.05rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
   text-decoration: none;
+  transition: border-color 300ms ease, background-color 300ms ease;
+}
+
+.category-pagination a:hover {
+  border-color: var(--line-strong);
+  background: var(--surface-2);
 }
 
 .category-pagination a:last-child {
@@ -2159,9 +2362,13 @@ kbd {
   display: grid;
   grid-template-columns: 10rem minmax(0, 1fr);
   gap: 1.5rem;
-  margin: 0 0 2rem;
-  padding: 1.1rem 0;
-  border-block: 1px solid var(--line);
+  margin: 0 0 1.6rem;
+  padding: 1.2rem 1.4rem;
+}
+
+/* Lets the nowrap command truncate instead of widening the tile at any breakpoint. */
+.builtin-note > div {
+  min-width: 0;
 }
 
 .builtin-note h2 {
@@ -2524,18 +2731,23 @@ footer p a {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .category-grid a:nth-child(3n + 2),
-  .category-grid a:nth-child(3n + 3),
   .first-champions div:nth-child(3n + 2),
   .first-champions div:nth-child(3n + 3) {
     padding-left: 0;
     border-left: 0;
   }
 
-  .category-grid a:nth-child(even),
   .first-champions div:nth-child(even) {
     padding-left: 0.8rem;
     border-left: 1px solid var(--line);
+  }
+
+  .podium {
+    grid-template-columns: 1fr;
+  }
+
+  .scoreboard {
+    padding: 1.3rem 1rem;
   }
 }
 
@@ -2695,14 +2907,15 @@ footer p a {
     grid-template-columns: 1fr;
   }
 
-  .category-grid a:nth-child(even),
-  .category-grid a:nth-child(3n + 2),
-  .category-grid a:nth-child(3n + 3),
   .first-champions div:nth-child(even),
   .first-champions div:nth-child(3n + 2),
   .first-champions div:nth-child(3n + 3) {
     padding-left: 0;
     border-left: 0;
+  }
+
+  .type-intro-copy .share-links {
+    gap: 0.5rem;
   }
 
   footer {
@@ -2790,13 +3003,17 @@ footer p a {
   gap: 0.7rem 1rem;
 }
 
-.share-links button {
+.share-links button.text-link {
   border: 0;
   padding: 0;
   background: none;
   color: var(--accent-text);
   text-decoration: underline;
   cursor: pointer;
+}
+
+.share-links .pill {
+  font-size: 0.78rem;
 }
 
 .entry-note {
@@ -2944,9 +3161,12 @@ footer p a {
 
 .task-fit-note {
   margin-block: 1rem;
-  padding: 0.9rem 1rem;
+  padding: 0.75rem 0.95rem;
+  border: 1px solid var(--line);
   border-left: 3px solid var(--accent);
-  background: var(--well);
+  border-radius: var(--r-inner);
+  background: var(--surface-2);
+  font-size: 0.92rem;
 }
 .task-fit-note p {
   margin: 0 0 0.6rem;
@@ -3014,10 +3234,24 @@ footer p a {
   list-style: none;
 }
 .task-alternatives li {
-  padding: 1.1rem;
+  padding: 1.1rem 1.2rem;
   border: 1px solid var(--line);
-  background: var(--surface);
+  border-radius: var(--r-tile);
+  background: var(--glass-bg);
+  box-shadow: var(--tile-shadow);
   overflow-wrap: anywhere;
+}
+
+.task-alternatives h2 {
+  margin: 0 0 1rem;
+  font-family: var(--mono);
+  font-size: 1.5rem;
+  text-transform: lowercase;
+}
+
+.task-alternatives h3 {
+  font-family: var(--mono);
+  font-size: 1.15rem;
 }
 .task-alternatives h3 {
   margin-top: 0;
