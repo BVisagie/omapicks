@@ -367,3 +367,24 @@ test("reviewed evidence opens by keyboard and unavailable selections stay readab
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `reviewed evidence at ${width}px`).toBe(true);
   }
 });
+
+// Width sweep: every page type, both themes, from phones to desktop, with nothing requested from
+// outside the site and no script errors.
+for (const theme of ["dark", "light"]) {
+  test(`${theme} width sweep keeps every page type inside the viewport with no errors or outside requests`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme: theme });
+    const problems = [];
+    page.on("pageerror", (error) => problems.push(`pageerror ${error.message}`));
+    page.on("requestfailed", (request) => problems.push(`failed ${request.url()}`));
+    page.on("request", (request) => { if (!request.url().startsWith("http://127.0.0.1:4173/")) problems.push(`outside ${request.url()}`); });
+    page.on("response", (response) => { if (response.status() >= 400) problems.push(`${response.status()} ${response.url()}`); });
+    for (const width of [320, 390, 768, 1024, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      for (const route of ["/", "/picks/clipboard/", "/picks/network/", "/methodology/", "/changelog/", "/feed/"]) {
+        await page.goto(route);
+        expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${route} at ${width}px`).toBe(true);
+      }
+    }
+    expect(problems).toEqual([]);
+  });
+}
