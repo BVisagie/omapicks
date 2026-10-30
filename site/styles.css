@@ -522,8 +522,9 @@ kbd {
   content: "# ";
 }
 
+/* A positive top margin: the heading wraps on phones and its underlined link would meet the note. */
 .showdown-note {
-  margin: -0.4rem 0 0.9rem;
+  margin: 0.45rem 0 0.9rem;
   color: var(--muted);
   font-family: var(--mono);
   font-size: 0.78rem;
