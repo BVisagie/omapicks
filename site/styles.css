@@ -2150,6 +2150,104 @@ kbd {
   border-top: 1px solid var(--line);
 }
 
+.popularity-comparison {
+  margin-top: 2.2rem;
+  padding: clamp(1rem, 3vw, 1.6rem);
+}
+
+.popularity-comparison h2 {
+  margin: 0 0 0.5rem;
+  font-family: var(--mono);
+  font-size: clamp(1.05rem, 2.5vw, 1.4rem);
+  line-height: 1.4;
+}
+
+.popularity-context,
+.popularity-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.popularity-list {
+  display: grid;
+  gap: 1.2rem;
+  margin: 1.4rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.popularity-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.popularity-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-weight: 650;
+}
+
+.popularity-position {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.85em;
+}
+
+.popularity-value {
+  flex-shrink: 0;
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.popularity-value > span {
+  color: var(--muted);
+  font-size: 0.75em;
+}
+
+.popularity-track,
+.popularity-fill {
+  display: block;
+  height: 0.6rem;
+  border-radius: var(--r-pill);
+}
+
+.popularity-track {
+  background: var(--well);
+}
+
+.popularity-fill {
+  background: var(--violet);
+}
+
+.popularity-row:first-child .popularity-fill {
+  background: var(--accent);
+}
+
+.popularity-details {
+  margin-top: 1.2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
+}
+
+.popularity-details summary {
+  cursor: pointer;
+  font-weight: 650;
+}
+
+.popularity-details > p {
+  color: var(--muted);
+}
+
+.popularity-details .comparison-heading {
+  display: block;
+}
+
 .comparison-heading {
   display: grid;
   grid-template-columns: minmax(12rem, 0.65fr) minmax(18rem, 1fr);

@@ -66,9 +66,11 @@ test("comparison tables expose headers and related navigation is bounded", async
   const contested = (await rankedTypes(request)).find((type) => type.winner && type.runnerUp);
   test.skip(!contested, "No task currently has two qualified reviewed options.");
   await page.goto(`/picks/${contested.id}/`);
+  const why = page.locator(".popularity-details > summary");
+  if (await why.count()) await why.click();
   const table = page.getByRole("table", { name: "Marketplace signals by plugin" });
   await expect(table.getByRole("columnheader")).toHaveCount(3);
-  await expect(table.getByRole("rowheader", { name: "Copies", exact: true })).toBeVisible();
+  await expect(table.getByRole("rowheader", { name: /^(Install-command copies|Copies)$/ })).toBeVisible();
   // Snapshots from methodology 1.1.0 add a copies-per-view row; every row has one cell per pick.
   const rows = await table.getByRole("rowheader").count();
   expect(rows).toBeGreaterThanOrEqual(5);

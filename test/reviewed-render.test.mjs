@@ -194,36 +194,79 @@ test("retained modern history describes qualification holds at their publication
   assert.match(html, /Rain<\/strong> replaced Other/);
 });
 
-test("score dials and the scoreboard follow the reviewed-presentation rule", () => {
+test("reviewed popularity is compact, ranked and secondary to capabilities", () => {
   const modern = snapshot();
-  const html = renderFixtureType(modern.types[0], modern);
-  assert.match(html, /<article class="glass tilt pick-card champion">/);
-  assert.match(html, /<article class="glass tilt pick-card ">/);
-  assert.match(html, /<span class="dial" style="--v: 0\.8" role="img" aria-label="Combined popularity score 0\.800">/);
-  assert.match(html, /aria-label="Combined popularity score 0\.700"/);
-  assert.match(html, /<p class="kicker">combined popularity score<\/p>/);
-  assert.match(html, /class="score-num win" data-count="0\.800" data-decimals="3">0\.800</);
-  assert.match(html, /<span class="score-count">3 qualified options<\/span>/);
-  assert.match(html, /Orders this reviewed shortlist; not a quality grade/);
-  assert.doesNotMatch(html, /score-apart|class="meter"/, "reviewed pages never show the lead or the share bar");
-  // The scoreboard sits between the two cards inside the podium.
+  const type = modern.types[0];
+  type.winner.name = 'OmaStats <script>bad()</script>';
+  type.winner.score = 0.941225;
+  type.runnerUp.score = 0.779123;
+  const before = structuredClone(modern);
+  const html = renderFixtureType(type, modern);
+  assert.deepEqual(modern, before, "presentation must not mutate stored scores or ordering");
+  assert.match(html, /Popularity index · 0–100/);
+  assert.match(html, /Popularity among reviewed Weather options/);
+  assert.match(html, /Top 2 of 3 qualified options · 2026-W44/);
+  assert.match(html, /#1<\/span> OmaStats &lt;script&gt;bad\(\)&lt;\/script&gt;/);
+  assert.match(html, /class="popularity-value">94 <span>\/ 100/);
+  assert.match(html, /class="popularity-value">78 <span>\/ 100/);
+  assert.match(html, /aria-hidden="true"><span class="popularity-fill" style="width:94\.1225%"/);
+  assert.match(html, /Relative popularity for this category and week; not a quality rating or success percentage/);
+  assert.match(html, /<details class="popularity-details">\s*<summary>Why this order\?<\/summary>/);
+  assert.match(html, /<code>0\.941225<\/code>/);
+  assert.match(html, /<code>0\.779123<\/code>/);
+  assert.match(html, /Install-command copies<\/th>/);
+  assert.doesNotMatch(html, /class="dial"|scoreboard|score-num|score-apart|class="meter"|<script>bad/);
   const champion = html.indexOf('pick-card champion">');
-  const board = html.indexOf('<div class="glass scoreboard">');
   const other = html.indexOf('pick-card ">');
-  assert.ok(champion > -1 && champion < board && board < other);
-  assert.ok(html.indexOf('class="podium" data-animate>') < champion);
-  assert.match(html, /<span class="share-links">\s*<a href="https:\/\/x\.com[^"]*" class="pill"/);
+  const comparison = html.indexOf('class="glass popularity-comparison"');
+  assert.ok(champion > -1 && champion < other && other < comparison);
+  assert.ok(html.indexOf("More choices for this task") < comparison);
+  assert.ok(html.indexOf('class="popularity-details"') < html.indexOf('class="comparison-table"'));
+});
 
+test("rounded ties retain stored precision and single or empty shortlists stay honest", () => {
+  const rankings = snapshot();
+  const type = rankings.types[0];
+  type.winner.score = 0.800001;
+  type.runnerUp.score = 0.8;
+  const html = renderFixtureType(type, rankings);
+  assert.equal([...html.matchAll(/class="popularity-value">80 /g)].length, 2);
+  assert.match(html, /<code>0\.800001<\/code>/);
+  assert.match(html, /Equal displayed numbers can hide small score differences/);
+  assert.match(html, /exact ties are broken by install-command copies, hearts, GitHub stars, then plugin ID/);
+  type.winner.score = 0;
+  type.runnerUp = null;
+  type.eligibleCount = 1;
+  const single = renderFixtureType(type, rankings);
+  assert.match(single, /1 qualified option · 2026-W44/);
+  assert.match(single, /class="popularity-value">0 <span>\/ 100/);
+  assert.doesNotMatch(single, /Top 2|#2<\/span>|score-vs|score-apart|class="dial"/);
+  type.winner = null;
+  type.eligibleCount = 0;
+  assert.doesNotMatch(renderFixtureType(type, rankings), /class="glass popularity-comparison"/);
+});
+
+test("popularity index rounds decimal half-points up without rounding the bars or stored scores", () => {
+  const rankings = snapshot();
+  const type = rankings.types[0];
+  type.runnerUp = null;
+  type.eligibleCount = 1;
+  for (const [score, expected] of [[0.145, 15], [0.285, 29], [0.565, 57], [0.575, 58], [0.144999, 14], [0.145001, 15], [1, 100]]) {
+    type.winner.score = score;
+    const html = renderFixtureType(type, rankings);
+    assert.ok(html.includes(`class="popularity-value">${expected} <span>/ 100`), `score ${score}`);
+    assert.ok(html.includes(`class="popularity-fill" style="width:${score * 100}%"`));
+    assert.ok(html.includes(`<code>${score}</code>`));
+    assert.equal(type.winner.score, score);
+  }
+});
+
+test("historical snapshots keep their original score presentation", () => {
   const legacy = { ...snapshot(), methodologyVersion: "1.2.0", week: "2026-W43" };
   const old = renderFixtureType(legacy.types[0], legacy);
+  assert.match(old, /aria-label="Combined popularity score 0\.800"/);
   assert.match(old, /<span class="score-apart"><b>14\.3%<\/b> apart<\/span>/);
   assert.match(old, /aria-label="Forecast forecast holds 53\.3% of the combined score"/);
   assert.match(old, /<span class="score-count">3 plugins competed<\/span>/);
-  assert.doesNotMatch(old, /score-note/);
-
-  const solo = { ...snapshot(), types: [{ ...snapshot().types[0], runnerUp: null, eligibleCount: 1 }] };
-  const single = renderFixtureType(solo.types[0], solo);
-  assert.match(single, /<div class="glass scoreboard">/);
-  assert.doesNotMatch(single, /score-vs|class="meter"|score-apart/);
-  assert.match(single, /<span class="score-count">1 qualified option<\/span>/);
+  assert.doesNotMatch(old, /popularity-comparison|popularity-details|score-note/);
 });
