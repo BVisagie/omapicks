@@ -97,7 +97,7 @@ export function prepareTaxonomy(taxonomy) {
     assert(!ids.has(type.id), `Duplicate taxonomy id: ${type.id}`);
     ids.add(type.id);
     assert(typeof type.name === "string" && type.name.length > 0, `${label}.name is required`);
-    assert(type.exclusionScope == null || ["field", "clause"].includes(type.exclusionScope), `${label}.exclusionScope is invalid`);
+    assert(type.exclusionScope == null || ["field", "clause", "sentence"].includes(type.exclusionScope), `${label}.exclusionScope is invalid`);
     // Omarchy built-ins shown beside a category's picks. Display only: never classified or ranked.
     assert(type.builtIns == null || (Array.isArray(type.builtIns) &&
       type.builtIns.every((id) => typeof id === "string" && id.length > 0)), `${label}.builtIns must be an array of plugin IDs`);
@@ -140,7 +140,7 @@ export function prepareTaxonomy(taxonomy) {
   return { types, discoveryExclusions, discoveryInclusions, overrides: { include: overrides.include ?? {}, exclude: overrides.exclude ?? {}, review: overrides.review ?? {}, reasons: overrides.reasons ?? {} } };
 }
 
-function matchedEvidence(patterns, fields, rule, version = CLASSIFICATION_VERSION) {
+function matchedEvidence(patterns, fields, rule, version = CLASSIFICATION_VERSION, contextScope = "clause") {
   const evidence = [];
   for (const [field, value] of Object.entries(fields)) {
     if (typeof value !== "string") continue;
@@ -151,10 +151,12 @@ function matchedEvidence(patterns, fields, rule, version = CLASSIFICATION_VERSIO
       for (const match of matches) {
         const start = match.index;
         const before = value.slice(0, start);
-        const clauseStart = Math.max(before.lastIndexOf(","), before.lastIndexOf(";"), before.lastIndexOf("."), before.lastIndexOf("\n")) + 1;
+        // Sentence scope keeps comma-separated telemetry attached to an ambiguous
+        // clock mention. Other tasks retain their narrower clause context.
+        const contextStart = Math.max(...(contextScope === "sentence" ? [".", "\n"] : [",", ";", ".", "\n"]).map((separator) => before.lastIndexOf(separator))) + 1;
         const after = value.slice(start + match[0].length);
-        const end = after.search(/[,;.\n]/);
-        const context = value.slice(clauseStart, end < 0 ? value.length : start + match[0].length + end);
+        const end = after.search(contextScope === "sentence" ? /[.\n]/ : /[,;.\n]/);
+        const context = value.slice(contextStart, end < 0 ? value.length : start + match[0].length + end);
         const negated = rule !== "exclude" && /\b(?:no|not|without|never|does(?:n['’]t| not)|do(?:n['’]t| not))\s+(?:any\s+)?$/iu.test(before.slice(-50));
         const preview = captions.some((caption) => start >= caption.index && start + match[0].length <= caption.index + caption[0].length);
         evidence.push({ rule, pattern: pattern.source, field, match: match[0], ...(version >= 3 ? { context: context.trim(), ignored: negated ? "negated-capability" : preview ? "preview-reference" : null } : {}) });
@@ -199,12 +201,12 @@ export function explainClassification(plugin, preparedTaxonomy, version = CLASSI
     const inclusion = preparedTaxonomy.discoveryInclusions.get(`${plugin.id}/${type.id}`);
     const discoveryInclusion = inclusion?.listingSha256 === listingHash ? inclusion : null;
     const evidence = [
-      ...matchedEvidence(type.includePatterns, fields, "include", version),
-      ...matchedEvidence(type.namePatterns, { name: plugin.name }, "nameInclude", version)
+      ...matchedEvidence(type.includePatterns, fields, "include", version, type.exclusionScope),
+      ...matchedEvidence(type.namePatterns, { name: plugin.name }, "nameInclude", version, type.exclusionScope)
     ];
     const positive = evidence.filter((match) => !match.ignored);
-    const exclusions = matchedEvidence(type.excludePatterns, fields, "exclude", version);
-    const allowed = version >= 3 && type.exclusionScope === "clause"
+    const exclusions = matchedEvidence(type.excludePatterns, fields, "exclude", version, type.exclusionScope);
+    const allowed = version >= 3 && ["clause", "sentence"].includes(type.exclusionScope)
       ? positive.filter((match) => !type.excludePatterns.some((pattern) => pattern.test(match.context))) : exclusions.length ? [] : positive;
     const taskFit = taskReviews ? explainTaskFit(plugin, type, taskReviews) : null;
     const decision = review.has(type.id) ? "review" : blocked.has(type.id) ? "override-exclude"

@@ -685,7 +685,7 @@
       "name": "Desktop Clocks",
       "description": "Display a persistent clock in the bar or on the desktop",
       "include": [
-        "\\b(?:(?:desktop|wallpaper|analog|analogue|digital|binary|swiss|bar|calendar|local|pixel|world|multi-timezone|pinned seven-segment)[ -]clocks?|clock widgets?|desktop time|clock overlay|date/time (?:label|pill)|date and time)\\b",
+        "\\b(?:(?:desktop|wallpaper|analog|analogue|digital|binary|swiss|bar|panel|waybar|calendar|local|pixel|fuzzy|word|world|multi-timezone|pinned seven-segment)[ -]clocks?|clock widgets?|desktop time|clock overlay|date/time (?:label|pill)|date and time)\\b",
         "\\b(?:(?:omarchy|stock|community)(?:.s)? (?:bar )?clock|clock/calendar)\\b",
         "\\b(?:desktop widgets?|wallpapers?|home screen)\\b[^.]{0,120}\\bclocks?\\b",
         "\\b(?:overlay|panel|pill|dashboard|shade|nightstand)\\b[^.]{0,70}\\bclock\\b",
@@ -694,11 +694,12 @@
         "\\binternet time[^;]{0,25}\\bwidget\\b",
         "\\bworld clocks?\\b[^.]{0,70}\\b(?:visible|bar (?:pill|label|widget))\\b",
         "\\bclock (?:with|and) (?:the )?(?:date|calendar|alarms?|weather|time zones?)\\b",
-        "\\bclock (?:on|for|in) (?:the |your )?(?:desktop|wallpaper|bar)\\b",
-        "\\bclock with (?:a |the )?world (?:map|globe)\\b"
+        "\\bclocks?(?: widgets?)? (?:on|for|in) (?:the |your |an? )?(?:[a-z][a-z0-9_-]*[- ]){0,3}(?:desktop|wallpaper|bar|panel|waybar)\\b",
+        "\\bclock with (?:a |the )?world (?:map|globe)\\b",
+        "\\bclocks?\\b[^.;]{0,50}\\b(?:showing|displaying) (?:the )?(?:local time|current time|time of day)\\b"
       ],
       "task": "Display a persistent clock in the bar or on the desktop. A persistent current-time display in a bar, desktop widget or wallpaper is the shared task; presentation and location are stated per app. A popup-only agenda, lock/saver-only clock, hardware oscillator frequency, fictional stardate or countdown alone does not qualify. A clock for one chosen zone does not establish multi-zone comparison.",
-      "exclusionScope": "clause",
+      "exclusionScope": "sentence",
       "contract": {
         "version": 2,
         "outcome": "Display a persistent clock in the bar or on the desktop",
@@ -712,9 +713,9 @@
         "\\bclocks?\\b"
       ],
       "exclude": [
-        "\\b(?:debt clock|stardate|theme clock|game clock|clock speed|clock frequency|audio clock|CPU clock|GPU clock|clock-side|beside the clock|next to the clock)\\b",
-        "\\b(?:CPU|GPU|processor|oscillator|SM) clocks?\\b|\\bclocks? (?:speeds?|frequenc(?:y|ies)|cycles?)\\b",
-        "\\block[- ]screen reskinned\\b"
+        "\\b(?:debt clock|stardate|theme clock|game clock|clock-side|beside the clock|next to the clock)\\b",
+        "^(?![\\s\\S]*(?:\\b(?:desktop|wallpaper|bar|panel|waybar|analog|analogue|digital|binary|swiss|calendar|local|pixel|fuzzy|word)[- ]clocks?\\b|\\b(?:date/time|date and time|time of day|local time|current time)\\b|\\bclocks? (?:with|and) (?:the )?(?:date|calendar|weather|time zones?)\\b))[\\s\\S]*\\b(?:CPU|GPU|processors?|oscillators?|overclock(?:ing)?|underclock(?:ing)?|MHz|GHz|(?:core|memory|boost|shader|SM|audio|bus|base|engine)[- ]clocks?|clock (?:offsets?|speeds?|frequenc(?:y|ies)|cycles?))\\b",
+        "^(?![\\s\\S]*(?:\\b(?:desktop|wallpaper|bar|panel|waybar)[- ]clocks?\\b|\\bclocks?(?: widgets?)? (?:on|for|in) (?:the |your |an? )?(?:[a-z][a-z0-9_-]*[- ]){0,3}(?:desktop|wallpaper|bar|panel|waybar)\\b|\\bdesktop widgets?\\b[^.]{0,120}\\bclocks?\\b))[\\s\\S]*\\b(?:lock[- ]?screens?|hyprlock|screen[- ]?savers?)\\b"
       ]
     },
     {
@@ -1094,7 +1095,7 @@
         "\\b(?:coding[- ]agents?|AI[- ]coding(?:[- ]agents?)?|claude(?: code)?|codex|opencode|hermes|grok|mistral vibe|github copilot|antigravity|herdr|agentsview|omaisessions)\\b[^.]{0,180}\\b(?:resume|resumable) (?:any |a |the |selected )?(?:sessions?|conversations?)\\b",
         "\\b(?:past|previous|recent|saved|archived|resumable) (?:coding[- ]|agent[- ])?sessions?\\b[^.]{0,100}\\b(?:coding[- ]agents?|AI[- ]coding(?:[- ]agents?)?|claude(?: code)?|codex|opencode|hermes|grok|mistral vibe|github copilot|antigravity|herdr|agentsview|omaisessions)\\b",
         "\\b(?:claude|codex|coding[- ]agent)\\b[^.]{0,50}\\bsessions that aren.t running\\b",
-        "\\bbrowser for\\b[^.]{0,50}\\b(?:AI coding|coding[- ]agents?|claude|codex|opencode)\\b",
+        "\\bbrowser for\\b[^.;]{0,50}\\b(?:AI coding|coding[- ]agents?|claude(?: code)?|codex|opencode)\\b[^.;]{0,40}\\b(?:sessions?|conversations?)\\b",
         "\\b(?:herdr|claude(?: code)?|codex|opencode|hermes) (?:agent |session )?resume\\b"
       ],
       "task": "Browse saved coding-agent conversations and resume a selected session. Both saved-conversation discovery and targeted resumption are required. Live process monitoring or opening a generic new chat does not complete the task.",

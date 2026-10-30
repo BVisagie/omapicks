@@ -197,6 +197,56 @@ test("hardware and lock-only clocks are rejected by rules while civil-time displ
   }
 });
 
+test("clock context handles location qualifiers, telemetry modifiers and lock-only presentation", () => {
+  const raw = prepareTaxonomy({ ...taxonomy, overrides: {} });
+  const unexcluded = prepareTaxonomy({ ...taxonomy, overrides: {}, types: taxonomy.types.map((t) => t.id === "desktop-clocks" ? { ...t, exclude: [] } : t) });
+  const plugin = (description) => ({ id: "fresh.clock-context", name: "Utility", description });
+  for (const location of ["the Omarchy bar", "your Omarchy bar", "the top bar", "the bottom panel", "Waybar", "the Omarchy desktop", "the desktop"]) {
+    for (const noun of ["A clock", "Clocks"]) {
+      assert.ok(classifyPlugin(plugin(`${noun} in ${location} with seconds.`), raw).includes("desktop-clocks"), `${noun} / ${location}`);
+    }
+  }
+  const rejected = [
+    "GPU core clock and memory clock in the bar.",
+    "GPU dashboard: core clock, memory clock, temperature and fan speed.",
+    "Panel showing GPU utilization and the current clock.",
+    "Overclocking panel for your GPU with clock offsets.",
+    "Dashboard for CPU frequency; clock in MHz.",
+    "CPU load, per-core activity, temperature and clock in the bar.",
+    "CPU load, per-core activity, temperature and clock in the Omarchy bar.",
+    "Lock screen with a large digital clock and date.",
+    "Lockscreen themed with a digital clock.",
+    "A screensaver with an analog clock.",
+    ...["core", "memory", "boost", "shader"].map((modifier) => `GPU ${modifier} clock in your top bar.`)
+  ];
+  for (const description of rejected) {
+    assert.ok(classifyPlugin(plugin(description), unexcluded).includes("desktop-clocks"), `must exercise the context exclusion: ${description}`);
+    assert.ok(!classifyPlugin(plugin(description), raw).includes("desktop-clocks"), description);
+  }
+  for (const description of [
+    "Replace the clock in Waybar with a fuzzy clock.",
+    "Clock on the Omarchy desktop.", "Clocks on the desktop.",
+    "CPU temperature, GPU core clock and a desktop clock showing local time.",
+    "CPU monitoring with a digital clock and date.",
+    "CPU monitoring plus a bar clock with seconds.",
+    "GPU telemetry plus a Waybar clock showing local time.",
+    "GPU telemetry. A clock in the Omarchy bar shows the time.",
+    "Lock-screen designs and a desktop clock widget.",
+    "An analog clock in the Omarchy bar, plus a lock-screen theme.",
+    "Lockscreen with a digital clock. Desktop clocks with weather."
+  ]) assert.ok(classifyPlugin(plugin(description), raw).includes("desktop-clocks"), description);
+});
+
+test("coding-tool browsers need session or conversation scope before entering history", () => {
+  const raw = prepareTaxonomy({ ...taxonomy, overrides: {} });
+  for (const description of ["Skill browser for Claude Code", "Prompt library browser for Claude", "MCP server browser for Codex and OpenCode"]) {
+    assert.ok(!classifyPlugin({ id: "fresh.browser", name: "Utility", description }, raw).includes("agent-history"), description);
+  }
+  for (const description of ["A browser for every AI coding session", "A browser for Claude Code conversations", "Browser for Codex sessions with resume controls"]) {
+    assert.ok(classifyPlugin({ id: "fresh.browser", name: "Utility", description }, raw).includes("agent-history"), description);
+  }
+});
+
 test("rules-only diagnostics expose curation and expired decisions are visible", () => {
   assert.ok(report.rulesOnly.unexpectedRoutes > 0, "curated correctness is not presented as rule precision");
   const first = taxonomy.overrides.discoveryExclude[0];

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "classificationVersion": 3,
   "generatedAt": "2026-10-30T11:21:19.177Z",
-  "taxonomyHash": "562b47d69eb45bf38a3454ee36b8048e5d99e200db9434c7d039d7185802e5e7",
+  "taxonomyHash": "b267d3fec347e156cc232900c4f38f9fcef4da496d5712d9707ccb459de711d0",
   "plugins": [
     {
       "id": "07dcolem.appimages",

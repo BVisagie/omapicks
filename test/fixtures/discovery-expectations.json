@@ -9667,7 +9667,7 @@
       "pluginId": "pdaether.ploi",
       "typeId": "uptime-monitoring",
       "expectedTargets": [],
-      "reason": "A hosting dashboard with server-health sparklines, sites and certificates does not identify endpoint probes or configured service health checks; the existing editorial exclusion retains that distinction.",
+      "reason": "A hosting dashboard with server-health sparklines, sites and certificates does not identify endpoint probes or configured service health checks.",
       "evidence": [
         {
           "field": "description",
