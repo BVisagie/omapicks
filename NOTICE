@@ -22,6 +22,10 @@ The bundled Liberation Mono font in build/fonts/ is licensed under the
 SIL Open Font License 1.1; see build/fonts/LICENSE.txt. It is used only
 to render social images during the build.
 
+The crawler user-agent patterns in functions/vendor/isbot-patterns.mjs are
+copied from isbot 5.2.2 (https://github.com/omrilotan/isbot), released into
+the public domain under The Unlicense; see functions/vendor/isbot-LICENSE.
+
 Plugin metadata, engagement statistics, and preview locations come from
 Omarchy Plugins:
 
