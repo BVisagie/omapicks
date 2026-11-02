@@ -82,8 +82,8 @@ jobs:
       - name: Summarize
         if: ${{ !cancelled() && hashFiles('tmp/site-report-encrypted/site-report.tar.age') != '' }}
         run: |
-          {
-            echo '### Encrypted report ready'
-            echo
-            echo 'Open it on your machine with `npm run report:open`.'
-          } >> "$GITHUB_STEP_SUMMARY"
+          cat >> "$GITHUB_STEP_SUMMARY" <<'SUMMARY'
+          ### Encrypted report ready
+
+          Open it on your machine with `npm run report:open`.
+          SUMMARY
