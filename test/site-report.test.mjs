@@ -65,6 +65,10 @@ test("traffic queries are fixed, validated, and never return visitor identifiers
   const span = { start: "2026-09-07", end: "2026-11-01" };
   const sql = trafficQueries({ span, current: { start: "2026-10-05", end: "2026-11-01" } });
   assert.match(sql.crawlerLike, /^SELECT day, count\(\) AS visitor_days, sum\(views\) AS views\n/);
+  // A sampled row carries a weight such as 32; only observed events may trip the thresholds.
+  assert.match(sql.crawlerLike, /count\(\) AS minute_events/);
+  assert.match(sql.crawlerLike, /HAVING events >= 30 OR peak_pages >= 10/);
+  assert.doesNotMatch(sql.crawlerLike, /HAVING views/);
   // Distinct counts of identifiers are fine; returning an identifier column is not.
   for (const query of Object.values(sql)) assert.doesNotMatch(query.split("\n")[0].replaceAll("count(DISTINCT blob2)", ""), /blob2|AS visitor\b/);
   assert.throws(() => trafficQueries({ span: { start: "2026-09-07' OR '1'='1", end: span.end }, current: span }), ReportSectionError);
@@ -115,6 +119,14 @@ test("summaries rebuild every field instead of passing API rows through", () => 
     crawlerRows: rows.crawlerRows
   });
   assert.ok(!JSON.stringify(traffic).includes("secret-field"));
+});
+
+test("the filter go-live marker appears only while the window still holds pre-filter rows", () => {
+  const rows = cloudflareRows(7, pages);
+  const span = { start: rows.periods.previous.start, end: rows.periods.current.end };
+  const summary = (dailyRows) => summarizeTraffic({ periods: rows.periods, span, pages, dailyRows, pageRows: [], crawlerRows: [] });
+  assert.equal(summary(rows.daily.map((row) => ({ ...row, class: row.class || "human" }))).filterLiveSince, null);
+  assert.equal(summary(rows.daily).filterLiveSince, rows.daily.find((row) => row.class !== "").day);
 });
 
 test("Google access uses GitHub's identity, a read-only scope and a ten-minute token", async () => {

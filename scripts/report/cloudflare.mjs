@@ -41,19 +41,21 @@ ORDER BY day`,
 FROM ${dataset}
 WHERE ${recent}
 GROUP BY path, class`,
-    // Visitor identifiers stay inside Cloudflare: only per-day counts come back.
+    // Visitor identifiers stay inside Cloudflare: only per-day counts come back. Thresholds
+    // count observed events, because a sampling weight is not evidence of a busy visitor;
+    // the weighted views are what the totals subtract.
     crawlerLike: `SELECT day, count() AS visitor_days, sum(views) AS views
 FROM (
-  SELECT day, visitor, sum(minute_views) AS views, max(minute_pages) AS peak_pages
+  SELECT day, visitor, sum(minute_views) AS views, sum(minute_events) AS events, max(minute_pages) AS peak_pages
   FROM (
     SELECT index1 AS day, blob2 AS visitor, toStartOfInterval(timestamp, INTERVAL '1' MINUTE) AS minute,
-      sum(_sample_interval * double1) AS minute_views, count(DISTINCT blob1) AS minute_pages
+      sum(_sample_interval * double1) AS minute_views, count() AS minute_events, count(DISTINCT blob1) AS minute_pages
     FROM ${dataset}
     WHERE ${all} AND ${PEOPLE}
     GROUP BY day, visitor, minute
   )
   GROUP BY day, visitor
-  HAVING views >= ${CRAWLER_DAILY_VIEWS} OR peak_pages >= ${CRAWLER_PAGES_PER_MINUTE}
+  HAVING events >= ${CRAWLER_DAILY_VIEWS} OR peak_pages >= ${CRAWLER_PAGES_PER_MINUTE}
 )
 GROUP BY day
 ORDER BY day`
@@ -98,7 +100,8 @@ export function summarizeTraffic({ periods, span, pages, dailyRows, pageRows, cr
       { day, people: 0, legacy: 0, visitors: 0, filtered: Object.fromEntries(FILTER_REASONS.map((reason) => [reason, 0])), crawlerLikeViews: 0, crawlerLikeVisitorDays: 0 }
     ])
   );
-  let filterLiveSince = null;
+  let firstClassified = null;
+  let hasLegacy = false;
   for (const row of dailyRows) {
     const entry = byDay.get(row.day);
     if (!entry) continue;
@@ -110,7 +113,8 @@ export function summarizeTraffic({ periods, span, pages, dailyRows, pageRows, cr
     } else if (FILTER_REASONS.includes(row.class)) {
       entry.filtered[row.class] += views;
     }
-    if (row.class !== "" && (filterLiveSince === null || row.day < filterLiveSince)) filterLiveSince = row.day;
+    if (row.class === "") hasLegacy = true;
+    else if (firstClassified === null || row.day < firstClassified) firstClassified = row.day;
   }
   for (const row of crawlerRows) {
     const entry = byDay.get(row.day);
@@ -189,7 +193,8 @@ export function summarizeTraffic({ periods, span, pages, dailyRows, pageRows, cr
     weekdays: weekdays.map((entry, index) => ({ weekday: index, averageViews: entry.days ? entry.views / entry.days : 0 })),
     pages: pageList,
     zeroViewCategories,
-    filterLiveSince,
+    // Only a window that still holds pre-filter rows shows when the new filter went live.
+    filterLiveSince: hasLegacy ? firstClassified : null,
     thresholds: { dailyViews: CRAWLER_DAILY_VIEWS, pagesPerMinute: CRAWLER_PAGES_PER_MINUTE }
   };
 }
