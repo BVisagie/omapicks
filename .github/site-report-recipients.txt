@@ -1,0 +1,3 @@
+# Public age key that encrypts the private site report (created 2026-11-02).
+# Its private half is a passphrase-protected file kept outside this repository.
+age1hc7tzjknx2kh899vzu3a6ke5eeaffv0pffnw7ad49zr4s0e4yp8qff8nmd
