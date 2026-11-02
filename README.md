@@ -16,8 +16,9 @@ npm test              # unit and rendering tests
 npm run build         # offline render into dist/
 npm run refresh       # fetch public feeds and source trees; write a weekly snapshot
 npm run availability  # update current availability without changing weekly scores
+npm run report:open   # download, decrypt and open the latest private site report
 npm run review:evidence # capture shared research inputs and stage candidate pages
-npm run lint:workflows # lint the four GitHub Actions workflows
+npm run lint:workflows # lint the five GitHub Actions workflows
 npm run refresh -- --republish # deliberately recalculate this week's existing snapshot
 npm run audit:classification # capture feeds and explain every classification
 npm run compare:task-fit -- --input /path/to/baseline-inputs.json # offline eligibility/selection comparison
@@ -86,7 +87,7 @@ Social images are regenerated from each category and its current picks during `n
 
 Browser tests launch their own local server. To use a system Chromium locally, set `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` to its executable path; CI installs Playwright’s pinned Chromium.
 
-Four workflows divide responsibility: **CI** validates pull requests and main pushes; **Publish recommendations** publishes on Mondays; **Update availability** refreshes current install availability daily; **Review evidence** captures one shared research run on Tuesdays and Thursdays. Research stages candidate pages and tests those pages, with no published-data changes. Generation and validation have read-only permissions; a small separate publisher accepts only validated, hashed, allowlisted data tied to the checked base commit. See [automation and rollout](docs/automation.md).
+Five workflows divide responsibility: **CI** validates pull requests and main pushes; **Publish recommendations** publishes on Mondays; **Update availability** refreshes current install availability daily; **Review evidence** captures one shared research run on Tuesdays and Thursdays; **Site report**, run by hand, builds a private traffic, search and site report and uploads it encrypted. Research stages candidate pages and tests those pages, with no published-data changes. Generation and validation have read-only permissions; a small separate publisher accepts only validated, hashed, allowlisted data tied to the checked base commit. See [automation and rollout](docs/automation.md).
 
 The availability overlay is bound to a specific weekly snapshot. A failed, unreachable, retired or unavailable listing loses its current install action; no other option silently inherits its place. Historical badges and scores remain dated evidence. The page states the availability observation date, and an old weekly snapshot still carries its age notice. Feed outages preserve the last successful data and fail visibly.
 
