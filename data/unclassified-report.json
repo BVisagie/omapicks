@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-30T11:21:19.177Z",
-  "catalogCount": 6153,
-  "eligibleClassifiedCount": 2337,
-  "classificationAssignments": 2948,
-  "qualifiedAssignments": 170,
-  "pendingAssignments": 2748,
-  "uniqueUnclassifiedCount": 2487,
+  "generatedAt": "2026-11-02T16:08:58.778Z",
+  "catalogCount": 6233,
+  "eligibleClassifiedCount": 2372,
+  "classificationAssignments": 3004,
+  "qualifiedAssignments": 151,
+  "pendingAssignments": 2823,
+  "uniqueUnclassifiedCount": 2523,
   "excluded": {
-    "not-installable": 1218,
-    "compatibility-failed": 19,
-    "repository-unreachable": 53,
+    "not-installable": 1269,
+    "compatibility-failed": 18,
+    "repository-unreachable": 12,
     "built-in": 39
   },
   "excludedIncumbents": [],
@@ -1348,8 +1348,18 @@
       "category": "Widgets"
     },
     {
+      "id": "ucmz851.omascan",
+      "name": "OmaScan",
+      "category": "System"
+    },
+    {
       "id": "io.github.vltic.guard",
       "name": "Extension Guard",
+      "category": "System"
+    },
+    {
+      "id": "ucmz851.omasecurity",
+      "name": "OmaSecurity",
       "category": "System"
     },
     {
@@ -1566,11 +1576,6 @@
       "id": "io.github.diegopluna.cassandra",
       "name": "Cassandra",
       "category": "System"
-    },
-    {
-      "id": "esh.confetti",
-      "name": "Confetti",
-      "category": "Appearance"
     },
     {
       "id": "io.github.joshuaswarren.remnic",
@@ -4008,11 +4013,6 @@
       "category": "Productivity"
     },
     {
-      "id": "aaron.substack",
-      "name": "Substack Feed",
-      "category": "Widgets"
-    },
-    {
       "id": "io.github.brukb.omarchy-zerotier",
       "name": "ZeroTier",
       "category": "Widgets"
@@ -5388,11 +5388,6 @@
       "category": "Productivity"
     },
     {
-      "id": "kc.omarchy-menubar-manager",
-      "name": "Omarchy Menubar Manager",
-      "category": "Appearance"
-    },
-    {
       "id": "bauta.readbrick",
       "name": "Readbrick",
       "category": "Productivity"
@@ -6403,11 +6398,6 @@
       "category": "Widgets"
     },
     {
-      "id": "esh.omawispr",
-      "name": "OmaWispr",
-      "category": "Appearance"
-    },
-    {
       "id": "silvaio.emoji-access",
       "name": "Emoji Access",
       "category": "Desktop"
@@ -6673,6 +6663,11 @@
       "category": "Productivity"
     },
     {
+      "id": "omarchykids.math",
+      "name": "Kids Math",
+      "category": "Kids"
+    },
+    {
       "id": "osouthgate.minimize",
       "name": "Omarchy Minimize",
       "category": "System"
@@ -6895,6 +6890,11 @@
     {
       "id": "io.github.dreed47.makerworld",
       "name": "MakerWorld",
+      "category": "Productivity"
+    },
+    {
+      "id": "dhirajkhanna.hindsight",
+      "name": "Hindsight",
       "category": "Productivity"
     },
     {
@@ -8391,11 +8391,6 @@
       "id": "markschellhas.omasong",
       "name": "OMASONG",
       "category": "Widgets"
-    },
-    {
-      "id": "sclemance.ragtop",
-      "name": "Ragtop",
-      "category": "Hardware"
     },
     {
       "id": "io.github.adamritter.kitty-live-config",
@@ -10268,11 +10263,6 @@
       "category": "Appearance"
     },
     {
-      "id": "io.github.lukebest.omartwins",
-      "name": "Omartwins",
-      "category": "System"
-    },
-    {
       "id": "io.github.anat0lius.nanoleaf",
       "name": "Nanoleaf",
       "category": "Hardware"
@@ -10628,11 +10618,6 @@
       "category": "System"
     },
     {
-      "id": "esh.omicon",
-      "name": "Omicon",
-      "category": "System"
-    },
-    {
       "id": "io.github.indie.gazeaway",
       "name": "GazeAway",
       "category": "Productivity"
@@ -10976,6 +10961,11 @@
       "id": "jamesforan.whereabouts",
       "name": "Whereabouts",
       "category": "Productivity"
+    },
+    {
+      "id": "io.github.saurasanchezpablo.moonraker-plus",
+      "name": "Moonraker Printer Plus",
+      "category": "Widgets"
     },
     {
       "id": "yasserdo.laser",
@@ -12451,6 +12441,196 @@
       "id": "lumania.island",
       "name": "Lumania Island",
       "category": "Desktop"
+    },
+    {
+      "id": "io.github.shinobix9x.languagetool",
+      "name": "Grammar check (LanguageTool)",
+      "category": "Productivity"
+    },
+    {
+      "id": "kel.omarchy-video-scout",
+      "name": "Omarchy Video Scout",
+      "category": "Widgets"
+    },
+    {
+      "id": "konochi.konocontrol",
+      "name": "Konocontrol",
+      "category": "System"
+    },
+    {
+      "id": "anavarre.mma",
+      "name": "MMA Events",
+      "category": "Widgets"
+    },
+    {
+      "id": "naolselemon.mosaic",
+      "name": "Mosaic",
+      "category": "System"
+    },
+    {
+      "id": "io.github.echograv.touchtype-qwertz",
+      "name": "Touch Typing Trainer QWERTZ",
+      "category": "Kids"
+    },
+    {
+      "id": "kel.news-reader",
+      "name": "MyRSS",
+      "category": "Productivity"
+    },
+    {
+      "id": "leviathan.native-overview",
+      "name": "Native Overview",
+      "category": "Desktop"
+    },
+    {
+      "id": "io.github.steveb98.upnext",
+      "name": "Up Next",
+      "category": "Productivity"
+    },
+    {
+      "id": "fbaroni.oma-hevy",
+      "name": "Omahevy",
+      "category": "Widgets"
+    },
+    {
+      "id": "esegnorelli.ilha",
+      "name": "Ilha",
+      "category": "Desktop"
+    },
+    {
+      "id": "jovibe.screen-mirror",
+      "name": "Screen Mirror",
+      "category": "System"
+    },
+    {
+      "id": "jovibe.usb-devices",
+      "name": "USB devices",
+      "category": "Hardware"
+    },
+    {
+      "id": "suhayb.background",
+      "name": "Omarchy Monitor Wallpapers",
+      "category": "Appearance"
+    },
+    {
+      "id": "seaglenet.power-saver",
+      "name": "Power Saver",
+      "category": "System"
+    },
+    {
+      "id": "io.github.verified-human-42.rclone-cache-monitor",
+      "name": "rclone Cache Monitor",
+      "category": "System"
+    },
+    {
+      "id": "wesleygrimes.omafire",
+      "name": "OmaFire",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.w3asd.quicknum",
+      "name": "Omarchy QuickNum",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.asemhub.omaanime",
+      "name": "Anime",
+      "category": "Widgets"
+    },
+    {
+      "id": "ggregoro.quick-reference",
+      "name": "Quick Reference",
+      "category": "Productivity"
+    },
+    {
+      "id": "apach.dropdown",
+      "name": "Dropdown",
+      "category": "Desktop"
+    },
+    {
+      "id": "org.garminlinux.status",
+      "name": "Garmin status",
+      "category": "Hardware"
+    },
+    {
+      "id": "jamesridgway.woocommerce",
+      "name": "Store Stats for WooCommerce",
+      "category": "Widgets"
+    },
+    {
+      "id": "bwzkk.vibrance",
+      "name": "Vibrance",
+      "category": "Appearance"
+    },
+    {
+      "id": "io.github.tcballard.grokbot-desktop",
+      "name": "Grok Bot Desktop Companion",
+      "category": "Desktop"
+    },
+    {
+      "id": "io.github.mohiitp.essentials",
+      "name": "Essentials",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "io.github.bravehart911.leaf-control",
+      "name": "Leaf",
+      "category": "Desktop"
+    },
+    {
+      "id": "io.github.huey-holdings-llc.omarchy-drawer-redux",
+      "name": "Omarchy Drawer Redux",
+      "category": "Widgets"
+    },
+    {
+      "id": "cj.livewall",
+      "name": "Livewall",
+      "category": "Appearance"
+    },
+    {
+      "id": "io.github.rewuschel.keycast",
+      "name": "Keycast",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.brobrenat.window-reopen",
+      "name": "Window Reopen",
+      "category": "Productivity"
+    },
+    {
+      "id": "xiyeming.wechat-alert",
+      "name": "WeChat/QQ Alert",
+      "category": "Widgets"
+    },
+    {
+      "id": "dailen.omarchasaurus",
+      "name": "Omarchasaurus",
+      "category": "Kids"
+    },
+    {
+      "id": "io.github.lutzlstein.paperclip",
+      "name": "Paperclip AI",
+      "category": "Developer Tools"
+    },
+    {
+      "id": "io.github.0w3n-n.openpad",
+      "name": "OpenPad",
+      "category": "Productivity"
+    },
+    {
+      "id": "io.github.2strange.mactrackpad",
+      "name": "Mac Trackpad",
+      "category": "Hardware"
+    },
+    {
+      "id": "sergio.laligablocking-plugin",
+      "name": "LaLiga blocking",
+      "category": "Widgets"
+    },
+    {
+      "id": "io.github.edneymatias.omacolor",
+      "name": "Omacolor",
+      "category": "System"
     }
   ]
 }
