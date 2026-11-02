@@ -2507,13 +2507,13 @@
     "build/methodology.mjs": "598f3bde501a1d3035e9bb5409b810b367681d1632de85a94edb72c6823de8c4",
     "build/category-migrations.mjs": "041f35b170f5d4b35b0c925c701e69021f582e5391831950320bc2945bb7d4b9",
     "build/refresh.mjs": "c7c49bc97235609326792a0f66e1a77f3c1e9a9fc8a6afad0b790fcbb266aa29",
-    "build/render.mjs": "5468f103ebbd6c951aa58618a782f12c9f7139ce3e04d8376c82c2a3b3799787",
+    "build/render.mjs": "70087e71bf6e105885781b7bb4aaec708a3de2bec2d0093defe63e78f0e5b8cd",
     "build/publication-history.mjs": "34ac1b096b8dafaf478ab229f5598768ad8cd7f1faf66a99043369860df7c4a8",
     "scripts/compare-task-fit.mjs": "69f530c5a8866cb9683876f0bd591446d81822d71e2b9832d6ba31e877949612"
   },
   "capture": {
     "file": "test/fixtures/task-coherence-migration.json.gz",
-    "sha256": "7184a8f5adb73eb2fedc016dad1f58bbe75e66d2da53f630c9863a2d113bb7e4",
+    "sha256": "926d8de9d5dfdf9d9d3f89365fe2f25f5db2b83609334ba3a22cff516a027e3c",
     "catalogCount": 285,
     "scope": "Lossless ranking projection of every baseline or proposed reviewed plugin. All scored cohorts and scores replay; full-catalog discovery/queue counts require the complete capture."
   },

@@ -1,0 +1,89 @@
+name: Site report
+
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: Days to report
+        type: choice
+        options:
+          - '28'
+          - '7'
+          - '90'
+        default: '28'
+
+permissions: {}
+
+concurrency:
+  group: site-report
+  cancel-in-progress: false
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: site-report
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    steps:
+      - name: Require the default branch
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: test "$GITHUB_REF" = "refs/heads/$DEFAULT_BRANCH" || { echo 'The site report runs only from the default branch.' >&2; exit 1; }
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          package-manager-cache: false
+      - name: Require a report encryption key
+        run: node scripts/report/recipients.mjs .github/site-report-recipients.txt
+      - name: Collect Cloudflare traffic
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          REPORT_DAYS: ${{ inputs.days }}
+        run: node scripts/site-report.mjs collect-traffic --days "$REPORT_DAYS" --out tmp/site-report
+      - name: Collect Google Search Console
+        env:
+          GOOGLE_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
+          GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+          GOOGLE_SEARCH_CONSOLE_PROPERTY: ${{ secrets.GOOGLE_SEARCH_CONSOLE_PROPERTY }}
+          REPORT_DAYS: ${{ inputs.days }}
+        run: node scripts/site-report.mjs collect-search --days "$REPORT_DAYS" --out tmp/site-report
+      - name: Build report
+        id: build
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          REPORT_DAYS: ${{ inputs.days }}
+        run: node scripts/site-report.mjs build --days "$REPORT_DAYS" --out tmp/site-report
+      - name: Install age
+        if: ${{ !cancelled() && hashFiles('tmp/site-report/report.html') != '' }}
+        run: bash scripts/install-age.sh "$RUNNER_TEMP/age"
+      - name: Encrypt report
+        if: ${{ !cancelled() && hashFiles('tmp/site-report/report.html') != '' }}
+        run: |
+          mkdir -p tmp/site-report-encrypted
+          tar -C tmp/site-report -cf "$RUNNER_TEMP/site-report.tar" report.html report.json
+          "$RUNNER_TEMP/age/age" --encrypt --recipients-file .github/site-report-recipients.txt \
+            --output tmp/site-report-encrypted/site-report.tar.age "$RUNNER_TEMP/site-report.tar"
+          rm -rf tmp/site-report "$RUNNER_TEMP/site-report.tar"
+      - name: Upload encrypted report
+        if: ${{ !cancelled() && hashFiles('tmp/site-report-encrypted/site-report.tar.age') != '' }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: site-report-encrypted
+          path: tmp/site-report-encrypted/site-report.tar.age
+          if-no-files-found: error
+          retention-days: 30
+      - name: Summarize
+        if: ${{ !cancelled() && hashFiles('tmp/site-report-encrypted/site-report.tar.age') != '' }}
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" <<'SUMMARY'
+          ### Encrypted report ready
+
+          Open it on your machine with `npm run report:open`.
+          SUMMARY

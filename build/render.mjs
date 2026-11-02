@@ -1377,8 +1377,11 @@ function privacyPage() {
     <p>If you use the theme toggle, OmaPicks stores <code>light</code> or <code>dark</code> in your browser's <code>localStorage</code> so the choice can persist. That value is not sent to the server and is not used to measure traffic.</p>
     <h2>Traffic measurement</h2>
     <p>To understand how many people use the site and which category pages are popular, Cloudflare's edge records a small server-side event for successful HTML page views. The browser is not asked to run extra code for this.</p>
-    <p>Each event keeps only the UTC date, the page path such as <code>/picks/network/</code>, and a one-way identifier that is salted for that day. Raw IP addresses, user-agent strings, query strings, referrers, and device fingerprints are not stored. The daily identifier cannot follow a visitor across days or websites, so weekly or monthly visitor totals are estimates, not an exact headcount.</p>
-    <p>Measurement is skipped when a request sends Global Privacy Control or Do Not Track, looks like an automated crawler, or is not a successful HTML page. Events are processed by Cloudflare and retained for three months.</p>
+    <p>Each event keeps the time it was recorded, the page path such as <code>/picks/network/</code>, and whether the request came from a person's browser or looked automated. Browser visits also keep a one-way identifier that is salted for that day. Raw IP addresses, user-agent strings, network operators, query strings, referrers, and device fingerprints are not stored. The daily identifier cannot follow a visitor across days or websites, so weekly or monthly visitor totals are estimates, not an exact headcount.</p>
+    <p>Requests that look automated are counted separately so they do not inflate visitor numbers: known crawlers, clients that do not send a browser's page-load headers, link prefetches, and requests from large cloud-hosting networks. These events record only the reason and the page, never an identifier, and only one in ten is kept.</p>
+    <p>Measurement is skipped entirely when a request sends Global Privacy Control or Do Not Track, or is not a successful HTML page. Events are processed by Cloudflare and retained for three months.</p>
+    <h2>Search statistics</h2>
+    <p>OmaPicks also reviews Google Search Console's aggregate search statistics, such as how often its pages appear in Google results and which searches lead to them. Google provides these figures; the site sends Google nothing about visitors.</p>
     <h2>Contact</h2>
     <p>Questions about this page can go to the ${outboundLink("https://github.com/BVisagie/omapicks/issues/new", "OmaPicks GitHub repository")}. Do not post sensitive personal information in a public issue.</p>
   </section>`;
