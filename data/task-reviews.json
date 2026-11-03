@@ -2534,7 +2534,6 @@
       "pluginId": "community.network",
       "typeId": "hotspots",
       "contractVersion": 2,
-      "metadataHash": "5ee9d45a0b4dd0496aea5958a22135a8e83b713366c711aa9d8491b0002b0a60",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
@@ -2542,34 +2541,35 @@
         "stop-hotspot"
       ],
       "constraints": [
-        "Concurrent repeater sharing requires the documented linux-wifi-hotspot backend and compatible radio support."
+        "Concurrent repeater sharing requires the plugin's verified create_ap build, installed with its Install Repeater action, and compatible radio support."
       ],
       "reason": "Starts and stops standalone Wi-Fi hotspots or supported concurrent repeater sharing.",
-      "reviewedAt": "2026-10-30",
+      "reviewedAt": "2026-11-03",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/Guneshbari/omarchy-network/blob/a9210ea5c116b6c604a275631b83765d4ed7deee/README.md",
-        "revision": "a9210ea5c116b6c604a275631b83765d4ed7deee",
+        "url": "https://github.com/Guneshbari/omarchy-network/blob/ecaa08f9d34bfe1e0160afeb43ab33b76c0f8fb0/README.md",
+        "revision": "ecaa08f9d34bfe1e0160afeb43ab33b76c0f8fb0",
         "path": "README.md",
         "sha256": "397493842b12a94a1a29b7a98a8e2efbbfcc8e8990ba22a544693a3819697049",
         "evidence": "README.md lines 3-3:\nAn enhanced, keyboard-driven Network bar widget and popup control center for the [Omarchy](https://omarchy.org/) Linux desktop shell. Features simultaneous **Wi-Fi Repeater chaining**, standalone **Hotspot AP** with centered **QR code sharing**, 1-click **linux-wifi-hotspot installer**, interactive **Wired Ethernet IPv4 configuration** (DHCP & Static IP), and one-click **DNS provider selection**.\n\nREADME.md lines 8-8:\n<summary><b>📸 See additional screenshots</b></summary>\n\nREADME.md lines 25-33:\n- 📡 **Simultaneous Wi-Fi Repeater (Network Chaining)**:\n  - Keep your active Wi-Fi connection alive while simultaneously creating and broadcasting a secondary access point to share your network with other devices.\n  - Powered by `create_ap` (`linux-wifi-hotspot`) for dual-interface virtual AP chaining.\n- ⚡ **1-Click Repeater Backend Installer**:\n  - If `linux-wifi-hotspot` is not yet installed on your system, the panel automatically shows an **\"Install Repeater\"** button.\n  - Clicking it immediately launches Omarchy's presented terminal to cleanly install `linux-wifi-hotspot` from the AUR—no manual command typing required.\n- 🌐 **Standalone Wi-Fi Hotspot AP**:\n  - Broadcast an independent access point via NetworkManager when offline or on Ethernet.\n  - Real-time **connected client counter** (`iw station dump`)."
       },
       "sources": [
         {
-          "url": "https://github.com/Guneshbari/omarchy-network/blob/a9210ea5c116b6c604a275631b83765d4ed7deee/README.md",
-          "revision": "a9210ea5c116b6c604a275631b83765d4ed7deee",
+          "url": "https://github.com/Guneshbari/omarchy-network/blob/ecaa08f9d34bfe1e0160afeb43ab33b76c0f8fb0/README.md",
+          "revision": "ecaa08f9d34bfe1e0160afeb43ab33b76c0f8fb0",
           "path": "README.md",
           "sha256": "397493842b12a94a1a29b7a98a8e2efbbfcc8e8990ba22a544693a3819697049",
           "evidence": "README.md lines 3-3:\nAn enhanced, keyboard-driven Network bar widget and popup control center for the [Omarchy](https://omarchy.org/) Linux desktop shell. Features simultaneous **Wi-Fi Repeater chaining**, standalone **Hotspot AP** with centered **QR code sharing**, 1-click **linux-wifi-hotspot installer**, interactive **Wired Ethernet IPv4 configuration** (DHCP & Static IP), and one-click **DNS provider selection**.\n\nREADME.md lines 8-8:\n<summary><b>📸 See additional screenshots</b></summary>\n\nREADME.md lines 25-33:\n- 📡 **Simultaneous Wi-Fi Repeater (Network Chaining)**:\n  - Keep your active Wi-Fi connection alive while simultaneously creating and broadcasting a secondary access point to share your network with other devices.\n  - Powered by `create_ap` (`linux-wifi-hotspot`) for dual-interface virtual AP chaining.\n- ⚡ **1-Click Repeater Backend Installer**:\n  - If `linux-wifi-hotspot` is not yet installed on your system, the panel automatically shows an **\"Install Repeater\"** button.\n  - Clicking it immediately launches Omarchy's presented terminal to cleanly install `linux-wifi-hotspot` from the AUR—no manual command typing required.\n- 🌐 **Standalone Wi-Fi Hotspot AP**:\n  - Broadcast an independent access point via NetworkManager when offline or on Ethernet.\n  - Real-time **connected client counter** (`iw station dump`)."
         },
         {
-          "url": "https://github.com/Guneshbari/omarchy-network/blob/a9210ea5c116b6c604a275631b83765d4ed7deee/Panel.qml",
-          "revision": "a9210ea5c116b6c604a275631b83765d4ed7deee",
+          "url": "https://github.com/Guneshbari/omarchy-network/blob/ecaa08f9d34bfe1e0160afeb43ab33b76c0f8fb0/Panel.qml",
+          "revision": "ecaa08f9d34bfe1e0160afeb43ab33b76c0f8fb0",
           "path": "Panel.qml",
           "sha256": "6c6541c28e6fb48d4938b2e6dd9b39aef86a4bfe32d8ff4cf5dc43212828f050",
           "evidence": "Panel.qml lines 1208-1248:\n  function toggleHotspot() {\n    if (root.hotspotBusy) return\n    root.hotspotBusy = true\n    root.hotspotStatusMsg = root.hotspotActive\n      ? \"Stopping hotspot...\"\n      : (!root.hotspotEthernetConnected && root.hotspotWifiConnected && root.hotspotHasCreateAp ? \"Starting Wi-Fi repeater...\" : \"Starting hotspot...\")\n    root.hotspotStatusIsError = false\n    hotspotApplyProc.secret = root.hotspotPassword || \"\"\n    var effectiveBand = (!root.hotspotEthernetConnected && root.hotspotWifiConnected && root.hotspotConnectedBand)\n      ? root.hotspotConnectedBand\n      : (root.hotspotBand || \"bg\")\n    hotspotApplyProc.command = [\n      \"bash\", \"-c\", Model.hotspotApplyScript, \"hotspot-apply\",\n      \"toggle\",\n      root.hotspotName || \"Hotspot\",\n      root.hotspotSsid || \"Omarchy-Hotspot\",\n      effectiveBand\n    ]\n    hotspotApplyProc.running = true\n  }\n\n  function saveHotspot() {\n    if (root.hotspotBusy) return\n    var draftSsid = (root.hotspotDraftSsid || \"\").trim()\n    if (!draftSsid) {\n      root.hotspotStatusMsg = \"SSID cannot be empty\"\n      root.hotspotStatusIsError = true\n      return\n    }\n    if (draftSsid.length > 32) {\n      root.hotspotStatusMsg = \"SSID cannot exceed 32 characters\"\n      root.hotspotStatusIsError = true\n      return\n    }\n    if (/[\\r\\n]/.test(draftSsid)) {\n      root.hotspotStatusMsg = \"SSID cannot contain line breaks\"\n      root.hotspotStatusIsError = true\n      return\n    }\n    if (root.hotspotDraftPassword.length < 8) {\n      root.hotspotStatusMsg = \"Password must be at least 8 characters\"\n\nPanel.qml lines 2089-2106:\n\n          Button {\n            id: hotspotAction\n            visible: root.hasHotspotSupport\n            iconText: root.hotspotActive && root.hotspotIsRepeater ? \"󰤨\" : \"󱛇\"\n            tooltipText: root.hotspotActive\n              ? ((root.hotspotIsRepeater ? \"Repeater Active (\" : \"Hotspot Active (\") + root.hotspotClients + \" connected) - Click to Stop\")\n              : (root.hotspotEthernetConnected ? \"Start Wi-Fi Hotspot (shares Ethernet)\" : (root.hotspotWifiConnected && root.hotspotHasCreateAp ? \"Start Wi-Fi Repeater\" : \"Start Wi-Fi Hotspot\"))\n            foreground: root.hotspotActive ? Color.accent : root.bar.foreground\n            fontFamily: root.bar.fontFamily\n            iconSize: Style.font.subtitle * 1.5\n            horizontalPadding: Style.space(5)\n            verticalPadding: Style.space(2)\n            hasCursor: root.hotspotHeaderHasCursor\n            Layout.alignment: Qt.AlignVCenter\n            onHovered: function(on) { if (on) root.setHeaderCursor(root.hotspotHeaderIndex) }\n            onClicked: root.toggleHotspot()\n          }"
         }
-      ]
+      ],
+      "metadataHash": "eb47e171e2fa613ba90d476f48483cd0e24fa6c0d1f9de8c4147873a5ff1d552"
     },
     {
       "pluginId": "io.github.shivamnarkar47.omarchy-hotspot",
@@ -3940,7 +3940,6 @@
       "pluginId": "community.network",
       "typeId": "network",
       "contractVersion": 2,
-      "metadataHash": "5ee9d45a0b4dd0496aea5958a22135a8e83b713366c711aa9d8491b0002b0a60",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
@@ -3950,31 +3949,32 @@
       ],
       "constraints": [],
       "reason": "Inspects client connection state and connects or disconnects Wi-Fi networks, with additional wired configuration controls.",
-      "reviewedAt": "2026-10-30",
+      "reviewedAt": "2026-11-03",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/Guneshbari/omarchy-network/blob/a9210ea5c116b6c604a275631b83765d4ed7deee/README.md",
-        "revision": "a9210ea5c116b6c604a275631b83765d4ed7deee",
+        "url": "https://github.com/Guneshbari/omarchy-network/blob/ecaa08f9d34bfe1e0160afeb43ab33b76c0f8fb0/README.md",
+        "revision": "ecaa08f9d34bfe1e0160afeb43ab33b76c0f8fb0",
         "path": "README.md",
         "sha256": "397493842b12a94a1a29b7a98a8e2efbbfcc8e8990ba22a544693a3819697049",
         "evidence": "README.md lines 3-3:\nAn enhanced, keyboard-driven Network bar widget and popup control center for the [Omarchy](https://omarchy.org/) Linux desktop shell. Features simultaneous **Wi-Fi Repeater chaining**, standalone **Hotspot AP** with centered **QR code sharing**, 1-click **linux-wifi-hotspot installer**, interactive **Wired Ethernet IPv4 configuration** (DHCP & Static IP), and one-click **DNS provider selection**.\n\nREADME.md lines 8-8:\n<summary><b>📸 See additional screenshots</b></summary>\n\nREADME.md lines 25-33:\n- 📡 **Simultaneous Wi-Fi Repeater (Network Chaining)**:\n  - Keep your active Wi-Fi connection alive while simultaneously creating and broadcasting a secondary access point to share your network with other devices.\n  - Powered by `create_ap` (`linux-wifi-hotspot`) for dual-interface virtual AP chaining.\n- ⚡ **1-Click Repeater Backend Installer**:\n  - If `linux-wifi-hotspot` is not yet installed on your system, the panel automatically shows an **\"Install Repeater\"** button.\n  - Clicking it immediately launches Omarchy's presented terminal to cleanly install `linux-wifi-hotspot` from the AUR—no manual command typing required.\n- 🌐 **Standalone Wi-Fi Hotspot AP**:\n  - Broadcast an independent access point via NetworkManager when offline or on Ethernet.\n  - Real-time **connected client counter** (`iw station dump`)."
       },
       "sources": [
         {
-          "url": "https://github.com/Guneshbari/omarchy-network/blob/a9210ea5c116b6c604a275631b83765d4ed7deee/README.md",
-          "revision": "a9210ea5c116b6c604a275631b83765d4ed7deee",
+          "url": "https://github.com/Guneshbari/omarchy-network/blob/ecaa08f9d34bfe1e0160afeb43ab33b76c0f8fb0/README.md",
+          "revision": "ecaa08f9d34bfe1e0160afeb43ab33b76c0f8fb0",
           "path": "README.md",
           "sha256": "397493842b12a94a1a29b7a98a8e2efbbfcc8e8990ba22a544693a3819697049",
           "evidence": "README.md lines 3-3:\nAn enhanced, keyboard-driven Network bar widget and popup control center for the [Omarchy](https://omarchy.org/) Linux desktop shell. Features simultaneous **Wi-Fi Repeater chaining**, standalone **Hotspot AP** with centered **QR code sharing**, 1-click **linux-wifi-hotspot installer**, interactive **Wired Ethernet IPv4 configuration** (DHCP & Static IP), and one-click **DNS provider selection**.\n\nREADME.md lines 8-8:\n<summary><b>📸 See additional screenshots</b></summary>\n\nREADME.md lines 25-33:\n- 📡 **Simultaneous Wi-Fi Repeater (Network Chaining)**:\n  - Keep your active Wi-Fi connection alive while simultaneously creating and broadcasting a secondary access point to share your network with other devices.\n  - Powered by `create_ap` (`linux-wifi-hotspot`) for dual-interface virtual AP chaining.\n- ⚡ **1-Click Repeater Backend Installer**:\n  - If `linux-wifi-hotspot` is not yet installed on your system, the panel automatically shows an **\"Install Repeater\"** button.\n  - Clicking it immediately launches Omarchy's presented terminal to cleanly install `linux-wifi-hotspot` from the AUR—no manual command typing required.\n- 🌐 **Standalone Wi-Fi Hotspot AP**:\n  - Broadcast an independent access point via NetworkManager when offline or on Ethernet.\n  - Real-time **connected client counter** (`iw station dump`)."
         },
         {
-          "url": "https://github.com/Guneshbari/omarchy-network/blob/a9210ea5c116b6c604a275631b83765d4ed7deee/Panel.qml",
-          "revision": "a9210ea5c116b6c604a275631b83765d4ed7deee",
+          "url": "https://github.com/Guneshbari/omarchy-network/blob/ecaa08f9d34bfe1e0160afeb43ab33b76c0f8fb0/Panel.qml",
+          "revision": "ecaa08f9d34bfe1e0160afeb43ab33b76c0f8fb0",
           "path": "Panel.qml",
           "sha256": "6c6541c28e6fb48d4938b2e6dd9b39aef86a4bfe32d8ff4cf5dc43212828f050",
           "evidence": "Panel.qml lines 592-607:\n  // connected → disconnect, credentials-required/unknown → prompt,\n  // passwordless/known → connect.\n  function activateSelected() {\n    if (busy || selectedIndex < 0 || selectedIndex >= wifiNetworks.length) return\n    var net = wifiNetworks[selectedIndex]\n    if (!net) return\n    if (wifiActionFocused && canForgetNetwork(net)) { forget(net); return }\n    // Only act on a row that still resolves. disconnect() falls back to\n    // connectedWifiNetwork when handed null, so a row left stale by scan churn\n    // would otherwise tear down whatever is connected now instead.\n    if (net.connected) { disconnectRow(net.ssid); return }\n    if (requiresCredentials(net.security) && !net.known) { openPasswordPrompt(net.ssid); return }\n    connectDirectly(net.ssid)\n  }\n\n  // Bar pill state, derived from the native NetworkManager service and active\n\nPanel.qml lines 611-627:\n  readonly property bool isWifiConnected: !!(\n    (connectedWifiNetwork && connectedWifiNetwork.connected) ||\n    (wifiDevice && wifiDevice.connected) ||\n    (info && info.type === \"wifi\")\n  )\n  readonly property bool isWiredConnected: !!(\n    (wiredDevice && wiredDevice.connected) ||\n    (info && info.type === \"ethernet\")\n  )\n\n  readonly property string kind: {\n    if (isWifiConnected && !isWiredConnected) return \"wifi\"\n    if (isWiredConnected && !isWifiConnected) return \"ethernet\"\n    if (!isWifiConnected && !isWiredConnected) return \"disconnected\"\n\n    // Both are connected: use the active default route from omarchy-network-status\n    if (info && info.type === \"wifi\") return \"wifi\"\n\nPanel.qml lines 1463-1469:\n  function connectDirectly(ssid) {\n    runNetworkAction(\"connect\", networkForSsid(ssid), function(network) { network.connect() })\n  }\n\n  function connectWithPassphrase(ssid, passphrase) {\n    runNetworkAction(\"connect\", networkForSsid(ssid), function(network) { network.connectWithPsk(passphrase) })\n  }\n\nPanel.qml lines 1510-1521:\n  function disconnect(network) {\n    runNetworkAction(\"disconnect\", network || connectedWifiNetwork, function(net) { net.disconnect() })\n  }\n\n  // Disconnect from a row's SSID. Rows are primitive snapshots that can outlive\n  // their WifiNetwork, and disconnect()'s null fallback targets whatever is\n  // connected now, so a stale row must do nothing rather than hit an unrelated\n  // network. Callers that mean \"drop the current connection\" call disconnect().\n  function disconnectRow(ssid) {\n    var network = networkForSsid(ssid)\n    if (network) disconnect(network)\n  }"
         }
-      ]
+      ],
+      "metadataHash": "eb47e171e2fa613ba90d476f48483cd0e24fa6c0d1f9de8c4147873a5ff1d552"
     },
     {
       "pluginId": "elliot.network",
