@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-02T16:08:58.778Z",
-  "catalogCount": 6233,
-  "eligibleClassifiedCount": 2372,
-  "classificationAssignments": 3004,
+  "generatedAt": "2026-11-03T18:58:38.097Z",
+  "catalogCount": 6260,
+  "eligibleClassifiedCount": 2381,
+  "classificationAssignments": 3014,
   "qualifiedAssignments": 151,
-  "pendingAssignments": 2823,
-  "uniqueUnclassifiedCount": 2523,
+  "pendingAssignments": 2833,
+  "uniqueUnclassifiedCount": 2527,
   "excluded": {
-    "not-installable": 1269,
-    "compatibility-failed": 18,
-    "repository-unreachable": 12,
+    "not-installable": 1277,
+    "compatibility-failed": 20,
+    "repository-unreachable": 16,
     "built-in": 39
   },
   "excludedIncumbents": [],
@@ -5553,11 +5553,6 @@
       "category": "Widgets"
     },
     {
-      "id": "io.github.thomasvez.proximity",
-      "name": "Bluetooth Proximity Lock",
-      "category": "System"
-    },
-    {
       "id": "io.github.rr-codebase.utter",
       "name": "Desktop Voice Control",
       "category": "Productivity"
@@ -5921,11 +5916,6 @@
       "id": "ochessy",
       "name": "OChessy",
       "category": "Widgets"
-    },
-    {
-      "id": "tim.omostrich",
-      "name": "Omostrich",
-      "category": "Desktop"
     },
     {
       "id": "io.github.erikwb.omakanvas",
@@ -12169,7 +12159,7 @@
     },
     {
       "id": "juangalt.seafile",
-      "name": "Seafile",
+      "name": "Seafile Sync",
       "category": "Widgets"
     },
     {
@@ -12383,11 +12373,6 @@
       "category": "System"
     },
     {
-      "id": "anavarre.apple-podcasts",
-      "name": "Apple Podcasts",
-      "category": "Widgets"
-    },
-    {
       "id": "io.github.enoceli26-oss.biblia-es",
       "name": "Biblia en español",
       "category": "Desktop"
@@ -12476,11 +12461,6 @@
       "id": "kel.news-reader",
       "name": "MyRSS",
       "category": "Productivity"
-    },
-    {
-      "id": "leviathan.native-overview",
-      "name": "Native Overview",
-      "category": "Desktop"
     },
     {
       "id": "io.github.steveb98.upnext",
@@ -12631,6 +12611,46 @@
       "id": "io.github.edneymatias.omacolor",
       "name": "Omacolor",
       "category": "System"
+    },
+    {
+      "id": "fenrirrhogar.omavst",
+      "name": "OmaVST",
+      "category": "Other"
+    },
+    {
+      "id": "crispin81.faux-desktop",
+      "name": "Faux Desktop",
+      "category": "Desktop"
+    },
+    {
+      "id": "io.github.stefanoconiglio.memory",
+      "name": "Memory",
+      "category": "System"
+    },
+    {
+      "id": "io.github.stefanoconiglio.lid-awake",
+      "name": "Lid awake",
+      "category": "Hardware"
+    },
+    {
+      "id": "coniglio.power",
+      "name": "Power + Watts",
+      "category": "Hardware"
+    },
+    {
+      "id": "tiedeyez.omacube",
+      "name": "Omacube",
+      "category": "Appearance"
+    },
+    {
+      "id": "io.github.rysen-winters.quick-steam",
+      "name": "Quick Steam",
+      "category": "Widgets"
+    },
+    {
+      "id": "bayrock.music-visualizer",
+      "name": "Music Visualizer",
+      "category": "Appearance"
     }
   ]
 }

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "classificationVersion": 3,
-  "generatedAt": "2026-11-02T16:08:58.778Z",
-  "taxonomyHash": "9db3e455789350983e2b49a30810c8f993f0b98745c16c9efa35289bc5c1c2b0",
+  "generatedAt": "2026-11-03T18:58:38.097Z",
+  "taxonomyHash": "41d22aabe5a2db8474c83b69c40b78a601faa7f534eb3ffd5f1bdd97645c1875",
   "plugins": [
     {
       "id": "07dcolem.appimages",
@@ -2229,6 +2229,12 @@
       "types": []
     },
     {
+      "id": "bayrock.music-visualizer",
+      "name": "Music Visualizer",
+      "metadataHash": "0bdd91e6377fdcad419802a7bcca86c19b28dc1f04ca1b62c97cf1110474380d",
+      "types": []
+    },
+    {
       "id": "bbachmann.foot-bookmarks",
       "name": "Foot bookmarks",
       "metadataHash": "b42beea7b5f827ded0ecac623ee181c5d4d2d211ac5895cc4a563beb92c670a5",
@@ -3290,6 +3296,12 @@
       "id": "caiohat.pen",
       "name": "Active Pen & Stylus",
       "metadataHash": "744267f6bec708b3b1d047e130b97b02e042417c165ca163170e2eaff081143e",
+      "types": []
+    },
+    {
+      "id": "caionazario.island",
+      "name": "Island Desktop",
+      "metadataHash": "f05a2b25f7697f30d55cbb62dbaca38cb11dd1f0ae59e2830f652ac5a5ca9ef0",
       "types": []
     },
     {
@@ -4581,8 +4593,8 @@
     },
     {
       "id": "community.codex-usage",
-      "name": "Codex Usage",
-      "metadataHash": "0e837db25ea8d270554693f50a4a6a1577706af7831f7121884fdac6c9c24483",
+      "name": "Codex & Grok Usage",
+      "metadataHash": "8b234e948dbc500d8d2a6ae87d235f32bf3eec97315b50803a0bd18f15bcd062",
       "types": [
         "ai-api-usage"
       ]
@@ -4608,7 +4620,7 @@
     {
       "id": "community.network",
       "name": "Network Manager (with Repeater & Hotspot)",
-      "metadataHash": "0d162feea6fd6b6ceabad73992869c66564a2042e1adc23dd8e3a9bedee93e88",
+      "metadataHash": "9b006428569bb0774ac98fa58ff64e5516d752f718254ac02b493f17f79b6b8c",
       "types": [
         "network",
         "hotspots"
@@ -4708,6 +4720,20 @@
       "types": [
         "battery"
       ]
+    },
+    {
+      "id": "coniglio.agents",
+      "name": "Agents + Limits",
+      "metadataHash": "361725368841c517cd65cab404d417abc635b65af7640b3148a49d35a4850c32",
+      "types": [
+        "agent-monitoring"
+      ]
+    },
+    {
+      "id": "coniglio.power",
+      "name": "Power + Watts",
+      "metadataHash": "6f29834c384fb0689832c6a080c326fb5ef6fa7d0a0b0129a5eadfa2635fb11d",
+      "types": []
     },
     {
       "id": "connor.videodevices",
@@ -4875,6 +4901,12 @@
       "id": "creaza.tamagotchi",
       "name": "Omarchygotchi",
       "metadataHash": "acb43c8a48e310f462ebabd8251df0ff59e4db28f76eda45f89a9c33b1832e0f",
+      "types": []
+    },
+    {
+      "id": "crispin81.faux-desktop",
+      "name": "Faux Desktop",
+      "metadataHash": "20825b8434311202486e170aeeb53ee16c8fad5b172bf2ef99e67a33da538391",
       "types": []
     },
     {
@@ -7835,6 +7867,12 @@
       "types": []
     },
     {
+      "id": "fenrirrhogar.omavst",
+      "name": "OmaVST",
+      "metadataHash": "4055984069cd1e6abf615d6d14c7624ccf8d3ad4b6c50511350b582958e0213c",
+      "types": []
+    },
+    {
       "id": "fernando.jarvis-ai-monitor",
       "name": "Jarvis AI Monitor",
       "metadataHash": "7317f01c82d98bac50f6246c99230a84a8206939ddbd6a8e5176592c08630d93",
@@ -8399,7 +8437,7 @@
     {
       "id": "gammamike.nudge",
       "name": "Nudge",
-      "metadataHash": "4054e7d5b9c605725bdd47acfa631f8e432fb5c839956ca65098083bb1692d10",
+      "metadataHash": "b2cbc83eb1b958dd91841e47a313ab0770aa33bf2f56efee0bd88af18415dc67",
       "types": []
     },
     {
@@ -8442,6 +8480,14 @@
       "name": "Omashuzhi(数枝)",
       "metadataHash": "1d3abd5f602691928a1c80d5fbc1984cb36f4190af62fcf3a71eee991b44a0c0",
       "types": []
+    },
+    {
+      "id": "gasserx.swamp",
+      "name": "sWamp",
+      "metadataHash": "dfa007491c6bf3405d526b1e7f0076f4887994fefc6a2f1c239e6b217592fc60",
+      "types": [
+        "music-players"
+      ]
     },
     {
       "id": "gavinanelson.workspace-window-icons",
@@ -8983,6 +9029,14 @@
       "name": "Arcula",
       "metadataHash": "2fb2df362e72623045b42d889ebcf7ce4f55da8877f1f161742e6ce720d6151f",
       "types": []
+    },
+    {
+      "id": "goldbarth.scenula",
+      "name": "Scenula",
+      "metadataHash": "19d7534924a315aade50d5db7d018af20e7600aa4944453dcfb2c68ec634fc28",
+      "types": [
+        "wallpaper"
+      ]
     },
     {
       "id": "goldbarth.tessella",
@@ -15506,6 +15560,12 @@
       "types": []
     },
     {
+      "id": "io.github.erikrjohansson.extended-keybindings-viewer",
+      "name": "Extended Keybindings Viewer",
+      "metadataHash": "c9b79ddf7d5ef21e318dd0ae7ffc72d92e669265947fe23c292c25cc00c6fe0e",
+      "types": []
+    },
+    {
       "id": "io.github.erikrjohansson.hotkey-wheel",
       "name": "Hotkey Wheel",
       "metadataHash": "3dc171ac6b0e24095343ac0faa7da648bd0386586d9a83f418707567fd35b2a2",
@@ -16422,6 +16482,14 @@
       "types": []
     },
     {
+      "id": "io.github.gsottnick.howismyplug",
+      "name": "HowIsMyPlug?",
+      "metadataHash": "5a97b2e4ed275d0998454281425d5d0e0cbbc24843e77ae4ce1f3059f59e02d6",
+      "types": [
+        "github"
+      ]
+    },
+    {
       "id": "io.github.gsottnick.omatuple",
       "name": "Omatuple",
       "metadataHash": "56e8a449cecd88b434ac0b16bc558e1c65790713cf0f6717b031633faa84a43e",
@@ -17252,7 +17320,7 @@
     {
       "id": "io.github.ilkaydnc.omargb",
       "name": "OmaRGB",
-      "metadataHash": "74cc77b35fe2480e501de308e958cbb3d35a6263f82c99b99426b3ee2ff2352b",
+      "metadataHash": "9dc519d923fca1bef6fa90650fcdc990f9e5191e0b409549f1a3dd63342df5c0",
       "types": []
     },
     {
@@ -18030,7 +18098,7 @@
     {
       "id": "io.github.joaodrp.auto-brightness",
       "name": "Brightness",
-      "metadataHash": "e88b8c33c908001e7353edb4e043c97a9aab14a0beccead0f439b1cff9cfac36",
+      "metadataHash": "0a85be59d1d3a6d126e3a6355b80588bf0222d3dca0c7048ecefc1b2d9b3ad3b",
       "types": [
         "brightness"
       ]
@@ -20061,7 +20129,7 @@
     {
       "id": "io.github.mattwolfgang.plugin-guard",
       "name": "Plugin Guard",
-      "metadataHash": "cb7cac67924a27a19cda7fbd5c41cb7ae9348c1d5b52ada7e1024cef072d394e",
+      "metadataHash": "2a87f89452e8924e0d2cc156a7e182909d06ef6aae8cf554dccbdb523ff3a3cf",
       "types": []
     },
     {
@@ -20807,7 +20875,7 @@
     {
       "id": "io.github.nasedkinpv.numr",
       "name": "numr",
-      "metadataHash": "9707c0cd49571fae94d7c0369c05122089a2cbaebfdee3bf2dfb6a1a98be243c",
+      "metadataHash": "9696bd318a394ddc2a6d133d2068e1f91240c0d2a6f99934011eed0126d199fa",
       "types": []
     },
     {
@@ -22073,6 +22141,12 @@
       "types": []
     },
     {
+      "id": "io.github.psthelyblog.gpu-undervolt",
+      "name": "GPU Undervolt",
+      "metadataHash": "2a99c471a7d0fc8deaf5e5b6d2b27aab33786d0f0ca6cd844780ddf96aa52f63",
+      "types": []
+    },
+    {
       "id": "io.github.ptgamr.omamux",
       "name": "Omamux",
       "metadataHash": "ded3b9946a62f24b6637cd01ae2bb345d2108a8718cbf8dca1fa174b701a0c5f",
@@ -23186,6 +23260,12 @@
       "id": "io.github.ryankv.omarchy-maestral",
       "name": "Dropbox via Maestral",
       "metadataHash": "41a62844e646291828651e7a3a8cc2ce4b16cae45ce5bd01341e55a0d50a9895",
+      "types": []
+    },
+    {
+      "id": "io.github.rysen-winters.quick-steam",
+      "name": "Quick Steam",
+      "metadataHash": "5d4e4061893c76d79b3f0d37dab55b61c5b906853d7940c4ef1a2c0138f6e130",
       "types": []
     },
     {
@@ -24419,6 +24499,24 @@
       "types": []
     },
     {
+      "id": "io.github.stefanoconiglio.lid-awake",
+      "name": "Lid awake",
+      "metadataHash": "6c016034955b48ddd2bed6a093de534cbbea4971747aa03efdf728fb07de72d3",
+      "types": []
+    },
+    {
+      "id": "io.github.stefanoconiglio.memory",
+      "name": "Memory",
+      "metadataHash": "c6b9eebdb20a9b94074f0194915eb3b8f9bd0f61df8659938addcf590b00ba28",
+      "types": []
+    },
+    {
+      "id": "io.github.stefanoconiglio.screen-rotate",
+      "name": "Screen rotate",
+      "metadataHash": "bebb5507be962544696492967d9bfd13f8fc1d556be82a473fd145c60af196af",
+      "types": []
+    },
+    {
       "id": "io.github.stefanomainardi.obsbot-center",
       "name": "OBSBOT Center",
       "metadataHash": "dab91f766782488287cdae7203b7904833d1bc86169aa418b195ae3b187cdb0a",
@@ -24705,7 +24803,7 @@
     {
       "id": "io.github.tahadx.reel",
       "name": "Reel",
-      "metadataHash": "246fc72ae179a2d4a4d7aa46394976582058ab57f4151036c1a2e6aa44543c82",
+      "metadataHash": "b89aae9c6672f8e93f066543b7cc548ad343a20ef8f24c31e5d8f5cbb6d6e55c",
       "types": [
         "screen-recording"
       ]
@@ -27474,6 +27572,12 @@
       ]
     },
     {
+      "id": "jgarza.mounts",
+      "name": "Mounts",
+      "metadataHash": "38e84dc31ab3bf7d8e53a4585a14721fbcdf79615e7927bd6605be8ce9675368",
+      "types": []
+    },
+    {
       "id": "jgarza.notification",
       "name": "Notifications",
       "metadataHash": "6d022c7118210833550547a180170eb5faad17e2a574d4e6cb80cd9c6cf2c37f",
@@ -28200,8 +28304,8 @@
     },
     {
       "id": "juangalt.seafile",
-      "name": "Seafile",
-      "metadataHash": "eb81a8e803726f18e196e0dcf74effa9f86521db5920f281aa52c9a5dae993fb",
+      "name": "Seafile Sync",
+      "metadataHash": "e4a5bf1052368415eb3e755829b35f0695e123a48d27e41fcfe45eded728f3dd",
       "types": []
     },
     {
@@ -30411,6 +30515,15 @@
       "types": []
     },
     {
+      "id": "makehasteslowly.heliolune",
+      "name": "Heliolune — Sun, Moon & Seasons",
+      "metadataHash": "5ebcb3029cc0c289e2ea6d611111878d1427cafee6c3582d304336050cf326bf",
+      "types": [
+        "weather",
+        "timers-alarms"
+      ]
+    },
+    {
       "id": "manchunx7.ai-passport-voice",
       "name": "AI Passport Voice",
       "metadataHash": "5cf32283f2da6c6b8ee66a687d1dcd47062c1040333e300abf8efe7cfc9c2134",
@@ -30757,6 +30870,20 @@
       "metadataHash": "30e30cede21e93100e5fefc2865e6dd9f7e8075a88711e82f2cd0bbb22c404d1",
       "types": [
         "notes"
+      ]
+    },
+    {
+      "id": "matheoatche.aircast",
+      "name": "Aircast",
+      "metadataHash": "fbed865089fbb5a4670a1546d6f021091df02c426b2ddfa2f2731dab296ef0d5",
+      "types": []
+    },
+    {
+      "id": "matheustimbo.overview",
+      "name": "Overview",
+      "metadataHash": "dfe2b45860db911bb5022f79ddb637df98cc9da696558b25d380f68cacf58726",
+      "types": [
+        "window-management"
       ]
     },
     {
@@ -31156,7 +31283,7 @@
     {
       "id": "meviusisback.live-scores",
       "name": "Live Scores",
-      "metadataHash": "9c46e0733d12d0f2f515d7548f4213ebb132a4dd680e3af770ad6677c11884f4",
+      "metadataHash": "4e16eb484b950621cfa6e8799f6172ca1ab844cecd32dcbf4050e6154076b9e4",
       "types": [
         "sports-scores"
       ]
@@ -34346,6 +34473,12 @@
       ]
     },
     {
+      "id": "omarsket",
+      "name": "Omarsket",
+      "metadataHash": "32627b2bca39ff700445cab996147e596731156a5a1fd296f87ef8620b6c2b6b",
+      "types": []
+    },
+    {
       "id": "omascrabble",
       "name": "Omascrabble",
       "metadataHash": "3345a01518d8542b1447185c2f33032e543999c0df826cc2745b4cf132d8b3c5",
@@ -35525,7 +35658,7 @@
     {
       "id": "pierregoosen.hermes-face",
       "name": "Hermes Face",
-      "metadataHash": "c1e239a1f5ae728f7b9d93d27fcc0d5f66f33c11b84bfb7d8af1f6a82b00c7da",
+      "metadataHash": "92265bfa6fe4aeeb67b337ae0e55a8f633e9ef465414c3573bf09ac3bb74645a",
       "types": []
     },
     {
@@ -38826,6 +38959,12 @@
       "types": []
     },
     {
+      "id": "smeekraft.omaclusive",
+      "name": "Omaclusive",
+      "metadataHash": "fa4ee4d0aa4065ae50f6089245baa1338a06c0eb2accc6a8c4dab8ea290b7805",
+      "types": []
+    },
+    {
       "id": "smorg.timemachine",
       "name": "Time Machine",
       "metadataHash": "7cd1891ed99f4ded3b13795b072992134f6e69609877d559e533ef685dd26ae1",
@@ -39028,7 +39167,7 @@
     {
       "id": "squinto.zenbook-duo-bottom-oled",
       "name": "Zenbook Duo bottom OLED",
-      "metadataHash": "b2006352c3bddd2bae99d7b52b0cbac434f499fcc6a00f627563212d2c336820",
+      "metadataHash": "df11e34d9168653a982ff8fa99702d8d1317dce125458b8501a9c70a31862837",
       "types": []
     },
     {
@@ -40242,6 +40381,12 @@
       "types": []
     },
     {
+      "id": "tiedeyez.omacube",
+      "name": "Omacube",
+      "metadataHash": "6515b721d6558d8aca171c2ba96d95c2fba15b15c269fd356ddd9f95813524a1",
+      "types": []
+    },
+    {
       "id": "tiedeyez.omatree",
       "name": "Omatree",
       "metadataHash": "6ad3ab8f8a0d3da7c8a7470652fe526ff3f9df4e7dedfcd8184791985e5324bf",
@@ -40605,6 +40750,12 @@
       "types": []
     },
     {
+      "id": "traymd-omarchy",
+      "name": "TrayMD Omarchy",
+      "metadataHash": "0ac55026c3a096b5cd4cd264de5b75207f4495c3652529ed164293806edd3068",
+      "types": []
+    },
+    {
       "id": "trevor.system-monitor",
       "name": "System Monitor",
       "metadataHash": "c69b8f9f4402eb29529ad853641139966b3d19c2a4af73efcdd305e6319134a3",
@@ -40616,6 +40767,12 @@
       "id": "trinity-bytes.lock-keys-osd",
       "name": "Lock Keys OSD",
       "metadataHash": "c2b061ab01339da51bf86b4d69cea60c91820ff16b54cf3dff346af3ee28febc",
+      "types": []
+    },
+    {
+      "id": "tripex.keyboard-profile",
+      "name": "Keyboard profile",
+      "metadataHash": "9fd97ac87c76262c76dd29eddea794a9ff781200995aa76d993bea8e0fd295e0",
       "types": []
     },
     {
@@ -40734,6 +40891,14 @@
       "name": "Typarchy",
       "metadataHash": "67138820b7b96a00683e64a7690c0debbaeec17123d47e75418088f7da20d8b0",
       "types": []
+    },
+    {
+      "id": "typecraft.omacast",
+      "name": "omacast",
+      "metadataHash": "623bae3a60aa03bf00aac54f75a42d134053d43d9db1bfe624a1962883b34ff2",
+      "types": [
+        "launcher"
+      ]
     },
     {
       "id": "tyrsolution.app-launcher",
@@ -42064,6 +42229,14 @@
       ]
     },
     {
+      "id": "x99.savanna",
+      "name": "Savanna",
+      "metadataHash": "766cfcc71962b1920f9cd541f5eecf0b539c8772c0b501ea966beb1e8846b25d",
+      "types": [
+        "launcher"
+      ]
+    },
+    {
       "id": "xak47d.todoist",
       "name": "Todoist",
       "metadataHash": "844eb18c098173fdcd1013fe6a46440e4d10e2b1920e531ad855b8c75f72c368",
@@ -42506,7 +42679,7 @@
     {
       "id": "yumenaka.comigo",
       "name": "Comigo",
-      "metadataHash": "b47ad67932685be76b52fb490af7619ba51f726dfd566c3374d2cb1cdf618f70",
+      "metadataHash": "ee09d2598388cf2f16bc1e5dd3dd39d61048e25fa0773577ee45cafe78b2ca64",
       "types": []
     },
     {
@@ -42641,6 +42814,14 @@
       "name": "OmniRoute monitor",
       "metadataHash": "3d1d3fdb9c7bf5df898e19eca678d702d17ed042eb52b40c7864e1bf7c819c13",
       "types": []
+    },
+    {
+      "id": "zejzl.network-speed-lite",
+      "name": "Network Speed Lite",
+      "metadataHash": "b9bc38a29bdf85e0529b8bb922e92ac7160f71b8904c3926e621eecf0d62c7d8",
+      "types": [
+        "network-diagnostics"
+      ]
     },
     {
       "id": "zen.awake",
