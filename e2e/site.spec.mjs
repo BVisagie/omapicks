@@ -283,7 +283,7 @@ test("print uses paper and ink without translucent tiles", async ({ page }) => {
 test("the compare pill sits below the tile metadata and never covers it on hover", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/");
-  const tile = page.locator(".support").first();
+  const tile = page.locator(".support:visible").first();
   await tile.scrollIntoViewIfNeeded();
   await tile.hover();
   await expect(tile.locator(".feature-action")).toHaveCSS("opacity", "1");
@@ -292,12 +292,32 @@ test("the compare pill sits below the tile metadata and never covers it on hover
   expect(pill.y).toBeGreaterThanOrEqual(meta.y + meta.height - 1);
 });
 
+test("every featured rotation hides only its own pick tile and keeps the pill below the metadata", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  const slots = await page.locator(".support-wrap[data-slot]").count();
+  expect(slots).toBeGreaterThan(1);
+  for (let slot = 0; slot < slots; slot += 1) {
+    await page.evaluate((index) => { document.documentElement.dataset.featuredIndex = String(index); }, slot);
+    await expect(page.locator(`.showdown[data-slot="${slot}"]`)).toBeVisible();
+    await expect(page.locator(`.support-wrap[data-slot="${slot}"]`)).toBeHidden();
+    await expect(page.locator(".support-wrap[data-slot]:visible")).toHaveCount(slots - 1);
+    const tile = page.locator(".support:visible").first();
+    await tile.scrollIntoViewIfNeeded();
+    await tile.hover();
+    await expect(tile.locator(".feature-action")).toHaveCSS("opacity", "1");
+    const meta = await tile.locator(".support-meta").boundingBox();
+    const pill = await tile.locator(".feature-action").boundingBox();
+    expect(pill.y).toBeGreaterThanOrEqual(meta.y + meta.height - 1);
+  }
+});
+
 test("touch screens always see the compare pill on pick tiles", async ({ browser }) => {
   const context = await browser.newContext({ hasTouch: true, viewport: { width: 1200, height: 900 } });
   const page = await context.newPage();
   await page.goto("http://127.0.0.1:4173/");
-  await page.locator(".support .feature-action").first().scrollIntoViewIfNeeded();
-  await expect(page.locator(".support .feature-action").first()).toHaveCSS("opacity", "1");
+  await page.locator(".support:visible .feature-action").first().scrollIntoViewIfNeeded();
+  await expect(page.locator(".support:visible .feature-action").first()).toHaveCSS("opacity", "1");
   await context.close();
 });
 

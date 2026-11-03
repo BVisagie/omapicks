@@ -631,16 +631,23 @@
       "repository": "https://github.com/Guneshbari/omarchy-network",
       "requirementsStatus": "reviewed",
       "requirements": [
-        "Requires NetworkManager, iw, jq, qrencode and wl-clipboard. Simultaneous Wi-Fi repeating needs linux-wifi-hotspot, compatible AP-capable hardware and a privileged pkexec create_ap helper."
+        "Requires NetworkManager, iw, jq, qrencode and wl-clipboard. Simultaneous Wi-Fi repeating needs the plugin's verified create_ap build (installed with its Install Repeater action; a create_ap from the linux-wifi-hotspot package is not used), compatible AP-capable hardware and a privileged pkexec create_ap helper."
       ],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-03",
       "sources": [
         {
-          "url": "https://github.com/Guneshbari/omarchy-network/blob/a9210ea5c116b6c604a275631b83765d4ed7deee/README.md",
-          "revision": "a9210ea5c116b6c604a275631b83765d4ed7deee",
+          "url": "https://github.com/Guneshbari/omarchy-network/blob/ecaa08f9d34bfe1e0160afeb43ab33b76c0f8fb0/README.md",
+          "revision": "ecaa08f9d34bfe1e0160afeb43ab33b76c0f8fb0",
           "path": "README.md",
           "sha256": "397493842b12a94a1a29b7a98a8e2efbbfcc8e8990ba22a544693a3819697049",
           "evidence": "README.md lines 121-121:\n| Package | Type | Purpose |\n\nREADME.md lines 123-128:\n| `networkmanager` (`nmcli`) | **Required** | Core Wi-Fi scanning, connections, and standard AP |\n| `iw` | **Required** | Wi-Fi radio frequencies and connected client counting |\n| `jq` | **Required** | JSON query parsing |\n| `qrencode` | **Required** | High-contrast ASCII QR code generation |\n| `wl-clipboard` (`wl-copy`) | **Required** | Clipboard copying for passwords and IP addresses |\n| `linux-wifi-hotspot` | **Optional (`optdepends`)** | Enables simultaneous Wi-Fi repeater chaining while connected to Wi-Fi. *(Can be installed directly via the panel's 1-click button)* |\n\nREADME.md lines 135-135:\n- **Privilege Boundaries**: PolicyKit-assisted operations (`pkexec create_ap`) enforce root ownership (`UID 0`) and reject symlinks on all temporary state directories, configuration files, and target process IDs."
+        },
+        {
+          "url": "https://github.com/Guneshbari/omarchy-network/blob/ecaa08f9d34bfe1e0160afeb43ab33b76c0f8fb0/Model.js",
+          "revision": "ecaa08f9d34bfe1e0160afeb43ab33b76c0f8fb0",
+          "path": "Model.js",
+          "sha256": "b23b33da6d3d39b940d1b1e7d4d8b06f04e9d42feaee2d47fdc99450ef1dcd24",
+          "evidence": "Model.js lines 673-674:\n  'has_create_ap=\"false\"; ' +\n  'if [[ -f /usr/local/bin/create_ap && ! -L /usr/local/bin/create_ap ]] && grep -q -F \"/run/create_ap/create_ap.\" /usr/local/bin/create_ap 2>/dev/null; then has_create_ap=\"true\"; fi; ' +\n\nModel.js lines 1243-1250:\n  '# Installs ONLY the create_ap script, in two verified steps:\\n' +\n  '#  1. fetch it from an immutable upstream commit and check the upstream SHA-256;\\n' +\n  '#  2. apply one fixed transformation that moves all of its runtime state from\\n' +\n  '#     world-writable /tmp to the root-only /run/create_ap, then check the SHA-256 of\\n' +\n  '#     the result. The root helper later refuses to run anything else.\\n' +\n  '# The linux-wifi-hotspot package is deliberately NOT used: it also installs\\n' +\n  '# wihotspot-gui and a Polkit policy that lets any active local user run create_ap /\\n' +\n  '# the GUI as root without a password.\\n' +"
         }
       ]
     },

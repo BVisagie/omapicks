@@ -2355,8 +2355,11 @@
       {
         "pluginId": "community.codex-usage",
         "typeId": "agent-monitoring",
-        "listingSha256": "2a55cf2b65cbb7b3d1ee10bcdc6a754cde2f1e191cff249a0a0944505ceb41b7",
-        "reason": "Session/weekly usage, pace and resets describe Codex quota consumption, without current-agent state or saved-session resumption."
+        "listingSha256": [
+          "2a55cf2b65cbb7b3d1ee10bcdc6a754cde2f1e191cff249a0a0944505ceb41b7",
+          "91c03fd149a8250b34209af6250ec342ca5bea5d9df52d073e9d6e8dad7adbb1"
+        ],
+        "reason": "Codex session/weekly usage (and, in the later listing, Cursor/Grok usage) describes provider quota consumption, without current-agent state or saved-session resumption."
       },
       {
         "pluginId": "costafot.android-dev",

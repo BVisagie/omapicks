@@ -130,7 +130,8 @@ export function prepareTaxonomy(taxonomy) {
     assert(overrides[field] == null || Array.isArray(overrides[field]), `overrides.${field} must be an array`);
     for (const entry of overrides[field] ?? []) {
       assert(typeof entry.pluginId === "string" && entry.pluginId.length && ids.has(entry.typeId), "Invalid discovery override target");
-      assert(/^[a-f0-9]{64}$/.test(entry.listingSha256), "Discovery override requires a listing hash");
+      const hashes = [entry.listingSha256].flat();
+      assert(hashes.length && hashes.every((hash) => /^[a-f0-9]{64}$/.test(hash)) && new Set(hashes).size === hashes.length, "Discovery override requires distinct listing hashes");
       assert(typeof entry.reason === "string" && entry.reason.trim().length, "Discovery override requires a reason");
       const key = `${entry.pluginId}/${entry.typeId}`;
       assert(!discoveryExclusions.has(key) && !discoveryInclusions.has(key), `Duplicate discovery override: ${key}`);
@@ -170,6 +171,8 @@ function matchedEvidence(patterns, fields, rule, version = CLASSIFICATION_VERSIO
 // change raw discovery, never grant qualification or veto a source-qualified/related task.
 export const discoveryListingHash = (plugin) => createHash("sha256")
   .update(JSON.stringify(plugin ? { id: plugin.id, name: plugin.name, description: plugin.description } : null)).digest("hex");
+// A renewed judgment can list each reviewed wording; any other wording still expires it.
+const coversListing = (entry, hash) => [entry?.listingSha256].flat().includes(hash);
 
 export function discoveryCurationStatus(catalog, preparedTaxonomy) {
   const plugins = new Map(catalog.map((plugin) => [plugin.id, plugin]));
@@ -177,7 +180,7 @@ export function discoveryCurationStatus(catalog, preparedTaxonomy) {
   for (const [action, records] of [["include", preparedTaxonomy.discoveryInclusions], ["exclude", preparedTaxonomy.discoveryExclusions]]) {
     for (const entry of records.values()) {
       const plugin = plugins.get(entry.pluginId);
-      if (plugin && discoveryListingHash(plugin) === entry.listingSha256) {
+      if (plugin && coversListing(entry, discoveryListingHash(plugin))) {
         result[action === "include" ? "activeIncludes" : "activeExcludes"]++;
       } else result.expired.push({ pluginId: entry.pluginId, typeId: entry.typeId, action,
         reason: plugin ? "listing-changed" : "listing-unavailable" });
@@ -197,9 +200,9 @@ export function explainClassification(plugin, preparedTaxonomy, version = CLASSI
   const listingHash = (preparedTaxonomy.discoveryExclusions.size || preparedTaxonomy.discoveryInclusions.size) ? discoveryListingHash(plugin) : null;
   return preparedTaxonomy.types.map((type) => {
     const exclusion = preparedTaxonomy.discoveryExclusions.get(`${plugin.id}/${type.id}`);
-    const discoveryExclusion = exclusion?.listingSha256 === listingHash ? exclusion : null;
+    const discoveryExclusion = coversListing(exclusion, listingHash) ? exclusion : null;
     const inclusion = preparedTaxonomy.discoveryInclusions.get(`${plugin.id}/${type.id}`);
-    const discoveryInclusion = inclusion?.listingSha256 === listingHash ? inclusion : null;
+    const discoveryInclusion = coversListing(inclusion, listingHash) ? inclusion : null;
     const evidence = [
       ...matchedEvidence(type.includePatterns, fields, "include", version, type.exclusionScope),
       ...matchedEvidence(type.namePatterns, { name: plugin.name }, "nameInclude", version, type.exclusionScope)

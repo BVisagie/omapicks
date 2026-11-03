@@ -3,7 +3,7 @@ import { readFile, mkdtemp, mkdir, writeFile, rm } from "node:fs/promises";
 import path from "node:path";
 import os from "node:os";
 import test from "node:test";
-import { classifyPlugin, prepareTaxonomy, rankPlugins as rankLatest, methodologyFor, pickWithHysteresis, discoveryListingHash } from "../build/rank.mjs";
+import { classifyPlugin, prepareTaxonomy, rankPlugins as rankLatest, methodologyFor, pickWithHysteresis, discoveryListingHash, discoveryCurationStatus } from "../build/rank.mjs";
 import { assertTaskQualifiedSnapshot, explainTaskFit, prepareTaskReviews, taskMetadataHash, updateTaskReviewQueue } from "../build/task-fit.mjs";
 import { auditClassifications as auditLatest, checksum, renderClassificationAudit } from "../build/classification-audit.mjs";
 import { refresh as refreshLatest, replayChanges, validateFeeds } from "../build/refresh.mjs";
@@ -77,6 +77,23 @@ test("listing-bound discovery exclusions expire and cannot veto reviewed capabil
   assert.equal(rankPlugins(inputs([p], [review(p)], { taxonomy: scoped })).rankings.types[0].winner.id, p.id);
   const duplicate = structuredClone(scoped); duplicate.overrides.discoveryExclude.push(duplicate.overrides.discoveryExclude[0]);
   assert.throws(() => prepareTaxonomy(duplicate), /Duplicate discovery override/);
+});
+
+test("a renewed discovery exclusion covers each reviewed wording and still expires on new text", () => {
+  const p = plugin("indicator", "Screenshot recording indicator.");
+  const renewed = { ...p, description: "Screenshot recording indicator with a timer." };
+  const scoped = { ...taxonomy, overrides: { discoveryExclude: [{ pluginId: p.id, typeId: "capture",
+    listingSha256: [discoveryListingHash(p), discoveryListingHash(renewed)], reason: "Both listings only advertise recording status, not image capture." }] } };
+  const prepared = prepareTaxonomy(scoped);
+  assert.deepEqual(classifyPlugin(p, prepared), []);
+  assert.deepEqual(classifyPlugin(renewed, prepared), []);
+  assert.deepEqual(classifyPlugin({ ...p, description: "Screenshot capture with a status indicator." }, prepared), ["capture"]);
+  assert.deepEqual(discoveryCurationStatus([renewed], prepared), { activeIncludes: 0, activeExcludes: 1, expired: [] });
+  assert.equal(discoveryCurationStatus([{ ...p, description: "Screenshot capture." }], prepared).expired[0].reason, "listing-changed");
+  for (const listingSha256 of [[], [discoveryListingHash(p), discoveryListingHash(p)], ["not-a-hash"]]) {
+    const invalid = structuredClone(scoped); invalid.overrides.discoveryExclude[0].listingSha256 = listingSha256;
+    assert.throws(() => prepareTaxonomy(invalid), /Discovery override requires distinct listing hashes/);
+  }
 });
 
 test("listing-bound inclusions discover a candidate without qualifying it and expire on changed text", () => {
