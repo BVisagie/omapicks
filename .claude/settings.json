@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "ask": [
+      "Bash(gh workflow run *)",
+      "Bash(npm run refresh*)",
+      "Bash(mise exec *npm run refresh*)",
+      "Bash(node build/refresh.mjs*)",
+      "Bash(mise exec *node build/refresh.mjs*)",
+      "Bash(npm run availability*)",
+      "Bash(mise exec *npm run availability*)",
+      "Bash(node build/availability.mjs*)",
+      "Bash(mise exec *node build/availability.mjs*)",
+      "Bash(git push* main*)",
+      "Bash(git push* *:main*)",
+      "Bash(git -* push* main*)",
+      "Bash(git -* push* *:main*)"
+    ],
+    "deny": [
+      "Bash(gh pr merge *)",
+      "Bash(gh secret *)",
+      "Bash(git push* --force*)",
+      "Bash(git push* -f*)",
+      "Bash(git push* --delete*)",
+      "Bash(git push* -d *)",
+      "Bash(git -* push* --force*)",
+      "Bash(git -* push* -f*)",
+      "Bash(git -* push* --delete*)",
+      "Bash(git -* push* -d *)",
+      "Bash(git *--no-verify*)",
+      "Bash(git commit -n *)",
+      "Bash(git commit * -n *)",
+      "Bash(gh api *rulesets*)",
+      "Bash(gh api graphql*)",
+      "Bash(curl *api.github.com*rulesets*)",
+      "Bash(*wrangler deploy*)",
+      "Bash(*wrangler versions deploy*)",
+      "Bash(*wrangler secret*)"
+    ]
+  }
+}

@@ -1,0 +1,118 @@
+# Guards for AGENTS.md § Running a task. `.claude/settings.json` holds the same
+# list for Claude Code. Codex loads this file only in a trusted project.
+#
+# A prefix rule matches the start of a command, so a flag later in the command,
+# or a command run through a wrapper such as `mise exec`, is not covered. A
+# GraphQL call can change a ruleset, and a prefix rule cannot see inside one, so
+# direct GraphQL calls are refused.
+
+PUSH_FLAGS = ["--force", "-f", "--force-with-lease", "--delete", "-d", "--no-verify"]
+WRANGLER = [["wrangler"], ["npx", "wrangler"]]
+RULESETS = ["repos/BVisagie/omapicks/rulesets", "repos/BVisagie/omapicks/rulesets/22172922"]
+RULESET_PATHS = RULESETS + ["/" + path for path in RULESETS]
+
+prefix_rule(
+    pattern = ["gh", "pr", "merge"],
+    decision = "forbidden",
+    justification = "The owner merges pull requests.",
+    match = ["gh pr merge 12"],
+    not_match = ["gh pr view 12"],
+)
+
+prefix_rule(
+    pattern = ["gh", "secret"],
+    decision = "forbidden",
+    justification = "Secrets are the owner's to manage.",
+    match = ["gh secret set NAME"],
+)
+
+prefix_rule(
+    pattern = ["git", "push", PUSH_FLAGS],
+    decision = "forbidden",
+    justification = "Force-pushes, deletes a branch or skips the push hooks.",
+    match = ["git push --force origin x", "git push -d origin x"],
+    not_match = ["git push -u origin x"],
+)
+
+prefix_rule(
+    pattern = ["git", "push", "origin", PUSH_FLAGS],
+    decision = "forbidden",
+    justification = "Force-pushes, deletes a branch or skips the push hooks.",
+    match = ["git push origin --delete x"],
+    not_match = ["git push origin x"],
+)
+
+prefix_rule(
+    pattern = ["git", "commit", ["--no-verify", "-n"]],
+    decision = "forbidden",
+    justification = "Skips the commit hooks.",
+    match = ["git commit --no-verify -m x"],
+    not_match = ["git commit -m x"],
+)
+
+prefix_rule(
+    pattern = ["gh", "api", RULESET_PATHS],
+    decision = "forbidden",
+    justification = "The ruleset protecting main is the owner's to change.",
+    match = ["gh api repos/BVisagie/omapicks/rulesets/22172922 -X DELETE"],
+    not_match = ["gh api repos/BVisagie/omapicks/pulls/1"],
+)
+
+prefix_rule(
+    pattern = ["gh", "api", ["-X", "--method"], ["DELETE", "PATCH", "PUT", "POST"], RULESET_PATHS],
+    decision = "forbidden",
+    justification = "The ruleset protecting main is the owner's to change.",
+    match = ["gh api -X DELETE repos/BVisagie/omapicks/rulesets/22172922"],
+    not_match = ["gh api -X POST repos/BVisagie/omapicks/pulls/1/comments"],
+)
+
+[prefix_rule(
+    pattern = w + [["deploy", "secret"]],
+    decision = "forbidden",
+    justification = "Publishes the Worker or changes its secrets: the owner's to do.",
+) for w in WRANGLER]
+
+[prefix_rule(
+    pattern = w + ["versions", "deploy"],
+    decision = "forbidden",
+    justification = "Publishes the Worker: the owner's to do.",
+) for w in WRANGLER]
+
+prefix_rule(
+    pattern = ["gh", "api", "graphql"],
+    decision = "forbidden",
+    justification = "A GraphQL call can change the ruleset protecting main.",
+    match = ["gh api graphql -f query=mutation{deleteRepositoryRuleset}", "gh api graphql --input query.json"],
+    not_match = ["gh api repos/BVisagie/omapicks/pulls/1"],
+)
+
+prefix_rule(
+    pattern = ["gh", "workflow", "run"],
+    decision = "prompt",
+    justification = "A workflow can publish data or read the owner's accounts.",
+    match = ["gh workflow run site-report.yml"],
+    not_match = ["gh workflow list"],
+)
+
+prefix_rule(
+    pattern = ["npm", "run", ["refresh", "availability"]],
+    decision = "prompt",
+    justification = "Rewrites published data. A refresh with --dry-run does not, but still asks.",
+    match = ["npm run refresh", "npm run availability"],
+    not_match = ["npm run check"],
+)
+
+prefix_rule(
+    pattern = ["node", ["build/refresh.mjs", "build/availability.mjs"]],
+    decision = "prompt",
+    justification = "Rewrites published data. A refresh with --dry-run does not, but still asks.",
+    match = ["node build/refresh.mjs --republish", "node build/availability.mjs"],
+)
+
+prefix_rule(
+    pattern = ["git", "push", "origin", ["main", "HEAD:main"]],
+    decision = "prompt",
+    justification = "A push to main deploys to production.",
+    match = ["git push origin main"],
+    not_match = ["git push origin fix/x"],
+)
