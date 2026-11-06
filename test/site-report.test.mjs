@@ -64,7 +64,9 @@ test("traffic periods compare only when Analytics Engine still holds the earlier
 test("traffic queries are fixed, validated, and never return visitor identifiers", () => {
   const span = { start: "2026-09-07", end: "2026-11-01" };
   const sql = trafficQueries({ span, current: { start: "2026-10-05", end: "2026-11-01" } });
-  assert.match(sql.crawlerLike, /^SELECT day, count\(\) AS visitor_days, sum\(views\) AS views\n/);
+  // Analytics Engine answers HTTP 422 to a subquery inside a subquery.
+  for (const query of Object.values(sql)) assert.ok((query.match(/\(\s*SELECT\b/gi) ?? []).length <= 1, query);
+  assert.match(sql.crawlerLike, /^SELECT day, sum\(minute_views\) AS views, /);
   // A sampled row carries a weight such as 32; only observed events may trip the thresholds.
   assert.match(sql.crawlerLike, /count\(\) AS minute_events/);
   assert.match(sql.crawlerLike, /HAVING events >= 30 OR peak_pages >= 10/);
@@ -94,7 +96,8 @@ test("traffic totals remove crawler-like visitor-days and keep unknown pages ano
   assert.ok(calls.every((call) => call.init.headers.authorization === `Bearer ${CLOUDFLARE_TOKEN}`));
   assert.equal(traffic.status, "ok");
   const peopleViews = rows.daily.filter((row) => row.day >= traffic.current.start && (row.class === "human" || row.class === "")).reduce((sum, row) => sum + row.views, 0);
-  assert.equal(traffic.current.crawlerLikeViews, 31 + 18);
+  assert.equal(traffic.current.crawlerLikeViews, 31 + 11 + 7);
+  assert.equal(traffic.current.crawlerLikeVisitorDays, 3);
   assert.equal(traffic.current.views, peopleViews - 49);
   assert.ok(traffic.current.legacyViews > 0);
   assert.equal(traffic.filterLiveSince, "2026-10-08");
