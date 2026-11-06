@@ -18,7 +18,9 @@ const PROVIDER = /^projects\/\d+\/locations\/global\/workloadIdentityPools\/[a-z
 const SERVICE_ACCOUNT = /^[a-z][a-z0-9-]{4,28}[a-z0-9]@[a-z][a-z0-9-]{4,28}[a-z0-9]\.iam\.gserviceaccount\.com$/;
 const PROPERTY = /^(sc-domain:[a-z0-9.-]+|https:\/\/[a-z0-9.-]+\/)$/;
 const READ_ONLY_SCOPE = "https://www.googleapis.com/auth/webmasters.readonly";
-const TOKEN_LIFETIME = "600s";
+// Matches the workflow's 15-minute job limit, so the token outlasts any run. A shorter token can
+// expire during URL inspection, and those pages would then be reported as UNAVAILABLE.
+const TOKEN_LIFETIME = "900s";
 const API = "https://searchconsole.googleapis.com";
 const DEVICES = new Set(["DESKTOP", "MOBILE", "TABLET"]);
 const VERDICTS = new Set(["PASS", "PARTIAL", "FAIL", "NEUTRAL", "VERDICT_UNSPECIFIED"]);
@@ -45,7 +47,7 @@ async function jsonRequest(fetchImpl, url, init, service) {
   }
 }
 
-// GitHub's short-lived OIDC token is exchanged for a ten-minute, read-only Google token. No
+// GitHub's short-lived OIDC token is exchanged for a 15-minute, read-only Google token. No
 // Google credential is stored anywhere.
 export async function googleAccessToken({ env, fetchImpl = fetch }) {
   const provider = env.GOOGLE_WORKLOAD_IDENTITY_PROVIDER;

@@ -78,7 +78,7 @@ Repository settings that go with it: Actions may use only GitHub-owned actions a
 
 2. **Report key.** On your machine, run `sudo pacman -S age` and then `npm run report:keygen`. It asks for a passphrase and saves the private key, encrypted with that passphrase, to `~/.config/omapicks/site-report-key.age`. It also writes the public key to `.github/site-report-recipients.txt` and checks a round trip. Commit that file to `main`. Copy the key file to a second place (a USB stick or cloud storage is fine because the file is encrypted) and keep the passphrase in your password manager.
 
-3. **Google Search Console (optional).** No Google key is stored. GitHub's short-lived identity token is exchanged for a ten-minute, read-only token through Workload Identity Federation, and Google accepts the token only from this repository's `site-report.yml` on `main` in the `site-report` environment. In [Google Cloud Shell](https://shell.cloud.google.com), with a project ID of your choice (it must be globally unique):
+3. **Google Search Console (optional).** No Google key is stored. GitHub's short-lived identity token is exchanged for a 15-minute, read-only token through Workload Identity Federation, and Google accepts the token only from this repository's `site-report.yml` on `main` in the `site-report` environment. In [Google Cloud Shell](https://shell.cloud.google.com), with a project ID of your choice (it must be globally unique):
 
    ```sh
    PROJECT_ID=omapicks-report

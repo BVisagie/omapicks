@@ -132,7 +132,7 @@ test("the filter go-live marker appears only while the window still holds pre-fi
   assert.equal(summary(rows.daily).filterLiveSince, rows.daily.find((row) => row.class !== "").day);
 });
 
-test("Google access uses GitHub's identity, a read-only scope and a ten-minute token", async () => {
+test("Google access uses GitHub's identity, a read-only scope and a 15-minute token", async () => {
   const calls = [];
   const token = await googleAccessToken({ env: GOOGLE_ENV, fetchImpl: googleFetch(searchFixture(28, pages), calls) });
   assert.equal(token, GOOGLE_TOKEN);
@@ -141,7 +141,7 @@ test("Google access uses GitHub's identity, a read-only scope and a ten-minute t
   assert.equal(calls[0].init.headers.authorization, `Bearer ${GOOGLE_ENV.ACTIONS_ID_TOKEN_REQUEST_TOKEN}`);
   assert.equal(calls[1].body.audience, `//iam.googleapis.com/${provider}`);
   assert.equal(calls[1].body.subjectToken, "github-oidc-jwt");
-  assert.deepEqual(calls[2].body, { scope: ["https://www.googleapis.com/auth/webmasters.readonly"], lifetime: "600s" });
+  assert.deepEqual(calls[2].body, { scope: ["https://www.googleapis.com/auth/webmasters.readonly"], lifetime: "900s" });
   assert.match(calls[2].url, /serviceAccounts\/omapicks-report%40omapicks-report\.iam\.gserviceaccount\.com:generateAccessToken$/);
 });
 
