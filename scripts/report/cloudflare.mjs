@@ -41,23 +41,21 @@ ORDER BY day`,
 FROM ${dataset}
 WHERE ${recent}
 GROUP BY path, class`,
-    // Visitor identifiers stay inside Cloudflare: only per-day counts come back. Thresholds
-    // count observed events, because a sampling weight is not evidence of a busy visitor;
-    // the weighted views are what the totals subtract.
-    crawlerLike: `SELECT day, count() AS visitor_days, sum(views) AS views
+    // One row per crawler-like visitor-day: Analytics Engine rejects a subquery inside a
+    // subquery, so summarizeTraffic adds the rows up by day. The visitor is grouped on but
+    // never selected, so identifiers stay inside Cloudflare. Thresholds count observed
+    // events, because a sampling weight is not evidence of a busy visitor; the weighted
+    // views are what the totals subtract.
+    crawlerLike: `SELECT day, sum(minute_views) AS views, sum(minute_events) AS events, max(minute_pages) AS peak_pages
 FROM (
-  SELECT day, visitor, sum(minute_views) AS views, sum(minute_events) AS events, max(minute_pages) AS peak_pages
-  FROM (
-    SELECT index1 AS day, blob2 AS visitor, toStartOfInterval(timestamp, INTERVAL '1' MINUTE) AS minute,
-      sum(_sample_interval * double1) AS minute_views, count() AS minute_events, count(DISTINCT blob1) AS minute_pages
-    FROM ${dataset}
-    WHERE ${all} AND ${PEOPLE}
-    GROUP BY day, visitor, minute
-  )
-  GROUP BY day, visitor
-  HAVING events >= ${CRAWLER_DAILY_VIEWS} OR peak_pages >= ${CRAWLER_PAGES_PER_MINUTE}
+  SELECT index1 AS day, blob2 AS visitor, toStartOfInterval(timestamp, INTERVAL '1' MINUTE) AS minute,
+    sum(_sample_interval * double1) AS minute_views, count() AS minute_events, count(DISTINCT blob1) AS minute_pages
+  FROM ${dataset}
+  WHERE ${all} AND ${PEOPLE}
+  GROUP BY day, visitor, minute
 )
-GROUP BY day
+GROUP BY day, visitor
+HAVING events >= ${CRAWLER_DAILY_VIEWS} OR peak_pages >= ${CRAWLER_PAGES_PER_MINUTE}
 ORDER BY day`
   };
 }
@@ -119,8 +117,8 @@ export function summarizeTraffic({ periods, span, pages, dailyRows, pageRows, cr
   for (const row of crawlerRows) {
     const entry = byDay.get(row.day);
     if (!entry) continue;
-    entry.crawlerLikeViews = Math.min(entry.people, finite(row.views));
-    entry.crawlerLikeVisitorDays = Math.min(entry.visitors, finite(row.visitor_days));
+    entry.crawlerLikeViews = Math.min(entry.people, entry.crawlerLikeViews + finite(row.views));
+    entry.crawlerLikeVisitorDays = Math.min(entry.visitors, entry.crawlerLikeVisitorDays + 1);
   }
   const daily = [...byDay.values()].map((entry) => ({
     ...entry,

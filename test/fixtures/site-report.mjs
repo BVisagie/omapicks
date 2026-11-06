@@ -38,8 +38,9 @@ export function cloudflareRows(days = 28, pages) {
     ...categoryPaths.slice(0, 20).map((path, index) => ({ path, class: index % 2 ? "human" : "", views: 120 - index * 5, visitors: 80 - index * 3 }))
   ];
   const crawlerRows = [
-    { day: addDays(periods.current.end, -2), visitor_days: 1, views: 31 },
-    { day: addDays(periods.current.end, -9), visitor_days: 2, views: 18 }
+    { day: addDays(periods.current.end, -2), views: 31 },
+    { day: addDays(periods.current.end, -9), views: 11 },
+    { day: addDays(periods.current.end, -9), views: 7 }
   ];
   return { periods, daily, pageRows, crawlerRows };
 }
@@ -49,7 +50,7 @@ export function cloudflareFetch(rows, calls = []) {
   return async (url, init) => {
     calls.push({ url: String(url), init });
     const sql = String(init.body);
-    const data = sql.includes("count() AS visitor_days") ? rows.crawlerRows : sql.includes("blob1 AS path") ? rows.pageRows : rows.daily;
+    const data = sql.includes("AS peak_pages") ? rows.crawlerRows : sql.includes("blob1 AS path") ? rows.pageRows : rows.daily;
     return new Response(JSON.stringify({ meta: [], data, rows: data.length }), { status: 200, headers: { "content-type": "application/json" } });
   };
 }

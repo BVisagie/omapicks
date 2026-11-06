@@ -59,7 +59,7 @@ Start **Site report** under Actions and choose 7, 28 or 90 days. It reads Cloudf
 - **Who can run it.** Manual runs only, and the job stops unless it runs on the default branch. Its secrets live in the `site-report` environment, which only `main` may use, so code pushed on any other branch cannot read them.
 - **What it can do.** `contents: read`, `actions: read`, and `id-token: write` so it can ask GitHub for its own identity token for Google. It never commits, deploys or installs npm packages. Its only actions are GitHub's own, pinned by SHA. The one outside program is age v1.3.2, whose SHA-256 is pinned in `scripts/install-age.sh` after checking the release against its Sigsum transparency log.
 - **Where secrets go.** The Cloudflare secrets reach only the *Collect Cloudflare traffic* step and the Google settings only the *Collect Google Search Console* step. The `days` input reaches scripts only as an environment variable.
-- **What leaves Cloudflare.** Fixed queries return totals only. The crawler-behaviour check runs inside Cloudflare's SQL, so visitor identifiers never reach the runner.
+- **What leaves Cloudflare.** Fixed queries return totals, plus a day and a count for each crawler-like visitor-day. The crawler-behaviour check runs inside Cloudflare's SQL, so visitor identifiers never reach the runner.
 - **What the report may contain.** Numbers, known page paths (anything else becomes "other"), and bounded, HTML-escaped text such as Google search queries. It never contains account IDs, tokens, dataset names, visitor identifiers or event timestamps. Its Content-Security-Policy blocks every network request.
 - **Encryption.** The report is encrypted to the public key in `.github/site-report-recipients.txt`, and the job refuses to run until that file holds a valid age key. Unencrypted data exists only on the runner, which GitHub discards after the job.
 
@@ -85,6 +85,7 @@ Repository settings that go with it: Actions may use only GitHub-owned actions a
    gcloud projects create "$PROJECT_ID" && gcloud config set project "$PROJECT_ID"
    gcloud services enable searchconsole.googleapis.com iam.googleapis.com iamcredentials.googleapis.com sts.googleapis.com cloudresourcemanager.googleapis.com
    gcloud iam service-accounts create omapicks-report --display-name="OmaPicks site report (read-only Search Console)"
+   sleep 120   # a new project's Owner role takes a moment to reach the pool API
    gcloud iam workload-identity-pools create github-actions --location=global --display-name="GitHub Actions"
    gcloud iam workload-identity-pools providers create-oidc omapicks-report \
      --location=global --workload-identity-pool=github-actions \
@@ -97,6 +98,8 @@ Repository settings that go with it: Actions may use only GitHub-owned actions a
      --member="principalSet://iam.googleapis.com/projects/$PROJECT_NUMBER/locations/global/workloadIdentityPools/github-actions/attribute.repository_id/1353362821"
    echo "projects/$PROJECT_NUMBER/locations/global/workloadIdentityPools/github-actions/providers/omapicks-report"
    ```
+
+   If the pool step still reports `PERMISSION_DENIED`, wait a few minutes and rerun from that line, not from the top, because the project and service account already exist. The final `echo` prints its line even when an earlier step failed.
 
    The numbers are this repository's and its owner's numeric GitHub IDs, which, unlike names, cannot be reclaimed by someone else. Give the service account no project roles. In Search Console, open *Settings → Users and permissions*, add `omapicks-report@<project-id>.iam.gserviceaccount.com` as a **Restricted** user, and then store the three settings:
 
