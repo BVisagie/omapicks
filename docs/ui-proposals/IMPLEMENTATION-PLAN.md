@@ -1,6 +1,8 @@
 # Implementation plan — Signal + Podium (Proposal 04) across the whole site
 
-Prepared 2026-10-29 against `origin/main` at `8079a59` (after PR #26, "Require reviewed evidence for recommendations and simplify Actions"). One PR, many small commits, each green on `npm run check` and `npm run test:e2e`, reviewed by delegated models at fixed checkpoints before the PR opens.
+Status: complete. Shipped in [PR #27](https://github.com/BVisagie/omapicks/pull/27) on 2026-10-30. This is the plan as written, kept with the design record.
+
+Prepared 2026-10-29 against `origin/main` at `8079a59` (after PR #26, "Require reviewed evidence for recommendations and simplify Actions"). One PR, many small commits, each green on `npm run check` and `npm run test:e2e`, reviewed at fixed checkpoints before the PR opens.
 
 Design reference: [`04-signal-podium.html`](04-signal-podium.html) and the Proposal 4 section of [`README.md`](README.md).
 
@@ -142,33 +144,28 @@ Sizes: S ≈ an hour, M ≈ half a day, L ≈ a day. Each commit lists what chan
 - `README.md` "Develop": one short paragraph on the interface (tokens in `site/styles.css`, no web fonts, JS is progressive enhancement, reduced-motion support, asset budget test).
 - `docs/ui-proposals/README.md`: status line → implemented in this PR; `index.html` footer note.
 
-## 7. Review process with delegated models
+## 7. Review process
 
-Reviewers (confirmed available via `orchestrator_capabilities`):
-
-- **Grok 4.7** — provider `cursor`, model `grok-4.7`, options `contextWindow: "500k"`, `reasoning_effort: "xhigh"`.
-- **GPT 6.1 Sol** — provider `codex`, model `gpt-6.1-sol`, options `reasoningEffort: "xhigh"`.
-
-Each review is a fresh `delegate_task` with `isolation: "worktree"` (read-only checkout of the branch at the reviewed commit) and a brief containing: the commit range, the files touched, the design reference (`docs/ui-proposals/04-signal-podium.html` and this plan), the contracts in §3 and decisions in §4, and the request: findings only, each with severity (blocker / should-fix / nit), file:line, the reason, and a concrete fix; plus an explicit list of the §3 contracts checked. Reviewers do not edit; they report.
+Each review covers the commit range against the design reference, the contracts in §3 and the decisions in §4. Reviewers report findings with a severity (blocker / should-fix / nit), location, reason and concrete fix, plus the §3 contracts they checked. They do not edit.
 
 Checkpoints:
 
-| checkpoint | after commits | reviewers | focus |
-|---|---|---|---|
-| R1 | 1–3 | Grok 4.7 | token/contrast correctness, CSS architecture, fallback and reduced-motion coverage, budget test |
-| R2 | 4–6 | Grok 4.7 and GPT 6.1 Sol | home page: a11y of palette/radar/decode, no-JS path, test contracts, methodology vocabulary, performance of aurora/canvas |
-| R3 | 7–9 | GPT 6.1 Sol | category page and secondary pages: D3 compliance, table semantics, availability states, asset outputs |
-| R4 | 1–11 (whole PR) | Grok 4.7 and GPT 6.1 Sol | full diff review, PR description accuracy, bisectability, anything missed |
+| checkpoint | after commits | focus |
+|---|---|---|
+| R1 | 1–3 | token/contrast correctness, CSS architecture, fallback and reduced-motion coverage, budget test |
+| R2 | 4–6 | home page: a11y of palette/radar/decode, no-JS path, test contracts, methodology vocabulary, performance of aurora/canvas |
+| R3 | 7–9 | category page and secondary pages: D3 compliance, table semantics, availability states, asset outputs |
+| R4 | 1–11 (whole PR) | full diff review, PR description accuracy, bisectability, anything missed |
 
 Handling findings: blockers and should-fixes are fixed in a follow-up commit within the same group (or amended into the relevant commit before the group is pushed, to keep history clean); nits are fixed if cheap, otherwise listed in the PR body as declined with a one-line reason. A re-review is requested only when a fix is non-trivial; small fixes are verified by the test suite. A checkpoint is satisfied when both the reviewer's blockers/should-fixes are resolved and `npm run check` + `npm run test:e2e` pass.
 
-The PR opens only after R4 is satisfied and my own final pass (screenshots of every page type in both themes at 1440 and 390, budget numbers, Lighthouse-style sanity on the home page) is clean. Then: push branch, `gh pr create`, link the PR, watch CI.
+The PR opens only after R4 is satisfied and a final pass (screenshots of every page type in both themes at 1440 and 390, budget numbers, Lighthouse-style sanity on the home page) is clean.
 
 ## 8. Verification at every commit
 
 - `npm run check` (272+ unit tests, full render) and `npm run test:e2e` (13+ browser tests) green.
 - Width sweep script (kept outside the repo until commit 10 formalises it): `/`, `/picks/clipboard/`, `/methodology/`, `/changelog/` at 320–1440 px, both themes, both views; `document.documentElement.scrollWidth ≤ innerWidth`; no console errors; no non-origin requests.
-- Contrast: the token pairs table from this plan recomputed from `styles.css` (script in `/tmp`), plus the e2e probe.
+- Contrast: the token pairs table from this plan recomputed from `styles.css`, plus the e2e probe.
 - Budgets: `test/assets.test.mjs`.
 - Manual: keyboard-only pass of home and one category page; screen-reader spot check of the hero (H1 announced once), palette (dialog name, option selection) and dials (aria-labels).
 

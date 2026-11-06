@@ -1,6 +1,8 @@
 # Marketplace alignment plan (catalog state schema 2)
 
-Status: implemented on branch `claude/omapicks-pr-21-l3g4wh` (Packages 0–9), awaiting review. Written 2026-09-27 against catalog `generatedAt` 2026-09-27T00:37:45Z (4,250 listings, `stateSchemaVersion: 2`) and the marketplace repository at commit `fec33e6b`.
+Status: complete. Packages 0–9 merged in [PR #21](https://github.com/BVisagie/omapicks/pull/21) on 2026-09-27 as methodology 1.1.0. This is the plan as written, kept for its reasoning; its file paths and counts describe the repository at that time.
+
+Written 2026-09-27 against catalog `generatedAt` 2026-09-27T00:37:45Z (4,250 listings, `stateSchemaVersion: 2`) and the marketplace repository at commit `fec33e6b`.
 
 Implementation notes:
 
@@ -11,9 +13,9 @@ Implementation notes:
 - Package 0 also gives the weekly workflow an opt-in `republish` dispatch input; scheduled runs and default dispatches keep the freeze.
 - Package 9: no eligible plugins currently share a repository, and NetBird, Surfshark, Twingate and ZeroTier are the marketplace VPN terms the VPN rules do not match; both are recorded for editorial follow-up.
 
-Revised after cross-checking PR head `6703e917`, the ranking/refresh/render code, the live feeds and marketplace commit `fec33e6b14b3ab01e2c31faf36ea8e083965c82e`. Implementation has not started. Decisions from review: exclude unreachable plugins immediately; make published explanations snapshot-versioned before changing ranking behaviour; treat verification credit, install-rate weights and the freshness bonus as proposals that require a fixed-input comparison before activation.
+Revised before implementation after cross-checking PR head `6703e917`, the ranking/refresh/render code, the live feeds and marketplace commit `fec33e6b14b3ab01e2c31faf36ea8e083965c82e`. Decisions from review: exclude unreachable plugins immediately; make published explanations snapshot-versioned before changing ranking behaviour; treat verification credit, install-rate weights and the freshness bonus as proposals that require a fixed-input comparison before activation.
 
-This document is an implementation plan for an LLM or a human contributor. It records what changed upstream, what OmaPicks currently gets wrong because of it, and an ordered set of work packages with file-level instructions, tests and acceptance criteria. Complete the packages in order; each is independently shippable and each later package assumes the earlier ones are merged. The one exception is Package 1, which touches only feed validation and logging and may ship before Package 0.
+This plan records what changed upstream, what OmaPicks got wrong because of it, and an ordered set of work packages with file-level instructions, tests and acceptance criteria. Complete the packages in order; each is independently shippable and each later package assumes the earlier ones are merged. The one exception is Package 1, which touches only feed validation and logging and may ship before Package 0.
 
 ## 1. Background
 

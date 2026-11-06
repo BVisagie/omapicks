@@ -1,6 +1,6 @@
-# Review evidence pilot
+# Category discovery
 
-The Tuesday 06:43 UTC run of **Review evidence** includes this report-only discovery prompt. Thursday captures recommendation evidence without adding discovery state; manual dispatch chooses whether to include discovery. It has read-only repository/Actions permissions, does not call an LLM, and cannot publish categories, push commits, or open PRs. It also supports **Run workflow** on the Actions page.
+Category discovery is a report-only pilot that runs inside **Review evidence**. The Tuesday 06:43 UTC run includes it, Thursday captures recommendation evidence without adding discovery state, and a manual run chooses whether to include it. It has read-only repository/Actions permissions, does not call an LLM, and cannot publish categories, push commits, or open PRs.
 
 ## What to read
 
@@ -84,4 +84,4 @@ Review the pilot after four scheduled observations. Record which probes led to a
 
 ## Existing assignments
 
-The report also lists broad overlaps (three or more categories) and assignments explicitly held in `overrides.review`, with the same evidence used by ranking. This is a research queue, not a rule that rejects multipurpose plugins. Check direct task fit before proposing new categories; follow [category eligibility and audit](classification.md). The separate task-review queue also catches missing or stale decisions on one-category claims; overlap count is not its eligibility criterion. Resolve explicit judgments through `data/task-reviews.json`; no model is called and no approval is inferred from a score.
+The report also lists broad overlaps (three or more categories) and assignments explicitly held in `overrides.review`, with the same evidence used by ranking. This is a research queue, not a rule that rejects multipurpose plugins. Check direct task fit before proposing new categories; follow [classification and review](classification.md). The separate task-review queue also catches missing or stale decisions on one-category claims; overlap count is not its eligibility criterion. Resolve explicit judgments through `data/task-reviews.json`; no model is called and no approval is inferred from a score.

@@ -1,10 +1,10 @@
 # OmaPicks UI refresh — design proposals
 
-Prepared 2026-10-29 on branch `feat/futuristic-ui-proposals`, cut from `origin/main` at `bfe5265` (2026-W44 snapshot). This folder holds the research notes, three initial directions, a fourth proposal that blends two of them after the first review, and one interactive HTML mockup per proposal. Nothing in `site/` or `build/` has been changed; the mockups are standalone pages that reuse this week's real data and plugin previews.
+Prepared 2026-10-29 from the 2026-W44 snapshot. This folder holds the research notes, three initial directions, a fourth proposal that blends two of them after the first review, and one interactive HTML mockup per proposal. The mockups are standalone pages that reuse that week's real data and plugin previews.
 
 **Status after review:** Signal is the base concept, Podium's rounding, tile system and light palette are the parts to carry over, and Blueprint is set aside for this site. [Proposal 4](#proposal-4--signal--podium-the-blend) is that blend and is the recommended direction.
 
-**Status after implementation (2026-10-30):** Proposal 4 is ported to the whole site on branch `feat/signal-podium-interface` following [`IMPLEMENTATION-PLAN.md`](IMPLEMENTATION-PLAN.md). The mockups stay here as the design record; where the port differs (methodology-dependent labels, the inline finder that becomes the palette, score visuals gated by the reviewed-presentation rule, frozen badges), the plan's decisions D1–D8 are the reference.
+**Status after implementation (2026-10-30):** Proposal 4 shipped across the whole site in [PR #27](https://github.com/BVisagie/omapicks/pull/27), following [`IMPLEMENTATION-PLAN.md`](IMPLEMENTATION-PLAN.md). The mockups stay here as the design record; where the port differs (methodology-dependent labels, the inline finder that becomes the palette, score visuals gated by the reviewed-presentation rule, frozen badges), the plan's decisions D1–D8 are the reference.
 
 ## View the mockups
 

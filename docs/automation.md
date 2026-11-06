@@ -10,7 +10,7 @@ Five workflows cover validation, recommendation publication, current availabilit
 | Review evidence | Tuesday 06:43; Thursday 06:17; manual | Captures feeds and source evidence, prioritizes unresolved reviews, and validates proposed pages. Tuesday also runs category discovery; manual runs choose whether to include it. |
 | Site report | Manual only | Builds the private traffic, search and site report and uploads it encrypted. Nothing readable is published. |
 
-The unified evidence review replaces the separate category-discovery and midweek workflows. It cannot approve tasks, publish categories, create issues or push commits. Its ranking and discovery reports share the same captured catalog, engagement, taxonomy, reviews, profiles and repository observations. Optional explorer data is fetched once for discovery. The staged candidate includes the proposed rankings and current availability; tests, rendering and browser checks run against that copied site, leaving published data untouched.
+The evidence review cannot approve tasks, publish categories, create issues or push commits. Its ranking and discovery reports share the same captured catalog, engagement, taxonomy, reviews, profiles and repository observations. Optional explorer data is fetched once for discovery. The staged candidate includes the proposed rankings and current availability; tests, rendering and browser checks run against that copied site, leaving published data untouched.
 
 ## Publication boundary
 
@@ -28,7 +28,7 @@ Bot pushes using `GITHUB_TOKEN` do not trigger downstream push CI. Both publishe
 
 A missing listing, changed repository, failed/unreachable upstream check or unavailable installation marks the current option unavailable. A missing upstream check is unknown. These are observations of the marketplace feed, not an independent execution or security review. Current pages suppress installation controls for unavailable options; frozen scores, historical snapshots and badges retain their recorded meaning. Missing, malformed or mismatched observations are shown as unknown.
 
-Failed fetches or invalid feeds leave the previous artifact intact and fail the run with a summary. Re-reading an identical catalog snapshot with unchanged results creates no timestamp-only commit. A newer catalog produces a new observation even when all statuses agree. The site displays observation age so a retained observation does not imply a fresh check.
+An unavailable option loses its install action, but no other option silently takes its place. Failed fetches or invalid feeds leave the previous artifact intact and fail the run with a summary. Re-reading an identical catalog snapshot with unchanged results creates no timestamp-only commit. A newer catalog produces a new observation even when all statuses agree. The site displays observation age so a retained observation does not imply a fresh check.
 
 ## Discovery state and review handoff
 
@@ -154,15 +154,33 @@ Anything else is stored with its reason and no visitor identifier, and only one 
   2. Verify them with `sigsum-verify -k <keys> -P sigsum-generic-2025-1 <proof> < <tarball>`. The keys are the two `ssh-ed25519` lines in that tag's `SIGSUM.md`, and `sigsum-verify` installs with `go install sigsum.org/sigsum-go/cmd/sigsum-verify@v0.13.1`.
   3. Update `AGE_VERSION` and `AGE_SHA256` in `scripts/install-age.sh`.
 
-## Deployment and rollout
+## Methodology versions
 
-The repository keeps its existing Cloudflare Workers Git integration and `wrangler.toml`. This PR does not change Cloudflare account settings, production branch configuration, deployment credentials or GitHub branch rules. No second deployment workflow is added.
+Every snapshot records `methodologyVersion`. `build/methodology.mjs` keeps an immutable definition for each published version (weights, decay, evidence damping, eligibility and incumbent selection), and the site always explains the published snapshot with its own definition, so merged ranking changes cannot misdescribe the current week. Rendering fails on an unknown version. Historical 1.0.0 and 1.1.0 snapshots retain their original 10% incumbent rules and explanations.
 
-Before treating the merged state as fully operational, verify these external settings and the first runs:
+A new eligibility, scoring or selection rule needs a new version, which takes effect when the Monday refresh publishes the next snapshot. A methodology change alone does not lift the same-week freeze: run `npm run refresh -- --republish` (or dispatch the weekly workflow with *republish*) for a deliberate midweek publication. Republishing still validates the feeds and keeps earlier changelog events within the same methodology, and it archives superseded publications separately when the methodology changes. `--dry-run` writes research artifacts under `tmp/` but never changes published data or assets. Taxonomy, classifier, task-review or shared-requirement changes bypass the same-week freeze.
+
+Before an eligibility or selection change, `npm run compare:task-fit -- --input <baseline-inputs.json>` compares the captured taxonomy, decisions and methodology with the current proposal while holding feeds, engagement and time fixed. `compare:methodology` remains available for signal-only experiments; older captures without task decisions keep their legacy eligibility rather than inventing qualifications. Every refresh and dry run captures replay inputs under `tmp/classification-audit/`.
+
+## Feed safeguards
+
+A refresh bounds catalog and stats responses to 20 MiB, rejects a catalog below 75% of its prior count, and rejects engagement feeds covering fewer than 50% of catalog IDs or containing fewer than 75% of the previous stats entry count. These conservative guards allow new listings without engagement while stopping empty, unrelated or severely truncated responses before publication. If the upstream feed legitimately shrinks beyond these limits, investigate and deliberately adjust the guard; do not delete the previous snapshot to bypass it.
+
+## Site content
+
+`site/discovery.json` contains category search aliases, three task-oriented starter collections and related-category groups. These are editorial navigation aids; they do not affect classification or the weekly rankings. The homepage counts reviewed category entries, so a plugin competing in several categories is counted in each. Homepage highlights use the current publication's recorded changes and comparison baseline; legacy snapshots without recorded changes fall back to a previous-week comparison.
+
+Social images are regenerated from each category and its current picks during `npm run build`. Email links work without JavaScript; copying links and native sharing progressively enhance them where supported. No third-party sharing script is loaded.
+
+## Deployment
+
+Cloudflare's Workers Git integration deploys the site using `wrangler.toml`. There is no separate deployment workflow.
+
+The automation depends on settings outside this repository. Recheck them after changing the Cloudflare integration, the default-branch rules or a publishing workflow:
 
 1. The production branch is `main`, and Cloudflare builds the same commit that passed the intended validation. PR previews must not replace production. Cloudflare's production build command should include the required validation (at least `npm run check`), or its deployment policy must explicitly gate the matching SHA on CI. A Git integration that deploys immediately on every human push is not made dependent on CI merely by adding this workflow.
 2. A validated bot data push triggers the existing Cloudflare integration. GitHub's suppression of downstream Actions does not establish how an external Git integration behaves; verify the first actual deployment and its commit SHA. If bot pushes are ignored, configure that integration or deliberately add one authenticated deployment path after review.
-3. The default-branch rules permit the narrowly scoped data publisher to push, and the intended PR checks are required for human changes. If rules require all changes through PRs, this direct-data publication design needs an explicit compatible exception or a deliberate switch to data PRs. Do not weaken rules silently.
+3. The default-branch rules permit the narrowly scoped data publisher to push. If rules require all changes through PRs, this direct-data publication design needs an explicit compatible exception or a deliberate switch to data PRs. Do not weaken rules silently.
 4. Run **Review evidence** on `main`, inspect the preserved evidence and candidate checks, then run **Update availability**. Confirm that its diff contains only availability and that the deployed observation updates without changing rankings or history. Run **Publish recommendations** with `republish` only when a deliberate same-week publication is intended.
 5. Confirm the Tuesday observation produces canonical state, Thursday remains report-only, and the next Tuesday restores a compatible state or explains a deliberate baseline reset. Watch for feed/source failures and stale snapshot/availability notices.
 
