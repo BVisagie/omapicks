@@ -3132,6 +3132,108 @@
           "evidence": "README.md lines 73-82:\n## Installation\n\n```bash\nomarchy plugin add https://github.com/qempexe/omarchy-omaudix.git --enable\nomarchy restart shell\n```\n\nThen place it from the bar settings, or move it with `omarchy bar move io.github.qempexe.omaudix --section left` (or `center`, `right`). The settings panel opens from the gear on the widget, or a right click anywhere on it. The gear can be hidden; the right click always works.\n\nIt needs PipeWire (`pw-record`), Python 3, `curl`, `vipsthumbnail` (from libvips) and `rsvg-convert` (from librsvg), which Omarchy already has. Covers are never shown straight from the player: each one is fetched with a size and time limit and made into a small, clean copy in a separate, limited process first. Favicons, which radio players often send as the cover (.ico, .bmp or .svg), are made into a PNG the same way. [cava](https://github.com/karlstav/cava) is used for the spectrum when it's installed; without it a built-in analyzer takes over at about 3% of one core. Pasting into the panel's text fields goes through `wl-paste`."
         }
       ]
+    },
+    "more-weather": {
+      "repository": "https://github.com/T-The-Coder/more-weather",
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Requires Omarchy 4 and an internet connection. It uses free public weather services with no account or key, which see your IP address and the places you look up. It shares its location with Omarchy's built-in weather widget."
+      ],
+      "reviewedAt": "2026-11-09",
+      "sources": [
+        {
+          "url": "https://github.com/T-The-Coder/more-weather/blob/2bea24e838eeb9f1805119d55cca84217fdaa6f9/README.md",
+          "revision": "2bea24e838eeb9f1805119d55cca84217fdaa6f9",
+          "path": "README.md",
+          "sha256": "addc6140021fe277c4d35b2a6f6419505032b17e6a8a04c39c1445ecb7888fe5",
+          "evidence": "README.md lines 283-287:\nAll services are free public APIs and need no account or API key. The plugin sends\nrequests only to the services listed here and stores nothing outside your own\ncomputer. As with any web request, these services see your IP address and the\ncoordinates of the places you look up. The plugin reads the clipboard only when you paste\ninto a field.\n\nREADME.md lines 289-295:\n## Requirements\n\n- Omarchy with the Quattro shell (Omarchy 4). The plugin uses the shell's Quickshell\n  modules and the `omarchy-weather-location` and `omarchy-weather-status` commands\n  that come with Omarchy.\n- `notify-send` for desktop notifications (installed with Omarchy).\n- An internet connection.\n\nREADME.md lines 310-311:\nThe location is shared with Omarchy's built-in weather widget. If you only want\nMore Weather in the bar, remove the built-in weather widget from the bar layout."
+        }
+      ]
+    },
+    "gdeyoung.weather": {
+      "repository": "https://github.com/gdeyoung/omarchy-weather",
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Needs an internet connection for Open-Meteo, RainViewer and Esri map tiles; no API key. Its default pinned place is St. Anne, IL, and units default to imperial."
+      ],
+      "reviewedAt": "2026-11-09",
+      "sources": [
+        {
+          "url": "https://github.com/gdeyoung/omarchy-weather/blob/93758c06391ba7eba9d4fe6bcbb89556421c9cc3/README.md",
+          "revision": "93758c06391ba7eba9d4fe6bcbb89556421c9cc3",
+          "path": "README.md",
+          "sha256": "61997902b62d51d7b9e47844e703871b86b1f497212556d8359e3fbfdca48e1d",
+          "evidence": "README.md lines 26-34:\n## Data sources (no API keys)\n\n- Forecast + air quality: [Open-Meteo](https://open-meteo.com/)\n- Geocoding: Open-Meteo geocoding API\n- Radar frames: [RainViewer](https://www.rainviewer.com/) public weather maps\n- Basemap + labels: Esri World Dark Gray (Canvas tiles)\n\nFetches run through a per-location file bus (`~/.local/state/gdeyoung.weather/`)\n— the bar label and panel can never disagree.\n\nREADME.md lines 40-49:\n| Key | Default | Meaning |\n|---|---|---|\n| `barExtra` | `temp` | Bar label mode: temp / icon+temp / icon |\n| `refreshMin` | `15` | Forecast refresh interval (min 5) |\n| `units` | `imperial` | `imperial` or `metric` |\n| `pinnedLocations` | St. Anne IL | JSON array of `{name, lat, lon}` |\n\n## Install\n\n    omarchy plugin add https://github.com/gdeyoung/omarchy-weather.git --enable"
+        }
+      ]
+    },
+    "mash2rafi.kronos": {
+      "repository": "https://github.com/MASH2RAFI/omarchy-kronos",
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Requires Omarchy 4 with shell plugins in a Wayland session; restart the shell after installing. Liberation Sans and JetBrainsMono Nerd Font are recommended."
+      ],
+      "reviewedAt": "2026-11-09",
+      "sources": [
+        {
+          "url": "https://github.com/MASH2RAFI/omarchy-kronos/blob/1addf6183aceab373705b5eafc35d26e5355c9a4/README.md",
+          "revision": "1addf6183aceab373705b5eafc35d26e5355c9a4",
+          "path": "README.md",
+          "sha256": "54d8fe2becaa2ad549cba8e5c139cdf08f347d86041e4d9c73235a28ae9a53c1",
+          "evidence": "README.md lines 19-22:\n```bash\nomarchy plugin add https://github.com/MASH2RAFI/omarchy-kronos.git --enable\nomarchy restart shell\n```\n\nREADME.md lines 57-63:\n## Requirements\n\n- **Omarchy 4.x** with shell plugins enabled\n- **Wayland** session (Quickshell layer-shell surface)\n- Fonts used by default (optional but recommended):\n  - `Liberation Sans` — hour and date\n  - `JetBrainsMono Nerd Font` — ring labels (falls back to system mono)"
+        }
+      ]
+    },
+    "omarchy-dynamic-island": {
+      "repository": "https://github.com/Arjun010011/omarchy-dynamic-island",
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "While enabled it replaces Omarchy's notification service and on-screen display, and adds a SUPER + ALT + I binding to bindings.lua; disabling or removing it restores them."
+      ],
+      "reviewedAt": "2026-11-09",
+      "sources": [
+        {
+          "url": "https://github.com/Arjun010011/omarchy-dynamic-island/blob/86f06f96e427408e2beee6a020bfa50850cb556c/README.md",
+          "revision": "86f06f96e427408e2beee6a020bfa50850cb556c",
+          "path": "README.md",
+          "sha256": "2cbfc8a25ef63a4fdeaf9a1a18ae50e8901e65e5731d0702035ea83081cc797b",
+          "evidence": "README.md lines 62-64:\nThe island is also your notification daemon. On first run it disables\nOmarchy's own `omarchy.notifications` service (only one program can receive\nnotifications), and it answers the same `omarchy-shell notifications ...`\n\nREADME.md lines 95-99:\n## Install\n\n```bash\nomarchy plugin add https://github.com/Arjun010011/omarchy-dynamic-island --enable\n```\n\nREADME.md lines 129-131:\n| `topMargin` | `6` | Gap above the island in `island` style |\n| `reserveSpace` | `true` | Keep a strip free across the top for the island. `false` lets windows fill the top of the screen and the island/notch sits over them, so no empty band is left beside it |\n| `keybind` | `\"SUPER + ALT + I\"` | Key that toggles `reserveSpace`. The island adds it to `~/.config/hypr/bindings.lua` (skipped if the key is already taken) and removes it on uninstall; `false` for none |\n\nREADME.md lines 160-162:\nDisabling or removing the plugin gives back everything it took over: Omarchy's\nnotifications and on-screen display are switched back on, and its keybinding\nis removed from `bindings.lua`. The plugin checks a"
+        }
+      ]
+    },
+    "io.github.fabean.herdr": {
+      "repository": "https://github.com/fabean/omarchy-herdr",
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Requires Herdr on PATH with its server running, jq and GNU timeout. Remote hosts need OpenSSH with key-based login."
+      ],
+      "reviewedAt": "2026-11-09",
+      "sources": [
+        {
+          "url": "https://github.com/fabean/omarchy-herdr/blob/285cf3b334b153d534e57d0c7b7bdfab77e1742e/README.md",
+          "revision": "285cf3b334b153d534e57d0c7b7bdfab77e1742e",
+          "path": "README.md",
+          "sha256": "9baa0674e6d1baed29051f05fde408ea8e71e0e70d8fbd1265189a57d60c58fe",
+          "evidence": "README.md lines 7-16:\n## Requirements\n\n- Omarchy with the Quattro shell plugin system\n- [Herdr](https://herdr.dev) available on `PATH`, with its server running\n- `jq`\n- GNU coreutils (`timeout`)\n- OpenSSH when remote hosts are configured\n- An Omarchy-compatible Nerd Font for the status icons\n\nThe plugin polls `herdr agent list` locally every three seconds. It also polls the SSH targets listed in `remote-hosts`. SSH polling uses batch mode and short timeouts, so an offline host or one that needs a password cannot stall the bar.\n\nREADME.md lines 42-50:\nAdd one SSH target per line to `remote-hosts` in the installed plugin directory. Targets may be hostnames, `user@host` values, or aliases from `~/.ssh/config`.\n\n```text\n# ~/.config/omarchy/plugins/io.github.fabean.herdr/remote-hosts\nHitmonlee\nuser@192.0.2.10\n```\n\nSet up key-based SSH authentication first. The widget never opens an SSH password prompt."
+        }
+      ]
+    },
+    "njpatel.omaherdr": {
+      "repository": "https://github.com/njpatel/omaherdr",
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Needs herdr 0.8 or newer and Python 3; restart the shell after installing. Remote hosts need non-interactive SSH and Python 3, and the attention view and notifications use PyGObject, Cairo and librsvg."
+      ],
+      "reviewedAt": "2026-11-09",
+      "sources": [
+        {
+          "url": "https://github.com/njpatel/omaherdr/blob/c20d9b0db3a65b5a7590876c56026bc906306e04/README.md",
+          "revision": "c20d9b0db3a65b5a7590876c56026bc906306e04",
+          "path": "README.md",
+          "sha256": "a565392a3829c19b3eff78ee339eb16dab2bac6ad2d36d2dfc985720c8cb2f6f",
+          "evidence": "README.md lines 20-27:\n```sh\nomarchy plugin add https://github.com/njpatel/omaherdr.git --enable\nomarchy restart shell\n```\n\nNothing to configure. Omaherdr finds every `herdr` you are attached to from this desktop - plain, `--session NAME`, or `--remote HOST` - by looking at the processes in your terminal windows, then talks to each server over its socket (through `ssh HOST` for remote ones, which needs a key that works non-interactively and `python3` on the far side). A local server running with nobody attached is listed too.\n\nNeeds herdr 0.8 or newer and `python3`; remote hosts need non-interactive SSH access and `python3` too. The attention view and desktop notifications additionally use local PyGObject/Gio, Cairo and librsvg (`python-gobject`, `python-cairo`, `librsvg` on Arch). The remote helper remains Python-standard-library-only."
+        }
+      ]
     }
   }
 }
