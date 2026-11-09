@@ -80,6 +80,12 @@ test("a proposal re-pins reviews and requirements together, and applying it need
   // Capabilities and the decision are kept, never invented.
   assert.deepEqual(applied.reviews.assignments[0].capabilities, review.capabilities);
 
+  // An editorial change made after the proposal, even at the same revision, wins.
+  const rejected = structuredClone(reviews); rejected.assignments[0].decision = "rejected";
+  assert.throws(() => applyRecheck(proposal, [plugin.id], rejected, structuredClone(profiles), "2026-11-09"), /review changed since the proposal/);
+  const edited = structuredClone(profiles); edited.plugins[plugin.id].requirements = ["Needs a different CLI."];
+  assert.throws(() => applyRecheck(proposal, [plugin.id], structuredClone(reviews), edited, "2026-11-09"), /requirements changed since the proposal/);
+
   const changed = await prepareRecheck(group, { fetchText: async (...args) => args[2] === "README.md" ? Buffer.from("# VPN\n") : fetchText(...args), compare });
   assert.equal(changed.mechanicalStatus, "passages-changed");
   assert.throws(() => applyRecheck({ ...proposal, plugins: [changed] }, [plugin.id], structuredClone(reviews), structuredClone(profiles), "2026-11-09"), /write a new review/);

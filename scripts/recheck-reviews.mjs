@@ -7,7 +7,7 @@ import { createHash } from "node:crypto";
 import { appendFile, mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { pinnedSource, repositoryKey, reviewSources } from "../build/evidence.mjs";
+import { evidenceHash, reviewSources } from "../build/evidence.mjs";
 import { taskMetadataHash } from "../build/task-fit.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -164,7 +164,8 @@ export async function prepareRecheck(group, { token, fetchText = rawFile, compar
     const ok = results.every((r) => r.status === "relocated");
     const sources = ok ? results.map((r) => r.source) : null;
     return {
-      typeId: review.typeId, decision: review.decision, ok, missing: results.flatMap((r) => r.missing ?? []),
+      // The fingerprint lets --apply refuse a review edited after this proposal.
+      typeId: review.typeId, decision: review.decision, ok, originalHash: evidenceHash(review), missing: results.flatMap((r) => r.missing ?? []),
       review: ok ? { ...review, metadataHash: taskMetadataHash(plugin), ...(review.sources ? { sources } : {}), source: sources[0] } : null,
     };
   });
@@ -175,7 +176,7 @@ export async function prepareRecheck(group, { token, fetchText = rawFile, compar
     queued: group.queued, manifestChanges: manifestChanges(parse(before), parse(after)),
     comparison: changes,
     reviews: reviewResults,
-    profile: { ok: profileOk, missing: profileResults.flatMap((r) => r.missing ?? []), sources: profileOk ? profileResults.map((r) => r.source) : null },
+    profile: { ok: profileOk, originalHash: evidenceHash(profile), missing: profileResults.flatMap((r) => r.missing ?? []), sources: profileOk ? profileResults.map((r) => r.source) : null },
     mechanicalStatus: reviewResults.every((r) => r.ok) && profileOk ? "passages-unchanged" : "passages-changed",
   };
 }
@@ -209,11 +210,11 @@ export function applyRecheck(proposal, accept, reviews, profiles, reviewedAt) {
   for (const item of items) {
     if (item.mechanicalStatus !== "passages-unchanged") throw new Error(`${item.pluginId}: cited passages changed; write a new review instead`);
     const profile = profiles.plugins[item.pluginId];
-    if (profile.sources.some((s) => s.revision !== item.fromRevision)) throw new Error(`${item.pluginId}: requirements changed since the proposal`);
+    if (evidenceHash(profile) !== item.profile.originalHash) throw new Error(`${item.pluginId}: requirements changed since the proposal`);
     profiles.plugins[item.pluginId] = { ...profile, reviewedAt, sources: item.profile.sources };
     for (const result of item.reviews) {
       const index = reviews.assignments.findIndex((r) => r.pluginId === item.pluginId && r.typeId === result.typeId);
-      if (index < 0 || reviewSources(reviews.assignments[index]).some((s) => s.revision !== item.fromRevision)) throw new Error(`${item.pluginId}/${result.typeId}: review changed since the proposal`);
+      if (index < 0 || evidenceHash(reviews.assignments[index]) !== result.originalHash) throw new Error(`${item.pluginId}/${result.typeId}: review changed since the proposal`);
       reviews.assignments[index] = { ...result.review, reviewedAt };
     }
   }
