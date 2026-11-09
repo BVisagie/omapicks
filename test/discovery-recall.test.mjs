@@ -4,12 +4,16 @@ import test from "node:test";
 import { auditDiscoveryRecall, discoveryListingHash, readDiscoveryFixture } from "../scripts/audit-discovery-recall.mjs";
 import { classifyPlugin, prepareTaxonomy, rankPlugins, discoveryCurationStatus } from "../build/rank.mjs";
 import { methodologyFor } from "../build/methodology.mjs";
+import { gunzipSync } from "node:zlib";
 
 const fixture = await readDiscoveryFixture();
 const taxonomy = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
 const reviews = JSON.parse(await readFile(new URL("../data/task-reviews.json", import.meta.url)));
 const report = JSON.parse(await readFile(new URL("../docs/analysis/2026-10-30-discovery-recall.json", import.meta.url)));
 const expectations = JSON.parse(await readFile(new URL("./fixtures/discovery-expectations.json", import.meta.url))).assignments;
+// The dated report records the editorial decisions of its 30 October capture. Later reviews
+// must not rewrite it, so it replays against the decisions captured with it.
+const capturedReviews = JSON.parse(gunzipSync(await readFile(new URL("./fixtures/task-coherence-migration.json.gz", import.meta.url)))).taskReviews;
 const prepared = prepareTaxonomy(taxonomy);
 const plugins = new Map(fixture.plugins.map((plugin) => [plugin.id, plugin]));
 const matches = (id) => {
@@ -18,8 +22,9 @@ const matches = (id) => {
 };
 
 test("independent destination expectations cover every split lead and discovery regression", () => {
+  assert.deepEqual(auditDiscoveryRecall(fixture, taxonomy, expectations, capturedReviews), report);
+  // Current decisions must keep every route resolved.
   const actual = auditDiscoveryRecall(fixture, taxonomy, expectations, reviews);
-  assert.deepEqual(actual, report);
   assert.equal(actual.summary.unresolvedAssignments, 0);
   assert.equal(actual.summary.missingRoutes, 0);
   assert.equal(actual.summary.unexpectedRoutes, 0);

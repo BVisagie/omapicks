@@ -69,6 +69,31 @@
       }
     },
     {
+      "pluginId": "io.github.fabean.herdr",
+      "typeId": "agent-monitoring",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "inspect-running-agents",
+        "focus-running-agent"
+      ],
+      "constraints": [
+        "Monitors coding agents run through Herdr."
+      ],
+      "reason": "Shows the live status of every Herdr agent and focuses a selected agent's pane in Herdr.",
+      "reviewedAt": "2026-11-09",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/fabean/omarchy-herdr/blob/285cf3b334b153d534e57d0c7b7bdfab77e1742e/README.md",
+        "revision": "285cf3b334b153d534e57d0c7b7bdfab77e1742e",
+        "path": "README.md",
+        "sha256": "9baa0674e6d1baed29051f05fde408ea8e71e0e70d8fbd1265189a57d60c58fe",
+        "evidence": "README.md lines 3-3:\nAn Omarchy bar widget for monitoring [Herdr](https://herdr.dev) agents. It shows active or blocked agent counts in the bar and opens a detailed, keyboard-accessible panel with the status of every agent.\n\nREADME.md lines 16-16:\nThe plugin polls `herdr agent list` locally every three seconds. It also polls the SSH targets listed in `remote-hosts`. SSH polling uses batch mode and short timeouts, so an offline host or one that needs a password cannot stall the bar.\n\nREADME.md lines 34-35:\n- Left-click the widget to open or close the agent panel.\n- Click an agent to focus its pane in Herdr. The plugin focuses an existing local or remote Herdr window and opens one when needed."
+      },
+      "metadataHash": "182e4e0030f678191f766d3d658f5e5fd24a024a4bbdbbcc05d5922fa9713b30",
+      "contractVersion": 2
+    },
+    {
       "pluginId": "io.github.ofa14-prog.dynamic-island",
       "typeId": "agent-monitoring",
       "contractVersion": 1,
@@ -113,6 +138,32 @@
         "sha256": "13cedc39b072ed3a3e9ae691a185bb2b1ca5119546c320dde205d4ad7ba77ac6",
         "evidence": "README.md lines 21-24:\n- **Live multi-source tracking** — Herdr daemon panes (local socket plus remote machines), **remote Hermes peers** (gateways registered with `hermes peer add`, read-only), standalone terminal windows (Ghostty, Foot, Kitty, Alacritty, WezTerm), **OMP** sessions (`~/.omp/agent/sessions/`), **Hermes** CLI and Desktop app databases (`~/.hermes/state.db`), and **Grok** Build TUI sessions (`$GROK_HOME/active_sessions.json` + `events.jsonl`).\n- **One-click workspace & window switching** — click any agent card to switch Hyprland workspaces and focus the exact terminal window, Herdr pane or Hermes Desktop window.\n- **Visual status bar display** — `Icon` mode (orchestrator glyph with activity badge and spinner while agents work), `Status` mode (real-time ticker of active tasks), `Compact` mode (live counts like `4 ag · 1 busy`, `3 done`).\n- **Interactive popup panel** — smart filter tabs (`All`, `Working`, `Waiting`, `Done`, `Idle`); rich cards with model tags, latest human prompt, real-time tool execution, repo/working-directory breadcrumbs and session indicators; terminate agent processes or close Herdr panes from card buttons.\n\nREADME.md lines 93-93:\n**Remote sources (read-only — no focus, no terminate; those windows aren't on this desktop):**\n\nREADME.md lines 95-95:\n- **Herdr** — save a machine with `herdr machine add`, verify SSH access and a matching remote Herdr install. The plugin reads enabled rows from `herdr machine list --json` and queries each machine through the read-only `herdr --session <name> api snapshot`."
       }
+    },
+    {
+      "pluginId": "njpatel.omaherdr",
+      "typeId": "agent-monitoring",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "inspect-running-agents",
+        "focus-running-agent"
+      ],
+      "constraints": [
+        "Monitors coding agents run through herdr.",
+        "In Ghostty a jump lands on the window, but a herdr tab that is not the active one stays behind; kitty and WezTerm land on the exact tab or pane."
+      ],
+      "reason": "Shows live herdr agent states in the bar and jumps to a selected agent by focusing its terminal window and then the agent inside herdr.",
+      "reviewedAt": "2026-11-09",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/njpatel/omaherdr/blob/c20d9b0db3a65b5a7590876c56026bc906306e04/README.md",
+        "revision": "c20d9b0db3a65b5a7590876c56026bc906306e04",
+        "path": "README.md",
+        "sha256": "a565392a3829c19b3eff78ee339eb16dab2bac6ad2d36d2dfc985720c8cb2f6f",
+        "evidence": "README.md lines 14-14:\n[herdr](https://herdr.dev) sessions, spaces, tabs and agents in the [Omarchy](https://omarchy.org) bar - with one keypress to jump to any of them.\n\nREADME.md lines 35-35:\nThe bar shows the icon with traffic lights: red for agents waiting for input, yellow for working, green for done, grey for idle (colours come from your theme). By default each lit state gets a light and its count (`attention` = red and green; `active` adds yellow; `all` adds grey); in icon-only mode the lit lights stack beside the icon. No lights means nothing needs you. Click the icon or the counts to open the panel.\n\nREADME.md lines 43-43:\n| `Enter` / click | jump: focuses the terminal window, then the space, tab or agent inside herdr |\n\nREADME.md lines 54-54:\nStatus is live: the daemon subscribes to herdr's events, so the bar flips the moment an agent blocks on a question or finishes. `since` is how long the agent has been in its current state, as observed from here. Settings live on the bar entry: `omarchy bar set njpatel.omaherdr barMetric all` (or `barStyle`, `barIcon`, `view`, and `scanIntervalSec` for how often new or closed sessions are looked for, default 10).\n\nREADME.md lines 106-114:\nA jump first focuses the window that hosts your herdr client, then the tab or pane inside it where the terminal allows.\n\n| terminal | jump lands on | tested |\n|---|---|---|\n| kitty 0.48 | window, then the exact tab/pane (via kitty remote control, on by default in Omarchy) | yes |\n| foot 1.27 | window (foot has no tabs) | yes |\n| Alacritty 0.17 | window (no tabs) | yes |\n| Ghostty 1.3 | window; when several windows share one process the one titled by herdr is chosen. Tabs cannot be driven from outside, so a herdr tab that is not the active one stays behind | yes |\n| WezTerm 2024-02 | window, then the exact pane via `wezterm cli` | yes |"
+      },
+      "metadataHash": "68b8508bdce80785e964144f5ee5e2af9460617e5a3429418bee0a8045bdba39",
+      "contractVersion": 2
     },
     {
       "pluginId": "akitaonrails.ai-usagebar",
@@ -1403,6 +1454,52 @@
         "path": "catalog.json",
         "evidence": "plugins[1590].description (io.github.guiestrela.omarchy-google-calendar-clock): An Omarchy clock with a local-first calendar and Google sync"
       }
+    },
+    {
+      "pluginId": "io.github.sspaeti.timezones",
+      "typeId": "desktop-clocks",
+      "decision": "related",
+      "role": "core",
+      "capabilities": [
+        "read-multiple-time-zones"
+      ],
+      "constraints": [],
+      "reason": "A world clock whose bar pill is an icon that shows times only on hover; it does not keep a persistent current-time display.",
+      "reviewedAt": "2026-11-09",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/sspaeti/omarchy-timezones-plugin/blob/8419c2e56c0e33d2cc3eeefeff556a2fa2689bcf/README.md",
+        "revision": "8419c2e56c0e33d2cc3eeefeff556a2fa2689bcf",
+        "path": "README.md",
+        "sha256": "ebeb3b7b278ba5448960e42d43d10d81286d80ee2416cbef92e898e8a52de9f8",
+        "evidence": "README.md lines 8-13:\nA single globe icon in the bar expands to your zones' current times on hover.\nClicking it opens an hour-grid popup: one 24-hour strip per timezone, all\ncolumns aligned on the same absolute moment, with business hours highlighted,\na \"now\" line, and day boundaries marked. Hover any column and every row's\nheader shows that exact moment in its zone — \"10am PDT is what in my time?\"\nanswered in one glance, in both directions.\n\nREADME.md lines 39-39:\n- **Hover** the globe icon: compact view, e.g. `NY 07:12 · SF 04:12`\n\nREADME.md lines 123-124:\n- `hoverExpand` — set `false` to keep the bar pill a static icon instead of\n  expanding to the compact times on hover (the expansion shifts neighboring"
+      },
+      "metadataHash": "93f57f8a2066322f3e057a76fcea2d28beef26534c808e1809eb94c84e2f0c08",
+      "contractVersion": 2
+    },
+    {
+      "pluginId": "mash2rafi.kronos",
+      "typeId": "desktop-clocks",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "display-desktop-clock"
+      ],
+      "constraints": [
+        "The clock sits on the wallpaper layer, below windows."
+      ],
+      "reason": "Draws a large, persistent hour, minute and second clock on the wallpaper of each monitor.",
+      "reviewedAt": "2026-11-09",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/MASH2RAFI/omarchy-kronos/blob/1addf6183aceab373705b5eafc35d26e5355c9a4/README.md",
+        "revision": "1addf6183aceab373705b5eafc35d26e5355c9a4",
+        "path": "README.md",
+        "sha256": "54d8fe2becaa2ad549cba8e5c139cdf08f347d86041e4d9c73235a28ae9a53c1",
+        "evidence": "README.md lines 3-3:\n<p align=\"center\"><strong>A big, beautiful orbital clock for your Omarchy wallpaper.</strong></p>\n\nREADME.md lines 15-17:\nA third-party [Omarchy](https://omarchy.org) shell plugin that renders a large, deeply customizable desktop clock on your wallpaper. The default look pairs a bold hour numeral with two smooth orbital rings for minutes and seconds, inspired by terminal-style and Ryoku-like orbital layouts — or switch to a unified digital readout, and tune color, font, size, and position independently for every piece.\n\nThe clock lives on the wallpaper layer (below windows), respects the Omarchy bar when placed on the same edge, and adapts ring size to your monitor height.\n\nREADME.md lines 39-42:\n- **Large hour display** with optional date block (short date, weekday, AM/PM)\n- **Two orbital dot rings** with numeric labels at every tick (00–59)\n  - Inner ring: minutes (smooth rotation)\n  - Outer ring: seconds (smooth rotation)\n\nREADME.md lines 46-46:\n- **Multi-monitor** — one wallpaper-layer clock per output; each screen sizes and positions independently (portrait, ultrawide, mixed resolutions)"
+      },
+      "metadataHash": "1cd2f31645e47c0922d390f48ac04dedb5e4b49d6c9805a4bc6f514aa467e63a",
+      "contractVersion": 2
     },
     {
       "pluginId": "ubeyidah.omaclock",
@@ -3105,8 +3202,6 @@
     {
       "pluginId": "io.github.maajix.spotlight",
       "typeId": "launcher",
-      "contractVersion": 1,
-      "metadataHash": "a2e7cf303129c85426c53fbfe038b8346b72d09781b493ed1de686a76a64d2ad",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
@@ -3114,15 +3209,18 @@
         "launch-applications"
       ],
       "constraints": [],
-      "reason": "Finds installed applications and launches a selected application.",
-      "reviewedAt": "2026-10-12",
+      "reason": "Finds installed applications from its search input and launches the selected result.",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/maajix/omarchy-spotlight#readme",
-        "revision": "721c05874f0269c85604f9f1bb92be0bfaa0f810",
+        "url": "https://github.com/maajix/omarchy-spotlight/blob/c421a257b440af40d4344db0f7b150e3ccabaea8/README.md",
+        "revision": "c421a257b440af40d4344db0f7b150e3ccabaea8",
         "path": "README.md",
-        "evidence": "README.md, line 5: Introduction and Try it: application search and launch share the main input, including the chrom example."
-      }
+        "sha256": "b752ba9c2755dfd020e9003e68eb5d4a55a991f40a486a3d9cb05de77c0c3c4e",
+        "evidence": "README.md lines 5-5:\nLaunch apps, switch windows, find files, search your clipboard and control your desktop from one input. Calculate, convert currencies, create reminders, search the web or ask AI without leaving Spotlight.\n\nREADME.md lines 35-35:\n| `chrom` | Find apps, windows and matching local results |\n\nREADME.md lines 44-44:\nUse **↑ / ↓** to select a result, **Enter** for its main action and **Shift+Enter** for its secondary action. **Esc** clears the query, then closes Spotlight."
+      },
+      "metadataHash": "a2e7cf303129c85426c53fbfe038b8346b72d09781b493ed1de686a76a64d2ad",
+      "contractVersion": 1
     },
     {
       "pluginId": "olauncher",
@@ -3601,6 +3699,31 @@
       ]
     },
     {
+      "pluginId": "io.github.qempexe.omaudix",
+      "typeId": "music",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "read-local-now-playing",
+        "control-local-playback"
+      ],
+      "constraints": [
+        "Seeking works only when the player allows it."
+      ],
+      "reason": "Shows the track playing in any MPRIS player with previous, play/pause and next controls beside a live visualizer.",
+      "reviewedAt": "2026-11-09",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/qempexe/omarchy-omaudix/blob/f897744c59c3ae62a8ba1cf6c1b0135d5b95f574/README.md",
+        "revision": "f897744c59c3ae62a8ba1cf6c1b0135d5b95f574",
+        "path": "README.md",
+        "sha256": "0affb55ed37a34c64319cbfc269b143cf336e13cce2f0f04f21c1031645b7766",
+        "evidence": "README.md lines 10-10:\n<p align=\"center\">The song that's playing, on your Omarchy bar: a live visualizer, the title, and the buttons to steer it.</p>\n\nREADME.md lines 14-14:\nOmaudix follows any MPRIS player (Spotify, a browser tab, mpv, a radio app) and draws what you hear right next to its title. Everything about it can be changed from its own settings panel: twenty-four visuals, eleven ways to color them, a plate behind the widget with its own ends, surface and edge, round covers that turn like records, and looks you can save and come back to.\n\nREADME.md lines 23-23:\n- **Any MPRIS player**, told apart even when they all call themselves the same, with previous, play/pause and next.\n\nREADME.md lines 69-70:\n- **Buttons**: previous, play/pause and next can each be shown or left out, at either end of the widget.\n- **Mouse**: left click plays or pauses (or skips, or nothing), middle click skips, the wheel skips tracks, changes the player's volume, or steps through the visuals."
+      },
+      "metadataHash": "558d1fd4562ca9ebfb68eee125ba643e88b555117b60147bed3df60a06c2445e",
+      "contractVersion": 2
+    },
+    {
       "pluginId": "mich.spotmarchy",
       "typeId": "music",
       "contractVersion": 1,
@@ -4000,20 +4123,20 @@
     {
       "pluginId": "io.github.maajix.spotlight",
       "typeId": "network",
-      "contractVersion": 1,
-      "metadataHash": "a2e7cf303129c85426c53fbfe038b8346b72d09781b493ed1de686a76a64d2ad",
       "decision": "related",
       "role": "integration",
       "capabilities": [],
       "constraints": [],
-      "reason": "Offers a Wi-Fi toggle; full network selection and connection configuration require a connection manager.",
-      "reviewedAt": "2026-10-12",
       "provenance": "catalog-evidence",
+      "reason": "Its listing mentions toggling Wi-Fi from the launcher; neither the listing nor its documentation shows browsing, joining or disconnecting networks.",
+      "reviewedAt": "2026-11-09",
+      "metadataHash": "a2e7cf303129c85426c53fbfe038b8346b72d09781b493ed1de686a76a64d2ad",
+      "contractVersion": 2,
       "source": {
         "url": "https://plugins.omarchy.org/plugin.html?id=io.github.maajix.spotlight",
-        "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
+        "revision": "6c9cf98f95716ba6eb3c198597defb0feba09d82f24b31bf21154d8da398b0ab",
         "path": "catalog.json",
-        "evidence": "plugins[2752].description (io.github.maajix.spotlight): A Raycast-style launcher for Omarchy. Spotlight launches applications, switches windows, finds files, searches clipboard history, runs Omarchy commands and toggles system settings such as Wi-Fi and night light from a single input. Natural-language input covers calculations, unit conversions, reminders and calendar events, and search prefixes route queries to sites such as YouTube and GitHub. Spotlight runs inside omarchy-shell and opens instantly, without a separate background process."
+        "evidence": "plugins[2735].description (io.github.maajix.spotlight): A Raycast-style launcher for Omarchy. Spotlight launches applications, switches windows, finds files, searches clipboard history, runs Omarchy commands and toggles system settings such as Wi-Fi and night light from a single input. Natural-language input covers calculations, unit conversions, reminders and calendar events, and search prefixes route queries to sites such as YouTube and GitHub. Spotlight runs inside omarchy-shell and opens instantly, without a separate background process."
       }
     },
     {
@@ -4133,23 +4256,26 @@
     {
       "pluginId": "davedes.omcontrol",
       "typeId": "network-diagnostics",
-      "contractVersion": 1,
-      "metadataHash": "253991db184b3a2bac40e216a72cf7669cbd1c767b6832f541825041c7f2fa9a",
       "decision": "qualified",
       "role": "substantial-secondary",
       "capabilities": [
         "inspect-network-activity"
       ],
-      "constraints": [],
-      "reason": "Inspects live network traffic or connection activity.",
-      "reviewedAt": "2026-10-12",
+      "constraints": [
+        "Per-process network attribution is an optional setting."
+      ],
+      "reason": "Shows network activity in its bar stats, with live socket counts and per-process network attribution in the task manager.",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/Davedes83/OmaControl#readme",
-        "revision": "57178c420bf66060b2363a740af4f2e0af3360e1",
+        "url": "https://github.com/Davedes83/OmaControl/blob/dad2835a28c29d1a6657000b63e258c152274ca8/README.md",
+        "revision": "dad2835a28c29d1a6657000b63e258c152274ca8",
         "path": "README.md",
-        "evidence": "README.md, line 23: Features: network information/graphs and connection monitoring accompany the hardware/process dashboard."
-      }
+        "sha256": "4ba1fa65221903e1e0e186de975f744a1c918d6b2bcc910c58c29c94a68c8771",
+        "evidence": "README.md lines 15-17:\n- **Live bar stats** — CPU, temps, RAM, network, and more as a compact, customizable icon\n- **App Window** with tabs for Activity (live graphs, 1H/6H/1D), Apps (running processes + trust status), Alerts, Events, and Settings\n- **Per-app details** — CPU/mem/GPU/I/O history, provenance, and live socket counts (no root needed)\n\nREADME.md lines 23-23:\n- **Per-process network attribution** — optional toggle; turning it off hides the per-process net column entirely (instead of showing zeroes)"
+      },
+      "metadataHash": "253991db184b3a2bac40e216a72cf7669cbd1c767b6832f541825041c7f2fa9a",
+      "contractVersion": 1
     },
     {
       "pluginId": "io.github.diegopluna.argus",
@@ -4261,21 +4387,22 @@
     {
       "pluginId": "io.github.maajix.spotlight",
       "typeId": "night-light",
-      "contractVersion": 1,
-      "metadataHash": "a2e7cf303129c85426c53fbfe038b8346b72d09781b493ed1de686a76a64d2ad",
       "decision": "related",
       "role": "integration",
       "capabilities": [],
       "constraints": [],
       "reason": "Toggles the existing night-light setting but does not supply temperature or schedule controls.",
-      "reviewedAt": "2026-10-12",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/maajix/omarchy-spotlight#readme",
-        "revision": "721c05874f0269c85604f9f1bb92be0bfaa0f810",
+        "url": "https://github.com/maajix/omarchy-spotlight/blob/c421a257b440af40d4344db0f7b150e3ccabaea8/README.md",
+        "revision": "c421a257b440af40d4344db0f7b150e3ccabaea8",
         "path": "README.md",
-        "evidence": "README.md, line 37: Try it: night light shows a live on/off toggle; temperature adjustment and scheduling are not described."
-      }
+        "sha256": "b752ba9c2755dfd020e9003e68eb5d4a55a991f40a486a3d9cb05de77c0c3c4e",
+        "evidence": "README.md lines 37-37:\n| `night light` | Show a live toggle and switch it in place |"
+      },
+      "metadataHash": "a2e7cf303129c85426c53fbfe038b8346b72d09781b493ed1de686a76a64d2ad",
+      "contractVersion": 1
     },
     {
       "pluginId": "io.github.marioxabel.hyprsunset",
@@ -6312,23 +6439,25 @@
     {
       "pluginId": "davedes.omcontrol",
       "typeId": "system-monitor",
-      "contractVersion": 1,
-      "metadataHash": "253991db184b3a2bac40e216a72cf7669cbd1c767b6832f541825041c7f2fa9a",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
-        "inspect-resource-usage"
+        "inspect-host-cpu",
+        "inspect-host-memory"
       ],
       "constraints": [],
-      "reason": "Inspects live hardware resource usage and provides a system dashboard.",
-      "reviewedAt": "2026-10-12",
+      "reason": "Shows live CPU and RAM in the bar and opens a task manager with live and historical per-app CPU and memory.",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/Davedes83/OmaControl#readme",
-        "revision": "57178c420bf66060b2363a740af4f2e0af3360e1",
+        "url": "https://github.com/Davedes83/OmaControl/blob/dad2835a28c29d1a6657000b63e258c152274ca8/README.md",
+        "revision": "dad2835a28c29d1a6657000b63e258c152274ca8",
         "path": "README.md",
-        "evidence": "README.md, line 13: Features: task-manager view, historical resource graphs, process controls and adaptive resource sampling."
-      }
+        "sha256": "4ba1fa65221903e1e0e186de975f744a1c918d6b2bcc910c58c29c94a68c8771",
+        "evidence": "README.md lines 11-11:\nAn Omarchy shell plugin (Quickshell, Hyprland) that turns your top-bar icon into an advanced task manager — live system monitoring, per-app history, process control, and privacy alerts.\n\nREADME.md lines 15-17:\n- **Live bar stats** — CPU, temps, RAM, network, and more as a compact, customizable icon\n- **App Window** with tabs for Activity (live graphs, 1H/6H/1D), Apps (running processes + trust status), Alerts, Events, and Settings\n- **Per-app details** — CPU/mem/GPU/I/O history, provenance, and live socket counts (no root needed)"
+      },
+      "metadataHash": "253991db184b3a2bac40e216a72cf7669cbd1c767b6832f541825041c7f2fa9a",
+      "contractVersion": 2
     },
     {
       "pluginId": "harshith.system-monitor",
@@ -6394,6 +6523,29 @@
         "path": "catalog.json",
         "evidence": "plugins[504].description (io.github.diegopluna.argus): CPU, RAM, GPU, disk, network, battery, power, and temperature stats in the bar, with a full system panel: 2m/1h/24h history that survives restarts (the flight recorder), per-metric opt-in alerts with context snapshots, a filterable sortable process table, per-process GPU usage, drive SMART health, an alert hook for automation, and a GAME tab that configures your MangoHud in-game overlay live."
       }
+    },
+    {
+      "pluginId": "meviusisback.hw-monitor",
+      "typeId": "system-monitor",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "inspect-host-cpu",
+        "inspect-host-memory"
+      ],
+      "constraints": [],
+      "reason": "Shows live CPU load and RAM use in the bar and opens a panel with CPU details, a memory breakdown and top processes.",
+      "reviewedAt": "2026-11-09",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/meviusisback/omarchy-hw-monitor/blob/2ca32ed7ad64e0305f229598209163bcd7872d60/README.md",
+        "revision": "2ca32ed7ad64e0305f229598209163bcd7872d60",
+        "path": "README.md",
+        "sha256": "b95dc9cb7ee7a3abfb3d9be5c63fd9f8d7ac5d4338a7961af262ef910ba2396f",
+        "evidence": "README.md lines 19-23:\nChecking thermals or \"what is eating my RAM\" should not mean opening a\nterminal. The bar keeps the four numbers that matter — GPU, CPU, temperature,\nmemory — readable at a glance, and one click opens a full visual breakdown\nwithout leaving the workspace. Everything stays in one screen: the glance in\nthe bar, the diagnosis in the panel.\n\nREADME.md lines 94-95:\n- **Telemetry dials** — 270° circular gauges with live figures for CPU load &\n  temp, RAM usage, and GPU load & temp with dynamic temperature coloring.\n\nREADME.md lines 98-101:\n- **Processor details** — full CPU model name (without cutoff), load, clock\n  frequency, dynamic temperature color, and 1m/5m/15m load average meters.\n- **Memory breakdown** — used/total GiB visual meter, available, cache, and\n  swap usage."
+      },
+      "metadataHash": "600f34bbf66242c48e45440524a721739fb7e403e4d69631eb7d8536c8baf6c9",
+      "contractVersion": 2
     },
     {
       "pluginId": "stappmus.activity-monitor",
@@ -6750,23 +6902,24 @@
     {
       "pluginId": "bibek.focusd",
       "typeId": "timers-alarms",
-      "contractVersion": 1,
-      "metadataHash": "5b480b13d9cef1008e47ddf0f32278d28727446bd2ce1da915955ccccc19dc54",
-      "decision": "qualified",
+      "decision": "related",
       "role": "core",
       "capabilities": [
-        "run-timer"
+        "manage-focus-sessions"
       ],
       "constraints": [],
-      "reason": "Runs a timer, stopwatch or scheduled alarm with user controls.",
-      "reviewedAt": "2026-10-12",
-      "provenance": "catalog-evidence",
+      "reason": "Runs Pomodoro work and break sessions with pause, skip, reset and five-minute extensions; durations come from Focusd presets, and the reviewed source does not establish a standalone countdown of a chosen duration.",
+      "reviewedAt": "2026-11-09",
+      "provenance": "repository-evidence",
       "source": {
-        "url": "https://plugins.omarchy.org/plugin.html?id=bibek.focusd",
-        "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-        "path": "catalog.json",
-        "evidence": "plugins[308].description (bibek.focusd): A pomodoro timer for the Omarchy bar with features like streak, daily goal, sessions, stats, history, and session progress visualization."
-      }
+        "url": "https://github.com/BibekBhusal0/omarchy-focusd/blob/c6174d1985268aecd08152a4f79c1ac0ba5d97d0/README.md",
+        "revision": "c6174d1985268aecd08152a4f79c1ac0ba5d97d0",
+        "path": "README.md",
+        "sha256": "69cb2510c57e7bd4553880504296257904f0ea1425d5c9073d528c27b110f74b",
+        "evidence": "README.md lines 3-3:\nA beautiful [Focusd](https://github.com/BibekBhusal0/focusd) pomodoro timer for the Omarchy bar. Shows the current session and remaining time with a state icon, and opens a control panel with pause, skip, and stop actions plus your streak, sessions, history, and daily goal.\n\nREADME.md lines 13-14:\n- Bar widget showing session state and remaining time\n- Control panel with pause, skip, reset, and add 5 minutes\n\nREADME.md lines 50-50:\nDurations and presets are set in Focusd itself (`focusd settings`). The plugin's options live in `~/.config/omarchy/focusd.json` (watched live, so edits apply instantly)."
+      },
+      "metadataHash": "5b480b13d9cef1008e47ddf0f32278d28727446bd2ce1da915955ccccc19dc54",
+      "contractVersion": 2
     },
     {
       "pluginId": "io.github.pjgeutjens.clockwork",
@@ -6789,6 +6942,30 @@
         "sha256": "f13d701ad3f6a03c961ec98537d8f54d06a005ad9f6737de9353d9f8505e2fbc",
         "evidence": "README.md lines 5-5:\nA compact Omarchy Quattro bar widget with five modes:\n\nREADME.md lines 7-15:\n- Stopwatch: a regular count-up timer.\n- Countdown: minutes and seconds, with an optional full-screen break view and\n  editable message.\n- Alarm: set a one-shot alarm for the next occurrence of a clock time, in\n  either 24-hour time or a 12-hour AM/PM form.\n- Intervals: `X` exercise rounds with a minutes-and-seconds duration.\n- Pomodoro: alternate configurable focus and short-break phases, followed by a\n  long break after the final focus cycle. The bar switches to a green coffee\n  indicator during breaks, and the panel tracks completed focus sessions.\n\nREADME.md lines 19-22:\n- Alarm time can use 24-hour time or a 12-hour AM/PM form.\n- Alarm clock, bell, and phone sounds can be selected in the Alarm panel. An\n  alarm repeats its selected sound for at most three minutes, while its bar\n  item pulses until reset.\n\nREADME.md lines 24-31:\nThe timer keeps running when its panel is closed. Exercise intervals play one\ndirect PipeWire ping at each round boundary and a three-ping sequence at\ncompletion, while Omarchy notifications show the corresponding round state.\nAn alarm repeats its selected sound for up to three minutes, then remains\nvisibly ringing until it is reset or acknowledged with `R`. Pomodoro uses the\nsame single ping between phases and three-ping completion; its sound can be\ndisabled. Breaks start automatically after focus, while the next focus phase\nwaits for you to resume it."
       }
+    },
+    {
+      "pluginId": "omarchy-dynamic-island",
+      "typeId": "timers-alarms",
+      "decision": "qualified",
+      "role": "substantial-secondary",
+      "capabilities": [
+        "run-timer"
+      ],
+      "constraints": [
+        "Any duration is set through its omarchy-shell command; the panel offers 5, 15 and 25 minute timers."
+      ],
+      "reason": "Runs a countdown of a chosen length with pause, resume and cancel, shown as a draining ring with an alarm at zero.",
+      "reviewedAt": "2026-11-09",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/Arjun010011/omarchy-dynamic-island/blob/86f06f96e427408e2beee6a020bfa50850cb556c/README.md",
+        "revision": "86f06f96e427408e2beee6a020bfa50850cb556c",
+        "path": "README.md",
+        "sha256": "2cbfc8a25ef63a4fdeaf9a1a18ae50e8901e65e5731d0702035ea83081cc797b",
+        "evidence": "README.md lines 24-24:\n| Timer | A ring that fills as time runs out, and the time left. At zero a message and an alarm sound |\n\nREADME.md lines 34-34:\n| Click (idle) | The time, date, next meeting and battery, plus one-tap 5, 15 and 25 minute timers and a stopwatch |\n\nREADME.md lines 236-239:\n```bash\nomarchy-shell dynamic-island timer 25m \"Focus\"     # also 90s, 1h30m, 10:00, or plain minutes\nomarchy-shell dynamic-island timerToggle           # pause / resume\nomarchy-shell dynamic-island timerCancel"
+      },
+      "metadataHash": "12c007fed8512d0c38fd77e0afbd32756b84b147cbd40e472eb966eea5f50dda",
+      "contractVersion": 2
     },
     {
       "pluginId": "pnkm0nk.omodoro",
@@ -7084,23 +7261,26 @@
     {
       "pluginId": "tenzin.live-wallpaper",
       "typeId": "wallpaper",
-      "contractVersion": 1,
-      "metadataHash": "4544f53cfc7784179dfdb76b1df3c598b9fc2810010c1a594ecb89040b94100f",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
         "play-video-wallpaper"
       ],
-      "constraints": [],
-      "reason": "Selects or plays desktop backgrounds.",
-      "reviewedAt": "2026-10-12",
-      "provenance": "catalog-evidence",
+      "constraints": [
+        "Plays video files you add to the theme's background folder; selection uses Omarchy's own Style → Background picker."
+      ],
+      "reason": "Plays muted, looping video wallpapers chosen from Omarchy's background picker, with one player per monitor.",
+      "reviewedAt": "2026-11-09",
+      "provenance": "repository-evidence",
       "source": {
-        "url": "https://plugins.omarchy.org/plugin.html?id=tenzin.live-wallpaper",
-        "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-        "path": "catalog.json",
-        "evidence": "plugins[555].description (tenzin.live-wallpaper): Add seamless video wallpapers by dropping a video into the current theme's background folder, then selecting it in Style > Background."
-      }
+        "url": "https://github.com/yesheytenzin/live-wallpaper/blob/35c5f52cbf4fa517266f89999d8150adc7fc3a4d/README.md",
+        "revision": "35c5f52cbf4fa517266f89999d8150adc7fc3a4d",
+        "path": "README.md",
+        "sha256": "dd2ef1cad663f1e33005b0c8e8fe20bdc10fe208d886eecac1e57628173ab357",
+        "evidence": "README.md lines 3-5:\nPlay fast, muted, looping video wallpapers through Omarchy's familiar\n**Style → Background** picker. The plugin keeps the stock background service\nand adds video support without starting another Quickshell process.\n\nREADME.md lines 15-18:\n2. Open **Style → Background**.\n3. Select the video's generated preview.\n\nPlayback starts automatically with no shell restart. To stop the video, open\n\nREADME.md lines 24-27:\n- Lists images and videos together from the active theme's wallpaper folders\n- Supports MP4, MKV, WebM, MOV, and M4V\n- Starts cached videos in about 100 ms using persistent Qt multimedia surfaces\n- Keeps one warm, muted, looping player per connected monitor"
+      },
+      "metadataHash": "4544f53cfc7784179dfdb76b1df3c598b9fc2810010c1a594ecb89040b94100f",
+      "contractVersion": 1
     },
     {
       "pluginId": "ali.iweather",
@@ -7255,6 +7435,54 @@
       }
     },
     {
+      "pluginId": "gdeyoung.weather",
+      "typeId": "weather-radar",
+      "decision": "qualified",
+      "role": "substantial-secondary",
+      "capabilities": [
+        "view-precipitation-radar"
+      ],
+      "constraints": [
+        "Its panel shows the latest radar frame; the full interactive view opens windy.com in a browser."
+      ],
+      "reason": "Shows a RainViewer precipitation radar map centred on the selected place inside its weather panel.",
+      "reviewedAt": "2026-11-09",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/gdeyoung/omarchy-weather/blob/93758c06391ba7eba9d4fe6bcbb89556421c9cc3/README.md",
+        "revision": "93758c06391ba7eba9d4fe6bcbb89556421c9cc3",
+        "path": "README.md",
+        "sha256": "61997902b62d51d7b9e47844e703871b86b1f497212556d8359e3fbfdca48e1d",
+        "evidence": "README.md lines 3-4:\nExtended weather for the Omarchy bar: current temperature in the bar, a large\ntabbed dropdown panel, and a live radar map — all keyless.\n\nREADME.md lines 21-24:\n- **Live radar map** beside the 7-day — Esri dark basemap and labels with a\n  RainViewer precipitation overlay, centered on the active tab's location,\n  refreshed from the latest public radar frame. ⟳ refetches; the radar button\n  opens the full interactive view on windy.com."
+      },
+      "metadataHash": "ff5b5ad4cae8f56b17b2f25cc0fd460fee2dc6c3ebe97515ff2cc9bfd8338e0d",
+      "contractVersion": 2
+    },
+    {
+      "pluginId": "more-weather",
+      "typeId": "weather-radar",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "view-precipitation-radar"
+      ],
+      "constraints": [
+        "Official radar covers Germany and neighbouring countries, the USA, Canada, Finland, the Netherlands and Japan; RainViewer is used elsewhere. When no radar source is available it falls back to model precipitation, which is forecast data rather than radar."
+      ],
+      "reason": "Shows an animated rain radar map for the selected place, with a frame timeline, zoom and a movable themed map.",
+      "reviewedAt": "2026-11-09",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/T-The-Coder/more-weather/blob/2bea24e838eeb9f1805119d55cca84217fdaa6f9/README.md",
+        "revision": "2bea24e838eeb9f1805119d55cca84217fdaa6f9",
+        "path": "README.md",
+        "sha256": "addc6140021fe277c4d35b2a6f6419505032b17e6a8a04c39c1445ecb7888fe5",
+        "evidence": "README.md lines 3-7:\nA detailed weather plugin for the [Omarchy](https://omarchy.org) bar, with official\nsevere weather warnings from national weather services, a two-hour rain nowcast, a rain\nradar and a wind map drawn in your theme that you can move and zoom, temperature lines,\nrain alerts, air quality and pollen, and all your places at a glance. The same view also\nruns as a standalone app window.\n\nREADME.md lines 68-74:\n- **Rain radar:**\n  - Official radar in the DWD area, the USA, Canada, Finland, the Netherlands and\n    Japan; RainViewer elsewhere.\n  - Animated frames with a timeline under the map (after Weather Radar): play/pause, a\n    notched track to drag or click through the frames with a mark for now and the\n    forecast part tinted, and the frame's time. Plus zoom and distance rings around the\n    place.\n\nREADME.md lines 271-271:\n| Radar | DWD (Germany and neighbours), NOAA/NWS MRMS (United States), ECCC GeoMet (Canada), RainViewer elsewhere; model precipitation as last resort |"
+      },
+      "metadataHash": "e8327dbdee1602d200c4e195f19f052eef8b18edb9f6f15589a2daf2aebe44c0",
+      "contractVersion": 2
+    },
+    {
       "pluginId": "expose.window-overview",
       "typeId": "window-management",
       "contractVersion": 2,
@@ -7279,44 +7507,46 @@
     {
       "pluginId": "io.github.maajix.spotlight",
       "typeId": "window-management",
-      "contractVersion": 1,
-      "metadataHash": "a2e7cf303129c85426c53fbfe038b8346b72d09781b493ed1de686a76a64d2ad",
       "decision": "qualified",
       "role": "substantial-secondary",
       "capabilities": [
         "switch-windows"
       ],
       "constraints": [],
-      "reason": "Switches windows or configures their desktop behavior.",
-      "reviewedAt": "2026-10-12",
+      "reason": "Finds open windows from its search input and switches to the selected one.",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/maajix/omarchy-spotlight#readme",
-        "revision": "721c05874f0269c85604f9f1bb92be0bfaa0f810",
+        "url": "https://github.com/maajix/omarchy-spotlight/blob/c421a257b440af40d4344db0f7b150e3ccabaea8/README.md",
+        "revision": "c421a257b440af40d4344db0f7b150e3ccabaea8",
         "path": "README.md",
-        "evidence": "README.md, line 5: Introduction and Try it: searches windows and switches to results from the same launcher input."
-      }
+        "sha256": "b752ba9c2755dfd020e9003e68eb5d4a55a991f40a486a3d9cb05de77c0c3c4e",
+        "evidence": "README.md lines 5-5:\nLaunch apps, switch windows, find files, search your clipboard and control your desktop from one input. Calculate, convert currencies, create reminders, search the web or ask AI without leaving Spotlight.\n\nREADME.md lines 35-35:\n| `chrom` | Find apps, windows and matching local results |\n\nREADME.md lines 44-44:\nUse **↑ / ↓** to select a result, **Enter** for its main action and **Shift+Enter** for its secondary action. **Esc** clears the query, then closes Spotlight."
+      },
+      "metadataHash": "a2e7cf303129c85426c53fbfe038b8346b72d09781b493ed1de686a76a64d2ad",
+      "contractVersion": 2
     },
     {
       "pluginId": "io.github.mtolhuys.fathom",
       "typeId": "window-management",
-      "contractVersion": 1,
-      "metadataHash": "01cf19ab288a901c47f151c9b9e9d66204252cde11b1d57d4e3d122e8c7d0e4a",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
         "switch-windows"
       ],
       "constraints": [],
-      "reason": "Switches windows or configures their desktop behavior.",
-      "reviewedAt": "2026-10-12",
-      "provenance": "catalog-evidence",
+      "reason": "An Alt+Tab overlay that orders open windows by recent use, filters them by typing and focuses the one you pick.",
+      "reviewedAt": "2026-11-09",
+      "provenance": "repository-evidence",
       "source": {
-        "url": "https://plugins.omarchy.org/plugin.html?id=io.github.mtolhuys.fathom",
-        "revision": "e9b12c44f9b29484b818955016877824c98fe326e20c899925915378430ee0d0",
-        "path": "catalog.json",
-        "evidence": "plugins[4024].description (io.github.mtolhuys.fathom): A depth-based Alt-Tab: every window recedes into the distance by how long ago you last used it. Hold Alt, dive with Tab, release to focus."
-      }
+        "url": "https://github.com/mtolhuys/fathom/blob/1b0a9069fb25db0593d5dfdf3fecdd58c9a133cd/README.md",
+        "revision": "1b0a9069fb25db0593d5dfdf3fecdd58c9a133cd",
+        "path": "README.md",
+        "sha256": "901d8cd5115eb38e6cb14d32a5ec8a82ef8a864033f363fd388b3a57a0da7269",
+        "evidence": "README.md lines 7-13:\nA depth-based Alt+Tab for [Omarchy](https://omarchy.org/) Quattro.\n\nWindows are placed on a z-axis by how long ago you last used them. The window\nyou used most recently is in front; older ones recede into the distance and\nthe fog. Hold `Alt`, dive with `Tab`, the arrows or the wheel, release `Alt` to\nfocus the window in front. Below the stack, a map shows every workspace with\nits windows where they really are.\n\nREADME.md lines 19-21:\nFathom is an overlay only: it never moves, resizes or closes a window. Focusing\nthe one you pick is the only thing it asks the compositor to do. It starts no\nprogram, writes no file, and captures windows only while it is open.\n\nREADME.md lines 72-72:\n| `Enter`, a click on a window or the caption | Focus it |"
+      },
+      "metadataHash": "01cf19ab288a901c47f151c9b9e9d66204252cde11b1d57d4e3d122e8c7d0e4a",
+      "contractVersion": 2
     },
     {
       "pluginId": "io.github.pablo-merino.altswitch",
@@ -7405,6 +7635,28 @@
         "sha256": "9845cab0fd403671c1f22c8d2a2439b5536c572d21792b49cba369c10d852d66",
         "evidence": "README.md lines 3-3:\nOmarchy bar widget by **Agile Automation** for shaping the focused workspace.\n\nREADME.md lines 5-5:\n**Dwindle** locks tiling into a left or top band at 50% or 75%, so the right or bottom of the screen stays open for floating windows, reference apps, or empty space. Options: Full, Left 75%, Left 50%, Top 75%, Top 50%.\n\nREADME.md lines 7-7:\n**Scrolling** sets how many columns fit on screen — one, two, or three — and updates existing columns live (`colresize all`).\n\nREADME.md lines 9-9:\nBoth modes are **key-driven** as well as clickable: open the dropdown from the bar icon, or cycle without leaving the keyboard."
       }
+    },
+    {
+      "pluginId": "io.github.qempexe.altscape",
+      "typeId": "workspaces",
+      "decision": "related",
+      "role": "substantial-secondary",
+      "capabilities": [
+        "show-workspace-state"
+      ],
+      "constraints": [],
+      "reason": "A window switcher that can group windows by workspace and show every workspace in an overview; its workspace keys move the selection to a window, so it switches windows rather than navigating workspaces.",
+      "reviewedAt": "2026-11-09",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/qempexe/omarchy-altscape/blob/6f7803d1d5af057644e1d190e5f89f5f98fad400/README.md",
+        "revision": "6f7803d1d5af057644e1d190e5f89f5f98fad400",
+        "path": "README.md",
+        "sha256": "46288544b3d1bb9a2e5b9049b964d3d30deb42ff468da62e38766e6b0f861b8d",
+        "evidence": "README.md lines 23-25:\n- **Twelve layouts**: grid, strip, carousel, ring, list, overview (every workspace as a\n  mini screen, windows where they really sit), stack, dock, compact, spread, columns and\n  fan. Switch in the panel, or with `[` and `]` while the switcher is open.\n\nREADME.md lines 79-86:\nHold **Alt**, tap **Tab**. Keep tapping to move on, **Shift+Tab** to go back, let go of\nAlt to switch. The first Tab already lands on the window you used before.\n\n| Key | Does |\n| --- | --- |\n| Arrows, Home, End | move around |\n| 1-9 | jump to a workspace |\n| Enter / Space / click | switch |"
+      },
+      "metadataHash": "c54bb935eac257f5cda67fe0475b844ea67dee3b53164c94582b0c233d06f5fb",
+      "contractVersion": 2
     },
     {
       "pluginId": "io.github.thetrueferret.decent-workspaces",
