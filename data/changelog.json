@@ -1,353 +1,217 @@
 {
   "schemaVersion": 1,
-  "week": "2026-W45",
-  "generatedAt": "2026-11-03T18:58:38.097Z",
+  "week": "2026-W46",
+  "generatedAt": "2026-11-09T07:54:02.698Z",
   "changes": [
     {
-      "typeId": "mail",
-      "typeName": "Inbox & Mail Status",
+      "typeId": "vpn",
+      "typeName": "VPN",
       "kind": "displaced",
       "previous": {
-        "id": "omamail",
-        "name": "Omamail"
+        "id": "io.github.grichard99.omaproton-vpn",
+        "name": "OmaProton VPN"
       },
       "current": {
-        "id": "jankeesvw.gmail-inbox",
-        "name": "Gmail Inbox"
+        "id": "jkoestinger.vpn",
+        "name": "VPN"
       },
       "reason": "awaiting-task-qualification"
     },
     {
-      "typeId": "clipboard",
-      "typeName": "Clipboard",
+      "typeId": "password-manager",
+      "typeName": "Password Manager",
       "kind": "displaced",
       "previous": {
-        "id": "io.github.maajix.spotlight",
-        "name": "Spotlight"
+        "id": "io.github.elevate08.qs-bitwarden-cli",
+        "name": "Bitwarden"
       },
       "current": {
-        "id": "io.github.vuhuy.clipboard-manager",
-        "name": "Clipboard Manager"
+        "id": "io.github.salemsayed.omawarden",
+        "name": "OmaWarden"
       },
       "reason": "awaiting-task-qualification"
     },
     {
-      "typeId": "bluetooth",
-      "typeName": "Bluetooth",
+      "typeId": "window-management",
+      "typeName": "Window Switching",
       "kind": "displaced",
       "previous": {
-        "id": "ssupt.bluetooth-audio",
-        "name": "Advanced Bluetooth Audio"
+        "id": "expose.window-overview",
+        "name": "Exposé"
       },
       "current": {
-        "id": "io.github.aryan-techie.bluetooth",
-        "name": "Better Bluetooth"
+        "id": "io.github.pablo-merino.altswitch",
+        "name": "Alt-tab switcher"
       },
-      "reason": "awaiting-task-qualification"
-    },
-    {
-      "typeId": "brightness",
-      "typeName": "Screen Brightness",
-      "kind": "displaced",
-      "previous": {
-        "id": "crmne.hyprmoncfg",
-        "name": "hyprmoncfg: Multi-Monitor Manager for Omarchy"
-      },
-      "current": {
-        "id": "omarchy-display",
-        "name": "Display Settings"
-      },
-      "reason": "awaiting-task-qualification"
-    },
-    {
-      "typeId": "display-monitors",
-      "typeName": "Display & Monitors",
-      "kind": "displaced",
-      "previous": {
-        "id": "crmne.hyprmoncfg",
-        "name": "hyprmoncfg: Multi-Monitor Manager for Omarchy"
-      },
-      "current": {
-        "id": "im0001gt.screens",
-        "name": "Screens"
-      },
-      "reason": "awaiting-task-qualification"
-    },
-    {
-      "typeId": "lock-screen",
-      "typeName": "Lock Screen Appearance",
-      "kind": "displaced",
-      "previous": {
-        "id": "io.github.sirjul1337.lock-explorer",
-        "name": "Lock Screen Explorer"
-      },
-      "current": {
-        "id": "io.github.smoothpixels.lock-designs",
-        "name": "Lock Designs"
-      },
-      "reason": "awaiting-task-qualification"
-    },
-    {
-      "typeId": "ocr",
-      "typeName": "Screen Text Extraction",
-      "kind": "displaced",
-      "previous": {
-        "id": "glasschan.oma-swiss",
-        "name": "OmaSwiss"
-      },
-      "current": {
-        "id": "io.github.diyaclanker.omacapture",
-        "name": "Omacapture"
-      },
-      "reason": "awaiting-task-qualification"
-    },
-    {
-      "typeId": "agent-monitoring",
-      "typeName": "Agent Monitoring",
-      "kind": "vacated",
-      "previous": {
-        "id": "meviusisback.agent-orchestr",
-        "name": "Agent Orchestrator"
-      },
-      "current": null,
       "reason": "awaiting-task-qualification"
     },
     {
       "typeId": "keybinding-managers",
       "typeName": "Keybinding Managers",
-      "kind": "displaced",
+      "kind": "vacated",
       "previous": {
-        "id": "meviusisback.keybinds",
-        "name": "Keybindings"
-      },
-      "current": {
         "id": "davedes.mouse-keybind-settings",
         "name": "Mouse & Keybind Settings"
       },
+      "current": null,
       "reason": "awaiting-task-qualification"
     },
     {
-      "typeId": "system-updates",
-      "typeName": "System Updates",
+      "typeId": "radio",
+      "typeName": "Radio",
       "kind": "displaced",
       "previous": {
-        "id": "dizziee.system-updates",
-        "name": "System Updates"
+        "id": "akshar.radio-atlas",
+        "name": "Radio Atlas"
       },
       "current": {
-        "id": "io.github.saiiiiiph.update-center",
-        "name": "Update Center"
+        "id": "io.github.kaibur02.omarchy-world-radio",
+        "name": "World Radio"
       },
       "reason": "awaiting-task-qualification"
     },
     {
-      "typeId": "screensavers",
-      "typeName": "Screensavers",
+      "typeId": "power-menu",
+      "typeName": "Power & Session",
       "kind": "displaced",
       "previous": {
-        "id": "omarchy-undercover",
-        "name": "Omarchy Undercover"
+        "id": "io.github.edgarsilva.power-button",
+        "name": "Power Button"
       },
       "current": {
-        "id": "brianirish.screensaver",
-        "name": "Screensaver"
-      },
-      "reason": "awaiting-task-qualification"
+        "id": "blackcode.power-menu",
+        "name": "Power Menu"
+      }
     }
   ],
   "runnerUpChanges": [
     {
-      "typeId": "mail",
-      "typeName": "Inbox & Mail Status",
-      "kind": "displaced",
-      "previous": {
-        "id": "jankeesvw.gmail-inbox",
-        "name": "Gmail Inbox"
-      },
-      "current": {
-        "id": "37signals.hey",
-        "name": "HEY"
-      }
-    },
-    {
-      "typeId": "clipboard",
-      "typeName": "Clipboard",
+      "typeId": "vpn",
+      "typeName": "VPN",
       "kind": "vacated",
       "previous": {
-        "id": "io.github.vuhuy.clipboard-manager",
-        "name": "Clipboard Manager"
+        "id": "jkoestinger.vpn",
+        "name": "VPN"
       },
       "current": null
     },
     {
-      "typeId": "bluetooth",
-      "typeName": "Bluetooth",
-      "kind": "displaced",
-      "previous": {
-        "id": "io.github.aryan-techie.bluetooth",
-        "name": "Better Bluetooth"
-      },
-      "current": {
-        "id": "angeeeld.omaltbar",
-        "name": "Omaltbar"
-      }
-    },
-    {
-      "typeId": "brightness",
-      "typeName": "Screen Brightness",
-      "kind": "displaced",
-      "previous": {
-        "id": "omarchy-display",
-        "name": "Display Settings"
-      },
-      "current": {
-        "id": "angeeeld.omaltbar",
-        "name": "Omaltbar"
-      }
-    },
-    {
-      "typeId": "display-monitors",
-      "typeName": "Display & Monitors",
-      "kind": "displaced",
-      "previous": {
-        "id": "im0001gt.screens",
-        "name": "Screens"
-      },
-      "current": {
-        "id": "io.github.bmontythe3rd.display-manager",
-        "name": "Omarchy Display Manager"
-      }
-    },
-    {
-      "typeId": "lock-screen",
-      "typeName": "Lock Screen Appearance",
-      "kind": "displaced",
-      "previous": {
-        "id": "io.github.smoothpixels.lock-designs",
-        "name": "Lock Designs"
-      },
-      "current": {
-        "id": "bibek.lock",
-        "name": "Better Lock"
-      }
-    },
-    {
-      "typeId": "tasks",
-      "typeName": "Task Lists",
-      "kind": "displaced",
-      "previous": {
-        "id": "crmne.todoist",
-        "name": "OmaTasks for Todoist"
-      },
-      "current": {
-        "id": "maduki-tech.omado",
-        "name": "Omado"
-      },
-      "reason": "awaiting-task-qualification"
-    },
-    {
-      "typeId": "screenshots",
-      "typeName": "Screen Capture",
+      "typeId": "network-diagnostics",
+      "typeName": "Network Traffic",
       "kind": "vacated",
       "previous": {
-        "id": "glasschan.oma-swiss",
-        "name": "OmaSwiss"
+        "id": "vitals",
+        "name": "Vitals"
+      },
+      "current": null,
+      "reason": "repository-unreachable"
+    },
+    {
+      "typeId": "audio",
+      "typeName": "System Audio",
+      "kind": "vacated",
+      "previous": {
+        "id": "videinfra.omaudiopanel",
+        "name": "omaudiopanel"
       },
       "current": null,
       "reason": "awaiting-task-qualification"
     },
     {
-      "typeId": "screen-recording",
-      "typeName": "Screen Recording",
+      "typeId": "password-manager",
+      "typeName": "Password Manager",
       "kind": "vacated",
       "previous": {
-        "id": "glasschan.oma-swiss",
-        "name": "OmaSwiss"
-      },
-      "current": null,
-      "reason": "awaiting-task-qualification"
-    },
-    {
-      "typeId": "ocr",
-      "typeName": "Screen Text Extraction",
-      "kind": "vacated",
-      "previous": {
-        "id": "io.github.diyaclanker.omacapture",
-        "name": "Omacapture"
+        "id": "io.github.salemsayed.omawarden",
+        "name": "OmaWarden"
       },
       "current": null
     },
     {
-      "typeId": "gaming",
-      "typeName": "Gaming Mode",
+      "typeId": "screen-time",
+      "typeName": "Screen Time",
       "kind": "vacated",
       "previous": {
-        "id": "glasschan.oma-swiss",
-        "name": "OmaSwiss"
+        "id": "rimuru.screentime",
+        "name": "Screen Time"
       },
       "current": null,
       "reason": "awaiting-task-qualification"
     },
     {
-      "typeId": "keybinding-managers",
-      "typeName": "Keybinding Managers",
+      "typeId": "window-management",
+      "typeName": "Window Switching",
       "kind": "vacated",
       "previous": {
-        "id": "davedes.mouse-keybind-settings",
-        "name": "Mouse & Keybind Settings"
+        "id": "io.github.pablo-merino.altswitch",
+        "name": "Alt-tab switcher"
       },
       "current": null
     },
     {
-      "typeId": "keyboard-lighting",
-      "typeName": "Keyboard Lighting",
-      "kind": "vacated",
-      "previous": {
-        "id": "tedwester.legion",
-        "name": "Legion Toolkit"
-      },
-      "current": null,
-      "reason": "awaiting-task-qualification"
-    },
-    {
-      "typeId": "file-search",
-      "typeName": "File Search",
+      "typeId": "shortcut-guides",
+      "typeName": "Shortcut Learning",
       "kind": "displaced",
       "previous": {
-        "id": "io.github.maajix.spotlight",
-        "name": "Spotlight"
+        "id": "huacnlee.which-key",
+        "name": "Which Key"
       },
       "current": {
-        "id": "crmne.files",
-        "name": "Files"
+        "id": "slw.keyarchy",
+        "name": "Keyarchy"
       },
       "reason": "awaiting-task-qualification"
     },
     {
-      "typeId": "system-updates",
-      "typeName": "System Updates",
+      "typeId": "keyboard-layouts",
+      "typeName": "Keyboard Layout Switching",
       "kind": "vacated",
       "previous": {
-        "id": "io.github.saiiiiiph.update-center",
-        "name": "Update Center"
+        "id": "io.github.ilyazar.keyboard-layout",
+        "name": "Keyboard Layout Pulse"
+      },
+      "current": null,
+      "reason": "awaiting-task-qualification"
+    },
+    {
+      "typeId": "radio",
+      "typeName": "Radio",
+      "kind": "vacated",
+      "previous": {
+        "id": "io.github.kaibur02.omarchy-world-radio",
+        "name": "World Radio"
       },
       "current": null
     },
     {
-      "typeId": "screensavers",
-      "typeName": "Screensavers",
+      "typeId": "power-menu",
+      "typeName": "Power & Session",
+      "kind": "displaced",
+      "previous": {
+        "id": "blackcode.power-menu",
+        "name": "Power Menu"
+      },
+      "current": {
+        "id": "io.github.edgarsilva.power-button",
+        "name": "Power Button"
+      }
+    },
+    {
+      "typeId": "dev-ports",
+      "typeName": "Dev Ports",
       "kind": "vacated",
       "previous": {
-        "id": "brianirish.screensaver",
-        "name": "Screensaver"
+        "id": "io.github.mich-nduka.omaports",
+        "name": "Omaports"
       },
-      "current": null
+      "current": null,
+      "reason": "awaiting-task-qualification"
     }
   ],
   "categoryChanges": [],
   "publicationBaseline": {
-    "week": "2026-W44",
-    "generatedAt": "2026-10-30T11:21:19.177Z",
+    "week": "2026-W45",
+    "generatedAt": "2026-11-03T18:58:38.097Z",
     "methodologyVersion": "1.4.0"
   }
 }
