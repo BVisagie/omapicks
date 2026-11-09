@@ -275,13 +275,13 @@
       "requirements": [
         "Requires the ai-usagebar binary as well as the plugin, and provider-specific credentials, app login or local service configuration."
       ],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/akitaonrails/ai-usagebar/blob/d12c8d9828397abe5a477eb89c6e5e763840cd43/README.md",
-          "revision": "d12c8d9828397abe5a477eb89c6e5e763840cd43",
+          "url": "https://github.com/akitaonrails/ai-usagebar/blob/59573ff3cb4546781ba8090902e7fc65cedf0ad4/README.md",
+          "revision": "59573ff3cb4546781ba8090902e7fc65cedf0ad4",
           "path": "README.md",
-          "sha256": "c917b19fa4e2e859284360f80e75c9c6b3f3ba5112e93a867500e30d3fd76af1",
+          "sha256": "9bb178751eb6baee228b37feed5d2058ae1b5e1ec01ca0a953eaad2095464e58",
           "evidence": "README.md lines 178-185:\npercentages as what is used (the default) or what is left of the same window.\n**Show provider logos** draws each provider's own mark; turn it off for the\ngeneric robot icon. The **Metrics** section expands per provider and switches\neach metric on or off; a switched-off metric disappears from the panel, the bar\nand the tooltip, and is left out of the highest percent that sets the bar value\nand the alert state, which follows the used share in either reading. The\nsettings page is an accordion: one section open at a time, the first open by\ndefault.\n\nREADME.md lines 187-188:\nThe source-built `ai-usagebar` AUR package can replace `ai-usagebar-bin` in\nthe first command.\n\nREADME.md lines 192-192:\nTwo packages. Pick one:\n\nREADME.md lines 195-196:\nyay -S ai-usagebar-bin    # prebuilt binary from GitHub Releases (fast, ~5s install)\nyay -S ai-usagebar        # compiles from source (~30-60s, hermetic)\n\nREADME.md lines 199-199:\nThe `-bin` variant downloads the same x86_64 ELF that CI built and tested. The source variant compiles locally with your toolchain. Both install identical binaries to `/usr/bin/`. If you already have one installed, switch with `yay -S` the other package; pacman handles the swap through `conflicts`/`provides`.\n\nREADME.md lines 204-205:\ncargo install ai-usagebar                # compile from source (needs rustup)\ncargo binstall ai-usagebar               # download prebuilt binary (needs cargo-binstall, no rustup)\n\nREADME.md lines 208-208:\n`cargo binstall` fetches the same x86_64 / aarch64 Linux tarball the AUR `-bin` package uses. Both install `ai-usagebar` + `ai-usagebar-tui` to `~/.cargo/bin/`.\n\nREADME.md lines 282-284:\nClaude and Codex reuse OAuth credentials from their official CLIs. Other\nproviders use API keys, an existing app login, or a local service. API keys can\ncome from environment variables or `config.toml`.\n\nREADME.md lines 286-286:\n| Vendor | Method | Action required |\n\nREADME.md lines 288-294:\n| Claude | OAuth from `~/.claude/.credentials.json` or the macOS login Keychain | Run `claude` once. Tokens refresh automatically. |\n| Anthropic API | Organization Admin key | Opt in with `ANTHROPIC_ADMIN_KEY` or `[anthropic_api] api_key`. Inference and Claude Code keys do not work. |\n| Codex | OAuth, read from `~/.codex/auth.json` | Run `codex login` once. Token auto-refreshes. |\n| GitHub Copilot | GitHub CLI OAuth | Run `gh auth login --web`, then choose GitHub Copilot as the primary provider in Settings. ai-usagebar gets the token only with `gh auth token`; `GITHUB_COPILOT_TOKEN` is an optional explicit override. |\n| Z.AI | API key (`ZAI_API_KEY` env or `[zai] api_key` in config) | Set either. |\n| OpenRouter | API key (`OPENROUTER_API_KEY` env or `[openrouter] api_key` in config) | Set either. Multiple keys: one `[[openrouter.accounts]]` entry each. |\n| DeepSeek | API key (`DEEPSEEK_API_KEY` or config) | Set either and opt in. |"
         }
       ]
@@ -292,13 +292,13 @@
       "requirements": [
         "Requires network access to radio directories and streams, mpv and standard Omarchy playback tools. Playback is independent and should be stopped before plugin removal."
       ],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/AksharP5/omarchy-radio-atlas/blob/cb604f717c4c3de673993e0b746c50609b701511/README.md",
-          "revision": "cb604f717c4c3de673993e0b746c50609b701511",
+          "url": "https://github.com/AksharP5/omarchy-radio-atlas/blob/d90f25928c52b18223873526bd6e6ed15769099d/README.md",
+          "revision": "d90f25928c52b18223873526bd6e6ed15769099d",
           "path": "README.md",
-          "sha256": "02846ecd182487f2ae62d4092ff0f53405b08e6c85c06f04775402977647888d",
+          "sha256": "22c7f3c1833073b9409c91fd380d857230671d62861ffacd9845af1b9a4fc8a5",
           "evidence": "README.md lines 39-39:\nomarchy plugin add https://github.com/AksharP5/omarchy-radio-atlas.git --enable\n\nREADME.md lines 42-48:\nRadio Atlas uses `bubblewrap`, `curl`, `iproute2`, `jq`, `mpv`, `python`,\n`python-dbus`, `python-gobject`, `socat`, `coreutils`, and `util-linux`. These\npackages ship with Omarchy, including `python-dbus` through `uwsm`. Radio Atlas\nprovides its own MPRIS controls and disables automatic mpv script loading for\nthis player instance.\nStation artwork uses `file` to verify downloaded images, and track copying uses\n`wl-copy` from `wl-clipboard`.\n\nREADME.md lines 52-52:\nStop the independent radio player before removing the plugin:\n\nREADME.md lines 55-56:\n~/.config/omarchy/plugins/akshar.radio-atlas/radio-player stop\nomarchy plugin remove akshar.radio-atlas"
         }
       ]
@@ -674,14 +674,14 @@
       "requirements": [
         "Requires hyprmoncfg 1.24.0 or newer, installed separately through the offered AUR package flow. It manages monitor profiles through a user daemon."
       ],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/crmne/omarchy-hyprmoncfg/blob/03177e1b48fcde97004130fdfac1f9156e6b43a6/README.md",
-          "revision": "03177e1b48fcde97004130fdfac1f9156e6b43a6",
+          "url": "https://github.com/crmne/omarchy-hyprmoncfg/blob/e2facf13d02d83f1b1d0295b2a771fca7bb19b5f/README.md",
+          "revision": "e2facf13d02d83f1b1d0295b2a771fca7bb19b5f",
           "path": "README.md",
-          "sha256": "1aade2beb74d10276db0d4cdccbbb5dd97df0b906b87408b8e8adecb63a2a3b2",
-          "evidence": "README.md lines 150-150:\nomarchy plugin add https://github.com/crmne/omarchy-hyprmoncfg.git --enable\n\nREADME.md lines 153-153:\nIf hyprmoncfg is missing, open the panel and choose **Install hyprmoncfg**. The panel closes before Omarchy opens its presented terminal, so the terminal can receive keyboard input at the password prompt. Installation monitoring continues while the panel is closed. The terminal runs:\n\nREADME.md lines 156-167:\nif pacman -Q hyprmoncfg-bin >/dev/null 2>&1; then\n  yay -S --needed --cleanafter hyprmoncfg-bin\nelif pacman -Q hyprmoncfg >/dev/null 2>&1; then\n  yay -S --needed --cleanafter hyprmoncfg\nelif pacman -Q hyprmoncfg-git >/dev/null 2>&1; then\n  yay -S --needed --cleanafter hyprmoncfg-git\nelse\n  omarchy pkg aur add hyprmoncfg-bin\nfi\nsystemctl --user enable hyprmoncfgd.service\nsystemctl --user restart hyprmoncfgd.service\nsetsid -f gtk-launch hyprmoncfg-omarchy >/dev/null 2>&1\n\nREADME.md lines 170-170:\nA fresh install takes `hyprmoncfg-bin`, the ready-made build; a machine that already has one of these packages keeps it and upgrades it directly through `yay` (`hyprmoncfg` builds from source, as the AUR asks of packages under the plain name). Upgrades keep `yay` interactive so the user can review AUR changes. Both commands run in Omarchy's presented terminal, never invisibly inside `omarchy-shell`. After a successful install or upgrade it explicitly restarts the daemon, so an already-running service immediately uses the new binary, then opens hyprmoncfg through its hidden Omarchy desktop launcher. That launcher ships with the main package and carries Omarchy's standard `TUI.float` window identity, so the editor opens centered at the normal floating size without putting Omarchy-specific window logic in the panel. Saving a profile updates the panel immediately over IPC.\n\nREADME.md lines 183-184:\n- Omarchy Quattro with third-party shell plugins\n- hyprmoncfg 1.24.0 or newer\n\nREADME.md lines 188-188:\nUse Omarchy's standard plugin update command to review and install updates:\n\nREADME.md lines 191-191:\nomarchy plugin update crmne.hyprmoncfg\n\nREADME.md lines 194-194:\nThe panel does not fetch upstream Git commits, change its checkout, or show a permanent update action when no update has been detected. The [marketplace listing](https://plugins.omarchy.org/plugin.html?id=crmne.hyprmoncfg) records the version and exact commit most recently verified for publication; that verification status is informational and is not an update notification.\n\nREADME.md lines 196-196:\nUpgrading the hyprmoncfg package is a separate matter: installing runs as root and cannot restart a user service, so the previous daemon keeps serving profiles until someone restarts it. When the running daemon is older than the installed binary, the panel offers **Restart daemon**. The hyprmoncfg TUI says the same in its status line, where the message is also the button."
+          "sha256": "f89b8aba12a9f28ee656792c71eef4cd86aeb8e18b26aec382241123d8d4ee49",
+          "evidence": "README.md lines 187-187:\nomarchy plugin add https://github.com/crmne/omarchy-hyprmoncfg.git --enable\n\nREADME.md lines 190-190:\nIf hyprmoncfg is missing, open the panel and choose **Install hyprmoncfg**. The panel closes before Omarchy opens its presented terminal, so the terminal can receive keyboard input at the password prompt. Installation monitoring continues while the panel is closed. The terminal runs:\n\nREADME.md lines 193-204:\nif pacman -Q hyprmoncfg-bin >/dev/null 2>&1; then\n  yay -S --needed --cleanafter hyprmoncfg-bin\nelif pacman -Q hyprmoncfg >/dev/null 2>&1; then\n  yay -S --needed --cleanafter hyprmoncfg\nelif pacman -Q hyprmoncfg-git >/dev/null 2>&1; then\n  yay -S --needed --cleanafter hyprmoncfg-git\nelse\n  omarchy pkg aur add hyprmoncfg-bin\nfi\nsystemctl --user enable hyprmoncfgd.service\nsystemctl --user restart hyprmoncfgd.service\nsetsid -f gtk-launch hyprmoncfg-omarchy >/dev/null 2>&1\n\nREADME.md lines 207-207:\nA fresh install takes `hyprmoncfg-bin`, the ready-made build; a machine that already has one of these packages keeps it and upgrades it directly through `yay` (`hyprmoncfg` builds from source, as the AUR asks of packages under the plain name). Upgrades keep `yay` interactive so the user can review AUR changes. Both commands run in Omarchy's presented terminal, never invisibly inside `omarchy-shell`. After a successful install or upgrade it explicitly restarts the daemon, so an already-running service immediately uses the new binary, then opens hyprmoncfg through its hidden Omarchy desktop launcher. That launcher ships with the main package and carries Omarchy's standard `TUI.float` window identity, so the editor opens centered at the normal floating size without putting Omarchy-specific window logic in the panel. Saving a profile updates the panel immediately over IPC.\n\nREADME.md lines 220-221:\n- Omarchy Quattro with third-party shell plugins\n- hyprmoncfg 1.24.0 or newer\n\nREADME.md lines 225-225:\nUse Omarchy's standard plugin update command to review and install updates:\n\nREADME.md lines 228-228:\nomarchy plugin update crmne.hyprmoncfg\n\nREADME.md lines 231-231:\nThe panel does not fetch upstream Git commits, change its checkout, or show a permanent update action when no update has been detected. The [marketplace listing](https://plugins.omarchy.org/plugin.html?id=crmne.hyprmoncfg) records the version and exact commit most recently verified for publication; that verification status is informational and is not an update notification.\n\nREADME.md lines 233-233:\nUpgrading the hyprmoncfg package is a separate matter: installing runs as root and cannot restart a user service, so the previous daemon keeps serving profiles until someone restarts it. When the running daemon is older than the installed binary, the panel offers **Restart daemon**. The hyprmoncfg TUI says the same in its status line, where the message is also the button."
         }
       ]
     },
@@ -725,13 +725,13 @@
       "requirements": [
         "Requires a Todoist account and personal API token; uses standard Omarchy Python and desktop tools."
       ],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/crmne/omatasks/blob/88fe1ba68ea4e77675759ee4f65ad2695cd2530f/README.md",
-          "revision": "88fe1ba68ea4e77675759ee4f65ad2695cd2530f",
+          "url": "https://github.com/crmne/omatasks/blob/afbe92416b331d48f4013f195cb6c626ccc7615c/README.md",
+          "revision": "afbe92416b331d48f4013f195cb6c626ccc7615c",
           "path": "README.md",
-          "sha256": "49301fcededd5f2436c5dae903dd378d17be6c83479e6515c7e255760447f7c4",
+          "sha256": "b065e39f5700d6fb2c7d0860883396ed7253e1d6c083d4f19c2445cdbcf6131b",
           "evidence": "README.md lines 24-25:\n- Omarchy Quattro with its Quickshell shell and Hyprland.\n- A Todoist account and its personal API token.\n\nREADME.md lines 27-32:\nNo extra packages or Todoist CLI are required. Requests to Todoist are made by\nthe system Python's standard library (`Fetch.py`); Hyprland manages the\nshortcut, standard shell utilities save your local settings, `wl-paste`\n(wl-clipboard, included in Omarchy) reads the clipboard when you paste, and the\nsystem Python with `python-gobject`, also included in Omarchy, sends\nnotifications. Node.js is only used for development tests."
         }
       ]
@@ -742,11 +742,11 @@
       "requirements": [
         "Keybinding changes write Hyprland Lua configuration. Optional synthetic-click testing requires separately installed ydotool and its user service."
       ],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/Davedes83/mouse-keybind-plugin/blob/5faa1d291c1f8593cf220621b9bbabb739c8c754/README.md",
-          "revision": "5faa1d291c1f8593cf220621b9bbabb739c8c754",
+          "url": "https://github.com/Davedes83/mouse-keybind-plugin/blob/205a1151d370842209a254d8f5c2554ac27d859b/README.md",
+          "revision": "205a1151d370842209a254d8f5c2554ac27d859b",
           "path": "README.md",
           "sha256": "2ca22de652d808cd444bfb7fac43c0954cc6a045321c1f4d75077e54f5495cb2",
           "evidence": "README.md lines 27-27:\n⌨️ Keybinds\n\nREADME.md lines 29-29:\nSee what's actually running on your system, fix problems in one click:\n\nREADME.md lines 31-35:\n* Live summary of active, modified, and conflicting bindings\n* Conflict detection with 1-click rebind\n* Smart suggestions for free keys\n* Full Keybind Manager one click away — search, edit, create, reset, enable/disable\n* Safe Lua sync, so your config never gets messy\n\nREADME.md lines 65-68:\nThe **button simulation** feature (test canvas / synthetic click) is **optional** and\nrequires a separate, manual setup. It is not part of the base plugin installation and\nall mouse/keybind settings work without it. Missing `ydotool` disables only the\nsimulate action — the plugin reports `ydotool not installed` and does nothing else.\n\nREADME.md lines 70-70:\nSet it up only if you want the synthetic-click helper:\n\nREADME.md lines 74-74:\nsudo pacman -S ydotool\n\nREADME.md lines 77-77:\nsystemctl --user enable --now ydotool.service\n\nREADME.md lines 80-82:\nAfterwards, the toolbar **Test Canvas** and the `simulate-button` CLI command emit\nsynthetic clicks. If the socket is unavailable the plugin reports `ydotoold\nunavailable` — restart the service to re-enable it."
@@ -810,11 +810,11 @@
       "requirements": [
         "Requires checkupdates; additional sources need their own installed tools. Package update actions may prompt for administrator authentication."
       ],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/JJDizz1L/dizziee.system-updates/blob/d5c72f8462411fe43b3b9ea196eaef1901b83b9f/README.md",
-          "revision": "d5c72f8462411fe43b3b9ea196eaef1901b83b9f",
+          "url": "https://github.com/JJDizz1L/dizziee.system-updates/blob/5bdd67ac3be06035dbc8ba20440a5a476156d4f2/README.md",
+          "revision": "5bdd67ac3be06035dbc8ba20440a5a476156d4f2",
           "path": "README.md",
           "sha256": "591f7cd87400e4424a611d4a38616633e49da895aa409ea3c70ad9dfbf40d19c",
           "evidence": "README.md lines 7-11:\n- `checkupdates` (from `pacman-contrib`)\n- AUR helper (`yay`, `paru`, etc.) — optional, AUR detection is automatic\n- `flatpak` — optional\n- `mise` — optional, ships with Omarchy\n- `git` — optional, for the Plugins row (git-managed shell plugins)\n\nREADME.md lines 52-52:\nThe **Arch** update button runs a direct pacman system upgrade:\n\nREADME.md lines 55-55:\nsudo env OMARCHY_ALLOW_DIRECT_PACMAN=1 pacman -Syu\n\nREADME.md lines 58-58:\nOmarchy installs a pacman hook (`omarchy-update-pacman-guard`) that aborts a bare `sudo pacman -Syu` to route updates through `omarchy update` — which handles the transcript, snapshot, keyrings, migrations, and post-update hooks. The `OMARCHY_ALLOW_DIRECT_PACMAN=1` env var opts this one transaction past that guard: it upgrades packages directly and skips Omarchy's update pipeline. For the full managed flow, run `omarchy update` instead.\n\nREADME.md lines 60-60:\nAUR updates run through your helper (`yay -Sua` / `paru -Sua`), Flatpak through `flatpak update`, and mise through `mise up`.\n\nREADME.md lines 62-62:\nThe **Omarchy** update button opens your terminal and runs `omarchy update` — the full managed Omarchy update pipeline (transcript, snapshot, keyrings, migrations, and post-update hooks)."
@@ -912,14 +912,14 @@
       "requirements": [
         "Requires the Omarchy Quattro plugin host and jq. Configure a shortcut or hot corner to open the overview."
       ],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/kristofferR/omarchy-expose/blob/f283002259f5aba75da17b3f5dd4081bddc257f5/README.md",
-          "revision": "f283002259f5aba75da17b3f5dd4081bddc257f5",
+          "url": "https://github.com/kristofferR/omarchy-expose/blob/2c63aeab7f7b43f2b7acb293f9438c15ba28992e/README.md",
+          "revision": "2c63aeab7f7b43f2b7acb293f9438c15ba28992e",
           "path": "README.md",
-          "sha256": "0f37e6aff9d06610f00ef27b9a88ffc11ccbf56c3b7be3bf511403a9c65e8615",
-          "evidence": "README.md lines 27-28:\n- Omarchy Quattro with the native shell plugin system\n- `jq`\n\nREADME.md lines 30-30:\nThe underlying Quickshell, Hyprland, Bash, and coreutils support ships with Omarchy, so no separate compositor setup is needed.\n\nREADME.md lines 35-35:\nomarchy plugin add https://github.com/kristofferR/omarchy-expose.git --enable\n\nREADME.md lines 38-38:\nThat's it: the top-left hot corner works right away. Optionally, bind a key in `~/.config/hypr/bindings.lua`, then run `hyprctl reload`:\n\nREADME.md lines 41-41:\no.bind(\"SUPER + A\", \"Exposé\", hl.dsp.event(\"expose.window-overview:toggle\"))\n\nREADME.md lines 44-44:\nAny unused chord works. Avoid modifier-only bindings such as standalone Super; Hyprland cannot reliably distinguish them from the start of normal Super shortcuts.\n\nREADME.md lines 46-46:\nTo keep workspace swipes from changing the desktop behind Exposé, replace your workspace gesture in `~/.config/hypr/input.lua` with:\n\nREADME.md lines 49-54:\nlocal expose_gesture_path = os.getenv(\"HOME\") .. \"/.config/omarchy/plugins/expose.window-overview/workspace-gesture.lua\"\nlocal expose_gesture_loader = loadfile(expose_gesture_path)\nif expose_gesture_loader then\n  expose_gesture_loader()({ fingers = 4, scale = 0.5 })\nelse\n  hl.gesture({ fingers = 4, direction = \"horizontal\", scale = 0.5, action = \"workspace\" })"
+          "sha256": "9dbac8e1d947f5147d2803185392c2af2a4640079ecb13932e529dc855fd0997",
+          "evidence": "README.md lines 28-29:\n- Omarchy Quattro with the native shell plugin system\n- `jq`\n\nREADME.md lines 31-31:\nThe underlying Quickshell, Hyprland, Bash, and coreutils support ships with Omarchy, so no separate compositor setup is needed.\n\nREADME.md lines 36-36:\nomarchy plugin add https://github.com/kristofferR/omarchy-expose.git --enable\n\nREADME.md lines 39-39:\nThat's it: the top-left hot corner works right away. Optionally, bind a key in `~/.config/hypr/bindings.lua`, then run `hyprctl reload`:\n\nREADME.md lines 42-42:\no.bind(\"SUPER + A\", \"Exposé\", hl.dsp.event(\"expose.window-overview:toggle\"))\n\nREADME.md lines 45-45:\nAny unused chord works. Avoid modifier-only bindings such as standalone Super; Hyprland cannot reliably distinguish them from the start of normal Super shortcuts.\n\nREADME.md lines 47-47:\nTo keep workspace swipes from changing the desktop behind Exposé, replace your workspace gesture in `~/.config/hypr/input.lua` with:\n\nREADME.md lines 50-55:\nlocal expose_gesture_path = os.getenv(\"HOME\") .. \"/.config/omarchy/plugins/expose.window-overview/workspace-gesture.lua\"\nlocal expose_gesture_loader = loadfile(expose_gesture_path)\nif expose_gesture_loader then\n  expose_gesture_loader()({ fingers = 4, scale = 0.5 })\nelse\n  hl.gesture({ fingers = 4, direction = \"horizontal\", scale = 0.5, action = \"workspace\" })"
         }
       ]
     },
@@ -946,14 +946,14 @@
       "requirements": [
         "Requires Omarchy 4, Hyprland 0.56+ and the standard screenshot, OCR and screen-recording helpers. Disable its persistent feature toggles before removal."
       ],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/glasschan/oma-swiss/blob/830599cd4b7f15b456a1fd8336fa317f185f31ca/README.md",
-          "revision": "830599cd4b7f15b456a1fd8336fa317f185f31ca",
+          "url": "https://github.com/glasschan/oma-swiss/blob/50c73f2b5008ebce468b7315d2e53329c67c99ad/README.md",
+          "revision": "50c73f2b5008ebce468b7315d2e53329c67c99ad",
           "path": "README.md",
-          "sha256": "2bcd2b1ec670bccb2163002dc69fbc746a38897b368f829631c4ab7fe39fdec5",
-          "evidence": "README.md lines 153-159:\nBefore removing, switch every toggle off in the panel. Each toggle leaves a\nsmall state file that re-applies your setting at login — switching it off\ndeletes the file, so nothing outlives the plugin. Switch the **Fcitx5\ncandidate theme** off before removing in particular: while on, it installs a\ntheme-retint hook that points into the plugin directory, and removing the\nplugin with the toggle still on would leave that hook calling a missing\nscript.\n\nREADME.md lines 163-169:\nNone to install — everything ships with Omarchy v4: Hyprland 0.56+,\n`omarchy-capture-screenshot` (slurp), `omarchy-capture-text` (OCR),\n`omarchy-capture-qr` (zbar), `omarchy-capture-screenrecording` and\n`omarchy-capture-screenrecording-with-webcam` (gpu-screen-recorder), and\n`hyprpicker`.\n`jq` (present on a stock Omarchy install) is used, when available, to show\nrelease notes for pending updates — the update check works without it.\n\nREADME.md lines 171-176:\nThe **Fcitx5 candidate theme** toggle is optional and degrades gracefully:\nit needs a stock fcitx5 install with `omarchy-fcitx5.service` active (a\nstopped service is never force-started) and the stock\n`omarchy-theme-color`. With ImageMagick's `magick` present it renders the\nrounded 9-patch background; without it, a square bordered fallback is\ngenerated instead."
+          "sha256": "8ab6a6bd7ab3a85de9071151675fdc864bcb359a2effbd03003a27077fcdf059",
+          "evidence": "README.md lines 169-177:\nBefore removing, switch every toggle off in the panel. Each toggle leaves a\nsmall state file that re-applies your setting at login — switching it off\ndeletes the file, so nothing outlives the plugin. Switch the **Fcitx5\ncandidate theme** off before removing in particular: while on, it installs a\ntheme-retint hook that points into the plugin directory, and removing the\nplugin with the toggle still on would leave that hook calling a missing\nscript. The **Awake with lid closed** toggle needs no such care: its lock lives\nin a process the shell started, so it ends with the shell, and switching it off\nfirst is only a courtesy.\n\nREADME.md lines 181-187:\nNone to install — everything ships with Omarchy v4: Hyprland 0.56+,\n`omarchy-capture-screenshot` (slurp), `omarchy-capture-text` (OCR),\n`omarchy-capture-qr` (zbar), `omarchy-capture-screenrecording` and\n`omarchy-capture-screenrecording-with-webcam` (gpu-screen-recorder), and\n`hyprpicker`.\n`jq` (present on a stock Omarchy install) is used, when available, to show\nrelease notes for pending updates — the update check works without it.\n\nREADME.md lines 194-199:\nThe **Fcitx5 candidate theme** toggle is optional and degrades gracefully:\nit needs a stock fcitx5 install with `omarchy-fcitx5.service` active (a\nstopped service is never force-started) and the stock\n`omarchy-theme-color`. With ImageMagick's `magick` present it renders the\nrounded 9-patch background; without it, a square bordered fallback is\ngenerated instead."
         }
       ]
     },
@@ -1014,14 +1014,14 @@
       "requirements": [
         "Requires Omarchy 4 with Lua Hyprland configuration; turn on Enabled in the widget settings to configure keyboard integration."
       ],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/huacnlee/omarchy-which-key/blob/fba0cdb472c90eb5a4e8bb5113030d087024a805/README.md",
-          "revision": "fba0cdb472c90eb5a4e8bb5113030d087024a805",
+          "url": "https://github.com/huacnlee/omarchy-which-key/blob/a80451064fb1f354cb86ecad0a3d610218e75bd5/README.md",
+          "revision": "a80451064fb1f354cb86ecad0a3d610218e75bd5",
           "path": "README.md",
-          "sha256": "46ee7bf350e6274c4a539e095f2e8bfc969b2ca5e2d59417236ec504e6e1c50c",
-          "evidence": "README.md lines 11-11:\nOmarchy 4 with its Quickshell desktop and Hyprland Lua configuration support.\n\nREADME.md lines 15-15:\nAdd and enable the plugin with Omarchy:\n\nREADME.md lines 18-18:\nomarchy plugin add https://github.com/huacnlee/omarchy-which-key.git --enable\n\nREADME.md lines 21-22:\nOpen the Which Key bar widget settings and turn on **Enabled**. The plugin\nconfigures its keyboard integration automatically."
+          "sha256": "c6eee07902577393d891cdde531dda038be4f2b1c0c712889cea66ec96eb4c7a",
+          "evidence": "README.md lines 13-13:\nOmarchy 4 with its Quickshell desktop and Hyprland Lua configuration support.\n\nREADME.md lines 17-17:\nAdd and enable the plugin with Omarchy:\n\nREADME.md lines 20-20:\nomarchy plugin add https://github.com/huacnlee/omarchy-which-key.git --enable\n\nREADME.md lines 23-24:\nOpen the Which Key bar widget settings and turn on **Enabled**. The plugin\nconfigures its keyboard integration automatically."
         }
       ]
     },
@@ -1405,13 +1405,13 @@
       "requirements": [
         "Requires a Bitwarden account, bw and jq. The panel offers installation; Arch’s Bitwarden package may require replacing an existing Node.js package with Node 22 LTS."
       ],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/Elevate08/qs-bitwarden-cli/blob/d0a95ebad981ccf5d1c0b214e79089ffd11ff291/README.md",
-          "revision": "d0a95ebad981ccf5d1c0b214e79089ffd11ff291",
+          "url": "https://github.com/Elevate08/qs-bitwarden-cli/blob/586807dc9d64e797d2eb78e401e468f1eed04790/README.md",
+          "revision": "586807dc9d64e797d2eb78e401e468f1eed04790",
           "path": "README.md",
-          "sha256": "05d268603313695966b7cc0f12f3b95999e7a55e3dca66b5d043ec69f384f6e2",
+          "sha256": "25cad42e30b7c996ea3ff4f1877872a6750464ca8f276483c6c5b4721ea1599c",
           "evidence": "README.md lines 26-28:\nNothing else has to be installed first. Open the panel and it tells you what it\nstill needs -- on a stock Omarchy install that is the Bitwarden CLI and `jq` --\nwith an **Install** button that hands off to Omarchy's own installer.\n\nREADME.md lines 30-39:\nIf another Node.js package is already installed -- `nodejs`, which Zed pulls\nin, for one -- Arch's `bitwarden-cli` cannot go in beside it: it needs\n`nodejs-lts-jod`, and Omarchy's installer answers pacman's \"Remove nodejs?\"\nwith no. The setup screen says so, and **Install** then opens the same\nfloating terminal running `sudo pacman -S --needed bitwarden-cli` (with `jq`\ntoo, if that is also missing), so pacman can ask you itself. Answering yes swaps in Node 22 LTS, which provides\n`nodejs`, so packages that need it stay satisfied; pacman stops instead if one\nneeds a newer Node than that. To keep your Node instead, install `bw` with\nnpm or mise and make sure it is on the shell's `PATH`; the panel uses\nwhichever `bw` it finds there.\n\nREADME.md lines 41-41:\nTo update: `omarchy plugin update io.github.elevate08.qs-bitwarden-cli`\n\nREADME.md lines 47-48:\nEmail and password, with the 2FA prompt appearing only when Bitwarden asks for\none. **Server region** picks US, EU, or a custom URL for self-hosted Bitwarden"
         }
       ]
@@ -1422,13 +1422,13 @@
       "requirements": [
         "Requires a Proton account and the Proton VPN CLI; the panel offers CLI installation. Free-plan server selection is limited."
       ],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/grichard99/omaproton-vpn/blob/7db0d72234d38bcc727c261e720c1429e4d81f6e/README.md",
-          "revision": "7db0d72234d38bcc727c261e720c1429e4d81f6e",
+          "url": "https://github.com/grichard99/omaproton-vpn/blob/469dd8094036389d90e328efa79b96bc2c0b7a92/README.md",
+          "revision": "469dd8094036389d90e328efa79b96bc2c0b7a92",
           "path": "README.md",
-          "sha256": "ddb120a97aa31bf0a70444499d89cb96e362f22a6b992ec5a1b788f4d8387046",
+          "sha256": "33a65d5e62c7d6ed8b66f593fa7ab1c66b9b88ff414e7daa3c5940cbd3581272",
           "evidence": "README.md lines 56-58:\nIt drives the official `protonvpn` CLI. No API keys, no tokens, and no\ncredentials are stored by this plugin, your password and 2FA code go straight\ninto the CLI's own prompt, and Proton's client owns the session from there.\n\nREADME.md lines 64-69:\nYou don't need to be a Proton customer to use this. Proton VPN has a **free\nplan**: no data cap, no logs, no ads, run by Proton in Switzerland under Swiss\nprivacy law. Proton picks a free server for you from a handful of countries,\nat standard speeds, which is plenty to be private on café Wi-Fi. Plus lets you\nchoose any country and city on the map, and adds faster servers, Random, and\nthe P2P, Secure Core and Tor rows.\n\nREADME.md lines 71-72:\nMake a free account at [proton.me/vpn](https://proton.me/vpn), then come back\nand click the Proton mark. Sign-in happens in the panel.\n\nREADME.md lines 76-77:\n- Omarchy Quattro\n- A Proton account, a free one works; sign up at [proton.me](https://proton.me)\n\nREADME.md lines 79-79:\nThat's it. The panel installs the Proton VPN CLI for you if it isn't there."
         }
       ]
@@ -1452,16 +1452,16 @@
       "repository": "https://github.com/omarchy-QOL/omarchy-keyboard-layout",
       "requirementsStatus": "reviewed",
       "requirements": [
-        "Requires layouts configured in Hyprland. Optional per-window layouts need the bundled x86_64 helper and json-c; basic selection works on other architectures."
+        "Requires layouts configured in Hyprland and replaces Omarchy's built-in keyboard widget. The optional keyboard viewer and per-window layouts need the bundled x86-64 helper with json-c, libxkbcommon and libutf8proc, and click-to-type needs wtype; basic selection works on other architectures."
       ],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/omarchy-QOL/omarchy-keyboard-layout/blob/bd2cdf809f755ffa03cebeb6dcd237d252fca594/README.md",
-          "revision": "bd2cdf809f755ffa03cebeb6dcd237d252fca594",
+          "url": "https://github.com/omarchy-QOL/omarchy-keyboard-layout/blob/e78e8d20d5ebdc17518f4124ab49eb0b6d6c7972/README.md",
+          "revision": "e78e8d20d5ebdc17518f4124ab49eb0b6d6c7972",
           "path": "README.md",
-          "sha256": "781bef26c73eae7d7c07c95030247593094fcc44be8ddf2241a33ebb35f9363b",
-          "evidence": "README.md lines 16-19:\n- Omarchy Quattro: >= 4.0.0\n- x86-64 for optional per-window layouts: `C`-compiled binary is shipped\n- `json-c` for optional per-window layout (included in default Omarchy installs)\n- one or more keyboard layouts configured in `~/.config/hypr/input.lua`\n\nREADME.md lines 21-23:\nThe optional per-window mode runs a bundled helper through one shell service\nonly while it is enabled. It does not install a system service. On other\narchitectures its toggle stays disabled; layout selection still works."
+          "sha256": "8b8a6ff91205344aff9882c723501700a58f15cb69374857ee9bb4ee983d4e0c",
+          "evidence": "README.md lines 11-18:\n- Omarchy Quattro >= 4.0.0\n- One or more keyboard layouts in `~/.config/hypr/input.lua`\n- x86-64, `json-c`, `libxkbcommon`, and `libutf8proc` for the keyboard viewer\n  and per-window layouts\n- `wtype` for click-to-type input\n\nThe native helper is bundled for x86-64. Other architectures need a native\nbuild for the viewer and per-window layouts; layout selection still works.\n\nREADME.md lines 26-27:\nThe plugin replaces Omarchy's built-in keyboard widget. Disabling or removing\nit restores the built-in widget in the same position."
         }
       ]
     },
@@ -1522,11 +1522,11 @@
       "requirements": [
         "Requires Omarchy 4; the first-run tour configures a global shortcut and offers an alternative if it conflicts."
       ],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/maajix/omarchy-spotlight/blob/f38187f44ebaf763536654f14e2352aeba8dbe35/README.md",
-          "revision": "f38187f44ebaf763536654f14e2352aeba8dbe35",
+          "url": "https://github.com/maajix/omarchy-spotlight/blob/c421a257b440af40d4344db0f7b150e3ccabaea8/README.md",
+          "revision": "c421a257b440af40d4344db0f7b150e3ccabaea8",
           "path": "README.md",
           "sha256": "b752ba9c2755dfd020e9003e68eb5d4a55a991f40a486a3d9cb05de77c0c3c4e",
           "evidence": "README.md lines 13-13:\nRequires **Omarchy 4 (Quattro)**. Core features use tools already included with Omarchy.\n\nREADME.md lines 16-16:\nomarchy plugin add https://github.com/maajix/omarchy-spotlight.git --enable\n\nREADME.md lines 19-19:\nPress **Alt+Space** to open Spotlight. The first-run tour sets up the shortcut; if it is already taken, choose another. Search for `spotlight settings` to change sources, behavior or the shortcut later.\n\nREADME.md lines 21-21:\nSettings are grouped into **General** (shortcut and data), **Search** (sources, results, web and currency), **Appearance**, and **AI** (provider and artifact settings, including weather location)."
@@ -1573,14 +1573,14 @@
       "requirements": [
         "Uses ss and procfs. Browser, clipboard and terminal actions need their standard desktop helpers; another user’s processes cannot be killed."
       ],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/mich-nduka/omaports/blob/d6c5f72816b27e33037e0289e5a21884893e46fe/README.md",
-          "revision": "d6c5f72816b27e33037e0289e5a21884893e46fe",
+          "url": "https://github.com/mich-nduka/omaports/blob/7c79c73cb1726489e3a13c2a6eb59d2a011ed998/README.md",
+          "revision": "7c79c73cb1726489e3a13c2a6eb59d2a011ed998",
           "path": "README.md",
-          "sha256": "141f8d6e22b80e79d7b3e0dc074a8f8b2e5d1d34050a76f6464cf830725565e3",
-          "evidence": "README.md lines 23-23:\nEverything it needs is already on an Omarchy box:\n\nREADME.md lines 25-25:\n| Dependency | Used for | Required |\n\nREADME.md lines 27-31:\n| `ss` (iproute2) | reading the listening sockets | yes |\n| `/proc` | naming the process behind a port | yes |\n| `xdg-open` | opening a port in the browser | for the open action |\n| `wl-copy` | the copy action | for the copy action |\n| `xdg-terminal-exec` | opening a terminal in the project | for the terminal action |\n\nREADME.md lines 33-38:\nNo sudo, no polkit, no daemon. The plugin runs as your user inside\n`omarchy-shell` and reads exactly what you could read from a shell. That is\nalso its one limit: a port owned by another user is visible, but the process\nbehind it is not, because only root can see whose it is. Those ports are\nnamed from a table of well-known services instead — `5432 · PostgreSQL` —\nand never offer a kill."
+          "sha256": "1ba187af8d3798e5e5212213f1b6625e50b7029467474bef612fff54935b1a99",
+          "evidence": "README.md lines 27-27:\nEverything it needs is already on an Omarchy box:\n\nREADME.md lines 29-29:\n| Dependency | Used for | Required |\n\nREADME.md lines 31-35:\n| `ss` (iproute2) | reading the listening sockets | yes |\n| `/proc` | naming the process behind a port | yes |\n| `xdg-open` | opening a port in the browser | for the open action |\n| `wl-copy` | the copy action | for the copy action |\n| `xdg-terminal-exec` | opening a terminal in the project | for the terminal action |\n\nREADME.md lines 37-42:\nNo sudo, no polkit, no daemon. The plugin runs as your user inside\n`omarchy-shell` and reads exactly what you could read from a shell. That is\nalso its one limit: a port owned by another user is visible, but the process\nbehind it is not, because only root can see whose it is. Those ports are\nnamed from a table of well-known services instead — `5432 · PostgreSQL` —\nand never offer a kill."
         }
       ]
     },
@@ -1761,14 +1761,14 @@
         "Lock-screen designs integrate with the Omarchy lock screen. Optional FIDO2 authentication requires a separately configured PAM service with root setup.",
         "Optional video designs need qt6-multimedia; changing the boot-unlock screen uses authenticated system writes."
       ],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/SirJul1337/omarchy-lock-explorer/blob/9f056d3ad2c5d291919c51ef8397900024f0e86a/README.md",
-          "revision": "9f056d3ad2c5d291919c51ef8397900024f0e86a",
+          "url": "https://github.com/SirJul1337/omarchy-lock-explorer/blob/2eea8816bae146ec4bed1894b71bb9b2350b063d/README.md",
+          "revision": "2eea8816bae146ec4bed1894b71bb9b2350b063d",
           "path": "README.md",
-          "sha256": "8b685043c77381fc21fb17ebb33acc37d68178e74add6f0d312e45cd74f31f45",
-          "evidence": "README.md lines 3-5:\nLock screens for Omarchy 4, an explorer to preview and switch between them, and a designer to\nbuild your own. Unlock with your password, a FIDO2 security key, a fingerprint or your face.\nColors and fonts follow your Omarchy theme.\n\nREADME.md lines 9-16:\n- **Designs** from minimal to animated, typing-reactive, drawn by Omarchy's own ttfx, and video clips that play as you unlock\n- **Security key, fingerprint and face unlock** next to the password\n- **A visual designer** for your own layouts, or write the QML yourself\n- **Unlock animations** that fade, zoom or rise the lock screen away\n- **A matching boot screen** for the disk decryption prompt\n- **Multi-monitor aware**, with a clock-only screen on the others, and a 12-hour clock option\n- **In your language**, with reduce motion, a larger size and wallpaper blur and dim for every design\n- **Search and favorites** in the explorer, and a built-in check for anything missing from an install\n\nREADME.md lines 132-134:\nlast typed is visible rather than something you discover four wrong passwords later.\nWith more than one layout configured (`kb_layout = \"us,dk\"`) the code is always shown, US too,\nand clicking it switches to the next layout, the same as Hyprland's own layout toggle.\n\nREADME.md lines 136-137:\nOn battery at 15% or less, every design shows a low-battery warning in the top right corner,\nso a laptop left locked does not run flat unnoticed.\n\nREADME.md lines 139-143:\nA security key works too, once you have enrolled one with the Omarchy menu (Setup > Security >\nFido2) and run `bash extras/setup-fido2.sh`. That script writes `/etc/pam.d/omarchy-lock-fido2`,\nthe only part of this that needs root. With a key plugged in, the lock comes up on the key: touch it,\nor type its PIN first when the credential you enrolled asks for one. Tab, or the key icon in the\nfield, switches to the password and back.\n\nREADME.md lines 145-145:\nLock the screen with no key attached and you get the password field, with the key icon dimmed.\n\nREADME.md lines 694-700:\nThe video features — the clip designs (Storm, Eyes, River and your own), the Motion design and\nthe unlock clip — need `qt6-multimedia`, which stock Omarchy does not install. Without it they\nare simply disabled and everything else works (see Troubleshooting). Beyond that, nothing\noutside Omarchy 4 itself, except the Weather design, which runs `curl` to fetch\n`https://wttr.in` (the same service and location file as the Omarchy weather widget). No other\ndesign makes network requests. Picking an avatar runs `omarchy file select`, the desktop file\nchooser that ships with Omarchy. The plugin reads `~/.config/omarchy/shell.json` and writes\n\nREADME.md lines 705-713:\nSetting a boot screen uses tools Omarchy already ships (`magick`, `fc-match`, `pkexec`, `cpio`\nand binutils' `objcopy`/`objdump` for the addon) and writes one file,\n`/boot/EFI/Linux/omarchy_linux.efi.extra.d/omarchy-lock-explorer.addon.efi`, plus the\napplied-state marker `~/.local/state/omarchy/lock-explorer-boot`. \"Untouched\" deletes the addon\nagain. On systems without Omarchy's UKI boot the legacy path bakes the theme into\n`/usr/share/plymouth/themes/omarchy-boot/` with `plymouth-set-default-theme` and an initramfs\nrebuild instead. Behind the password prompt, root takes the theme as one archive, accepts only\nPNG images, the theme's script and its own name marker, writes the `.plymouth` file itself\n(always the `script` plugin) and builds the addon itself; nothing runs as root without asking. The optional `extras/boot-vm-test.sh` and `extras/addon-vm-test.sh` need the"
+          "sha256": "fac971a7681b2c1ebb1a0ff41d4a8d6e091a964208d7123055b2ed5bcea0cdd3",
+          "evidence": "README.md lines 3-5:\nLock screens for Omarchy 4, an explorer to preview and switch between them, and a designer to\nbuild your own. Unlock with your password, a FIDO2 security key, a fingerprint or your face.\nColors and fonts follow your Omarchy theme.\n\nREADME.md lines 9-16:\n- **Designs** from minimal to animated, typing-reactive, drawn by Omarchy's own ttfx, and video clips that play as you unlock\n- **Security key, fingerprint and face unlock** next to the password\n- **A visual designer** for your own layouts, or write the QML yourself\n- **Unlock animations** that fade, zoom or rise the lock screen away\n- **A matching boot screen** for the disk decryption prompt\n- **Multi-monitor aware**, with a clock-only screen on the others, and a 12-hour clock option\n- **In your language**, with reduce motion, a larger size and wallpaper blur and dim for every design\n- **Search and favorites** in the explorer, and a built-in check for anything missing from an install\n\nREADME.md lines 132-134:\nlast typed is visible rather than something you discover four wrong passwords later.\nWith more than one layout configured (`kb_layout = \"us,dk\"`) the code is always shown, US too,\nand clicking it switches to the next layout, the same as Hyprland's own layout toggle.\n\nREADME.md lines 136-137:\nOn battery at 15% or less, every design shows a low-battery warning in the top right corner,\nso a laptop left locked does not run flat unnoticed.\n\nREADME.md lines 139-143:\nA security key works too, once you have enrolled one with the Omarchy menu (Setup > Security >\nFido2) and run `bash extras/setup-fido2.sh`. That script writes `/etc/pam.d/omarchy-lock-fido2`,\nthe only part of this that needs root. With a key plugged in, the lock comes up on the key: touch it,\nor type its PIN first when the credential you enrolled asks for one. Tab, or the key icon in the\nfield, switches to the password and back.\n\nREADME.md lines 145-145:\nLock the screen with no key attached and you get the password field, with the key icon dimmed.\n\nREADME.md lines 702-708:\nThe video features — the clip designs (Storm, Eyes, River and your own), the Motion design and\nthe unlock clip — need `qt6-multimedia`, which stock Omarchy does not install. Without it they\nare simply disabled and everything else works (see Troubleshooting). Beyond that, nothing\noutside Omarchy 4 itself, except the Weather design, which runs `curl` to fetch\n`https://wttr.in` (the same service and location file as the Omarchy weather widget). No other\ndesign makes network requests. Picking an avatar runs `omarchy file select`, the desktop file\nchooser that ships with Omarchy. The plugin reads `~/.config/omarchy/shell.json` and writes\n\nREADME.md lines 713-721:\nSetting a boot screen uses tools Omarchy already ships (`magick`, `fc-match`, `pkexec`, `cpio`\nand binutils' `objcopy`/`objdump` for the addon) and writes one file,\n`/boot/EFI/Linux/omarchy_linux.efi.extra.d/omarchy-lock-explorer.addon.efi`, plus the\napplied-state marker `~/.local/state/omarchy/lock-explorer-boot`. \"Untouched\" deletes the addon\nagain. On systems without Omarchy's UKI boot the legacy path bakes the theme into\n`/usr/share/plymouth/themes/omarchy-boot/` with `plymouth-set-default-theme` and an initramfs\nrebuild instead. Behind the password prompt, root takes the theme as one archive, accepts only\nPNG images, the theme's script and its own name marker, writes the `.plymouth` file itself\n(always the `script` plugin) and builds the addon itself; nothing runs as root without asking. The optional `extras/boot-vm-test.sh` and `extras/addon-vm-test.sh` need the"
         }
       ]
     },
@@ -2082,14 +2082,14 @@
       "requirements": [
         "Requires supported agent sessions to inspect. Remote Herdr or Hermes sources need their own configured access and remain read-only."
       ],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/meviusisback/agent-orchestr/blob/9012ebde19bec7a1344e52efd09e2a1b09e1bd25/README.md",
-          "revision": "9012ebde19bec7a1344e52efd09e2a1b09e1bd25",
+          "url": "https://github.com/meviusisback/agent-orchestr/blob/3e64235ae55f627b198c78ecb61e0c8f8ac80896/README.md",
+          "revision": "3e64235ae55f627b198c78ecb61e0c8f8ac80896",
           "path": "README.md",
-          "sha256": "388b25b56e5ee70ebc29f461b0a1a45929d83c21ad1e0187f32efb3cc8daa68e",
-          "evidence": "README.md lines 3-3:\nReal-time status, active tasks, and one-click workspace switching for AI coding agents (**Herdr**, **OMP**, **Hermes**, **Claude**, **Codex**, **OpenCode**, **Agy** (Antigravity CLI), **Grok**) in the Omarchy bar.\n\nREADME.md lines 9-18:\n- **Live Multi-Source Agent Tracking**: Seamlessly tracks AI coding agents across **Herdr** daemon panes, **remote Hermes peers** (gateways registered with `hermes peer add`, read-only), (`~/.config/herdr/herdr.sock`), standalone terminal windows (Ghostty, Foot, Kitty, Alacritty, WezTerm), **OMP** sessions (`~/.omp/agent/sessions/`), **Hermes** CLI & Desktop app databases (`~/.hermes/state.db`), and **Grok** Build TUI sessions (`$GROK_HOME/active_sessions.json` + `events.jsonl`).\n- **One-Click Workspace & Window Switching**: Click any agent card to switch Hyprland workspaces and focus the exact terminal window, Herdr pane, or Hermes Desktop window.\n- **Visual Status Bar Display**:\n  - **`Icon` Mode**: Agent orchestrator glyph with dynamic activity badge and spinner animation when agents are actively working.\n  - **`Status` Mode**: Real-time ticker showing active task descriptions or prompt summaries.\n  - **`Compact` Mode**: Live count summary (e.g. `4 ag · 1 busy`, `3 done`).\n- **Interactive Popup Panel**:\n  - **Smart Filter Tabs**: Filter by `All`, `Working`, `Waiting` (user input needed), `Done` (completed tasks), and `Idle`.\n  - **Rich Agent Cards**: Model tags, latest human prompt, real-time tool execution details, repository / working directory breadcrumbs, and active session indicators.\n  - **Process Management**: Safely terminate agent processes or close Herdr panes directly from card action buttons.\n\nREADME.md lines 24-38:\n- **Herdr**: save a machine with `herdr machine add`, verify SSH access and matching remote Herdr installation. The plugin reads enabled rows from `herdr machine list --json` and queries each machine through the read-only `herdr --session <name> api snapshot` command. Remote cards are read-only: focus and terminate stay disabled because their windows are not on this desktop.\n- **Hermes peers** (remote Hermes gateways): register the gateway once with Hermes itself —\n  `hermes peer add <name> --url http://host:8377 --key <API_SERVER_KEY>`. The plugin reads the\n  `bot_peers` block of `~/.hermes/config.yaml` and asks each peer for its sessions\n  (`GET /api/sessions`, `GET /api/sessions/<id>/messages` on the peer's `api_server` platform), so the\n  agents actually running on that machine get the same cards as local ones. The credential stays\n  owned by Hermes: the plugin reads that one key from `~/.hermes/.env` and puts it nowhere but an\n  `Authorization` header. Clean up with `hermes peer remove <name>`.\n  - **Read-only**: no focus, no terminate — those sessions are not on this desktop.\n  - **No OAuth token is ever read.** A Desktop connection using `authMode: oauth` does not need a\n    peer; the plugin still reads only non-secret labels and URLs from\n    `~/.config/Hermes/connections.json` and never scrapes cookies, safeStorage or token files.\n  - **Scope**: a peer's default profile and its `Bot Chat`. A multiplexed peer's *named* profiles\n    (`/p/<profile>/…`) are not read yet, and an SSH-kind Desktop connection is a different transport\n    (SSH + a remote `state.db`) and stays out of scope."
+          "sha256": "13cedc39b072ed3a3e9ae691a185bb2b1ca5119546c320dde205d4ad7ba77ac6",
+          "evidence": "README.md lines 5-5:\n**Live status, active tasks and one-click workspace switching for AI coding agents — Herdr, OMP, Hermes, Claude, Codex, OpenCode, Agy and Grok — right in the Omarchy bar.**\n\nREADME.md lines 21-24:\n- **Live multi-source tracking** — Herdr daemon panes (local socket plus remote machines), **remote Hermes peers** (gateways registered with `hermes peer add`, read-only), standalone terminal windows (Ghostty, Foot, Kitty, Alacritty, WezTerm), **OMP** sessions (`~/.omp/agent/sessions/`), **Hermes** CLI and Desktop app databases (`~/.hermes/state.db`), and **Grok** Build TUI sessions (`$GROK_HOME/active_sessions.json` + `events.jsonl`).\n- **One-click workspace & window switching** — click any agent card to switch Hyprland workspaces and focus the exact terminal window, Herdr pane or Hermes Desktop window.\n- **Visual status bar display** — `Icon` mode (orchestrator glyph with activity badge and spinner while agents work), `Status` mode (real-time ticker of active tasks), `Compact` mode (live counts like `4 ag · 1 busy`, `3 done`).\n- **Interactive popup panel** — smart filter tabs (`All`, `Working`, `Waiting`, `Done`, `Idle`); rich cards with model tags, latest human prompt, real-time tool execution, repo/working-directory breadcrumbs and session indicators; terminate agent processes or close Herdr panes from card buttons.\n\nREADME.md lines 93-97:\n**Remote sources (read-only — no focus, no terminate; those windows aren't on this desktop):**\n\n- **Herdr** — save a machine with `herdr machine add`, verify SSH access and a matching remote Herdr install. The plugin reads enabled rows from `herdr machine list --json` and queries each machine through the read-only `herdr --session <name> api snapshot`.\n- **Hermes peers** — register the gateway once with Hermes itself (`hermes peer add <name> --url http://host:8377 --key <API_SERVER_KEY>`; remove with `hermes peer remove <name>`). The plugin reads the `bot_peers` block of `~/.hermes/config.yaml`, loads the key from `~/.hermes/.env` into an `Authorization` header only, and polls each enabled peer over HTTP/1.1 or HTTPS pinned to the system CA bundle. Per tick it probes at most 4 peers (config order, rest reported as skipped) with ~5 calls and a 3 s budget each; `http://` is accepted for any peer host you configure — the key travels in the `Authorization` header, so use `https://` outside your LAN — redirects never followed, proxies ignored. Peers on this machine (`127.x`, `::1`, `localhost`) are skipped — local discovery already covers them. Unreachable peers surface in the panel footer instead of silently showing no cards.\n- **Hermes Desktop gateways** — only non-secret labels and URLs from `~/.config/Hermes/connections.json` are read; OAuth tokens stay with Hermes Desktop. A gateway also registered as a peer gets its label annotated with the peer's session count."
         }
       ]
     },
@@ -2099,14 +2099,14 @@
       "requirements": [
         "Uses Python 3 and writes backed-up Hyprland Lua keybindings; the panel must be summoned or launched through a configured entry."
       ],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/meviusisback/keybinds-plugin/blob/ad8199d0369be2b28869a29b6fbf1f8f0589a5cf/README.md",
-          "revision": "ad8199d0369be2b28869a29b6fbf1f8f0589a5cf",
+          "url": "https://github.com/meviusisback/keybinds-plugin/blob/ff20b96b5a2b58cb36784d36b2f76896288651fa/README.md",
+          "revision": "ff20b96b5a2b58cb36784d36b2f76896288651fa",
           "path": "README.md",
-          "sha256": "06dfb8cf390425f9dda9e861f7bec7206ffc0dcf6f0d5b20d34684e115d785fc",
-          "evidence": "README.md lines 10-10:\nA modern, intuitive graphical frontend plugin for **[Omarchy Linux](https://omarchy.org)** to view, search, modify, and create Hyprland keybindings with live interactive key recording, smart free key recommendations, collision detection, and safe Lua synchronization.\n\nREADME.md lines 28-28:\n- **🔄 Safe Lua Sync & Live Reload**: Writes directly to `~/.config/hypr/bindings.lua` (with automatic `.bak` backups) and invokes `hyprctl reload` for instantaneous application without session restarts.\n\nREADME.md lines 34-34:\nInstall directly from the marketplace with the Omarchy CLI (it clones and links the plugin into `~/.config/omarchy/plugins/`):\n\nREADME.md lines 36-36:\nomarchy plugin add https://github.com/meviusisback/keybinds-plugin --enable\n\nREADME.md lines 39-39:\nOn first launch, the plugin will offer to add a **Keybindings Manager** entry to your Omarchy launcher (Setup → Keybindings → Keybindings Manager). You can accept or dismiss this — it only asks once per session. You can also toggle this anytime from the **📋 Add to Launcher** / **✓ In Launcher** button in the app's header bar."
+          "sha256": "8a56fafdd73d0c927e78465f53eb75c56ccd8510a53b503a01ebed03819806ab",
+          "evidence": "README.md lines 5-5:\n**A graphical frontend for Omarchy keybindings: view, search, modify and create Hyprland shortcuts with live key recording, smart free-key recommendations, collision detection and safe Lua sync.**\n\nREADME.md lines 30-30:\n- **Safe Lua sync & live reload** — writes directly to `~/.config/hypr/bindings.lua` (with automatic `.bak` backups) and invokes `hyprctl reload` for instantaneous application without session restarts.\n\nREADME.md lines 35-35:\nomarchy plugin add https://github.com/meviusisback/keybinds-plugin --enable\n\nREADME.md lines 35-35:\nomarchy plugin add https://github.com/meviusisback/keybinds-plugin --enable\n\nREADME.md lines 38-38:\nOn first launch, the plugin offers to add a **Keybindings Manager** entry to your Omarchy launcher (Setup → Keybindings → Keybindings Manager). It asks once per session — accept or dismiss — and you can toggle it anytime from the **📋 Add to Launcher** / **✓ In Launcher** button in the header bar."
         }
       ]
     },
@@ -2163,16 +2163,16 @@
       "repository": "https://github.com/jitendradara12/omaconnect",
       "requirementsStatus": "reviewed",
       "requirements": [
-        "Requires KDE Connect on this computer and the paired device, glib2 and D-Bus. File sharing uses omarchy-menu-select; network firewalls must permit KDE Connect ports."
+        "Requires KDE Connect on this computer and the paired device, glib2, D-Bus, Python 3 and systemd's busctl. File sharing uses omarchy-menu-select; network firewalls must permit KDE Connect ports."
       ],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/jitendradara12/omaconnect/blob/71282d2042b1a1cda1cb1cac84251694eaabb7cb/README.md",
-          "revision": "71282d2042b1a1cda1cb1cac84251694eaabb7cb",
+          "url": "https://github.com/jitendradara12/omaconnect/blob/cd72bfd286b80dbebdaa160f7793097bb590fbfb/README.md",
+          "revision": "cd72bfd286b80dbebdaa160f7793097bb590fbfb",
           "path": "README.md",
-          "sha256": "5031f8ee94783a228e4d11e422173932ba1f010de32ef83a1a47620acf955fed",
-          "evidence": "README.md lines 15-21:\n- **Device status.** Battery level, charging state, cellular network type, signal strength, and reachability.\n- **Quick actions.** Ring phone, sync clipboard, send files, share text or links, and ping devices.\n- **SMS launcher.** Open `kdeconnect-sms` for paired devices.\n- **Media playback.** Track metadata, playback controls, and player switching.\n- **File picker.** Pick recent files with `omarchy-menu-select`.\n- **Remote commands.** Run custom commands configured on paired devices.\n- **Pairing.** Manage requests, verification keys, and unpairing.\n\nREADME.md lines 57-57:\nRequires `kdeconnect`, `glib2`, `dbus`, and `omarchy-menu-select` (for file sharing). `tailscale` and `kdeconnect-sms` are optional.\n\nREADME.md lines 60-60:\nsudo pacman -S --needed kdeconnect glib2 dbus\n\nREADME.md lines 65-65:\nExpand **Network Discovery** to add detected Tailscale peers, or enter custom LAN and VPN IP addresses directly.\n\nREADME.md lines 69-69:\nKDE Connect requires ports `1714:1764` (TCP and UDP). Click **Allow in Firewall** in the panel when devices are offline, or allow them manually:\n\nREADME.md lines 74-75:\nsudo ufw allow 1714:1764/tcp comment 'KDE Connect'\nsudo ufw allow 1714:1764/udp comment 'KDE Connect'"
+          "sha256": "68b022f775df8b51d4906cc7ea4e2e37f552fdf80fb70b82bdc8f9520ffe2b51",
+          "evidence": "README.md lines 27-33:\n- **Device status.** Battery level, charging state, cellular network type, signal strength, and reachability.\n- **Quick actions.** Ring phone, sync clipboard, send files, share text or links, and ping devices.\n- **SMS launcher.** Open `kdeconnect-sms` for paired devices.\n- **Media playback.** Track metadata, playback controls, and player switching.\n- **File picker.** Pick recent files with `omarchy-menu-select`.\n- **Remote commands.** Run custom commands configured on paired devices.\n- **Pairing.** Manage requests, verification keys, and unpairing.\n\nREADME.md lines 69-69:\nRequires `kdeconnect`, `glib2`, `dbus`, `python` (Python 3), `systemd` (for `busctl`), and `omarchy-menu-select` (for file sharing). `tailscale` and `kdeconnect-sms` are optional.\n\nREADME.md lines 72-72:\nsudo pacman -S --needed kdeconnect glib2 dbus python systemd\n\nREADME.md lines 77-77:\nExpand **Network Discovery** to add detected Tailscale peers, or enter custom LAN and VPN IP addresses directly.\n\nREADME.md lines 81-81:\nKDE Connect requires ports `1714:1764` (TCP and UDP). Click **Allow in Firewall** in the panel when devices are offline, or allow them manually:\n\nREADME.md lines 86-87:\nsudo ufw allow 1714:1764/tcp comment 'KDE Connect'\nsudo ufw allow 1714:1764/udp comment 'KDE Connect'"
         }
       ]
     },
@@ -2182,14 +2182,14 @@
       "requirements": [
         "Requires Omarchy with Hyprland and Quickshell. On Omarchy 4.5+ it disables the built-in floating dock by default; re-enable that dock after removal if desired."
       ],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/thepathless/omadock/blob/cdaac69c7bc2987fef3b28e2206d1a7f3cee3076/README.md",
-          "revision": "cdaac69c7bc2987fef3b28e2206d1a7f3cee3076",
+          "url": "https://github.com/thepathless/omadock/blob/a24f6759279917972ae56e2f6531359721503ea7/README.md",
+          "revision": "a24f6759279917972ae56e2f6531359721503ea7",
           "path": "README.md",
-          "sha256": "44283faea57614383b3d479d41602794ccdaa7207d22836db69b0cf172a7a75f",
-          "evidence": "README.md lines 39-39:\n**omadock (オマドック)** is a fluid, zero-CPU application dock for **[Omarchy](https://omarchy.org/)** — Arch, Hyprland, Quickshell.\n\nREADME.md lines 84-84:\nomarchy plugin remove omadock --yes\n\nREADME.md lines 87-87:\nOn Omarchy 4.5+ OmaDock switches Omarchy's own dock off by default (Settings → Behavior → Floating workspaces). Bring it back after removing OmaDock:\n\nREADME.md lines 90-90:\nomarchy plugin enable omarchy.dock"
+          "sha256": "e17325ef6941e7e55f0cd966908dfffdfbeaccd82099c26adb85b4b1376db78b",
+          "evidence": "README.md lines 39-39:\n**omadock (オマドック)** is a fluid, zero-CPU application dock for **[Omarchy](https://omarchy.org/)** — Arch, Hyprland, Quickshell.\n\nREADME.md lines 89-89:\nomarchy plugin remove omadock --yes\n\nREADME.md lines 92-92:\nOn Omarchy 4.5+ OmaDock switches Omarchy's own dock off by default (Settings → Position & visibility → Advanced visibility → Floating workspaces). Bring it back after removing OmaDock:\n\nREADME.md lines 95-95:\nomarchy plugin enable omarchy.dock"
         }
       ]
     },
@@ -2216,14 +2216,14 @@
       "requirements": [
         "Requires Omarchy 4, the separately prompted native backend, and a supported mail account. Some providers require an app registration, API token or app password."
       ],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/huacnlee/omamail/blob/0f8d4df0a075fb7f9a6a09e20b5e56f481289dda/README.md",
-          "revision": "0f8d4df0a075fb7f9a6a09e20b5e56f481289dda",
+          "url": "https://github.com/huacnlee/omamail/blob/9f5fef8a14dc7ae6f73572ffb04d2f995476ffc8/README.md",
+          "revision": "9f5fef8a14dc7ae6f73572ffb04d2f995476ffc8",
           "path": "README.md",
-          "sha256": "eb8d38e2dc48a32ed6aa9cae907acc63b28f60106f91a98b062618c5f3793f39",
-          "evidence": "README.md lines 11-11:\nThe plugin requires **Omarchy 4** and follows the active Omarchy theme. It includes the bar widget, `mailto:` integration, and AI assistance through the configured Omarchy agent.\n\nREADME.md lines 14-14:\nomarchy plugin add https://github.com/huacnlee/omamail.git --enable\n\nREADME.md lines 17-17:\nUpdate it with:\n\nREADME.md lines 20-20:\nomarchy plugin update omamail\n\nREADME.md lines 23-23:\nClick the envelope in the bar, install the pinned backend when prompted, and add your mailbox. Prebuilt plugin backends are available for Linux x86_64 and aarch64.\n\nREADME.md lines 55-60:\n- **Multiple mailboxes:** Gmail, Outlook, Microsoft 365, HEY, JMAP and IMAP/SMTP, including Fastmail, iCloud and self-hosted servers.\n- **Mail and calendar:** read, search, compose, manage attachments and respond to meeting invitations. Available actions depend on your provider.\n- **Keyboard navigation:** `j`/`k` to move, `r` to reply, `c` to compose, `/` to search and `?` for all shortcuts.\n- **AI assistance in Omarchy:** ask about selected messages and review suggested drafts with Claude, OpenCode V2 or Codex. Follow your Omarchy default, or select an agent and optional model in Settings. An unsupported system default disables the AI action with a setup explanation. Conversations retain follow-ups and draft proposals; `/clear`, `/history` and `/diagnose` manage the chat.\n- **Desktop integration:** native notifications and a compact layout for smaller windows; the Omarchy plugin also provides the bar widget and `mailto:` integration.\n- **Privacy controls:** credentials stored in the system keyring and remote images blocked until you choose to load them.\n\nREADME.md lines 66-66:\nChoose a provider in Settings. Released builds of Gmail sign in with an included Google OAuth client, and you can use your own instead; Outlook and Microsoft 365 need a Microsoft app registration. HEY uses the official [HEY CLI](https://github.com/basecamp/hey-cli). JMAP and IMAP usually use an app password or API token.\n\nREADME.md lines 68-68:\nSee [mailbox setup](docs/MAILBOXES.md) for provider instructions and limitations, including Microsoft 365 and Proton Mail Bridge."
+          "sha256": "8ecac26c9d17c8414d5b8478021a588697713c8671b8c096cb2595a368ba1278",
+          "evidence": "README.md lines 13-13:\nThe plugin requires **Omarchy 4** and follows the active Omarchy theme. It includes the bar widget, `mailto:` integration, and AI assistance through the configured Omarchy agent.\n\nREADME.md lines 16-16:\nomarchy plugin add https://github.com/huacnlee/omamail.git --enable\n\nREADME.md lines 19-19:\nUpdate it with:\n\nREADME.md lines 22-22:\nomarchy plugin update omamail\n\nREADME.md lines 25-25:\nClick the envelope in the bar, install the pinned backend when prompted, and add your mailbox. Prebuilt plugin backends are available for Linux x86_64 and aarch64.\n\nREADME.md lines 57-62:\n- **Multiple mailboxes:** Gmail, Outlook, Microsoft 365, HEY, JMAP and IMAP/SMTP, including Fastmail, iCloud and self-hosted servers.\n- **Mail and calendar:** read, search, compose, manage attachments and respond to meeting invitations. Available actions depend on your provider.\n- **Keyboard navigation:** `j`/`k` to move, `r` to reply, `c` to compose, `/` to search and `?` for all shortcuts.\n- **AI assistance in Omarchy:** ask about selected messages and review suggested drafts with Claude, OpenCode V2 or Codex. Follow your Omarchy default, or select an agent and optional model in Settings. An unsupported system default disables the AI action with a setup explanation. Conversations retain follow-ups and draft proposals; `/clear`, `/history` and `/diagnose` manage the chat.\n- **Desktop integration:** native notifications and a compact layout for smaller windows; the Omarchy plugin also provides the bar widget and `mailto:` integration.\n- **Privacy controls:** credentials stored in the system keyring and remote images blocked until you choose to load them.\n\nREADME.md lines 68-68:\nChoose a provider in Settings. Released builds of Gmail sign in with an included Google OAuth client, and you can use your own instead; Outlook and Microsoft 365 need a Microsoft app registration. HEY uses the official [HEY CLI](https://github.com/basecamp/hey-cli). JMAP and IMAP usually use an app password or API token.\n\nREADME.md lines 70-70:\nSee [mailbox setup](docs/MAILBOXES.md) for provider instructions and limitations, including Microsoft 365 and Proton Mail Bridge."
         }
       ]
     },
@@ -2267,11 +2267,11 @@
       "requirements": [
         "A desktop-transformation suite that changes bar, dock and compositor settings; restore the baseline before removal. Requires Hyprland, a supported bar, PipeWire, NetworkManager and BlueZ."
       ],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/MISTERNEGATIVE21/omarchy-undercover/blob/dce776e8a6714695a07d0e4c8be03c32587807b6/README.md",
-          "revision": "dce776e8a6714695a07d0e4c8be03c32587807b6",
+          "url": "https://github.com/MISTERNEGATIVE21/omarchy-undercover/blob/9bf7b4ac0f3ffbc5a26f6b6e8eec0d00e15e7ebe/README.md",
+          "revision": "9bf7b4ac0f3ffbc5a26f6b6e8eec0d00e15e7ebe",
           "path": "README.md",
           "sha256": "5ee97357b76921d79927c3f63f080e5d6e475a9cfe57829087b8ed40200c63e3",
           "evidence": "README.md lines 14-14:\nAn official **verified Omarchy plugin** that brings a complete desktop camouflage and transformation suite to [Omarchy](https://omarchy.org) Hyprland. Switch between an authentic Apple macOS Tahoe (or Sequoia) interface, a Windows 11 Fluent environment, and your baseline Omarchy desktop on demand with zero configuration conflicts.\n\nREADME.md lines 16-16:\nDesigned for presentations, shared screen privacy, or personal preference, Omarchy Undercover dynamically reconfigures status bars, docks, application launchers, window rules, compositor animations, and typography across both Quickshell (Omarchy 4.0+) and Waybar environments.\n\nREADME.md lines 313-319:\n* **Omarchy Linux** (v3.0+ or v4.0+ Quattro)\n* **Hyprland** (Wayland compositor)\n* **Quickshell** (`omarchy-shell`, standard on Omarchy 4.0+) or **Waybar**\n* **Flea** (`flea`, Omarchy native file manager)\n* **Rofi-Wayland** (launcher and window switcher)\n* **PipeWire / WirePlumber** (`wpctl`)\n* **NetworkManager** (`nmcli`) and **BlueZ** (`bluetoothctl`)\n\nREADME.md lines 325-325:\nTo completely remove the plugin and restore your system to pristine normal settings:\n\nREADME.md lines 329-329:\nomarchy-undercover --uninstall\n\nREADME.md lines 331-331:\nyui uninstall\n\nREADME.md lines 334-335:\nomarchy plugin disable omarchy-undercover\nomarchy plugin remove omarchy-undercover"
@@ -2367,13 +2367,13 @@
       "requirements": [
         "Requires Omarchy 4, Hyprland and Qt 6.6 or newer. Python 3 improves terminal process naming."
       ],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/nabdalla-prog/Rimuru-screentime/blob/47493cd81f7bb30cef9502ae91c4d3110a29a4c2/README.md",
-          "revision": "47493cd81f7bb30cef9502ae91c4d3110a29a4c2",
+          "url": "https://github.com/nabdalla-prog/Rimuru-screentime/blob/8d28c26393e999e090c66e995636fe89caa2560b/README.md",
+          "revision": "8d28c26393e999e090c66e995636fe89caa2560b",
           "path": "README.md",
-          "sha256": "3e56b9ea682b57aae8e65cb0c3e8912d66f6d62c2cbe97ec1ddd055a1083a030",
+          "sha256": "cee271bd6d4f348f21b55581ca893c7785b1ae30e712e42045925e41ee962994",
           "evidence": "README.md lines 21-23:\n- **Omarchy 4** with **Hyprland**. Built and tested on Omarchy 4.0.0.alpha with Quickshell 0.3.1 and Qt 6.11. It needs Qt 6.6 or newer (the donut chart uses Qt's curve renderer), which current Omarchy provides.\n- A **Nerd Font** for the icon (Omarchy's default font has it).\n- **`python3`** (already on Omarchy). Without it the plugin still tracks, but terminals show under the terminal's own name instead of the command running in them."
         }
       ]
@@ -2399,11 +2399,11 @@
       "repository": "https://github.com/rosakodu/omarchy-dock",
       "requirementsStatus": "reviewed",
       "requirements": [],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/rosakodu/omarchy-dock/blob/65f282eb35efd7b96e45ecdd86bea831b5ea6179/README.md",
-          "revision": "65f282eb35efd7b96e45ecdd86bea831b5ea6179",
+          "url": "https://github.com/rosakodu/omarchy-dock/blob/75fd9f85753ae46784b46f38e47ed819ed4cad20/README.md",
+          "revision": "75fd9f85753ae46784b46f38e47ed819ed4cad20",
           "path": "README.md",
           "sha256": "50e10b9de3927d279f59cce2f0dd4cd4575662223856170a3511e2678ec4a636",
           "evidence": "README.md lines 5-5:\nA modern, highly polished, and fully native application dock plugin for **Omarchy Quattro** (Hyprland + Quickshell), featuring app stacks (folders), iOS-style edit wiggle animations, multi-window management, dynamic orientation, and seamless theme integration.\n\nREADME.md lines 11-27:\n- 🧩 **Integrated Dock Widgets** — Move native system widgets (Weather, Volume & Audio, Bluetooth, Network, Power/Battery, Display, Clock/Calendar, Tailscale VPN) directly into the dock. Choose widget placement (Left or Right) via the dedicated widget configuration popup. When clicked, all widget panels appear centered on screen with clean system spacing.\n- 📁 **App Stacks (Folders)** — Organize apps into folders with multi-column grids. Create folders by simply dragging one icon onto another. Customize folder icons with built-in Nerd Font glyphs, edit titles inline, and enjoy marquee text scrolling for long names. Folders seamlessly remain open when launching or switching applications.\n- ✨ **iOS-Style Edit Mode (Wiggle)** — Long-press (450ms) any icon to enter edit mode with smooth physical wobbling ($\\pm 3.8^\\circ$, 105ms). Quickly toggle favorite pins (`•`), dissolve folders (`-`), remove dock widgets (`-`), or reorder apps.\n- 🔀 **Fluid 1D & 2D Drag & Drop** — Smooth rail displacement physics when dragging apps across the dock or within folder grids. Effortlessly extract apps from folders back to the main dock.\n- 🔄 **Multi-Instance Sliding Viewport (Infinite Wheel Scrolling)** — Hover over any running app with duplicate windows and scroll the mouse wheel to cycle through instances. The status capsule uses a smooth 3-slot sliding viewport: the original app is always a distinct wide dash (`━`), while duplicates are round dots (`•`). As you scroll deeper into duplicates, the original dash smoothly scrolls out of view and reappears when looping back.\n- 🎯 **Real-Time Hyprland IPC Focus Sync** — Moving the mouse cursor over any window tile on the desktop (`follow_mouse = 1`) or switching focus instantly syncs and highlights the corresponding slot on the dock in real time without lag.\n- ⚡ **Dedicated Controls (LMB, RMB & Middle-Click)** — Left-click opens closed apps or focuses/restores running windows. Right-click minimizes active/visible windows to a special minimized state. Middle-click (pressing the mouse wheel) instantly spawns a new duplicate instance anytime.\n- 👁️ **Smart Cursor Hiding** — The mouse cursor is automatically hidden (`Qt.BlankCursor`) during mouse wheel scrolling and folder title hover to ensure an unobstructed view of the status capsule and animations.\n- 🌐 **Full Web Apps (PWA) Support** — Automatic domain matching for Chrome/Chromium web apps (Google Maps, Google Contacts, WhatsApp, YouTube, Discord, etc.) with native GTK theme icons.\n- ⚡ **Zero-Flicker Boot & Tile Lift** — Two-phase initialization instantly reserves Hyprland exclusive space to lift tiled windows smoothly, followed by a monolithic fade-in once all vector theme icons are loaded.\n- 🧭 **Dynamic Auto-Positioning** — Automatically adapts its position opposite to the Omarchy status bar (top $\\leftrightarrow$ bottom, left $\\leftrightarrow$ right) and draws a dock on every connected monitor.\n- ⏱️ **Flexible Visibility** — Keep the dock visible, reveal it from the screen edge, or toggle it through a Hyprland keybinding. On multi-monitor setups with an autohide mode, a reveal only slides the dock in on the monitor that triggered it; the others stay hidden with their edge triggers still armed.\n- 🪟 **Native Overlay Mode** — Float the dock above full-screen/tiling windows without shifting Hyprland window arrangements (macOS / Dash to Dock behavior).\n- 🔔 **Real-Time Notification Badges** — Dynamic unread badges on app icons aggregated from D-Bus notifications, Hyprland dwell timers, and window titles.\n- 🎛️ **Status Bar Settings Widget (`BarWidget`)** — Native top bar menu for dock visibility, workspace targeting, Overlay Mode, folder titles, notification badges, and dock widgets; the settings card opens directly beneath the widget wherever it's placed in the bar (left, center, or right).\n- 🎨 **100% Native Theme Sync** — Clean borderless status capsules that automatically react to Omarchy colors (`Color.accent`, `Color.bar.background`), system fonts, and window corner radius tokens.\n- 🔤 **Subpixel Vector Glyphs (`DockGlyph`)** — GPU-accelerated vector curve rendering without font hinting distortion or pixel jitter during animations."
@@ -2567,14 +2567,14 @@
       "requirements": [
         "Ships a prebuilt x86_64 Linux service. Requires bluetoothctl, busctl, pactl, jq and standard Omarchy tools; headset features depend on device support."
       ],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/ssupt/omarchy-bluetooth-audio/blob/7cbf8b96d981931fce50a61047eb9bb731f9cfbe/README.md",
-          "revision": "7cbf8b96d981931fce50a61047eb9bb731f9cfbe",
+          "url": "https://github.com/ssupt/omarchy-bluetooth-audio/blob/8d0c9b78bde6e2ee4b6ec1a5fa88ff72bcf66e5e/README.md",
+          "revision": "8d0c9b78bde6e2ee4b6ec1a5fa88ff72bcf66e5e",
           "path": "README.md",
-          "sha256": "3d94574489d3069dd12ba2bb904a9882226dbd49be14e485cdfa9205654c6d56",
-          "evidence": "README.md lines 3-4:\nAdvanced Bluetooth Audio adds headset modes and per-device audio preferences to\nOmarchy's Bluetooth panel.\n\nREADME.md lines 6-8:\nSee the active codec, choose between supported playback and microphone modes,\nand decide what each device should do when it connects: leave your defaults\nunchanged, become the output, or become both output and microphone.\n\nREADME.md lines 10-11:\nPairing failures include their reason and a retry action. Device details\nprovide rename, trust, block, supported wake controls, and confirmed forgetting.\n\nREADME.md lines 75-77:\nRequires `bluetoothctl`, `busctl`, `pactl`, `jq`, `timeout`, and `flock`, which\nare part of a standard Omarchy installation. A prebuilt x86_64 Linux command\nservice ships with the plugin.\n\nREADME.md lines 81-84:\nQuickshell/QML draws the panel. A shared Rust service owns device actions,\ntheir results, and saved choices across bar widgets on multiple monitors. An\naction can finish after its panel closes; the service retains its outcome and\nshows confirmed success or a useful failure when a panel returns. Audio mode"
+          "sha256": "8e0a6d23c84792c7d29fd584fe7a30988d6ece9c0fa2496b70a3d84af010cd4a",
+          "evidence": "README.md lines 3-4:\nAdvanced Bluetooth Audio adds headset modes and per-device audio preferences to\nOmarchy's Bluetooth panel.\n\nREADME.md lines 6-8:\nSee the active codec, choose between supported playback and microphone modes,\nand decide what each device should do when it connects: leave your defaults\nunchanged, become the output, or become both output and microphone.\n\nREADME.md lines 10-11:\nPairing failures include their reason and a retry action. Device details\nprovide rename, trust, block, supported wake controls, and confirmed forgetting.\n\nREADME.md lines 78-80:\nRequires `bluetoothctl`, `busctl`, `pactl`, `jq`, `timeout`, and `flock`, which\nare part of a standard Omarchy installation. A prebuilt x86_64 Linux command\nservice ships with the plugin.\n\nREADME.md lines 84-87:\nQuickshell/QML draws the panel. A shared Rust service owns device actions,\ntheir results, and saved choices across bar widgets on multiple monitors. An\naction can finish after its panel closes; the service retains its outcome and\nshows confirmed success or a useful failure when a panel returns. Audio mode"
         }
       ]
     },
@@ -2601,11 +2601,11 @@
       "requirements": [
         "Requires supported Lenovo hardware and Linux sysfs interfaces. Writes may prompt through Polkit; advanced Legion controls need the optional legion-laptop kernel module."
       ],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/tedwester/omalegion/blob/a427bbb30db5ae05ca75baa8bcd3ff09f307914c/README.md",
-          "revision": "a427bbb30db5ae05ca75baa8bcd3ff09f307914c",
+          "url": "https://github.com/tedwester/omalegion/blob/0880cc7ec27a680a742b1f12692f7a17e34885f8/README.md",
+          "revision": "0880cc7ec27a680a742b1f12692f7a17e34885f8",
           "path": "README.md",
           "sha256": "91e0bf602ff1909eae2122604f8ba0e5b58a0888b11245389b0241a343172120",
           "evidence": "README.md lines 99-107:\n- Omarchy 4 (Quattro) or newer with the current shell plugin API.\n- A Lenovo Legion or LOQ laptop with Linux sysfs support\n  (`lenovo-wmi-gamezone` or equivalent `platform_profile` interface).\n  Other Lenovo laptops (Yoga, IdeaPad) work with graceful degradation:\n  monitoring, battery, and input controls function while Legion-only\n  firmware features hide themselves.\n- `python3` on `PATH` (used by the bundled hardware engine).\n- `pkexec` (PolicyKit) for system writes when direct writes are not\n  permitted, and `sudo` for the optional passwordless setup in Misc.\n\nREADME.md lines 109-109:\nOptional:\n\nREADME.md lines 111-115:\n- [`legion-laptop`](https://github.com/johnfanv2/LenovoLegionLinux) kernel\n  module for Custom power mode and firmware fan curves. Without it, fan RPM\n  is read-only on many kernels and the firmware rejects entering Custom\n  mode. On Arch-based systems the panel offers a one-tap installer for the\n  `lenovolegionlinux-dkms-git` AUR package wherever the module is needed."
@@ -2616,16 +2616,16 @@
       "repository": "https://github.com/tmn73/omarchy-calendar",
       "requirementsStatus": "reviewed",
       "requirements": [
-        "Requires a configured event source. Google write access needs your own OAuth client; read-only iCalendar and local JSON are alternatives. Replaces the stock clock widget."
+        "Requires a configured event source. Google write access needs your own OAuth client; CalDAV servers, read-only iCalendar feeds and local JSON are alternatives. Replaces the stock clock widget."
       ],
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/tmn73/omarchy-calendar/blob/2a6d0335c31147fd124f2879ecda7ad46383db5d/README.md",
-          "revision": "2a6d0335c31147fd124f2879ecda7ad46383db5d",
+          "url": "https://github.com/tmn73/omarchy-calendar/blob/257e4142c47a6f8da9f2990c396f4cda61cbf343/README.md",
+          "revision": "257e4142c47a6f8da9f2990c396f4cda61cbf343",
           "path": "README.md",
-          "sha256": "4383a73d0a1759d4d9913a7344d7b7815afb616284afa8e22ed372f5ae87e608",
-          "evidence": "README.md lines 3-5:\n**Your Google Calendar, in your Omarchy bar.** A month view with your real\nevents on it, a bar that tells you what is coming before it starts, and a\nform to create or edit events without opening Google.\n\nREADME.md lines 7-10:\nNot a Google user? The sync reads any iCal feed, see\n[Sync from the secret iCal address](#sync-from-the-secret-ical-address). The\nwidget itself reads a plain JSON file, so caldir, khal, vdirsyncer or Nextcloud work\njust as well. See [Sync from caldir](#sync-from-caldir) and [Use another source](#use-another-source).\n\nREADME.md lines 14-16:\nIt replaces the built-in clock rather than sitting beside it, so you keep one\nicon. Left click opens a month calendar with your real events on it. When\nsomething is close, the bar itself stops being just a clock and tells you:\n\nREADME.md lines 20-20:\nThe clock stays. This widget takes the desktop clock's place, so trading the\n\nREADME.md lines 86-89:\nOmarchy 4 with Quickshell. Google Calendar is optional, see\n[Use another source](#use-another-source). A Google Cloud project is optional\ntoo, see [Sync from the secret iCal address](#sync-from-the-secret-ical-address)\nor [Sync without a Google Cloud project](#sync-without-a-google-cloud-project).\n\nREADME.md lines 122-125:\n> **Only need to read your calendar?** `setup --ics` skips Google Cloud and\n> reads your calendar's secret iCal address instead. You cannot edit events\n> from the panel that way. See\n> [Sync from the secret iCal address](#sync-from-the-secret-ical-address).\n\nREADME.md lines 128-128:\n~/.config/omarchy/plugins/tmn73.calendar/sync/setup\n\nREADME.md lines 131-132:\nRun it in a real terminal. It pauses for input, and four steps have to be done\nby hand in the Google Cloud Console.\n\nREADME.md lines 134-138:\n**You need your own Google OAuth client.** There is no shared one, and that is\nnot laziness. `calendar.readonly` is a Google *sensitive* scope, so a publicly\ndistributed client would need Google verification and is capped at 100 users\nuntil it gets it. This is exactly why `gcalcli`'s shared token is currently\nrestricted. Every user brings their own credentials."
+          "sha256": "c578f870cc299b435f80e0cd1b74c555c7d02a16d3127a6987bd71ffc78e1ade",
+          "evidence": "README.md lines 3-5:\n**Your calendar, in your Omarchy bar.** A month view with your real events\non it, a bar that tells you what is coming before it starts, and a form to\ncreate or edit events without leaving the desktop.\n\nREADME.md lines 7-15:\nWhere your events come from:\n\n- **Google Calendar**, read and write. See [Sync your Google Calendar](#sync-your-google-calendar)\n- **iCloud, Nextcloud, Fastmail or any other CalDAV server**, read and write\n  (community-maintained). See [Sync from iCloud or CalDAV](#sync-from-icloud-or-caldav)\n- **Any iCal feed**, read only. See [Sync from the secret iCal address](#sync-from-the-secret-ical-address)\n- **Anything else**: the widget reads a plain JSON file, so caldir, khal or\n  vdirsyncer work just as well. See [Sync from caldir](#sync-from-caldir) and\n  [Use another source](#use-another-source)\n\nREADME.md lines 19-21:\nIt replaces the built-in clock rather than sitting beside it, so you keep one\nicon. Left click opens a month calendar with your real events on it. When\nsomething is close, the bar itself stops being just a clock and tells you:\n\nREADME.md lines 25-25:\nThe clock stays. This widget takes the desktop clock's place, so trading the\n\nREADME.md lines 94-97:\nOmarchy 4 with Quickshell. Google Calendar is optional, see\n[Use another source](#use-another-source). A Google Cloud project is optional\ntoo, see [Sync from the secret iCal address](#sync-from-the-secret-ical-address)\nor [Sync without a Google Cloud project](#sync-without-a-google-cloud-project).\n\nREADME.md lines 130-133:\n> **Only need to read your calendar?** `setup --ics` skips Google Cloud and\n> reads your calendar's secret iCal address instead. You cannot edit events\n> from the panel that way. See\n> [Sync from the secret iCal address](#sync-from-the-secret-ical-address).\n\nREADME.md lines 136-136:\n~/.config/omarchy/plugins/tmn73.calendar/sync/setup\n\nREADME.md lines 139-140:\nRun it in a real terminal. It pauses for input, and four steps have to be done\nby hand in the Google Cloud Console.\n\nREADME.md lines 142-146:\n**You need your own Google OAuth client.** There is no shared one, and that is\nnot laziness. `calendar.readonly` is a Google *sensitive* scope, so a publicly\ndistributed client would need Google verification and is capped at 100 users\nuntil it gets it. This is exactly why `gcalcli`'s shared token is currently\nrestricted. Every user brings their own credentials."
         }
       ]
     },
@@ -2957,14 +2957,14 @@
         "Replaces Omarchy’s built-in audio widget and panel. Requires Omarchy 4+, pactl, pw-metadata and jq.",
         "Device disabling changes persistent WirePlumber card profiles; re-enable disabled devices before removal if you want them restored. Optional custom volume-key bindings need separate configuration."
       ],
-      "reviewedAt": "2026-10-30",
+      "reviewedAt": "2026-11-09",
       "sources": [
         {
-          "url": "https://github.com/thevideinfra/omaudiopanel/blob/66de20e795a980a755bc8a034fb22ae18cf783b3/README.md",
-          "revision": "66de20e795a980a755bc8a034fb22ae18cf783b3",
+          "url": "https://github.com/thevideinfra/omaudiopanel/blob/b79aa8fe65a80f3996645c858adaeb40a8306a01/README.md",
+          "revision": "b79aa8fe65a80f3996645c858adaeb40a8306a01",
           "path": "README.md",
-          "sha256": "52dbfbbdeb852710d696f8d0ca1c29bff02486b5763fec5c1029b9e7c4bf3d61",
-          "evidence": "README.md lines 58-69:\nIt declares itself a replacement for `omarchy.audio`: it takes the stock\naudio widget's place in the bar, and `Super+Ctrl+A` and other callers of the\nbuilt-in panel open this one.\n\nNeeds Omarchy 4+, plus `pactl`, `pw-metadata` and `jq` (all present on a\nstandard install).\n\n### Volume keys (optional)\n\nThe volume keys, and headset or keyboard volume wheels that send them, are\nbound by Omarchy to a fixed 5%. To have them follow the panel's volume step,\nadd this to `~/.config/hypr/bindings.lua`:\n\nREADME.md lines 86-100:\n### Uninstall\n\nTurn disabled devices back on first. Disabling switches a device's card\nprofile, and WirePlumber keeps that profile after the plugin is gone. Click\neach one in the Disabled section, or reset a card by hand with\n`pactl set-card-profile <card> <profile>`.\n\n```bash\nomarchy plugin remove videinfra.omaudiopanel\n```\n\nThe stock audio widget returns to its place in the bar. If you added the\nvolume key binding, remove it from `~/.config/hypr/bindings.lua` too; it\npoints into the plugin folder. Pins are kept in\n`~/.local/state/omaudiopanel/` and can be deleted."
+          "sha256": "b5aced7857e5259fed7bbfd954d431378d661ba339edcbf8d6534b8c4e7653fa",
+          "evidence": "README.md lines 62-73:\nIt declares itself a replacement for `omarchy.audio`: it takes the stock\naudio widget's place in the bar, and `Super+Ctrl+A` and other callers of the\nbuilt-in panel open this one.\n\nNeeds Omarchy 4+, plus `pactl`, `pw-metadata` and `jq` (all present on a\nstandard install).\n\n### Volume keys (optional)\n\nThe volume keys, and headset or keyboard volume wheels that send them, are\nbound by Omarchy to a fixed 5%. To have them follow the panel's volume step,\nadd this to `~/.config/hypr/bindings.lua`:\n\nREADME.md lines 90-104:\n### Uninstall\n\nTurn disabled devices back on first. Disabling switches a device's card\nprofile, and WirePlumber keeps that profile after the plugin is gone. Click\neach one in the Disabled section, or reset a card by hand with\n`pactl set-card-profile <card> <profile>`.\n\n```bash\nomarchy plugin remove videinfra.omaudiopanel\n```\n\nThe stock audio widget returns to its place in the bar. If you added the\nvolume key binding, remove it from `~/.config/hypr/bindings.lua` too; it\npoints into the plugin folder. Pins are kept in\n`~/.local/state/omaudiopanel/` and can be deleted."
         }
       ]
     },
