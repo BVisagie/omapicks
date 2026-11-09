@@ -1,86 +1,273 @@
 {
   "schemaVersion": 1,
   "week": "2026-W46",
-  "generatedAt": "2026-11-09T07:54:02.698Z",
+  "generatedAt": "2026-11-09T09:13:29.266Z",
   "changes": [
     {
       "typeId": "vpn",
       "typeName": "VPN",
       "kind": "displaced",
       "previous": {
-        "id": "io.github.grichard99.omaproton-vpn",
-        "name": "OmaProton VPN"
-      },
-      "current": {
         "id": "jkoestinger.vpn",
         "name": "VPN"
       },
-      "reason": "awaiting-task-qualification"
+      "current": {
+        "id": "io.github.grichard99.omaproton-vpn",
+        "name": "OmaProton VPN"
+      }
+    },
+    {
+      "typeId": "mail",
+      "typeName": "Inbox & Mail Status",
+      "kind": "displaced",
+      "previous": {
+        "id": "jankeesvw.gmail-inbox",
+        "name": "Gmail Inbox"
+      },
+      "current": {
+        "id": "omamail",
+        "name": "Omamail"
+      }
+    },
+    {
+      "typeId": "clipboard",
+      "typeName": "Clipboard",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.vuhuy.clipboard-manager",
+        "name": "Clipboard Manager"
+      },
+      "current": {
+        "id": "io.github.maajix.spotlight",
+        "name": "Spotlight"
+      }
+    },
+    {
+      "typeId": "docks",
+      "typeName": "Application Docks",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.claudsondouglas.arcdock",
+        "name": "Arc Dock"
+      },
+      "current": {
+        "id": "rosakodu.dock",
+        "name": "Dock"
+      }
+    },
+    {
+      "typeId": "bluetooth",
+      "typeName": "Bluetooth",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.aryan-techie.bluetooth",
+        "name": "Better Bluetooth"
+      },
+      "current": {
+        "id": "ssupt.bluetooth-audio",
+        "name": "Advanced Bluetooth Audio"
+      }
+    },
+    {
+      "typeId": "brightness",
+      "typeName": "Screen Brightness",
+      "kind": "displaced",
+      "previous": {
+        "id": "omarchy-display",
+        "name": "Display Settings"
+      },
+      "current": {
+        "id": "crmne.hyprmoncfg",
+        "name": "hyprmoncfg: Multi-Monitor Manager for Omarchy"
+      }
+    },
+    {
+      "typeId": "display-monitors",
+      "typeName": "Display & Monitors",
+      "kind": "displaced",
+      "previous": {
+        "id": "im0001gt.screens",
+        "name": "Screens"
+      },
+      "current": {
+        "id": "crmne.hyprmoncfg",
+        "name": "hyprmoncfg: Multi-Monitor Manager for Omarchy"
+      }
+    },
+    {
+      "typeId": "lock-screen",
+      "typeName": "Lock Screen Appearance",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.smoothpixels.lock-designs",
+        "name": "Lock Designs"
+      },
+      "current": {
+        "id": "io.github.sirjul1337.lock-explorer",
+        "name": "Lock Screen Explorer"
+      }
     },
     {
       "typeId": "password-manager",
       "typeName": "Password Manager",
       "kind": "displaced",
       "previous": {
-        "id": "io.github.elevate08.qs-bitwarden-cli",
-        "name": "Bitwarden"
-      },
-      "current": {
         "id": "io.github.salemsayed.omawarden",
         "name": "OmaWarden"
       },
-      "reason": "awaiting-task-qualification"
+      "current": {
+        "id": "io.github.elevate08.qs-bitwarden-cli",
+        "name": "Bitwarden"
+      }
+    },
+    {
+      "typeId": "calendar",
+      "typeName": "Calendar",
+      "kind": "displaced",
+      "previous": {
+        "id": "promaa.clock",
+        "name": "Chronica"
+      },
+      "current": {
+        "id": "tmn73.calendar",
+        "name": "Calendar"
+      }
     },
     {
       "typeId": "window-management",
       "typeName": "Window Switching",
       "kind": "displaced",
       "previous": {
-        "id": "expose.window-overview",
-        "name": "Exposé"
-      },
-      "current": {
         "id": "io.github.pablo-merino.altswitch",
         "name": "Alt-tab switcher"
       },
-      "reason": "awaiting-task-qualification"
+      "current": {
+        "id": "expose.window-overview",
+        "name": "Exposé"
+      }
+    },
+    {
+      "typeId": "screenshots",
+      "typeName": "Screen Capture",
+      "kind": "displaced",
+      "previous": {
+        "id": "chyld.easy-capture",
+        "name": "Easy Capture"
+      },
+      "current": {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss"
+      }
+    },
+    {
+      "typeId": "screen-recording",
+      "typeName": "Screen Recording",
+      "kind": "displaced",
+      "previous": {
+        "id": "chyld.easy-capture",
+        "name": "Easy Capture"
+      },
+      "current": {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss"
+      }
+    },
+    {
+      "typeId": "ocr",
+      "typeName": "Screen Text Extraction",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.diyaclanker.omacapture",
+        "name": "Omacapture"
+      },
+      "current": {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss"
+      }
+    },
+    {
+      "typeId": "agent-monitoring",
+      "typeName": "Agent Monitoring",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "meviusisback.agent-orchestr",
+        "name": "Agent Orchestrator"
+      }
+    },
+    {
+      "typeId": "ai-api-usage",
+      "typeName": "AI & API Usage",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.viganogabriele.agent-usage-plus",
+        "name": "Agent Usage Plus"
+      },
+      "current": {
+        "id": "akitaonrails.ai-usagebar",
+        "name": "AI Usage"
+      }
     },
     {
       "typeId": "keybinding-managers",
       "typeName": "Keybinding Managers",
-      "kind": "vacated",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "meviusisback.keybinds",
+        "name": "Keybindings"
+      }
+    },
+    {
+      "typeId": "system-updates",
+      "typeName": "System Updates",
+      "kind": "displaced",
       "previous": {
-        "id": "davedes.mouse-keybind-settings",
-        "name": "Mouse & Keybind Settings"
+        "id": "io.github.saiiiiiph.update-center",
+        "name": "Update Center"
       },
-      "current": null,
-      "reason": "awaiting-task-qualification"
+      "current": {
+        "id": "dizziee.system-updates",
+        "name": "System Updates"
+      }
     },
     {
       "typeId": "radio",
       "typeName": "Radio",
       "kind": "displaced",
       "previous": {
-        "id": "akshar.radio-atlas",
-        "name": "Radio Atlas"
-      },
-      "current": {
         "id": "io.github.kaibur02.omarchy-world-radio",
         "name": "World Radio"
       },
-      "reason": "awaiting-task-qualification"
+      "current": {
+        "id": "akshar.radio-atlas",
+        "name": "Radio Atlas"
+      }
     },
     {
-      "typeId": "power-menu",
-      "typeName": "Power & Session",
+      "typeId": "screensavers",
+      "typeName": "Screensavers",
       "kind": "displaced",
       "previous": {
-        "id": "io.github.edgarsilva.power-button",
-        "name": "Power Button"
+        "id": "brianirish.screensaver",
+        "name": "Screensaver"
       },
       "current": {
-        "id": "blackcode.power-menu",
-        "name": "Power Menu"
+        "id": "omarchy-undercover",
+        "name": "Omarchy Undercover"
+      }
+    },
+    {
+      "typeId": "phone-integration",
+      "typeName": "Phone Integration",
+      "kind": "displaced",
+      "previous": {
+        "id": "omakdeconnect",
+        "name": "OmaKDEConnect"
+      },
+      "current": {
+        "id": "omaconnect",
+        "name": "OmaConnect"
       }
     }
   ],
@@ -88,130 +275,325 @@
     {
       "typeId": "vpn",
       "typeName": "VPN",
-      "kind": "vacated",
-      "previous": {
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
         "id": "jkoestinger.vpn",
         "name": "VPN"
-      },
-      "current": null
+      }
     },
     {
-      "typeId": "network-diagnostics",
-      "typeName": "Network Traffic",
-      "kind": "vacated",
+      "typeId": "mail",
+      "typeName": "Inbox & Mail Status",
+      "kind": "displaced",
       "previous": {
-        "id": "vitals",
-        "name": "Vitals"
+        "id": "37signals.hey",
+        "name": "HEY"
       },
-      "current": null,
-      "reason": "repository-unreachable"
+      "current": {
+        "id": "jankeesvw.gmail-inbox",
+        "name": "Gmail Inbox"
+      }
+    },
+    {
+      "typeId": "clipboard",
+      "typeName": "Clipboard",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "io.github.vuhuy.clipboard-manager",
+        "name": "Clipboard Manager"
+      }
+    },
+    {
+      "typeId": "docks",
+      "typeName": "Application Docks",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "omadock",
+        "name": "Dock (OmaDock)"
+      }
+    },
+    {
+      "typeId": "bluetooth",
+      "typeName": "Bluetooth",
+      "kind": "displaced",
+      "previous": {
+        "id": "angeeeld.omaltbar",
+        "name": "Omaltbar"
+      },
+      "current": {
+        "id": "io.github.aryan-techie.bluetooth",
+        "name": "Better Bluetooth"
+      }
     },
     {
       "typeId": "audio",
       "typeName": "System Audio",
-      "kind": "vacated",
-      "previous": {
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
         "id": "videinfra.omaudiopanel",
         "name": "omaudiopanel"
+      }
+    },
+    {
+      "typeId": "brightness",
+      "typeName": "Screen Brightness",
+      "kind": "displaced",
+      "previous": {
+        "id": "angeeeld.omaltbar",
+        "name": "Omaltbar"
       },
-      "current": null,
-      "reason": "awaiting-task-qualification"
+      "current": {
+        "id": "omarchy-display",
+        "name": "Display Settings"
+      }
+    },
+    {
+      "typeId": "display-monitors",
+      "typeName": "Display & Monitors",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.bmontythe3rd.display-manager",
+        "name": "Omarchy Display Manager"
+      },
+      "current": {
+        "id": "im0001gt.screens",
+        "name": "Screens"
+      }
+    },
+    {
+      "typeId": "lock-screen",
+      "typeName": "Lock Screen Appearance",
+      "kind": "displaced",
+      "previous": {
+        "id": "bibek.lock",
+        "name": "Better Lock"
+      },
+      "current": {
+        "id": "io.github.smoothpixels.lock-designs",
+        "name": "Lock Designs"
+      }
     },
     {
       "typeId": "password-manager",
       "typeName": "Password Manager",
-      "kind": "vacated",
-      "previous": {
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
         "id": "io.github.salemsayed.omawarden",
         "name": "OmaWarden"
+      }
+    },
+    {
+      "typeId": "calendar",
+      "typeName": "Calendar",
+      "kind": "displaced",
+      "previous": {
+        "id": "acp.omascribe",
+        "name": "OmaScribe — AI Meeting Notes"
       },
-      "current": null
+      "current": {
+        "id": "promaa.clock",
+        "name": "Chronica"
+      }
+    },
+    {
+      "typeId": "tasks",
+      "typeName": "Task Lists",
+      "kind": "displaced",
+      "previous": {
+        "id": "maduki-tech.omado",
+        "name": "Omado"
+      },
+      "current": {
+        "id": "crmne.todoist",
+        "name": "OmaTasks for Todoist"
+      }
     },
     {
       "typeId": "screen-time",
       "typeName": "Screen Time",
-      "kind": "vacated",
-      "previous": {
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
         "id": "rimuru.screentime",
         "name": "Screen Time"
-      },
-      "current": null,
-      "reason": "awaiting-task-qualification"
+      }
     },
     {
       "typeId": "window-management",
       "typeName": "Window Switching",
-      "kind": "vacated",
-      "previous": {
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
         "id": "io.github.pablo-merino.altswitch",
         "name": "Alt-tab switcher"
-      },
-      "current": null
+      }
+    },
+    {
+      "typeId": "screenshots",
+      "typeName": "Screen Capture",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "chyld.easy-capture",
+        "name": "Easy Capture"
+      }
+    },
+    {
+      "typeId": "screen-recording",
+      "typeName": "Screen Recording",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "chyld.easy-capture",
+        "name": "Easy Capture"
+      }
+    },
+    {
+      "typeId": "ocr",
+      "typeName": "Screen Text Extraction",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "io.github.diyaclanker.omacapture",
+        "name": "Omacapture"
+      }
+    },
+    {
+      "typeId": "ai-api-usage",
+      "typeName": "AI & API Usage",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "io.github.viganogabriele.agent-usage-plus",
+        "name": "Agent Usage Plus"
+      }
+    },
+    {
+      "typeId": "gaming",
+      "typeName": "Gaming Mode",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss"
+      }
+    },
+    {
+      "typeId": "keybinding-managers",
+      "typeName": "Keybinding Managers",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "davedes.mouse-keybind-settings",
+        "name": "Mouse & Keybind Settings"
+      }
     },
     {
       "typeId": "shortcut-guides",
       "typeName": "Shortcut Learning",
       "kind": "displaced",
       "previous": {
-        "id": "huacnlee.which-key",
-        "name": "Which Key"
-      },
-      "current": {
         "id": "slw.keyarchy",
         "name": "Keyarchy"
       },
-      "reason": "awaiting-task-qualification"
+      "current": {
+        "id": "huacnlee.which-key",
+        "name": "Which Key"
+      }
+    },
+    {
+      "typeId": "keyboard-lighting",
+      "typeName": "Keyboard Lighting",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "tedwester.legion",
+        "name": "Legion Toolkit"
+      }
     },
     {
       "typeId": "keyboard-layouts",
       "typeName": "Keyboard Layout Switching",
-      "kind": "vacated",
-      "previous": {
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
         "id": "io.github.ilyazar.keyboard-layout",
         "name": "Keyboard Layout Pulse"
+      }
+    },
+    {
+      "typeId": "file-search",
+      "typeName": "File Search",
+      "kind": "displaced",
+      "previous": {
+        "id": "crmne.files",
+        "name": "Files"
       },
-      "current": null,
-      "reason": "awaiting-task-qualification"
+      "current": {
+        "id": "io.github.maajix.spotlight",
+        "name": "Spotlight"
+      }
+    },
+    {
+      "typeId": "system-updates",
+      "typeName": "System Updates",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "io.github.saiiiiiph.update-center",
+        "name": "Update Center"
+      }
     },
     {
       "typeId": "radio",
       "typeName": "Radio",
-      "kind": "vacated",
-      "previous": {
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
         "id": "io.github.kaibur02.omarchy-world-radio",
         "name": "World Radio"
-      },
-      "current": null
+      }
     },
     {
-      "typeId": "power-menu",
-      "typeName": "Power & Session",
-      "kind": "displaced",
-      "previous": {
-        "id": "blackcode.power-menu",
-        "name": "Power Menu"
-      },
+      "typeId": "screensavers",
+      "typeName": "Screensavers",
+      "kind": "new-runner-up",
+      "previous": null,
       "current": {
-        "id": "io.github.edgarsilva.power-button",
-        "name": "Power Button"
+        "id": "brianirish.screensaver",
+        "name": "Screensaver"
       }
     },
     {
       "typeId": "dev-ports",
       "typeName": "Dev Ports",
-      "kind": "vacated",
-      "previous": {
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
         "id": "io.github.mich-nduka.omaports",
         "name": "Omaports"
-      },
-      "current": null,
-      "reason": "awaiting-task-qualification"
+      }
+    },
+    {
+      "typeId": "phone-integration",
+      "typeName": "Phone Integration",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "omakdeconnect",
+        "name": "OmaKDEConnect"
+      }
     }
   ],
   "categoryChanges": [],
   "publicationBaseline": {
-    "week": "2026-W45",
-    "generatedAt": "2026-11-03T18:58:38.097Z",
+    "week": "2026-W46",
+    "generatedAt": "2026-11-09T07:54:02.698Z",
     "methodologyVersion": "1.4.0"
   }
 }

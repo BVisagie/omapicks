@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T07:54:02.698Z",
+  "generatedAt": "2026-11-09T09:13:29.266Z",
   "catalogCount": 6432,
   "eligibleClassifiedCount": 2448,
   "classificationAssignments": 3098,
-  "qualifiedAssignments": 139,
-  "pendingAssignments": 2929,
+  "qualifiedAssignments": 172,
+  "pendingAssignments": 2896,
   "uniqueUnclassifiedCount": 2576,
   "excluded": {
     "not-installable": 1308,
@@ -13,16 +13,7 @@
     "repository-unreachable": 39,
     "built-in": 39
   },
-  "excludedIncumbents": [
-    {
-      "typeId": "network-diagnostics",
-      "typeName": "Network Traffic",
-      "place": "runner-up",
-      "id": "vitals",
-      "name": "Vitals",
-      "reason": "repository-unreachable"
-    }
-  ],
+  "excludedIncumbents": [],
   "builtInWarnings": [],
   "sharedRepositories": [],
   "unclassified": [
