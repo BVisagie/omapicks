@@ -7,7 +7,7 @@ Five workflows cover validation, recommendation publication, current availabilit
 | CI | Pull requests targeting `main`; pushes to `main` | Workflow lint, Node tests, production render and browser checks. Feature pushes do not duplicate PR checks. |
 | Publish recommendations | Monday 06:17; manual | Validates and publishes a weekly snapshot, review queue and current availability. Explicit manual `republish` permits a deliberate same-week refresh. |
 | Update availability | Daily 07:47; manual | Updates availability for displayed winners, runners-up and alternatives, independently of frozen scores and history. |
-| Review evidence | Tuesday 06:43; Thursday 06:17; manual | Captures feeds and source evidence, prioritizes unresolved reviews, and validates proposed pages. Tuesday also runs category discovery; manual runs choose whether to include it. |
+| Review evidence | Tuesday 06:43; Thursday 06:17; manual | Captures feeds and source evidence, prioritizes unresolved reviews, prepares re-checks for changed picks, and validates proposed pages. Tuesday also runs category discovery; manual runs choose whether to include it. |
 | Site report | Manual only | Builds the private traffic, search and site report and uploads it encrypted. Nothing readable is published. |
 
 The evidence review cannot approve tasks, publish categories, create issues or push commits. Its ranking and discovery reports share the same captured catalog, engagement, taxonomy, reviews, profiles and repository observations. Optional explorer data is fetched once for discovery. The staged candidate includes the proposed rankings and current availability; tests, rendering and browser checks run against that copied site, leaving published data untouched.
@@ -44,6 +44,7 @@ Useful local commands:
 node build/availability.mjs
 node scripts/review-evidence.mjs
 node scripts/review-evidence.mjs --without-discovery
+node scripts/recheck-reviews.mjs --input tmp/review-evidence/inputs.json --queue tmp/review-evidence/review-queue.json
 node scripts/category-discovery.mjs --input /path/to/discovery-inputs.json
 bash scripts/lint-workflows.sh
 ```

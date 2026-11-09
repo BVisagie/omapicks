@@ -104,14 +104,14 @@
         "Native focus controls apply to local running agents; remote peers are read-only."
       ],
       "reason": "Inspects coding-agent sessions and focuses or manages local agent processes; remote peers are read-only.",
-      "reviewedAt": "2026-10-30",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/meviusisback/agent-orchestr/blob/9012ebde19bec7a1344e52efd09e2a1b09e1bd25/README.md",
-        "revision": "9012ebde19bec7a1344e52efd09e2a1b09e1bd25",
+        "url": "https://github.com/meviusisback/agent-orchestr/blob/3e64235ae55f627b198c78ecb61e0c8f8ac80896/README.md",
+        "revision": "3e64235ae55f627b198c78ecb61e0c8f8ac80896",
         "path": "README.md",
-        "sha256": "388b25b56e5ee70ebc29f461b0a1a45929d83c21ad1e0187f32efb3cc8daa68e",
-        "evidence": "README.md lines 9-18:\n- **Live Multi-Source Agent Tracking**: Seamlessly tracks AI coding agents across **Herdr** daemon panes, **remote Hermes peers** (gateways registered with `hermes peer add`, read-only), (`~/.config/herdr/herdr.sock`), standalone terminal windows (Ghostty, Foot, Kitty, Alacritty, WezTerm), **OMP** sessions (`~/.omp/agent/sessions/`), **Hermes** CLI & Desktop app databases (`~/.hermes/state.db`), and **Grok** Build TUI sessions (`$GROK_HOME/active_sessions.json` + `events.jsonl`).\n- **One-Click Workspace & Window Switching**: Click any agent card to switch Hyprland workspaces and focus the exact terminal window, Herdr pane, or Hermes Desktop window.\n- **Visual Status Bar Display**:\n  - **`Icon` Mode**: Agent orchestrator glyph with dynamic activity badge and spinner animation when agents are actively working.\n  - **`Status` Mode**: Real-time ticker showing active task descriptions or prompt summaries.\n  - **`Compact` Mode**: Live count summary (e.g. `4 ag · 1 busy`, `3 done`).\n- **Interactive Popup Panel**:\n  - **Smart Filter Tabs**: Filter by `All`, `Working`, `Waiting` (user input needed), `Done` (completed tasks), and `Idle`.\n  - **Rich Agent Cards**: Model tags, latest human prompt, real-time tool execution details, repository / working directory breadcrumbs, and active session indicators.\n  - **Process Management**: Safely terminate agent processes or close Herdr panes directly from card action buttons.\n\nREADME.md lines 24-24:\n- **Herdr**: save a machine with `herdr machine add`, verify SSH access and matching remote Herdr installation. The plugin reads enabled rows from `herdr machine list --json` and queries each machine through the read-only `herdr --session <name> api snapshot` command. Remote cards are read-only: focus and terminate stay disabled because their windows are not on this desktop."
+        "sha256": "13cedc39b072ed3a3e9ae691a185bb2b1ca5119546c320dde205d4ad7ba77ac6",
+        "evidence": "README.md lines 21-24:\n- **Live multi-source tracking** — Herdr daemon panes (local socket plus remote machines), **remote Hermes peers** (gateways registered with `hermes peer add`, read-only), standalone terminal windows (Ghostty, Foot, Kitty, Alacritty, WezTerm), **OMP** sessions (`~/.omp/agent/sessions/`), **Hermes** CLI and Desktop app databases (`~/.hermes/state.db`), and **Grok** Build TUI sessions (`$GROK_HOME/active_sessions.json` + `events.jsonl`).\n- **One-click workspace & window switching** — click any agent card to switch Hyprland workspaces and focus the exact terminal window, Herdr pane or Hermes Desktop window.\n- **Visual status bar display** — `Icon` mode (orchestrator glyph with activity badge and spinner while agents work), `Status` mode (real-time ticker of active tasks), `Compact` mode (live counts like `4 ag · 1 busy`, `3 done`).\n- **Interactive popup panel** — smart filter tabs (`All`, `Working`, `Waiting`, `Done`, `Idle`); rich cards with model tags, latest human prompt, real-time tool execution, repo/working-directory breadcrumbs and session indicators; terminate agent processes or close Herdr panes from card buttons.\n\nREADME.md lines 93-93:\n**Remote sources (read-only — no focus, no terminate; those windows aren't on this desktop):**\n\nREADME.md lines 95-95:\n- **Herdr** — save a machine with `herdr machine add`, verify SSH access and a matching remote Herdr install. The plugin reads enabled rows from `herdr machine list --json` and queries each machine through the read-only `herdr --session <name> api snapshot`."
       }
     },
     {
@@ -126,14 +126,14 @@
       ],
       "constraints": [],
       "reason": "Displays supported AI plan usage, balances and reset windows from provider integrations.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/akitaonrails/ai-usagebar/blob/d12c8d9828397abe5a477eb89c6e5e763840cd43/README.md",
-        "revision": "d12c8d9828397abe5a477eb89c6e5e763840cd43",
+        "url": "https://github.com/akitaonrails/ai-usagebar/blob/59573ff3cb4546781ba8090902e7fc65cedf0ad4/README.md",
+        "revision": "59573ff3cb4546781ba8090902e7fc65cedf0ad4",
         "path": "README.md",
-        "sha256": "c917b19fa4e2e859284360f80e75c9c6b3f3ba5112e93a867500e30d3fd76af1",
-        "evidence": "README.md lines 3-3:\nNative Omarchy Quattro panel, Waybar widget, and tabbed TUI for AI plan usage across **Claude**, **Codex/ChatGPT**, **GitHub Copilot**, **Z.AI (GLM)**, **OpenRouter**, **DeepSeek**, **DeepInfra**, **Kimi**, **Nous Research**, **OpenCode Go**, **Command Code**, **Devin**, **Cline**, **Muse Code**, **Droid**, **Synthetic**, and other supported AI coding services.\n\nREADME.md lines 5-8:\nai-usagebar began as a Rust port of\n[`claudebar`](https://github.com/mryll/claudebar) and remains drop-in\ncompatible. It keeps claudebar's Pango tooltip, Omarchy theme detection, and\nflock-protected OAuth refresh while adding more providers and a testable Rust\n\nREADME.md lines 17-29:\n- Per-provider Waybar modules use the same JSON shape and flags as claudebar.\n- The native Omarchy Quattro plugin follows the shell theme and supports\n  keyboard navigation, provider switching, live reset timers, and stale/error\n  states.\n- `ai-usagebar-tui` opens with a compact provider overview and refreshes every\n  60 seconds. Its navigation can use a sidebar, navbar, or no vendor box.\n- An optional Claude Code context view reads recent local session usage without\n  scanning entire histories.\n- Native integrations are available for Omarchy, GNOME Shell, KDE Plasma 6,\n  and a macOS/Windows system-tray popover (`ai-usagebar-tray`). An experimental\n  GTK tray frontend for Linux Mint is in [`linux-mint/`](linux-mint/README.md).\n- One bar item can cycle through enabled providers. `[ui] primary` controls the\n  initial provider in both the widget and TUI."
+        "sha256": "9bb178751eb6baee228b37feed5d2058ae1b5e1ec01ca0a953eaad2095464e58",
+        "evidence": "README.md lines 3-3:\nNative Omarchy Quattro panel, Waybar widget, and tabbed TUI for AI plan usage across **Claude**, **Codex/ChatGPT**, **GitHub Copilot**, **Z.AI (GLM)**, **OpenRouter**, **DeepSeek**, **DeepInfra**, **Kimi**, **Nous Research**, **OpenCode Go**, **Command Code**, **Devin**, **Cline**, **Muse Code**, **Droid**, **Synthetic**, **DeepRelay**, **Mistral**, and other supported AI coding services.\n\nREADME.md lines 5-8:\nai-usagebar began as a Rust port of\n[`claudebar`](https://github.com/mryll/claudebar) and remains drop-in\ncompatible. It keeps claudebar's Pango tooltip, Omarchy theme detection, and\nflock-protected OAuth refresh while adding more providers and a testable Rust\n\nREADME.md lines 17-29:\n- Per-provider Waybar modules use the same JSON shape and flags as claudebar.\n- The native Omarchy Quattro plugin follows the shell theme and supports\n  keyboard navigation, provider switching, live reset timers, and stale/error\n  states.\n- `ai-usagebar-tui` opens with a compact provider overview and refreshes every\n  60 seconds. Its navigation can use a sidebar, navbar, or no vendor box.\n- An optional Claude Code context view reads recent local session usage without\n  scanning entire histories.\n- Native integrations are available for Omarchy, GNOME Shell, KDE Plasma 6,\n  and a macOS/Windows system-tray popover (`ai-usagebar-tray`). An experimental\n  GTK tray frontend for Linux Mint is in [`linux-mint/`](linux-mint/README.md).\n- One bar item can cycle through enabled providers. `[ui] primary` controls the\n  initial provider in both the widget and TUI."
       }
     },
     {
@@ -446,13 +446,13 @@
       ],
       "constraints": [],
       "reason": "Configures Bluetooth headset modes and device preferences; it does not supply a general output and microphone volume mixer.",
-      "reviewedAt": "2026-10-30",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/ssupt/omarchy-bluetooth-audio/blob/7cbf8b96d981931fce50a61047eb9bb731f9cfbe/README.md",
-        "revision": "7cbf8b96d981931fce50a61047eb9bb731f9cfbe",
+        "url": "https://github.com/ssupt/omarchy-bluetooth-audio/blob/8d0c9b78bde6e2ee4b6ec1a5fa88ff72bcf66e5e/README.md",
+        "revision": "8d0c9b78bde6e2ee4b6ec1a5fa88ff72bcf66e5e",
         "path": "README.md",
-        "sha256": "3d94574489d3069dd12ba2bb904a9882226dbd49be14e485cdfa9205654c6d56",
+        "sha256": "8e0a6d23c84792c7d29fd584fe7a30988d6ece9c0fa2496b70a3d84af010cd4a",
         "evidence": "README.md lines 3-4:\nAdvanced Bluetooth Audio adds headset modes and per-device audio preferences to\nOmarchy's Bluetooth panel.\n\nREADME.md lines 6-8:\nSee the active codec, choose between supported playback and microphone modes,\nand decide what each device should do when it connects: leave your defaults\nunchanged, become the output, or become both output and microphone.\n\nREADME.md lines 10-13:\nPairing failures include their reason and a retry action. Device details\nprovide rename, trust, block, supported wake controls, and confirmed forgetting.\nIt works independently. [Advanced Audio Control](https://github.com/ssupt/omarchy-audio-control)\nadds application routing and shared audio integration.\n\nREADME.md lines 17-17:\nCompared with the [stock Bluetooth panel in Omarchy 4.0.4](https://github.com/omacom/omarchy/blob/c668141e9c42b13c80c9ca4ea108e11708c5e8a5/shell/plugins/panels/bluetooth/Panel.qml):\n\nREADME.md lines 19-19:\n| Stock panel | Advanced Bluetooth Audio adds |\n\nREADME.md lines 21-23:\n| Device list, pairing, connection, and battery | Active codec and a selector for supported playback or headset modes |\n| Selects the audio output after connecting a device from the panel | Per-device **Audio on connect** choices: Manual, Output, or Output + Microphone |\n| Basic device actions | Failure reasons and retry, device details, and confirmed forgetting |"
       }
     },
@@ -472,29 +472,29 @@
         "Per-application routing covers playback; recording applications are not listed."
       ],
       "reason": "Adjusts output and microphone volume, selects audio devices and provides playback-application routing in a replacement audio panel.",
-      "reviewedAt": "2026-10-30",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/thevideinfra/omaudiopanel/blob/66de20e795a980a755bc8a034fb22ae18cf783b3/README.md",
-        "revision": "66de20e795a980a755bc8a034fb22ae18cf783b3",
+        "url": "https://github.com/thevideinfra/omaudiopanel/blob/b79aa8fe65a80f3996645c858adaeb40a8306a01/README.md",
+        "revision": "b79aa8fe65a80f3996645c858adaeb40a8306a01",
         "path": "README.md",
-        "sha256": "52dbfbbdeb852710d696f8d0ca1c29bff02486b5763fec5c1029b9e7c4bf3d61",
-        "evidence": "README.md lines 10-38:\nA drop-in replacement for the built-in `omarchy.audio` bar widget. Everything\nthe stock panel does still works the same way — volume, output and input\npickers, the per-app mixer, keyboard navigation — and it adds:\n\n- **Disable devices.** Hover an output or input and click the power icon (or\n  press `d`). Disabled devices collect in a **Disabled** section at the bottom,\n  folded into one line (\"4 devices turned off\"). Click **Show** to list them,\n  then click one to turn it back on. Nothing else is interrupted. Bluetooth\n  devices carry a Bluetooth mark and can be disabled too.\n\n  <img src=\"assets/omaudiodisable.png\" alt=\"Hovering an output shows a power icon with the tooltip Disable device (d)\" width=\"300\">\n\n- **Mute one side.** OUTPUT and INPUT each have their own switch; the one in\n  the header still mutes both.\n- **Choose where each app plays.** Under every app in the mixer, a\n  \"Playing on...\" field shows its output. Click it to pick another\n  (or press `r` to step through outputs). The switch beside it mutes the app.\n- **Pin an app to an output.** In that picker, tick **Always play Brave on...** — the output you picked, or the one it is playing on. Every\n  new Brave stream goes there. If the output disappears,\n  Brave falls back to the default and moves back when the output returns.\n- **Tell browser tabs apart.** Chromium-based browsers name every stream\n  \"Playback\". When it can tell for certain, the mixer shows the tab instead:\n  \"Brave – VIDEO/AUDIO titles\". Otherwise it numbers them: \"Brave · 1 of 2\".\n- **See what is playing.** Small equalizer bars move next to OUTPUT and\n  beside each app that is making sound, in your theme's accent colour — as do\n  the volume sliders, level meters and the device in use.\n- **Pick the volume step.** 1%, 2%, 5% or 10% per scroll notch on the bar\n  icon, per slider step and per `h`/`l` in the panel, chosen at the bottom of\n  the panel.\n\nREADME.md lines 49-50:\nChanging the default output also leaves apps you routed or pinned where they\nare, instead of moving every stream to the new default."
+        "sha256": "b5aced7857e5259fed7bbfd954d431378d661ba339edcbf8d6534b8c4e7653fa",
+        "evidence": "README.md lines 10-12:\nA drop-in replacement for the built-in `omarchy.audio` bar widget. Everything\nthe stock panel does still works the same way — volume, output and input\npickers, the per-app mixer, keyboard navigation — and it adds:\n\nREADME.md lines 22-29:\n- **Mute one side.** OUTPUT and INPUT each have their own switch; the one in\n  the header still mutes both.\n- **Choose where each app plays.** Under every app in the mixer, a\n  \"Playing on...\" field shows its output. Click it to pick another\n  (or press `r` to step through outputs). The switch beside it mutes the app.\n- **Pin an app to an output.** In that picker, tick **Always play Brave on...** — the output you picked, or the one it is playing on. Every\n  new Brave stream goes there. If the output disappears,\n  Brave falls back to the default and moves back when the output returns.\n\nREADME.md lines 53-54:\nChanging the default output also leaves apps you routed or pinned where they\nare, instead of moving every stream to the new default."
       },
       "sources": [
         {
-          "url": "https://github.com/thevideinfra/omaudiopanel/blob/66de20e795a980a755bc8a034fb22ae18cf783b3/README.md",
-          "revision": "66de20e795a980a755bc8a034fb22ae18cf783b3",
+          "url": "https://github.com/thevideinfra/omaudiopanel/blob/b79aa8fe65a80f3996645c858adaeb40a8306a01/README.md",
+          "revision": "b79aa8fe65a80f3996645c858adaeb40a8306a01",
           "path": "README.md",
-          "sha256": "52dbfbbdeb852710d696f8d0ca1c29bff02486b5763fec5c1029b9e7c4bf3d61",
-          "evidence": "README.md lines 10-38:\nA drop-in replacement for the built-in `omarchy.audio` bar widget. Everything\nthe stock panel does still works the same way — volume, output and input\npickers, the per-app mixer, keyboard navigation — and it adds:\n\n- **Disable devices.** Hover an output or input and click the power icon (or\n  press `d`). Disabled devices collect in a **Disabled** section at the bottom,\n  folded into one line (\"4 devices turned off\"). Click **Show** to list them,\n  then click one to turn it back on. Nothing else is interrupted. Bluetooth\n  devices carry a Bluetooth mark and can be disabled too.\n\n  <img src=\"assets/omaudiodisable.png\" alt=\"Hovering an output shows a power icon with the tooltip Disable device (d)\" width=\"300\">\n\n- **Mute one side.** OUTPUT and INPUT each have their own switch; the one in\n  the header still mutes both.\n- **Choose where each app plays.** Under every app in the mixer, a\n  \"Playing on...\" field shows its output. Click it to pick another\n  (or press `r` to step through outputs). The switch beside it mutes the app.\n- **Pin an app to an output.** In that picker, tick **Always play Brave on...** — the output you picked, or the one it is playing on. Every\n  new Brave stream goes there. If the output disappears,\n  Brave falls back to the default and moves back when the output returns.\n- **Tell browser tabs apart.** Chromium-based browsers name every stream\n  \"Playback\". When it can tell for certain, the mixer shows the tab instead:\n  \"Brave – VIDEO/AUDIO titles\". Otherwise it numbers them: \"Brave · 1 of 2\".\n- **See what is playing.** Small equalizer bars move next to OUTPUT and\n  beside each app that is making sound, in your theme's accent colour — as do\n  the volume sliders, level meters and the device in use.\n- **Pick the volume step.** 1%, 2%, 5% or 10% per scroll notch on the bar\n  icon, per slider step and per `h`/`l` in the panel, chosen at the bottom of\n  the panel.\n\nREADME.md lines 49-50:\nChanging the default output also leaves apps you routed or pinned where they\nare, instead of moving every stream to the new default."
+          "sha256": "b5aced7857e5259fed7bbfd954d431378d661ba339edcbf8d6534b8c4e7653fa",
+          "evidence": "README.md lines 10-12:\nA drop-in replacement for the built-in `omarchy.audio` bar widget. Everything\nthe stock panel does still works the same way — volume, output and input\npickers, the per-app mixer, keyboard navigation — and it adds:\n\nREADME.md lines 22-29:\n- **Mute one side.** OUTPUT and INPUT each have their own switch; the one in\n  the header still mutes both.\n- **Choose where each app plays.** Under every app in the mixer, a\n  \"Playing on...\" field shows its output. Click it to pick another\n  (or press `r` to step through outputs). The switch beside it mutes the app.\n- **Pin an app to an output.** In that picker, tick **Always play Brave on...** — the output you picked, or the one it is playing on. Every\n  new Brave stream goes there. If the output disappears,\n  Brave falls back to the default and moves back when the output returns.\n\nREADME.md lines 53-54:\nChanging the default output also leaves apps you routed or pinned where they\nare, instead of moving every stream to the new default."
         },
         {
-          "url": "https://github.com/thevideinfra/omaudiopanel/blob/66de20e795a980a755bc8a034fb22ae18cf783b3/Panel.qml",
-          "revision": "66de20e795a980a755bc8a034fb22ae18cf783b3",
+          "url": "https://github.com/thevideinfra/omaudiopanel/blob/b79aa8fe65a80f3996645c858adaeb40a8306a01/Panel.qml",
+          "revision": "b79aa8fe65a80f3996645c858adaeb40a8306a01",
           "path": "Panel.qml",
-          "sha256": "a58c3ed624f0fb307fc266531133da86db90eefec5b8263806c02f9e683eb3da",
-          "evidence": "Panel.qml lines 477-482:\n  function setOutputVolume(v) {\n    if (!volumeSink || !volumeSink.audio) return outputVolume\n    var volume = Math.max(0, Math.min(1, v))\n    volumeSink.audio.volume = volume\n    return volume\n  }\n\nPanel.qml lines 492-495:\n  function setInputVolume(v) {\n    if (!source || !source.audio) return\n    source.audio.volume = Math.max(0, Math.min(1, v))\n  }\n\nPanel.qml lines 514-520:\n  function setDefaultSink(node) {\n    if (!node) return\n    Pipewire.preferredDefaultAudioSink = node\n    // Unlike omarchy-audio-output-set-default, the helper leaves streams that\n    // were routed to a specific output where they are.\n    if (node.id !== undefined && node.name)\n      runHelper([\"set-default-sink\", String(node.id), String(node.name)])\n\nPanel.qml lines 727-731:\n  function setDefaultSource(node) {\n    if (!node) return\n    Pipewire.preferredDefaultAudioSource = node\n    if (node.id !== undefined && node.name) {\n      Quickshell.execDetached(["
+          "sha256": "12cc67f538fc12fe862ca46da396fae0687fbbfc16ff49785729aa226e6e07e4",
+          "evidence": "Panel.qml lines 480-485:\n  function setOutputVolume(v) {\n    if (!volumeSink || !volumeSink.audio) return outputVolume\n    var volume = Math.max(0, Math.min(1, v))\n    volumeSink.audio.volume = volume\n    return volume\n  }\n\nPanel.qml lines 495-498:\n  function setInputVolume(v) {\n    if (!source || !source.audio) return\n    source.audio.volume = Math.max(0, Math.min(1, v))\n  }\n\nPanel.qml lines 517-523:\n  function setDefaultSink(node) {\n    if (!node) return\n    Pipewire.preferredDefaultAudioSink = node\n    // Unlike omarchy-audio-output-set-default, the helper leaves streams that\n    // were routed to a specific output where they are.\n    if (node.id !== undefined && node.name)\n      runHelper([\"set-default-sink\", String(node.id), String(node.name)])\n\nPanel.qml lines 730-734:\n  function setDefaultSource(node) {\n    if (!node) return\n    Pipewire.preferredDefaultAudioSource = node\n    if (node.id !== undefined && node.name) {\n      Quickshell.execDetached(["
         }
       ]
     },
@@ -643,11 +643,11 @@
       ],
       "constraints": [],
       "reason": "Shows laptop battery level and supported Lenovo charge modes in its hardware control center.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/tedwester/omalegion/blob/a427bbb30db5ae05ca75baa8bcd3ff09f307914c/README.md",
-        "revision": "a427bbb30db5ae05ca75baa8bcd3ff09f307914c",
+        "url": "https://github.com/tedwester/omalegion/blob/0880cc7ec27a680a742b1f12692f7a17e34885f8/README.md",
+        "revision": "0880cc7ec27a680a742b1f12692f7a17e34885f8",
         "path": "README.md",
         "sha256": "91e0bf602ff1909eae2122604f8ba0e5b58a0888b11245389b0241a343172120",
         "evidence": "README.md lines 27-28:\n- Power mode, CPU/GPU temperatures, fan RPM, battery level, and GPU status at\n  a glance.\n\nREADME.md lines 60-61:\n- Charge modes (normal, conservation, rapid charge, overnight).\n- Always-on USB charging toggle."
@@ -730,14 +730,14 @@
       ],
       "constraints": [],
       "reason": "Discovers, pairs, connects, disconnects and manages Bluetooth devices.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/ssupt/omarchy-bluetooth-audio/blob/7cbf8b96d981931fce50a61047eb9bb731f9cfbe/README.md",
-        "revision": "7cbf8b96d981931fce50a61047eb9bb731f9cfbe",
+        "url": "https://github.com/ssupt/omarchy-bluetooth-audio/blob/8d0c9b78bde6e2ee4b6ec1a5fa88ff72bcf66e5e/README.md",
+        "revision": "8d0c9b78bde6e2ee4b6ec1a5fa88ff72bcf66e5e",
         "path": "README.md",
-        "sha256": "3d94574489d3069dd12ba2bb904a9882226dbd49be14e485cdfa9205654c6d56",
-        "evidence": "README.md lines 3-4:\nAdvanced Bluetooth Audio adds headset modes and per-device audio preferences to\nOmarchy's Bluetooth panel.\n\nREADME.md lines 6-8:\nSee the active codec, choose between supported playback and microphone modes,\nand decide what each device should do when it connects: leave your defaults\nunchanged, become the output, or become both output and microphone.\n\nREADME.md lines 10-13:\nPairing failures include their reason and a retry action. Device details\nprovide rename, trust, block, supported wake controls, and confirmed forgetting.\nIt works independently. [Advanced Audio Control](https://github.com/ssupt/omarchy-audio-control)\nadds application routing and shared audio integration.\n\nREADME.md lines 17-17:\nCompared with the [stock Bluetooth panel in Omarchy 4.0.4](https://github.com/omacom/omarchy/blob/c668141e9c42b13c80c9ca4ea108e11708c5e8a5/shell/plugins/panels/bluetooth/Panel.qml):\n\nREADME.md lines 19-19:\n| Stock panel | Advanced Bluetooth Audio adds |\n\nREADME.md lines 21-23:\n| Device list, pairing, connection, and battery | Active codec and a selector for supported playback or headset modes |\n| Selects the audio output after connecting a device from the panel | Per-device **Audio on connect** choices: Manual, Output, or Output + Microphone |\n| Basic device actions | Failure reasons and retry, device details, and confirmed forgetting |\n\nREADME.md lines 43-54:\n- Click a device row to connect or disconnect it. Click the audio action on a\n  connected device to make it the default output; if its current mode exposes a\n  microphone, that becomes the default input too.\n- Click the arrow on a connected audio device to choose a supported mode. The\n  menu describes the trade-off, such as **High fidelity · AAC** or\n  **Headset + microphone · mSBC**. The selected mode is remembered per device.\n- Open the gear on a device row, or right-click it, for device details. Under\n  **Audio on connect**, choose **Manual** (the default), **Output**, or\n  **Output + Microphone** for future connections.\n- Retry a failed pairing or connection from its row. While a device is\n  connecting, click it again or use its cancel button to stop the attempt.\n  Click another device to replace the pending connection; the latest choice"
+        "sha256": "8e0a6d23c84792c7d29fd584fe7a30988d6ece9c0fa2496b70a3d84af010cd4a",
+        "evidence": "README.md lines 3-4:\nAdvanced Bluetooth Audio adds headset modes and per-device audio preferences to\nOmarchy's Bluetooth panel.\n\nREADME.md lines 6-8:\nSee the active codec, choose between supported playback and microphone modes,\nand decide what each device should do when it connects: leave your defaults\nunchanged, become the output, or become both output and microphone.\n\nREADME.md lines 10-13:\nPairing failures include their reason and a retry action. Device details\nprovide rename, trust, block, supported wake controls, and confirmed forgetting.\nIt works independently. [Advanced Audio Control](https://github.com/ssupt/omarchy-audio-control)\nadds application routing and shared audio integration.\n\nREADME.md lines 17-17:\nCompared with the [stock Bluetooth panel in Omarchy 4.0.4](https://github.com/omacom/omarchy/blob/c668141e9c42b13c80c9ca4ea108e11708c5e8a5/shell/plugins/panels/bluetooth/Panel.qml):\n\nREADME.md lines 19-19:\n| Stock panel | Advanced Bluetooth Audio adds |\n\nREADME.md lines 21-23:\n| Device list, pairing, connection, and battery | Active codec and a selector for supported playback or headset modes |\n| Selects the audio output after connecting a device from the panel | Per-device **Audio on connect** choices: Manual, Output, or Output + Microphone |\n| Basic device actions | Failure reasons and retry, device details, and confirmed forgetting |\n\nREADME.md lines 46-57:\n- Click a device row to connect or disconnect it. Click the audio action on a\n  connected device to make it the default output; if its current mode exposes a\n  microphone, that becomes the default input too.\n- Click the arrow on a connected audio device to choose a supported mode. The\n  menu describes the trade-off, such as **High fidelity · AAC** or\n  **Headset + microphone · mSBC**. The selected mode is remembered per device.\n- Open the gear on a device row, or right-click it, for device details. Under\n  **Audio on connect**, choose **Manual** (the default), **Output**, or\n  **Output + Microphone** for future connections.\n- Retry a failed pairing or connection from its row. While a device is\n  connecting, click it again or use its cancel button to stop the attempt.\n  Click another device to replace the pending connection; the latest choice"
       }
     },
     {
@@ -774,14 +774,14 @@
       ],
       "constraints": [],
       "reason": "Adjusts brightness for a selected display using Omarchy-supported hardware backends.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/crmne/omarchy-hyprmoncfg/blob/03177e1b48fcde97004130fdfac1f9156e6b43a6/README.md",
-        "revision": "03177e1b48fcde97004130fdfac1f9156e6b43a6",
+        "url": "https://github.com/crmne/omarchy-hyprmoncfg/blob/e2facf13d02d83f1b1d0295b2a771fca7bb19b5f/README.md",
+        "revision": "e2facf13d02d83f1b1d0295b2a771fca7bb19b5f",
         "path": "README.md",
-        "sha256": "1aade2beb74d10276db0d4cdccbbb5dd97df0b906b87408b8e8adecb63a2a3b2",
-        "evidence": "README.md lines 66-69:\n- Per-display brightness for the monitor selected on the layout, using Omarchy's own internal-backlight, DDC/CI, and Apple Display support\n- Brightness stays live hardware state rather than being stored in layout profiles, and changes made by Omarchy's panel or brightness keys remain compatible\n- Text size, the same desktop-wide control as Omarchy's Display panel (shell, GTK apps and terminals together), directly under Brightness. It runs Omarchy's `omarchy-display-text-size`, is live desktop state rather than part of a profile, and is hidden when that command is not installed\n- Terminal, directly under Text size, sets the terminal font alone (Alacritty, Ghostty, Kitty and Foot) and leaves the rest of the desktop alone. It runs Omarchy's `omarchy-terminal-font-size`, or the panel's copy of it until an Omarchy release includes the command. Text size still sets terminals in proportion, so a Terminal size lasts until the next Text size change"
+        "sha256": "f89b8aba12a9f28ee656792c71eef4cd86aeb8e18b26aec382241123d8d4ee49",
+        "evidence": "README.md lines 93-96:\n- Per-display brightness for the monitor selected on the layout, using Omarchy's own internal-backlight, DDC/CI, and Apple Display support\n- Brightness stays live hardware state rather than being stored in layout profiles, and changes made by Omarchy's panel or brightness keys remain compatible\n- Text size, the same desktop-wide control as Omarchy's Display panel (shell, GTK apps and terminals together), directly under Brightness. It runs Omarchy's `omarchy-display-text-size`, is live desktop state rather than part of a profile, and is hidden when that command is not installed\n- Terminal, directly under Text size, sets the terminal font alone (Alacritty, Ghostty, Kitty and Foot) and leaves the rest of the desktop alone. It runs Omarchy's `omarchy-terminal-font-size`, or the panel's copy of it until an Omarchy release includes the command. Text size still sets terminals in proportion, so a Terminal size lasts until the next Text size change"
       }
     },
     {
@@ -1011,7 +1011,7 @@
       "pluginId": "tmn73.calendar",
       "typeId": "calendar",
       "contractVersion": 1,
-      "metadataHash": "c6940481f291cfb510ee11acd980daff08f92cafa966e6d1857214a1f9b61685",
+      "metadataHash": "26a0dee442cf95548758c42111ea24eb2427b48b2feab93491f44c6ec4815686",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
@@ -1019,14 +1019,14 @@
       ],
       "constraints": [],
       "reason": "Browses calendar events from configured Google, iCalendar or local JSON sources.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/tmn73/omarchy-calendar/blob/2a6d0335c31147fd124f2879ecda7ad46383db5d/README.md",
-        "revision": "2a6d0335c31147fd124f2879ecda7ad46383db5d",
+        "url": "https://github.com/tmn73/omarchy-calendar/blob/257e4142c47a6f8da9f2990c396f4cda61cbf343/README.md",
+        "revision": "257e4142c47a6f8da9f2990c396f4cda61cbf343",
         "path": "README.md",
-        "sha256": "4383a73d0a1759d4d9913a7344d7b7815afb616284afa8e22ed372f5ae87e608",
-        "evidence": "README.md lines 3-5:\n**Your Google Calendar, in your Omarchy bar.** A month view with your real\nevents on it, a bar that tells you what is coming before it starts, and a\nform to create or edit events without opening Google.\n\nREADME.md lines 7-10:\nNot a Google user? The sync reads any iCal feed, see\n[Sync from the secret iCal address](#sync-from-the-secret-ical-address). The\nwidget itself reads a plain JSON file, so caldir, khal, vdirsyncer or Nextcloud work\njust as well. See [Sync from caldir](#sync-from-caldir) and [Use another source](#use-another-source).\n\nREADME.md lines 14-16:\nIt replaces the built-in clock rather than sitting beside it, so you keep one\nicon. Left click opens a month calendar with your real events on it. When\nsomething is close, the bar itself stops being just a clock and tells you:\n\nREADME.md lines 20-20:\nThe clock stays. This widget takes the desktop clock's place, so trading the"
+        "sha256": "c578f870cc299b435f80e0cd1b74c555c7d02a16d3127a6987bd71ffc78e1ade",
+        "evidence": "README.md lines 3-5:\n**Your calendar, in your Omarchy bar.** A month view with your real events\non it, a bar that tells you what is coming before it starts, and a form to\ncreate or edit events without leaving the desktop.\n\nREADME.md lines 7-15:\nWhere your events come from:\n\n- **Google Calendar**, read and write. See [Sync your Google Calendar](#sync-your-google-calendar)\n- **iCloud, Nextcloud, Fastmail or any other CalDAV server**, read and write\n  (community-maintained). See [Sync from iCloud or CalDAV](#sync-from-icloud-or-caldav)\n- **Any iCal feed**, read only. See [Sync from the secret iCal address](#sync-from-the-secret-ical-address)\n- **Anything else**: the widget reads a plain JSON file, so caldir, khal or\n  vdirsyncer work just as well. See [Sync from caldir](#sync-from-caldir) and\n  [Use another source](#use-another-source)\n\nREADME.md lines 19-21:\nIt replaces the built-in clock rather than sitting beside it, so you keep one\nicon. Left click opens a month calendar with your real events on it. When\nsomething is close, the bar itself stops being just a clock and tells you:\n\nREADME.md lines 25-25:\nThe clock stays. This widget takes the desktop clock's place, so trading the"
       }
     },
     {
@@ -1086,14 +1086,14 @@
       ],
       "constraints": [],
       "reason": "Searches saved clipboard history and offers reusable clipboard results in the launcher.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/maajix/omarchy-spotlight/blob/f38187f44ebaf763536654f14e2352aeba8dbe35/Spotlight.qml",
-        "revision": "f38187f44ebaf763536654f14e2352aeba8dbe35",
+        "url": "https://github.com/maajix/omarchy-spotlight/blob/c421a257b440af40d4344db0f7b150e3ccabaea8/Spotlight.qml",
+        "revision": "c421a257b440af40d4344db0f7b150e3ccabaea8",
         "path": "Spotlight.qml",
-        "sha256": "77b729d78bb58892e3d464baa5bc500d0262e7d6165a4e1cb21a6d4fbf22e948",
-        "evidence": "Spotlight.qml lines 1445-1465:\n  // Only the one-line titles are held here. A clipboard history is the last\n  // thing that should be resident in a process that outlives the query — it is\n  // where tokens and passwords end up — so the bodies stay on disk and the\n  // helper pipes the chosen one straight into wl-copy without it ever crossing\n  // back into the shell.\n  function clipboardResultRows(q) {\n    var target = root.clipboardSearchTarget(q)\n    if (!target || root.clipboardFor !== String(q || \"\").trim()) return []\n    var ranked = Fuzzy.rank(root.clipboardRows, target.pattern, root.maxClipboardRows)\n    var out = []\n    for (var i = 0; i < ranked.length; i++) {\n      out.push(root.row({\n        key: \"clip:\" + ranked[i].index,\n        kind: \"clipcopy\",\n        title: ranked[i].title, subtitle: \"\",\n        accessory: \"Clipboard\", icon: \"󰅌\", mono: true,\n        primaryLabel: \"Copy to clipboard\",\n        matchText: target.pattern,\n        resultType: \"clipboard\",\n        payload: { index: ranked[i].index, title: ranked[i].title }\n      }))\n\nSpotlight.qml lines 2038-2045:\n      // The body was never loaded, so the helper is told which entry to copy\n      // rather than what to copy. It re-reads the history under the same\n      // bounds, re-identifies the row by the title the user actually saw — the\n      // list may have shifted since — and pipes it to wl-copy itself.\n      clipCopyProc.running = false\n      clipCopyProc.command = root.helperArgv([\n        \"clipboard-copy\", String(r.payload.index), String(r.payload.title || \"\")])\n      clipCopyProc.running = true"
+        "sha256": "9a0b000992cd5bbffab79e7143403b3bc2c20f5405500ba55f97b88afed449c1",
+        "evidence": "Spotlight.qml lines 1446-1466:\n  // Only the one-line titles are held here. A clipboard history is the last\n  // thing that should be resident in a process that outlives the query — it is\n  // where tokens and passwords end up — so the bodies stay on disk and the\n  // helper pipes the chosen one straight into wl-copy without it ever crossing\n  // back into the shell.\n  function clipboardResultRows(q) {\n    var target = root.clipboardSearchTarget(q)\n    if (!target || root.clipboardFor !== String(q || \"\").trim()) return []\n    var ranked = Fuzzy.rank(root.clipboardRows, target.pattern, root.maxClipboardRows)\n    var out = []\n    for (var i = 0; i < ranked.length; i++) {\n      out.push(root.row({\n        key: \"clip:\" + ranked[i].index,\n        kind: \"clipcopy\",\n        title: ranked[i].title, subtitle: \"\",\n        accessory: \"Clipboard\", icon: \"󰅌\", mono: true,\n        primaryLabel: \"Copy to clipboard\",\n        matchText: target.pattern,\n        resultType: \"clipboard\",\n        payload: { index: ranked[i].index, title: ranked[i].title }\n      }))\n\nSpotlight.qml lines 2039-2046:\n      // The body was never loaded, so the helper is told which entry to copy\n      // rather than what to copy. It re-reads the history under the same\n      // bounds, re-identifies the row by the title the user actually saw — the\n      // list may have shifted since — and pipes it to wl-copy itself.\n      clipCopyProc.running = false\n      clipCopyProc.command = root.helperArgv([\n        \"clipboard-copy\", String(r.payload.index), String(r.payload.title || \"\")])\n      clipCopyProc.running = true"
       }
     },
     {
@@ -1438,13 +1438,13 @@
       ],
       "constraints": [],
       "reason": "Lists local listening ports by project and offers open, copy, terminal and permitted kill actions.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/mich-nduka/omaports/blob/d6c5f72816b27e33037e0289e5a21884893e46fe/README.md",
-        "revision": "d6c5f72816b27e33037e0289e5a21884893e46fe",
+        "url": "https://github.com/mich-nduka/omaports/blob/7c79c73cb1726489e3a13c2a6eb59d2a011ed998/README.md",
+        "revision": "7c79c73cb1726489e3a13c2a6eb59d2a011ed998",
         "path": "README.md",
-        "sha256": "141f8d6e22b80e79d7b3e0dc074a8f8b2e5d1d34050a76f6464cf830725565e3",
+        "sha256": "1ba187af8d3798e5e5212213f1b6625e50b7029467474bef612fff54935b1a99",
         "evidence": "README.md lines 3-3:\nOpen dev ports on localhost, in the [Omarchy](https://omarchy.org) bar.\n\nREADME.md lines 5-10:\nThe widget is a count of what you are running. The panel is the list, and its\nwhole trick is naming things properly: `ss` reports a port as a pid and a\nthread name, so a Vite server shows up as `MainThread` and every JavaScript\nproject on the machine shows up as `node`. Omaports reads the command line,\nthe working directory and the project root behind each pid, and reports\n`3000 · Vite` under the heading `nexahubtech` instead.\n\nREADME.md lines 12-13:\nFrom there the actions are the four things anyone actually does with a dev\nport: open it, copy it, open a terminal where it lives, or kill it."
       }
     },
@@ -1608,14 +1608,14 @@
       ],
       "constraints": [],
       "reason": "Edits monitor layouts and profiles and automatically applies matching layouts on hotplug.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/crmne/omarchy-hyprmoncfg/blob/03177e1b48fcde97004130fdfac1f9156e6b43a6/README.md",
-        "revision": "03177e1b48fcde97004130fdfac1f9156e6b43a6",
+        "url": "https://github.com/crmne/omarchy-hyprmoncfg/blob/e2facf13d02d83f1b1d0295b2a771fca7bb19b5f/README.md",
+        "revision": "e2facf13d02d83f1b1d0295b2a771fca7bb19b5f",
         "path": "README.md",
-        "sha256": "1aade2beb74d10276db0d4cdccbbb5dd97df0b906b87408b8e8adecb63a2a3b2",
-        "evidence": "README.md lines 3-3:\nAn Omarchy bar panel for [hyprmoncfg](https://hyprmoncfg.dev/). Create multi-monitor layouts for Hyprland in a visual editor and switch them automatically on hotplug and lid events.\n\nREADME.md lines 5-5:\nhttps://github.com/user-attachments/assets/d3da78df-2280-481b-b38d-a48bb28dc2e6\n\nREADME.md lines 7-7:\nThe film animates a rebuild of the panel that is checked against real captures, with sample displays. [Download it in full quality](https://github.com/crmne/omarchy-hyprmoncfg/releases/download/v2.7.0/hyprmoncfg-panel-film.mp4).\n\nREADME.md lines 56-56:\nSet your profiles up once. The desk, with the ultrawide on and the laptop panel off. The dock with three screens. The conference room projector at its own resolution and scale. After that you do nothing. Plug the monitors in and the matching profile is applied. Close the lid and the clamshell layout takes over. Undock and your laptop screen comes back at the scale you picked, with your workspaces where you put them.\n\nREADME.md lines 58-58:\nIt knows your monitors apart by make, model and serial, not by which port they are in. Move a cable from HDMI to DisplayPort and your layout still knows which screen is which. Two identical monitors are told apart by reading the DRM connector directly. The lid switch is read from the kernel, including the Apple SMC lid on a MacBook.\n\nREADME.md lines 60-60:\nA small background service is what watches for this. It catches hotplug, lid and wake events as they happen, including before the bar has started and coming out of a suspend.\n\nREADME.md lines 88-88:\n**Layout**\n\nREADME.md lines 90-94:\n- Snap-to-edge arrangement, and the displays beside an output move with it when scale, mode or rotation changes its size\n- Per-output scale, checked for whole-pixel sharpness\n- Mirroring, rotation and flips\n- On 2-in-1s and tablets, **Auto** rotation that turns the built-in panel with the device, with a rotation lock beside it (needs hyprmoncfg with rotation support and iio-sensor-proxy)\n- Positions by hand or by snapping\n\nREADME.md lines 96-96:\n**Colour and signal**\n\nREADME.md lines 98-102:\n- Nine colour management presets, from sRGB through wide gamut to HDR\n- Forced HDR, forced wide colour, and ICC profile paths\n- 8 and 10-bit depth\n- SDR brightness, saturation and transfer curve, with luminance floors and ceilings for SDR and HDR\n- Variable refresh rate: off, on, or fullscreen only"
+        "sha256": "f89b8aba12a9f28ee656792c71eef4cd86aeb8e18b26aec382241123d8d4ee49",
+        "evidence": "README.md lines 3-3:\nAn Omarchy bar panel for [hyprmoncfg](https://hyprmoncfg.dev/). Create multi-monitor layouts for Hyprland in a visual editor and switch them automatically on hotplug and lid events.\n\nREADME.md lines 5-5:\nhttps://github.com/user-attachments/assets/d3da78df-2280-481b-b38d-a48bb28dc2e6\n\nREADME.md lines 7-7:\nThe film animates a rebuild of the panel that is checked against real captures, with sample displays. [Download it in full quality](https://github.com/crmne/omarchy-hyprmoncfg/releases/download/v2.7.0/hyprmoncfg-panel-film.mp4).\n\nREADME.md lines 83-83:\nSet your profiles up once. The desk, with the ultrawide on and the laptop panel off. The dock with three screens. The conference room projector at its own resolution and scale. After that you do nothing. Plug the monitors in and the matching profile is applied. Close the lid and the clamshell layout takes over. Undock and your laptop screen comes back at the scale you picked, with your workspaces where you put them.\n\nREADME.md lines 85-85:\nIt knows your monitors apart by make, model and serial, not by which port they are in. Move a cable from HDMI to DisplayPort and your layout still knows which screen is which. Two identical monitors are told apart by reading the DRM connector directly. The lid switch is read from the kernel, including the Apple SMC lid on a MacBook.\n\nREADME.md lines 87-87:\nA small background service is what watches for this. It catches hotplug, lid and wake events as they happen, including before the bar has started and coming out of a suspend.\n\nREADME.md lines 116-116:\n**Layout**\n\nREADME.md lines 93-94:\n- Per-display brightness for the monitor selected on the layout, using Omarchy's own internal-backlight, DDC/CI, and Apple Display support\n- Brightness stays live hardware state rather than being stored in layout profiles, and changes made by Omarchy's panel or brightness keys remain compatible\n\nREADME.md lines 127-127:\n**Colour and signal**\n\nREADME.md lines 129-133:\n- Nine colour management presets, from sRGB through wide gamut to HDR\n- Forced HDR, forced wide colour, and ICC profile paths\n- 8 and 10-bit depth\n- SDR brightness, saturation and transfer curve, with luminance floors and ceilings for SDR and HDR\n- Variable refresh rate: off, on, or fullscreen only"
       }
     },
     {
@@ -1719,14 +1719,14 @@
       ],
       "constraints": [],
       "reason": "Pins applications and launches or switches their windows, with folder and app-group support.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/thepathless/omadock/blob/cdaac69c7bc2987fef3b28e2206d1a7f3cee3076/README.md",
-        "revision": "cdaac69c7bc2987fef3b28e2206d1a7f3cee3076",
+        "url": "https://github.com/thepathless/omadock/blob/a24f6759279917972ae56e2f6531359721503ea7/README.md",
+        "revision": "a24f6759279917972ae56e2f6531359721503ea7",
         "path": "README.md",
-        "sha256": "44283faea57614383b3d479d41602794ccdaa7207d22836db69b0cf172a7a75f",
-        "evidence": "README.md lines 383-386:\n| **Left Click** | Application Icon | Launches app / focuses / restores window |\n| **Middle Click** | Application Icon | Launches a **new instance** of the application |\n| **Scroll Wheel** | Application Icon / App Group | Flips through the windows the tooltip previews; a click focuses the chosen one |\n| **Right Click** | Application Icon | Context menu (Window list, Desktop Actions, Pin, Close) |\n\nREADME.md lines 391-392:\n| **Drag & Drop** | Pinned Icon | Reorders pinned application position live |\n| **Drag & Drop** | Running App | Drag into pinned section to pin live |"
+        "sha256": "e17325ef6941e7e55f0cd966908dfffdfbeaccd82099c26adb85b4b1376db78b",
+        "evidence": "README.md lines 447-450:\n| **Left Click** | Application Icon | Launches app / focuses / restores window |\n| **Middle Click** | Application Icon | Launches a **new instance** of the application |\n| **Scroll Wheel** | Application Icon / App Group | Flips through the windows the tooltip previews; a click focuses the chosen one |\n| **Right Click** | Application Icon | Context menu (Window list, Desktop Actions, Pin, Close) |\n\nREADME.md lines 455-456:\n| **Drag & Drop** | Pinned Icon | Reorders pinned application position live |\n| **Drag & Drop** | Running App | Drag into pinned section to pin live |"
       }
     },
     {
@@ -1764,11 +1764,11 @@
       ],
       "constraints": [],
       "reason": "Pins applications and launches or switches their windows from a desktop dock.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/rosakodu/omarchy-dock/blob/65f282eb35efd7b96e45ecdd86bea831b5ea6179/README.md",
-        "revision": "65f282eb35efd7b96e45ecdd86bea831b5ea6179",
+        "url": "https://github.com/rosakodu/omarchy-dock/blob/75fd9f85753ae46784b46f38e47ed819ed4cad20/README.md",
+        "revision": "75fd9f85753ae46784b46f38e47ed819ed4cad20",
         "path": "README.md",
         "sha256": "50e10b9de3927d279f59cce2f0dd4cd4575662223856170a3511e2678ec4a636",
         "evidence": "README.md lines 5-5:\nA modern, highly polished, and fully native application dock plugin for **Omarchy Quattro** (Hyprland + Quickshell), featuring app stacks (folders), iOS-style edit wiggle animations, multi-window management, dynamic orientation, and seamless theme integration.\n\nREADME.md lines 13-14:\n- ✨ **iOS-Style Edit Mode (Wiggle)** — Long-press (450ms) any icon to enter edit mode with smooth physical wobbling ($\\pm 3.8^\\circ$, 105ms). Quickly toggle favorite pins (`•`), dissolve folders (`-`), remove dock widgets (`-`), or reorder apps.\n- 🔀 **Fluid 1D & 2D Drag & Drop** — Smooth rail displacement physics when dragging apps across the dock or within folder grids. Effortlessly extract apps from folders back to the main dock.\n\nREADME.md lines 17-17:\n- ⚡ **Dedicated Controls (LMB, RMB & Middle-Click)** — Left-click opens closed apps or focuses/restores running windows. Right-click minimizes active/visible windows to a special minimized state. Middle-click (pressing the mouse wheel) instantly spawns a new duplicate instance anytime."
@@ -1986,11 +1986,11 @@
       ],
       "constraints": [],
       "reason": "Finds local files through the search overlay and exposes actions for selected results.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/maajix/omarchy-spotlight/blob/f38187f44ebaf763536654f14e2352aeba8dbe35/README.md",
-        "revision": "f38187f44ebaf763536654f14e2352aeba8dbe35",
+        "url": "https://github.com/maajix/omarchy-spotlight/blob/c421a257b440af40d4344db0f7b150e3ccabaea8/README.md",
+        "revision": "c421a257b440af40d4344db0f7b150e3ccabaea8",
         "path": "README.md",
         "sha256": "b752ba9c2755dfd020e9003e68eb5d4a55a991f40a486a3d9cb05de77c0c3c4e",
         "evidence": "README.md lines 3-3:\n**A fast, local-first command palette for Omarchy.**\n\nREADME.md lines 5-5:\nLaunch apps, switch windows, find files, search your clipboard and control your desktop from one input. Calculate, convert currencies, create reminders, search the web or ask AI without leaving Spotlight.\n\nREADME.md lines 7-7:\n[Website](https://maajix.github.io/omarchy-spotlight/) · [Documentation](https://maajix.github.io/omarchy-spotlight/docs/) · [Plugin marketplace](https://plugins.omarchy.org/plugin.html?id=io.github.maajix.spotlight)\n\nREADME.md lines 33-33:\n| Type | What happens |\n\nREADME.md lines 35-42:\n| `chrom` | Find apps, windows and matching local results |\n| `f invoice` or `cb ssh` | Search files or clipboard history |\n| `night light` | Show a live toggle and switch it in place |\n| `12*7+3` or `100 USD to EUR` | Calculate or convert currencies |\n| `remind me in 20m to check the oven` | Create a reminder |\n| `ports:` or `ssh:` | Browse a system view |\n| `gh quickshell` | Search GitHub |\n| `ai: explain how DNS works` | Ask AI and see a visual answer |\n\nREADME.md lines 44-44:\nUse **↑ / ↓** to select a result, **Enter** for its main action and **Shift+Enter** for its secondary action. **Esc** clears the query, then closes Spotlight.\n\nREADME.md lines 46-46:\nA preview pane beside the list shows more about the selected result, such as other currencies, the start of a file or a live window thumbnail. Turn it off with **Preview pane** under **Appearance** in Spotlight Settings."
@@ -2362,7 +2362,7 @@
       "pluginId": "glasschan.oma-swiss",
       "typeId": "gaming",
       "contractVersion": 2,
-      "metadataHash": "1627e3a1c21e82050dc76d81d1d3c22a631f6fd814a4a956f6aa130bdaa96699",
+      "metadataHash": "b323581fd509b9e4ca7239998db79638d8e98fad0967c59cc9714021e5135c12",
       "decision": "qualified",
       "role": "substantial-secondary",
       "capabilities": [
@@ -2371,14 +2371,14 @@
       ],
       "constraints": [],
       "reason": "Toggles gaming-mode VRR and tearing settings in Hyprland and restores them when disabled.",
-      "reviewedAt": "2026-10-30",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/glasschan/oma-swiss/blob/830599cd4b7f15b456a1fd8336fa317f185f31ca/README.md",
-        "revision": "830599cd4b7f15b456a1fd8336fa317f185f31ca",
+        "url": "https://github.com/glasschan/oma-swiss/blob/50c73f2b5008ebce468b7315d2e53329c67c99ad/README.md",
+        "revision": "50c73f2b5008ebce468b7315d2e53329c67c99ad",
         "path": "README.md",
-        "sha256": "2bcd2b1ec670bccb2163002dc69fbc746a38897b368f829631c4ab7fe39fdec5",
-        "evidence": "README.md lines 36-51:\n- **Super ⇄ Alt swap** — trade the left Super and Alt keys on the built-in\n  laptop keyboard, whenever you want. External keyboards are never touched.\n- **Single-window aspect ratio** — keep the lone window honest: 1:1, 4:3,\n  3:2, and 16:9 presets, or any custom `W:H` up to 64. Your ratio survives\n  reloads and logins, and the stock `SUPER+CTRL+BACKSPACE` binding works\n  alongside it.\n- **Opinionated Looks** — rounded corners, a translucent 5px border, soft\n  shadows, and vibrancy blur in one toggle. Switch it off and you're back to\n  stock Omarchy, exactly.\n- **Gaming mode** — variable refresh (VRR) and tearing allowed in one\n  toggle, for the lowest input latency. Switch it off and the stock values\n  return, exactly.\n- **Fcitx5 candidate theme** — the fcitx5 input-method candidate window\n  picks up the Omarchy palette with rounded corners, a translucent rim, and\n  vibrancy blur, and retints itself on every theme change. Switch it off\n  and fcitx5 returns to its defaults."
+        "sha256": "8ab6a6bd7ab3a85de9071151675fdc864bcb359a2effbd03003a27077fcdf059",
+        "evidence": "README.md lines 52-54:\n- **Gaming mode** — variable refresh (VRR) and tearing allowed in one\n  toggle, for the lowest input latency. Switch it off and the stock values\n  return, exactly."
       }
     },
     {
@@ -2828,11 +2828,11 @@
       ],
       "constraints": [],
       "reason": "Provides keybinding editing, creation, reset and conflict resolution alongside mouse settings.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/Davedes83/mouse-keybind-plugin/blob/5faa1d291c1f8593cf220621b9bbabb739c8c754/README.md",
-        "revision": "5faa1d291c1f8593cf220621b9bbabb739c8c754",
+        "url": "https://github.com/Davedes83/mouse-keybind-plugin/blob/205a1151d370842209a254d8f5c2554ac27d859b/README.md",
+        "revision": "205a1151d370842209a254d8f5c2554ac27d859b",
         "path": "README.md",
         "sha256": "2ca22de652d808cd444bfb7fac43c0954cc6a045321c1f4d75077e54f5495cb2",
         "evidence": "README.md lines 27-27:\n⌨️ Keybinds\n\nREADME.md lines 29-29:\nSee what's actually running on your system, fix problems in one click:\n\nREADME.md lines 31-35:\n* Live summary of active, modified, and conflicting bindings\n* Conflict detection with 1-click rebind\n* Smart suggestions for free keys\n* Full Keybind Manager one click away — search, edit, create, reset, enable/disable\n* Safe Lua sync, so your config never gets messy"
@@ -2871,21 +2871,21 @@
       ],
       "constraints": [],
       "reason": "Searches, creates, edits and resets keybindings and writes the selected changes to Hyprland Lua.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/meviusisback/keybinds-plugin/blob/ad8199d0369be2b28869a29b6fbf1f8f0589a5cf/README.md",
-        "revision": "ad8199d0369be2b28869a29b6fbf1f8f0589a5cf",
+        "url": "https://github.com/meviusisback/keybinds-plugin/blob/ff20b96b5a2b58cb36784d36b2f76896288651fa/README.md",
+        "revision": "ff20b96b5a2b58cb36784d36b2f76896288651fa",
         "path": "README.md",
-        "sha256": "06dfb8cf390425f9dda9e861f7bec7206ffc0dcf6f0d5b20d34684e115d785fc",
-        "evidence": "README.md lines 10-10:\nA modern, intuitive graphical frontend plugin for **[Omarchy Linux](https://omarchy.org)** to view, search, modify, and create Hyprland keybindings with live interactive key recording, smart free key recommendations, collision detection, and safe Lua synchronization.\n\nREADME.md lines 18-18:\n- **⭐ Dedicated Modified & Custom Section**: Easily review and manage all personal shortcut overrides and custom keybindings in one place with 1-click **↺ Reset to Default** and **🗑️ Delete**.\n\nREADME.md lines 28-28:\n- **🔄 Safe Lua Sync & Live Reload**: Writes directly to `~/.config/hypr/bindings.lua` (with automatic `.bak` backups) and invokes `hyprctl reload` for instantaneous application without session restarts."
+        "sha256": "8a56fafdd73d0c927e78465f53eb75c56ccd8510a53b503a01ebed03819806ab",
+        "evidence": "README.md lines 5-5:\n**A graphical frontend for Omarchy keybindings: view, search, modify and create Hyprland shortcuts with live key recording, smart free-key recommendations, collision detection and safe Lua sync.**\n\nREADME.md lines 23-23:\n- **Dedicated Modified & Custom section** — review all personal shortcut overrides and custom keybindings in one place, with 1-click **↺ Reset to Default** and **🗑️ Delete**.\n\nREADME.md lines 30-30:\n- **Safe Lua sync & live reload** — writes directly to `~/.config/hypr/bindings.lua` (with automatic `.bak` backups) and invokes `hyprctl reload` for instantaneous application without session restarts."
       }
     },
     {
       "pluginId": "io.github.ilyazar.keyboard-layout",
       "typeId": "keyboard-layouts",
       "contractVersion": 2,
-      "metadataHash": "a16caa4053f036c4a1bfc714740d98c7f0f28b178f5c99e961bad815be89f396",
+      "metadataHash": "6dd50d610e68d7fb8adbf9c2165430c5a826fe3d71a4e4cfbcb2c7e932f5d2bd",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
@@ -2894,14 +2894,14 @@
       ],
       "constraints": [],
       "reason": "Shows the active XKB layout and switches between configured layouts.",
-      "reviewedAt": "2026-10-30",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/omarchy-QOL/omarchy-keyboard-layout/blob/bd2cdf809f755ffa03cebeb6dcd237d252fca594/README.md",
-        "revision": "bd2cdf809f755ffa03cebeb6dcd237d252fca594",
+        "url": "https://github.com/omarchy-QOL/omarchy-keyboard-layout/blob/e78e8d20d5ebdc17518f4124ab49eb0b6d6c7972/README.md",
+        "revision": "e78e8d20d5ebdc17518f4124ab49eb0b6d6c7972",
         "path": "README.md",
-        "sha256": "781bef26c73eae7d7c07c95030247593094fcc44be8ddf2241a33ebb35f9363b",
-        "evidence": "README.md lines 5-7:\nA compact keyboard-layout picker for the Omarchy Quattro bar. It shows the\nactive XKB layout, opens a native layout menu, and optionally pulses after a\nlayout change to improve visual confirmation of the layout change.\n\nREADME.md lines 37-44:\n- Click the layout label to choose a configured language.\n- Scroll over the label to move to the next or previous language.\n- Open **Settings** from the language menu to customize the widget.\n- Enable **Show with one layout** to keep the widget visible with one layout.\n- Under settings, toggle on/off:\n  - animation (pulsing + colored indicator)\n  - show icon even for one layout enabled (never hide top level language icon)\n  - per-window layout tracing; each hyprland window keeps track of layout"
+        "sha256": "8b8a6ff91205344aff9882c723501700a58f15cb69374857ee9bb4ee983d4e0c",
+        "evidence": "README.md lines 5-7:\nSwitch keyboard layouts from the Omarchy Quattro bar, with an optional color\npulse to make each change easy to spot. Add custom labels or open an on-screen\nkeyboard while keeping focus in your application.\n\nREADME.md lines 31-32:\n- Left-click or right-click the bar label to open the layout menu.\n- Select a layout, or scroll over the bar label to cycle through layouts.\n\nREADME.md lines 37-37:\nVariants appear in labels such as `US(intl)`. Under **Layout labels**, select a"
       }
     },
     {
@@ -3026,11 +3026,11 @@
       ],
       "constraints": [],
       "reason": "Controls keyboard brightness, effects and supported Spectrum lighting on compatible Lenovo laptops.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/tedwester/omalegion/blob/a427bbb30db5ae05ca75baa8bcd3ff09f307914c/README.md",
-        "revision": "a427bbb30db5ae05ca75baa8bcd3ff09f307914c",
+        "url": "https://github.com/tedwester/omalegion/blob/0880cc7ec27a680a742b1f12692f7a17e34885f8/README.md",
+        "revision": "0880cc7ec27a680a742b1f12692f7a17e34885f8",
         "path": "README.md",
         "sha256": "91e0bf602ff1909eae2122604f8ba0e5b58a0888b11245389b0241a343172120",
         "evidence": "README.md lines 77-83:\n- Keyboard backlight on Spectrum (per-key hardware) Legion laptops,\n  detected automatically per machine with its true key layout read live\n  from the device: on/off, brightness, lighting slots (the same slots\n  Fn+Space cycles), ten firmware effects with speed and direction,\n  static colors, and per-key painting on an annotated layout grid.\n  Audio-reactive and screen-capture effects need a live loop and are\n  not included."
@@ -3241,13 +3241,13 @@
       ],
       "constraints": [],
       "reason": "Selects and designs lock-screen layouts with optional separately configured authentication integrations.",
-      "reviewedAt": "2026-10-30",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/SirJul1337/omarchy-lock-explorer/blob/9f056d3ad2c5d291919c51ef8397900024f0e86a/README.md",
-        "revision": "9f056d3ad2c5d291919c51ef8397900024f0e86a",
+        "url": "https://github.com/SirJul1337/omarchy-lock-explorer/blob/2eea8816bae146ec4bed1894b71bb9b2350b063d/README.md",
+        "revision": "2eea8816bae146ec4bed1894b71bb9b2350b063d",
         "path": "README.md",
-        "sha256": "8b685043c77381fc21fb17ebb33acc37d68178e74add6f0d312e45cd74f31f45",
+        "sha256": "fac971a7681b2c1ebb1a0ff41d4a8d6e091a964208d7123055b2ed5bcea0cdd3",
         "evidence": "README.md lines 3-5:\nLock screens for Omarchy 4, an explorer to preview and switch between them, and a designer to\nbuild your own. Unlock with your password, a FIDO2 security key, a fingerprint or your face.\nColors and fonts follow your Omarchy theme.\n\nREADME.md lines 9-16:\n- **Designs** from minimal to animated, typing-reactive, drawn by Omarchy's own ttfx, and video clips that play as you unlock\n- **Security key, fingerprint and face unlock** next to the password\n- **A visual designer** for your own layouts, or write the QML yourself\n- **Unlock animations** that fade, zoom or rise the lock screen away\n- **A matching boot screen** for the disk decryption prompt\n- **Multi-monitor aware**, with a clock-only screen on the others, and a 12-hour clock option\n- **In your language**, with reduce motion, a larger size and wallpaper blur and dim for every design\n- **Search and favorites** in the explorer, and a built-in check for anything missing from an install"
       }
     },
@@ -3372,14 +3372,14 @@
       ],
       "constraints": [],
       "reason": "Reads and manages email in a native multi-account mail application; provider capabilities vary.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/huacnlee/omamail/blob/0f8d4df0a075fb7f9a6a09e20b5e56f481289dda/README.md",
-        "revision": "0f8d4df0a075fb7f9a6a09e20b5e56f481289dda",
+        "url": "https://github.com/huacnlee/omamail/blob/9f5fef8a14dc7ae6f73572ffb04d2f995476ffc8/README.md",
+        "revision": "9f5fef8a14dc7ae6f73572ffb04d2f995476ffc8",
         "path": "README.md",
-        "sha256": "eb8d38e2dc48a32ed6aa9cae907acc63b28f60106f91a98b062618c5f3793f39",
-        "evidence": "README.md lines 3-3:\nOmamail is a native email and calendar app with multiple accounts and keyboard navigation. It runs either as an Omarchy shell plugin or as a standalone Qt desktop application.\n\nREADME.md lines 55-60:\n- **Multiple mailboxes:** Gmail, Outlook, Microsoft 365, HEY, JMAP and IMAP/SMTP, including Fastmail, iCloud and self-hosted servers.\n- **Mail and calendar:** read, search, compose, manage attachments and respond to meeting invitations. Available actions depend on your provider.\n- **Keyboard navigation:** `j`/`k` to move, `r` to reply, `c` to compose, `/` to search and `?` for all shortcuts.\n- **AI assistance in Omarchy:** ask about selected messages and review suggested drafts with Claude, OpenCode V2 or Codex. Follow your Omarchy default, or select an agent and optional model in Settings. An unsupported system default disables the AI action with a setup explanation. Conversations retain follow-ups and draft proposals; `/clear`, `/history` and `/diagnose` manage the chat.\n- **Desktop integration:** native notifications and a compact layout for smaller windows; the Omarchy plugin also provides the bar widget and `mailto:` integration.\n- **Privacy controls:** credentials stored in the system keyring and remote images blocked until you choose to load them.\n\nREADME.md lines 66-66:\nChoose a provider in Settings. Released builds of Gmail sign in with an included Google OAuth client, and you can use your own instead; Outlook and Microsoft 365 need a Microsoft app registration. HEY uses the official [HEY CLI](https://github.com/basecamp/hey-cli). JMAP and IMAP usually use an app password or API token.\n\nREADME.md lines 68-68:\nSee [mailbox setup](docs/MAILBOXES.md) for provider instructions and limitations, including Microsoft 365 and Proton Mail Bridge."
+        "sha256": "8ecac26c9d17c8414d5b8478021a588697713c8671b8c096cb2595a368ba1278",
+        "evidence": "README.md lines 3-3:\nOmamail is a native email and calendar app with multiple accounts and keyboard navigation. It runs either as an Omarchy shell plugin or as a standalone Qt desktop application.\n\nREADME.md lines 57-62:\n- **Multiple mailboxes:** Gmail, Outlook, Microsoft 365, HEY, JMAP and IMAP/SMTP, including Fastmail, iCloud and self-hosted servers.\n- **Mail and calendar:** read, search, compose, manage attachments and respond to meeting invitations. Available actions depend on your provider.\n- **Keyboard navigation:** `j`/`k` to move, `r` to reply, `c` to compose, `/` to search and `?` for all shortcuts.\n- **AI assistance in Omarchy:** ask about selected messages and review suggested drafts with Claude, OpenCode V2 or Codex. Follow your Omarchy default, or select an agent and optional model in Settings. An unsupported system default disables the AI action with a setup explanation. Conversations retain follow-ups and draft proposals; `/clear`, `/history` and `/diagnose` manage the chat.\n- **Desktop integration:** native notifications and a compact layout for smaller windows; the Omarchy plugin also provides the bar widget and `mailto:` integration.\n- **Privacy controls:** credentials stored in the system keyring and remote images blocked until you choose to load them.\n\nREADME.md lines 68-68:\nChoose a provider in Settings. Released builds of Gmail sign in with an included Google OAuth client, and you can use your own instead; Outlook and Microsoft 365 need a Microsoft app registration. HEY uses the official [HEY CLI](https://github.com/basecamp/hey-cli). JMAP and IMAP usually use an app password or API token.\n\nREADME.md lines 70-70:\nSee [mailbox setup](docs/MAILBOXES.md) for provider instructions and limitations, including Microsoft 365 and Proton Mail Bridge."
       }
     },
     {
@@ -3635,14 +3635,14 @@
       ],
       "constraints": [],
       "reason": "Controls playback on paired KDE Connect devices rather than a player on this computer.",
-      "reviewedAt": "2026-10-30",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/jitendradara12/omaconnect/blob/71282d2042b1a1cda1cb1cac84251694eaabb7cb/README.md",
-        "revision": "71282d2042b1a1cda1cb1cac84251694eaabb7cb",
+        "url": "https://github.com/jitendradara12/omaconnect/blob/cd72bfd286b80dbebdaa160f7793097bb590fbfb/README.md",
+        "revision": "cd72bfd286b80dbebdaa160f7793097bb590fbfb",
         "path": "README.md",
-        "sha256": "5031f8ee94783a228e4d11e422173932ba1f010de32ef83a1a47620acf955fed",
-        "evidence": "README.md lines 15-23:\n- **Device status.** Battery level, charging state, cellular network type, signal strength, and reachability.\n- **Quick actions.** Ring phone, sync clipboard, send files, share text or links, and ping devices.\n- **SMS launcher.** Open `kdeconnect-sms` for paired devices.\n- **Media playback.** Track metadata, playback controls, and player switching.\n- **File picker.** Pick recent files with `omarchy-menu-select`.\n- **Remote commands.** Run custom commands configured on paired devices.\n- **Pairing.** Manage requests, verification keys, and unpairing.\n- **Network discovery.** Add Tailscale peers or custom LAN and VPN IP addresses.\n- **Bar widget.** Show connection and battery status directly in the Omarchy bar.\n\nREADME.md lines 27-27:\nConfigure OmaConnect in Omarchy bar widget settings.\n\nREADME.md lines 29-29:\n| Setting | Default | Description |\n\nREADME.md lines 31-34:\n| `showBatteryStats` | `true` | Battery percentage and charging state |\n| `showBarBattery` | `false` | Battery percentage next to the icon in the bar |\n| `showNetworkStats` | `true` | Cellular network type and signal strength |\n| `showTailscale` | `true` | Tailscale and custom IP discovery |"
+        "sha256": "68b022f775df8b51d4906cc7ea4e2e37f552fdf80fb70b82bdc8f9520ffe2b51",
+        "evidence": "README.md lines 27-35:\n- **Device status.** Battery level, charging state, cellular network type, signal strength, and reachability.\n- **Quick actions.** Ring phone, sync clipboard, send files, share text or links, and ping devices.\n- **SMS launcher.** Open `kdeconnect-sms` for paired devices.\n- **Media playback.** Track metadata, playback controls, and player switching.\n- **File picker.** Pick recent files with `omarchy-menu-select`.\n- **Remote commands.** Run custom commands configured on paired devices.\n- **Pairing.** Manage requests, verification keys, and unpairing.\n- **Network discovery.** Add Tailscale peers or custom LAN and VPN IP addresses.\n- **Bar widget.** Show connection and battery status directly in the Omarchy bar.\n\nREADME.md lines 39-39:\nConfigure OmaConnect in Omarchy bar widget settings.\n\nREADME.md lines 41-41:\n| Setting               | Default | Description                                    |\n\nREADME.md lines 43-46:\n| `showBatteryStats`    | `true`  | Battery percentage and charging state          |\n| `showBarBattery`      | `false` | Battery percentage next to the icon in the bar |\n| `showNetworkStats`    | `true`  | Cellular network type and signal strength      |\n| `showTailscale`       | `true`  | Tailscale and custom IP discovery              |"
       }
     },
     {
@@ -4614,7 +4614,7 @@
       "pluginId": "glasschan.oma-swiss",
       "typeId": "ocr",
       "contractVersion": 1,
-      "metadataHash": "1627e3a1c21e82050dc76d81d1d3c22a631f6fd814a4a956f6aa130bdaa96699",
+      "metadataHash": "b323581fd509b9e4ca7239998db79638d8e98fad0967c59cc9714021e5135c12",
       "decision": "qualified",
       "role": "substantial-secondary",
       "capabilities": [
@@ -4623,14 +4623,14 @@
       ],
       "constraints": [],
       "reason": "Invokes Omarchy screen-text capture to select content and copy extracted text.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/glasschan/oma-swiss/blob/830599cd4b7f15b456a1fd8336fa317f185f31ca/README.md",
-        "revision": "830599cd4b7f15b456a1fd8336fa317f185f31ca",
+        "url": "https://github.com/glasschan/oma-swiss/blob/50c73f2b5008ebce468b7315d2e53329c67c99ad/README.md",
+        "revision": "50c73f2b5008ebce468b7315d2e53329c67c99ad",
         "path": "README.md",
-        "sha256": "2bcd2b1ec670bccb2163002dc69fbc746a38897b368f829631c4ab7fe39fdec5",
-        "evidence": "README.md lines 52-56:\n- **Quick capture** — region / window / fullscreen screenshots, a color\n  picker, OCR (English + 中文), QR scan (decoded text lands in the\n  clipboard), and screen recording start/stop with or without your webcam,\n  one click each. Capture overlays need a clear screen, so the panel closes\n  as the tool fires.\n\nREADME.md lines 163-167:\nNone to install — everything ships with Omarchy v4: Hyprland 0.56+,\n`omarchy-capture-screenshot` (slurp), `omarchy-capture-text` (OCR),\n`omarchy-capture-qr` (zbar), `omarchy-capture-screenrecording` and\n`omarchy-capture-screenrecording-with-webcam` (gpu-screen-recorder), and\n`hyprpicker`."
+        "sha256": "8ab6a6bd7ab3a85de9071151675fdc864bcb359a2effbd03003a27077fcdf059",
+        "evidence": "README.md lines 60-64:\n- **Quick capture** — region / window / fullscreen screenshots, a color\n  picker, OCR (English + 中文), QR scan (decoded text lands in the\n  clipboard), and screen recording start/stop with or without your webcam,\n  one click each. Capture overlays need a clear screen, so the panel closes\n  as the tool fires.\n\nREADME.md lines 181-185:\nNone to install — everything ships with Omarchy v4: Hyprland 0.56+,\n`omarchy-capture-screenshot` (slurp), `omarchy-capture-text` (OCR),\n`omarchy-capture-qr` (zbar), `omarchy-capture-screenrecording` and\n`omarchy-capture-screenrecording-with-webcam` (gpu-screen-recorder), and\n`hyprpicker`."
       }
     },
     {
@@ -4777,13 +4777,13 @@
       ],
       "constraints": [],
       "reason": "Searches a Bitwarden vault and retrieves credentials through the Bitwarden CLI.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/Elevate08/qs-bitwarden-cli/blob/d0a95ebad981ccf5d1c0b214e79089ffd11ff291/README.md",
-        "revision": "d0a95ebad981ccf5d1c0b214e79089ffd11ff291",
+        "url": "https://github.com/Elevate08/qs-bitwarden-cli/blob/586807dc9d64e797d2eb78e401e468f1eed04790/README.md",
+        "revision": "586807dc9d64e797d2eb78e401e468f1eed04790",
         "path": "README.md",
-        "sha256": "05d268603313695966b7cc0f12f3b95999e7a55e3dca66b5d043ec69f384f6e2",
+        "sha256": "25cad42e30b7c996ea3ff4f1877872a6750464ca8f276483c6c5b4721ea1599c",
         "evidence": "README.md lines 3-4:\nYour Bitwarden vault in the **Omarchy** status bar. Search, copy, and manage\nevery item type without opening a browser.\n\nREADME.md lines 13-13:\nBuilt on Quickshell and the official Bitwarden CLI. Keyboard-first, fast, and\n\nREADME.md lines 47-49:\nEmail and password, with the 2FA prompt appearing only when Bitwarden asks for\none. **Server region** picks US, EU, or a custom URL for self-hosted Bitwarden\nand Vaultwarden.\n\nREADME.md lines 51-56:\nUsing SSO, a Duo push, or a hardware key? **Launch Terminal** runs `bw login` in\na real terminal so Bitwarden's own prompts handle it, then hands the session\nstraight back to the panel -- no second login just to get in. The same goes for\na two-step code with Bitwarden's standalone `bw` binary: the panel hands the code\nto `bw` through a Node preload, which the standalone build does not load, so it\nasks you to finish in the terminal rather than put the code on a command line."
       }
     },
@@ -5002,14 +5002,14 @@
       ],
       "constraints": [],
       "reason": "Pairs KDE Connect devices and exchanges files, clipboard content and supported phone actions.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/jitendradara12/omaconnect/blob/71282d2042b1a1cda1cb1cac84251694eaabb7cb/README.md",
-        "revision": "71282d2042b1a1cda1cb1cac84251694eaabb7cb",
+        "url": "https://github.com/jitendradara12/omaconnect/blob/cd72bfd286b80dbebdaa160f7793097bb590fbfb/README.md",
+        "revision": "cd72bfd286b80dbebdaa160f7793097bb590fbfb",
         "path": "README.md",
-        "sha256": "5031f8ee94783a228e4d11e422173932ba1f010de32ef83a1a47620acf955fed",
-        "evidence": "README.md lines 15-23:\n- **Device status.** Battery level, charging state, cellular network type, signal strength, and reachability.\n- **Quick actions.** Ring phone, sync clipboard, send files, share text or links, and ping devices.\n- **SMS launcher.** Open `kdeconnect-sms` for paired devices.\n- **Media playback.** Track metadata, playback controls, and player switching.\n- **File picker.** Pick recent files with `omarchy-menu-select`.\n- **Remote commands.** Run custom commands configured on paired devices.\n- **Pairing.** Manage requests, verification keys, and unpairing.\n- **Network discovery.** Add Tailscale peers or custom LAN and VPN IP addresses.\n- **Bar widget.** Show connection and battery status directly in the Omarchy bar.\n\nREADME.md lines 27-27:\nConfigure OmaConnect in Omarchy bar widget settings.\n\nREADME.md lines 29-29:\n| Setting | Default | Description |\n\nREADME.md lines 31-34:\n| `showBatteryStats` | `true` | Battery percentage and charging state |\n| `showBarBattery` | `false` | Battery percentage next to the icon in the bar |\n| `showNetworkStats` | `true` | Cellular network type and signal strength |\n| `showTailscale` | `true` | Tailscale and custom IP discovery |"
+        "sha256": "68b022f775df8b51d4906cc7ea4e2e37f552fdf80fb70b82bdc8f9520ffe2b51",
+        "evidence": "README.md lines 27-35:\n- **Device status.** Battery level, charging state, cellular network type, signal strength, and reachability.\n- **Quick actions.** Ring phone, sync clipboard, send files, share text or links, and ping devices.\n- **SMS launcher.** Open `kdeconnect-sms` for paired devices.\n- **Media playback.** Track metadata, playback controls, and player switching.\n- **File picker.** Pick recent files with `omarchy-menu-select`.\n- **Remote commands.** Run custom commands configured on paired devices.\n- **Pairing.** Manage requests, verification keys, and unpairing.\n- **Network discovery.** Add Tailscale peers or custom LAN and VPN IP addresses.\n- **Bar widget.** Show connection and battery status directly in the Omarchy bar.\n\nREADME.md lines 39-39:\nConfigure OmaConnect in Omarchy bar widget settings.\n\nREADME.md lines 41-41:\n| Setting               | Default | Description                                    |\n\nREADME.md lines 43-46:\n| `showBatteryStats`    | `true`  | Battery percentage and charging state          |\n| `showBarBattery`      | `false` | Battery percentage next to the icon in the bar |\n| `showNetworkStats`    | `true`  | Cellular network type and signal strength      |\n| `showTailscale`       | `true`  | Tailscale and custom IP discovery              |"
       }
     },
     {
@@ -5308,13 +5308,13 @@
       ],
       "constraints": [],
       "reason": "Browses internet radio stations on a globe or through search and plays a selected stream in mpv.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/AksharP5/omarchy-radio-atlas/blob/cb604f717c4c3de673993e0b746c50609b701511/README.md",
-        "revision": "cb604f717c4c3de673993e0b746c50609b701511",
+        "url": "https://github.com/AksharP5/omarchy-radio-atlas/blob/d90f25928c52b18223873526bd6e6ed15769099d/README.md",
+        "revision": "d90f25928c52b18223873526bd6e6ed15769099d",
         "path": "README.md",
-        "sha256": "02846ecd182487f2ae62d4092ff0f53405b08e6c85c06f04775402977647888d",
+        "sha256": "22c7f3c1833073b9409c91fd380d857230671d62861ffacd9845af1b9a4fc8a5",
         "evidence": "README.md lines 7-10:\nExplore live radio on a rotatable globe from the Omarchy bar. Click a station\nsignal to play it, or click a country to browse its stations. Playback runs in\n`mpv`, with a dedicated MPRIS bridge so `omarchy.media` provides the usual play,\npause, previous, and next controls.\n\nREADME.md lines 18-34:\n- Kinetic drag rotation that highlights a nearby station when it settles, plus deep wheel and button zoom on a theme-aware globe\n- A fast cached world view that progressively adds thousands of stations and keeps the session catalog when closed\n- Country stations stay on the session globe and take priority over background signals\n- Country-level map estimates when a station has no published coordinates\n- Automatic country focus for the station that is actually playing\n- Current station identity, track metadata, and one-click favoriting in the player\n- Cached station logos in the player and desktop media controls, plus click-to-copy track text\n- Instant cached results while full-directory search and country browsing refresh from Radio Browser\n- Random tuning that avoids recent stations, plus favorites and listening history\n- Independent volume slider, mute, and bar-wheel volume control\n- Audio output picker that routes radio to any PipeWire sink, including AirPlay speakers exposed as RAOP sinks\n- Centered, floating window with normal Omarchy window-manager behavior\n- Window size fits the focused display when opened, including scaled and rotated outputs\n- Automatic dismissal when Omarchy starts its screensaver\n- Keyboard navigation\n- Persistent world and country caches with background refresh and transient retries\n- Keeps your chosen station selected if its stream fails, with explicit retry or next controls"
       }
     },
@@ -5455,7 +5455,7 @@
       "pluginId": "glasschan.oma-swiss",
       "typeId": "screen-recording",
       "contractVersion": 1,
-      "metadataHash": "1627e3a1c21e82050dc76d81d1d3c22a631f6fd814a4a956f6aa130bdaa96699",
+      "metadataHash": "b323581fd509b9e4ca7239998db79638d8e98fad0967c59cc9714021e5135c12",
       "decision": "qualified",
       "role": "substantial-secondary",
       "capabilities": [
@@ -5465,14 +5465,14 @@
       ],
       "constraints": [],
       "reason": "Starts and stops Omarchy screen recordings, including an optional webcam mode.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/glasschan/oma-swiss/blob/830599cd4b7f15b456a1fd8336fa317f185f31ca/README.md",
-        "revision": "830599cd4b7f15b456a1fd8336fa317f185f31ca",
+        "url": "https://github.com/glasschan/oma-swiss/blob/50c73f2b5008ebce468b7315d2e53329c67c99ad/README.md",
+        "revision": "50c73f2b5008ebce468b7315d2e53329c67c99ad",
         "path": "README.md",
-        "sha256": "2bcd2b1ec670bccb2163002dc69fbc746a38897b368f829631c4ab7fe39fdec5",
-        "evidence": "README.md lines 52-56:\n- **Quick capture** — region / window / fullscreen screenshots, a color\n  picker, OCR (English + 中文), QR scan (decoded text lands in the\n  clipboard), and screen recording start/stop with or without your webcam,\n  one click each. Capture overlays need a clear screen, so the panel closes\n  as the tool fires.\n\nREADME.md lines 163-167:\nNone to install — everything ships with Omarchy v4: Hyprland 0.56+,\n`omarchy-capture-screenshot` (slurp), `omarchy-capture-text` (OCR),\n`omarchy-capture-qr` (zbar), `omarchy-capture-screenrecording` and\n`omarchy-capture-screenrecording-with-webcam` (gpu-screen-recorder), and\n`hyprpicker`."
+        "sha256": "8ab6a6bd7ab3a85de9071151675fdc864bcb359a2effbd03003a27077fcdf059",
+        "evidence": "README.md lines 60-64:\n- **Quick capture** — region / window / fullscreen screenshots, a color\n  picker, OCR (English + 中文), QR scan (decoded text lands in the\n  clipboard), and screen recording start/stop with or without your webcam,\n  one click each. Capture overlays need a clear screen, so the panel closes\n  as the tool fires.\n\nREADME.md lines 181-185:\nNone to install — everything ships with Omarchy v4: Hyprland 0.56+,\n`omarchy-capture-screenshot` (slurp), `omarchy-capture-text` (OCR),\n`omarchy-capture-qr` (zbar), `omarchy-capture-screenrecording` and\n`omarchy-capture-screenrecording-with-webcam` (gpu-screen-recorder), and\n`hyprpicker`."
       }
     },
     {
@@ -5673,7 +5673,7 @@
       "pluginId": "rimuru.screentime",
       "typeId": "screen-time",
       "contractVersion": 1,
-      "metadataHash": "349087144a3c11f0de45f659b6df599d43e310c3f511db488377392555b4d276",
+      "metadataHash": "1ab6204b6b32042cc84c49da61f7688a3c02bc3a64b235e47f9a76f352cacaf7",
       "decision": "qualified",
       "role": "core",
       "capabilities": [
@@ -5681,13 +5681,13 @@
       ],
       "constraints": [],
       "reason": "Tracks local application screen time and displays daily and historical usage.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/nabdalla-prog/Rimuru-screentime/blob/47493cd81f7bb30cef9502ae91c4d3110a29a4c2/README.md",
-        "revision": "47493cd81f7bb30cef9502ae91c4d3110a29a4c2",
+        "url": "https://github.com/nabdalla-prog/Rimuru-screentime/blob/8d28c26393e999e090c66e995636fe89caa2560b/README.md",
+        "revision": "8d28c26393e999e090c66e995636fe89caa2560b",
         "path": "README.md",
-        "sha256": "3e56b9ea682b57aae8e65cb0c3e8912d66f6d62c2cbe97ec1ddd055a1083a030",
+        "sha256": "cee271bd6d4f348f21b55581ca893c7785b1ae30e712e42045925e41ee962994",
         "evidence": "README.md lines 3-3:\nDaily screen time per app, in your Omarchy bar. Click the widget for a popup with a donut chart of the day's apps, a week-by-week trend you can page back through, a few insights, a yearly overview with month-by-month bars and highlights, a settings menu, and an optional faint background picture.\n\nREADME.md lines 5-5:\nFully local: it reads which window is focused, adds up the time, and saves it to a file on your machine. It makes no network requests."
       }
     },
@@ -5767,11 +5767,11 @@
       ],
       "constraints": [],
       "reason": "Provides an Apple Aerial video screensaver within a broader desktop-transformation suite.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/MISTERNEGATIVE21/omarchy-undercover/blob/dce776e8a6714695a07d0e4c8be03c32587807b6/README.md",
-        "revision": "dce776e8a6714695a07d0e4c8be03c32587807b6",
+        "url": "https://github.com/MISTERNEGATIVE21/omarchy-undercover/blob/9bf7b4ac0f3ffbc5a26f6b6e8eec0d00e15e7ebe/README.md",
+        "revision": "9bf7b4ac0f3ffbc5a26f6b6e8eec0d00e15e7ebe",
         "path": "README.md",
         "sha256": "5ee97357b76921d79927c3f63f080e5d6e475a9cfe57829087b8ed40200c63e3",
         "evidence": "README.md lines 56-57:\n| `scripts/omarchy-mac-screensaver` | Apple Aerial screensaver controller and 1-click CDN video downloader |\n| `MacScreensaverOverlay.qml` | Fullscreen Wayland overlay playing looping Apple Aerial drone footage |\n\nREADME.md lines 185-185:\nomarchy-mac-screensaver --preview"
@@ -5826,7 +5826,7 @@
       "pluginId": "glasschan.oma-swiss",
       "typeId": "screenshots",
       "contractVersion": 1,
-      "metadataHash": "1627e3a1c21e82050dc76d81d1d3c22a631f6fd814a4a956f6aa130bdaa96699",
+      "metadataHash": "b323581fd509b9e4ca7239998db79638d8e98fad0967c59cc9714021e5135c12",
       "decision": "qualified",
       "role": "substantial-secondary",
       "capabilities": [
@@ -5835,14 +5835,14 @@
       ],
       "constraints": [],
       "reason": "Invokes Omarchy screenshot tools for region, window or fullscreen captures.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/glasschan/oma-swiss/blob/830599cd4b7f15b456a1fd8336fa317f185f31ca/README.md",
-        "revision": "830599cd4b7f15b456a1fd8336fa317f185f31ca",
+        "url": "https://github.com/glasschan/oma-swiss/blob/50c73f2b5008ebce468b7315d2e53329c67c99ad/README.md",
+        "revision": "50c73f2b5008ebce468b7315d2e53329c67c99ad",
         "path": "README.md",
-        "sha256": "2bcd2b1ec670bccb2163002dc69fbc746a38897b368f829631c4ab7fe39fdec5",
-        "evidence": "README.md lines 52-56:\n- **Quick capture** — region / window / fullscreen screenshots, a color\n  picker, OCR (English + 中文), QR scan (decoded text lands in the\n  clipboard), and screen recording start/stop with or without your webcam,\n  one click each. Capture overlays need a clear screen, so the panel closes\n  as the tool fires.\n\nREADME.md lines 163-167:\nNone to install — everything ships with Omarchy v4: Hyprland 0.56+,\n`omarchy-capture-screenshot` (slurp), `omarchy-capture-text` (OCR),\n`omarchy-capture-qr` (zbar), `omarchy-capture-screenrecording` and\n`omarchy-capture-screenrecording-with-webcam` (gpu-screen-recorder), and\n`hyprpicker`."
+        "sha256": "8ab6a6bd7ab3a85de9071151675fdc864bcb359a2effbd03003a27077fcdf059",
+        "evidence": "README.md lines 60-64:\n- **Quick capture** — region / window / fullscreen screenshots, a color\n  picker, OCR (English + 中文), QR scan (decoded text lands in the\n  clipboard), and screen recording start/stop with or without your webcam,\n  one click each. Capture overlays need a clear screen, so the panel closes\n  as the tool fires.\n\nREADME.md lines 181-185:\nNone to install — everything ships with Omarchy v4: Hyprland 0.56+,\n`omarchy-capture-screenshot` (slurp), `omarchy-capture-text` (OCR),\n`omarchy-capture-qr` (zbar), `omarchy-capture-screenrecording` and\n`omarchy-capture-screenrecording-with-webcam` (gpu-screen-recorder), and\n`hyprpicker`."
       }
     },
     {
@@ -5990,14 +5990,14 @@
       ],
       "constraints": [],
       "reason": "Reads active keybindings and displays a modifier-aware guide while Super is held.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/huacnlee/omarchy-which-key/blob/fba0cdb472c90eb5a4e8bb5113030d087024a805/README.md",
-        "revision": "fba0cdb472c90eb5a4e8bb5113030d087024a805",
+        "url": "https://github.com/huacnlee/omarchy-which-key/blob/a80451064fb1f354cb86ecad0a3d610218e75bd5/README.md",
+        "revision": "a80451064fb1f354cb86ecad0a3d610218e75bd5",
         "path": "README.md",
-        "sha256": "46ee7bf350e6274c4a539e095f2e8bfc969b2ca5e2d59417236ec504e6e1c50c",
-        "evidence": "README.md lines 3-5:\nOmarchy Which Key brings LazyVim's which-key experience to the desktop. It\nautomatically reads the active Omarchy and Hyprland keybindings and shows a\ncompact guide at the bottom right of the focused display when you hold Super.\n\nREADME.md lines 26-32:\nThe plugin reads Hyprland's active keyboard model, layout, variant, and XKB\noptions, so remaps such as `altwin:swap_alt_win` still trigger the logical Super\nmodifier. It observes modifier state without registering a new shortcut. The\noverlay then runs `hyprctl binds` each time Super is held and\nfilters those live results for the active modifier combination. It contains no built-in shortcut\ninformation, so reloaded system changes appear on next use.\nThe full-screen layer has an empty input region and requests no keyboard focus.\n\nREADME.md lines 36-38:\nPress and hold **Super** — the **Command (⌘)** key on an Apple keyboard or the\n**Windows (⊞)** key on a PC keyboard — to show the shortcut guide. Keep holding\nSuper and add Shift, Ctrl, or Alt to see shortcuts for that exact key"
+        "sha256": "c6eee07902577393d891cdde531dda038be4f2b1c0c712889cea66ec96eb4c7a",
+        "evidence": "README.md lines 3-5:\nOmarchy Which Key brings LazyVim's which-key experience to the desktop. It\nautomatically reads the active Omarchy and Hyprland keybindings and shows a\ncompact guide at the bottom right of the focused display when you hold Super.\n\nREADME.md lines 28-34:\nThe plugin reads Hyprland's active keyboard model, layout, variant, and XKB\noptions, so remaps such as `altwin:swap_alt_win` still trigger the logical Super\nmodifier. It observes modifier state without registering a new shortcut. The\noverlay then runs `hyprctl binds` each time Super is held and\nfilters those live results for the active modifier combination. It contains no built-in shortcut\ninformation, so reloaded system changes appear on next use.\nThe full-screen layer has an empty input region and requests no keyboard focus.\n\nREADME.md lines 38-40:\nPress and hold **Super** — the **Command (⌘)** key on an Apple keyboard or the\n**Windows (⊞)** key on a PC keyboard — to show the shortcut guide. Keep holding\nSuper and add Shift, Ctrl, or Alt to see shortcuts for that exact key"
       }
     },
     {
@@ -6432,11 +6432,11 @@
         "The Arch update button bypasses Omarchy’s managed update pipeline; use the Omarchy button for that flow."
       ],
       "reason": "Shows available updates from configured Arch, AUR, Flatpak, Omarchy, plugin and mise sources.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/JJDizz1L/dizziee.system-updates/blob/d5c72f8462411fe43b3b9ea196eaef1901b83b9f/README.md",
-        "revision": "d5c72f8462411fe43b3b9ea196eaef1901b83b9f",
+        "url": "https://github.com/JJDizz1L/dizziee.system-updates/blob/5bdd67ac3be06035dbc8ba20440a5a476156d4f2/README.md",
+        "revision": "5bdd67ac3be06035dbc8ba20440a5a476156d4f2",
         "path": "README.md",
         "sha256": "591f7cd87400e4424a611d4a38616633e49da895aa409ea3c70ad9dfbf40d19c",
         "evidence": "README.md lines 3-3:\nSystem update indicator for the Omarchy bar. Shows available updates from pacman, AUR, Flatpak, Omarchy, Omarchy shell plugins, and mise, with per-repo update buttons.\n\nREADME.md lines 7-11:\n- `checkupdates` (from `pacman-contrib`)\n- AUR helper (`yay`, `paru`, etc.) — optional, AUR detection is automatic\n- `flatpak` — optional\n- `mise` — optional, ships with Omarchy\n- `git` — optional, for the Plugins row (git-managed shell plugins)"
@@ -6560,13 +6560,13 @@
       ],
       "constraints": [],
       "reason": "Creates, browses, edits and completes personal Todoist tasks.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/crmne/omatasks/blob/88fe1ba68ea4e77675759ee4f65ad2695cd2530f/README.md",
-        "revision": "88fe1ba68ea4e77675759ee4f65ad2695cd2530f",
+        "url": "https://github.com/crmne/omatasks/blob/afbe92416b331d48f4013f195cb6c626ccc7615c/README.md",
+        "revision": "afbe92416b331d48f4013f195cb6c626ccc7615c",
         "path": "README.md",
-        "sha256": "49301fcededd5f2436c5dae903dd378d17be6c83479e6515c7e255760447f7c4",
+        "sha256": "b065e39f5700d6fb2c7d0860883396ed7253e1d6c083d4f19c2445cdbcf6131b",
         "evidence": "README.md lines 3-3:\nYour Todoist day in the Omarchy bar, with a native Quick Add a shortcut away.\n\nREADME.md lines 7-7:\n**Today · Inbox · Upcoming · Quick Add · Edit · Multi-select · Drag to reorder · Notifications**\n\nREADME.md lines 9-11:\nA compact list that puts your tasks first. Open the bar panel to plan your day,\ncomplete a task, or change its details. Press **Alt+Space** to capture something\nnew with projects, labels, dates, priorities, and reminders.\n\nREADME.md lines 13-14:\nEverything follows your Omarchy theme. Adjust the panel size, grouping, sorting,\nand filters from inside the panel. Tasks sync directly with Todoist's API.\n\nREADME.md lines 24-25:\n- Omarchy Quattro with its Quickshell shell and Hyprland.\n- A Todoist account and its personal API token.\n\nREADME.md lines 27-32:\nNo extra packages or Todoist CLI are required. Requests to Todoist are made by\nthe system Python's standard library (`Fetch.py`); Hyprland manages the\nshortcut, standard shell utilities save your local settings, `wl-paste`\n(wl-clipboard, included in Omarchy) reads the clipboard when you paste, and the\nsystem Python with `python-gobject`, also included in Omarchy, sends\nnotifications. Node.js is only used for development tests."
       }
     },
@@ -6934,13 +6934,13 @@
       ],
       "constraints": [],
       "reason": "Shows Proton VPN tunnel status and provides connection and server-selection controls.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/grichard99/omaproton-vpn/blob/7db0d72234d38bcc727c261e720c1429e4d81f6e/README.md",
-        "revision": "7db0d72234d38bcc727c261e720c1429e4d81f6e",
+        "url": "https://github.com/grichard99/omaproton-vpn/blob/469dd8094036389d90e328efa79b96bc2c0b7a92/README.md",
+        "revision": "469dd8094036389d90e328efa79b96bc2c0b7a92",
         "path": "README.md",
-        "sha256": "ddb120a97aa31bf0a70444499d89cb96e362f22a6b992ec5a1b788f4d8387046",
+        "sha256": "33a65d5e62c7d6ed8b66f593fa7ab1c66b9b88ff414e7daa3c5940cbd3581272",
         "evidence": "README.md lines 45-54:\n- **It stays out of the terminal.** Install, sign in, Kill Switch, connect,\n  pick a city on a map: every step is a click in the panel. The only terminals\n  you'll see are Omarchy's own floating ones, the package install's password\n  prompt, and Proton's sign-in prompt, and both close themselves.\n- **A map, without a map service.** Every Proton city on a world outline, the\n  connected one lit and pulsing, hover for load, click to go, all from files\n  already on disk. No tiles, no geocoding, no requests.\n- **Fast enough to live in a bar.** Tunnel state comes from NetworkManager in\n  about ten milliseconds, so the icon reacts in seconds; the Python CLI is only\n  asked for the detail rows.\n\nREADME.md lines 56-58:\nIt drives the official `protonvpn` CLI. No API keys, no tokens, and no\ncredentials are stored by this plugin, your password and 2FA code go straight\ninto the CLI's own prompt, and Proton's client owns the session from there."
       }
     },
@@ -7266,14 +7266,14 @@
       ],
       "constraints": [],
       "reason": "Shows a searchable overview of windows and activates a selected window.",
-      "reviewedAt": "2026-10-30",
+      "reviewedAt": "2026-11-09",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/kristofferR/omarchy-expose/blob/f283002259f5aba75da17b3f5dd4081bddc257f5/README.md",
-        "revision": "f283002259f5aba75da17b3f5dd4081bddc257f5",
+        "url": "https://github.com/kristofferR/omarchy-expose/blob/2c63aeab7f7b43f2b7acb293f9438c15ba28992e/README.md",
+        "revision": "2c63aeab7f7b43f2b7acb293f9438c15ba28992e",
         "path": "README.md",
-        "sha256": "0f37e6aff9d06610f00ef27b9a88ffc11ccbf56c3b7be3bf511403a9c65e8615",
-        "evidence": "README.md lines 3-3:\nmacOS-style Exposé for Omarchy: one key or a hot corner shows every open window as a live preview. Type to search, press Space to Quick Look, press Enter to launch.\n\nREADME.md lines 9-14:\n- **Live previews.** Cards are real screencopy views, so videos keep playing and terminals keep scrolling. The Omarchy desktop behind the grid stays live too.\n- **Quick Look.** Space enlarges any preview and restores it again. Shift+Space does it in slow motion, like the classic macOS Easter egg.\n- **Search.** Just start typing to filter windows by title or application.\n- **Workspace scope.** Press Tab to switch between every window and windows on the current workspace, and pick which of the two the overview opens with. Per-monitor mode evaluates the current workspace of the selected display.\n- **Multi-monitor layouts.** Every display blurs and dims, with one grid on the focused display (or the display whose hot corner was used). All displays shows every window there; This display keeps that display's own windows.\n- **Built for Omarchy.** Runs inside Omarchy Shell, follows the active theme, and adds no packages, services, or daemons."
+        "sha256": "9dbac8e1d947f5147d2803185392c2af2a4640079ecb13932e529dc855fd0997",
+        "evidence": "README.md lines 3-3:\nmacOS-style Exposé for Omarchy: one key or a hot corner shows every open window as a live preview. Type to search, press Space to Quick Look, press Enter to launch.\n\nREADME.md lines 11-11:\n- **Search.** Just start typing to filter windows by title or application.\n\nREADME.md lines 89-89:\n| Enter | Activate the selected window |\n\nREADME.md lines 92-92:\nClicking a card activates it; middle-clicking closes it, as does its ✕ button when that setting is on. With the workspace strip on, dragging a card onto a workspace thumbnail, or onto **+** for a new workspace, moves the window there and keeps Exposé open; Escape or dropping anywhere else cancels. Activation moves the pointer to the chosen window by default; this is a setting, not a change to Hyprland's global cursor behavior."
       }
     },
     {

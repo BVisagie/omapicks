@@ -33,6 +33,20 @@ Other boundaries are expressed by their contracts and fixtures. Hosting another 
 
 Read the latest Monday `recommendation-evidence` artifact or Tuesday/Thursday `review-evidence` artifact. Former picks with changed evidence and possible podium challengers receive priority, including single-category plugins. Former-pick priority survives replacement snapshots and later metadata edits until that assignment leaves the unresolved queue. Research cohorts exclude known related/rejected assignments, so tools that cannot compete cannot consume prospective podium positions. Scores prioritize research only. The committed `data/task-review-queue.json` preserves first/last seen dates and queue-departure counts (departures are not necessarily completed editorial reviews); reports show the original queue date and retained priority. Complete lexical evidence is in the artifact.
 
+### Re-check a changed pick
+
+A qualified review is tied to one commit. When any non-documentation file or cited document changes upstream, the assignment becomes `stale-source` and stops competing until it is re-checked. Every Review evidence run writes `recheck/proposal.md` and `proposal.json` to its artifact for up to 30 queued assignments that were recent picks or podium entrants. For each plugin they list the commit range, the changed files, manifest keys that changed besides `version`, and whether every cited passage still appears word for word at the new commit.
+
+"Passages unchanged" is not a review. Read the changes and confirm that the task still completes and the requirements still hold. Then re-pin the plugins you checked:
+
+```sh
+npm run review:recheck -- --input tmp/review-evidence/inputs.json --queue tmp/review-evidence/review-queue.json
+npm run review:recheck -- --apply tmp/review-recheck/proposal.json --accept <pluginId>,<pluginId> --reviewed-at YYYY-MM-DD
+node scripts/capture-review-evidence.mjs
+```
+
+`--apply` moves a plugin's task reviews and shared requirements to the new commit together and keeps their decisions, capabilities and constraints. It refuses a plugin whose cited passages changed: write a new review for it with new passages, as below. Leave out any plugin you did not read, so it stays queued.
+
 For each assignment, inspect the captured listing, contract, upstream documentation and plausible counterexamples. Record separately whether the source supports the capability and whether that capability completes the category's outcome on the stated target. Check the full qualified cohort, not only the current leading pair. Do not relax a task definition to retain an incumbent or fill a second card. Record provider, hardware, setup and scope requirements. Use immutable repository passages for every recommendation. Catalog evidence can support research triage, related scope or rejection but cannot qualify a source-reviewed recommendation. Do not claim an installation test unless one was performed.
 
 Create an explicit JSON decision array:
