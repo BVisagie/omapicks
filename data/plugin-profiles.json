@@ -3086,7 +3086,7 @@
       "repository": "https://github.com/mtolhuys/fathom",
       "requirementsStatus": "reviewed",
       "requirements": [
-        "Requires Omarchy 4 with Quickshell 0.3 and Qt 6.9, and Hyprland 0.56 configured in Lua. Alt+Tab opens Fathom only after you add its block to bindings.lua."
+        "Requires Omarchy 4 with Quickshell 0.3 and Qt 6.9, and Hyprland 0.56. Alt+Tab opens Fathom only after you add its block to bindings.lua, or, with hyprland.conf, bind its global shortcuts yourself."
       ],
       "reviewedAt": "2026-11-09",
       "sources": [
