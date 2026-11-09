@@ -47,6 +47,10 @@ jobs:
           else
             node scripts/review-evidence.mjs --without-discovery
           fi
+      - name: Prepare re-checks for changed picks
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/recheck-reviews.mjs --input tmp/review-evidence/inputs.json --queue tmp/review-evidence/review-queue.json --output tmp/review-evidence/recheck
       - name: Test and render the proposed snapshot
         working-directory: tmp/review-evidence/site
         run: npm run check
@@ -62,6 +66,7 @@ jobs:
             tmp/classification-audit/
             tmp/review-evidence/*.json
             tmp/review-evidence/*.md
+            tmp/review-evidence/recheck/
             tmp/review-evidence/site/test-results/
             tmp/category-discovery/
           if-no-files-found: ignore

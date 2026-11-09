@@ -22,6 +22,7 @@
     "compare:methodology": "node scripts/compare-methodologies.mjs",
     "compare:task-fit": "node scripts/compare-task-fit.mjs",
     "review:tasks": "node scripts/task-review.mjs",
+    "review:recheck": "node scripts/recheck-reviews.mjs",
     "availability": "node build/availability.mjs",
     "review:evidence": "node scripts/review-evidence.mjs",
     "lint:workflows": "bash scripts/lint-workflows.sh"
