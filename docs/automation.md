@@ -10,6 +10,8 @@ Five workflows cover validation, recommendation publication, current availabilit
 | Review evidence | Tuesday 06:43; Thursday 06:17; manual | Captures feeds and source evidence, prioritizes unresolved reviews, and validates proposed pages. Tuesday also runs category discovery; manual runs choose whether to include it. |
 | Site report | Manual only | Builds the private traffic, search and site report and uploads it encrypted. Nothing readable is published. |
 
+The weekly refresh log flags a falling shortlist: when runners-up drop by more than 3 or qualified assignments by more than 10% from the published snapshot, it prints a coverage warning, which Actions shows as an annotation. It reports counts only, and publication continues.
+
 The evidence review cannot approve tasks, publish categories, create issues or push commits. Its ranking and discovery reports share the same captured catalog, engagement, taxonomy, reviews, profiles and repository observations. Optional explorer data is fetched once for discovery. The staged candidate includes the proposed rankings and current availability; tests, rendering and browser checks run against that copied site, leaving published data untouched.
 
 ## Publication boundary

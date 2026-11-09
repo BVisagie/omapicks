@@ -23,7 +23,7 @@ export function auditClassifications({ catalog, taxonomy, taskReviews = { schema
   const prepared = prepareTaxonomy(taxonomy);
   const reviewed = methodology.eligibility.reviewedTaskEvidence === true;
   if (reviewed && baselineTaxonomy) throw new Error("Task qualification migrations require captured baseline decisions and methodology; use compare:task-fit with the baseline inputs.json");
-  const reviews = reviewed ? prepareTaskReviews(taskReviews, prepared.types, { methodology, pluginProfiles, evidenceObservations, now }) : null;
+  const reviews = reviewed ? prepareTaskReviews(taskReviews, prepared.types, { methodology, pluginProfiles, evidenceObservations, now, previous }) : null;
   const baseline = baselineTaxonomy ? prepareTaxonomy(baselineTaxonomy) : null;
   const prior = new Map((previousState?.plugins ?? []).map((p) => [p.id, p]));
   const records = [...catalog].sort(compare).map((plugin) => {

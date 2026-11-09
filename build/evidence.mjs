@@ -40,6 +40,62 @@ export function observationCurrent(observation, plugin, sources, now, maxAgeDays
     Number.isFinite(age) && age >= 0 && age <= maxAgeDays * 86400000;
 }
 
+// Every cited "<path> lines a-b:\n<text>" passage still appears, word for word and
+// anywhere in the file. Line numbers may move; the text may not.
+export function passagesPresent(evidence, body) {
+  const lines = body.split(/\r?\n/);
+  return evidence.split(/\n\n(?=[^\n]+ lines \d+-\d+:\n)/).every((passage) => {
+    const match = /^[^\n]+ lines \d+-\d+:\n([\s\S]+)$/.exec(passage);
+    if (!match) return false;
+    const wanted = match[1].split("\n");
+    for (let start = 0; start + wanted.length <= lines.length; start++) {
+      if (wanted.every((line, offset) => lines[start + offset] === line)) return true;
+    }
+    return false;
+  });
+}
+
+// Methodology 1.5.0: a changed repository can keep a previous pick in place while the
+// re-check is pending. Everything observationCurrent requires still holds except the
+// matching fingerprints; instead, the cited passages must survive at the new commit and
+// the listed manifest keys must be unchanged.
+export function observationGraceable(observation, plugin, sources, now, maxAgeDays = 8) {
+  const checked = Date.parse(observation?.checkedAt);
+  const age = now.getTime() - checked;
+  return observation?.status === "changed" && repositoryKey(observation.repository) === repositoryKey(plugin.repo) &&
+    SHA.test(plugin.upstreamObservedCommit ?? "") && observation.currentRevision === plugin.upstreamObservedCommit &&
+    sources.every((s) => s.revision === observation.reviewRevision && observation.evidencePaths?.includes(s.path)) &&
+    observation.recheck?.status === "checked" && observation.recheck.passagesPresent === true &&
+    Array.isArray(observation.recheck.manifestChanges) && observation.recheck.manifestChanges.length === 0 &&
+    Number.isFinite(age) && age >= 0 && age <= maxAgeDays * 86400000;
+}
+
+async function rawText(repository, revision, file, fetchImpl) {
+  const parts = new URL(repository).pathname.replace(/\.git$/, "").split("/").filter(Boolean);
+  const url = `https://raw.githubusercontent.com/${parts.map(encodeURIComponent).join("/")}/${revision}/${file.split("/").map(encodeURIComponent).join("/")}`;
+  const response = await fetchImpl(url, { headers: { "user-agent": "OmaPicks-evidence" }, signal: AbortSignal.timeout(20000), redirect: "error" });
+  if (response.status === 404) return null;
+  if (!response.ok) throw new Error(`Source text fetch failed (HTTP ${response.status})`);
+  const text = await response.text();
+  if (text.length > 2 * 1024 * 1024) throw new Error("Source text exceeds 2 MiB budget");
+  return text;
+}
+
+// What a re-check needs to know about a changed repository, recorded with the observation
+// so replays never fetch. A failure is recorded too and simply grants no grace.
+async function recheckEvidence(plugin, sources, from, to, manifestKeys, fetchImpl) {
+  try {
+    const bodies = new Map();
+    for (const file of [...new Set(sources.map((s) => s.path))]) bodies.set(file, await rawText(plugin.repo, to, file, fetchImpl));
+    const present = sources.every((s) => bodies.get(s.path) != null && passagesPresent(s.evidence, bodies.get(s.path)));
+    const [before, after] = await Promise.all([rawText(plugin.repo, from, "manifest.json", fetchImpl), rawText(plugin.repo, to, "manifest.json", fetchImpl)]);
+    const parse = (text) => (text == null ? null : JSON.parse(text));
+    const [a, b] = [parse(before), parse(after)];
+    const manifestChanges = a == null || b == null ? ["manifest.json"] : manifestKeys.filter((key) => JSON.stringify(a[key]) !== JSON.stringify(b[key]));
+    return { status: "checked", passagesPresent: present, manifestChanges };
+  } catch (error) { return { status: "unavailable", reason: error.message }; }
+}
+
 // All non-documentation/non-media files participate, including manifests, lockfiles,
 // scripts and newly added source files. Cited documentation always participates.
 // This intentionally makes no semantic or runtime compatibility claim.
@@ -78,7 +134,9 @@ async function githubTree(repository, revision, fetchImpl, token) {
 
 // Read-only repository observation. Every result, including failure, travels with
 // replay inputs. Only the final weekly publication persists a ranking decision.
-export async function captureEvidence({ catalog, taskReviews, pluginProfiles, taxonomy = null, now = new Date(), fetchImpl = fetch, token = process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN, concurrency = 6 }) {
+// `recheck` (methodology 1.5.0's recheckGrace) adds passage and manifest evidence for
+// changed repositories; without it the observation is exactly as before.
+export async function captureEvidence({ catalog, taskReviews, pluginProfiles, taxonomy = null, now = new Date(), fetchImpl = fetch, token = process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN, concurrency = 6, recheck = null }) {
   validateProfiles(pluginProfiles);
   const byId = new Map(catalog.map((p) => [p.id, p]));
   const groups = new Map();
@@ -114,6 +172,7 @@ export async function captureEvidence({ catalog, taskReviews, pluginProfiles, ta
         const baselineFingerprint = relevantTreeFingerprint(before, base.evidencePaths);
         const currentFingerprint = relevantTreeFingerprint(after, base.evidencePaths);
         plugins[id] = { ...base, baselineFingerprint, currentFingerprint, status: baselineFingerprint === currentFingerprint ? "current" : "changed" };
+        if (recheck && plugins[id].status === "changed") plugins[id].recheck = await recheckEvidence(plugin, sources, base.reviewRevision, base.currentRevision, recheck.manifestKeys, fetchImpl);
         completed += 1;
       } catch (error) { plugins[id] = { ...base, status: "unavailable", reason: error.message }; }
     }

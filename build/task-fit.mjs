@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { observationCurrent, pinnedSource, repositoryKey, reviewSources, validateProfiles } from "./evidence.mjs";
+import { observationCurrent, observationGraceable, pinnedSource, repositoryKey, reviewSources, validateProfiles } from "./evidence.mjs";
 import { snapshotMethodology } from "./methodology.mjs";
 
 export const TASK_REVIEW_SCHEMA_VERSION = 2;
@@ -13,7 +13,23 @@ function assert(condition, message) {
 }
 
 // Reviews are data, not executable rules. Their content and contracts travel with captured inputs.
-export function prepareTaskReviews(reviews, types, { methodology = null, pluginProfiles = { schemaVersion: 1, plugins: {} }, evidenceObservations = { schemaVersion: 1, plugins: {} }, now = new Date() } = {}) {
+// UTC Monday of the date's ISO week, so grace counts weekly publications, not hours.
+const weekStart = (date) => { const d = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())); d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 6) % 7)); return d.getTime(); };
+export const publicationWeeksSince = (since, now) => Math.round((weekStart(now) - weekStart(new Date(since))) / (7 * 86400000));
+
+// Methodology 1.5.0 grace applies only to the previous publication's champion and runner-up.
+// A pick already in grace carries its start forward; a pick that was current starts now.
+export function previousPicksForRecheck(previous) {
+  const picks = new Map();
+  for (const type of previous?.types ?? []) {
+    for (const pick of [type.winner, type.runnerUp].filter(Boolean)) {
+      picks.set(`${pick.id}/${type.id}`, pick.taskFit?.evidenceStatus === "recheck-pending" ? pick.taskFit.recheckSince ?? null : null);
+    }
+  }
+  return picks;
+}
+
+export function prepareTaskReviews(reviews, types, { methodology = null, pluginProfiles = { schemaVersion: 1, plugins: {} }, evidenceObservations = { schemaVersion: 1, plugins: {} }, now = new Date(), previous = null } = {}) {
   assert([1, 2].includes(reviews?.schemaVersion) && Array.isArray(reviews.assignments), "Unsupported task review schema");
   const byType = new Map(types.map((type) => [type.id, type]));
   const result = new Map();
@@ -21,6 +37,7 @@ export function prepareTaskReviews(reviews, types, { methodology = null, pluginP
   result.profiles = result.policy.repositoryEvidence ? validateProfiles(pluginProfiles).plugins : {};
   result.observations = evidenceObservations?.plugins ?? {};
   result.now = now;
+  result.previousPicks = result.policy.recheckGrace ? previousPicksForRecheck(previous) : new Map();
   for (const review of reviews.assignments) {
     const label = `${review.pluginId}/${review.typeId}`;
     const type = byType.get(review.typeId);
@@ -69,10 +86,19 @@ export function explainTaskFit(plugin, type, reviews) {
     if (profile?.requirementsStatus !== "reviewed" || !profile.sources?.every((s) => pinnedSource(s, plugin.repo))) return { ...base, status: "pending-requirements", reason: "Shared installation requirements have not been reviewed against this repository." };
     if (Date.parse(review.reviewedAt) > reviews.now.getTime() || Date.parse(profile.reviewedAt) > reviews.now.getTime()) return { ...base, status: "pending-source", reason: "Review dates cannot be later than the observation." };
     const observation = reviews.observations[plugin.id];
-    if (!observationCurrent(observation, plugin, [...sources, ...profile.sources], reviews.now, reviews.policy.sourceMaxAgeDays)) return { ...base, status: observation?.status === "changed" ? "stale-source" : "source-unavailable", reason: observation?.status === "changed" ? "Relevant source or supporting documentation changed after review." : "Current source evidence could not be revalidated; last-known review is retained for research." };
+    const cited = [...sources, ...profile.sources];
+    let recheckSince = null;
+    if (!observationCurrent(observation, plugin, cited, reviews.now, reviews.policy.sourceMaxAgeDays)) {
+      const key = `${plugin.id}/${type.id}`;
+      const since = reviews.previousPicks?.has(key) ? reviews.previousPicks.get(key) ?? reviews.now.toISOString() : null;
+      const grace = reviews.policy.recheckGrace && !metadataChanged && since && observationGraceable(observation, plugin, cited, reviews.now, reviews.policy.sourceMaxAgeDays) &&
+        publicationWeeksSince(since, reviews.now) < reviews.policy.recheckGrace.publications;
+      if (!grace) return { ...base, status: observation?.status === "changed" ? "stale-source" : "source-unavailable", reason: observation?.status === "changed" ? "Relevant source or supporting documentation changed after review." : "Current source evidence could not be revalidated; last-known review is retained for research." };
+      recheckSince = since;
+    }
     details = { sources, pluginRequirements: profile.requirements, requirementsStatus: profile.requirementsStatus, profileSources: profile.sources,
-      profileReviewedAt: profile.reviewedAt, lastValidatedAt: observation.checkedAt, evidenceStatus: metadataChanged ? "metadata-reconciliation" : "current",
-      reviewedMetadataHash: review.metadataHash, reviewedRepository: plugin.repo, evidenceObservation: observation };
+      profileReviewedAt: profile.reviewedAt, lastValidatedAt: observation.checkedAt, evidenceStatus: recheckSince ? "recheck-pending" : metadataChanged ? "metadata-reconciliation" : "current",
+      ...(recheckSince ? { recheckSince } : {}), reviewedMetadataHash: review.metadataHash, reviewedRepository: plugin.repo, evidenceObservation: observation };
   } else if (metadataChanged) return { ...base, status: "stale-metadata", reason: "The plugin's name, description or repository changed after this capability review." };
   const qualified = review.decision === "qualified" && review.role !== "integration" && meetsContract(review, type);
   return { status: qualified ? "qualified" : review.decision, qualified, metadataHash: taskMetadataHash(plugin), contractVersion: review.contractVersion, role: review.role, capabilities: review.capabilities,
@@ -94,7 +120,9 @@ export function assertTaskQualifiedSnapshot(snapshot) {
         assert(Date.parse(fit.reviewedAt) <= Date.parse(snapshot.generatedAt) && Date.parse(fit.profileReviewedAt) <= Date.parse(snapshot.generatedAt) && fit.lastValidatedAt === fit.evidenceObservation?.checkedAt, `Invalid recommendation dates: ${candidate.id}`);
         const sources = [...reviewSources(fit), ...fit.profileSources];
         assert(sources.every((s) => pinnedSource(s, candidate.repository)), `Unpinned recommendation evidence: ${candidate.id}`);
-        assert(repositoryKey(fit.reviewedRepository) === repositoryKey(candidate.repository) && observationCurrent(fit.evidenceObservation, { repo: candidate.repository, upstreamObservedCommit: candidate.upstreamObservedCommit }, sources, new Date(snapshot.generatedAt), eligibility.sourceMaxAgeDays), `Invalid recommendation observation: ${candidate.id}`);
+        const observed = (fit.evidenceStatus === "recheck-pending" && eligibility.recheckGrace ? observationGraceable : observationCurrent)(fit.evidenceObservation, { repo: candidate.repository, upstreamObservedCommit: candidate.upstreamObservedCommit }, sources, new Date(snapshot.generatedAt), eligibility.sourceMaxAgeDays);
+        assert(repositoryKey(fit.reviewedRepository) === repositoryKey(candidate.repository) && observed, `Invalid recommendation observation: ${candidate.id}`);
+        if (fit.evidenceStatus === "recheck-pending") assert(publicationWeeksSince(fit.recheckSince, new Date(snapshot.generatedAt)) < eligibility.recheckGrace.publications, `Expired re-check grace: ${candidate.id}`);
       }
       prepareTaskReviews({ schemaVersion: TASK_REVIEW_SCHEMA_VERSION, assignments: [{ ...fit, pluginId: candidate.id, typeId: type.id, decision: "qualified" }] }, [{ ...type, contract: type.taskContract }]);
     }
