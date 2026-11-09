@@ -3047,6 +3047,91 @@
           "evidence": "bin/resume lines 1-8:\n#!/usr/bin/env python3\n\"\"\"List, preview, and resume AI coding sessions for the Resume overlay.\n\nSession sources are pluggable, the same way Omarchy registers usage\ncollectors. Built-in adapters cover the agents `omarchy-default-agent`\nknows about. A third-party agent appears automatically when someone\nships an executable named `omarchy-agent-sessions-<id>` on PATH, or\ndrops one in `~/.config/omarchy/agents/sessions/<id>`.\n\nbin/resume lines 12-27:\n\nimport argparse\nimport datetime as dt\nimport json\nimport os\nimport re\nimport shlex\nimport shutil\nimport sqlite3\nimport stat\nimport subprocess\nimport sys\nimport time\nimport urllib.parse\nfrom pathlib import Path\nfrom typing import Any, Callable, Iterator"
         }
       ]
+    },
+    "meviusisback.hw-monitor": {
+      "repository": "https://github.com/meviusisback/omarchy-hw-monitor",
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "No configuration; place it in the bar after installing. Naming the GPU needs pciutils, NVIDIA metrics need nvidia-smi, and the top-processes section needs Python 3."
+      ],
+      "reviewedAt": "2026-11-09",
+      "sources": [
+        {
+          "url": "https://github.com/meviusisback/omarchy-hw-monitor/blob/2ca32ed7ad64e0305f229598209163bcd7872d60/README.md",
+          "revision": "2ca32ed7ad64e0305f229598209163bcd7872d60",
+          "path": "README.md",
+          "sha256": "b95dc9cb7ee7a3abfb3d9be5c63fd9f8d7ac5d4338a7961af262ef910ba2396f",
+          "evidence": "README.md lines 62-75:\n## Install\n\n```sh\nomarchy plugin add https://github.com/meviusisback/omarchy-hw-monitor.git --enable\n```\n\nThen place it where you want it and restart the shell:\n\n```sh\nomarchy bar move meviusisback.hw-monitor --section right --after omarchy.tray\nomarchy restart shell\n```\n\nNothing to configure — it finds this machine's sensors on its own.\n\nREADME.md lines 153-161:\n## Requirements\n\n- A Nerd Font for the glyphs, which Omarchy already ships\n- `pciutils` (`lspci`) — optional, only to name the GPU card in the panel\n- `nvidia-smi` — only for NVIDIA cards, installed with the driver\n- `python3` (`/usr/bin/python3`) — only for the top-processes panel section;\n  the section shows a fallback message when absent\n- a writable runtime directory (`/run/user/<uid>`) — only for the\n  top-processes cache; without one the cache is skipped"
+        }
+      ]
+    },
+    "davedes.omcontrol": {
+      "repository": "https://github.com/Davedes83/OmaControl",
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Requires sqlite3 and Python 3; GPU metrics need nvidia-smi. Add the widget to the bar, and enable its optional user service to record history while the shell is closed."
+      ],
+      "reviewedAt": "2026-11-09",
+      "sources": [
+        {
+          "url": "https://github.com/Davedes83/OmaControl/blob/dad2835a28c29d1a6657000b63e258c152274ca8/README.md",
+          "revision": "dad2835a28c29d1a6657000b63e258c152274ca8",
+          "path": "README.md",
+          "sha256": "4ba1fa65221903e1e0e186de975f744a1c918d6b2bcc910c58c29c94a68c8771",
+          "evidence": "README.md lines 28-31:\n## Installation\n\n```bash\nomarchy plugin add https://github.com/Davedes83/OmaControl.git --enable\n\nREADME.md lines 50-57:\n### Optional: background history sampler\n\nThe bar widget and CLI record while the shell is running. To also fill history\nwhen the shell is closed, enable the hardened user service (fixed `PATH`,\n`LC_ALL=C`, strict umask, process-group timeouts on every helper):\n\n```bash\nsystemctl --user enable --now ~/.config/omarchy/plugins/davedes.omcontrol/systemd/omcontrol-collect.service\n\nREADME.md lines 77-80:\n## Requirements\n\n- [Omarchy](https://omarchy.org/) Linux, Hyprland, Quickshell\n- `sqlite3`, `python3`, `nvidia-smi` (optional, for GPU metrics)"
+        }
+      ]
+    },
+    "io.github.mtolhuys.fathom": {
+      "repository": "https://github.com/mtolhuys/fathom",
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Requires Omarchy 4 with Quickshell 0.3 and Qt 6.9, and Hyprland 0.56 configured in Lua. Alt+Tab opens Fathom only after you add its block to bindings.lua."
+      ],
+      "reviewedAt": "2026-11-09",
+      "sources": [
+        {
+          "url": "https://github.com/mtolhuys/fathom/blob/1b0a9069fb25db0593d5dfdf3fecdd58c9a133cd/README.md",
+          "revision": "1b0a9069fb25db0593d5dfdf3fecdd58c9a133cd",
+          "path": "README.md",
+          "sha256": "901d8cd5115eb38e6cb14d32a5ec8a82ef8a864033f363fd388b3a57a0da7269",
+          "evidence": "README.md lines 88-98:\n## Requirements\n\n- Omarchy 4.0 or newer (Quattro: the Quickshell shell and its plugin system),\n  with Quickshell 0.3 and Qt 6.9 or newer\n- Hyprland 0.56 or newer, configured in Lua (Omarchy's default)\n\nWith a `hyprland.conf` instead of Lua, bind `Alt`+`Tab` and `Alt`+`Shift`+`Tab`\nto the global shortcuts `fathom:next` and `fathom:previous` (for example\n`bind = ALT, TAB, global, fathom:next`). The overlay commits when it sees `Alt`\nreleased; a switch too quick for it to take the keyboard stays open until\n`Enter` or `Escape`. The Lua snippet below does all of that for you.\n\nREADME.md lines 108-112:\n   `--enable` loads the overlay but leaves `Alt`+`Tab` where it was until\n   step 2.\n\n2. Give `Alt`+`Tab` to Fathom. Add this block at the end of\n   `~/.config/hypr/bindings.lua`:"
+        }
+      ]
+    },
+    "tenzin.live-wallpaper": {
+      "repository": "https://github.com/yesheytenzin/live-wallpaper",
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Requires Omarchy 4.0.6 or newer. Videos go in the theme's background folder, and while enabled it replaces the Style → Background menu action."
+      ],
+      "reviewedAt": "2026-11-09",
+      "sources": [
+        {
+          "url": "https://github.com/yesheytenzin/live-wallpaper/blob/35c5f52cbf4fa517266f89999d8150adc7fc3a4d/README.md",
+          "revision": "35c5f52cbf4fa517266f89999d8150adc7fc3a4d",
+          "path": "README.md",
+          "sha256": "dd2ef1cad663f1e33005b0c8e8fe20bdc10fe208d886eecac1e57628173ab357",
+          "evidence": "README.md lines 9-13:\n1. Copy an MP4, MKV, WebM, MOV, or M4V file into your current theme's folder:\n\n   ```text\n   ~/.config/omarchy/backgrounds/<theme-name>/\n   ```\n\nREADME.md lines 53-57:\nWorks on all Omarchy channels: stable, rc, edge, and dev. It needs the Omarchy\nQuickshell shell with third-party `service` plugin support, the `omarchy-shell`\nCLI, and the shell's stable `image-selector` IPC target. Those are present and\nunchanged from Omarchy v4.0.6 onward through the latest dev build, so no\nchannel-specific setup is required.\n\nREADME.md lines 69-71:\nNo additional packages or privileged installation steps are required. Playback\nuses Qt Multimedia from Omarchy's existing Qt runtime, and previews use the\nexisting `ffmpeg` command. The plugin does not start another Quickshell process.\n\nREADME.md lines 85-87:\nEnabling the plugin updates the `style.background` action in\n`~/.config/omarchy/extensions/omarchy-menu.jsonc`. The stock **Background**\nname, icon, and aliases are preserved; only its picker action changes."
+        }
+      ]
+    },
+    "io.github.qempexe.omaudix": {
+      "repository": "https://github.com/qempexe/omarchy-omaudix",
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Needs PipeWire's pw-record, Python 3, curl, vipsthumbnail and rsvg-convert, which Omarchy includes. Place it in the bar after installing."
+      ],
+      "reviewedAt": "2026-11-09",
+      "sources": [
+        {
+          "url": "https://github.com/qempexe/omarchy-omaudix/blob/f897744c59c3ae62a8ba1cf6c1b0135d5b95f574/README.md",
+          "revision": "f897744c59c3ae62a8ba1cf6c1b0135d5b95f574",
+          "path": "README.md",
+          "sha256": "0affb55ed37a34c64319cbfc269b143cf336e13cce2f0f04f21c1031645b7766",
+          "evidence": "README.md lines 73-82:\n## Installation\n\n```bash\nomarchy plugin add https://github.com/qempexe/omarchy-omaudix.git --enable\nomarchy restart shell\n```\n\nThen place it from the bar settings, or move it with `omarchy bar move io.github.qempexe.omaudix --section left` (or `center`, `right`). The settings panel opens from the gear on the widget, or a right click anywhere on it. The gear can be hidden; the right click always works.\n\nIt needs PipeWire (`pw-record`), Python 3, `curl`, `vipsthumbnail` (from libvips) and `rsvg-convert` (from librsvg), which Omarchy already has. Covers are never shown straight from the player: each one is fetched with a size and time limit and made into a small, clean copy in a separate, limited process first. Favicons, which radio players often send as the cover (.ico, .bmp or .svg), are made into a PNG the same way. [cava](https://github.com/karlstav/cava) is used for the spectrum when it's installed; without it a built-in analyzer takes over at about 3% of one core. Pasting into the panel's text fields goes through `wl-paste`."
+        }
+      ]
     }
   }
 }
