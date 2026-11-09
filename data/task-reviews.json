@@ -7467,7 +7467,7 @@
         "view-precipitation-radar"
       ],
       "constraints": [
-        "Official radar covers Germany and neighbouring countries, the USA, Canada, Finland, the Netherlands and Japan; RainViewer is used elsewhere."
+        "Official radar covers Germany and neighbouring countries, the USA, Canada, Finland, the Netherlands and Japan; RainViewer is used elsewhere. When no radar source is available it falls back to model precipitation, which is forecast data rather than radar."
       ],
       "reason": "Shows an animated rain radar map for the selected place, with a frame timeline, zoom and a movable themed map.",
       "reviewedAt": "2026-11-09",
