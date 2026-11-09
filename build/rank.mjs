@@ -540,6 +540,11 @@ export function rankPlugins({ catalog, stats, taxonomy, taskReviews = { schemaVe
       for (const candidate of candidates) candidate.taskFit = fits.get(`${candidate.id}/${type.id}`);
       // Prospective activity scores prioritize research; they cannot confer headline eligibility.
       const research = scoreCohort(members.filter((plugin) => !["related", "rejected"].includes(fits.get(`${plugin.id}/${type.id}`).status)), stats, now, methodology);
+      // Research scores span every lead, so they compress near 1 and cannot be compared with
+      // the shortlist. A candidate would enter the podium only if it places in the top two
+      // when scored alongside the options that already qualify.
+      const entersPodium = (id) => scoreCohort([...qualified.filter((p) => p.id !== id), members.find((p) => p.id === id)], stats, now, methodology)
+        .slice(0, 2).some((p) => p.id === id);
       for (const candidate of research) {
         const fit = fits.get(`${candidate.id}/${type.id}`);
         if ((fit.status === "qualified" && !["metadata-reconciliation", "recheck-pending"].includes(fit.evidenceStatus)) || fit.status === "rejected" || fit.status === "related") continue;
@@ -548,7 +553,7 @@ export function rankPlugins({ catalog, stats, taxonomy, taskReviews = { schemaVe
           typeId: type.id, typeName: type.name, status: fit.evidenceStatus === "recheck-pending" ? "stale-source" : fit.evidenceStatus === "metadata-reconciliation" ? "metadata-reconciliation" : fit.status, reason: fit.evidenceStatus === "recheck-pending" ? "Relevant source changed after review. The cited passages still appear, so it keeps its place for a limited time while it is re-checked." : fit.evidenceStatus === "metadata-reconciliation" ? "Listing metadata changed; reviewed repository evidence remains unchanged. Reconcile the description without inferring a lost capability." : fit.reason, prospectiveScore: candidate.score,
           contractVersion: type.contract.version, metadataHash: taskMetadataHash(members.find((p) => p.id === candidate.id)),
           previousPick: [prior?.winner?.id, prior?.runnerUp?.id].includes(candidate.id),
-          wouldEnterPodium: research.slice(0, 2).some((p) => p.id === candidate.id),
+          wouldEnterPodium: entersPodium(candidate.id),
           evidence: explainClassification(members.find((p) => p.id === candidate.id), prepared, classificationVersion, reviews).find((e) => e.typeId === type.id) });
       }
     }

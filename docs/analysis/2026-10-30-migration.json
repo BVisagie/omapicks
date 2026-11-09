@@ -2498,7 +2498,7 @@
   ],
   "proposalCodeRevision": "f92e2f3e7c47bbcc715bece6207eb3dda623536d-dirty",
   "proposalCodeHashes": {
-    "build/rank.mjs": "7d97bc4e1d4f98eb65e2360b5335dd952f25576f700ed933a33c6f8f48473f5f",
+    "build/rank.mjs": "96fa0353c39e342aa6d81e5c8740aa9ec34573c2bcb01fd32f39ba4b557c72bd",
     "build/classification-audit.mjs": "a419891feeb49c40e55a7628a70b200d435a2ed1cc5cd01f4d43cc75f7de98b4",
     "scripts/audit-discovery-recall.mjs": "e1af2fc34981405a0fe9693acbb6906dcafac8424464368397879c2306fd30f7",
     "scripts/review-evidence.mjs": "d8485518548d8ecd24b5c571402e2bec214aab0482861b7fc16857b6df95ff56",
@@ -2513,7 +2513,7 @@
   },
   "capture": {
     "file": "test/fixtures/task-coherence-migration.json.gz",
-    "sha256": "b21ff7d3739e0cb61f49105d9bdadc9225267c17993cfa32f89298328049c2f6",
+    "sha256": "a5787a2e08877d3e142dc844d1abc5002408a22174b0e376000d9d53cf5df879",
     "catalogCount": 285,
     "scope": "Lossless ranking projection of every baseline or proposed reviewed plugin. All scored cohorts and scores replay; full-catalog discovery/queue counts require the complete capture."
   },
