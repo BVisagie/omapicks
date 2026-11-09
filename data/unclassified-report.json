@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T09:13:29.266Z",
+  "generatedAt": "2026-11-09T11:21:52.312Z",
   "catalogCount": 6432,
   "eligibleClassifiedCount": 2448,
   "classificationAssignments": 3098,
-  "qualifiedAssignments": 172,
-  "pendingAssignments": 2896,
+  "qualifiedAssignments": 186,
+  "pendingAssignments": 2878,
   "uniqueUnclassifiedCount": 2576,
   "excluded": {
     "not-installable": 1308,

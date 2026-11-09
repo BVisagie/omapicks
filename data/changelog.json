@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "week": "2026-W46",
-  "generatedAt": "2026-11-09T09:13:29.266Z",
+  "generatedAt": "2026-11-09T11:21:52.312Z",
   "changes": [
     {
       "typeId": "vpn",
@@ -268,6 +268,19 @@
       "current": {
         "id": "omaconnect",
         "name": "OmaConnect"
+      }
+    },
+    {
+      "typeId": "timers-alarms",
+      "typeName": "Countdown Timers",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.pjgeutjens.clockwork",
+        "name": "Clockwork"
+      },
+      "current": {
+        "id": "omarchy-dynamic-island",
+        "name": "Dynamic Island"
       }
     }
   ],
@@ -587,6 +600,69 @@
       "current": {
         "id": "omakdeconnect",
         "name": "OmaKDEConnect"
+      }
+    },
+    {
+      "typeId": "weather-radar",
+      "typeName": "Weather Radar",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "more-weather",
+        "name": "More Weather"
+      }
+    },
+    {
+      "typeId": "network-diagnostics",
+      "typeName": "Network Traffic",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "davedes.omcontrol",
+        "name": "OmaControl"
+      }
+    },
+    {
+      "typeId": "desktop-clocks",
+      "typeName": "Desktop Clocks",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "mash2rafi.kronos",
+        "name": "Kronos"
+      }
+    },
+    {
+      "typeId": "timers-alarms",
+      "typeName": "Countdown Timers",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "io.github.pjgeutjens.clockwork",
+        "name": "Clockwork"
+      }
+    },
+    {
+      "typeId": "window-management",
+      "typeName": "Window Switching",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.pablo-merino.altswitch",
+        "name": "Alt-tab switcher"
+      },
+      "current": {
+        "id": "io.github.mtolhuys.fathom",
+        "name": "Fathom"
+      }
+    },
+    {
+      "typeId": "agent-monitoring",
+      "typeName": "Agent Monitoring",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "io.github.fabean.herdr",
+        "name": "Herdr"
       }
     }
   ],
