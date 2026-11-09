@@ -187,6 +187,10 @@ export function renderMarkdown(proposal) {
     "\"Passages unchanged\" only means the cited text still appears at the new commit. It is not a review: read the changes, " +
     "confirm the task still completes, then accept the plugin with `--apply`.", ""];
   for (const item of proposal.plugins) {
+    if (item.mechanicalStatus === "unavailable") {
+      lines.push(`## ${item.name} (\`${item.pluginId}\`)`, "", `- Could not be prepared: ${item.error}. It stays queued; re-check it by hand.`, "");
+      continue;
+    }
     const files = item.comparison.files ?? [];
     lines.push(`## ${item.name} (\`${item.pluginId}\`)`, "",
       `- Categories: ${item.queued.map((q) => `${q.typeId}${q.previousPick ? " (previous pick)" : ""}`).join(", ")}`,

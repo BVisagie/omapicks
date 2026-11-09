@@ -69,6 +69,7 @@ test("a proposal re-pins reviews and requirements together, and applying it need
   assert.equal(item.reviews[0].review.metadataHash, taskMetadataHash(plugin));
   const proposal = { generatedAt: "2026-11-09T07:54:02.698Z", plugins: [item] };
   assert.match(renderMarkdown(proposal), /Cited passages: unchanged/);
+  assert.match(renderMarkdown({ ...proposal, plugins: [{ pluginId: "x", name: "X", mechanicalStatus: "unavailable", error: "HTTP 502" }] }), /Could not be prepared: HTTP 502/);
 
   const reviews = { schemaVersion: 2, assignments: [review] };
   const profiles = { schemaVersion: 1, plugins: { [plugin.id]: profile } };
