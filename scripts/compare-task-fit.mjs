@@ -10,7 +10,8 @@ export function compareTaskFit(inputs, taxonomy, taskReviews, { pluginProfiles =
   const shared = { catalog: inputs.catalog.body.plugins, stats: inputs.stats.body.plugins, now: new Date(inputs.now), previous: inputs.previous };
   const before = rankPlugins({ ...shared, taxonomy: inputs.taxonomy, taskReviews: inputs.taskReviews, pluginProfiles: inputs.pluginProfiles, evidenceObservations: inputs.evidenceObservations,
     classificationVersion: inputs.classificationVersion ?? 2, methodology: methodologyFor(inputs.methodologyVersion ?? "1.0.0") }).rankings;
-  const ranked = rankPlugins({ ...shared, previous: before, taxonomy, taskReviews, pluginProfiles, evidenceObservations, classificationVersion: CLASSIFICATION_VERSION, methodology });
+  // Re-check grace depends on the published picks, which the recomputed baseline may already have dropped.
+  const ranked = rankPlugins({ ...shared, previous: methodology.eligibility.recheckGrace ? inputs.previous : before, taxonomy, taskReviews, pluginProfiles, evidenceObservations, classificationVersion: CLASSIFICATION_VERSION, methodology });
   const prior = new Map(before.types.map((t) => [t.id, t]));
   const types = ranked.rankings.types.map((type) => {
     const old = prior.get(type.id);

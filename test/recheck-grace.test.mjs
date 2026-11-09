@@ -4,6 +4,7 @@ import { captureEvidence, passagesPresent, relevantTreeFingerprint } from "../bu
 import { changesBetween, methodologyFor, rankPlugins } from "../build/rank.mjs";
 import { coverageWarnings } from "../build/refresh.mjs";
 import { renderFixtureType } from "../build/render.mjs";
+import { compareTaskFit } from "../scripts/compare-task-fit.mjs";
 import { assertTaskQualifiedSnapshot, publicationWeeksSince, taskMetadataHash } from "../build/task-fit.mjs";
 
 // Methodology 1.5.0: a previous pick whose repository changed keeps its place for a limited
@@ -113,4 +114,35 @@ test("coverage warnings flag a falling shortlist with counts only", () => {
     "Coverage warning: Qualified assignments fell from 170 to 139 (18%). Check the review queue for picks whose repositories changed."
   ]);
   assert.deepEqual(coverageWarnings(null, snapshot("2026-W46", 5), null, null), []);
+});
+
+test("a pick found only through its review still gets its re-check note", () => {
+  // No lexical match: the plugin competes only because its source review qualifies it.
+  const quiet = { ...plugin, description: "A tool for grabbing the desktop" };
+  const build = (observation, extra = {}) => {
+    const a = args(observation, extra);
+    a.catalog = [quiet];
+    a.taskReviews.assignments = [review(quiet)];
+    delete a.evidenceObservations.plugins.rival;
+    return a;
+  };
+  const previous = rankPlugins({ ...build(observed(quiet)), now: new Date("2026-11-09T06:17:00Z"),
+    evidenceObservations: { schemaVersion: 1, plugins: { capture: observed(quiet, { checkedAt: "2026-11-09T06:17:00Z" }) } } }).rankings;
+  assert.equal(previous.types[0].winner?.id, "capture");
+  const result = rankPlugins({ ...build(changed(quiet, { status: "checked", passagesPresent: false, manifestChanges: [] })), previous });
+  assert.equal(result.rankings.types[0].winner, null);
+  assert.deepEqual(result.rankings.types[0].recheckPending, [{ id: "capture", name: "Capture" }]);
+});
+
+test("the task-fit comparison grants grace against the published picks", () => {
+  const before = previousWeek(methodologyFor("1.4.0"));
+  const base = args(changed(plugin, undefined));
+  const inputs = { catalog: { body: { plugins: base.catalog } }, stats: { body: { plugins: stats } }, now: now.toISOString(), previous: before,
+    taxonomy, taskReviews: base.taskReviews, pluginProfiles: base.pluginProfiles,
+    evidenceObservations: { schemaVersion: 1, plugins: { capture: { ...changed(plugin), recheck: undefined }, rival: observed(rival) } }, classificationVersion: 3, methodologyVersion: "1.4.0" };
+  const result = compareTaskFit(inputs, taxonomy, base.taskReviews, { evidenceObservations: base.evidenceObservations, methodology: methodologyFor("1.5.0") });
+  const type = result.types.find((t) => t.id === "capture");
+  assert.equal(type.beforeWinner.id, "rival");
+  assert.equal(type.afterWinner.id, "capture");
+  assert.equal(type.afterWinner.taskFit.evidenceStatus, "recheck-pending");
 });

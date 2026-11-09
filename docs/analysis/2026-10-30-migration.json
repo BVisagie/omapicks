@@ -2498,7 +2498,7 @@
   ],
   "proposalCodeRevision": "f92e2f3e7c47bbcc715bece6207eb3dda623536d-dirty",
   "proposalCodeHashes": {
-    "build/rank.mjs": "3c8b6cd12b047af0f9eeef349ead113b293d06513b362da4f450bb84740dd759",
+    "build/rank.mjs": "7d97bc4e1d4f98eb65e2360b5335dd952f25576f700ed933a33c6f8f48473f5f",
     "build/classification-audit.mjs": "a419891feeb49c40e55a7628a70b200d435a2ed1cc5cd01f4d43cc75f7de98b4",
     "scripts/audit-discovery-recall.mjs": "e1af2fc34981405a0fe9693acbb6906dcafac8424464368397879c2306fd30f7",
     "scripts/review-evidence.mjs": "d8485518548d8ecd24b5c571402e2bec214aab0482861b7fc16857b6df95ff56",
@@ -2509,11 +2509,11 @@
     "build/refresh.mjs": "dfc063402be77ecac8edf449fcdf13137239956a210c0cc8922f53c373f86848",
     "build/render.mjs": "e3e5b99dcf984068c7fe29ae968e93a14a2c7a96451af070f81bb6c143d899cf",
     "build/publication-history.mjs": "34ac1b096b8dafaf478ab229f5598768ad8cd7f1faf66a99043369860df7c4a8",
-    "scripts/compare-task-fit.mjs": "69f530c5a8866cb9683876f0bd591446d81822d71e2b9832d6ba31e877949612"
+    "scripts/compare-task-fit.mjs": "1e34db38c2a8370c37d7c40912383fdee02064a62424023f2ab98d39be8db9a0"
   },
   "capture": {
     "file": "test/fixtures/task-coherence-migration.json.gz",
-    "sha256": "d559257cbc2de1bcd18c8a27fe7392699999fff15963dbf54d1f4b5ccaac2d68",
+    "sha256": "b21ff7d3739e0cb61f49105d9bdadc9225267c17993cfa32f89298328049c2f6",
     "catalogCount": 285,
     "scope": "Lossless ranking projection of every baseline or proposed reviewed plugin. All scored cohorts and scores replay; full-catalog discovery/queue counts require the complete capture."
   },

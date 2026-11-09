@@ -583,13 +583,11 @@ export function rankPlugins({ catalog, stats, taxonomy, taskReviews = { schemaVe
       builtIns,
       winner,
       runnerUp,
-      topScorer: top ? { id: top.id, name: top.name, score: top.score } : null,
-      // 1.5.0: previous picks that left because their repository changed and still await a re-check.
-      ...(methodology.eligibility.recheckGrace ? { recheckPending: [prior?.winner, prior?.runnerUp].filter((pick) => pick && ![winner?.id, runnerUp?.id].includes(pick.id) &&
-        fits.get(`${pick.id}/${type.id}`)?.status === "stale-source").map((pick) => ({ id: pick.id, name: pick.name })) } : {})
+      topScorer: top ? { id: top.id, name: top.name, score: top.score } : null
     };
   });
 
+  const fallbackStatus = new Map();
   if (reviewed) {
     // A changed description can stop matching every discovery rule. Its old review still needs
     // attention, especially when it used to supply a recommendation; do not lose it from the queue.
@@ -601,6 +599,7 @@ export function rankPlugins({ catalog, stats, taxonomy, taskReviews = { schemaVe
         const fit = explainTaskFit(plugin, type, reviews);
         if (!held && !fit.status.startsWith("stale-") && !["pending-source", "pending-requirements", "source-unavailable"].includes(fit.status)) continue;
         const prior = previousByType.get(type.id);
+        fallbackStatus.set(key, held ? "held" : fit.status);
         reviewQueue.push({ pluginId: plugin.id, name: plugin.name, repository: plugin.repo, description: plugin.description,
           typeId: type.id, typeName: type.name, status: held ? "held" : fit.status,
           reason: held ? prepared.overrides.reasons[plugin.id]?.[type.id] ?? "Assignment held for editorial review." : fit.reason,
@@ -608,6 +607,16 @@ export function rankPlugins({ catalog, stats, taxonomy, taskReviews = { schemaVe
           previousPick: [prior?.winner?.id, prior?.runnerUp?.id].includes(plugin.id), wouldEnterPodium: false,
           evidence: explainClassification(plugin, prepared, classificationVersion, reviews).find((e) => e.typeId === type.id) });
       }
+    }
+  }
+
+  // 1.5.0: previous picks that left because their repository changed and still await a re-check.
+  // Read after the fallback pass, which covers picks that no longer match the category's rules.
+  if (methodology.eligibility.recheckGrace) {
+    for (const type of types) {
+      const prior = previousByType.get(type.id);
+      type.recheckPending = [prior?.winner, prior?.runnerUp].filter((pick) => pick && ![type.winner?.id, type.runnerUp?.id].includes(pick.id) &&
+        (fits.get(`${pick.id}/${type.id}`)?.status ?? fallbackStatus.get(`${pick.id}/${type.id}`)) === "stale-source").map((pick) => ({ id: pick.id, name: pick.name }));
     }
   }
 
