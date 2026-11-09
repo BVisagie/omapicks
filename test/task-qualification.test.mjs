@@ -463,3 +463,23 @@ test("the W42 related peripheral tool has consistent history and changelog wordi
   assert.match(html, /Mouse &amp; Keybind Settings remains a related tool with a narrower task scope/);
   assert.doesNotMatch(html, /Mouse &amp; Keybind Settings no longer matches this category/);
 });
+
+test("a challenger is flagged only if it would place in the top two beside the qualified options", () => {
+  // Across many leads the count signals saturate near the top, so freshness decides the research
+  // order: a fresher but much less used plugin outranks the reviewed options there, though it
+  // places last beside them.
+  const stale = { repositoryUpdatedAt: "2026-06-01T00:00:00Z" };
+  const leader = { ...plugin("leader"), ...stale }, second = { ...plugin("second"), ...stale }, fresh = plugin("fresh");
+  const filler = Array.from({ length: 200 }, (_, i) => ({ ...plugin(`filler-${i}`), ...stale }));
+  const stats = { leader: { copies: 3300, hearts: 90, views: 7500 }, second: { copies: 3100, hearts: 70, views: 7900 },
+    fresh: { copies: 1800, hearts: 40, views: 3100 },
+    ...Object.fromEntries(filler.map((p, i) => [p.id, { copies: i, hearts: 0, views: i * 3 }])) };
+  const result = rankPlugins(inputs([leader, second, fresh, ...filler], [review(leader), review(second)], { stats }));
+  const row = result.reviewQueue.find((p) => p.pluginId === "fresh");
+  assert.equal(row.wouldEnterPodium, false);
+  const admitted = rankPlugins(inputs([leader, second, fresh, ...filler], [review(leader), review(second), review(fresh)], { stats })).rankings.types[0];
+  assert.deepEqual([admitted.winner.id, admitted.runnerUp.id], ["leader", "second"], "admitting it changes neither place");
+  // With an empty runner-up place, any candidate would fill it.
+  const single = rankPlugins(inputs([leader, fresh, ...filler], [review(leader)], { stats }));
+  assert.equal(single.reviewQueue.find((p) => p.pluginId === "fresh").wouldEnterPodium, true);
+});
