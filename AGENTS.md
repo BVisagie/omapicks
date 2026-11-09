@@ -150,8 +150,10 @@ provider or API that no test, measurement or documentation confirmed.
 - Add files by name. The main checkout can hold untracked work that is not yours.
 - Land changes through a pull request. GitHub only blocks deleting `main` and force-pushing to it,
   so a direct push would deploy unreviewed. The publishing workflows are the one exception.
-- A commit message ends with a `Co-Authored-By:` line naming the model. A pull request description
-  ends with the model and the tool it ran in, and has a `## Review` section for its head commit.
+- A commit message ends with a `Co-Authored-By:` line naming the model. Because the repository is
+  public, a pull request description says only what changed and how it was checked: no review
+  rounds, verdicts or model names. The review record for the head commit goes in the local file
+  that `review-gate` checks, never in the description.
 
 ## Review rules
 
