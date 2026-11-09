@@ -3120,7 +3120,7 @@
       "repository": "https://github.com/qempexe/omarchy-omaudix",
       "requirementsStatus": "reviewed",
       "requirements": [
-        "Needs PipeWire's pw-record, Python 3, curl, vipsthumbnail and rsvg-convert, which Omarchy includes. Place it in the bar after installing."
+        "Needs PipeWire's pw-record, Python 3, curl, vipsthumbnail and rsvg-convert, which Omarchy includes; pasting into its settings fields uses wl-paste. Place it in the bar after installing."
       ],
       "reviewedAt": "2026-11-09",
       "sources": [
