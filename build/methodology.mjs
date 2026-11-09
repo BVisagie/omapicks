@@ -87,12 +87,29 @@ const DEFINITIONS = [
     installRate: { minimumViews: 20, z: 1.96 },
     eligibility: { upstreamHealth: true, reviewedTaskEvidence: true, repositoryEvidence: true, sourceMaxAgeDays: 8, taskCoherence: true },
     weights: { copies: 0.36, hearts: 0.2, stars: 0.18, views: 0.03, installRateLowerBound: 0.05, freshness: 0.13, verified: 0.05 }
+  },
+  {
+    // A previous pick whose repository changed keeps its place for up to `publications`
+    // weekly publications while every cited passage still appears at the new commit and
+    // its manifest's entryPoints and kinds are unchanged. It is labelled and queued for
+    // re-check. Scores, contracts and every other gate are unchanged from 1.4.0.
+    version: "1.5.0",
+    hysteresis: 0,
+    priorStrength: 12,
+    evidence: { viewWeight: 0.05, viewCap: 50 },
+    normalization: { percentileShare: 0.7, scaleQuantile: 0.95 },
+    freshness: { halfLifeDays: 180, shippingBonus: null },
+    verification: { rule: "coverage", updateUnverifiedCredit: 0.6 },
+    installRate: { minimumViews: 20, z: 1.96 },
+    eligibility: { upstreamHealth: true, reviewedTaskEvidence: true, repositoryEvidence: true, sourceMaxAgeDays: 8, taskCoherence: true,
+      recheckGrace: { publications: 2, manifestKeys: ["entryPoints", "kinds"] } },
+    weights: { copies: 0.36, hearts: 0.2, stars: 0.18, views: 0.03, installRateLowerBound: 0.05, freshness: 0.13, verified: 0.05 }
   }
 ];
 
 const REGISTRY = new Map(DEFINITIONS.map((definition) => [definition.version, deepFreeze(definition)]));
 
-export const CURRENT_METHODOLOGY_VERSION = "1.4.0";
+export const CURRENT_METHODOLOGY_VERSION = "1.5.0";
 
 export function methodologyVersions() {
   return [...REGISTRY.keys()];

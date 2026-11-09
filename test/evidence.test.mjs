@@ -5,6 +5,7 @@ import os from "node:os";
 import path from "node:path";
 import { captureEvidence, observationCurrent, pinnedSource, relevantTreeFingerprint } from "../build/evidence.mjs";
 import { changesBetween, rankPlugins, methodologyFor } from "../build/rank.mjs";
+import { CURRENT_METHODOLOGY_VERSION } from "../build/methodology.mjs";
 import { assertTaskQualifiedSnapshot, taskMetadataHash } from "../build/task-fit.mjs";
 import { refresh as refreshLatest, replayChanges } from "../build/refresh.mjs";
 
@@ -97,16 +98,20 @@ test("related tools retain reviewed shared requirements without acquiring qualif
 });
 
 test("missing or changed source evidence is described as pending qualification, not task departure", () => {
-  const previous = rankPlugins(args()).rankings;
-  for (const mutate of [
-    (a) => { a.pluginProfiles.plugins = {}; },
-    (a) => { a.taskReviews.assignments[0].provenance = "catalog-evidence"; },
-    (a) => { a.evidenceObservations.plugins = {}; },
-    (a) => { a.evidenceObservations.plugins.capture.status = "changed"; }
-  ]) {
-    const a = args(); mutate(a); const result = rankPlugins({ ...a, previous });
-    const [change] = changesBetween(previous, result.rankings, { catalogIds: new Set([plugin.id]), exclusions: result.exclusions, typeIdsById: result.typeIdsById, taskStatusByAssignment: result.taskStatusByAssignment });
-    assert.equal(change.reason, "awaiting-task-qualification");
+  // 1.5.0 names a changed repository's re-check; 1.4.0 snapshots keep their recorded wording.
+  for (const [version, changedReason] of [["1.4.0", "awaiting-task-qualification"], ["1.5.0", "recheck-after-update"]]) {
+    const methodology = methodologyFor(version);
+    const previous = rankPlugins({ ...args(), methodology }).rankings;
+    for (const [mutate, reason] of [
+      [(a) => { a.pluginProfiles.plugins = {}; }, "awaiting-task-qualification"],
+      [(a) => { a.taskReviews.assignments[0].provenance = "catalog-evidence"; }, "awaiting-task-qualification"],
+      [(a) => { a.evidenceObservations.plugins = {}; }, "awaiting-task-qualification"],
+      [(a) => { a.evidenceObservations.plugins.capture.status = "changed"; }, changedReason]
+    ]) {
+      const a = args(); mutate(a); const result = rankPlugins({ ...a, methodology, previous });
+      const [change] = changesBetween(previous, result.rankings, { catalogIds: new Set([plugin.id]), exclusions: result.exclusions, typeIdsById: result.typeIdsById, taskStatusByAssignment: result.taskStatusByAssignment });
+      assert.equal(change.reason, reason, version);
+    }
   }
 });
 
@@ -184,7 +189,7 @@ test("publication records a task correction once and retains it across same-week
   await save("app-types", revisedTaxonomy);
   await save("task-reviews", revisedReviews);
   const migrated = await refreshLatest({ root, now, minimumCatalogSize: 1, fetchImpl });
-  assert.equal(migrated.rankings.methodologyVersion, "1.4.0");
+  assert.equal(migrated.rankings.methodologyVersion, CURRENT_METHODOLOGY_VERSION);
   assert.equal(migrated.categoryChanges.length, 1);
   assert.equal(migrated.categoryChanges[0].kind, "narrowed");
   assert.deepEqual(replayChanges(migrated.auditInputs).categoryChanges, migrated.categoryChanges);

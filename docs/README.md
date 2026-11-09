@@ -14,6 +14,7 @@ The published [methodology page](https://omapicks.com/methodology/) has the exac
 
 Each record explains why a methodology version changed.
 
+- [1.5.0: keep a changed pick while it is re-checked](methodology-1.5.0.md)
 - [1.4.0: compare choices for the same task](methodology-1.4.0.md)
 - [1.3.0: a reviewed shortlist with current evidence](methodology-1.3.0.md)
 - [1.2.0: qualify the task before ranking](methodology-1.2.0.md)

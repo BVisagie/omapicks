@@ -488,7 +488,7 @@ export function rankPlugins({ catalog, stats, taxonomy, taskReviews = { schemaVe
   const prepared = prepareTaxonomy(taxonomy);
   const reviewed = methodology.eligibility.reviewedTaskEvidence === true;
   if (reviewed) validateTaskContracts(prepared.types);
-  const reviews = reviewed ? prepareTaskReviews(taskReviews, prepared.types, { methodology, pluginProfiles, evidenceObservations, now }) : null;
+  const reviews = reviewed ? prepareTaskReviews(taskReviews, prepared.types, { methodology, pluginProfiles, evidenceObservations, now, previous }) : null;
   const fits = new Map();
   const reviewQueue = [];
   const cohorts = new Map(prepared.types.map((type) => [type.id, []]));
@@ -542,10 +542,10 @@ export function rankPlugins({ catalog, stats, taxonomy, taskReviews = { schemaVe
       const research = scoreCohort(members.filter((plugin) => !["related", "rejected"].includes(fits.get(`${plugin.id}/${type.id}`).status)), stats, now, methodology);
       for (const candidate of research) {
         const fit = fits.get(`${candidate.id}/${type.id}`);
-        if ((fit.status === "qualified" && fit.evidenceStatus !== "metadata-reconciliation") || fit.status === "rejected" || fit.status === "related") continue;
+        if ((fit.status === "qualified" && !["metadata-reconciliation", "recheck-pending"].includes(fit.evidenceStatus)) || fit.status === "rejected" || fit.status === "related") continue;
         const prior = previousByType.get(type.id);
         reviewQueue.push({ pluginId: candidate.id, name: candidate.name, repository: candidate.repository, description: candidate.description,
-          typeId: type.id, typeName: type.name, status: fit.evidenceStatus === "metadata-reconciliation" ? "metadata-reconciliation" : fit.status, reason: fit.evidenceStatus === "metadata-reconciliation" ? "Listing metadata changed; reviewed repository evidence remains unchanged. Reconcile the description without inferring a lost capability." : fit.reason, prospectiveScore: candidate.score,
+          typeId: type.id, typeName: type.name, status: fit.evidenceStatus === "recheck-pending" ? "stale-source" : fit.evidenceStatus === "metadata-reconciliation" ? "metadata-reconciliation" : fit.status, reason: fit.evidenceStatus === "recheck-pending" ? "Relevant source changed after review. The cited passages still appear, so it keeps its place for a limited time while it is re-checked." : fit.evidenceStatus === "metadata-reconciliation" ? "Listing metadata changed; reviewed repository evidence remains unchanged. Reconcile the description without inferring a lost capability." : fit.reason, prospectiveScore: candidate.score,
           contractVersion: type.contract.version, metadataHash: taskMetadataHash(members.find((p) => p.id === candidate.id)),
           previousPick: [prior?.winner?.id, prior?.runnerUp?.id].includes(candidate.id),
           wouldEnterPodium: research.slice(0, 2).some((p) => p.id === candidate.id),
@@ -587,6 +587,7 @@ export function rankPlugins({ catalog, stats, taxonomy, taskReviews = { schemaVe
     };
   });
 
+  const fallbackStatus = new Map();
   if (reviewed) {
     // A changed description can stop matching every discovery rule. Its old review still needs
     // attention, especially when it used to supply a recommendation; do not lose it from the queue.
@@ -598,6 +599,7 @@ export function rankPlugins({ catalog, stats, taxonomy, taskReviews = { schemaVe
         const fit = explainTaskFit(plugin, type, reviews);
         if (!held && !fit.status.startsWith("stale-") && !["pending-source", "pending-requirements", "source-unavailable"].includes(fit.status)) continue;
         const prior = previousByType.get(type.id);
+        fallbackStatus.set(key, held ? "held" : fit.status);
         reviewQueue.push({ pluginId: plugin.id, name: plugin.name, repository: plugin.repo, description: plugin.description,
           typeId: type.id, typeName: type.name, status: held ? "held" : fit.status,
           reason: held ? prepared.overrides.reasons[plugin.id]?.[type.id] ?? "Assignment held for editorial review." : fit.reason,
@@ -605,6 +607,16 @@ export function rankPlugins({ catalog, stats, taxonomy, taskReviews = { schemaVe
           previousPick: [prior?.winner?.id, prior?.runnerUp?.id].includes(plugin.id), wouldEnterPodium: false,
           evidence: explainClassification(plugin, prepared, classificationVersion, reviews).find((e) => e.typeId === type.id) });
       }
+    }
+  }
+
+  // 1.5.0: previous picks that left because their repository changed and still await a re-check.
+  // Read after the fallback pass, which covers picks that no longer match the category's rules.
+  if (methodology.eligibility.recheckGrace) {
+    for (const type of types) {
+      const prior = previousByType.get(type.id);
+      type.recheckPending = [prior?.winner, prior?.runnerUp].filter((pick) => pick && ![type.winner?.id, type.runnerUp?.id].includes(pick.id) &&
+        (fits.get(`${pick.id}/${type.id}`)?.status ?? fallbackStatus.get(`${pick.id}/${type.id}`)) === "stale-source").map((pick) => ({ id: pick.id, name: pick.name }));
     }
   }
 
@@ -631,7 +643,8 @@ export function rankPlugins({ catalog, stats, taxonomy, taskReviews = { schemaVe
     typeIdsById,
     qualifiedTypeIdsById: reviewed ? qualifiedTypeIdsById : typeIdsById,
     taskStatusByAssignment: new Map([...fits].map(([key, fit]) => [key, fit.status])
-      .concat(reviewQueue.map((p) => [`${p.pluginId}/${p.typeId}`, p.status]))),
+      // A queued assignment that still qualifies (metadata reconciliation, re-check grace) keeps its fit status.
+      .concat(reviewQueue.filter((p) => !fits.get(`${p.pluginId}/${p.typeId}`)?.qualified).map((p) => [`${p.pluginId}/${p.typeId}`, p.status]))),
     reviewQueue: preserveTaskReviewHistory(reviewQueue, previousReviewQueue, now.toISOString()),
     ...(detail ? { cohorts: scoredCohorts } : {}),
     rankings: {
@@ -685,7 +698,8 @@ export const REMOVAL_REASONS = Object.freeze({
   "no-longer-in-category": "no longer matches this category",
   "related-task-scope": "remains a related tool with a narrower task scope",
   "awaiting-task-qualification": "is awaiting task qualification before it can compete",
-  "task-definition-changed": "was reviewed against a different task definition"
+  "task-definition-changed": "was reviewed against a different task definition",
+  "recheck-after-update": "is being re-checked after its repository changed"
 });
 
 export function removalSentence(change, { atPublication = false } = {}) {
@@ -697,7 +711,8 @@ export function removalSentence(change, { atPublication = false } = {}) {
     "invalid-id": "had an invalid catalog ID",
     "no-longer-in-category": "did not match this category",
     "related-task-scope": "was recorded as a related tool with a narrower task scope",
-    "awaiting-task-qualification": "was awaiting task qualification before it could compete"
+    "awaiting-task-qualification": "was awaiting task qualification before it could compete",
+    "recheck-after-update": "was being re-checked after its repository changed"
   };
   const phrase = (atPublication && historical[change?.reason]) || REMOVAL_REASONS[change?.reason];
   return phrase && change.previous ? `${atPublication ? "At that publication, " : ""}${change.previous.name} ${phrase}.` : "";
@@ -740,8 +755,11 @@ function leadershipChanges(previous, current, slot, context) {
       current: pickRef(newPick)
     };
     let reason = oldId ? removalReason(oldId, type.id, context) : null;
+    // 1.5.0 names the reason a changed repository removed a pick: its re-check is pending.
+    if (reason === "awaiting-task-qualification" && snapshotMethodology(current).eligibility.recheckGrace &&
+        context?.taskStatusByAssignment?.get(`${oldId}/${type.id}`) === "stale-source") reason = "recheck-after-update";
     if (oldId && snapshotMethodology(current).eligibility.taskCoherence && taskDefinitionChanged(before, type) &&
-        (!reason || ["related-task-scope", "awaiting-task-qualification", "no-longer-in-category"].includes(reason))) {
+        (!reason || ["related-task-scope", "awaiting-task-qualification", "recheck-after-update", "no-longer-in-category"].includes(reason))) {
       reason = "task-definition-changed";
     }
     if (reason) change.reason = reason;

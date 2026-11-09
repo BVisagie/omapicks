@@ -806,7 +806,7 @@ function taskFitNote(candidate, method) {
     ${constraints.length ? `<p><strong>Before you choose:</strong> ${constraints.map(escapeHtml).join(" ")}</p>` : ""}
     ${modern ? `<p class="requirements-status">${fit.requirementsStatus === "reviewed" ? "Known installation requirements reviewed." : "Installation requirements have not been fully reviewed."}</p>
     <p class="task-fit-source">${tier} · Reviewed ${escapeHtml(fit.reviewedAt)}${fit.lastValidatedAt ? ` · Evidence checked ${escapeHtml(dateLabel(fit.lastValidatedAt) ?? fit.lastValidatedAt)}` : ""}. Installation and task completion have not been tested.</p>
-    ${fit.evidenceStatus && fit.evidenceStatus !== "current" ? `<p class="evidence-status">${({ changed: "Source evidence changed; re-review is pending.", unavailable: "Current source evidence could not be checked.", "metadata-reconciliation": "Listing metadata changed; reconciliation is pending." })[fit.evidenceStatus] ?? "Evidence requires review."}</p>` : ""}
+    ${fit.evidenceStatus && fit.evidenceStatus !== "current" ? `<p class="evidence-status">${({ changed: "Source evidence changed; re-review is pending.", unavailable: "Current source evidence could not be checked.", "metadata-reconciliation": "Listing metadata changed; reconciliation is pending.", "recheck-pending": "Re-check pending: the repository changed after review. The reviewed passages still appear in the new version." })[fit.evidenceStatus] ?? "Evidence requires review."}</p>` : ""}
     ${sources.length ? `<details class="capability-evidence"><summary>Read the supporting evidence</summary>${[
       ...sources.map(source => ({ source, label: "Capability evidence" })),
       ...(fit.profileSources ?? []).map(source => ({ source, label: "Requirements evidence" }))
@@ -831,6 +831,14 @@ function moreTaskChoices(type, method, rankings) {
       ${candidate.taskFit.constraints.length ? `<p>${candidate.taskFit.constraints.map(escapeHtml).join(" ")}</p>` : ""}
       <p class="task-fit-source">${outboundLink(candidate.taskFit.source.url, "Capability evidence")}</p>`}${siblingLinks(candidate)}</li>`).join("")}</ul>` : ""}
   </section>`;
+}
+
+// Methodology 1.5.0 records previous picks that left only because their repository changed.
+function recheckNote(type, lead = "") {
+  const names = (type.recheckPending ?? []).map((pick) => escapeHtml(pick.name));
+  if (!names.length) return "";
+  const text = `${names.join(" and ")} ${names.length === 1 ? "is" : "are"} being re-checked after an update and can return once the review is renewed.`;
+  return lead ? `${lead}${text}` : `<p>${text}</p>`;
 }
 
 function snapshotNotice(rankings) {
@@ -1229,12 +1237,12 @@ function typePage(type, rankings) {
       </div>
     </section>
     ${builtInNote(type, method)}
-    ${modern && !type.winner ? `<section class="glass shortlist-empty" aria-labelledby="shortlist-empty-heading"><h2 id="shortlist-empty-heading">No reviewed option yet</h2><p>No candidate currently meets this task's review requirements. Research leads remain unranked until their capabilities and requirements are established.</p></section>` : `<div class="podium${modern && !type.runnerUp ? " single-option" : ""}" data-animate>
+    ${modern && !type.winner ? `<section class="glass shortlist-empty" aria-labelledby="shortlist-empty-heading"><h2 id="shortlist-empty-heading">No reviewed option yet</h2><p>No candidate currently meets this task's review requirements. Research leads remain unranked until their capabilities and requirements are established.</p>${recheckNote(type)}</section>` : `<div class="podium${modern && !type.runnerUp ? " single-option" : ""}" data-animate>
       ${candidateCard(type.winner, "winner", type, rankings.week, { runnerUp: type.runnerUp, topScorer: type.topScorer, method, generatedAt: rankings.generatedAt })}
       ${modern ? "" : scoreboard(type, method)}
       ${modern && !type.runnerUp ? "" : candidateCard(type.runnerUp, "runner-up", type, rankings.week, { method, generatedAt: rankings.generatedAt })}
     </div>`}
-    ${modern && type.winner && !type.runnerUp ? '<p class="shortlist-note">One option currently qualifies for this task. Additional options appear after they meet the same task requirements.</p>' : ""}
+    ${modern && type.winner && !type.runnerUp ? `<p class="shortlist-note">One option currently qualifies for this task. Additional options appear after they meet the same task requirements.${recheckNote(type, " ")}</p>` : ""}
     ${modern ? moreTaskChoices(type, method, rankings) : ""}
     ${scoreComparison(type, method, rankings.week)}
     ${modern ? "" : moreTaskChoices(type, method, rankings)}
@@ -1309,7 +1317,7 @@ function methodologyPage(rankings) {
     <p>${escapeHtml(copy.eligibility)} Only plugins matching at least one focused app type compete; unmatched listings remain unranked instead of being forced into a catch-all category. Category eligibility requires evidence that the plugin directly performs the stated task. ${reviewedPresentation(method) ? "Names, descriptions and tags supply research leads. Qualification requires repository evidence at a recorded revision, reviewed installation requirements and current source checks; keyword matches alone never qualify." : "Names and descriptions supply that evidence; tags, supporting technologies, and incidental alerts do not qualify on their own."} A plugin can appear in several app types when it directly performs each task. ${method.eligibility.taskCoherence ? "Every ranked option must perform the same action on the same target and complete the category's minimum outcome. Joining a network is separate from hosting a hotspot; host firewall rules are separate from blocking an app's outbound traffic. Hardware, accounts and provider support remain explicit requirements." : "Computer batteries, peripheral batteries, and phone integration have separate categories; Bluetooth means device discovery, pairing, connections, or adapter controls. Audio codecs belong under Audio."} Assignments awaiting review remain unranked.</p>
     ${method.eligibility.taskCoherence ? `<p>Review has two distinct questions: does the source support the claimed capability, and does that capability complete the shared task? A narrow feature does not qualify merely because it relates to the same topic. Each assignment of a multipurpose plugin needs its own evidence. A category may show one reviewed option or none; extra places are never filled with tools for a different task. These are checks of documented scope, not installation or task-completion tests.</p>` : ""}
     <h2>The score</h2>
-    ${method.eligibility.reviewedTaskEvidence ? `<p>Category matching supplies research leads. A recommendation needs a source-backed task decision in <code>data/task-reviews.json</code> that satisfies the category's minimum capabilities. Native core and substantial secondary capabilities qualify equally. Thin integrations are shown as related tools; pending, rejected and stale decisions cannot enter the podium. ${reviewedPresentation(method) ? "Repository identity, task contracts, and the recorded evidence determine validity. Listing changes enter reconciliation; changed supporting evidence needs re-review. Shared plugin requirements accompany every task assignment." : "A changed name, description, repository or task contract invalidates the decision until review."} Reviews describe publicly documented capabilities, not installation testing. Requirements and limitations appear with each choice.</p>
+    ${method.eligibility.reviewedTaskEvidence ? `<p>Category matching supplies research leads. A recommendation needs a source-backed task decision in <code>data/task-reviews.json</code> that satisfies the category's minimum capabilities. Native core and substantial secondary capabilities qualify equally. Thin integrations are shown as related tools; pending, rejected and stale decisions cannot enter the podium. ${reviewedPresentation(method) ? "Repository identity, task contracts, and the recorded evidence determine validity. Listing changes enter reconciliation; changed supporting evidence needs re-review." + (method.eligibility.recheckGrace ? ` A previous pick whose repository changed keeps its place for up to ${method.eligibility.recheckGrace.publications} weekly publications, labelled re-check pending, while every reviewed passage still appears at the new commit and its manifest entry points and kinds are unchanged. After that it waits for the re-check like any other changed review.` : "") + " Shared plugin requirements accompany every task assignment." : "A changed name, description, repository or task contract invalidates the decision until review."} Reviews describe publicly documented capabilities, not installation testing. Requirements and limitations appear with each choice.</p>
     <p>Each capture includes the complete review file and its checksum. The priority queue includes new claims, previous picks with changed evidence and prospective challengers. These research scores cannot confer eligibility. Popularity is normalized within the reviewed cohort; it remains evidence about the whole plugin, not measured adoption of an individual capability.</p>` : ""}
     <p>${copy.score}</p>
     <ul class="weight-list" data-animate>${weights}</ul>

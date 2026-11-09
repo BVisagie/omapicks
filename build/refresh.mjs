@@ -441,6 +441,22 @@ function formatMethodology(result) {
   return `Methodology ${current} replaces published methodology ${published}.`;
 }
 
+// A sharp fall in coverage usually means reviews went stale faster than they were
+// re-checked. Counts only, so upstream names never reach Actions annotations.
+export const COVERAGE_LIMITS = Object.freeze({ runnerUpDrop: 3, qualifiedShareDrop: 0.1 });
+export function coverageWarnings(previous, rankings, previousReport, report, limits = COVERAGE_LIMITS) {
+  if (!previous?.types?.length || !rankings?.types?.length) return [];
+  const runnerUps = (snapshot) => snapshot.types.filter((type) => type.runnerUp).length;
+  const warnings = [];
+  const [before, after] = [runnerUps(previous), runnerUps(rankings)];
+  if (before - after > limits.runnerUpDrop) warnings.push(`Runners-up fell from ${before} to ${after} since ${previous.week}.`);
+  const [qualifiedBefore, qualifiedAfter] = [previousReport?.qualifiedAssignments, report?.qualifiedAssignments];
+  if (Number.isFinite(qualifiedBefore) && Number.isFinite(qualifiedAfter) && qualifiedBefore > 0 && (qualifiedBefore - qualifiedAfter) / qualifiedBefore > limits.qualifiedShareDrop) {
+    warnings.push(`Qualified assignments fell from ${qualifiedBefore} to ${qualifiedAfter} (${Math.round((1 - qualifiedAfter / qualifiedBefore) * 100)}%).`);
+  }
+  return warnings.map((warning) => `Coverage warning: ${warning} Check the review queue for picks whose repositories changed.`);
+}
+
 export function formatRefreshLog(result, { dryRun = false } = {}) {
   if (result.reason === "already-refreshed") {
     const published = result.publishedMethodologyVersion ?? LEGACY_METHODOLOGY_VERSION;
@@ -510,6 +526,7 @@ export function formatRefreshLog(result, { dryRun = false } = {}) {
     ? `${plural(invertedRaces.length, "type")} where the raw-score leader is not champion (held by ${methodology.hysteresis * 100}% hysteresis)`
     : `${plural(0, "type")} where the raw-score leader is not champion`;
   lines.push(`${plural(runnerUpChanges.length, "runner-up change")}; ${invertedClause}.`);
+  lines.push(...(result.coverageWarnings ?? []));
 
   for (const change of runnerUpChanges) {
     lines.push(`  Runner-up ${change.typeName}: ${formatPickName(change.previous)} -> ${formatPickName(change.current)}${formatReason(change)}`);
@@ -593,7 +610,7 @@ export async function refresh({
   validateFeeds(catalogResult.body, statsResult.body, minimumCatalogSize, previous);
 
   const evidenceObservations = methodology.eligibility.repositoryEvidence
-    ? await captureEvidence({ catalog: catalogResult.body.plugins, taskReviews, pluginProfiles, taxonomy, now, fetchImpl })
+    ? await captureEvidence({ catalog: catalogResult.body.plugins, taskReviews, pluginProfiles, taxonomy, now, fetchImpl, recheck: methodology.eligibility.recheckGrace ?? null })
     : { schemaVersion: 1, plugins: {} };
   const source = {
     catalog: {
@@ -689,6 +706,7 @@ export async function refresh({
     weeklyCategoryChanges,
     retirementConflicts: registry.status === "available" ? registry.retiredPluginIds.filter((id) => context.catalogIds.has(id)) : [],
     invertedRaces: invertedRawScoreRaces(rankings),
+    coverageWarnings: coverageWarnings(previous, rankings, previousReport, report),
     deltas: {
       catalog: countDelta(previous?.source?.catalog?.count, source.catalog.count),
       unclassified: countDelta(previousReport?.uniqueUnclassifiedCount, report.uniqueUnclassifiedCount)
@@ -738,6 +756,8 @@ async function main() {
   const lines = formatRefreshLog(result, { dryRun });
   for (const line of lines) console.log(line);
   for (const warning of result.imageWarnings ?? []) console.warn(`Image warning: ${warning}`);
+  // An Actions annotation makes a falling shortlist visible on the run page; publication continues.
+  if (process.env.GITHUB_ACTIONS) for (const warning of result.coverageWarnings ?? []) console.log(`::warning title=Recommendation coverage::${warning}`);
   if (result.classificationAudit) {
     const { changed, unresolved, assignments } = result.classificationAudit.counts;
     lines.push(`Classification: ${assignments} discovered assignments; ${changed} changed listings; ${unresolved} held assignments. Full evidence: tmp/classification-audit/report.json`);
