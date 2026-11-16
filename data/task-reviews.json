@@ -5513,6 +5513,222 @@
       }
     },
     {
+      "pluginId": "calebhat.read-aloud",
+      "typeId": "read-aloud",
+      "contractVersion": 1,
+      "metadataHash": "0d7ea37d57c2c05e9a74cf4276a120894f066fac58b89e4ae6a25fd05207dc13",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "speak-user-text"
+      ],
+      "constraints": [
+        "Speaks through Microsoft Edge neural voices via edge-tts."
+      ],
+      "reason": "Reads selected text, or text pasted from the clipboard into its panel, aloud with Edge neural voices.",
+      "reviewedAt": "2026-11-16",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/calebhat/omarchy-read-aloud/blob/019c457c97ad92637d81f50360db8b46f02e60ff/README.md",
+        "revision": "019c457c97ad92637d81f50360db8b46f02e60ff",
+        "path": "README.md",
+        "sha256": "357799c8891fcb57c65ce00306936d53c959303e67f2547f7d7b8b5b7a21ad72",
+        "evidence": "README.md lines 3-3:\nAn Omarchy bar plugin that reads selected or pasted text aloud with Microsoft Edge neural voices.\n\nREADME.md lines 26-31:\n- Click the book icon in the bar to open the panel\n- While text is playing, three small bars pulse next to the icon\n- **Paste** loads the clipboard and starts reading\n- Click a word to start there; click and drag to select\n- Click outside the panel, press Esc, or click **Hide** to close it\n- Reading continues from the bar after the panel closes"
+      }
+    },
+    {
+      "pluginId": "chalkers.read-aloud",
+      "typeId": "read-aloud",
+      "contractVersion": 1,
+      "metadataHash": "b8b81f53e0650715434171b349841e30cc4d341985c61f72bae97e6046c34a8b",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "speak-user-text"
+      ],
+      "constraints": [
+        "Speech comes from a Wyoming server you run or can reach; the plugin bundles no voice."
+      ],
+      "reason": "Reads highlighted text, the clipboard, files or piped text aloud through a Wyoming speech server, with pause and skip controls.",
+      "reviewedAt": "2026-11-16",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/chalkers/omarchy-read-aloud/blob/47af86d54cecf168e784691eec7490af536b1b50/README.md",
+        "revision": "47af86d54cecf168e784691eec7490af536b1b50",
+        "path": "README.md",
+        "sha256": "a3151085c555503c11ece77714c08ab3cfc01a7032962315a843e55a5f54b406",
+        "evidence": "README.md lines 3-4:\nRead highlighted text aloud from a native Omarchy bar player, using your own\n[Wyoming](https://github.com/rhasspy/wyoming) text-to-speech server.\n\nREADME.md lines 11-12:\n- **Read selection, clipboard, files or piped text.**\n- **Pause/resume, stop, restart a sentence and skip forward.**"
+      }
+    },
+    {
+      "pluginId": "digitalbase.sayit",
+      "typeId": "read-aloud",
+      "contractVersion": 1,
+      "metadataHash": "ceae891d713cdbc28999fe3eebef34bcc0f5984d554f564eb28fc87e45beabad",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "speak-user-text"
+      ],
+      "constraints": [
+        "Local Kokoro voice; the port is early and only Kokoro on x86-64 CPU is enabled."
+      ],
+      "reason": "Reads the selected text or the clipboard aloud with a local Kokoro speech model, with pause, seek and speed controls.",
+      "reviewedAt": "2026-11-16",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/digitalbase/omarchy-sayit/blob/c1803eaa8bbf741e25944cad7fa6ded1ab967d5d/README.md",
+        "revision": "c1803eaa8bbf741e25944cad7fa6ded1ab967d5d",
+        "path": "README.md",
+        "sha256": "088f2b88fbeccb5523a6d65d02743236300d8e48ec48c2732df3c37a3b60c015",
+        "evidence": "README.md lines 3-3:\nA native Linux port in progress of [callebtc/sayit](https://github.com/callebtc/sayit). Select text, press F10, and hear a local speech model read it aloud. F9 remains Omarchy's Voxtype dictation shortcut.\n\nREADME.md lines 11-11:\n- Explicit Wayland selection or clipboard reading, without clipboard monitoring."
+      }
+    },
+    {
+      "pluginId": "io.github.djspatule.tts-clip",
+      "typeId": "read-aloud",
+      "contractVersion": 1,
+      "metadataHash": "aa10f71e8bbc9d8027954e6158d3957a518faf4ec87187138cb46de0813c286b",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "speak-user-text"
+      ],
+      "constraints": [
+        "Reads clipboard text only.",
+        "Speech comes from MiniMax, OpenAI or ElevenLabs with your own API key."
+      ],
+      "reason": "Speaks whatever text is on the Wayland clipboard from a bar click or keybinding, through a cloud speech provider.",
+      "reviewedAt": "2026-11-16",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/lionel-arnaud/tts-clip/blob/8000e99493acba576359f05e058c4b36b964477f/README.md",
+        "revision": "8000e99493acba576359f05e058c4b36b964477f",
+        "path": "README.md",
+        "sha256": "008c19dd711e266b894c6bbd0041fab75f4f17992a37d76f8d996a8a556e5008",
+        "evidence": "README.md lines 5-5:\n`tts-clip` is a tiny CLI + Omarchy bar-widget plugin that speaks whatever is on your Wayland clipboard. It ships with three TTS providers — **MiniMax**, **OpenAI** (also used by Codex), and **ElevenLabs** — and you bring your own API key."
+      }
+    },
+    {
+      "pluginId": "io.github.hikari112.tts",
+      "typeId": "read-aloud",
+      "contractVersion": 1,
+      "metadataHash": "20f9edb14579a6d469ce348060bba946ac7794732b4146dfc7ac75b609719d57",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "speak-user-text"
+      ],
+      "constraints": [
+        "Local Piper or Kokoro voices by default; cloud voices are optional."
+      ],
+      "reason": "Reads selected or copied text aloud directly, and reads copied images, dragged regions, windows or the monitor through OCR.",
+      "reviewedAt": "2026-11-16",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/hikari112/omarchy-tts/blob/f7d4df81f09a9a4a9d94790fbe5ec5a3dd7ca1a3/README.md",
+        "revision": "f7d4df81f09a9a4a9d94790fbe5ec5a3dd7ca1a3",
+        "path": "README.md",
+        "sha256": "e28f9646e24b2b0c2259dd0f3bf0e43a147d6868204c529c1a4a845ef21d8855",
+        "evidence": "README.md lines 9-11:\nOmarchy TTS turns speech into a desktop command: indicate something, hear it,\nthen stop. Read a selection, the clipboard, a clipboard image, a window, the\nfocused monitor, or a region you draw around otherwise unreachable text.\n\nREADME.md lines 31-36:\n| What you indicate | What the plugin does |\n|---|---|\n| Selected or copied text | Reads the text directly |\n| A copied image | Runs OCR (local by default), then reads the result |\n| A dragged region | Captures those pixels, runs OCR, then reads them |\n| The focused window or monitor | Captures it without requiring pointer precision |"
+      }
+    },
+    {
+      "pluginId": "io.github.nousd.voxbox",
+      "typeId": "read-aloud",
+      "contractVersion": 1,
+      "metadataHash": "3db6adc9c545c606d5a5bb0ee345039f98541ea0785e995475fd1c344e5fe355",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "speak-user-text"
+      ],
+      "constraints": [
+        "Offline voices; it has no clipboard or paste mode."
+      ],
+      "reason": "Reads the text selection, a document file or an OCR-captured screen region aloud with offline voices in 51 languages.",
+      "reviewedAt": "2026-11-16",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/nousd/voxbox/blob/fee2a334454854fb71de35ebce0c21f981449d68/README.md",
+        "revision": "fee2a334454854fb71de35ebce0c21f981449d68",
+        "path": "README.md",
+        "sha256": "fe866d44185fd83cbaa1e529df40a990c11158abc10aed41b30f2b6f999363c9",
+        "evidence": "README.md lines 3-4:\nReads anything on your screen aloud. 100% offline — no cloud, no accounts, no\nprivacy concerns.\n\nREADME.md lines 8-10:\n- Drag a box over anything on screen → OCR → speech\n- Read your text selection, or a PDF / EPUB / txt / HTML file\n- 51 languages offline, auto-detected per sentence — mixed-language text just works"
+      }
+    },
+    {
+      "pluginId": "io.github.pavellizunov.teratts",
+      "typeId": "read-aloud",
+      "contractVersion": 1,
+      "metadataHash": "9e4727de1958ec3022ad4aacc2b19df65fd4fc1664097b8854d2f1ad8cd52896",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "speak-user-text"
+      ],
+      "constraints": [
+        "Speech comes from your own TeraTTS-compatible server; none is bundled."
+      ],
+      "reason": "Reads selected text, the clipboard or an OCR screen capture aloud through a TeraTTS server, and saves the speech as audio files.",
+      "reviewedAt": "2026-11-16",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/PavelLizunov/omarchy-teratts-plugin/blob/f57d6a41de055935390fb90b16b00ed22479f4b3/README.md",
+        "revision": "f57d6a41de055935390fb90b16b00ed22479f4b3",
+        "path": "README.md",
+        "sha256": "c96aaba0e06012c5a4adeba8b009bef694458ebe7c0e4389543c3eb162ea4f0a",
+        "evidence": "README.md lines 3-5:\nRead selected text, clipboard contents or a screen capture aloud through your\nown [TeraTTS-compatible server](docs/SERVER.md). Save speech as MP3, OGG/Opus\nor WAV, and preview your saved recordings from a native Omarchy panel.\n\nREADME.md lines 40-40:\n- Read: selection, clipboard, area/window/monitor OCR, voice and speech speed."
+      }
+    },
+    {
+      "pluginId": "jacob.omaspeak",
+      "typeId": "read-aloud",
+      "contractVersion": 1,
+      "metadataHash": "78f1178cf3b6b8e66e179d83f1db052e93a164b079084a1b95e303e781da496c",
+      "decision": "related",
+      "role": "integration",
+      "capabilities": [],
+      "constraints": [
+        "Drives the separate Omaspeak app; it speaks only a phrase typed into the panel."
+      ],
+      "reason": "A status and voice widget for the separate Omaspeak daemon; its phrase box can speak typed text, but it cannot read a selection or the clipboard.",
+      "reviewedAt": "2026-11-16",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/jacob-vincent-mink/omaspeak-plugin/blob/eb9a39c70e159747c14719789792267052ff75fb/README.md",
+        "revision": "eb9a39c70e159747c14719789792267052ff75fb",
+        "path": "README.md",
+        "sha256": "e75dd04e2d149a4059014dad9374f98cda1038b3b7f067833176ad1c296094b6",
+        "evidence": "README.md lines 3-5:\nA compact Omarchy bar widget for the [Omaspeak](https://github.com/jacob-vincent-mink/omaspeak)\nlocal text-to-speech daemon: see whether speech is ready, speak a phrase, and\nchoose the model voice without leaving the bar.\n\nREADME.md lines 67-67:\n| `omaspeak say <text>` | speaking the typed phrase |"
+      }
+    },
+    {
+      "pluginId": "omayap.read-aloud",
+      "typeId": "read-aloud",
+      "contractVersion": 1,
+      "metadataHash": "2dcb2df08688b3ba660aa4355c62c76ecbec5831bbef3e16b6556b34e919b1d2",
+      "decision": "qualified",
+      "role": "core",
+      "capabilities": [
+        "speak-user-text"
+      ],
+      "constraints": [
+        "Local Piper voices after setup.",
+        "Reads the selection or OCR screen text; it has no clipboard or paste mode."
+      ],
+      "reason": "Reads the current text selection aloud with a local Piper voice, and can read screen text captured with Omarchy's OCR.",
+      "reviewedAt": "2026-11-16",
+      "provenance": "repository-evidence",
+      "source": {
+        "url": "https://github.com/Ray-4Ws/OmaYap/blob/f9ac24b2245f9217a0e7208186b731db8b60543d/README.md",
+        "revision": "f9ac24b2245f9217a0e7208186b731db8b60543d",
+        "path": "README.md",
+        "sha256": "0569a4fc9215615939feb1e9ac215f8f1a5b926b7a3a59536cbe0d0cac024635",
+        "evidence": "README.md lines 3-7:\n`OmaYap` is an Omarchy shell plugin (`omayap.read-aloud`) that reads\nthe current text selection aloud across the desktop. It is local after setup:\nPiper synthesizes with a selected official Piper voice (the default is\n`en_US-lessac-medium`) and sends signed 16-bit PCM to\nPipeWire's `pw-play`.\n\nREADME.md lines 64-65:\n- Select text in any application and press **F10**.\n- Left-click the bar icon to read the selection, or to stop active playback.\n\nREADME.md lines 80-84:\n- Use **Ctrl+F10** or the bar popup's **Read text from screen (OCR)** action to\n  run Omarchy's installed local screen-text capture. It does not modify\n  CLIPBOARD; the native OCR language setting is inherited from\n  `OMARCHY_OCR_LANGS`. Empty capture means cancellation, and recognized text\n  is capped at 20,000 Unicode code points before it reaches Piper."
+      }
+    },
+    {
       "pluginId": "angeeeld.omaltbar",
       "typeId": "screen-recording",
       "contractVersion": 1,

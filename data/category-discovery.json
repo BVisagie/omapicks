@@ -486,6 +486,21 @@
         "github.com/ubeyidah/omaclock",
         "github.com/weedwhitesandwine/omascratch"
       ]
+    },
+    {
+      "id": "phrase:read-aloud",
+      "status": "accepted",
+      "reason": "Accepted as Read Aloud (reading selected, copied or pasted text aloud). The 2026-11-10 observation (https://github.com/BVisagie/omapicks/actions/runs/42842159260) confirmed the phrase against the 2026-11-03 baseline; Bible, news and dictation listings that matched only incidentally are excluded from the category.",
+      "repositories": [
+        "github.com/adamperlis/omarchy-walkie",
+        "github.com/calebhat/omarchy-read-aloud",
+        "github.com/chalkers/omarchy-read-aloud",
+        "github.com/digitalbase/omarchy-sayit",
+        "github.com/dl-alexandre/omarchy-bible-search",
+        "github.com/lionel-arnaud/tts-clip",
+        "github.com/shirak-semonian/bibletales-omarchy-plugin",
+        "github.com/shirak-semonian/newsflash-omarchy-plugin"
+      ]
     }
   ]
 }

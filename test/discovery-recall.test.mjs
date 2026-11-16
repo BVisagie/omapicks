@@ -12,8 +12,17 @@ const reviews = JSON.parse(await readFile(new URL("../data/task-reviews.json", i
 const report = JSON.parse(await readFile(new URL("../docs/analysis/2026-10-30-discovery-recall.json", import.meta.url)));
 const expectations = JSON.parse(await readFile(new URL("./fixtures/discovery-expectations.json", import.meta.url))).assignments;
 // The dated report records the editorial decisions of its 30 October capture. Later reviews
-// must not rewrite it, so it replays against the decisions captured with it.
-const capturedReviews = JSON.parse(gunzipSync(await readFile(new URL("./fixtures/task-coherence-migration.json.gz", import.meta.url)))).taskReviews;
+// must not rewrite it, so it replays against the decisions captured with it. Categories added
+// after the capture are outside its scope: it replays the current rules for the categories
+// that existed then, so a change to one of those still fails here.
+const captured = JSON.parse(gunzipSync(await readFile(new URL("./fixtures/task-coherence-migration.json.gz", import.meta.url))));
+const capturedReviews = captured.taskReviews;
+const capturedTypes = new Set(captured.taxonomy.types.map((type) => type.id));
+const laterTypes = new Set(taxonomy.types.map((type) => type.id).filter((id) => !capturedTypes.has(id)));
+const capturedScope = { ...taxonomy, types: taxonomy.types.filter((type) => !laterTypes.has(type.id)),
+  overrides: { ...taxonomy.overrides, ...Object.fromEntries(["discoveryExclude", "discoveryInclude"].map((field) =>
+    [field, (taxonomy.overrides?.[field] ?? []).filter((entry) => !laterTypes.has(entry.typeId))])) } };
+const capturedExpectations = expectations.filter((entry) => !laterTypes.has(entry.typeId));
 const prepared = prepareTaxonomy(taxonomy);
 const plugins = new Map(fixture.plugins.map((plugin) => [plugin.id, plugin]));
 const matches = (id) => {
@@ -22,7 +31,7 @@ const matches = (id) => {
 };
 
 test("independent destination expectations cover every split lead and discovery regression", () => {
-  assert.deepEqual(auditDiscoveryRecall(fixture, taxonomy, expectations, capturedReviews), report);
+  assert.deepEqual(auditDiscoveryRecall(fixture, capturedScope, capturedExpectations, capturedReviews), report);
   // Current decisions must keep every route resolved.
   const actual = auditDiscoveryRecall(fixture, taxonomy, expectations, reviews);
   assert.equal(actual.summary.unresolvedAssignments, 0);

@@ -3234,6 +3234,166 @@
           "evidence": "README.md lines 20-27:\n```sh\nomarchy plugin add https://github.com/njpatel/omaherdr.git --enable\nomarchy restart shell\n```\n\nNothing to configure. Omaherdr finds every `herdr` you are attached to from this desktop - plain, `--session NAME`, or `--remote HOST` - by looking at the processes in your terminal windows, then talks to each server over its socket (through `ssh HOST` for remote ones, which needs a key that works non-interactively and `python3` on the far side). A local server running with nobody attached is listed too.\n\nNeeds herdr 0.8 or newer and `python3`; remote hosts need non-interactive SSH access and `python3` too. The attention view and desktop notifications additionally use local PyGObject/Gio, Cairo and librsvg (`python-gobject`, `python-cairo`, `librsvg` on Arch). The remote helper remains Python-standard-library-only."
         }
       ]
+    },
+    "calebhat.read-aloud": {
+      "repository": "https://github.com/calebhat/omarchy-read-aloud",
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Run bin/setup once with network access; it installs the pinned edge-tts package into a user environment.",
+        "Needs python, mpv and wl-clipboard."
+      ],
+      "reviewedAt": "2026-11-16",
+      "sources": [
+        {
+          "url": "https://github.com/calebhat/omarchy-read-aloud/blob/019c457c97ad92637d81f50360db8b46f02e60ff/README.md",
+          "revision": "019c457c97ad92637d81f50360db8b46f02e60ff",
+          "path": "README.md",
+          "sha256": "357799c8891fcb57c65ce00306936d53c959303e67f2547f7d7b8b5b7a21ad72",
+          "evidence": "README.md lines 14-14:\n`omarchy plugin add` only clones files. Run `bin/setup` once (needs network) to create a user venv and install the pinned `edge-tts` lock file in `share/requirements.txt`. Setup does not upgrade pip or install unpinned packages. Re-run it after plugin updates that change that lock file.\n\nREADME.md lines 19-19:\nsudo pacman -S --needed python mpv wl-clipboard"
+        }
+      ]
+    },
+    "omayap.read-aloud": {
+      "repository": "https://github.com/Ray-4Ws/OmaYap",
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Run bin/setup once; it needs uv and network access and downloads a Piper voice of about 63 MB."
+      ],
+      "reviewedAt": "2026-11-16",
+      "sources": [
+        {
+          "url": "https://github.com/Ray-4Ws/OmaYap/blob/f9ac24b2245f9217a0e7208186b731db8b60543d/README.md",
+          "revision": "f9ac24b2245f9217a0e7208186b731db8b60543d",
+          "path": "README.md",
+          "sha256": "0569a4fc9215615939feb1e9ac215f8f1a5b926b7a3a59536cbe0d0cac024635",
+          "evidence": "README.md lines 29-30:\n- requires `uv` (if it is missing, it prints the exact command\n  `omarchy pkg add uv` and stops);\n\nREADME.md lines 50-53:\nThe default model is about 63 MB and setup needs network access. Runtime and\nmodel data are private (`0700` directories, `0600` files) under\n`~/.local/share/omayap-read-aloud/models/` (or the private\n`XDG_DATA_HOME` equivalent). Setup never auto-downloads alternate voices. This"
+        }
+      ]
+    },
+    "chalkers.read-aloud": {
+      "repository": "https://github.com/chalkers/omarchy-read-aloud",
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Needs a reachable Wyoming text-to-speech server, such as Piper or Qwen3-TTS.",
+        "Needs Python 3.11 or newer, mpv and wl-clipboard."
+      ],
+      "reviewedAt": "2026-11-16",
+      "sources": [
+        {
+          "url": "https://github.com/chalkers/omarchy-read-aloud/blob/47af86d54cecf168e784691eec7490af536b1b50/README.md",
+          "revision": "47af86d54cecf168e784691eec7490af536b1b50",
+          "path": "README.md",
+          "sha256": "a3151085c555503c11ece77714c08ab3cfc01a7032962315a843e55a5f54b406",
+          "evidence": "README.md lines 20-23:\n- Omarchy 4 with its Quickshell plugin API\n- Python 3.11 or newer\n- `mpv` and `wl-clipboard`\n- A reachable Wyoming TTS server, such as a compatible Piper or Qwen3-TTS service"
+        }
+      ]
+    },
+    "io.github.hikari112.tts": {
+      "repository": "https://github.com/hikari112/omarchy-tts",
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "The panel's welcome screen installs the local engine and voice; shortcuts are installed from its Keys tab.",
+        "Uses bash, wl-clipboard, jq, python3, flock and PipeWire or ALSA; screen reading also uses tesseract, grim and slurp."
+      ],
+      "reviewedAt": "2026-11-16",
+      "sources": [
+        {
+          "url": "https://github.com/hikari112/omarchy-tts/blob/f7d4df81f09a9a4a9d94790fbe5ec5a3dd7ca1a3/README.md",
+          "revision": "f7d4df81f09a9a4a9d94790fbe5ec5a3dd7ca1a3",
+          "path": "README.md",
+          "sha256": "e28f9646e24b2b0c2259dd0f3bf0e43a147d6868204c529c1a4a845ef21d8855",
+          "evidence": "README.md lines 49-51:\nClick the speaker in the bar. The welcome screen installs the recommended\nlocal engine and voice; the **Keys** tab installs the shortcuts. Both are\nguided, cancellable operations—no terminal setup or manual config editing.\n\nREADME.md lines 55-60:\nThe base plugin uses `bash`, `wl-clipboard`, `jq`, `python3`, `flock`\n(util-linux), and PipeWire or ALSA. Screen-reading modes additionally use\n`tesseract`, `grim`, `slurp`, and optionally `hyprpicker`. Cloud providers use\n`curl`, as do voice-catalogue refreshes and downloads; secure key storage uses\n`secret-tool` (libsecret). These system tools ship with Omarchy or are installed\nfrom its configured Arch repositories."
+        }
+      ]
+    },
+    "io.github.djspatule.tts-clip": {
+      "repository": "https://github.com/lionel-arnaud/tts-clip",
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Run install.sh to choose a provider and store its API key; it links the tts-clip command into ~/.local/bin.",
+        "Needs wl-clipboard, mpv, curl and python3."
+      ],
+      "reviewedAt": "2026-11-16",
+      "sources": [
+        {
+          "url": "https://github.com/lionel-arnaud/tts-clip/blob/8000e99493acba576359f05e058c4b36b964477f/README.md",
+          "revision": "8000e99493acba576359f05e058c4b36b964477f",
+          "path": "README.md",
+          "sha256": "008c19dd711e266b894c6bbd0041fab75f4f17992a37d76f8d996a8a556e5008",
+          "evidence": "README.md lines 26-31:\n`install.sh` will:\n1. Check that `wl-clipboard`, `mpv`, `curl`, and `python3` are installed (and tells you what to install if not).\n2. Ask which provider you want.\n3. Ask for the matching API key.\n4. Write it all to `~/.config/tts-clip/env` (mode `0600`).\n5. Symlink `tts_clip.py` → `~/.local/bin/tts-clip`."
+        }
+      ]
+    },
+    "digitalbase.sayit": {
+      "repository": "https://github.com/digitalbase/omarchy-sayit",
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "The plugin adds only the bar interface; the speech service, Kokoro engine and model are set up separately from a clone of the repository.",
+        "Needs python, python-gobject, gtk3, mpv, wl-clipboard and ffmpeg."
+      ],
+      "reviewedAt": "2026-11-16",
+      "sources": [
+        {
+          "url": "https://github.com/digitalbase/omarchy-sayit/blob/c1803eaa8bbf741e25944cad7fa6ded1ab967d5d/README.md",
+          "revision": "c1803eaa8bbf741e25944cad7fa6ded1ab967d5d",
+          "path": "README.md",
+          "sha256": "088f2b88fbeccb5523a6d65d02743236300d8e48ec48c2732df3c37a3b60c015",
+          "evidence": "README.md lines 5-5:\n**This is an early working port, not full upstream parity.** Kokoro has been tested with real offline English and Spanish synthesis on Omarchy. Only Kokoro on Linux x86-64 CPU is enabled. Qwen3-TTS, Chatterbox and OmniVoice are disabled until their dependencies, model artifacts and auxiliary downloads are locked and tested. Japanese and Chinese are also disabled for now. The catalog retains all 22 upstream entries, including models that have not been ported. See [the parity tracker](docs/parity.md).\n\nREADME.md lines 27-27:\nomarchy pkg add python python-gobject gtk3 mpv wl-clipboard ffmpeg\n\nREADME.md lines 40-40:\nAdding the plugin installs the bar interface only. It does not install Python engines, download model weights or start the speech service. Run the following commands explicitly to set those up. If you already have a source checkout, run them there instead. Keep the engine environments outside the installed plugin directory so Omarchy can validate plugin updates:"
+        }
+      ]
+    },
+    "io.github.pavellizunov.teratts": {
+      "repository": "https://github.com/PavelLizunov/omarchy-teratts-plugin",
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Needs a TeraTTS-compatible server URL and token; generic OpenAI or ElevenLabs endpoints are not compatible.",
+        "Needs bash, jq, curl, Python 3.12 or newer, util-linux and mpv; selection and clipboard use wl-paste, capture uses grim and slurp."
+      ],
+      "reviewedAt": "2026-11-16",
+      "sources": [
+        {
+          "url": "https://github.com/PavelLizunov/omarchy-teratts-plugin/blob/f57d6a41de055935390fb90b16b00ed22479f4b3/README.md",
+          "revision": "f57d6a41de055935390fb90b16b00ed22479f4b3",
+          "path": "README.md",
+          "sha256": "c96aaba0e06012c5a4adeba8b009bef694458ebe7c0e4389543c3eb162ea4f0a",
+          "evidence": "README.md lines 27-31:\nOpen Settings, then Server. Enter your server's base HTTPS URL and token. A new\nprofile has no configured endpoint and makes no TTS request before setup.\nLocal HTTP is allowed only for localhost, 127.0.0.1 or ::1. No hosted account,\nserver, model weights or free service is bundled. A generic OpenAI or ElevenLabs\nendpoint is not compatible unless it implements the documented TeraTTS protocol.\n\nREADME.md lines 51-52:\nCore commands: bash, jq, curl, Python 3.12 or newer, util-linux and mpv.\nSelection and clipboard use wl-paste; capture uses grim and slurp. Encoded exports"
+        }
+      ]
+    },
+    "io.github.nousd.voxbox": {
+      "repository": "https://github.com/nousd/voxbox",
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Press Install speech engine in the panel, or run install.sh, for a one-time download of about 600 MB.",
+        "Needs python, python-gobject, gtk4, libadwaita, ffmpeg, grim, slurp, hyprpicker, tesseract, wl-clipboard and poppler."
+      ],
+      "reviewedAt": "2026-11-16",
+      "sources": [
+        {
+          "url": "https://github.com/nousd/voxbox/blob/fee2a334454854fb71de35ebce0c21f981449d68/README.md",
+          "revision": "fee2a334454854fb71de35ebce0c21f981449d68",
+          "path": "README.md",
+          "sha256": "fe866d44185fd83cbaa1e529df40a990c11158abc10aed41b30f2b6f999363c9",
+          "evidence": "README.md lines 23-24:\nClick the new bar icon and press **Install speech engine** (one-time ~600 MB,\nsha256-verified) — or run `~/.config/omarchy/plugins/io.github.nousd.voxbox/install.sh`.\n\nREADME.md lines 38-39:\nsudo pacman -S --needed python python-gobject gtk4 libadwaita ffmpeg \\\n  grim slurp hyprpicker tesseract tesseract-data-eng wl-clipboard poppler"
+        }
+      ]
+    },
+    "jacob.omaspeak": {
+      "repository": "https://github.com/jacob-vincent-mink/omaspeak-plugin",
+      "requirementsStatus": "reviewed",
+      "requirements": [
+        "Needs the omaspeak-bin package, set up once with omaspeak setup, and a systemd user session for its service."
+      ],
+      "reviewedAt": "2026-11-16",
+      "sources": [
+        {
+          "url": "https://github.com/jacob-vincent-mink/omaspeak-plugin/blob/eb9a39c70e159747c14719789792267052ff75fb/README.md",
+          "revision": "eb9a39c70e159747c14719789792267052ff75fb",
+          "path": "README.md",
+          "sha256": "e75dd04e2d149a4059014dad9374f98cda1038b3b7f067833176ad1c296094b6",
+          "evidence": "README.md lines 16-18:\n- Omarchy Quattro with shell plugin support\n- An installed `omaspeak` executable on the shell plugin's `PATH`. The first match is used for every app action.\n- A systemd user session, because the daemon runs as the `omaspeak` user service\n\nREADME.md lines 23-24:\nsudo pacman -S omaspeak-bin   # the app the widget drives\nomaspeak setup                # choose a model and runtime, once"
+        }
+      ]
     }
   }
 }

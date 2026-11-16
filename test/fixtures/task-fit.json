@@ -1486,5 +1486,160 @@
       "idle-sleep"
     ],
     "source": "https://github.com/Deunnis/omarchy-lacquer"
+  },
+  {
+    "plugin": {
+      "id": "calebhat.read-aloud",
+      "name": "Read Aloud",
+      "description": "Read selected or pasted text aloud with Edge neural voices. Book chip on the bar, panel drops from the focused screen.",
+      "category": "Productivity",
+      "tags": [
+        "bar",
+        "media",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "read-aloud"
+    ],
+    "rejected": [
+      "clipboard"
+    ],
+    "source": "https://github.com/calebhat/omarchy-read-aloud"
+  },
+  {
+    "plugin": {
+      "id": "io.github.pavellizunov.teratts",
+      "name": "TeraTTS",
+      "description": "Read selected text through a personal TeraTTS server",
+      "category": "Productivity",
+      "tags": [
+        "bar",
+        "media",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "read-aloud"
+    ],
+    "rejected": [],
+    "source": "https://github.com/PavelLizunov/omarchy-teratts-plugin"
+  },
+  {
+    "plugin": {
+      "id": "io.github.djspatule.tts-clip",
+      "name": "Speak Clipboard",
+      "description": "Text-to-speech clipboard reader for the Omarchy bar. Click the widget (or hit your keybind) to have any copied text read aloud in a natural neural voice — MiniMax, OpenAI/Codex, or ElevenLabs, your choice of API key. Handy as a screen reader, proofreading aid, or hands-free way to consume articles and docs.",
+      "category": "Productivity",
+      "tags": [
+        "ai",
+        "bar",
+        "hyprland"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [
+      "read-aloud"
+    ],
+    "rejected": [
+      "clipboard",
+      "ai-chat"
+    ],
+    "source": "https://github.com/lionel-arnaud/tts-clip"
+  },
+  {
+    "plugin": {
+      "id": "io.github.smolamsk.glados-voice",
+      "name": "GLaDOS Voice",
+      "description": "Reads your desktop notifications aloud in GLaDOS's voice",
+      "category": "Desktop",
+      "tags": [
+        "media",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [],
+    "rejected": [
+      "read-aloud"
+    ],
+    "source": "https://github.com/smolamSK/omarchy-glados-voice"
+  },
+  {
+    "plugin": {
+      "id": "io.github.jburchel.jarvis",
+      "name": "Jarvis for AI Agents",
+      "description": "A voice for the AI agent in your terminal: Claude Code, Codex and Gemini CLI read their replies aloud with free neural voices. Say \"Hey Jarvis\" to dictate your answer hands-free, and hush it with one key. Bar widget shows speaking, listening and muted.",
+      "category": "System",
+      "tags": [
+        "ai",
+        "bar",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [],
+    "rejected": [
+      "read-aloud"
+    ],
+    "source": "https://github.com/jburchel/omarchy-jarvis"
+  },
+  {
+    "plugin": {
+      "id": "rushi.songbook",
+      "name": "Songbook",
+      "description": "Music and books for MPD: your folders as queues, world radio, YouTube search and download, audiobooks, and novels read aloud in your own terminal reader.",
+      "category": "Widgets",
+      "tags": [
+        "media",
+        "bar",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [],
+    "rejected": [
+      "read-aloud"
+    ],
+    "source": "https://github.com/RushiSompuraWork/Songbook"
+  },
+  {
+    "plugin": {
+      "id": "alanfortlink.speech-to-text",
+      "name": "Speech to Text",
+      "description": "Dictation with a live waveform and live text in the bar, a browsable history of every recording and its transcript, and configurable keys per language (toggle, and toggle + Return). Uses the same local Whisper engine Omarchy ships (voxtype) by default; other engines are configurable.",
+      "category": "Productivity",
+      "tags": [
+        "ai",
+        "bar",
+        "quickshell"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [],
+    "rejected": [
+      "read-aloud"
+    ],
+    "source": "https://github.com/alanfortlink/speech-to-text"
+  },
+  {
+    "plugin": {
+      "id": "io.github.shirak-semonian.bibletales",
+      "name": "BibleTales",
+      "description": "One Bible story a day, told as literature. A calm bar widget that opens a beautifully typeset reading pane: every day brings one installment of a classic story (3-4 short chapters to page through) written in modern literary English with no preaching and no church jargon — just drama, imagery and a quiet cliffhanger that makes you look forward to tomorrow. Deterministic day rotation, fully offline reading; an optional read-aloud button speaks the day-part through Edge TTS (no key, no tracking).",
+      "category": "Widgets",
+      "tags": [
+        "education",
+        "bar"
+      ],
+      "kind": "Bar widget"
+    },
+    "accepted": [],
+    "rejected": [
+      "read-aloud"
+    ],
+    "source": "https://github.com/Shirak-Semonian/bibletales-omarchy-plugin"
   }
 ]
