@@ -2967,7 +2967,7 @@
         "edit-keybindings"
       ],
       "constraints": [
-        "Omarchy's loop-generated workspace, group and bar-panel shortcuts are not listed, and bindings it cannot parse safely are shown without edit controls."
+        "When bindings.lua contains any binding it cannot read safely, such as one nested in an if block or with a computed key, editing is turned off for the whole file. Omarchy's loop-generated workspace, group and bar-panel shortcuts are not listed."
       ],
       "reason": "Searches, creates, edits and resets keybindings and writes the selected changes to Hyprland Lua.",
       "reviewedAt": "2026-11-16",

@@ -3206,7 +3206,7 @@
       "repository": "https://github.com/fabean/omarchy-herdr",
       "requirementsStatus": "reviewed",
       "requirements": [
-        "Requires Herdr's herdr-core (or hc) on PATH with its server running, or the legacy herdr CLI; focusing core agents uses herdr-app. Needs jq and GNU timeout.",
+        "Requires Herdr's herdr-core (or hc) on PATH with its server running, or the legacy herdr CLI. Focusing herdr-core agents needs the Herdr desktop app (herdr-app or herdr-gui). Needs jq and GNU timeout.",
         "Remote machines are registered with herdr-core; the legacy fallback's SSH hosts need OpenSSH with key-based login."
       ],
       "reviewedAt": "2026-11-16",
