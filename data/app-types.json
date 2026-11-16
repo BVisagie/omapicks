@@ -1382,6 +1382,37 @@
       }
     },
     {
+      "id": "read-aloud",
+      "name": "Read Aloud",
+      "description": "Read selected, copied or pasted text aloud",
+      "include": [
+        "\\b(?:text[- ]to[- ]speech|tts)\\b",
+        "\\b(?:read|reads|reading|speak|speaks|speaking|say|says)\\b[^.;]{0,60}\\baloud\\b",
+        "\\b(?:speak|speaks|say|says)\\b[^.;]{0,25}\\b(?:selected|highlighted|copied|clipboard|pasted)\\b",
+        "\\b(?:read|reads)\\b[^.;,]{0,10}\\b(?:selected|highlighted|copied)\\b[^.;,]{0,5}\\btext\\b"
+      ],
+      "nameInclude": [
+        "\\b(?:read aloud|text to speech|tts|screen narrator|speak clipboard)\\b"
+      ],
+      "exclude": [
+        "\\b(?:speech[- ]to[- ]text|dictat(?:e|es|ed|ing|ion)|voxtype|transcri(?:be|bes|bed|bing|ption|pts?))\\b",
+        "\\bnotifications?\\b",
+        "\\b(?:replies|responses)\\b",
+        "\\b(?:audiobooks?|novels?)\\b"
+      ],
+      "exclusionScope": "clause",
+      "task": "Read text the user selects, copies or pastes aloud. Speaking user-provided text is required. Screen-text capture with OCR, playback controls, saved audio and the voice engine (local, cloud or a server you run) are stated per app. Reading notifications aloud, voice assistants that speak their own replies, dictation and apps that narrate only their own content do not qualify.",
+      "contract": {
+        "version": 1,
+        "outcome": "Read selected, copied or pasted text aloud",
+        "capabilitySets": [
+          [
+            "speak-user-text"
+          ]
+        ]
+      }
+    },
+    {
       "id": "prayer-times",
       "name": "Prayer Times",
       "description": "Islamic prayer schedules, countdowns, and Adhan notifications",
@@ -2341,6 +2372,12 @@
         "reason": "The explicit one-click inhibition of lid-close and idle suspend supports a temporary awake-hold lead, not timer configuration."
       },
       {
+        "pluginId": "com.b150.walkie",
+        "typeId": "read-aloud",
+        "listingSha256": "5422aa7619f4a7cf89a5b021fceb5e63c04d372a497486225a15f5d48fac3c09",
+        "reason": "A status widget for the separate Walkie dictation app; Read Aloud is named only as one of that app’s paid features."
+      },
+      {
         "pluginId": "com.johnicboom.icestream",
         "typeId": "weather",
         "listingSha256": "28a033b55c29c1c9a78bf675816d67f274cb9b0c59073fa73767eacc87c2e292",
@@ -2378,6 +2415,12 @@
         "typeId": "endpoint-monitoring",
         "listingSha256": "5d590fd238ff61e8dfe77bb0b2c22c954a2b301d4cc89638f2eafed20c95303e",
         "reason": "Read-only system/audio/storage diagnostics produce a support report, not health checks for chosen service endpoints or provider incident feeds."
+      },
+      {
+        "pluginId": "dev.alexandre.bible-search",
+        "typeId": "read-aloud",
+        "listingSha256": "057bb26a5cc1cceb890e7fd94ddb0c258eafd9a62cea5216db26d369a4d34666",
+        "reason": "Reads its own Bible passages aloud as one feature of a Bible reader, not text the user selects or copies."
       },
       {
         "pluginId": "dev.egoist.cpu-usage",
@@ -2738,6 +2781,18 @@
         "typeId": "weather",
         "listingSha256": "b3ae440ed2674f5b18b886a6b5d5be3aee27d0d522adf235890f62d3c5946b83",
         "reason": "AQI and pollutant breakdown are air-quality information, not current weather plus forecast or precipitation radar."
+      },
+      {
+        "pluginId": "io.github.shirak-semonian.bibletales",
+        "typeId": "read-aloud",
+        "listingSha256": "5f5989a54640dec41a1ba29f764ea3a70c98cd0512146d1ba1c2ca9dc5745292",
+        "reason": "Reads the day’s Bible story aloud as an optional button in a story reader, not text the user selects or copies."
+      },
+      {
+        "pluginId": "io.github.shirak-semonian.newsflash",
+        "typeId": "read-aloud",
+        "listingSha256": "69cd08096de649058c26adde9682e543fcc50e8c8c1b1653bb63c43b28e1a077",
+        "reason": "Reads its own news articles aloud as one feature of a news reader, not text the user selects or copies."
       },
       {
         "pluginId": "io.github.shivamnarkar47.omarchy-hotspot",
