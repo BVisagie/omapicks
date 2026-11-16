@@ -80,15 +80,15 @@
       "constraints": [
         "Monitors coding agents run through Herdr."
       ],
-      "reason": "Shows the live status of every Herdr agent and focuses a selected agent's pane in Herdr.",
-      "reviewedAt": "2026-11-09",
+      "reason": "Shows the live status of every Herdr agent and opens a selected agent in Herdr, raising the desktop app or the terminal client.",
+      "reviewedAt": "2026-11-16",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/fabean/omarchy-herdr/blob/285cf3b334b153d534e57d0c7b7bdfab77e1742e/README.md",
-        "revision": "285cf3b334b153d534e57d0c7b7bdfab77e1742e",
+        "url": "https://github.com/fabean/omarchy-herdr/blob/ee43970a95c0ab50d83d404cad48cbb69300ad3c/README.md",
+        "revision": "ee43970a95c0ab50d83d404cad48cbb69300ad3c",
         "path": "README.md",
-        "sha256": "9baa0674e6d1baed29051f05fde408ea8e71e0e70d8fbd1265189a57d60c58fe",
-        "evidence": "README.md lines 3-3:\nAn Omarchy bar widget for monitoring [Herdr](https://herdr.dev) agents. It shows active or blocked agent counts in the bar and opens a detailed, keyboard-accessible panel with the status of every agent.\n\nREADME.md lines 16-16:\nThe plugin polls `herdr agent list` locally every three seconds. It also polls the SSH targets listed in `remote-hosts`. SSH polling uses batch mode and short timeouts, so an offline host or one that needs a password cannot stall the bar.\n\nREADME.md lines 34-35:\n- Left-click the widget to open or close the agent panel.\n- Click an agent to focus its pane in Herdr. The plugin focuses an existing local or remote Herdr window and opens one when needed."
+        "sha256": "aebc2630edd2edc468ef949e5170d732fc83fa841a00eea9dfc1cb2d8a484028",
+        "evidence": "README.md lines 3-3:\nAn Omarchy bar widget for monitoring [Herdr](https://herdr.dev) agents. It shows active or blocked agent counts in the bar and opens a detailed, keyboard-accessible panel with the status of every agent.\n\nREADME.md lines 17-19:\nThe plugin polls `herdr-core ls --json` every three seconds, including agents on machines registered with core. Terminals without an agent status (such as ordinary shells) and finished terminals are excluded. Blocked agents and errors receive the urgent indicator.\n\nIf core is unavailable, the plugin falls back to `herdr agent list` and the SSH targets listed in `remote-hosts`. SSH polling uses batch mode and short timeouts, so an offline host or one that needs a password cannot stall the bar. A successful core response, including an empty agent list, takes precedence over the legacy server. Polling does not start a stopped core server.\n\nREADME.md lines 37-38:\n- Left-click the widget to open or close the agent panel.\n- Click an agent to show it in Herdr, including remote agents and sub-agents. The plugin raises the desktop GUI and opens it when needed. Legacy agents still focus or open the terminal-based Herdr client."
       },
       "metadataHash": "182e4e0030f678191f766d3d658f5e5fd24a024a4bbdbbcc05d5922fa9713b30",
       "contractVersion": 2
@@ -129,14 +129,14 @@
         "Native focus controls apply to local running agents; remote peers are read-only."
       ],
       "reason": "Inspects coding-agent sessions and focuses or manages local agent processes; remote peers are read-only.",
-      "reviewedAt": "2026-11-09",
+      "reviewedAt": "2026-11-16",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/meviusisback/agent-orchestr/blob/3e64235ae55f627b198c78ecb61e0c8f8ac80896/README.md",
-        "revision": "3e64235ae55f627b198c78ecb61e0c8f8ac80896",
+        "url": "https://github.com/meviusisback/agent-orchestr/blob/6aa4d88ff93f7fa5a150450803d6828f6727cca8/README.md",
+        "revision": "6aa4d88ff93f7fa5a150450803d6828f6727cca8",
         "path": "README.md",
-        "sha256": "13cedc39b072ed3a3e9ae691a185bb2b1ca5119546c320dde205d4ad7ba77ac6",
-        "evidence": "README.md lines 21-24:\n- **Live multi-source tracking** — Herdr daemon panes (local socket plus remote machines), **remote Hermes peers** (gateways registered with `hermes peer add`, read-only), standalone terminal windows (Ghostty, Foot, Kitty, Alacritty, WezTerm), **OMP** sessions (`~/.omp/agent/sessions/`), **Hermes** CLI and Desktop app databases (`~/.hermes/state.db`), and **Grok** Build TUI sessions (`$GROK_HOME/active_sessions.json` + `events.jsonl`).\n- **One-click workspace & window switching** — click any agent card to switch Hyprland workspaces and focus the exact terminal window, Herdr pane or Hermes Desktop window.\n- **Visual status bar display** — `Icon` mode (orchestrator glyph with activity badge and spinner while agents work), `Status` mode (real-time ticker of active tasks), `Compact` mode (live counts like `4 ag · 1 busy`, `3 done`).\n- **Interactive popup panel** — smart filter tabs (`All`, `Working`, `Waiting`, `Done`, `Idle`); rich cards with model tags, latest human prompt, real-time tool execution, repo/working-directory breadcrumbs and session indicators; terminate agent processes or close Herdr panes from card buttons.\n\nREADME.md lines 93-93:\n**Remote sources (read-only — no focus, no terminate; those windows aren't on this desktop):**\n\nREADME.md lines 95-95:\n- **Herdr** — save a machine with `herdr machine add`, verify SSH access and a matching remote Herdr install. The plugin reads enabled rows from `herdr machine list --json` and queries each machine through the read-only `herdr --session <name> api snapshot`."
+        "sha256": "4d147dea60e93d119cc10023900e33084bcad2b628dbc6a461daa5ef78fc3de8",
+        "evidence": "README.md lines 21-24:\n- **Live multi-source tracking** — Herdr panes from both generations (0.9 `herdr.sock` snapshots, local and remote machines, and 0.1 `herdr-core` JSON-RPC rosters, which are local-only), **remote Hermes peers** (gateways registered with `hermes peer add`, read-only), standalone terminal windows (Ghostty, Foot, Kitty, Alacritty, WezTerm), **OMP** sessions (`~/.omp/agent/sessions/`), **Hermes** CLI and Desktop app databases (`~/.hermes/state.db`), and **Grok** Build TUI sessions (`$GROK_HOME/active_sessions.json` + `events.jsonl`).\n- **One-click workspace & window switching** — click any agent card to switch Hyprland workspaces and focus the exact terminal window, Herdr pane or Hermes Desktop window.\n- **Visual status bar display** — `Icon` mode (orchestrator glyph with an activity badge that pulses while agents work), `Status` mode (real-time ticker of active tasks), `Compact` mode (live counts like `4 ag · 1 busy`, `3 done`).\n- **Interactive popup panel** — smart filter tabs (`All`, `Working`, `Waiting`, `Done`, `Idle`); rich cards with model tags, latest human prompt, real-time tool execution, repo/working-directory breadcrumbs and session indicators; terminate agent processes or close Herdr panes from card buttons.\n\nREADME.md lines 95-95:\n**Remote sources (read-only — no focus, no terminate; those windows aren't on this desktop):**\n\nREADME.md lines 97-97:\n- **Herdr** — save a machine with `herdr machine add`, verify SSH access and a matching remote Herdr install. The plugin reads enabled rows from `herdr machine list --json` and queries each machine through the read-only `herdr --session <name> api snapshot`."
       }
     },
     {
@@ -177,13 +177,13 @@
       ],
       "constraints": [],
       "reason": "Displays supported AI plan usage, balances and reset windows from provider integrations.",
-      "reviewedAt": "2026-11-09",
+      "reviewedAt": "2026-11-16",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/akitaonrails/ai-usagebar/blob/59573ff3cb4546781ba8090902e7fc65cedf0ad4/README.md",
-        "revision": "59573ff3cb4546781ba8090902e7fc65cedf0ad4",
+        "url": "https://github.com/akitaonrails/ai-usagebar/blob/ea42556f2e00992d31649e25ef78631d33ceb9c5/README.md",
+        "revision": "ea42556f2e00992d31649e25ef78631d33ceb9c5",
         "path": "README.md",
-        "sha256": "9bb178751eb6baee228b37feed5d2058ae1b5e1ec01ca0a953eaad2095464e58",
+        "sha256": "8307bf3d9422f5146f512165475d2cd66d4fb77a6bfa7a696eff5ff0bcb843d8",
         "evidence": "README.md lines 3-3:\nNative Omarchy Quattro panel, Waybar widget, and tabbed TUI for AI plan usage across **Claude**, **Codex/ChatGPT**, **GitHub Copilot**, **Z.AI (GLM)**, **OpenRouter**, **DeepSeek**, **DeepInfra**, **Kimi**, **Nous Research**, **OpenCode Go**, **Command Code**, **Devin**, **Cline**, **Muse Code**, **Droid**, **Synthetic**, **DeepRelay**, **Mistral**, and other supported AI coding services.\n\nREADME.md lines 5-8:\nai-usagebar began as a Rust port of\n[`claudebar`](https://github.com/mryll/claudebar) and remains drop-in\ncompatible. It keeps claudebar's Pango tooltip, Omarchy theme detection, and\nflock-protected OAuth refresh while adding more providers and a testable Rust\n\nREADME.md lines 17-29:\n- Per-provider Waybar modules use the same JSON shape and flags as claudebar.\n- The native Omarchy Quattro plugin follows the shell theme and supports\n  keyboard navigation, provider switching, live reset timers, and stale/error\n  states.\n- `ai-usagebar-tui` opens with a compact provider overview and refreshes every\n  60 seconds. Its navigation can use a sidebar, navbar, or no vendor box.\n- An optional Claude Code context view reads recent local session usage without\n  scanning entire histories.\n- Native integrations are available for Omarchy, GNOME Shell, KDE Plasma 6,\n  and a macOS/Windows system-tray popover (`ai-usagebar-tray`). An experimental\n  GTK tray frontend for Linux Mint is in [`linux-mint/`](linux-mint/README.md).\n- One bar item can cycle through enabled providers. `[ui] primary` controls the\n  initial provider in both the widget and TUI."
       }
     },
@@ -1861,11 +1861,11 @@
       ],
       "constraints": [],
       "reason": "Pins applications and launches or switches their windows from a desktop dock.",
-      "reviewedAt": "2026-11-09",
+      "reviewedAt": "2026-11-16",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/rosakodu/omarchy-dock/blob/75fd9f85753ae46784b46f38e47ed819ed4cad20/README.md",
-        "revision": "75fd9f85753ae46784b46f38e47ed819ed4cad20",
+        "url": "https://github.com/rosakodu/omarchy-dock/blob/9e28953982fb98acd5057e9f0ac84798a3c4e2b1/README.md",
+        "revision": "9e28953982fb98acd5057e9f0ac84798a3c4e2b1",
         "path": "README.md",
         "sha256": "50e10b9de3927d279f59cce2f0dd4cd4575662223856170a3511e2678ec4a636",
         "evidence": "README.md lines 5-5:\nA modern, highly polished, and fully native application dock plugin for **Omarchy Quattro** (Hyprland + Quickshell), featuring app stacks (folders), iOS-style edit wiggle animations, multi-window management, dynamic orientation, and seamless theme integration.\n\nREADME.md lines 13-14:\n- ✨ **iOS-Style Edit Mode (Wiggle)** — Long-press (450ms) any icon to enter edit mode with smooth physical wobbling ($\\pm 3.8^\\circ$, 105ms). Quickly toggle favorite pins (`•`), dissolve folders (`-`), remove dock widgets (`-`), or reorder apps.\n- 🔀 **Fluid 1D & 2D Drag & Drop** — Smooth rail displacement physics when dragging apps across the dock or within folder grids. Effortlessly extract apps from folders back to the main dock.\n\nREADME.md lines 17-17:\n- ⚡ **Dedicated Controls (LMB, RMB & Middle-Click)** — Left-click opens closed apps or focuses/restores running windows. Right-click minimizes active/visible windows to a special minimized state. Middle-click (pressing the mouse wheel) instantly spawns a new duplicate instance anytime."
@@ -2705,17 +2705,17 @@
         "configure-idle-actions"
       ],
       "constraints": [
-        "Suspension follows idle-driven locks only; a manually requested lock does not arm it. The suspend delay is disabled initially."
+        "Suspension follows idle-driven locks; a manual lock does not arm it by itself, although one that races an idle lock may. The suspend delay is disabled initially."
       ],
       "reason": "Configures screensaver and automatic-lock delays and an optional suspend delay after an idle-driven lock.",
-      "reviewedAt": "2026-10-30",
+      "reviewedAt": "2026-11-16",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/HalmyLyseas/omarchy-ristretto/blob/99ffa15000225fb8582d633f088d3626543c3a91/README.md",
-        "revision": "99ffa15000225fb8582d633f088d3626543c3a91",
+        "url": "https://github.com/HalmyLyseas/omarchy-ristretto/blob/d57623d09fcd6b023cafb58ab1725053da6ef253/README.md",
+        "revision": "d57623d09fcd6b023cafb58ab1725053da6ef253",
         "path": "README.md",
-        "sha256": "6163a03123e714e06e284f0ea643e45ede7e6a93c6e97665dd00576da4b53689",
-        "evidence": "README.md lines 3-14:\nAn [Omarchy](https://omarchy.org) shell plugin that gives you direct control\nover power-saver behaviour, from the bar: **when the screensaver starts, when\nthe session locks, and when the machine suspends.**\n\n![The Ristretto panel](preview.png)\n\nOmarchy has no suspend-on-idle of any kind — under a Wayland compositor,\nlogind's `IdleAction` never fires because nothing publishes idle state to it.\nRistretto adds it at the only workable layer, the shell: a delay that starts\ncounting when the session locks *because you went idle*, and suspends the\nmachine when it runs out. A lock you trigger yourself — a keybinding, the\nmenu, or `omarchy lock` — never leads to suspend.\n\nREADME.md lines 16-37:\n## What it does\n\n- **Screensaver delay** — how long after going idle the screensaver appears:\n  1, 2, 3, 5, 10 or 15 minutes.\n- **Lockscreen delay** — how long after going idle the session locks:\n  2, 3, 5, 10, 15 or 30 minutes. Always strictly above the screensaver delay;\n  moving either slider nudges the other when they would collide.\n- **Sleep after idle lock** — how long after an idle-driven lock the machine\n  suspends: 1, 2, 3, 5 or 10 minutes, or never. A pending countdown is\n  cancelled by unlocking, by changing the delay or dry-run setting, or by\n  switching stay awake\n  on — anything that says \"not now\" means not now.\n- **Screensaver switch** — Omarchy's native `screensaver-off` flag, which has\n  a CLI (`omarchy toggle screensaver`) but no other UI.\n- **Stay awake switch** — the native `omarchy.idle` stay-awake state as a\n  labelled control. While it is on, no idle cycle runs: no screensaver, no\n  lock, no sleep — and the cup in the bar steams, so the state is readable\n  at a glance without opening the panel.\n\nEverything reads and writes Omarchy's own config and services, so changes\ntake effect immediately, survive a shell restart and `omarchy update`, and\nstay in sync with their CLI equivalents in both directions."
+        "sha256": "c1ff18b031e6d10756aecf0b80d9a332e859d62bc842a68106bba44722d00c35",
+        "evidence": "README.md lines 3-18:\nAn [Omarchy](https://omarchy.org) shell plugin that gives you direct control\nover power-saver behaviour, from the bar: **when the screensaver starts, when\nthe session locks, and when the machine suspends.**\n\n![The Ristretto panel](preview.png)\n\nOmarchy has no suspend-on-idle of any kind — under a Wayland compositor,\nlogind's `IdleAction` never fires because nothing publishes idle state to it.\nRistretto adds it at the only workable layer, the shell: a delay that starts\ncounting when the session locks *because you went idle*, and suspends the\nmachine when it runs out. A lock you trigger yourself — a keybinding, the\nmenu, or `omarchy lock` — does not by itself arm the suspend countdown. A\nmanual lock that races an already-announced idle lock is an acknowledged\nambiguity: the two requests are indistinguishable at the shell layer, so the\nidle countdown may still arm in that narrow window. See\n[docs/threat-model.md](docs/threat-model.md).\n\nREADME.md lines 20-41:\n## What it does\n\n- **Screensaver delay** — how long after going idle the screensaver appears:\n  1, 2, 3, 5, 10 or 15 minutes.\n- **Lockscreen delay** — how long after going idle the session locks:\n  2, 3, 5, 10, 15 or 30 minutes. Always strictly above the screensaver delay;\n  moving either slider nudges the other when they would collide.\n- **Sleep after idle lock** — how long after an idle-driven lock the machine\n  suspends: 1, 2, 3, 5 or 10 minutes, or never. A pending countdown is\n  cancelled by unlocking, by changing the delay or dry-run setting, or by\n  switching stay awake\n  on — anything that says \"not now\" means not now.\n- **Screensaver switch** — Omarchy's native `screensaver-off` flag, which has\n  a CLI (`omarchy toggle screensaver`) but no other UI.\n- **Stay awake switch** — the native `omarchy.idle` stay-awake state as a\n  labelled control. While it is on, no idle cycle runs: no screensaver, no\n  lock, no sleep — and the cup in the bar steams, so the state is readable\n  at a glance without opening the panel.\n\nEverything reads and writes Omarchy's own config and services, so changes\ntake effect immediately, survive a shell restart and `omarchy update`, and\nstay in sync with their CLI equivalents in both directions."
       }
     },
     {
@@ -2832,14 +2832,14 @@
         "Uses Omarchy’s native idle-cycle inhibition; it is not a guarantee against every externally requested sleep action."
       ],
       "reason": "Provides a native Stay Awake switch that pauses the idle cycle and allows normal idle behavior to resume when switched off.",
-      "reviewedAt": "2026-10-30",
+      "reviewedAt": "2026-11-16",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/HalmyLyseas/omarchy-ristretto/blob/99ffa15000225fb8582d633f088d3626543c3a91/README.md",
-        "revision": "99ffa15000225fb8582d633f088d3626543c3a91",
+        "url": "https://github.com/HalmyLyseas/omarchy-ristretto/blob/d57623d09fcd6b023cafb58ab1725053da6ef253/README.md",
+        "revision": "d57623d09fcd6b023cafb58ab1725053da6ef253",
         "path": "README.md",
-        "sha256": "6163a03123e714e06e284f0ea643e45ede7e6a93c6e97665dd00576da4b53689",
-        "evidence": "README.md lines 23-37:\n- **Sleep after idle lock** — how long after an idle-driven lock the machine\n  suspends: 1, 2, 3, 5 or 10 minutes, or never. A pending countdown is\n  cancelled by unlocking, by changing the delay or dry-run setting, or by\n  switching stay awake\n  on — anything that says \"not now\" means not now.\n- **Screensaver switch** — Omarchy's native `screensaver-off` flag, which has\n  a CLI (`omarchy toggle screensaver`) but no other UI.\n- **Stay awake switch** — the native `omarchy.idle` stay-awake state as a\n  labelled control. While it is on, no idle cycle runs: no screensaver, no\n  lock, no sleep — and the cup in the bar steams, so the state is readable\n  at a glance without opening the panel.\n\nEverything reads and writes Omarchy's own config and services, so changes\ntake effect immediately, survive a shell restart and `omarchy update`, and\nstay in sync with their CLI equivalents in both directions.\n\nREADME.md lines 68-84:\n## Usage\n\nClick the cup (or run `omarchy-shell halmylyseas.ristretto open`) to open the\npanel. Everything is also reachable from the keyboard: arrows or `hjkl` move\na cursor between controls, `Left`/`Right` nudge the focused slider, `Space`\nor `Enter` flip a switch, `Esc` closes.\n\nThe hero subtitle states what the machine will actually do — `SLEEP 5 MIN\nAFTER LOCK`, `SLEEP NEVER`, or `STAYING AWAKE` — so the armed behaviour is\nreadable at a glance. Unknown host state is shown as `IDLE STATUS UNAVAILABLE`\nor `SLEEP UNAVAILABLE`; shared controls wait for fresh state.\n\nOne caveat worth knowing: video players and browsers that implement the\nWayland idle-inhibit protocol pause the whole idle pipeline while they\nplay, but not every app does — Zoom's Linux client, for one, does not, so\na long hands-off call will idle, lock, and eventually sleep. That is what\nthe stay awake switch is for; the steaming cup reminds you it is on."
+        "sha256": "c1ff18b031e6d10756aecf0b80d9a332e859d62bc842a68106bba44722d00c35",
+        "evidence": "README.md lines 27-41:\n- **Sleep after idle lock** — how long after an idle-driven lock the machine\n  suspends: 1, 2, 3, 5 or 10 minutes, or never. A pending countdown is\n  cancelled by unlocking, by changing the delay or dry-run setting, or by\n  switching stay awake\n  on — anything that says \"not now\" means not now.\n- **Screensaver switch** — Omarchy's native `screensaver-off` flag, which has\n  a CLI (`omarchy toggle screensaver`) but no other UI.\n- **Stay awake switch** — the native `omarchy.idle` stay-awake state as a\n  labelled control. While it is on, no idle cycle runs: no screensaver, no\n  lock, no sleep — and the cup in the bar steams, so the state is readable\n  at a glance without opening the panel.\n\nEverything reads and writes Omarchy's own config and services, so changes\ntake effect immediately, survive a shell restart and `omarchy update`, and\nstay in sync with their CLI equivalents in both directions.\n\nREADME.md lines 71-87:\n## Usage\n\nClick the cup (or run `omarchy-shell halmylyseas.ristretto open`) to open the\npanel. Everything is also reachable from the keyboard: arrows or `hjkl` move\na cursor between controls, `Left`/`Right` nudge the focused slider, `Space`\nor `Enter` flip a switch, `Esc` closes.\n\nThe hero subtitle states what the machine will actually do — `SLEEP 5 MIN\nAFTER LOCK`, `SLEEP NEVER`, or `STAYING AWAKE` — so the armed behaviour is\nreadable at a glance. Unknown host state is shown as `IDLE STATUS UNAVAILABLE`\nor `SLEEP UNAVAILABLE`; shared controls wait for fresh state.\n\nOne caveat worth knowing: video players and browsers that implement the\nWayland idle-inhibit protocol pause the whole idle pipeline while they\nplay, but not every app does — Zoom's Linux client, for one, does not, so\na long hands-off call will idle, lock, and eventually sleep. That is what\nthe stay awake switch is for; the steaming cup reminds you it is on."
       }
     },
     {
@@ -2925,13 +2925,13 @@
       ],
       "constraints": [],
       "reason": "Provides keybinding editing, creation, reset and conflict resolution alongside mouse settings.",
-      "reviewedAt": "2026-11-09",
+      "reviewedAt": "2026-11-16",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/Davedes83/mouse-keybind-plugin/blob/205a1151d370842209a254d8f5c2554ac27d859b/README.md",
-        "revision": "205a1151d370842209a254d8f5c2554ac27d859b",
+        "url": "https://github.com/Davedes83/mouse-keybind-plugin/blob/42f5b39761d6e8eeb3e888704fb4a419c17cc273/README.md",
+        "revision": "42f5b39761d6e8eeb3e888704fb4a419c17cc273",
         "path": "README.md",
-        "sha256": "2ca22de652d808cd444bfb7fac43c0954cc6a045321c1f4d75077e54f5495cb2",
+        "sha256": "36d049441187bf454eb1c2aab34917f4f702a25d565edf46bff79546a1186c60",
         "evidence": "README.md lines 27-27:\n⌨️ Keybinds\n\nREADME.md lines 29-29:\nSee what's actually running on your system, fix problems in one click:\n\nREADME.md lines 31-35:\n* Live summary of active, modified, and conflicting bindings\n* Conflict detection with 1-click rebind\n* Smart suggestions for free keys\n* Full Keybind Manager one click away — search, edit, create, reset, enable/disable\n* Safe Lua sync, so your config never gets messy"
       }
     },
@@ -2966,16 +2966,18 @@
       "capabilities": [
         "edit-keybindings"
       ],
-      "constraints": [],
+      "constraints": [
+        "Omarchy's loop-generated workspace, group and bar-panel shortcuts are not listed, and bindings it cannot parse safely are shown without edit controls."
+      ],
       "reason": "Searches, creates, edits and resets keybindings and writes the selected changes to Hyprland Lua.",
-      "reviewedAt": "2026-11-09",
+      "reviewedAt": "2026-11-16",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/meviusisback/keybinds-plugin/blob/ff20b96b5a2b58cb36784d36b2f76896288651fa/README.md",
-        "revision": "ff20b96b5a2b58cb36784d36b2f76896288651fa",
+        "url": "https://github.com/meviusisback/keybinds-plugin/blob/1729f1e4c6ca19f3b3012048c5b4f8abcc30e3bf/README.md",
+        "revision": "1729f1e4c6ca19f3b3012048c5b4f8abcc30e3bf",
         "path": "README.md",
-        "sha256": "8a56fafdd73d0c927e78465f53eb75c56ccd8510a53b503a01ebed03819806ab",
-        "evidence": "README.md lines 5-5:\n**A graphical frontend for Omarchy keybindings: view, search, modify and create Hyprland shortcuts with live key recording, smart free-key recommendations, collision detection and safe Lua sync.**\n\nREADME.md lines 23-23:\n- **Dedicated Modified & Custom section** — review all personal shortcut overrides and custom keybindings in one place, with 1-click **↺ Reset to Default** and **🗑️ Delete**.\n\nREADME.md lines 30-30:\n- **Safe Lua sync & live reload** — writes directly to `~/.config/hypr/bindings.lua` (with automatic `.bak` backups) and invokes `hyprctl reload` for instantaneous application without session restarts."
+        "sha256": "8f315ad9c0403550026f9569641cad9516fb7afba5d5afcc40a57e3382e448c8",
+        "evidence": "README.md lines 7-7:\n**A graphical frontend for Omarchy keybindings: view, search, modify and create Hyprland shortcuts with live key recording, smart free-key recommendations, collision detection and safe Lua sync.**\n\nREADME.md lines 19-19:\nEditing Hyprland keybindings by hand means memorizing chords, guessing free combinations and hoping your Lua still parses. This plugin replaces that loop with a visual manager: see every binding sorted and searchable (Omarchy builds its workspace, group and bar-panel shortcuts inside Lua loops, which a static reader cannot see, so those are not listed), record a new chord by pressing it, get told about collisions before they bite, and let the plugin write `bindings.lua` safely — with a backup every time and a live reload, no session restart.\n\nREADME.md lines 25-25:\n- **Dedicated Modified & Custom section** — review all personal shortcut overrides and custom keybindings in one place, with 1-click **↺ Reset to Default** and **🗑️ Delete**. A shortcut you switched off stays listed there. Each row shows only the controls that can really work: Reset for an Omarchy default you switched off or overrode, Delete for a custom one, Enable when the file allows it. When Botty cannot read every binding in your file (a computed or escaped key, a bind nested in an `if` or inside an `hl.on(…)` body, a second statement on the line, CR line endings, a bind reached through an alias or a computed index, an unbind whose key it cannot read, a file it cannot decode) or another of your shortcuts occupies the same chord, the controls that rewrite the file are hidden on both tabs and the row carries the reason (an ⓘ that also appears in the remaining tooltips); Edit is hidden too, because every save would be refused. No control that can only fail.\n\nREADME.md lines 32-32:\n- **Safe Lua sync & live reload** — writes directly to `~/.config/hypr/bindings.lua` (a `.bak` copy of the previous content sits next to the file it resolves to, dotfile symlinks are preserved, and group/world write permission on the file is cleared because Hyprland executes it) and invokes `hyprctl reload` for instantaneous application without session restarts."
       }
     },
     {
@@ -3339,13 +3341,13 @@
       ],
       "constraints": [],
       "reason": "Selects and designs lock-screen layouts with optional separately configured authentication integrations.",
-      "reviewedAt": "2026-11-09",
+      "reviewedAt": "2026-11-16",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/SirJul1337/omarchy-lock-explorer/blob/2eea8816bae146ec4bed1894b71bb9b2350b063d/README.md",
-        "revision": "2eea8816bae146ec4bed1894b71bb9b2350b063d",
+        "url": "https://github.com/SirJul1337/omarchy-lock-explorer/blob/6eaabfa5c385b3899c60ad139033ce2e418296a9/README.md",
+        "revision": "6eaabfa5c385b3899c60ad139033ce2e418296a9",
         "path": "README.md",
-        "sha256": "fac971a7681b2c1ebb1a0ff41d4a8d6e091a964208d7123055b2ed5bcea0cdd3",
+        "sha256": "8b8be09d6d894b022c3039f751881c99854ae51b92ea1683bb181eb5c9a8bd69",
         "evidence": "README.md lines 3-5:\nLock screens for Omarchy 4, an explorer to preview and switch between them, and a designer to\nbuild your own. Unlock with your password, a FIDO2 security key, a fingerprint or your face.\nColors and fonts follow your Omarchy theme.\n\nREADME.md lines 9-16:\n- **Designs** from minimal to animated, typing-reactive, drawn by Omarchy's own ttfx, and video clips that play as you unlock\n- **Security key, fingerprint and face unlock** next to the password\n- **A visual designer** for your own layouts, or write the QML yourself\n- **Unlock animations** that fade, zoom or rise the lock screen away\n- **A matching boot screen** for the disk decryption prompt\n- **Multi-monitor aware**, with a clock-only screen on the others, and a 12-hour clock option\n- **In your language**, with reduce motion, a larger size and wallpaper blur and dim for every design\n- **Search and favorites** in the explorer, and a built-in check for anything missing from an install"
       }
     },
@@ -5284,14 +5286,14 @@
       ],
       "constraints": [],
       "reason": "Runs Omarchy session actions for locking, sleep, logout, reboot and shutdown.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-16",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/edgarsilva/omarchy-power-button/blob/39f10c31a888edd4c00700d6592fbdf3c8b53537/README.md",
-        "revision": "39f10c31a888edd4c00700d6592fbdf3c8b53537",
+        "url": "https://github.com/edgarsilva/omarchy-power-button/blob/ae5224dac5e35fbcae7ca5f687e36df63302145e/README.md",
+        "revision": "ae5224dac5e35fbcae7ca5f687e36df63302145e",
         "path": "README.md",
-        "sha256": "39437a02f32f45d762949f5e66b1ad3b2cf13e0deac347b8e43ea8c818787a00",
-        "evidence": "README.md lines 3-4:\nA power button for the bar. One click opens a session menu; every action is one\nkeystroke away, and the three that lose unsaved work ask first.\n\nREADME.md lines 8-12:\nEvery action runs Omarchy's own session script — `omarchy-system-lock`,\n`omarchy-system-shutdown`, `omarchy-system-reboot`, `omarchy-system-logout`,\n`systemctl suspend` — rather than reimplementing what they do. Whatever those\ngrow later, this widget inherits. Only **Turn screens off** has no Omarchy\nequivalent, so it dispatches to Hyprland directly.\n\nREADME.md lines 61-61:\n| | Runs | Notes |\n\nREADME.md lines 63-69:\n| Turn screens off | `hl.dsp.dpms` | See [below](#turning-the-screens-off) — the only one with no `omarchy-*` script |\n| Lock | `omarchy-system-lock` | Locks the session, resets the keyboard layout, locks 1Password, stops the screensaver. It does **not** turn the displays off |\n| Suspend | `systemctl suspend` | Hidden while the `suspend-off` toggle is set |\n| Hibernate | `systemctl hibernate` | Only where `omarchy-hibernation-available` succeeds |\n| Shutdown | `omarchy-system-shutdown` | Confirms first |\n| Reboot | `omarchy-system-reboot` | Confirms first |\n| Logout | `omarchy-system-logout` | Confirms first |"
+        "sha256": "2a39d9fbd6f7bb095d519ff6a4d48239a15e2b50ea4c515c156f1c1d2dd1b6e4",
+        "evidence": "README.md lines 3-4:\nA power button for the bar. One click opens a session menu; every action is one\nkeystroke away, and the three that lose unsaved work ask first.\n\nREADME.md lines 8-16:\nLock, Shutdown, Reboot, and Logout run Omarchy's own session scripts —\n`omarchy-system-lock`, `omarchy-system shutdown`, `omarchy-system reboot`,\n`omarchy-system logout` — rather than reimplementing what they do. Whatever\nthose grow later, this widget inherits.\n\n**Suspend** and **Hibernate** have no such script, so they run `systemctl\nsuspend` and `systemctl hibernate`, which is exactly what Omarchy's own system\nmenu runs, behind exactly the same availability conditions. **Turn screens off**\nhas no Omarchy equivalent at all and dispatches to Hyprland directly.\n\nREADME.md lines 65-73:\n| | Runs | Notes |\n|---|---|---|\n| Turn screens off | `hl.dsp.dpms` | See [below](#turning-the-screens-off) — the only one with no `omarchy-*` script |\n| Lock | `omarchy-system-lock` | Locks the session, resets the keyboard layout, locks 1Password, stops the screensaver. It does **not** turn the displays off |\n| Suspend | `systemctl suspend` | Hidden while the `suspend-off` toggle is set |\n| Hibernate | `systemctl hibernate` | Only where `omarchy-hibernation-available` succeeds |\n| Shutdown | `omarchy-system shutdown` | Confirms first |\n| Reboot | `omarchy-system reboot` | Confirms first |\n| Logout | `omarchy-system logout` | Confirms first |"
       }
     },
     {
@@ -5435,13 +5437,13 @@
       ],
       "constraints": [],
       "reason": "Browses internet radio stations on a globe or through search and plays a selected stream in mpv.",
-      "reviewedAt": "2026-11-09",
+      "reviewedAt": "2026-11-16",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/AksharP5/omarchy-radio-atlas/blob/d90f25928c52b18223873526bd6e6ed15769099d/README.md",
-        "revision": "d90f25928c52b18223873526bd6e6ed15769099d",
+        "url": "https://github.com/AksharP5/omarchy-radio-atlas/blob/d8f10a5a2187efc5e0d9c3300e2e5409615fe1ea/README.md",
+        "revision": "d8f10a5a2187efc5e0d9c3300e2e5409615fe1ea",
         "path": "README.md",
-        "sha256": "22c7f3c1833073b9409c91fd380d857230671d62861ffacd9845af1b9a4fc8a5",
+        "sha256": "27ffec0c15cf7b93e091f6b5ae34bf408f5af3c025a023b48809efb32d1adabd",
         "evidence": "README.md lines 7-10:\nExplore live radio on a rotatable globe from the Omarchy bar. Click a station\nsignal to play it, or click a country to browse its stations. Playback runs in\n`mpv`, with a dedicated MPRIS bridge so `omarchy.media` provides the usual play,\npause, previous, and next controls.\n\nREADME.md lines 18-34:\n- Kinetic drag rotation that highlights a nearby station when it settles, plus deep wheel and button zoom on a theme-aware globe\n- A fast cached world view that progressively adds thousands of stations and keeps the session catalog when closed\n- Country stations stay on the session globe and take priority over background signals\n- Country-level map estimates when a station has no published coordinates\n- Automatic country focus for the station that is actually playing\n- Current station identity, track metadata, and one-click favoriting in the player\n- Cached station logos in the player and desktop media controls, plus click-to-copy track text\n- Instant cached results while full-directory search and country browsing refresh from Radio Browser\n- Random tuning that avoids recent stations, plus favorites and listening history\n- Independent volume slider, mute, and bar-wheel volume control\n- Audio output picker that routes radio to any PipeWire sink, including AirPlay speakers exposed as RAOP sinks\n- Centered, floating window with normal Omarchy window-manager behavior\n- Window size fits the focused display when opened, including scaled and rotated outputs\n- Automatic dismissal when Omarchy starts its screensaver\n- Keyboard navigation\n- Persistent world and country caches with background refresh and transient retries\n- Keeps your chosen station selected if its stream fails, with explicit retry or next controls"
       }
     },
@@ -6046,14 +6048,14 @@
       ],
       "constraints": [],
       "reason": "Configures screensaver timing, artwork and preview, with effect selection requiring an additional override.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-16",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/brianirish/omarchy-screensaver-panel/blob/f61bc254e367098e8bf0c8a68fbde365ef64551f/README.md",
-        "revision": "f61bc254e367098e8bf0c8a68fbde365ef64551f",
+        "url": "https://github.com/brianirish/omarchy-screensaver-panel/blob/b4f84c26c0f2cdac718790e703d689d8dd1c5f93/README.md",
+        "revision": "b4f84c26c0f2cdac718790e703d689d8dd1c5f93",
         "path": "README.md",
-        "sha256": "e58b8ff23711a6be6f50f77d6ab96c987a6ea05221787a8f53c03faa20932b10",
-        "evidence": "README.md lines 10-11:\nA settings GUI for the [Omarchy](https://omarchy.org) screensaver — the knobs\nthat were previously config-file-and-CLI only, as a native shell panel.\n\nREADME.md lines 15-18:\nOmarchy's screensaver (terminal text effects over your ASCII branding) is\nlovely, but tuning it means editing `shell.json` by hand and there's no way to\nchoose *which* effects play. This plugin adds a bar icon that opens a panel\nwith:\n\nREADME.md lines 20-28:\n- **Enable/disable** toggle (right-click the bar icon for a quick toggle)\n- **Idle timing** sliders for screensaver and lock delay, with snap-to presets\n  (30s–30m / 1m–60m), applied instantly\n- **Effect picker** — pin any subset of the 37 `ttfx` effects for the random\n  rotation (searchable multi-select, Select all / Clear); empty selection\n  means all effects, exactly like stock\n- **Artwork** controls — edit the ASCII art as text, generate it from a\n  PNG/SVG, or reset to the Omarchy logo\n- **Preview** button\n\nREADME.md lines 46-46:\nEverything except effect pinning works out of the box.\n\nREADME.md lines 50-52:\nStock `omarchy-screensaver` always runs `ttfx --random-effect` over all\neffects. To honor the effects you pin in the panel, install the bundled\noverride (a copy of the stock script that adds `--include-effects`):\n\nREADME.md lines 55-55:\nsudo install -m 755 extras/omarchy-screensaver /usr/local/bin/omarchy-screensaver\n\nREADME.md lines 58-61:\nOne catch: Omarchy's `envs.lua` prepends `$OMARCHY_PATH/bin` to the session\nPATH, ahead of `/usr/local/bin`, so the stock script would still win. Add this\nat the end of `~/.config/hypr/hyprland.lua` (user config loads after Omarchy's\ndefaults) to put `/usr/local/bin` first:"
+        "sha256": "ff95490f1bbf59e90150b7d2f4a32f46cc48343220988f15136e4b6bbc3d6bc9",
+        "evidence": "README.md lines 10-11:\nA settings GUI for the [Omarchy](https://omarchy.org) screensaver — the knobs\nthat were previously config-file-and-CLI only, as a native shell panel.\n\nREADME.md lines 15-18:\nOmarchy's screensaver (`ttfx` text effects over your ASCII branding) is\nlovely, but tuning it means editing `shell.json` by hand and there's no way to\nchoose *which* effects play. This plugin adds a bar icon that opens a panel\nwith:\n\nREADME.md lines 20-28:\n- **Enable/disable** toggle (right-click the bar icon for a quick toggle)\n- **Idle timing** sliders for screensaver and lock delay, with snap-to presets\n  (30s–30m / 1m–60m), applied instantly\n- **Effect picker** — pin any subset of the 37 `ttfx` effects for the random\n  rotation (searchable multi-select, Select all / Clear); empty selection\n  means all effects, exactly like stock\n- **Artwork** controls — edit the ASCII art as text, generate it from a\n  PNG/SVG, or reset to the Omarchy logo\n- **Preview** button\n\nREADME.md lines 46-46:\nEverything except effect pinning works out of the box."
       }
     },
     {
@@ -7686,14 +7688,14 @@
         "Official radar covers Germany and neighbouring countries, the USA, Canada, Finland, the Netherlands and Japan; RainViewer is used elsewhere. When no radar source is available it falls back to model precipitation, which is forecast data rather than radar."
       ],
       "reason": "Shows an animated rain radar map for the selected place, with a frame timeline, zoom and a movable themed map.",
-      "reviewedAt": "2026-11-09",
+      "reviewedAt": "2026-11-16",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/T-The-Coder/more-weather/blob/2bea24e838eeb9f1805119d55cca84217fdaa6f9/README.md",
-        "revision": "2bea24e838eeb9f1805119d55cca84217fdaa6f9",
+        "url": "https://github.com/T-The-Coder/more-weather/blob/201f44d7a5801569ea0c80a09ce15a616742fdb4/README.md",
+        "revision": "201f44d7a5801569ea0c80a09ce15a616742fdb4",
         "path": "README.md",
-        "sha256": "addc6140021fe277c4d35b2a6f6419505032b17e6a8a04c39c1445ecb7888fe5",
-        "evidence": "README.md lines 3-7:\nA detailed weather plugin for the [Omarchy](https://omarchy.org) bar, with official\nsevere weather warnings from national weather services, a two-hour rain nowcast, a rain\nradar and a wind map drawn in your theme that you can move and zoom, temperature lines,\nrain alerts, air quality and pollen, and all your places at a glance. The same view also\nruns as a standalone app window.\n\nREADME.md lines 68-74:\n- **Rain radar:**\n  - Official radar in the DWD area, the USA, Canada, Finland, the Netherlands and\n    Japan; RainViewer elsewhere.\n  - Animated frames with a timeline under the map (after Weather Radar): play/pause, a\n    notched track to drag or click through the frames with a mark for now and the\n    forecast part tinted, and the frame's time. Plus zoom and distance rings around the\n    place.\n\nREADME.md lines 271-271:\n| Radar | DWD (Germany and neighbours), NOAA/NWS MRMS (United States), ECCC GeoMet (Canada), RainViewer elsewhere; model precipitation as last resort |"
+        "sha256": "3bd205f9f26577e2d3c5a30c37d8457c526b334e98d8b3f8c6ae4906054f2929",
+        "evidence": "README.md lines 3-7:\nA detailed weather plugin for the [Omarchy](https://omarchy.org) bar, with official\nsevere weather warnings from national weather services, a two-hour rain nowcast, a rain\nradar and a wind map drawn in your theme that you can move and zoom, temperature lines,\nrain alerts, air quality and pollen, and all your places at a glance. The same view also\nruns as a standalone app window.\n\nREADME.md lines 70-72:\n- **Rain radar:**\n  - Official sources in Germany (DWD), the USA (NWS), Canada (ECCC), Finland\n    (FMI), the Netherlands (KNMI) and Japan (JMA); RainViewer elsewhere.\n\nREADME.md lines 89-93:\n  - First/previous/play/next/last controls and one tick per frame sit below\n    the legend. Outlined ticks are forecasts. Play loops from the selected\n    picture through the last available frame, including nowcasts, then wraps;\n    starting on the last picture loops the whole available series. Pause keeps\n    the picture. The frame count and stamp follow the picture actually ready.\n\nREADME.md lines 295-295:\n| Radar | DWD (Germany and neighbours), NOAA/NWS MRMS (United States), ECCC GeoMet (Canada), RainViewer elsewhere; model precipitation as last resort |"
       },
       "metadataHash": "e8327dbdee1602d200c4e195f19f052eef8b18edb9f6f15589a2daf2aebe44c0",
       "contractVersion": 2
@@ -7710,14 +7712,14 @@
       ],
       "constraints": [],
       "reason": "Shows a searchable overview of windows and activates a selected window.",
-      "reviewedAt": "2026-11-09",
+      "reviewedAt": "2026-11-16",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/kristofferR/omarchy-expose/blob/2c63aeab7f7b43f2b7acb293f9438c15ba28992e/README.md",
-        "revision": "2c63aeab7f7b43f2b7acb293f9438c15ba28992e",
+        "url": "https://github.com/kristofferR/omarchy-expose/blob/5f3d76d629eeeb717023ba169116995c0366511c/README.md",
+        "revision": "5f3d76d629eeeb717023ba169116995c0366511c",
         "path": "README.md",
-        "sha256": "9dbac8e1d947f5147d2803185392c2af2a4640079ecb13932e529dc855fd0997",
-        "evidence": "README.md lines 3-3:\nmacOS-style Exposé for Omarchy: one key or a hot corner shows every open window as a live preview. Type to search, press Space to Quick Look, press Enter to launch.\n\nREADME.md lines 11-11:\n- **Search.** Just start typing to filter windows by title or application.\n\nREADME.md lines 89-89:\n| Enter | Activate the selected window |\n\nREADME.md lines 92-92:\nClicking a card activates it; middle-clicking closes it, as does its ✕ button when that setting is on. With the workspace strip on, dragging a card onto a workspace thumbnail, or onto **+** for a new workspace, moves the window there and keeps Exposé open; Escape or dropping anywhere else cancels. Activation moves the pointer to the chosen window by default; this is a setting, not a change to Hyprland's global cursor behavior."
+        "sha256": "f70bf1065291ce564e1152fdca03145b25b1d18d367df2fc85069f9a71444d9d",
+        "evidence": "README.md lines 3-3:\nmacOS-style Exposé for Omarchy: one key or a hot corner shows every open window as a live preview. Type to search, press Space to Quick Look, press Enter to launch. Hot corners work the way they do on a Mac, with All windows, App windows, and Desktop actions.\n\nREADME.md lines 11-11:\n- **Search.** Just start typing to filter windows by title or application.\n\nREADME.md lines 93-93:\n| Enter | Activate the selected window |\n\nREADME.md lines 96-96:\nClicking a card activates it; middle-clicking closes it, as does its ✕ button when that setting is on. With the workspace strip on, dragging a card onto a workspace thumbnail, or onto **+** for a new workspace, moves the window there and keeps Exposé open; Escape or dropping anywhere else cancels. Activation moves the pointer to the chosen window by default; this is a setting, not a change to Hyprland's global cursor behavior."
       }
     },
     {
@@ -7952,14 +7954,14 @@
       ],
       "constraints": [],
       "reason": "Shows workspace occupancy and app icons and switches to selected workspaces or windows.",
-      "reviewedAt": "2026-10-30",
+      "reviewedAt": "2026-11-16",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/tornikegomareli/omarchy-spaces/blob/458852c88336722f61d8c67487bc03d4d3523893/README.md",
-        "revision": "458852c88336722f61d8c67487bc03d4d3523893",
+        "url": "https://github.com/tornikegomareli/omarchy-spaces/blob/47ac345e9b62d691ee802a82d31f1d538ee0e043/README.md",
+        "revision": "47ac345e9b62d691ee802a82d31f1d538ee0e043",
         "path": "README.md",
-        "sha256": "f1d2b834feca6a7f54a70d5f0c8c2b7b1dd2125659afdbfb1fb447644733ddb3",
-        "evidence": "README.md lines 3-3:\n<h3 align=\"center\">See what runs on every workspace.</h3>\n\nREADME.md lines 9-9:\nSpaces is a workspace switcher for the [Omarchy](https://omarchy.org) bar. Each workspace shows the icons of the apps open on it. The active one slides open, and the focused window is highlighted.\n\nREADME.md lines 13-13:\nHover another workspace to see it live, laid out the way it is on screen. Click a window in the preview to jump to it.\n\nREADME.md lines 15-15:\nPreviews follow the monitor's orientation, including portrait displays, and shrink to fit the available screen space while keeping the full workspace visible. The size setting controls the longest side, so portrait and landscape previews have a comparable size."
+        "sha256": "e30f57a38f6c604de2f8046f6c3afc6ac189588c5fe849e2976742f2d8d31711",
+        "evidence": "README.md lines 3-3:\n<h3 align=\"center\">See what runs on every workspace.</h3>\n\nREADME.md lines 9-9:\nSpaces is a workspace switcher for the [Omarchy](https://omarchy.org) bar. Each workspace shows the icons of the apps open on it. The active one slides open, and the focused window is highlighted.\n\nREADME.md lines 13-13:\nHover another workspace to see it live, laid out the way it is on screen. Click a window in the preview to jump to it. Hovering an app icon highlights its windows and brings its floating thumbnail to the front, where it stays as you move into the preview. Clicking an app icon closes the preview.\n\nREADME.md lines 21-21:\nPreviews follow the monitor's orientation, including portrait displays, and shrink to fit the available screen space while keeping the full workspace visible. The size setting controls the longest side, so portrait and landscape previews have a comparable size."
       }
     },
     {
