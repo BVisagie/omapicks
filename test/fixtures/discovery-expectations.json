@@ -864,6 +864,21 @@
       "listingSha256": "32bf59d42c8119daeada68ba4af3174b7feb6902ef5235a09fedc5596da27ddd"
     },
     {
+      "pluginId": "calebhat.read-aloud",
+      "typeId": "read-aloud",
+      "expectedTargets": [
+        "read-aloud"
+      ],
+      "reason": "Reads selected or pasted text aloud.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Read selected or pasted text aloud"
+        }
+      ],
+      "listingSha256": "ef3a78ad83a048acd2f024d3f045b00b9ac9dfff5155cb61633fd4fabd9c2ca7"
+    },
+    {
       "pluginId": "carl.weather",
       "typeId": "weather",
       "expectedTargets": [
@@ -962,6 +977,21 @@
         }
       ],
       "listingSha256": "d5f7488a6458099842f97fdff35af4828bc5b23da453c87b8f72c790e8ba58b9"
+    },
+    {
+      "pluginId": "chalkers.read-aloud",
+      "typeId": "read-aloud",
+      "expectedTargets": [
+        "read-aloud"
+      ],
+      "reason": "Reads selected text through a text-to-speech server.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Read selected text through a configurable Wyoming TTS server"
+        }
+      ],
+      "listingSha256": "28d48e74a2ca033d0447df094a43352ca5364fbe5977385e0402eee4f694ba4f"
     },
     {
       "pluginId": "cheapseatsecon.laya-attention",
@@ -1762,6 +1792,21 @@
         }
       ],
       "listingSha256": "20eb27e91671606efeea2e8cb71adb5494007bc82dcaf888d52a27911a5f906c"
+    },
+    {
+      "pluginId": "digitalbase.sayit",
+      "typeId": "read-aloud",
+      "expectedTargets": [
+        "read-aloud"
+      ],
+      "reason": "Makes the desktop read aloud on a keyboard shortcut.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "makes your desktop read aloud with a keyboard shortcut"
+        }
+      ],
+      "listingSha256": "4b8b282e7c796dd9ad44a90f3ed75f96aa1f95ffa792930b6c987cec5ce77f1c"
     },
     {
       "pluginId": "dimef.network",
@@ -4104,6 +4149,21 @@
       "listingSha256": "89dc38f741221ed4976ac63c3e4eff03ec3a15f8795fb2b7721a7ed27462e200"
     },
     {
+      "pluginId": "io.github.djspatule.tts-clip",
+      "typeId": "read-aloud",
+      "expectedTargets": [
+        "read-aloud"
+      ],
+      "reason": "Reads copied text aloud.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "have any copied text read aloud"
+        }
+      ],
+      "listingSha256": "840a00b7702a10fbfc02dfad6838b04947e8bdde0f68091b3b424542e9d6d7c0"
+    },
+    {
       "pluginId": "io.github.dkgamer02ai.lock",
       "typeId": "clock-timer",
       "expectedTargets": [],
@@ -4219,6 +4279,21 @@
         }
       ],
       "listingSha256": "ca6a111081569b56cc8cbf2608bfc9a6b7e8c77565583fbdace9048e7cd92ec2"
+    },
+    {
+      "pluginId": "io.github.dylanrothhuck.tts-reader",
+      "typeId": "read-aloud",
+      "expectedTargets": [
+        "read-aloud"
+      ],
+      "reason": "Speaks the selected text aloud.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Speak the selected text aloud"
+        }
+      ],
+      "listingSha256": "64cd03c64f84274ff22e866c687aedd4d76ae6a067942871a82914abdfddda8b"
     },
     {
       "pluginId": "io.github.dzanaga.omarchy-rain-radar-belgium-netherlands-widget",
@@ -4652,6 +4727,21 @@
       "listingSha256": "54a15d8ce9f0cc2b0ea585985004b6001ff3fc88a468d72297683e17378fa044"
     },
     {
+      "pluginId": "io.github.hikari112.tts",
+      "typeId": "read-aloud",
+      "expectedTargets": [
+        "read-aloud"
+      ],
+      "reason": "Speaks selected text and text visible on screen.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "On-demand, local-first speech for selected text"
+        }
+      ],
+      "listingSha256": "4547d89d3e8884f1e744d8a63aa37e4af2ea26a197de09919864fc99da15bbc8"
+    },
+    {
       "pluginId": "io.github.hominluo.launcher",
       "typeId": "window-management",
       "expectedTargets": [
@@ -4895,6 +4985,21 @@
         }
       ],
       "listingSha256": "d4e905b03f2d672ae3cee96503ba9e981565918fd6e5a0dc51fea1bfbb0e186f"
+    },
+    {
+      "pluginId": "io.github.jagrat7.omarchy-tts-local",
+      "typeId": "read-aloud",
+      "expectedTargets": [
+        "read-aloud"
+      ],
+      "reason": "Speaks selected text and text visible on screen.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "On-demand, local-only speech for selected text"
+        }
+      ],
+      "listingSha256": "2912dcb75b2a8a94c3c4e1dd866fdbfdaef995fbb104b2958a6a94ef57741622"
     },
     {
       "pluginId": "io.github.jcarcinogen.blackdrop",
@@ -5925,6 +6030,21 @@
       "listingSha256": "afdca60586962b337d4d5f9efba0652ad4db2d91562e287edb31bc5f25cb879c"
     },
     {
+      "pluginId": "io.github.nousd.voxbox",
+      "typeId": "read-aloud",
+      "expectedTargets": [
+        "read-aloud"
+      ],
+      "reason": "Reads screen text aloud.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Reads anything on your screen aloud"
+        }
+      ],
+      "listingSha256": "f4e0935be9aa32906e2c3db20a584378db5ae9c5c302711800e1ecc0d09f8201"
+    },
+    {
       "pluginId": "io.github.ofa14-prog.dynamic-island",
       "typeId": "ai-assistant",
       "expectedTargets": [
@@ -6109,6 +6229,21 @@
         }
       ],
       "listingSha256": "148e0de2df5452ee014d1cd89e8a5b50f4d15aad261ef2650eec99e522b091c5"
+    },
+    {
+      "pluginId": "io.github.pavellizunov.teratts",
+      "typeId": "read-aloud",
+      "expectedTargets": [
+        "read-aloud"
+      ],
+      "reason": "Reads selected text through a speech server.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Read selected text through a personal TeraTTS server"
+        }
+      ],
+      "listingSha256": "1cc7b8f7a55d70edc29c63c2a290baeba0700cfa6f3b0514f9144665fe63ac72"
     },
     {
       "pluginId": "io.github.pb3975.face-auth",
@@ -7486,6 +7621,21 @@
         }
       ],
       "listingSha256": "450eb58348f41450e40ccc89aeed5f138a1425d43dd8e7603dc67ebd6f186b14"
+    },
+    {
+      "pluginId": "jacob.omaspeak",
+      "typeId": "read-aloud",
+      "expectedTargets": [
+        "read-aloud"
+      ],
+      "reason": "Advertises text-to-speech in the bar; source review decides whether it reads user text.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Omaspeak text-to-speech configuration"
+        }
+      ],
+      "listingSha256": "27a72a396b781bff93c73c8434c9fc1638328217635d1f66b355d7e86ddeb429"
     },
     {
       "pluginId": "jeffe747.cisco-vpn",
@@ -9435,6 +9585,21 @@
       "listingSha256": "41959a82620d16b760ce8b66bbcee85f4ba8738158c0a211ce480316b41abb3a"
     },
     {
+      "pluginId": "omayap.read-aloud",
+      "typeId": "read-aloud",
+      "expectedTargets": [
+        "read-aloud"
+      ],
+      "reason": "Reads selected or captured screen text aloud.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Read selected or locally captured screen text aloud"
+        }
+      ],
+      "listingSha256": "8c4c2c4df99622cf020723bc58ee7b051da8a9ca5dce1e106e7da1578d066408"
+    },
+    {
       "pluginId": "omdesky.remote",
       "typeId": "ai-assistant",
       "expectedTargets": [],
@@ -9890,6 +10055,21 @@
       "listingSha256": "78eef8a6392150fbbc1e66bc98296bc113a1902825c975a866fe00b200bad66f"
     },
     {
+      "pluginId": "readitloud.tts",
+      "typeId": "read-aloud",
+      "expectedTargets": [
+        "read-aloud"
+      ],
+      "reason": "Reads clipboard text aloud.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Read clipboard text aloud"
+        }
+      ],
+      "listingSha256": "84dc00cdb8edb6fd296c6489334a4c555072c87bc4d0bb4887cf3fcedc0df0b9"
+    },
+    {
       "pluginId": "reidenxerx.tile-blueprints",
       "typeId": "window-management",
       "expectedTargets": [],
@@ -9929,6 +10109,21 @@
         }
       ],
       "listingSha256": "f0399de21bc4de0a27a11a44f1ccb91e6dfc967db95985cc07efb32ed252bfe1"
+    },
+    {
+      "pluginId": "remi.say",
+      "typeId": "read-aloud",
+      "expectedTargets": [
+        "read-aloud"
+      ],
+      "reason": "Reads copied text aloud.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Read aloud any text you copy"
+        }
+      ],
+      "listingSha256": "8452cbeb1be874b6d143e7911643f7e6994f54ab98b3f3e9625eaa8109419927"
     },
     {
       "pluginId": "resn3t.pomodoro",
@@ -11063,6 +11258,21 @@
       "listingSha256": "25964b0832b353c3fd5518e99d0ba9b54dd655d8b40432ac4798142a898d61b7"
     },
     {
+      "pluginId": "ubruckhaus.simple-reader",
+      "typeId": "read-aloud",
+      "expectedTargets": [
+        "read-aloud"
+      ],
+      "reason": "Reads windows and document pages aloud.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "Read any window, PDF or Kindle page aloud"
+        }
+      ],
+      "listingSha256": "0561b6dcdd4d5c62eb6b187859cfffca7e90d4e2967d5db90b8d2d85b7f147ca"
+    },
+    {
       "pluginId": "ubruckhaus.simple-tile",
       "typeId": "window-management",
       "expectedTargets": [],
@@ -11497,6 +11707,21 @@
         }
       ],
       "listingSha256": "babbe2010a5087d8e845a3f7457668828d986aa2c33e39a75d903556cfeacb55"
+    },
+    {
+      "pluginId": "zerobearing.omatalk",
+      "typeId": "read-aloud",
+      "expectedTargets": [
+        "read-aloud"
+      ],
+      "reason": "Reads selected text back with local text-to-speech.",
+      "evidence": [
+        {
+          "field": "description",
+          "quote": "select text, press F8, the machine reads it back"
+        }
+      ],
+      "listingSha256": "998f9ec0fe3cff85f0abc7260d1c42ba84bab2c4da61a1a89b483ca45640cc97"
     },
     {
       "pluginId": "zzb.network",

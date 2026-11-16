@@ -225,6 +225,14 @@
       "wiktionary",
       "word lookup"
     ],
+    "read-aloud": [
+      "text to speech",
+      "tts",
+      "speak text",
+      "narrator",
+      "piper",
+      "kokoro"
+    ],
     "prayer-times": [
       "adhan",
       "athan",
@@ -499,6 +507,11 @@
       "ocr"
     ],
     [
+      "read-aloud",
+      "ocr",
+      "translation"
+    ],
+    [
       "agent-monitoring",
       "agent-history",
       "ai-chat"
@@ -533,6 +546,7 @@
       "notifications",
       "translation",
       "dictionary",
+      "read-aloud",
       "agent-monitoring",
       "agent-history",
       "timers-alarms",

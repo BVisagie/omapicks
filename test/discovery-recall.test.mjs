@@ -11,9 +11,14 @@ const taxonomy = JSON.parse(await readFile(new URL("../data/app-types.json", imp
 const reviews = JSON.parse(await readFile(new URL("../data/task-reviews.json", import.meta.url)));
 const report = JSON.parse(await readFile(new URL("../docs/analysis/2026-10-30-discovery-recall.json", import.meta.url)));
 const expectations = JSON.parse(await readFile(new URL("./fixtures/discovery-expectations.json", import.meta.url))).assignments;
-// The dated report records the editorial decisions of its 30 October capture. Later reviews
-// must not rewrite it, so it replays against the decisions captured with it.
-const capturedReviews = JSON.parse(gunzipSync(await readFile(new URL("./fixtures/task-coherence-migration.json.gz", import.meta.url)))).taskReviews;
+// The dated report records the taxonomy and editorial decisions of its 30 October capture.
+// Later reviews and categories must not rewrite it, so it replays against what was captured
+// with it, and only the expectations for categories that existed then.
+const captured = JSON.parse(gunzipSync(await readFile(new URL("./fixtures/task-coherence-migration.json.gz", import.meta.url))));
+const capturedReviews = captured.taskReviews;
+const capturedTypes = new Set(captured.taxonomy.types.map((type) => type.id));
+const laterTypes = new Set(taxonomy.types.map((type) => type.id).filter((id) => !capturedTypes.has(id)));
+const capturedExpectations = expectations.filter((entry) => !laterTypes.has(entry.typeId));
 const prepared = prepareTaxonomy(taxonomy);
 const plugins = new Map(fixture.plugins.map((plugin) => [plugin.id, plugin]));
 const matches = (id) => {
@@ -22,7 +27,7 @@ const matches = (id) => {
 };
 
 test("independent destination expectations cover every split lead and discovery regression", () => {
-  assert.deepEqual(auditDiscoveryRecall(fixture, taxonomy, expectations, capturedReviews), report);
+  assert.deepEqual(auditDiscoveryRecall(fixture, captured.taxonomy, capturedExpectations, capturedReviews), report);
   // Current decisions must keep every route resolved.
   const actual = auditDiscoveryRecall(fixture, taxonomy, expectations, reviews);
   assert.equal(actual.summary.unresolvedAssignments, 0);

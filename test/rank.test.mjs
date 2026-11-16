@@ -52,7 +52,7 @@ function plugin(id, values = {}) {
 test("the production taxonomy is valid and covers focused tasks", async () => {
   const source = JSON.parse(await readFile(new URL("../data/app-types.json", import.meta.url)));
   const prepared = prepareTaxonomy(source);
-  assert.equal(prepared.types.length, 72);
+  assert.equal(prepared.types.length, 73);
   assert.equal(new Set(prepared.types.map((type) => type.id)).size, prepared.types.length);
 });
 
