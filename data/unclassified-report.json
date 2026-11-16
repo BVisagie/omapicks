@@ -1,36 +1,19 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T08:10:28.190Z",
-  "catalogCount": 6674,
-  "eligibleClassifiedCount": 2527,
-  "classificationAssignments": 3191,
-  "qualifiedAssignments": 176,
-  "pendingAssignments": 2994,
-  "uniqueUnclassifiedCount": 2633,
+  "generatedAt": "2026-11-16T09:30:50.504Z",
+  "catalogCount": 6677,
+  "eligibleClassifiedCount": 2529,
+  "classificationAssignments": 3195,
+  "qualifiedAssignments": 191,
+  "pendingAssignments": 2982,
+  "uniqueUnclassifiedCount": 2634,
   "excluded": {
     "not-installable": 1394,
     "compatibility-failed": 23,
     "repository-unreachable": 58,
     "built-in": 39
   },
-  "excludedIncumbents": [
-    {
-      "typeId": "notifications",
-      "typeName": "Notification History & Centers",
-      "place": "runner-up",
-      "id": "njpatel.omapager",
-      "name": "Omapager",
-      "reason": "repository-unreachable"
-    },
-    {
-      "typeId": "smart-home",
-      "typeName": "Smart Home Controls",
-      "place": "runner-up",
-      "id": "io.github.amitcpatel.elgato-control",
-      "name": "Elgato Control",
-      "reason": "repository-unreachable"
-    }
-  ],
+  "excludedIncumbents": [],
   "builtInWarnings": [],
   "sharedRepositories": [],
   "unclassified": [
@@ -13198,6 +13181,11 @@
       "id": "io.github.jeffsauer.omapong",
       "name": "Omapong",
       "category": "Widgets"
+    },
+    {
+      "id": "skrilexxx.pixel-pets",
+      "name": "Pixel Pets",
+      "category": "Desktop"
     }
   ]
 }

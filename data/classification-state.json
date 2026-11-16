@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "classificationVersion": 3,
-  "generatedAt": "2026-11-16T08:10:28.190Z",
+  "generatedAt": "2026-11-16T09:30:50.504Z",
   "taxonomyHash": "60f4b3e05da3d194ef17aa14c39dc0cd9b675bbd789f366fd2819c303aef7dce",
   "plugins": [
     {
@@ -9967,7 +9967,8 @@
       "name": "Ristretto",
       "metadataHash": "e4d6b72bade6a2aa7a3a4fe29e868dc0f9224012bba484f33ef3c4570608d10a",
       "types": [
-        "idle-sleep"
+        "idle-sleep",
+        "keep-awake"
       ]
     },
     {
@@ -24359,6 +24360,14 @@
       "types": []
     },
     {
+      "id": "io.github.rodrigondec.claude-tokens",
+      "name": "Claude Tokens",
+      "metadataHash": "daebe570595376bf1366934744604cf5c07388abbc5c5506439dcb370e4b2050",
+      "types": [
+        "agent-monitoring"
+      ]
+    },
+    {
       "id": "io.github.rodrigondec.tmog",
       "name": "TMOG",
       "metadataHash": "ec312415457a35e38e1487c952cbfcc0b75842d92f6ffb200a4df49b1ba27cc4",
@@ -37350,6 +37359,15 @@
       "types": []
     },
     {
+      "id": "ozzy.claude-usage",
+      "name": "Claude Usage",
+      "metadataHash": "802dac3435e05b16b5c1e108b2a2658023e84ea1e87a1852c260eca37caa8bbb",
+      "types": [
+        "agent-monitoring",
+        "ai-api-usage"
+      ]
+    },
+    {
       "id": "p0werj0int.powerbar",
       "name": "Powerbar",
       "metadataHash": "74e6544992e7018a3a5ad39f652aa082711ffaa4dfaa3cfa713929f62d70caa6",
@@ -41246,6 +41264,12 @@
       "types": [
         "music"
       ]
+    },
+    {
+      "id": "skrilexxx.pixel-pets",
+      "name": "Pixel Pets",
+      "metadataHash": "234f7a13cf883874b189024208ad3015b18371be908a64c997da4f958ff3601d",
+      "types": []
     },
     {
       "id": "skuthus.agent-term",

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "week": "2026-W47",
-  "generatedAt": "2026-11-16T08:10:28.190Z",
+  "generatedAt": "2026-11-16T09:30:50.504Z",
   "changes": [
     {
       "typeId": "docks",
@@ -174,6 +174,120 @@
         "name": "World Radio"
       },
       "reason": "recheck-after-update"
+    },
+    {
+      "typeId": "docks",
+      "typeName": "Application Docks",
+      "kind": "displaced",
+      "previous": {
+        "id": "omadock",
+        "name": "Dock (OmaDock)"
+      },
+      "current": {
+        "id": "rosakodu.dock",
+        "name": "Dock"
+      }
+    },
+    {
+      "typeId": "lock-screen",
+      "typeName": "Lock Screen Appearance",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.smoothpixels.lock-designs",
+        "name": "Lock Designs"
+      },
+      "current": {
+        "id": "io.github.sirjul1337.lock-explorer",
+        "name": "Lock Screen Explorer"
+      }
+    },
+    {
+      "typeId": "keep-awake",
+      "typeName": "Keep Awake",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.krongggggg.caffeine",
+        "name": "Caffeine"
+      },
+      "current": {
+        "id": "halmylyseas.ristretto",
+        "name": "Ristretto"
+      }
+    },
+    {
+      "typeId": "workspaces",
+      "typeName": "Workspaces",
+      "kind": "displaced",
+      "previous": {
+        "id": "mirador",
+        "name": "Mirador"
+      },
+      "current": {
+        "id": "tornikegomareli.spaces",
+        "name": "Spaces"
+      }
+    },
+    {
+      "typeId": "window-management",
+      "typeName": "Window Switching",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.pablo-merino.altswitch",
+        "name": "Alt-tab switcher"
+      },
+      "current": {
+        "id": "expose.window-overview",
+        "name": "Exposé"
+      }
+    },
+    {
+      "typeId": "agent-monitoring",
+      "typeName": "Agent Monitoring",
+      "kind": "displaced",
+      "previous": {
+        "id": "njpatel.omaherdr",
+        "name": "Omaherdr"
+      },
+      "current": {
+        "id": "meviusisback.agent-orchestr",
+        "name": "Agent Orchestrator"
+      }
+    },
+    {
+      "typeId": "ai-api-usage",
+      "typeName": "AI & API Usage",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.viganogabriele.agent-usage-plus",
+        "name": "Agent Usage Plus"
+      },
+      "current": {
+        "id": "akitaonrails.ai-usagebar",
+        "name": "AI Usage"
+      }
+    },
+    {
+      "typeId": "keybinding-managers",
+      "typeName": "Keybinding Managers",
+      "kind": "new-champion",
+      "previous": null,
+      "current": {
+        "id": "meviusisback.keybinds",
+        "name": "Keybindings"
+      }
+    },
+    {
+      "typeId": "radio",
+      "typeName": "Radio",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.kaibur02.omarchy-world-radio",
+        "name": "World Radio"
+      },
+      "current": {
+        "id": "akshar.radio-atlas",
+        "name": "Radio Atlas"
+      }
     }
   ],
   "runnerUpChanges": [
@@ -390,6 +504,128 @@
       },
       "current": null,
       "reason": "recheck-after-update"
+    },
+    {
+      "typeId": "weather-radar",
+      "typeName": "Weather Radar",
+      "kind": "displaced",
+      "previous": {
+        "id": "gdeyoung.weather",
+        "name": "WeatherX"
+      },
+      "current": {
+        "id": "more-weather",
+        "name": "More Weather"
+      }
+    },
+    {
+      "typeId": "docks",
+      "typeName": "Application Docks",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.claudsondouglas.arcdock",
+        "name": "Arc Dock"
+      },
+      "current": {
+        "id": "omadock",
+        "name": "Dock (OmaDock)"
+      }
+    },
+    {
+      "typeId": "lock-screen",
+      "typeName": "Lock Screen Appearance",
+      "kind": "displaced",
+      "previous": {
+        "id": "bibek.lock",
+        "name": "Better Lock"
+      },
+      "current": {
+        "id": "io.github.smoothpixels.lock-designs",
+        "name": "Lock Designs"
+      }
+    },
+    {
+      "typeId": "keep-awake",
+      "typeName": "Keep Awake",
+      "kind": "displaced",
+      "previous": {
+        "id": "air.auto-cafe",
+        "name": "Auto Cafe"
+      },
+      "current": {
+        "id": "io.github.krongggggg.caffeine",
+        "name": "Caffeine"
+      }
+    },
+    {
+      "typeId": "workspaces",
+      "typeName": "Workspaces",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "mirador",
+        "name": "Mirador"
+      }
+    },
+    {
+      "typeId": "agent-monitoring",
+      "typeName": "Agent Monitoring",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "io.github.fabean.herdr",
+        "name": "Herdr"
+      }
+    },
+    {
+      "typeId": "ai-api-usage",
+      "typeName": "AI & API Usage",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "io.github.viganogabriele.agent-usage-plus",
+        "name": "Agent Usage Plus"
+      }
+    },
+    {
+      "typeId": "keybinding-managers",
+      "typeName": "Keybinding Managers",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "davedes.mouse-keybind-settings",
+        "name": "Mouse & Keybind Settings"
+      }
+    },
+    {
+      "typeId": "radio",
+      "typeName": "Radio",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "io.github.kaibur02.omarchy-world-radio",
+        "name": "World Radio"
+      }
+    },
+    {
+      "typeId": "screensavers",
+      "typeName": "Screensavers",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "brianirish.screensaver",
+        "name": "Screensaver"
+      }
+    },
+    {
+      "typeId": "power-menu",
+      "typeName": "Power & Session",
+      "kind": "new-runner-up",
+      "previous": null,
+      "current": {
+        "id": "io.github.edgarsilva.power-button",
+        "name": "Power Button"
+      }
     }
   ],
   "categoryChanges": [],
