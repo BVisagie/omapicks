@@ -7,35 +7,7 @@ import { fileURLToPath } from "node:url";
 import { pinnedSource, reviewSources } from "../build/evidence.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const args = process.argv.slice(2);
-let cache = path.join(root, "tmp", "review-source-cache");
-let offline = false;
-for (let i = 0; i < args.length; i++) {
-  if (args[i] === "--offline") offline = true;
-  else if (args[i] === "--cache" && args[i + 1]) cache = path.resolve(args[++i]);
-  else throw new Error("Usage: node scripts/capture-review-evidence.mjs [--cache DIR] [--offline]");
-}
 const hash = (value) => createHash("sha256").update(value).digest("hex");
-const readJson = async (name) => JSON.parse(await readFile(path.join(root, "data", name), "utf8"));
-const [evaluation, profiles, reviews] = await Promise.all([
-  readJson("recommendation-evaluation.json"), readJson("plugin-profiles.json"), readJson("task-reviews.json"),
-]);
-const citations = [
-  ...evaluation.cases.map((entry) => entry.source),
-  ...Object.values(profiles.plugins).flatMap((profile) => profile.sources),
-  // Legacy catalog citations cannot qualify current recommendations and are not
-  // immutable repository text. Verify every pinned active task citation too.
-  ...reviews.assignments.flatMap(reviewSources).filter((source) => pinnedSource(source)),
-];
-const documents = new Map();
-for (const source of citations) {
-  if (!pinnedSource(source) || !/^[a-f0-9]{64}$/.test(source.sha256 ?? "")) {
-    throw new Error(`Expected an immutable source and content hash: ${source?.url}`);
-  }
-  const existing = documents.get(source.url);
-  if (existing && existing.sha256 !== source.sha256) throw new Error(`Conflicting source hashes: ${source.url}`);
-  documents.set(source.url, { ...source, excerpts: [...(existing?.excerpts ?? []), source.evidence] });
-}
 
 function verifyExcerpts(document, body) {
   const lines = body.toString("utf8").split(/\r?\n/);
@@ -51,11 +23,23 @@ function verifyExcerpts(document, body) {
   }
 }
 
-async function fetchText(document) {
+// A source whose whole repository is gone cannot be checked, and the weekly
+// observation already makes its plugin ineligible. It is reported as
+// unavailable instead of failing the run. A missing file or commit in a
+// repository that still exists is still an error.
+export async function fetchText(document, fetchImpl = fetch) {
   const url = new URL(document.url);
   const parts = url.pathname.split("/").filter(Boolean);
   const raw = `https://raw.githubusercontent.com/${parts[0]}/${parts[1]}/${document.revision}/${document.path.split("/").map(encodeURIComponent).join("/")}`;
-  const response = await fetch(raw, { redirect: "error", signal: AbortSignal.timeout(20000) });
+  const response = await fetchImpl(raw, { redirect: "error", signal: AbortSignal.timeout(20000) });
+  if (response.status === 404) {
+    const token = process.env.GH_TOKEN || process.env.GITHUB_TOKEN;
+    const repository = await fetchImpl(`https://api.github.com/repos/${parts[0]}/${parts[1]}`, {
+      headers: { accept: "application/vnd.github+json", "user-agent": "OmaPicks-evidence", ...(token ? { authorization: `Bearer ${token}` } : {}) },
+      signal: AbortSignal.timeout(20000),
+    });
+    if (repository.status === 404) throw Object.assign(new Error(`Repository unavailable (404): ${document.url}`), { unavailable: true });
+  }
   if (!response.ok) throw new Error(`Source fetch failed (${response.status}): ${document.url}`);
   const chunks = []; let bytes = 0;
   const reader = response.body.getReader();
@@ -71,29 +55,65 @@ async function fetchText(document) {
   return Buffer.concat(chunks);
 }
 
-await mkdir(cache, { recursive: true });
-const pending = [...documents.values()];
-const manifest = []; const errors = [];
-await Promise.all(Array.from({ length: Math.min(6, pending.length) }, async () => {
-  while (pending.length) {
-    const document = pending.shift();
-    try {
-      const filename = `${hash(document.url)}.txt`;
-      const target = path.join(cache, filename);
-      let body;
-      try { body = await readFile(target); } catch (error) {
-        if (error.code !== "ENOENT" || offline) throw error;
-        body = await fetchText(document);
-      }
-      if (hash(body) !== document.sha256) throw new Error(`Content hash differs: ${document.url}`);
-      verifyExcerpts(document, body);
-      if (!offline) await writeFile(target, body);
-      manifest.push({ url: document.url, revision: document.revision, path: document.path, sha256: document.sha256, file: filename });
-    } catch (error) { errors.push({ url: document.url, error: error.message }); }
+async function main() {
+  const args = process.argv.slice(2);
+  let cache = path.join(root, "tmp", "review-source-cache");
+  let offline = false;
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === "--offline") offline = true;
+    else if (args[i] === "--cache" && args[i + 1]) cache = path.resolve(args[++i]);
+    else throw new Error("Usage: node scripts/capture-review-evidence.mjs [--cache DIR] [--offline]");
   }
-}));
-manifest.sort((a, b) => a.url.localeCompare(b.url));
-errors.sort((a, b) => a.url.localeCompare(b.url));
-await writeFile(path.join(cache, "manifest.json"), `${JSON.stringify({ schemaVersion: 1, documents: manifest, errors }, null, 2)}\n`);
-console.log(JSON.stringify({ documents: documents.size, verified: manifest.length, citations: citations.length, errors }, null, 2));
-if (errors.length) process.exitCode = 1;
+  const readJson = async (name) => JSON.parse(await readFile(path.join(root, "data", name), "utf8"));
+  const [evaluation, profiles, reviews] = await Promise.all([
+    readJson("recommendation-evaluation.json"), readJson("plugin-profiles.json"), readJson("task-reviews.json"),
+  ]);
+  const citations = [
+    ...evaluation.cases.map((entry) => entry.source),
+    ...Object.values(profiles.plugins).flatMap((profile) => profile.sources),
+    // Legacy catalog citations cannot qualify current recommendations and are not
+    // immutable repository text. Verify every pinned active task citation too.
+    ...reviews.assignments.flatMap(reviewSources).filter((source) => pinnedSource(source)),
+  ];
+  const documents = new Map();
+  for (const source of citations) {
+    if (!pinnedSource(source) || !/^[a-f0-9]{64}$/.test(source.sha256 ?? "")) {
+      throw new Error(`Expected an immutable source and content hash: ${source?.url}`);
+    }
+    const existing = documents.get(source.url);
+    if (existing && existing.sha256 !== source.sha256) throw new Error(`Conflicting source hashes: ${source.url}`);
+    documents.set(source.url, { ...source, excerpts: [...(existing?.excerpts ?? []), source.evidence] });
+  }
+
+  await mkdir(cache, { recursive: true });
+  const pending = [...documents.values()];
+  const manifest = []; const errors = []; const unavailable = [];
+  await Promise.all(Array.from({ length: Math.min(6, pending.length) }, async () => {
+    while (pending.length) {
+      const document = pending.shift();
+      try {
+        const filename = `${hash(document.url)}.txt`;
+        const target = path.join(cache, filename);
+        let body;
+        try { body = await readFile(target); } catch (error) {
+          if (error.code !== "ENOENT" || offline) throw error;
+          body = await fetchText(document);
+        }
+        if (hash(body) !== document.sha256) throw new Error(`Content hash differs: ${document.url}`);
+        verifyExcerpts(document, body);
+        if (!offline) await writeFile(target, body);
+        manifest.push({ url: document.url, revision: document.revision, path: document.path, sha256: document.sha256, file: filename });
+      } catch (error) { (error.unavailable ? unavailable : errors).push({ url: document.url, error: error.message }); }
+    }
+  }));
+  manifest.sort((a, b) => a.url.localeCompare(b.url));
+  errors.sort((a, b) => a.url.localeCompare(b.url));
+  unavailable.sort((a, b) => a.url.localeCompare(b.url));
+  await writeFile(path.join(cache, "manifest.json"), `${JSON.stringify({ schemaVersion: 1, documents: manifest, errors, unavailable }, null, 2)}\n`);
+  console.log(JSON.stringify({ documents: documents.size, verified: manifest.length, citations: citations.length, errors, unavailable }, null, 2));
+  if (errors.length) process.exitCode = 1;
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((error) => { console.error(error.message); process.exitCode = 1; });
+}

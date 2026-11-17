@@ -2362,14 +2362,20 @@
       {
         "pluginId": "clouddown.fast-lid",
         "typeId": "agent-monitoring",
-        "listingSha256": "51359da37c4ece806a1842dc07ed69a288888ca168423a909909cd3d01295b34",
+        "listingSha256": [
+          "51359da37c4ece806a1842dc07ed69a288888ca168423a909909cd3d01295b34",
+          "56090289310dfcecb8526f4cba1b11d3bbc722646952c7883d10d54cc733383f"
+        ],
         "reason": "Keeping agents working by inhibiting lid-close suspend is an awake-hold function, not an interface for agent activity or saved conversations."
       },
       {
         "pluginId": "clouddown.fast-lid",
         "typeId": "idle-sleep",
-        "listingSha256": "51359da37c4ece806a1842dc07ed69a288888ca168423a909909cd3d01295b34",
-        "reason": "The explicit one-click inhibition of lid-close and idle suspend supports a temporary awake-hold lead, not timer configuration."
+        "listingSha256": [
+          "51359da37c4ece806a1842dc07ed69a288888ca168423a909909cd3d01295b34",
+          "56090289310dfcecb8526f4cba1b11d3bbc722646952c7883d10d54cc733383f"
+        ],
+        "reason": "Inhibiting lid-close and idle suspend, including timed holds, supports a temporary awake-hold lead, not configuration of inactivity timers."
       },
       {
         "pluginId": "com.b150.walkie",
@@ -2498,13 +2504,16 @@
         "pluginId": "heast13.downtime",
         "typeId": "idle-sleep",
         "listingSha256": "95ab1a4466fd66fbee2a70457e203b6bc4cf6d0ab51a919cb45917e289c91768",
-        "reason": "The listing names a shutdown timer and screensaver/display actions, without saying they are configured automatic inactivity timers or a reversible awake hold."
+        "reason": "The listing names a shutdown timer and screensaver/display actions, without saying they are configured automatic inactivity timers or a reversible awake hold. This covers only that captured wording: the current listing adds the lock, and the repository README describes idle dimming, screen-off, lock and sleep timers, so the current listing is left to discovery."
       },
       {
         "pluginId": "honor.shutdown-timer",
         "typeId": "idle-sleep",
-        "listingSha256": "eb9e70ac23739778d29021156ef6587d49afb0d2dd06683958c7efff1473ee25",
-        "reason": "A user-started shutdown countdown is scheduling, not an inactivity-triggered policy or an awake hold."
+        "listingSha256": [
+          "eb9e70ac23739778d29021156ef6587d49afb0d2dd06683958c7efff1473ee25",
+          "ea00e57b1b90421c50bf020dcc335893c4a4e3e68d96d25c97f9fde0af768d57"
+        ],
+        "reason": "A user-started or scheduled shutdown countdown is scheduling, not an inactivity-triggered policy or an awake hold."
       },
       {
         "pluginId": "hungmi.battery-session",
@@ -2749,7 +2758,10 @@
       {
         "pluginId": "io.github.philippbellia.coffee-tracker",
         "typeId": "keep-awake",
-        "listingSha256": "14036c84f9f20c14efe4456f613928d43daa554dd8d465277d0e311ca9ad144f",
+        "listingSha256": [
+          "14036c84f9f20c14efe4456f613928d43daa554dd8d465277d0e311ca9ad144f",
+          "7090f9c7b7df2642d48df58daafff20a5c7357549a54252425c40ecc12c0e644"
+        ],
         "reason": "This tracks consumed caffeine and its decay, rather than inhibiting computer sleep or configuring inactivity."
       },
       {
