@@ -177,11 +177,11 @@
       ],
       "constraints": [],
       "reason": "Displays supported AI plan usage, balances and reset windows from provider integrations.",
-      "reviewedAt": "2026-11-16",
+      "reviewedAt": "2026-11-17",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/akitaonrails/ai-usagebar/blob/ea42556f2e00992d31649e25ef78631d33ceb9c5/README.md",
-        "revision": "ea42556f2e00992d31649e25ef78631d33ceb9c5",
+        "url": "https://github.com/akitaonrails/ai-usagebar/blob/699c4dbe4e97100b4afb78e8473d45235c3f907c/README.md",
+        "revision": "699c4dbe4e97100b4afb78e8473d45235c3f907c",
         "path": "README.md",
         "sha256": "8307bf3d9422f5146f512165475d2cd66d4fb77a6bfa7a696eff5ff0bcb843d8",
         "evidence": "README.md lines 3-3:\nNative Omarchy Quattro panel, Waybar widget, and tabbed TUI for AI plan usage across **Claude**, **Codex/ChatGPT**, **GitHub Copilot**, **Z.AI (GLM)**, **OpenRouter**, **DeepSeek**, **DeepInfra**, **Kimi**, **Nous Research**, **OpenCode Go**, **Command Code**, **Devin**, **Cline**, **Muse Code**, **Droid**, **Synthetic**, **DeepRelay**, **Mistral**, and other supported AI coding services.\n\nREADME.md lines 5-8:\nai-usagebar began as a Rust port of\n[`claudebar`](https://github.com/mryll/claudebar) and remains drop-in\ncompatible. It keeps claudebar's Pango tooltip, Omarchy theme detection, and\nflock-protected OAuth refresh while adding more providers and a testable Rust\n\nREADME.md lines 17-29:\n- Per-provider Waybar modules use the same JSON shape and flags as claudebar.\n- The native Omarchy Quattro plugin follows the shell theme and supports\n  keyboard navigation, provider switching, live reset timers, and stale/error\n  states.\n- `ai-usagebar-tui` opens with a compact provider overview and refreshes every\n  60 seconds. Its navigation can use a sidebar, navbar, or no vendor box.\n- An optional Claude Code context view reads recent local session usage without\n  scanning entire histories.\n- Native integrations are available for Omarchy, GNOME Shell, KDE Plasma 6,\n  and a macOS/Windows system-tray popover (`ai-usagebar-tray`). An experimental\n  GTK tray frontend for Linux Mint is in [`linux-mint/`](linux-mint/README.md).\n- One bar item can cycle through enabled providers. `[ui] primary` controls the\n  initial provider in both the widget and TUI."
@@ -650,11 +650,11 @@
       ],
       "constraints": [],
       "reason": "Shows computer battery charge, health and discharge readings when a battery is present.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-17",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/diegopluna/omarchy-argus/blob/db4cf658b72ed917d695c4c308f52a81f69d1e8a/README.md",
-        "revision": "db4cf658b72ed917d695c4c308f52a81f69d1e8a",
+        "url": "https://github.com/diegopluna/omarchy-argus/blob/381b8b3c2598dd26df1b10215f5d30eea95ede36/README.md",
+        "revision": "381b8b3c2598dd26df1b10215f5d30eea95ede36",
         "path": "README.md",
         "sha256": "0d9b8fe3c6e35438f70add3ce899fd1a43decefd60b48efec50d0c77c12b39de",
         "evidence": "README.md lines 47-48:\n- **BAT** — per-battery charge, status, power draw, health, and time estimate (tab appears only when a system battery exists)\n- **PWR** — measured power draw per source: CPU package and friends via RAPL (with an honest hint when the kernel keeps the counters root-only — see Power below), every GPU, battery discharge, draw sparklines with session peaks, and session energy totals in Wh"
@@ -825,11 +825,11 @@
       ],
       "constraints": [],
       "reason": "Adjusts brightness for a selected display using Omarchy-supported hardware backends.",
-      "reviewedAt": "2026-11-09",
+      "reviewedAt": "2026-11-17",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/crmne/omarchy-hyprmoncfg/blob/e2facf13d02d83f1b1d0295b2a771fca7bb19b5f/README.md",
-        "revision": "e2facf13d02d83f1b1d0295b2a771fca7bb19b5f",
+        "url": "https://github.com/crmne/omarchy-hyprmoncfg/blob/0dfa8528d199df2041ad3d9435b0b7ad7512a87c/README.md",
+        "revision": "0dfa8528d199df2041ad3d9435b0b7ad7512a87c",
         "path": "README.md",
         "sha256": "f89b8aba12a9f28ee656792c71eef4cd86aeb8e18b26aec382241123d8d4ee49",
         "evidence": "README.md lines 93-96:\n- Per-display brightness for the monitor selected on the layout, using Omarchy's own internal-backlight, DDC/CI, and Apple Display support\n- Brightness stays live hardware state rather than being stored in layout profiles, and changes made by Omarchy's panel or brightness keys remain compatible\n- Text size, the same desktop-wide control as Omarchy's Display panel (shell, GTK apps and terminals together), directly under Brightness. It runs Omarchy's `omarchy-display-text-size`, is live desktop state rather than part of a profile, and is hidden when that command is not installed\n- Terminal, directly under Text size, sets the terminal font alone (Alacritty, Ghostty, Kitty and Foot) and leaves the rest of the desktop alone. It runs Omarchy's `omarchy-terminal-font-size`, or the panel's copy of it until an Omarchy release includes the command. Text size still sets terminals in proportion, so a Terminal size lasts until the next Text size change"
@@ -1070,13 +1070,13 @@
       ],
       "constraints": [],
       "reason": "Browses calendar events from configured Google, iCalendar or local JSON sources.",
-      "reviewedAt": "2026-11-09",
+      "reviewedAt": "2026-11-17",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/tmn73/omarchy-calendar/blob/257e4142c47a6f8da9f2990c396f4cda61cbf343/README.md",
-        "revision": "257e4142c47a6f8da9f2990c396f4cda61cbf343",
+        "url": "https://github.com/tmn73/omarchy-calendar/blob/21964fdc934fa3364c741308dd596e4009a1ec80/README.md",
+        "revision": "21964fdc934fa3364c741308dd596e4009a1ec80",
         "path": "README.md",
-        "sha256": "c578f870cc299b435f80e0cd1b74c555c7d02a16d3127a6987bd71ffc78e1ade",
+        "sha256": "795926ba747b1b6285fd37e30f2105394bb4d38fa8a7a4cadfb2398c9027322c",
         "evidence": "README.md lines 3-5:\n**Your calendar, in your Omarchy bar.** A month view with your real events\non it, a bar that tells you what is coming before it starts, and a form to\ncreate or edit events without leaving the desktop.\n\nREADME.md lines 7-15:\nWhere your events come from:\n\n- **Google Calendar**, read and write. See [Sync your Google Calendar](#sync-your-google-calendar)\n- **iCloud, Nextcloud, Fastmail or any other CalDAV server**, read and write\n  (community-maintained). See [Sync from iCloud or CalDAV](#sync-from-icloud-or-caldav)\n- **Any iCal feed**, read only. See [Sync from the secret iCal address](#sync-from-the-secret-ical-address)\n- **Anything else**: the widget reads a plain JSON file, so caldir, khal or\n  vdirsyncer work just as well. See [Sync from caldir](#sync-from-caldir) and\n  [Use another source](#use-another-source)\n\nREADME.md lines 19-21:\nIt replaces the built-in clock rather than sitting beside it, so you keep one\nicon. Left click opens a month calendar with your real events on it. When\nsomething is close, the bar itself stops being just a clock and tells you:\n\nREADME.md lines 25-25:\nThe clock stays. This widget takes the desktop clock's place, so trading the"
       }
     },
@@ -1705,11 +1705,11 @@
       ],
       "constraints": [],
       "reason": "Edits monitor layouts and profiles and automatically applies matching layouts on hotplug.",
-      "reviewedAt": "2026-11-09",
+      "reviewedAt": "2026-11-17",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/crmne/omarchy-hyprmoncfg/blob/e2facf13d02d83f1b1d0295b2a771fca7bb19b5f/README.md",
-        "revision": "e2facf13d02d83f1b1d0295b2a771fca7bb19b5f",
+        "url": "https://github.com/crmne/omarchy-hyprmoncfg/blob/0dfa8528d199df2041ad3d9435b0b7ad7512a87c/README.md",
+        "revision": "0dfa8528d199df2041ad3d9435b0b7ad7512a87c",
         "path": "README.md",
         "sha256": "f89b8aba12a9f28ee656792c71eef4cd86aeb8e18b26aec382241123d8d4ee49",
         "evidence": "README.md lines 3-3:\nAn Omarchy bar panel for [hyprmoncfg](https://hyprmoncfg.dev/). Create multi-monitor layouts for Hyprland in a visual editor and switch them automatically on hotplug and lid events.\n\nREADME.md lines 5-5:\nhttps://github.com/user-attachments/assets/d3da78df-2280-481b-b38d-a48bb28dc2e6\n\nREADME.md lines 7-7:\nThe film animates a rebuild of the panel that is checked against real captures, with sample displays. [Download it in full quality](https://github.com/crmne/omarchy-hyprmoncfg/releases/download/v2.7.0/hyprmoncfg-panel-film.mp4).\n\nREADME.md lines 83-83:\nSet your profiles up once. The desk, with the ultrawide on and the laptop panel off. The dock with three screens. The conference room projector at its own resolution and scale. After that you do nothing. Plug the monitors in and the matching profile is applied. Close the lid and the clamshell layout takes over. Undock and your laptop screen comes back at the scale you picked, with your workspaces where you put them.\n\nREADME.md lines 85-85:\nIt knows your monitors apart by make, model and serial, not by which port they are in. Move a cable from HDMI to DisplayPort and your layout still knows which screen is which. Two identical monitors are told apart by reading the DRM connector directly. The lid switch is read from the kernel, including the Apple SMC lid on a MacBook.\n\nREADME.md lines 87-87:\nA small background service is what watches for this. It catches hotplug, lid and wake events as they happen, including before the bar has started and coming out of a suspend.\n\nREADME.md lines 116-116:\n**Layout**\n\nREADME.md lines 93-94:\n- Per-display brightness for the monitor selected on the layout, using Omarchy's own internal-backlight, DDC/CI, and Apple Display support\n- Brightness stays live hardware state rather than being stored in layout profiles, and changes made by Omarchy's panel or brightness keys remain compatible\n\nREADME.md lines 127-127:\n**Colour and signal**\n\nREADME.md lines 129-133:\n- Nine colour management presets, from sRGB through wide gamut to HDR\n- Forced HDR, forced wide colour, and ICC profile paths\n- 8 and 10-bit depth\n- SDR brightness, saturation and transfer curve, with luminance floors and ceilings for SDR and HDR\n- Variable refresh rate: off, on, or fullscreen only"
@@ -1816,13 +1816,13 @@
       ],
       "constraints": [],
       "reason": "Pins applications and launches or switches their windows, with folder and app-group support.",
-      "reviewedAt": "2026-11-09",
+      "reviewedAt": "2026-11-17",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/thepathless/omadock/blob/a24f6759279917972ae56e2f6531359721503ea7/README.md",
-        "revision": "a24f6759279917972ae56e2f6531359721503ea7",
+        "url": "https://github.com/thepathless/omadock/blob/73cf94a7bc0a7cb57695eae3e1118ad81c96d6a6/README.md",
+        "revision": "73cf94a7bc0a7cb57695eae3e1118ad81c96d6a6",
         "path": "README.md",
-        "sha256": "e17325ef6941e7e55f0cd966908dfffdfbeaccd82099c26adb85b4b1376db78b",
+        "sha256": "2aa30d89b6dbbb211215b4e658499d897077db8f82531b980a7a6c0a0afeceb1",
         "evidence": "README.md lines 447-450:\n| **Left Click** | Application Icon | Launches app / focuses / restores window |\n| **Middle Click** | Application Icon | Launches a **new instance** of the application |\n| **Scroll Wheel** | Application Icon / App Group | Flips through the windows the tooltip previews; a click focuses the chosen one |\n| **Right Click** | Application Icon | Context menu (Window list, Desktop Actions, Pin, Close) |\n\nREADME.md lines 455-456:\n| **Drag & Drop** | Pinned Icon | Reorders pinned application position live |\n| **Drag & Drop** | Running App | Drag into pinned section to pin live |"
       }
     },
@@ -1861,11 +1861,11 @@
       ],
       "constraints": [],
       "reason": "Pins applications and launches or switches their windows from a desktop dock.",
-      "reviewedAt": "2026-11-16",
+      "reviewedAt": "2026-11-17",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/rosakodu/omarchy-dock/blob/9e28953982fb98acd5057e9f0ac84798a3c4e2b1/README.md",
-        "revision": "9e28953982fb98acd5057e9f0ac84798a3c4e2b1",
+        "url": "https://github.com/rosakodu/omarchy-dock/blob/bec892a5b3c360c97a28d69d6c27b5c2931f066c/README.md",
+        "revision": "bec892a5b3c360c97a28d69d6c27b5c2931f066c",
         "path": "README.md",
         "sha256": "50e10b9de3927d279f59cce2f0dd4cd4575662223856170a3511e2678ec4a636",
         "evidence": "README.md lines 5-5:\nA modern, highly polished, and fully native application dock plugin for **Omarchy Quattro** (Hyprland + Quickshell), featuring app stacks (folders), iOS-style edit wiggle animations, multi-window management, dynamic orientation, and seamless theme integration.\n\nREADME.md lines 13-14:\n- ✨ **iOS-Style Edit Mode (Wiggle)** — Long-press (450ms) any icon to enter edit mode with smooth physical wobbling ($\\pm 3.8^\\circ$, 105ms). Quickly toggle favorite pins (`•`), dissolve folders (`-`), remove dock widgets (`-`), or reorder apps.\n- 🔀 **Fluid 1D & 2D Drag & Drop** — Smooth rail displacement physics when dragging apps across the dock or within folder grids. Effortlessly extract apps from folders back to the main dock.\n\nREADME.md lines 17-17:\n- ⚡ **Dedicated Controls (LMB, RMB & Middle-Click)** — Left-click opens closed apps or focuses/restores running windows. Right-click minimizes active/visible windows to a special minimized state. Middle-click (pressing the mouse wheel) instantly spawns a new duplicate instance anytime."
@@ -2423,14 +2423,14 @@
       ],
       "constraints": [],
       "reason": "Runs Pomodoro sessions with focus and break stages and deliberate focus resumption.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-17",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/pjgeutjens/omarchy-clockwork/blob/afaa28a80e884f93ff4279724d2170776da24bfe/README.md",
-        "revision": "afaa28a80e884f93ff4279724d2170776da24bfe",
+        "url": "https://github.com/pjgeutjens/omarchy-clockwork/blob/fbf8762126e65a61329c992f1058c2face1411b5/README.md",
+        "revision": "fbf8762126e65a61329c992f1058c2face1411b5",
         "path": "README.md",
-        "sha256": "f13d701ad3f6a03c961ec98537d8f54d06a005ad9f6737de9353d9f8505e2fbc",
-        "evidence": "README.md lines 7-15:\n- Stopwatch: a regular count-up timer.\n- Countdown: minutes and seconds, with an optional full-screen break view and\n  editable message.\n- Alarm: set a one-shot alarm for the next occurrence of a clock time, in\n  either 24-hour time or a 12-hour AM/PM form.\n- Intervals: `X` exercise rounds with a minutes-and-seconds duration.\n- Pomodoro: alternate configurable focus and short-break phases, followed by a\n  long break after the final focus cycle. The bar switches to a green coffee\n  indicator during breaks, and the panel tracks completed focus sessions.\n\nREADME.md lines 19-22:\n- Alarm time can use 24-hour time or a 12-hour AM/PM form.\n- Alarm clock, bell, and phone sounds can be selected in the Alarm panel. An\n  alarm repeats its selected sound for at most three minutes, while its bar\n  item pulses until reset.\n\nREADME.md lines 24-31:\nThe timer keeps running when its panel is closed. Exercise intervals play one\ndirect PipeWire ping at each round boundary and a three-ping sequence at\ncompletion, while Omarchy notifications show the corresponding round state.\nAn alarm repeats its selected sound for up to three minutes, then remains\nvisibly ringing until it is reset or acknowledged with `R`. Pomodoro uses the\nsame single ping between phases and three-ping completion; its sound can be\ndisabled. Breaks start automatically after focus, while the next focus phase\nwaits for you to resume it."
+        "sha256": "ef835ab22cf1f50fd80617f30b0d3b8cee01ae503437e475ea17806396bd7e77",
+        "evidence": "README.md lines 7-15:\n- Stopwatch: a regular count-up timer.\n- Countdown: minutes and seconds, with an optional full-screen break view and\n  editable message.\n- Alarm: set a one-shot alarm for the next occurrence of a clock time, in\n  either 24-hour time or a 12-hour AM/PM form.\n- Intervals: `X` exercise rounds with a minutes-and-seconds duration.\n- Pomodoro: alternate configurable focus and short-break phases, followed by a\n  long break after the final focus cycle. The bar switches to a green coffee\n  indicator during breaks, and the panel tracks completed focus sessions.\n\nREADME.md lines 26-29:\n- Alarm time can use 24-hour time or a 12-hour AM/PM form.\n- Alarm clock, bell, and phone sounds can be selected in the Alarm panel. An\n  alarm repeats its selected sound for at most three minutes, while its bar\n  item pulses until reset.\n\nREADME.md lines 31-38:\nThe timer keeps running when its panel is closed. Exercise intervals play one\ndirect PipeWire ping at each round boundary and a three-ping sequence at\ncompletion, while Omarchy notifications show the corresponding round state.\nAn alarm repeats its selected sound for up to three minutes, then remains\nvisibly ringing until it is reset or acknowledged with `R`. Pomodoro uses the\nsame single ping between phases and three-ping completion; its sound can be\ndisabled. Breaks start automatically after focus, while the next focus phase\nwaits for you to resume it."
       }
     },
     {
@@ -2445,14 +2445,14 @@
       ],
       "constraints": [],
       "reason": "Runs Pomodoro focus and break sessions and records progress.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-17",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/Pnkm0nK/Omodoro/blob/76379ebe27e3b2453289f904c7861b469daabbc1/README.md",
-        "revision": "76379ebe27e3b2453289f904c7861b469daabbc1",
+        "url": "https://github.com/Pnkm0nK/Omodoro/blob/87420275af73d4a2242d806de91c95846595dc64/README.md",
+        "revision": "87420275af73d4a2242d806de91c95846595dc64",
         "path": "README.md",
-        "sha256": "da40ac0afb9182d7622cb87ee61d666cd66c46e10c12e73380d79fdc16e52854",
-        "evidence": "README.md lines 5-5:\nPomodoro technique timer and task tracker [quickshell](https://quickshell.org/) plugin for [Omarchy](https://github.com/omarchy)\n\nREADME.md lines 7-7:\n[Plugin page on Omarchy plugin marketplace](https://omarchyplugins.com/plugin.html?id=pnkm0nk.omodoro)\n\nREADME.md lines 10-17:\n- Create goals for your pomodoro sessions and track progress\n- View your stats\n- Choose between presets or create your own\n- Customizable work/short break/long break intervals \n- Track your progress with stats\n- Enable/disable notifications if you need them\n- Enable/disable sound, with a choice of alert sound for work/break transitions and an optional ticking clock while a session runs\n- A small .json persistence file to preserve the stats, config and tasks"
+        "sha256": "94fbc37a0804595c017d7bb3b45f74faff101fac3f756207d3741c6a60c8dcea",
+        "evidence": "README.md lines 5-5:\nPomodoro technique timer and task tracker [quickshell](https://quickshell.org/) plugin for [Omarchy](https://github.com/omarchy)\n\nREADME.md lines 7-7:\n[Plugin page on Omarchy plugin marketplace](https://omarchyplugins.com/plugin.html?id=pnkm0nk.omodoro)\n\nREADME.md lines 10-23:\n- Create goals for your pomodoro sessions and track progress\n- Group tasks via tags:\n\n    when creating a new task add `#tag` to it's name \n\n- Track your progress with stats:\n    - Activity in an 18-week timeframe\n    - Task completion\n    - Focus-Task distribution (by task and by tag)\n- Choose between presets or create your own\n- Customizable work/short break/long break intervals \n- Enable/disable notifications if you need them\n- Enable/disable sound, with a choice of alert sound for work/break transitions and an optional ticking clock while a session runs\n- A small .json persistence file to preserve the stats, config and tasks"
       }
     },
     {
@@ -2468,11 +2468,11 @@
       ],
       "constraints": [],
       "reason": "Toggles gaming-mode VRR and tearing settings in Hyprland and restores them when disabled.",
-      "reviewedAt": "2026-11-09",
+      "reviewedAt": "2026-11-17",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/glasschan/oma-swiss/blob/50c73f2b5008ebce468b7315d2e53329c67c99ad/README.md",
-        "revision": "50c73f2b5008ebce468b7315d2e53329c67c99ad",
+        "url": "https://github.com/glasschan/oma-swiss/blob/78f9c1c1b67dad1edd38e8b362b203d29b6cd83c/README.md",
+        "revision": "78f9c1c1b67dad1edd38e8b362b203d29b6cd83c",
         "path": "README.md",
         "sha256": "8ab6a6bd7ab3a85de9071151675fdc864bcb359a2effbd03003a27077fcdf059",
         "evidence": "README.md lines 52-54:\n- **Gaming mode** — variable refresh (VRR) and tearing allowed in one\n  toggle, for the lowest input latency. Switch it off and the stock values\n  return, exactly."
@@ -2925,11 +2925,11 @@
       ],
       "constraints": [],
       "reason": "Provides keybinding editing, creation, reset and conflict resolution alongside mouse settings.",
-      "reviewedAt": "2026-11-16",
+      "reviewedAt": "2026-11-17",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/Davedes83/mouse-keybind-plugin/blob/42f5b39761d6e8eeb3e888704fb4a419c17cc273/README.md",
-        "revision": "42f5b39761d6e8eeb3e888704fb4a419c17cc273",
+        "url": "https://github.com/Davedes83/mouse-keybind-plugin/blob/d9ed94d38949fddec438066d6925228fa17b5d56/README.md",
+        "revision": "d9ed94d38949fddec438066d6925228fa17b5d56",
         "path": "README.md",
         "sha256": "36d049441187bf454eb1c2aab34917f4f702a25d565edf46bff79546a1186c60",
         "evidence": "README.md lines 27-27:\n⌨️ Keybinds\n\nREADME.md lines 29-29:\nSee what's actually running on your system, fix problems in one click:\n\nREADME.md lines 31-35:\n* Live summary of active, modified, and conflicting bindings\n* Conflict detection with 1-click rebind\n* Smart suggestions for free keys\n* Full Keybind Manager one click away — search, edit, create, reset, enable/disable\n* Safe Lua sync, so your config never gets messy"
@@ -2993,13 +2993,13 @@
       ],
       "constraints": [],
       "reason": "Shows the active XKB layout and switches between configured layouts.",
-      "reviewedAt": "2026-11-09",
+      "reviewedAt": "2026-11-17",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/omarchy-QOL/omarchy-keyboard-layout/blob/e78e8d20d5ebdc17518f4124ab49eb0b6d6c7972/README.md",
-        "revision": "e78e8d20d5ebdc17518f4124ab49eb0b6d6c7972",
+        "url": "https://github.com/omarchy-QOL/omarchy-keyboard-layout/blob/b244cbb149cf510fe07a7b7692fe58f5b8b54f29/README.md",
+        "revision": "b244cbb149cf510fe07a7b7692fe58f5b8b54f29",
         "path": "README.md",
-        "sha256": "8b8a6ff91205344aff9882c723501700a58f15cb69374857ee9bb4ee983d4e0c",
+        "sha256": "6e819bf4d541a724f62d3bbbd01332d236dc4c220b4bd042a4965e5d2c218a84",
         "evidence": "README.md lines 5-7:\nSwitch keyboard layouts from the Omarchy Quattro bar, with an optional color\npulse to make each change easy to spot. Add custom labels or open an on-screen\nkeyboard while keeping focus in your application.\n\nREADME.md lines 31-32:\n- Left-click or right-click the bar label to open the layout menu.\n- Select a layout, or scroll over the bar label to cycle through layouts.\n\nREADME.md lines 37-37:\nVariants appear in labels such as `US(intl)`. Under **Layout labels**, select a"
       }
     },
@@ -3472,11 +3472,11 @@
       ],
       "constraints": [],
       "reason": "Reads and manages email in a native multi-account mail application; provider capabilities vary.",
-      "reviewedAt": "2026-11-09",
+      "reviewedAt": "2026-11-17",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/huacnlee/omamail/blob/9f5fef8a14dc7ae6f73572ffb04d2f995476ffc8/README.md",
-        "revision": "9f5fef8a14dc7ae6f73572ffb04d2f995476ffc8",
+        "url": "https://github.com/huacnlee/omamail/blob/ad4ac3bd70bc6cb5964a4e200202c4e3b6c3a420/README.md",
+        "revision": "ad4ac3bd70bc6cb5964a4e200202c4e3b6c3a420",
         "path": "README.md",
         "sha256": "8ecac26c9d17c8414d5b8478021a588697713c8671b8c096cb2595a368ba1278",
         "evidence": "README.md lines 3-3:\nOmamail is a native email and calendar app with multiple accounts and keyboard navigation. It runs either as an Omarchy shell plugin or as a standalone Qt desktop application.\n\nREADME.md lines 57-62:\n- **Multiple mailboxes:** Gmail, Outlook, Microsoft 365, HEY, JMAP and IMAP/SMTP, including Fastmail, iCloud and self-hosted servers.\n- **Mail and calendar:** read, search, compose, manage attachments and respond to meeting invitations. Available actions depend on your provider.\n- **Keyboard navigation:** `j`/`k` to move, `r` to reply, `c` to compose, `/` to search and `?` for all shortcuts.\n- **AI assistance in Omarchy:** ask about selected messages and review suggested drafts with Claude, OpenCode V2 or Codex. Follow your Omarchy default, or select an agent and optional model in Settings. An unsupported system default disables the AI action with a setup explanation. Conversations retain follow-ups and draft proposals; `/clear`, `/history` and `/diagnose` manage the chat.\n- **Desktop integration:** native notifications and a compact layout for smaller windows; the Omarchy plugin also provides the bar widget and `mailto:` integration.\n- **Privacy controls:** credentials stored in the system keyring and remote images blocked until you choose to load them.\n\nREADME.md lines 68-68:\nChoose a provider in Settings. Released builds of Gmail sign in with an included Google OAuth client, and you can use your own instead; Outlook and Microsoft 365 need a Microsoft app registration. HEY uses the official [HEY CLI](https://github.com/basecamp/hey-cli). JMAP and IMAP usually use an app password or API token.\n\nREADME.md lines 70-70:\nSee [mailbox setup](docs/MAILBOXES.md) for provider instructions and limitations, including Microsoft 365 and Proton Mail Bridge."
@@ -4666,11 +4666,11 @@
       ],
       "constraints": [],
       "reason": "Reads, searches and clears archived desktop notifications from Omarchy notification history.",
-      "reviewedAt": "2026-10-29",
+      "reviewedAt": "2026-11-17",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/jankeesvw/omarchy-notification-center/blob/64886e934478d9cf0d8c8b4cd319a79567431b8c/README.md",
-        "revision": "64886e934478d9cf0d8c8b4cd319a79567431b8c",
+        "url": "https://github.com/jankeesvw/omarchy-notification-center/blob/2bd80bedeaa828e62d5f83a349de5c2748f28d81/README.md",
+        "revision": "2bd80bedeaa828e62d5f83a349de5c2748f28d81",
         "path": "README.md",
         "sha256": "d32f71d2a4549ed16c01eb44f044556dd9c743ab760963168aa93a652a5de023",
         "evidence": "README.md lines 3-5:\nAn [Omarchy](https://omarchy.org) bar widget that keeps the notifications you\nwere sent. A bell on the right of the bar, a dot on it when something has come\nin, and a panel of everything you were told, still there tomorrow.\n\nREADME.md lines 24-29:\nOmarchy's notification service writes notifications to disk. Older builds keep\nonly the last ten per-notification files; newer builds keep up to a day and\n100 closed notifications in `history.json`. This reads every history rewrite\nand copies new entries, icon and all, into an archive kept for 30 days. On\nnewer builds a notification reaches the center when it closes; `live.json`\nand `quiet.json` are left alone.\n\nREADME.md lines 31-39:\n- One card per notification, newest first, under the day it arrived on.\n- **A picture** when there was one. Cameras and screenshot tools hand their\n  file to the notification's action rather than setting an image on it, so the\n  path is read out of there and a scaled copy is kept.\n- **Clicking a card** opens that picture, or the web page the notification\n  would have opened, or focuses the app that sent the notification. A Slack\n  card opens the conversation it was about, thread and all: Slack logs the ids\n  of every notification it raises, and the one logged the moment this one\n  arrived is the one it came from. Slack keeps that log for a couple of weeks;"
@@ -4752,11 +4752,11 @@
       ],
       "constraints": [],
       "reason": "Invokes Omarchy screen-text capture to select content and copy extracted text.",
-      "reviewedAt": "2026-11-09",
+      "reviewedAt": "2026-11-17",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/glasschan/oma-swiss/blob/50c73f2b5008ebce468b7315d2e53329c67c99ad/README.md",
-        "revision": "50c73f2b5008ebce468b7315d2e53329c67c99ad",
+        "url": "https://github.com/glasschan/oma-swiss/blob/78f9c1c1b67dad1edd38e8b362b203d29b6cd83c/README.md",
+        "revision": "78f9c1c1b67dad1edd38e8b362b203d29b6cd83c",
         "path": "README.md",
         "sha256": "8ab6a6bd7ab3a85de9071151675fdc864bcb359a2effbd03003a27077fcdf059",
         "evidence": "README.md lines 60-64:\n- **Quick capture** — region / window / fullscreen screenshots, a color\n  picker, OCR (English + 中文), QR scan (decoded text lands in the\n  clipboard), and screen recording start/stop with or without your webcam,\n  one click each. Capture overlays need a clear screen, so the panel closes\n  as the tool fires.\n\nREADME.md lines 181-185:\nNone to install — everything ships with Omarchy v4: Hyprland 0.56+,\n`omarchy-capture-screenshot` (slurp), `omarchy-capture-text` (OCR),\n`omarchy-capture-qr` (zbar), `omarchy-capture-screenrecording` and\n`omarchy-capture-screenrecording-with-webcam` (gpu-screen-recorder), and\n`hyprpicker`."
@@ -4906,14 +4906,14 @@
       ],
       "constraints": [],
       "reason": "Searches a Bitwarden vault and retrieves credentials through the Bitwarden CLI.",
-      "reviewedAt": "2026-11-09",
+      "reviewedAt": "2026-11-17",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/Elevate08/qs-bitwarden-cli/blob/586807dc9d64e797d2eb78e401e468f1eed04790/README.md",
-        "revision": "586807dc9d64e797d2eb78e401e468f1eed04790",
+        "url": "https://github.com/Elevate08/qs-bitwarden-cli/blob/8e1ab7b73ff024a10fff451ce56f2bc829eb72da/README.md",
+        "revision": "8e1ab7b73ff024a10fff451ce56f2bc829eb72da",
         "path": "README.md",
-        "sha256": "25cad42e30b7c996ea3ff4f1877872a6750464ca8f276483c6c5b4721ea1599c",
-        "evidence": "README.md lines 3-4:\nYour Bitwarden vault in the **Omarchy** status bar. Search, copy, and manage\nevery item type without opening a browser.\n\nREADME.md lines 13-13:\nBuilt on Quickshell and the official Bitwarden CLI. Keyboard-first, fast, and\n\nREADME.md lines 47-49:\nEmail and password, with the 2FA prompt appearing only when Bitwarden asks for\none. **Server region** picks US, EU, or a custom URL for self-hosted Bitwarden\nand Vaultwarden.\n\nREADME.md lines 51-56:\nUsing SSO, a Duo push, or a hardware key? **Launch Terminal** runs `bw login` in\na real terminal so Bitwarden's own prompts handle it, then hands the session\nstraight back to the panel -- no second login just to get in. The same goes for\na two-step code with Bitwarden's standalone `bw` binary: the panel hands the code\nto `bw` through a Node preload, which the standalone build does not load, so it\nasks you to finish in the terminal rather than put the code on a command line."
+        "sha256": "257ec95d62baec722f037d06315b7b0e5daaab0cc9ffaed2931ecca12a7c358b",
+        "evidence": "README.md lines 3-4:\nYour Bitwarden vault in the **Omarchy** status bar. Search, copy, and manage\nevery item type without opening a browser.\n\nREADME.md lines 13-13:\nBuilt on Quickshell and the official Bitwarden CLI. Keyboard-first, fast, and\n\nREADME.md lines 51-53:\nEmail and password, with the 2FA prompt appearing only when Bitwarden asks for\none. **Server region** picks US, EU, or a custom URL for self-hosted Bitwarden\nand Vaultwarden.\n\nREADME.md lines 55-60:\nUsing SSO, a Duo push, or a hardware key? **Launch Terminal** runs `bw login` in\na real terminal so Bitwarden's own prompts handle it, then hands the session\nstraight back to the panel -- no second login just to get in. The same goes for\na two-step code with Bitwarden's standalone `bw` binary: the panel hands the code\nto `bw` through a Node preload, which the standalone build does not load, so it\nasks you to finish in the terminal rather than put the code on a command line."
       }
     },
     {
@@ -5242,11 +5242,11 @@
       ],
       "constraints": [],
       "reason": "Installs plugins from repository URLs and enables, disables, updates or removes installed plugins.",
-      "reviewedAt": "2026-10-30",
+      "reviewedAt": "2026-11-17",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/fross100/omaplug/blob/ebfec41a28b50bc1ddf352d72d5e1718dfd331cc/README.md",
-        "revision": "ebfec41a28b50bc1ddf352d72d5e1718dfd331cc",
+        "url": "https://github.com/fross100/omaplug/blob/f3566678f6f4b4d9911df1ea60588ab22f9f3cc3/README.md",
+        "revision": "f3566678f6f4b4d9911df1ea60588ab22f9f3cc3",
         "path": "README.md",
         "sha256": "dc3ad17341a4c88ff71640a04331316441964698c311a5bff981fd83737ea9fb",
         "evidence": "README.md lines 7-7:\nAccess it right from the Omarchy bar — it gives you a centralized place to view and organize the plugins you have installed. Here are a few things you can use it for:\n\nREADME.md lines 9-12:\n- Easily turn individual plugins on or off as needed.\n- Check for available updates and update them individually — or all at once.\n- Remove plugins individually, or several in one go.\n- Jump straight to each plugin's repo, or browse the [Omarchy marketplace](https://plugins.omarchy.org).\n\nREADME.md lines 53-66:\n## What it can do\n\n- **🔌 Enable / disable** — every discovered plugin (Omarchy's own and third-party) gets a simple toggle. Flipping it goes through the same registry the `omarchy plugin enable/disable` command uses, so what you see here is always what's really running.\n- **🔄 Check for updates** — scans every installed third-party plugin and distinguishes clean updates from local plugins, symlinked development plugins, local changes, and genuine fetch errors.\n- **⬆️ Update (or update everything)** — apply one update, or finish every proven-safe pending update from a single click, even while Omarchy reloads changed plugins.\n- **🛡️ Review before installing** — inspect a plugin's icon, name, version, description, source, and marketplace status before installation.\n- **⚙️ Configure updates and launcher access** — choose automatic update checks, bulk-update scope, and whether Omaplug appears in the Omarchy Apps menu.\n- **⌨️ Set plugin shortcuts** — assign per-plugin keyboard shortcuts with live conflict checking.\n- **📊 See clear plugin status** — distinguish Verified, Unverified, Update Unverified, and unlisted plugins.\n- **↔️ Arrange the bar** — reorder bar plugins and access their actions from a clearer management layout.\n- **➕ Install** — paste a git repo URL and add a plugin in one step. It'll warn you first that plugins run as unsandboxed code, because honesty is the default here.\n- **🗑️ Remove** — third-party plugins only. Trash one, or enter Select mode to check several and remove them all at once (with a confirmation, no accidents).\n- **🔗 Source link** — every git-managed plugin gets a `SOURCE` button that jumps straight to its repo page.\n- **🔍 Search & filter** — narrow the list to Omarchy plugins, third-party plugins, or search by name, description, ID, author, or kind."
@@ -5810,11 +5810,11 @@
       ],
       "constraints": [],
       "reason": "Starts and stops Omarchy screen recordings, including an optional webcam mode.",
-      "reviewedAt": "2026-11-09",
+      "reviewedAt": "2026-11-17",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/glasschan/oma-swiss/blob/50c73f2b5008ebce468b7315d2e53329c67c99ad/README.md",
-        "revision": "50c73f2b5008ebce468b7315d2e53329c67c99ad",
+        "url": "https://github.com/glasschan/oma-swiss/blob/78f9c1c1b67dad1edd38e8b362b203d29b6cd83c/README.md",
+        "revision": "78f9c1c1b67dad1edd38e8b362b203d29b6cd83c",
         "path": "README.md",
         "sha256": "8ab6a6bd7ab3a85de9071151675fdc864bcb359a2effbd03003a27077fcdf059",
         "evidence": "README.md lines 60-64:\n- **Quick capture** — region / window / fullscreen screenshots, a color\n  picker, OCR (English + 中文), QR scan (decoded text lands in the\n  clipboard), and screen recording start/stop with or without your webcam,\n  one click each. Capture overlays need a clear screen, so the panel closes\n  as the tool fires.\n\nREADME.md lines 181-185:\nNone to install — everything ships with Omarchy v4: Hyprland 0.56+,\n`omarchy-capture-screenshot` (slurp), `omarchy-capture-text` (OCR),\n`omarchy-capture-qr` (zbar), `omarchy-capture-screenrecording` and\n`omarchy-capture-screenrecording-with-webcam` (gpu-screen-recorder), and\n`hyprpicker`."
@@ -6026,13 +6026,13 @@
       ],
       "constraints": [],
       "reason": "Tracks local application screen time and displays daily and historical usage.",
-      "reviewedAt": "2026-11-09",
+      "reviewedAt": "2026-11-17",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/nabdalla-prog/Rimuru-screentime/blob/8d28c26393e999e090c66e995636fe89caa2560b/README.md",
-        "revision": "8d28c26393e999e090c66e995636fe89caa2560b",
+        "url": "https://github.com/nabdalla-prog/Rimuru-screentime/blob/0518847fc99c41ea8363e87c58c9569dd62dc193/README.md",
+        "revision": "0518847fc99c41ea8363e87c58c9569dd62dc193",
         "path": "README.md",
-        "sha256": "cee271bd6d4f348f21b55581ca893c7785b1ae30e712e42045925e41ee962994",
+        "sha256": "f193965faa447d735568ebd030e60639290f00c35eacc41af3c94f002d882a1e",
         "evidence": "README.md lines 3-3:\nDaily screen time per app, in your Omarchy bar. Click the widget for a popup with a donut chart of the day's apps, a week-by-week trend you can page back through, a few insights, a yearly overview with month-by-month bars and highlights, a settings menu, and an optional faint background picture.\n\nREADME.md lines 5-5:\nFully local: it reads which window is focused, adds up the time, and saves it to a file on your machine. It makes no network requests."
       }
     },
@@ -6180,11 +6180,11 @@
       ],
       "constraints": [],
       "reason": "Invokes Omarchy screenshot tools for region, window or fullscreen captures.",
-      "reviewedAt": "2026-11-09",
+      "reviewedAt": "2026-11-17",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/glasschan/oma-swiss/blob/50c73f2b5008ebce468b7315d2e53329c67c99ad/README.md",
-        "revision": "50c73f2b5008ebce468b7315d2e53329c67c99ad",
+        "url": "https://github.com/glasschan/oma-swiss/blob/78f9c1c1b67dad1edd38e8b362b203d29b6cd83c/README.md",
+        "revision": "78f9c1c1b67dad1edd38e8b362b203d29b6cd83c",
         "path": "README.md",
         "sha256": "8ab6a6bd7ab3a85de9071151675fdc864bcb359a2effbd03003a27077fcdf059",
         "evidence": "README.md lines 60-64:\n- **Quick capture** — region / window / fullscreen screenshots, a color\n  picker, OCR (English + 中文), QR scan (decoded text lands in the\n  clipboard), and screen recording start/stop with or without your webcam,\n  one click each. Capture overlays need a clear screen, so the panel closes\n  as the tool fires.\n\nREADME.md lines 181-185:\nNone to install — everything ships with Omarchy v4: Hyprland 0.56+,\n`omarchy-capture-screenshot` (slurp), `omarchy-capture-text` (OCR),\n`omarchy-capture-qr` (zbar), `omarchy-capture-screenrecording` and\n`omarchy-capture-screenrecording-with-webcam` (gpu-screen-recorder), and\n`hyprpicker`."
@@ -6930,11 +6930,11 @@
       ],
       "constraints": [],
       "reason": "Creates, browses, edits and completes personal Todoist tasks.",
-      "reviewedAt": "2026-11-09",
+      "reviewedAt": "2026-11-17",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/crmne/omatasks/blob/afbe92416b331d48f4013f195cb6c626ccc7615c/README.md",
-        "revision": "afbe92416b331d48f4013f195cb6c626ccc7615c",
+        "url": "https://github.com/crmne/omatasks/blob/a1be94f31e9f6a10a348eb5df8240cdfce4ec8bf/README.md",
+        "revision": "a1be94f31e9f6a10a348eb5df8240cdfce4ec8bf",
         "path": "README.md",
         "sha256": "b065e39f5700d6fb2c7d0860883396ed7253e1d6c083d4f19c2445cdbcf6131b",
         "evidence": "README.md lines 3-3:\nYour Todoist day in the Omarchy bar, with a native Quick Add a shortcut away.\n\nREADME.md lines 7-7:\n**Today · Inbox · Upcoming · Quick Add · Edit · Multi-select · Drag to reorder · Notifications**\n\nREADME.md lines 9-11:\nA compact list that puts your tasks first. Open the bar panel to plan your day,\ncomplete a task, or change its details. Press **Alt+Space** to capture something\nnew with projects, labels, dates, priorities, and reminders.\n\nREADME.md lines 13-14:\nEverything follows your Omarchy theme. Adjust the panel size, grouping, sorting,\nand filters from inside the panel. Tasks sync directly with Todoist's API.\n\nREADME.md lines 24-25:\n- Omarchy Quattro with its Quickshell shell and Hyprland.\n- A Todoist account and its personal API token.\n\nREADME.md lines 27-32:\nNo extra packages or Todoist CLI are required. Requests to Todoist are made by\nthe system Python's standard library (`Fetch.py`); Hyprland manages the\nshortcut, standard shell utilities save your local settings, `wl-paste`\n(wl-clipboard, included in Omarchy) reads the clipboard when you paste, and the\nsystem Python with `python-gobject`, also included in Omarchy, sends\nnotifications. Node.js is only used for development tests."
@@ -7151,14 +7151,14 @@
       ],
       "constraints": [],
       "reason": "Runs countdowns, a stopwatch, scheduled alarms and interval timers.",
-      "reviewedAt": "2026-10-30",
+      "reviewedAt": "2026-11-17",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/pjgeutjens/omarchy-clockwork/blob/afaa28a80e884f93ff4279724d2170776da24bfe/README.md",
-        "revision": "afaa28a80e884f93ff4279724d2170776da24bfe",
+        "url": "https://github.com/pjgeutjens/omarchy-clockwork/blob/fbf8762126e65a61329c992f1058c2face1411b5/README.md",
+        "revision": "fbf8762126e65a61329c992f1058c2face1411b5",
         "path": "README.md",
-        "sha256": "f13d701ad3f6a03c961ec98537d8f54d06a005ad9f6737de9353d9f8505e2fbc",
-        "evidence": "README.md lines 5-5:\nA compact Omarchy Quattro bar widget with five modes:\n\nREADME.md lines 7-15:\n- Stopwatch: a regular count-up timer.\n- Countdown: minutes and seconds, with an optional full-screen break view and\n  editable message.\n- Alarm: set a one-shot alarm for the next occurrence of a clock time, in\n  either 24-hour time or a 12-hour AM/PM form.\n- Intervals: `X` exercise rounds with a minutes-and-seconds duration.\n- Pomodoro: alternate configurable focus and short-break phases, followed by a\n  long break after the final focus cycle. The bar switches to a green coffee\n  indicator during breaks, and the panel tracks completed focus sessions.\n\nREADME.md lines 19-22:\n- Alarm time can use 24-hour time or a 12-hour AM/PM form.\n- Alarm clock, bell, and phone sounds can be selected in the Alarm panel. An\n  alarm repeats its selected sound for at most three minutes, while its bar\n  item pulses until reset.\n\nREADME.md lines 24-31:\nThe timer keeps running when its panel is closed. Exercise intervals play one\ndirect PipeWire ping at each round boundary and a three-ping sequence at\ncompletion, while Omarchy notifications show the corresponding round state.\nAn alarm repeats its selected sound for up to three minutes, then remains\nvisibly ringing until it is reset or acknowledged with `R`. Pomodoro uses the\nsame single ping between phases and three-ping completion; its sound can be\ndisabled. Breaks start automatically after focus, while the next focus phase\nwaits for you to resume it."
+        "sha256": "ef835ab22cf1f50fd80617f30b0d3b8cee01ae503437e475ea17806396bd7e77",
+        "evidence": "README.md lines 5-5:\nA compact Omarchy Quattro bar widget with five modes:\n\nREADME.md lines 7-15:\n- Stopwatch: a regular count-up timer.\n- Countdown: minutes and seconds, with an optional full-screen break view and\n  editable message.\n- Alarm: set a one-shot alarm for the next occurrence of a clock time, in\n  either 24-hour time or a 12-hour AM/PM form.\n- Intervals: `X` exercise rounds with a minutes-and-seconds duration.\n- Pomodoro: alternate configurable focus and short-break phases, followed by a\n  long break after the final focus cycle. The bar switches to a green coffee\n  indicator during breaks, and the panel tracks completed focus sessions.\n\nREADME.md lines 26-29:\n- Alarm time can use 24-hour time or a 12-hour AM/PM form.\n- Alarm clock, bell, and phone sounds can be selected in the Alarm panel. An\n  alarm repeats its selected sound for at most three minutes, while its bar\n  item pulses until reset.\n\nREADME.md lines 31-38:\nThe timer keeps running when its panel is closed. Exercise intervals play one\ndirect PipeWire ping at each round boundary and a three-ping sequence at\ncompletion, while Omarchy notifications show the corresponding round state.\nAn alarm repeats its selected sound for up to three minutes, then remains\nvisibly ringing until it is reset or acknowledged with `R`. Pomodoro uses the\nsame single ping between phases and three-ping completion; its sound can be\ndisabled. Breaks start automatically after focus, while the next focus phase\nwaits for you to resume it."
       }
     },
     {
@@ -7199,14 +7199,14 @@
         "Countdowns are tied to configured Pomodoro work and break sessions."
       ],
       "reason": "Runs Pomodoro focus and break sessions; the reviewed source does not establish a standalone general-purpose countdown.",
-      "reviewedAt": "2026-10-30",
+      "reviewedAt": "2026-11-17",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/Pnkm0nK/Omodoro/blob/76379ebe27e3b2453289f904c7861b469daabbc1/README.md",
-        "revision": "76379ebe27e3b2453289f904c7861b469daabbc1",
+        "url": "https://github.com/Pnkm0nK/Omodoro/blob/87420275af73d4a2242d806de91c95846595dc64/README.md",
+        "revision": "87420275af73d4a2242d806de91c95846595dc64",
         "path": "README.md",
-        "sha256": "da40ac0afb9182d7622cb87ee61d666cd66c46e10c12e73380d79fdc16e52854",
-        "evidence": "README.md lines 5-5:\nPomodoro technique timer and task tracker [quickshell](https://quickshell.org/) plugin for [Omarchy](https://github.com/omarchy)\n\nREADME.md lines 7-7:\n[Plugin page on Omarchy plugin marketplace](https://omarchyplugins.com/plugin.html?id=pnkm0nk.omodoro)\n\nREADME.md lines 10-17:\n- Create goals for your pomodoro sessions and track progress\n- View your stats\n- Choose between presets or create your own\n- Customizable work/short break/long break intervals \n- Track your progress with stats\n- Enable/disable notifications if you need them\n- Enable/disable sound, with a choice of alert sound for work/break transitions and an optional ticking clock while a session runs\n- A small .json persistence file to preserve the stats, config and tasks\n\nREADME.md lines 39-39:\nWhen the panel is open and focused:\n\nREADME.md lines 41-41:\n| Key | Action |\n\nREADME.md lines 43-46:\n| `Space` / `Enter` | Start / Pause timer |\n| `r` / `R` | Reset current session |\n| `n` / `N` | Skip to next session |\n| `+` / `=` | Add 1 minute |"
+        "sha256": "94fbc37a0804595c017d7bb3b45f74faff101fac3f756207d3741c6a60c8dcea",
+        "evidence": "README.md lines 5-5:\nPomodoro technique timer and task tracker [quickshell](https://quickshell.org/) plugin for [Omarchy](https://github.com/omarchy)\n\nREADME.md lines 7-7:\n[Plugin page on Omarchy plugin marketplace](https://omarchyplugins.com/plugin.html?id=pnkm0nk.omodoro)\n\nREADME.md lines 10-23:\n- Create goals for your pomodoro sessions and track progress\n- Group tasks via tags:\n\n    when creating a new task add `#tag` to it's name \n\n- Track your progress with stats:\n    - Activity in an 18-week timeframe\n    - Task completion\n    - Focus-Task distribution (by task and by tag)\n- Choose between presets or create your own\n- Customizable work/short break/long break intervals \n- Enable/disable notifications if you need them\n- Enable/disable sound, with a choice of alert sound for work/break transitions and an optional ticking clock while a session runs\n- A small .json persistence file to preserve the stats, config and tasks\n\nREADME.md lines 45-45:\nWhen the panel is open and focused:\n\nREADME.md lines 47-47:\n| Key | Action |\n\nREADME.md lines 49-52:\n| `Space` / `Enter` | Start / Pause timer |\n| `r` / `R` | Reset current session |\n| `n` / `N` | Skip to next session |\n| `+` / `=` | Add 1 minute |"
       }
     },
     {
@@ -7754,13 +7754,13 @@
       ],
       "constraints": [],
       "reason": "An Alt+Tab overlay that orders open windows by recent use, filters them by typing and focuses the one you pick.",
-      "reviewedAt": "2026-11-09",
+      "reviewedAt": "2026-11-17",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/mtolhuys/fathom/blob/1b0a9069fb25db0593d5dfdf3fecdd58c9a133cd/README.md",
-        "revision": "1b0a9069fb25db0593d5dfdf3fecdd58c9a133cd",
+        "url": "https://github.com/mtolhuys/fathom/blob/98856b78908d35a977a508cf8974b3fa6b4f5a46/README.md",
+        "revision": "98856b78908d35a977a508cf8974b3fa6b4f5a46",
         "path": "README.md",
-        "sha256": "901d8cd5115eb38e6cb14d32a5ec8a82ef8a864033f363fd388b3a57a0da7269",
+        "sha256": "84a914a61aa7cbe5077298ebbeaf9f407234b3858791b05b5882d3c3d74e9b3d",
         "evidence": "README.md lines 7-13:\nA depth-based Alt+Tab for [Omarchy](https://omarchy.org/) Quattro.\n\nWindows are placed on a z-axis by how long ago you last used them. The window\nyou used most recently is in front; older ones recede into the distance and\nthe fog. Hold `Alt`, dive with `Tab`, the arrows or the wheel, release `Alt` to\nfocus the window in front. Below the stack, a map shows every workspace with\nits windows where they really are.\n\nREADME.md lines 19-21:\nFathom is an overlay only: it never moves, resizes or closes a window. Focusing\nthe one you pick is the only thing it asks the compositor to do. It starts no\nprogram, writes no file, and captures windows only while it is open.\n\nREADME.md lines 72-72:\n| `Enter`, a click on a window or the caption | Focus it |"
       },
       "metadataHash": "01cf19ab288a901c47f151c9b9e9d66204252cde11b1d57d4e3d122e8c7d0e4a",
@@ -7954,14 +7954,14 @@
       ],
       "constraints": [],
       "reason": "Shows workspace occupancy and app icons and switches to selected workspaces or windows.",
-      "reviewedAt": "2026-11-16",
+      "reviewedAt": "2026-11-17",
       "provenance": "repository-evidence",
       "source": {
-        "url": "https://github.com/tornikegomareli/omarchy-spaces/blob/47ac345e9b62d691ee802a82d31f1d538ee0e043/README.md",
-        "revision": "47ac345e9b62d691ee802a82d31f1d538ee0e043",
+        "url": "https://github.com/tornikegomareli/omarchy-spaces/blob/0b8ffbd5cb45c5cf93c0a0127d34abe7f332c349/README.md",
+        "revision": "0b8ffbd5cb45c5cf93c0a0127d34abe7f332c349",
         "path": "README.md",
-        "sha256": "e30f57a38f6c604de2f8046f6c3afc6ac189588c5fe849e2976742f2d8d31711",
-        "evidence": "README.md lines 3-3:\n<h3 align=\"center\">See what runs on every workspace.</h3>\n\nREADME.md lines 9-9:\nSpaces is a workspace switcher for the [Omarchy](https://omarchy.org) bar. Each workspace shows the icons of the apps open on it. The active one slides open, and the focused window is highlighted.\n\nREADME.md lines 13-13:\nHover another workspace to see it live, laid out the way it is on screen. Click a window in the preview to jump to it. Hovering an app icon highlights its windows and brings its floating thumbnail to the front, where it stays as you move into the preview. Clicking an app icon closes the preview.\n\nREADME.md lines 21-21:\nPreviews follow the monitor's orientation, including portrait displays, and shrink to fit the available screen space while keeping the full workspace visible. The size setting controls the longest side, so portrait and landscape previews have a comparable size."
+        "sha256": "9028b6956c5bcb58456068f3ea4ac3698f04ea21a8b435ef4fcf95d32281cb38",
+        "evidence": "README.md lines 3-3:\n<h3 align=\"center\">See what runs on every workspace.</h3>\n\nREADME.md lines 9-9:\nSpaces is a workspace switcher for the [Omarchy](https://omarchy.org) bar. Each workspace shows the icons of the apps open on it. The active one slides open, and the focused window is highlighted.\n\nREADME.md lines 13-13:\nHover another workspace to see it live, laid out the way it is on screen. Click a window in the preview to jump to it. Hovering an app icon highlights its windows and brings its floating thumbnail to the front, where it stays as you move into the preview. Clicking an app icon closes the preview.\n\nREADME.md lines 26-26:\nPreviews follow the monitor's orientation, including portrait displays, and shrink to fit the available screen space while keeping the full workspace visible. The size setting controls the longest side, so portrait and landscape previews have a comparable size."
       }
     },
     {
