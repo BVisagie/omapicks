@@ -2504,7 +2504,7 @@
         "pluginId": "heast13.downtime",
         "typeId": "idle-sleep",
         "listingSha256": "95ab1a4466fd66fbee2a70457e203b6bc4cf6d0ab51a919cb45917e289c91768",
-        "reason": "The listing names a shutdown timer and screensaver/display actions, without saying they are configured automatic inactivity timers or a reversible awake hold. This covers only that captured wording: the current listing names idle dimming, screen-off, lock and sleep timers, so it is left to discovery."
+        "reason": "The listing names a shutdown timer and screensaver/display actions, without saying they are configured automatic inactivity timers or a reversible awake hold. This covers only that captured wording: the current listing adds the lock, and the repository README describes idle dimming, screen-off, lock and sleep timers, so the current listing is left to discovery."
       },
       {
         "pluginId": "honor.shutdown-timer",
