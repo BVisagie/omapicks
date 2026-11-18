@@ -17,6 +17,18 @@ async function searchMatches(page, query) {
   );
 }
 
+test("weekly headlines agree with the leaders on their linked category pages", async ({ page }) => {
+  await page.goto("/");
+  const headlines = await page.locator(".weekly-summary .changes li").evaluateAll((rows) =>
+    rows.map((row) => ({ href: row.querySelector("a").getAttribute("href"), leader: row.querySelector("b")?.textContent })));
+  for (const { href, leader } of headlines) {
+    await page.goto(href);
+    const champion = page.locator(".pick-card.champion h3");
+    if (leader) await expect(champion).toHaveText(leader);
+    else await expect(champion).toHaveCount(0);
+  }
+});
+
 test("RSS navigation opens the HTML feed and keeps the XML subscription link", async ({ page, request }) => {
   const snapshot = await (await request.get("/rankings.json")).json();
   await page.goto("/");
@@ -25,7 +37,7 @@ test("RSS navigation opens the HTML feed and keeps the XML subscription link", a
   await expect(page.getByRole("heading", { name: snapshotMethodology(snapshot).eligibility.repositoryEvidence ? "Weekly selection changes" : "Weekly champion changes" })).toBeVisible();
   await expect(page.getByRole("navigation", { name: "Primary navigation" }).getByRole("link", { name: "RSS", exact: true })).toHaveAttribute("aria-current", "page");
   const firstEntry = page.locator(".feed-entries article").first().getByRole("link");
-  await expect(firstEntry).toHaveAttribute("href", /^\/(?:picks\/|changelog\/#publication-)/);
+  await expect(firstEntry).toHaveAttribute("href", /^\/changelog\/#(?:publication|week)-/);
   const target = new URL(await firstEntry.getAttribute("href"), page.url());
   const subscription = page.getByRole("link", { name: "https://omapicks.com/feed.xml" });
   await expect(subscription).toHaveAttribute("href", "/feed.xml");

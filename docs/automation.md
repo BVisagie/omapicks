@@ -188,3 +188,9 @@ The automation depends on settings outside this repository. Recheck them after c
 5. Confirm the Tuesday observation produces canonical state, Thursday remains report-only, and the next Tuesday restores a compatible state or explains a deliberate baseline reset. Watch for feed/source failures and stale snapshot/availability notices.
 
 If a publisher fails, inspect its summary and archived evidence and start a fresh run after correcting the cause. Do not force-push or manually merge an old data artifact. For a bad published observation, revert the specific data commit through the normal reviewed path and investigate before resuming its schedule. For a behavior regression, revert the relevant code change and validate the retained historical snapshots before redeploying.
+
+## Weekly summary
+
+The homepage compares leading option IDs in the final snapshot with its named baseline publication, including a superseded publication from the same week. A category that returns to its baseline leader drops out of the count and examples. Older snapshots without a recoverable baseline use their recorded events when available.
+
+The changelog and RSS retain individual changes to leading and second options. An earlier update can temporarily change either place. The date on an event set belongs to its publication. Individual events in the set have no separate timestamps.

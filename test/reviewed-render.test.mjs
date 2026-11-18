@@ -177,8 +177,8 @@ test("history keeps its original labels and never acquires a current availabilit
   const { page, rss } = renderFixtureFeed([modern, legacy]);
   assert.match(page, /Weekly selection changes/);
   for (const output of [page, rss]) {
-    assert.match(output, /Old Pick is the Weather champion/);
-    assert.match(output, /New Pick is the Weather leading reviewed option/);
+    assert.match(output, /Old Pick became the Weather champion/);
+    assert.match(output, /New Pick became the Weather leading reviewed option/);
   }
 });
 

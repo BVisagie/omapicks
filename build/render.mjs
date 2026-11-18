@@ -1015,19 +1015,22 @@ function newListingsNote(rankings) {
       ${shown.length ? `<ul>${shown.join("")}</ul>` : ""}`;
 }
 
-// The publication's recorded events are authoritative, including same-week migrations.
-// Recompute only for older snapshots without a recorded event set.
 function weeklyChanges(rankings, history) {
   const previous = history.filter((snapshot) => snapshot.week < rankings.week)
     .sort((a, b) => b.week.localeCompare(a.week))[0];
   const current = history.find((snapshot) => snapshot.week === rankings.week);
-  const changes = current?.changes ?? (previous ? changesBetween(previous, rankings) : []);
-  return { previous, current, changes };
+  const ref = rankings.publicationBaseline;
+  const baseline = ref && historyPublications(history).find((snapshot) =>
+    snapshot.week === ref.week && snapshot.generatedAt === ref.generatedAt &&
+    snapshotMethodology(snapshot).version === ref.methodologyVersion);
+  // Some early publications retained events but not the same-week snapshot they compared with.
+  const changes = baseline ? changesBetween(baseline, rankings)
+    : current?.changes ?? (previous ? changesBetween(previous, rankings) : []);
+  return { previous, current, baseline, changes };
 }
 
-function weeklySummary(rankings, history) {
+function weeklySummary(rankings, { previous, current, baseline, changes }) {
   const modern = reviewedPresentation(snapshotMethodology(rankings));
-  const { previous, current, changes } = weeklyChanges(rankings, history);
   const count = changes.length;
   const summary = !previous && !current
     ? "The first weekly snapshot is ready to explore."
@@ -1037,9 +1040,9 @@ function weeklySummary(rankings, history) {
     <p class="kicker">${escapeHtml(rankings.week ?? "Latest snapshot")}</p>
     <h2 id="weekly-summary-heading">What changed this week</h2>
     <p class="summary">${summary}</p>
-    ${publicationBaselineNote(rankings.publicationBaseline)}
+    ${publicationBaselineNote(baseline)}
     ${(rankings.categoryChanges ?? current?.categoryChanges ?? []).length ? '<p class="category-update-note">Category boundaries or descriptions were updated in this publication. <a href="/changelog/">Read the category corrections</a> before comparing selections across snapshots.</p>' : ""}
-    ${count ? `<ol class="changes">${changes.slice(0, 3).map((change, index) => `<li><span class="n">${String(index + 1).padStart(2, "0")}</span><span><a href="/picks/${encodeURIComponent(change.typeId)}/">${escapeHtml(change.typeName)}</a>: ${change.current ? `<b>${escapeHtml(change.current.name)}</b> <em>${change.reason === "task-definition-changed" ? "is selected under the updated task definition" : change.previous ? `replaces ${escapeHtml(change.previous.name)}` : modern ? "is the first leading reviewed option" : "is the first champion"}.</em>` : `<em>${modern ? "has no leading reviewed option" : "the champion spot is vacant"}${change.reason === "task-definition-changed" ? " under the updated task definition" : ""}.</em>`}</span></li>`).join("")}</ol>` : ""}
+    ${count ? `<ol class="changes">${changes.slice(0, 3).map((change, index) => `<li><span class="n">${String(index + 1).padStart(2, "0")}</span><span><a href="/picks/${encodeURIComponent(change.typeId)}/">${escapeHtml(change.typeName)}</a>: ${change.current ? `<b>${escapeHtml(change.current.name)}</b> <em>${change.reason === "task-definition-changed" ? "is selected under the updated task definition" : change.previous ? `replaces ${escapeHtml(change.previous.name)}` : modern ? "takes the leading place" : "takes the champion spot"}.</em>` : `<em>${modern ? "has no leading reviewed option" : "the champion spot is vacant"}${change.reason === "task-definition-changed" ? " under the updated task definition" : ""}.</em>`}</span></li>`).join("")}</ol>` : ""}
     ${newListingsNote(rankings)}
     <p class="tile-foot"><span>Snapshot ${escapeHtml(dateLabel(rankings.generatedAt) ?? rankings.week ?? "pending")}</span><span><a href="/changelog/">See all weekly changes</a> · <a href="/feed/">Subscribe with RSS</a></span></p>
   </section>`;
@@ -1054,13 +1057,13 @@ function statTile(label, value, { accent = false, delay = 0 } = {}) {
 // the starter collections. Everything here is also meaningful without scripts or motion.
 function bentoBand(rankings, history, { categoryCount, eligibleEntries, method }) {
   const modern = reviewedPresentation(method);
-  const { changes } = weeklyChanges(rankings, history);
+  const weekly = weeklyChanges(rankings, history);
   return `<section class="bento" aria-labelledby="glance-heading">
     <h2 id="glance-heading" class="visually-hidden">This week at a glance</h2>
     ${statTile("Categories", categoryCount)}
     ${statTile(method.eligibility.reviewedTaskEvidence ? "Reviewed category entries" : "Category entries", eligibleEntries, { delay: 60 })}
-    ${statTile(modern ? "Leading-option changes" : "Champion changes", changes.length, { accent: true, delay: 120 })}
-    <div class="b-changed reveal" style="--d: 180ms">${weeklySummary(rankings, history)}</div>
+    ${statTile(modern ? "Leading-option changes" : "Champion changes", weekly.changes.length, { accent: true, delay: 120 })}
+    <div class="b-changed reveal" style="--d: 180ms">${weeklySummary(rankings, weekly)}</div>
     <div class="b-links reveal" style="--d: 240ms">
       <nav class="glass tile links" aria-label="Learn more">
         <a href="/methodology/"><span>How rankings work</span><span aria-hidden="true">→</span></a>
@@ -1350,6 +1353,18 @@ function methodologyPage(rankings) {
   });
 }
 
+// A same-methodology republish appends transitions in order, separately for each slot.
+function selectionEvents(changes) {
+  const last = new Map(changes.map((change, index) => [change.typeId, index]));
+  const seen = new Set();
+  return changes.map((change, index) => {
+    const changedAgain = index < last.get(change.typeId);
+    const repeatedCategory = changedAgain || seen.has(change.typeId);
+    seen.add(change.typeId);
+    return { ...change, changedAgain, repeatedCategory };
+  });
+}
+
 function historyChanges(history) {
   return historyPublications(history)
     .slice()
@@ -1363,16 +1378,16 @@ function historyChanges(history) {
       publicationBaseline: snapshot.publicationBaseline,
       modern: reviewedPresentation(snapshotMethodology(snapshot)),
       taskCoherence: Boolean(snapshotMethodology(snapshot).eligibility.taskCoherence),
-      changes: snapshot.changes ?? [],
+      changes: selectionEvents(snapshot.changes ?? []),
       categoryChanges: snapshot.categoryChanges ?? [],
       // Snapshots before runner-up events were persisted have none recorded, not "no changes".
-      runnerUpChanges: snapshot.runnerUpChanges ?? []
+      runnerUpChanges: selectionEvents(snapshot.runnerUpChanges ?? [])
     }));
 }
 
 function publicationBaselineNote(baseline) {
   if (!baseline) return "";
-  return `<p class="publication-baseline">This event set compares with the <a href="/changelog/#${publicationAnchor(baseline)}">${escapeHtml(baseline.week)} publication from ${escapeHtml(dateLabel(baseline.generatedAt) ?? baseline.generatedAt)}</a> (methodology ${escapeHtml(baseline.methodologyVersion)}).</p>`;
+  return `<p class="publication-baseline">The starting point was the <a href="/changelog/#${publicationAnchor(baseline)}">${escapeHtml(baseline.week)} publication from ${escapeHtml(dateLabel(baseline.generatedAt) ?? baseline.generatedAt)}</a> (methodology ${escapeHtml(baseline.methodologyVersion ?? snapshotMethodology(baseline).version)}).</p>`;
 }
 
 function privacyPage() {
@@ -1405,61 +1420,50 @@ function privacyPage() {
 function changelogPage(history) {
   const weeks = historyChanges(history);
   const modern = weeks.some((entry) => entry.modern);
+  const selectionItem = (change, entry, label, second = false) => {
+    const type = escapeHtml(change.typeName);
+    const pick = change.current && `<strong>${escapeHtml(change.current.name)}</strong>`;
+    let event;
+    if (change.reason === "task-definition-changed") {
+      event = `${pick ? `${pick} was the ${type} ${label}` : `${type} had no ${label}`} under the updated task definition.`;
+    } else if (change.kind === "displaced") {
+      event = `${pick} replaced ${escapeHtml(change.previous.name)} ${second ? `as the ${type} ${label}` : `in ${type}`}.`;
+    } else {
+      event = pick ? `${pick} became the ${type} ${label}.` : `${type} had no ${label}.`;
+    }
+    const why = change.reason === "task-definition-changed" ? "" : removalSentence(change, { atPublication: entry.modern });
+    return `<li>${change.changedAgain ? "In an earlier update that week, " : ""}${event}${why ? ` ${escapeHtml(why)}` : ""}</li>`;
+  };
   const changeList = (entry) => {
     const label = entry.modern ? "leading reviewed option" : "champion";
     if (!entry.changes.length) return `<p>${entry.modern ? "The leading reviewed options are unchanged." : "No champion changes."}</p>`;
-    const firsts = entry.changes.filter((change) => change.current && change.kind !== "displaced" && !change.previous);
+    // Keep a chain together, including a selection made after a vacancy.
+    const firsts = entry.changes.filter((change) => !change.repeatedCategory && change.current && change.kind !== "displaced" && !change.previous);
     const updates = entry.changes.filter((change) => !firsts.includes(change));
     return `${firsts.length ? `<p class="timeline-summary">${firsts.length} categories received their first ${label}.</p>
       <dl class="first-champions">${firsts.map((change) => `<div>
         <dt>${escapeHtml(change.typeName)}</dt>
         <dd><strong>${escapeHtml(change.current.name)}</strong></dd>
       </div>`).join("")}</dl>` : ""}
-      ${updates.length ? `<ul class="change-list">${updates.map((change) => {
-        const why = removalSentence(change, { atPublication: entry.modern });
-        const reason = why ? ` ${escapeHtml(why)}` : "";
-        if (change.reason === "task-definition-changed") {
-          return `<li>${change.current ? `<strong>${escapeHtml(change.current.name)}</strong> is the ${escapeHtml(change.typeName)} ${label}` : `${escapeHtml(change.typeName)} has no ${label}`} under the updated task definition. This is a category correction, not a claim that a plugin's capabilities declined.</li>`;
-        }
-        if (change.kind === "displaced") {
-          return `<li><strong>${escapeHtml(change.current.name)}</strong> replaced ${escapeHtml(change.previous.name)} in ${escapeHtml(change.typeName)}.${reason}</li>`;
-        }
-        if (change.current) {
-          return `<li><strong>${escapeHtml(change.current.name)}</strong> became the ${escapeHtml(change.typeName)} ${label}.${reason}</li>`;
-        }
-        return `<li>${escapeHtml(change.typeName)} has no ${label} this week.${reason}</li>`;
-      }).join("")}</ul>` : ""}`;
+      ${updates.length ? `<ul class="change-list">${updates.map((change) => selectionItem(change, entry, label)).join("")}</ul>` : ""}`;
   };
   const runnerUpList = (entry) => {
     if (!entry.runnerUpChanges.length) return "";
     const label = entry.modern ? "second reviewed option" : "runner-up";
     return `<h3 class="timeline-subhead">${entry.modern ? "Other reviewed option changes" : "Runner-up changes"}</h3>
-      <ul class="change-list">${entry.runnerUpChanges.map((change) => {
-        const why = removalSentence(change, { atPublication: entry.modern });
-        const reason = why ? ` ${escapeHtml(why)}` : "";
-        if (change.reason === "task-definition-changed") {
-          return `<li>${change.current ? `<strong>${escapeHtml(change.current.name)}</strong> is the ${escapeHtml(change.typeName)} ${label}` : `${escapeHtml(change.typeName)} has no ${label}`} under the updated task definition.</li>`;
-        }
-        if (change.kind === "displaced") {
-          return `<li><strong>${escapeHtml(change.current.name)}</strong> replaced ${escapeHtml(change.previous.name)} as the ${escapeHtml(change.typeName)} ${label}.${reason}</li>`;
-        }
-        if (change.current) {
-          return `<li><strong>${escapeHtml(change.current.name)}</strong> became the ${escapeHtml(change.typeName)} ${label}.${reason}</li>`;
-        }
-        return `<li>${escapeHtml(change.typeName)} has no ${label} this week.${reason}</li>`;
-      }).join("")}</ul>`;
+      <ul class="change-list">${entry.runnerUpChanges.map((change) => selectionItem(change, entry, label, true)).join("")}</ul>`;
   };
   const body = `<section class="page-section">
     <p class="eyebrow">Change log</p>
     <h1>What changed</h1>
-    <p class="page-lede">${modern ? "Each weekly selection stays on disk. Historical entries keep the terminology and rules used when they were published." : "When a champion is replaced, the previous week stays on disk. This page is built from those snapshots."}</p>
+    <p class="page-lede">${modern ? "Changes are listed in the order recorded for each selection. A place can change hands more than once during the week." : "When a champion is replaced, the previous week stays on disk. This page is built from those snapshots."}</p>
     <div class="timeline">
       ${
         weeks.length
           ? weeks
               .map(
                 (entry) => `<section class="glass reveal" id="${entry.anchor}">
-                  <h2>${weekLabel(entry.week, entry.generatedAt)}</h2>
+                  <h2${entry.superseded ? "" : ` id="week-${escapeHtml(entry.week)}"`}>${weekLabel(entry.week, entry.generatedAt)}</h2>
                   <p class="publication-label">${entry.superseded ? "Superseded publication" : "Published snapshot"} · ${escapeHtml(dateLabel(entry.generatedAt) ?? entry.generatedAt ?? entry.week)} · methodology ${escapeHtml(entry.methodologyVersion)}${entry.superseded ? ". These events retain the judgments recorded at that publication; they do not describe current qualification." : ""}</p>
                   ${publicationBaselineNote(entry.publicationBaseline)}
                   ${entry.categoryChanges.length ? `<section class="category-corrections"><h3 class="timeline-subhead">Category corrections</h3><p>Task boundaries or descriptions were updated in this publication. Each entry distinguishes changed requirements from wording clarifications.</p><ul class="change-list">${entry.categoryChanges.map((change) => `<li><strong>${escapeHtml(change.from.name)}</strong>: ${change.kind === "split" ? `${change.retired ? "separated into" : "now distinguishes"} ${change.to.map((type) => `<a href="/picks/${encodeURIComponent(type.id)}/">${escapeHtml(type.name)}</a>`).join(", ")}` : change.kind === "clarified" ? "description clarified" : "minimum requirements updated"}. ${escapeHtml(change.reason)}</li>`).join("")}</ul></section>` : ""}
@@ -1529,16 +1533,24 @@ async function readHistory() {
 }
 
 function feedEntries(history) {
-  return historyChanges(history)
-    .flatMap((snapshot) => {
-      const context = { week: snapshot.week, modern: snapshot.modern, generatedAt: snapshot.generatedAt,
-        methodologyVersion: snapshot.methodologyVersion, superseded: snapshot.superseded, anchor: snapshot.anchor };
-      return [
-        ...(snapshot.categoryChanges.length ? [{ ...context, categoryChanges: snapshot.categoryChanges }] : []),
-        ...snapshot.changes.map((change) => ({ ...change, ...context })),
-        ...(snapshot.taskCoherence ? snapshot.runnerUpChanges.map((change) => ({ ...change, ...context, slot: "runner-up" })) : [])
-      ];
-    })
+  const occurrences = new Map();
+  // Allocate identifiers oldest first so a later return to the same place keeps both items.
+  const publications = historyChanges(history).reverse().map((snapshot) => {
+    const context = { week: snapshot.week, modern: snapshot.modern, generatedAt: snapshot.generatedAt,
+      methodologyVersion: snapshot.methodologyVersion, superseded: snapshot.superseded, anchor: snapshot.anchor };
+    const pickEntry = (change, second = false) => {
+      const guid = `${snapshot.week}:${second ? "runner-up:" : ""}${change.typeId}:${change.current?.id ?? "vacant"}`;
+      const occurrence = (occurrences.get(guid) ?? 0) + 1;
+      occurrences.set(guid, occurrence);
+      return { ...change, ...context, slot: second ? "runner-up" : "winner", guid: occurrence === 1 ? guid : `${guid}:${occurrence}` };
+    };
+    return [
+      ...(snapshot.categoryChanges.length ? [{ ...context, categoryChanges: snapshot.categoryChanges }] : []),
+      ...snapshot.changes.map((change) => pickEntry(change)),
+      ...(snapshot.taskCoherence ? snapshot.runnerUpChanges.map((change) => pickEntry(change, true)) : [])
+    ];
+  });
+  return publications.reverse().flat()
     .slice(0, 100)
     .map((entry) => {
       const date = new Date(entry.generatedAt ?? NaN);
@@ -1561,17 +1573,17 @@ function feedEntries(history) {
       return {
         modern: entry.modern,
         title: (entry.current
-          ? `${entry.current.name} is the ${entry.typeName} ${label}`
-          : `${entry.typeName} ${label} spot is vacant`) + (entry.superseded ? " (superseded publication)" : ""),
+          ? `${entry.current.name} became the ${entry.typeName} ${label}`
+          : `${entry.typeName} ${label} spot became vacant`) + (entry.changedAgain ? " (changed again that week)" : "") + (entry.superseded ? " (superseded publication)" : ""),
         description: (entry.superseded ? `Recorded at the superseded ${dateLabel(entry.generatedAt) ?? entry.week} publication under methodology ${entry.methodologyVersion}. ` : "") + (entry.reason === "task-definition-changed"
-          ? `${entry.current ? `${entry.current.name} is selected${entry.slot === "runner-up" ? " as the second reviewed option" : ""}` : `No ${label} is selected`} under the updated ${entry.typeName} task definition. This publication corrects the category comparison.`
+          ? `${entry.current ? `${entry.current.name} was selected${entry.slot === "runner-up" ? " as the second reviewed option" : ""}` : `No ${label} was selected`} under the updated ${entry.typeName} task definition. This publication corrects the category comparison.`
           : !entry.current
-          ? `${entry.typeName} has no ${label} this week.`
+          ? `${entry.typeName} had no ${label} at that point.`
           : entry.previous
             ? `${entry.current.name} replaced ${entry.previous.name}.`
-            : `${entry.current.name} became the first ${label}.`),
-        path: `/picks/${encodeURIComponent(entry.typeId)}/`,
-        guid: `${entry.week}:${entry.slot === "runner-up" ? "runner-up:" : ""}${entry.typeId}:${entry.current?.id ?? "vacant"}`,
+            : `${entry.current.name} became the ${label}.`),
+        path: `/changelog/#${entry.superseded ? entry.anchor : `week-${entry.week}`}`,
+        guid: entry.guid,
         publishedAt: dated ? date.toISOString() : "",
         published: dated ? date.toUTCString() : ""
       };
