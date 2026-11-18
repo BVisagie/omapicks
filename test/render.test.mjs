@@ -18,6 +18,8 @@ import {
   winningReason,
   withAvailability
 } from "../build/render.mjs";
+import { changesBetween, runnerUpChangesBetween } from "../build/rank.mjs";
+import { publicationReference } from "../build/publication-history.mjs";
 import { methodologyFor, snapshotMethodology } from "../build/methodology.mjs";
 import { CATEGORY_MIGRATIONS, migrationsForSnapshot } from "../build/category-migrations.mjs";
 
@@ -693,6 +695,86 @@ test("homepage uses recorded same-week events even when a previous-week comparis
   assert.match(unchanged, /<dt>Leading-option changes<\/dt><dd data-count="0">0<\/dd>/);
 });
 
+test("weekly highlights compare final leaders with the exact archived baseline after republishes", () => {
+  const snapshot = (id, generatedAt) => ({
+    ...fixtureRankings(id ? fixtureCandidate({ id, name: id }) : null),
+    generatedAt, methodologyVersion: "1.5.0"
+  });
+  const earlier = snapshot("Earlier", "2026-08-24T08:00:00Z");
+  earlier.week = "2026-W35";
+  const baseline = snapshot("Explorer", "2026-09-01T07:00:00Z");
+  baseline.methodologyVersion = "1.4.0";
+  for (const interim of ["Designs", null]) {
+    const first = snapshot(interim, "2026-09-01T08:00:00Z");
+    for (const final of ["Explorer", "New", null]) {
+      const current = snapshot(final, "2026-09-01T09:00:00Z");
+      current.publicationBaseline = publicationReference(baseline);
+      const recorded = { ...current, supersededPublications: [baseline],
+        changes: [...changesBetween(baseline, first), ...changesBetween(first, current)] };
+      const html = renderFixtureHome(current, [earlier, recorded]);
+      const count = final === "Explorer" ? 0 : 1;
+      assert.ok(html.includes(`<dt>Leading-option changes</dt><dd data-count="${count}">${count}</dd>`));
+      assert.match(html, /href="\/changelog\/#publication-2026-W36-20260901T070000Z"/);
+      if (!count) {
+        assert.match(html, /The leading reviewed options are unchanged/);
+        assert.doesNotMatch(html, /<ol class="changes">/);
+      } else {
+        assert.match(html, /1 category has a leading-option change/);
+        const list = html.match(/<ol class="changes">(.*?)<\/ol>/)[1];
+        assert.match(list, /href="\/picks\/weather\/"/);
+        assert.equal(list.match(/<li>/g).length, count);
+        if (final) {
+          assert.match(list, /<b>New<\/b> <em>replaces Explorer\./);
+        } else {
+          assert.match(list, /has no leading reviewed option/);
+        }
+      }
+    }
+  }
+
+  const current = snapshot("New", "2026-09-01T09:00:00Z");
+  current.publicationBaseline = publicationReference(baseline);
+  baseline.types[0].taskContract = { version: 1, capabilitySets: [["old"]], outcome: "Old task" };
+  current.types[0].taskContract = { version: 2, capabilitySets: [["new"]], outcome: "New task" };
+  const corrected = renderFixtureHome(current, [{ ...current, supersededPublications: [baseline] }]);
+  assert.match(corrected, /New<\/b> <em>is selected under the updated task definition/);
+
+  // The timestamp is absent from history. Comparing with any other snapshot would invent a change.
+  const otherPublication = { ...baseline, generatedAt: "2026-09-01T06:00:00Z" };
+  const missing = renderFixtureHome(current, [earlier, { ...current, changes: [], supersededPublications: [otherPublication] }]);
+  assert.match(missing, /The leading reviewed options are unchanged/);
+  assert.doesNotMatch(missing, /class="publication-baseline"/);
+});
+
+test("changelog and RSS keep each transition in order, including returns to the same slot", () => {
+  const runs = ["Alpha", null, "Bravo", "Alpha", "Bravo"].map((name) => {
+    const rankings = fixtureRankings(name && fixtureCandidate({ id: name, name }));
+    rankings.methodologyVersion = "1.5.0";
+    rankings.types[0].runnerUp = name && fixtureCandidate({ id: name + "-second", name: name + " II" });
+    return rankings;
+  });
+  const week = { ...runs.at(-1),
+    changes: runs.slice(1).flatMap((run, index) => changesBetween(runs[index], run)),
+    runnerUpChanges: runs.slice(1).flatMap((run, index) => runnerUpChangesBetween(runs[index], run)) };
+  const log = renderFixtureChangelog([week]);
+  assert.match(log, /In an earlier update that week, Weather had no leading reviewed option/);
+  assert.match(log, /In an earlier update that week, <strong>Bravo II<\/strong> became the Weather second reviewed option/);
+  assert.ok(log.indexOf("Weather had no leading reviewed option") < log.indexOf("Bravo</strong> became the Weather leading reviewed option"));
+  assert.doesNotMatch(log, /first leading reviewed option/);
+  const { rss } = renderFixtureFeed([week]);
+  const titles = [...rss.matchAll(/<item><title>(.*?)<\/title>/g)].map((match) => match[1]);
+  assert.equal(titles.length, 8);
+  assert.equal(titles[1], "Bravo became the Weather leading reviewed option (changed again that week)");
+  assert.equal(titles[3], "Bravo became the Weather leading reviewed option");
+  assert.equal(titles[5], "Bravo II became the Weather second reviewed option (changed again that week)");
+  const guids = [...rss.matchAll(/<guid[^>]*>(.*?)<\/guid>/g)].map((match) => match[1]);
+  assert.equal(new Set(guids).size, titles.length);
+  assert.equal(guids[1], "2026-W36:weather:Bravo");
+  assert.equal(guids[5], "2026-W36:runner-up:weather:Bravo-second");
+  assert.match(rss, /<link>https:\/\/omapicks.com\/changelog\/#week-2026-W36<\/link>/);
+  assert.match(log, /id="week-2026-W36"/);
+});
+
 test("feed keeps the newest 100 changes, words vacancies plainly, and skips bad dates", () => {
   const change = (i) => ({ typeId: `type-${i}`, typeName: `Type ${i}`, current: { id: `p${i}`, name: `Plugin ${i}` }, previous: null });
   const history = [
@@ -703,9 +785,9 @@ test("feed keeps the newest 100 changes, words vacancies plainly, and skips bad 
   const { page, rss } = renderFixtureFeed(history);
   assert.equal([...rss.matchAll(/<item>/g)].length, 100);
   assert.equal([...page.matchAll(/<article class="glass">/g)].length, 100);
-  assert.match(rss, /<title>Plugin 60 is the Type 60 champion<\/title>/);
-  assert.match(rss, /<description>Music has no champion this week\.<\/description>/);
-  assert.match(page, /Music has no champion this week\./);
+  assert.match(rss, /<title>Plugin 60 became the Type 60 champion<\/title>/);
+  assert.match(rss, /<description>Music had no champion at that point\.<\/description>/);
+  assert.match(page, /Music had no champion at that point\./);
   assert.doesNotMatch(page, /No plugin/);
   assert.doesNotMatch(page + rss, /Invalid Date/);
   assert.equal([...rss.matchAll(/<pubDate>/g)].length, 99);
@@ -834,7 +916,7 @@ test("the changelog words removal reasons plainly and keeps older entries unchan
     ]
   }]);
   assert.match(html, /<strong>New<\/strong> replaced Old &lt;One&gt; in Weather\. Old &lt;One&gt; was retired by the marketplace\./);
-  assert.match(html, /Music has no champion this week\. YouTube Music could not be reached in the latest marketplace check\./);
+  assert.match(html, /Music had no champion\. YouTube Music could not be reached in the latest marketplace check\./);
   assert.match(html, /<strong>B<\/strong> replaced A in Clock\.<\/li>/);
 });
 
@@ -849,7 +931,7 @@ test("the changelog lists runner-up events separately and older weeks without th
   const [w40, w39] = html.split('<section class="glass reveal"').slice(-2);
   assert.match(w40, /No champion changes\./);
   assert.match(w40, /<h3 class="timeline-subhead">Runner-up changes<\/h3>/);
-  assert.match(w40, /Music has no runner-up this week\. YouTube &lt;Music&gt; could not be reached in the latest marketplace check\./);
+  assert.match(w40, /Music had no runner-up\. YouTube &lt;Music&gt; could not be reached in the latest marketplace check\./);
   assert.match(w40, /<strong>B<\/strong> became the Clock runner-up\./);
   assert.doesNotMatch(w39, /Runner-up changes/);
   assert.match(w39, /<strong>C<\/strong> replaced A in Clock\./);
@@ -900,22 +982,23 @@ test("category corrections and requalification do not masquerade as competitive 
   const page = renderFixtureChangelog([old, current]);
   assert.match(page, /Category corrections/);
   assert.match(page, /href="\/picks\/hotspots\/"/);
-  assert.match(page, /Client<\/strong> is the Network Connections leading reviewed option under the updated task definition/);
-  assert.match(page, /Network Connections has no second reviewed option under the updated task definition/);
+  assert.match(page, /Client<\/strong> was the Network Connections leading reviewed option under the updated task definition/);
+  assert.match(page, /This is a category correction\. A plugin with the same capabilities can qualify under one definition and fall outside the other\./);
+  assert.match(page, /Network Connections had no second reviewed option under the updated task definition/);
   assert.doesNotMatch(page, /Client<\/strong> replaced Hotspot/);
   assert.match(page, /Hotspot<\/strong> replaced Former in Network Connections/);
   const historicalSection = page.split('<section class="glass reveal"').at(-1);
   assert.doesNotMatch(historicalSection, /Category corrections|updated task definition/);
   const { rss } = renderFixtureFeed([old, current]);
   assert.match(rss, /Network Connections: category tasks updated/);
-  assert.match(rss, /Client is selected under the updated Network Connections task definition/);
+  assert.match(rss, /Client was selected under the updated Network Connections task definition/);
   assert.doesNotMatch(rss, /Client replaced Hotspot/);
   assert.match(rss, /Hotspot replaced Former/);
-  assert.match(rss, /Network Connections second reviewed option spot is vacant/);
-  assert.match(rss, /No second reviewed option is selected under the updated Network Connections task definition/);
+  assert.match(rss, /Network Connections second reviewed option spot became vacant/);
+  assert.match(rss, /No second reviewed option was selected under the updated Network Connections task definition/);
   assert.match(rss, /2026-W44:runner-up:network:vacant/);
   const sameCandidate = renderFixtureFeed([{ ...current, runnerUpChanges: [{ ...current.changes[0] }] }]);
-  assert.match(sameCandidate.rss, /Client is selected as the second reviewed option under the updated Network Connections task definition/);
+  assert.match(sameCandidate.rss, /Client was selected as the second reviewed option under the updated Network Connections task definition/);
   const guids = [...sameCandidate.rss.matchAll(/<guid[^>]*>(.*?)<\/guid>/g)].map((match) => match[1]);
   assert.equal(new Set(guids).size, guids.length);
   const onlyCorrection = renderFixtureFeed([{ ...current, changes: [], runnerUpChanges: [] }]);
@@ -944,13 +1027,13 @@ test("superseded same-week publications remain dated and independently visible i
   assert.match(page, /Superseded publication · October 29, 2026 · methodology 1\.3\.0/);
   assert.match(page, /Key Promoter<\/strong> replaced Which Key in Shortcut Guides/);
   assert.match(page, /Docker<\/strong> replaced Control Docker as the Containers second reviewed option/);
-  assert.match(page, /Docker Monitor<\/strong> is the Containers second reviewed option under the updated task definition/);
+  assert.match(page, /Docker Monitor<\/strong> was the Containers second reviewed option under the updated task definition/);
   assert.match(page, /id="publication-2026-W44-20261029T193518101Z"/);
   assert.match(page, /href="\/changelog\/#publication-2026-W44-20261029T193518101Z"/);
   const { rss } = renderFixtureFeed([current]);
-  assert.match(rss, /Key Promoter is the Shortcut Guides leading reviewed option \(superseded publication\)/);
+  assert.match(rss, /Key Promoter became the Shortcut Guides leading reviewed option \(superseded publication\)/);
   assert.match(rss, /Recorded at the superseded October 29, 2026 publication under methodology 1\.3\.0/);
-  assert.match(rss, /Docker Monitor is the Containers second reviewed option/);
+  assert.match(rss, /Docker Monitor became the Containers second reviewed option/);
   const grouped = renderFixtureFeed([{ ...current, changes: [], runnerUpChanges: [], supersededPublications: [], categoryChanges: CATEGORY_MIGRATIONS[0].changes }]);
   assert.equal([...grouped.rss.matchAll(/<item>/g)].length, 1);
   assert.match(grouped.rss, /7 category updates: 7 splits/);
