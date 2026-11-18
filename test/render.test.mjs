@@ -983,6 +983,7 @@ test("category corrections and requalification do not masquerade as competitive 
   assert.match(page, /Category corrections/);
   assert.match(page, /href="\/picks\/hotspots\/"/);
   assert.match(page, /Client<\/strong> was the Network Connections leading reviewed option under the updated task definition/);
+  assert.match(page, /This is a category correction\. A plugin with the same capabilities can qualify under one definition and fall outside the other\./);
   assert.match(page, /Network Connections had no second reviewed option under the updated task definition/);
   assert.doesNotMatch(page, /Client<\/strong> replaced Hotspot/);
   assert.match(page, /Hotspot<\/strong> replaced Former in Network Connections/);

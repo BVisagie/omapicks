@@ -1426,6 +1426,7 @@ function changelogPage(history) {
     let event;
     if (change.reason === "task-definition-changed") {
       event = `${pick ? `${pick} was the ${type} ${label}` : `${type} had no ${label}`} under the updated task definition.`;
+      if (!second) event += " This is a category correction. A plugin with the same capabilities can qualify under one definition and fall outside the other.";
     } else if (change.kind === "displaced") {
       event = `${pick} replaced ${escapeHtml(change.previous.name)} ${second ? `as the ${type} ${label}` : `in ${type}`}.`;
     } else {
@@ -1440,7 +1441,7 @@ function changelogPage(history) {
     // Keep a chain together, including a selection made after a vacancy.
     const firsts = entry.changes.filter((change) => !change.repeatedCategory && change.current && change.kind !== "displaced" && !change.previous);
     const updates = entry.changes.filter((change) => !firsts.includes(change));
-    return `${firsts.length ? `<p class="timeline-summary">${firsts.length} categories received their first ${label}.</p>
+    return `${firsts.length ? `<p class="timeline-summary">${firsts.length === 1 ? "1 category received its" : `${firsts.length} categories received their`} first ${label}.</p>
       <dl class="first-champions">${firsts.map((change) => `<div>
         <dt>${escapeHtml(change.typeName)}</dt>
         <dd><strong>${escapeHtml(change.current.name)}</strong></dd>
@@ -1456,7 +1457,7 @@ function changelogPage(history) {
   const body = `<section class="page-section">
     <p class="eyebrow">Change log</p>
     <h1>What changed</h1>
-    <p class="page-lede">${modern ? "Changes are listed in the order recorded for each selection. A place can change hands more than once during the week." : "When a champion is replaced, the previous week stays on disk. This page is built from those snapshots."}</p>
+    <p class="page-lede">${modern ? "Changes are listed in the order recorded for each selection. A place can change hands more than once during the week. Historical entries keep the terminology and rules used when they were published." : "When a champion is replaced, the previous week stays on disk. This page is built from those snapshots."}</p>
     <div class="timeline">
       ${
         weeks.length

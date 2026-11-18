@@ -173,7 +173,7 @@ test("history keeps its original labels and never acquires a current availabilit
   assert.deepEqual(projected, legacy);
   assert.match(renderFixtureBadge(legacy.types[0], legacy), /Weather champion:/);
   assert.match(renderFixtureBadge(modern.types[0], modern), /Weather leading reviewed option:/);
-  assert.match(renderFixtureChangelog([modern, legacy]), /categories received their first champion/);
+  assert.match(renderFixtureChangelog([modern, legacy]), /1 category received its first champion/);
   const { page, rss } = renderFixtureFeed([modern, legacy]);
   assert.match(page, /Weekly selection changes/);
   for (const output of [page, rss]) {
