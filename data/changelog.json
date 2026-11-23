@@ -1,46 +1,19 @@
 {
   "schemaVersion": 1,
-  "week": "2026-W47",
-  "generatedAt": "2026-11-16T09:30:50.504Z",
+  "week": "2026-W48",
+  "generatedAt": "2026-11-23T18:21:42.842Z",
   "changes": [
     {
-      "typeId": "docks",
-      "typeName": "Application Docks",
+      "typeId": "music",
+      "typeName": "Media Controls",
       "kind": "displaced",
       "previous": {
-        "id": "rosakodu.dock",
-        "name": "Dock"
+        "id": "crmne.mpris",
+        "name": "Media Controls + Album Art"
       },
       "current": {
-        "id": "omadock",
-        "name": "Dock (OmaDock)"
-      },
-      "reason": "recheck-after-update"
-    },
-    {
-      "typeId": "hotspots",
-      "typeName": "Hotspots & Internet Sharing",
-      "kind": "displaced",
-      "previous": {
-        "id": "io.github.shivamnarkar47.omarchy-hotspot",
-        "name": "Mobile Hotspot"
-      },
-      "current": {
-        "id": "community.network",
-        "name": "Network Manager (with Repeater & Hotspot)"
-      }
-    },
-    {
-      "typeId": "lock-screen",
-      "typeName": "Lock Screen Appearance",
-      "kind": "displaced",
-      "previous": {
-        "id": "io.github.sirjul1337.lock-explorer",
-        "name": "Lock Screen Explorer"
-      },
-      "current": {
-        "id": "io.github.smoothpixels.lock-designs",
-        "name": "Lock Designs"
+        "id": "io.github.qempexe.omaudix",
+        "name": "Omaudix"
       },
       "reason": "recheck-after-update"
     },
@@ -55,22 +28,7 @@
       "current": {
         "id": "io.github.krongggggg.caffeine",
         "name": "Caffeine"
-      },
-      "reason": "recheck-after-update"
-    },
-    {
-      "typeId": "workspaces",
-      "typeName": "Workspaces",
-      "kind": "displaced",
-      "previous": {
-        "id": "tornikegomareli.spaces",
-        "name": "Spaces"
-      },
-      "current": {
-        "id": "mirador",
-        "name": "Mirador"
-      },
-      "reason": "recheck-after-update"
+      }
     },
     {
       "typeId": "window-management",
@@ -81,8 +39,8 @@
         "name": "Exposé"
       },
       "current": {
-        "id": "io.github.pablo-merino.altswitch",
-        "name": "Alt-tab switcher"
+        "id": "io.github.mtolhuys.fathom",
+        "name": "Fathom"
       },
       "reason": "recheck-after-update"
     },
@@ -91,12 +49,12 @@
       "typeName": "Screen Capture",
       "kind": "displaced",
       "previous": {
-        "id": "glasschan.oma-swiss",
-        "name": "OmaSwiss"
-      },
-      "current": {
         "id": "chyld.easy-capture",
         "name": "Easy Capture"
+      },
+      "current": {
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss"
       }
     },
     {
@@ -104,27 +62,13 @@
       "typeName": "Screen Recording",
       "kind": "displaced",
       "previous": {
-        "id": "glasschan.oma-swiss",
-        "name": "OmaSwiss"
-      },
-      "current": {
         "id": "chyld.easy-capture",
         "name": "Easy Capture"
-      }
-    },
-    {
-      "typeId": "agent-monitoring",
-      "typeName": "Agent Monitoring",
-      "kind": "displaced",
-      "previous": {
-        "id": "meviusisback.agent-orchestr",
-        "name": "Agent Orchestrator"
       },
       "current": {
-        "id": "njpatel.omaherdr",
-        "name": "Omaherdr"
-      },
-      "reason": "recheck-after-update"
+        "id": "glasschan.oma-swiss",
+        "name": "OmaSwiss"
+      }
     },
     {
       "typeId": "ai-api-usage",
@@ -141,153 +85,29 @@
       "reason": "recheck-after-update"
     },
     {
-      "typeId": "keybinding-managers",
-      "typeName": "Keybinding Managers",
+      "typeId": "smart-home",
+      "typeName": "Smart Home Controls",
       "kind": "vacated",
       "previous": {
-        "id": "meviusisback.keybinds",
-        "name": "Keybindings"
+        "id": "hass",
+        "name": "Home Assistant"
       },
       "current": null,
       "reason": "recheck-after-update"
     },
     {
-      "typeId": "read-aloud",
-      "typeName": "Read Aloud",
-      "kind": "new-champion",
-      "previous": null,
-      "current": {
-        "id": "io.github.hikari112.tts",
-        "name": "Text to Speech"
-      }
-    },
-    {
-      "typeId": "radio",
-      "typeName": "Radio",
+      "typeId": "power-menu",
+      "typeName": "Power & Session",
       "kind": "displaced",
       "previous": {
-        "id": "akshar.radio-atlas",
-        "name": "Radio Atlas"
+        "id": "blackcode.power-menu",
+        "name": "Power Menu"
       },
       "current": {
-        "id": "io.github.kaibur02.omarchy-world-radio",
-        "name": "World Radio"
+        "id": "io.github.edgarsilva.power-button",
+        "name": "Power Button"
       },
-      "reason": "recheck-after-update"
-    },
-    {
-      "typeId": "docks",
-      "typeName": "Application Docks",
-      "kind": "displaced",
-      "previous": {
-        "id": "omadock",
-        "name": "Dock (OmaDock)"
-      },
-      "current": {
-        "id": "rosakodu.dock",
-        "name": "Dock"
-      }
-    },
-    {
-      "typeId": "lock-screen",
-      "typeName": "Lock Screen Appearance",
-      "kind": "displaced",
-      "previous": {
-        "id": "io.github.smoothpixels.lock-designs",
-        "name": "Lock Designs"
-      },
-      "current": {
-        "id": "io.github.sirjul1337.lock-explorer",
-        "name": "Lock Screen Explorer"
-      }
-    },
-    {
-      "typeId": "keep-awake",
-      "typeName": "Keep Awake",
-      "kind": "displaced",
-      "previous": {
-        "id": "io.github.krongggggg.caffeine",
-        "name": "Caffeine"
-      },
-      "current": {
-        "id": "halmylyseas.ristretto",
-        "name": "Ristretto"
-      }
-    },
-    {
-      "typeId": "workspaces",
-      "typeName": "Workspaces",
-      "kind": "displaced",
-      "previous": {
-        "id": "mirador",
-        "name": "Mirador"
-      },
-      "current": {
-        "id": "tornikegomareli.spaces",
-        "name": "Spaces"
-      }
-    },
-    {
-      "typeId": "window-management",
-      "typeName": "Window Switching",
-      "kind": "displaced",
-      "previous": {
-        "id": "io.github.pablo-merino.altswitch",
-        "name": "Alt-tab switcher"
-      },
-      "current": {
-        "id": "expose.window-overview",
-        "name": "Exposé"
-      }
-    },
-    {
-      "typeId": "agent-monitoring",
-      "typeName": "Agent Monitoring",
-      "kind": "displaced",
-      "previous": {
-        "id": "njpatel.omaherdr",
-        "name": "Omaherdr"
-      },
-      "current": {
-        "id": "meviusisback.agent-orchestr",
-        "name": "Agent Orchestrator"
-      }
-    },
-    {
-      "typeId": "ai-api-usage",
-      "typeName": "AI & API Usage",
-      "kind": "displaced",
-      "previous": {
-        "id": "io.github.viganogabriele.agent-usage-plus",
-        "name": "Agent Usage Plus"
-      },
-      "current": {
-        "id": "akitaonrails.ai-usagebar",
-        "name": "AI Usage"
-      }
-    },
-    {
-      "typeId": "keybinding-managers",
-      "typeName": "Keybinding Managers",
-      "kind": "new-champion",
-      "previous": null,
-      "current": {
-        "id": "meviusisback.keybinds",
-        "name": "Keybindings"
-      }
-    },
-    {
-      "typeId": "radio",
-      "typeName": "Radio",
-      "kind": "displaced",
-      "previous": {
-        "id": "io.github.kaibur02.omarchy-world-radio",
-        "name": "World Radio"
-      },
-      "current": {
-        "id": "akshar.radio-atlas",
-        "name": "Radio Atlas"
-      }
+      "reason": "repository-unreachable"
     }
   ],
   "runnerUpChanges": [
@@ -296,80 +116,27 @@
       "typeName": "Media Controls",
       "kind": "displaced",
       "previous": {
-        "id": "custom.media",
-        "name": "Music Flow"
-      },
-      "current": {
         "id": "io.github.qempexe.omaudix",
         "name": "Omaudix"
+      },
+      "current": {
+        "id": "custom.media",
+        "name": "Music Flow"
       }
     },
     {
-      "typeId": "weather-radar",
-      "typeName": "Weather Radar",
+      "typeId": "music-players",
+      "typeName": "Music Players",
       "kind": "displaced",
       "previous": {
-        "id": "more-weather",
-        "name": "More Weather"
+        "id": "vornashev.yandex-music",
+        "name": "Yandex Music"
       },
       "current": {
-        "id": "gdeyoung.weather",
-        "name": "WeatherX"
+        "id": "andreasbylund.jellyfin",
+        "name": "Jellyfin Music"
       },
       "reason": "recheck-after-update"
-    },
-    {
-      "typeId": "docks",
-      "typeName": "Application Docks",
-      "kind": "displaced",
-      "previous": {
-        "id": "omadock",
-        "name": "Dock (OmaDock)"
-      },
-      "current": {
-        "id": "io.github.claudsondouglas.arcdock",
-        "name": "Arc Dock"
-      }
-    },
-    {
-      "typeId": "hotspots",
-      "typeName": "Hotspots & Internet Sharing",
-      "kind": "displaced",
-      "previous": {
-        "id": "community.network",
-        "name": "Network Manager (with Repeater & Hotspot)"
-      },
-      "current": {
-        "id": "io.github.shivamnarkar47.omarchy-hotspot",
-        "name": "Mobile Hotspot"
-      }
-    },
-    {
-      "typeId": "notifications",
-      "typeName": "Notification History & Centers",
-      "kind": "displaced",
-      "previous": {
-        "id": "njpatel.omapager",
-        "name": "Omapager"
-      },
-      "current": {
-        "id": "abran-labs.notification-center",
-        "name": "Notification Center"
-      },
-      "reason": "repository-unreachable"
-    },
-    {
-      "typeId": "lock-screen",
-      "typeName": "Lock Screen Appearance",
-      "kind": "displaced",
-      "previous": {
-        "id": "io.github.smoothpixels.lock-designs",
-        "name": "Lock Designs"
-      },
-      "current": {
-        "id": "bibek.lock",
-        "name": "Better Lock"
-      }
     },
     {
       "typeId": "keep-awake",
@@ -380,31 +147,48 @@
         "name": "Caffeine"
       },
       "current": {
-        "id": "air.auto-cafe",
-        "name": "Auto Cafe"
+        "id": "halmylyseas.ristretto",
+        "name": "Ristretto"
       }
     },
     {
-      "typeId": "workspaces",
-      "typeName": "Workspaces",
-      "kind": "vacated",
+      "typeId": "tasks",
+      "typeName": "Task Lists",
+      "kind": "displaced",
       "previous": {
-        "id": "mirador",
-        "name": "Mirador"
+        "id": "crmne.todoist",
+        "name": "OmaTasks for Todoist"
       },
-      "current": null
+      "current": {
+        "id": "luca.obsidian-daily",
+        "name": "Obsidian Daily"
+      },
+      "reason": "recheck-after-update"
+    },
+    {
+      "typeId": "window-management",
+      "typeName": "Window Switching",
+      "kind": "displaced",
+      "previous": {
+        "id": "io.github.mtolhuys.fathom",
+        "name": "Fathom"
+      },
+      "current": {
+        "id": "io.github.pablo-merino.altswitch",
+        "name": "Alt-tab switcher"
+      }
     },
     {
       "typeId": "screenshots",
       "typeName": "Screen Capture",
       "kind": "displaced",
       "previous": {
-        "id": "chyld.easy-capture",
-        "name": "Easy Capture"
-      },
-      "current": {
         "id": "glasschan.oma-swiss",
         "name": "OmaSwiss"
+      },
+      "current": {
+        "id": "chyld.easy-capture",
+        "name": "Easy Capture"
       }
     },
     {
@@ -412,24 +196,13 @@
       "typeName": "Screen Recording",
       "kind": "displaced",
       "previous": {
-        "id": "chyld.easy-capture",
-        "name": "Easy Capture"
-      },
-      "current": {
         "id": "glasschan.oma-swiss",
         "name": "OmaSwiss"
-      }
-    },
-    {
-      "typeId": "agent-monitoring",
-      "typeName": "Agent Monitoring",
-      "kind": "vacated",
-      "previous": {
-        "id": "io.github.fabean.herdr",
-        "name": "Herdr"
       },
-      "current": null,
-      "reason": "recheck-after-update"
+      "current": {
+        "id": "chyld.easy-capture",
+        "name": "Easy Capture"
+      }
     },
     {
       "typeId": "ai-api-usage",
@@ -442,196 +215,31 @@
       "current": null
     },
     {
-      "typeId": "smart-home",
-      "typeName": "Smart Home Controls",
+      "typeId": "keyboard-layouts",
+      "typeName": "Keyboard Layout Switching",
       "kind": "vacated",
       "previous": {
-        "id": "io.github.amitcpatel.elgato-control",
-        "name": "Elgato Control"
-      },
-      "current": null,
-      "reason": "repository-unreachable"
-    },
-    {
-      "typeId": "keybinding-managers",
-      "typeName": "Keybinding Managers",
-      "kind": "vacated",
-      "previous": {
-        "id": "davedes.mouse-keybind-settings",
-        "name": "Mouse & Keybind Settings"
+        "id": "io.github.ilyazar.keyboard-layout",
+        "name": "Keyboard Layout Pulse"
       },
       "current": null,
       "reason": "recheck-after-update"
     },
     {
-      "typeId": "read-aloud",
-      "typeName": "Read Aloud",
-      "kind": "new-runner-up",
-      "previous": null,
-      "current": {
-        "id": "calebhat.read-aloud",
-        "name": "Read Aloud"
-      }
-    },
-    {
-      "typeId": "radio",
-      "typeName": "Radio",
+      "typeId": "power-menu",
+      "typeName": "Power & Session",
       "kind": "vacated",
       "previous": {
-        "id": "io.github.kaibur02.omarchy-world-radio",
-        "name": "World Radio"
+        "id": "io.github.edgarsilva.power-button",
+        "name": "Power Button"
       },
       "current": null
-    },
-    {
-      "typeId": "screensavers",
-      "typeName": "Screensavers",
-      "kind": "vacated",
-      "previous": {
-        "id": "brianirish.screensaver",
-        "name": "Screensaver"
-      },
-      "current": null,
-      "reason": "recheck-after-update"
-    },
-    {
-      "typeId": "power-menu",
-      "typeName": "Power & Session",
-      "kind": "vacated",
-      "previous": {
-        "id": "io.github.edgarsilva.power-button",
-        "name": "Power Button"
-      },
-      "current": null,
-      "reason": "recheck-after-update"
-    },
-    {
-      "typeId": "weather-radar",
-      "typeName": "Weather Radar",
-      "kind": "displaced",
-      "previous": {
-        "id": "gdeyoung.weather",
-        "name": "WeatherX"
-      },
-      "current": {
-        "id": "more-weather",
-        "name": "More Weather"
-      }
-    },
-    {
-      "typeId": "docks",
-      "typeName": "Application Docks",
-      "kind": "displaced",
-      "previous": {
-        "id": "io.github.claudsondouglas.arcdock",
-        "name": "Arc Dock"
-      },
-      "current": {
-        "id": "omadock",
-        "name": "Dock (OmaDock)"
-      }
-    },
-    {
-      "typeId": "lock-screen",
-      "typeName": "Lock Screen Appearance",
-      "kind": "displaced",
-      "previous": {
-        "id": "bibek.lock",
-        "name": "Better Lock"
-      },
-      "current": {
-        "id": "io.github.smoothpixels.lock-designs",
-        "name": "Lock Designs"
-      }
-    },
-    {
-      "typeId": "keep-awake",
-      "typeName": "Keep Awake",
-      "kind": "displaced",
-      "previous": {
-        "id": "air.auto-cafe",
-        "name": "Auto Cafe"
-      },
-      "current": {
-        "id": "io.github.krongggggg.caffeine",
-        "name": "Caffeine"
-      }
-    },
-    {
-      "typeId": "workspaces",
-      "typeName": "Workspaces",
-      "kind": "new-runner-up",
-      "previous": null,
-      "current": {
-        "id": "mirador",
-        "name": "Mirador"
-      }
-    },
-    {
-      "typeId": "agent-monitoring",
-      "typeName": "Agent Monitoring",
-      "kind": "new-runner-up",
-      "previous": null,
-      "current": {
-        "id": "io.github.fabean.herdr",
-        "name": "Herdr"
-      }
-    },
-    {
-      "typeId": "ai-api-usage",
-      "typeName": "AI & API Usage",
-      "kind": "new-runner-up",
-      "previous": null,
-      "current": {
-        "id": "io.github.viganogabriele.agent-usage-plus",
-        "name": "Agent Usage Plus"
-      }
-    },
-    {
-      "typeId": "keybinding-managers",
-      "typeName": "Keybinding Managers",
-      "kind": "new-runner-up",
-      "previous": null,
-      "current": {
-        "id": "davedes.mouse-keybind-settings",
-        "name": "Mouse & Keybind Settings"
-      }
-    },
-    {
-      "typeId": "radio",
-      "typeName": "Radio",
-      "kind": "new-runner-up",
-      "previous": null,
-      "current": {
-        "id": "io.github.kaibur02.omarchy-world-radio",
-        "name": "World Radio"
-      }
-    },
-    {
-      "typeId": "screensavers",
-      "typeName": "Screensavers",
-      "kind": "new-runner-up",
-      "previous": null,
-      "current": {
-        "id": "brianirish.screensaver",
-        "name": "Screensaver"
-      }
-    },
-    {
-      "typeId": "power-menu",
-      "typeName": "Power & Session",
-      "kind": "new-runner-up",
-      "previous": null,
-      "current": {
-        "id": "io.github.edgarsilva.power-button",
-        "name": "Power Button"
-      }
     }
   ],
   "categoryChanges": [],
   "publicationBaseline": {
-    "week": "2026-W46",
-    "generatedAt": "2026-11-09T11:21:52.312Z",
+    "week": "2026-W47",
+    "generatedAt": "2026-11-16T09:30:50.504Z",
     "methodologyVersion": "1.5.0"
   }
 }
